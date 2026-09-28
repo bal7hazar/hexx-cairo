@@ -4,21 +4,21 @@
 
 | | |
 |---|---|
-| Phase | **Stopped: LIB-03 escalated.** Three fix loops used, audit pass 4 still FAIL (6 findings, 3 major) |
-| Pending decisions | [PENDING-LIB-03-fix-loops](docs/decisions/PENDING-LIB-03-fix-loops.md): a fourth fix loop limited to the six findings (recommended), merge as is, or restructure |
-| Lot | Pull request #9 (the porting plan), open, CI green, not merged |
+| Phase | **Stopped at gate L-G2**, waiting for the owner's decision |
+| Pending owner decisions | [PENDING-L-G2](docs/decisions/PENDING-L-G2.md): is the porting plan accepted |
 | Running agents | None |
+| Next | LIB-04 (repository, CI, parity table, gas tooling, publication), **only after** the decision |
 | Gate L-G1 | Decided by the owner on 2026-09-28: [L-G1](docs/decisions/L-G1-hexx-port.md) |
-| Gate L-G2 | Not reached: it opens when the plan is merged |
-| Inputs received since L-G1 | Window of 15 × 16, recomputed at each tick (D-120); `uint252` 0.1.0 published; the game dropped Dojo and is on Cairo 2.19 (its ADR-0007); N-9 reduced to `snforge_std` as a dev-dependency; LIB-03b cancelled before launch. All are in the plan |
-| Estimate to remember | The tick, worst case of the plan: 1.34M to 1.67M, against 740k in the first draft. Estimates; nothing was measured |
+| The plan | [LIB-03](docs/research/LIB-03-porting-plan.md), merged (pull request #9) after five audit passes and four fix loops ([decision](docs/decisions/LIB-03-fix-loops.md)). Four findings open, one major on L-M2, listed in its §14 |
+| Estimate to remember | One tick, worst case of the plan: **1.34M to 1.67M gas**, against 740k in the first draft. Estimates: nothing was measured, and no figure of the plan is a budget |
+| Questions for the game | Truncation of the flood and six others, in the pending file |
 
 ## Done
 
 | Date | What |
 |---|---|
 | 2026-09-28 | LIB-01: repository set up (pull request #1) |
-| 2026-09-28 | LIB-03: plan written by `[Fable 5.1]`, four audit passes by `[GPT-6-Astra]`, three fix loops; escalated |
+| 2026-09-28 | LIB-03: plan written by `[Fable 5.1]`; five audit passes by `[GPT-6-Astra]`, four fix loops (the fourth authorised by the project manager); merged with four open findings; [report](docs/reports/LIB-03-REPORT.md) archived |
 | 2026-09-28 | Gate L-G1 decided by the owner; launcher of the game adopted; brief of LIB-03 |
 | 2026-09-28 | LIB-02: [analysis of `hexx` and `origami_hexmap`](docs/research/LIB-02-hexx-analysis.md) by `[Opus 5.5]` (pull request #2); audit by `[GPT-6-Sol]` in two passes, 4 then 2 findings, all fixed by the resumed agent in two fix loops; [report](docs/reports/LIB-02-REPORT.md) archived |
 
