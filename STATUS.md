@@ -37,8 +37,9 @@ version.
   lock name differ. It detaches `codex` with `setsid`, where the read-only sandbox is
   expected to start (it could not from a systemd unit during LIB-02): to be confirmed by the
   audit of LIB-03.
-- **`u252`.** Extraction to `bal7hazar/types-cairo` started by the owner in a separate
-  session on 2026-09-28; not published yet.
+- **`u252`.** Delivered: package `uint252` 0.1.0 on scarbs.xyz (owner, 2026-09-28; checked in
+  the registry index and in `bal7hazar/types-cairo` at `35f74d5`). The first version of the
+  LIB-03 plan calls it `u252`: corrected at its next resume.
 - **Sources.** `hexx` 0.25.0 and `origami` `main` at `04ab30c` (workspace 1.8.0), pinned in
   [LIB-02-sources](docs/research/LIB-02-sources.md). The owner's checkout
   `/home/claude/git/origami` is at the same commit.

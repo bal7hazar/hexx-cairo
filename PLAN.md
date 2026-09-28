@@ -9,7 +9,7 @@ on 2026-09-28 and **owned here from now on**. The game's needs stay in the game'
 | Repository | `bal7hazar/hexx-cairo`: the library lives here ([L-G1](docs/decisions/L-G1-hexx-port.md), owner, 2026-09-28) |
 | Scope | **`hexx` is the reference**: feature parity wherever it makes sense on-chain, **extended** with the features tied to Cairo and to the network (bitmap boards, generation, floods, assembly). The engine of `origami_hexmap` is taken over here |
 | `origami_hexmap` | **Decommissioned once the port is complete** |
-| `u252` | From the crate `u252` of `bal7hazar/types-cairo`, by published version |
+| `u252` | From the package `uint252` (scarbs.xyz, 0.1.0 published on 2026-09-28; repository `bal7hazar/types-cairo`), by published version |
 | Meanwhile | The game consumes `origami_hexmap` 1.8.0, then migrates to this library by published version |
 | Subject | `origami_hexmap` (`dojoengine/origami`, `crates/hexmap`) and the Rust crate [`hexx`](https://github.com/ManevilleF/hexx) |
 | Rules | The game's `OPERATIONS.md` and `docs/CAIRO.md` in full: test-driven, gas budget on every test, execution cost first, arithmetic then bitwise then loops, `u252`, oracles |

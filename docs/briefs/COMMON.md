@@ -54,7 +54,7 @@ The game's `docs/CAIRO.md` in full. In short:
 | Gas is a test result | `#[available_gas(l2_gas: N)]` on every test, `N = ceil(1.05 × measured)`; benchmarks on the worst case; figures in `GAS.md` and in the report |
 | Execution cost first | Over contract size; tables over run-time computation |
 | Order of preference | Plain arithmetic, then bitwise operations, then loops as a last resort, bounded |
-| Types | No `u256` without a written reason; `u252` (crate `u252` of `bal7hazar/types-cairo`) for bitmaps and packed values; smallest integer that holds the value |
+| Types | No `u256` without a written reason; `u252` (package `uint252` on scarbs.xyz, from `bal7hazar/types-cairo`) for bitmaps and packed values; smallest integer that holds the value |
 | Oracles | An optimised algorithm is tested against a plain, obviously correct version kept in the tests |
 | Determinism | Fixed iteration and tie-break orders: lowest tile index. No block data |
 

@@ -13,7 +13,7 @@ Given by the owner in the orchestrator's session on 2026-09-28.
 | 1 | Is a port relevant? | **Yes, in full.** `hexx` becomes the reference of the scope: its features are ported to Cairo for **feature parity wherever that makes sense** on-chain. Storing a board as a bitmap is a constraint of Cairo and of the network, so features beyond `hexx` are normal: the scope is **extended** with the features tied to Cairo and to the network (boards in one felt, generation, floods, assembly, and the like) |
 | 2 | Where does it land? | **In `bal7hazar/hexx-cairo`**, published under its own name and cadence. The bitmap engine of `origami_hexmap` is taken over here as an extension |
 | 2b | What becomes of `origami_hexmap`? | **Decommissioned once the port is complete.** Until then the game consumes `origami_hexmap` 1.8.0, then migrates to `hexx-cairo` by published version |
-| 3 | `u252` | Its own crate `u252` in `bal7hazar/types-cairo` (below) |
+| 3 | `u252` | Its own package in `bal7hazar/types-cairo` (below). **Published on scarbs.xyz as `uint252` 0.1.0** on 2026-09-28; the type keeps the name `u252` |
 
 What differs from the orchestrator's recommendation: it was "partly" and option B (extend
 `origami_hexmap` in place). The owner chose full parity and this repository. The analysis of
@@ -89,8 +89,10 @@ cadence of our own, at the price of a second dependency and of making public the
 ## Question 3 — A dedicated package for `u252`: decided
 
 **Decided by the owner on 2026-09-28**, in the orchestrator's session: `u252` gets its own
-crate, named `u252`, in the new repository `bal7hazar/types-cairo`, published on scarbs.xyz.
-The extraction is done by a separate session, not by this track.
+crate in the new repository `bal7hazar/types-cairo`, published on scarbs.xyz. The extraction
+was done by a separate session, not by this track. **Delivered on 2026-09-28: package
+`uint252`, version 0.1.0** (`crates/u252` of `types-cairo`, commit `35f74d5`); the package is
+named `uint252`, not `u252` as first planned.
 
 | | |
 |---|---|
