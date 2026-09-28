@@ -141,5 +141,5 @@ git status --short        # only docs/research/LIB-03-porting-plan.md, untracked
 
 ## Report
 
-`REPORT.md` as in [COMMON.md](COMMON.md) §6; under *Summary*, the recommendation for L-G2 in
+`REPORT.md` as in [COMMON.md](COMMON.md) §7; under *Summary*, the recommendation for L-G2 in
 five lines; under *Open questions*, what you need from the owner or the game.

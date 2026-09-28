@@ -122,4 +122,4 @@ asdf current              # unchanged
 
 ## Report
 
-`REPORT.md` as in [COMMON.md](COMMON.md) §6, with the commands run and their real output.
+`REPORT.md` as in [COMMON.md](COMMON.md) §7, with the commands run and their real output.

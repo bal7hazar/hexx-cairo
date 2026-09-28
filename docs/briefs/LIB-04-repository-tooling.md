@@ -148,5 +148,5 @@ gh pr checks <n>               # green
 
 ## Report
 
-`REPORT.md` as in [COMMON.md](COMMON.md) §6. Under *Cost*: the measured gas of the trivial
+`REPORT.md` as in [COMMON.md](COMMON.md) §7. Under *Cost*: the measured gas of the trivial
 test and its budget, to show the tooling; no figure of the plan is copied as a budget.

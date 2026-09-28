@@ -70,7 +70,22 @@ The game's `docs/CAIRO.md` in full. In short:
 | Parity table | Generated, checked in CI |
 | Numeric results are API | A change in a result for the same input is a versioned change. What is taken over from `origami_hexmap` 1.8.0 keeps its results |
 
-## 6. REPORT.md
+## 6. Publications
+
+| Rule | |
+|---|---|
+| No sub-agent publishes, ever | Not on a registry, not a tag, not a release. The profiles refuse the typed forms; the rule holds for anything an agent runs |
+| A release candidate is a publication | Same procedure |
+| Who publishes | The orchestrator's session, never an agent, and only after a **go that names the package, the version and the commit** |
+| How it is asked | `docs/decisions/PENDING-publish-hexx-<version>.md` (package, version, commit, what changed, what the consumer must do), then one message to the project manager with its path |
+| What is checked before the go | The commit is on `main` with every CI check completed and green; audits closed without blocker or major; changelog and version agree; the gas tables are those of that commit; `scarb package` from a clean checkout; name and version free on the registry; no test dependency declared as a regular one |
+| Order | Publish; when the registry shows the version, tag and release |
+| A task that prepares a release | Its brief repeats this section |
+
+The game's `OPERATIONS.md` §7 is the reference (rule D-132, 2026-09-28: the owner delegated
+the decision to publish to the project manager).
+
+## 7. REPORT.md
 
 ```markdown
 # [<Model>] <TASK-ID> — <title>
@@ -87,7 +102,7 @@ The game's `docs/CAIRO.md` in full. In short:
 `[<Model>]` is the model you read from your own session, not the one the brief names; if they
 differ, say so in the summary.
 
-## 7. Glossary
+## 8. Glossary
 
 | Term | Meaning |
 |---|---|
