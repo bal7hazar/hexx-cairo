@@ -1506,5 +1506,9 @@ tasks they concern. Where this section and the body disagree, this section wins.
 | 44 | minor | §6.4, §7 | The construction of a `HexMap` is charged 300 inside `window` and 400 in its own row | With 400 everywhere: `window` 98,862, tick range `[1,337,778, 1,672,223]`. The difference is below what a measurement will move | LIB-05 measures |
 | 30 | minor | §12, D-9 | The two costs compared are for different workloads (a 19-step line by the loop, a line of distance ≤ 6 by the table) | At distance 6: 49,398 by the loop against 7,399 by the table (targets, not measurements) | The brief of N-5 (LIB-05) |
 | 39 | minor | §6.9 | The text suggests that a board can attain the cardinality bounds of 182 and 187 flood layers | They are analytic bounds, not attainable: on a fully open interior the deepest flood is 20 layers on 15 × 16 and 22 on 19 × 13 (auditor's exhaustive check). The executable worst cases are the fixtures of §6.9 | The brief of N-8 (LIB-05) |
+| D-23 | decision reversed by the game | §6.5 (N-4), §12 D-23, regression cases R-N4-1 to R-N4-3 | The plan's `cut` clears the ring as well as the tiles outside the mask | **For the game, `cut` keeps the ring tiles that are inside the mask: `cut(grid, mask) = grid & mask`** (project manager, 2026-09-28, `bal7hazar/grimworld` `docs/needs/hexmap.md` § *Answers to the questions of LIB-03*). The ring of a chunk is a seam that holds the openings to its neighbours, and the game opens edges before it cuts by the outline. The window's ring is imposed by the assembly, not by `cut`. A variant that clears the ring, if kept, has another name. R-N4-1 to R-N4-3 are rewritten for `grid & mask` in the task | The brief of N-4 (LIB-05, M1-T4) |
 
-None of these blocks LIB-04 or LIB-05 (auditor's statement, pass 5).
+None of the findings blocks LIB-04 or LIB-05 (auditor's statement, pass 5). The answers of the
+game to the other questions of the plan (D-22, D-24, D-32, Q-1, Q-4) confirm the plan; Q-5,
+the truncation of the flood, is with the owner, and `depth` stays a parameter whatever the
+answer.

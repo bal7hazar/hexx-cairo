@@ -11,7 +11,8 @@
 | Gate L-G1 | Decided by the owner on 2026-09-28: [L-G1](docs/decisions/L-G1-hexx-port.md) |
 | The plan | [LIB-03](docs/research/LIB-03-porting-plan.md), merged (pull request #9) after five audit passes and four fix loops ([decision](docs/decisions/LIB-03-fix-loops.md)). Four findings open, one major on L-M2, listed in its §14 |
 | Estimate to remember | One tick, worst case of the plan: **1.34M to 1.67M gas**, against 740k in the first draft. Estimates: nothing was measured, and no figure of the plan is a budget |
-| Questions for the game | Truncation of the flood and six others, in the pending file |
+| Questions for the game | Six of seven answered by the project manager on 2026-09-28; one reverses the plan (`cut` keeps the ring: `grid & mask`), recorded in §14 of the plan. The truncation of the flood is with the owner |
+| Prepared meanwhile | The brief of LIB-04, as a draft: [LIB-04](docs/briefs/LIB-04-repository-tooling.md). Not launched |
 
 ## Done
 
