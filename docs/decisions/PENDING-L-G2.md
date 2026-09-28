@@ -74,19 +74,20 @@ orchestrator thinks the owner should look at:
 | D-6 | `Hex::line_to` carries the game's tie rule, a documented deviation | A separate `line_between`, `line_to` not ported | `hexx`'s own result depends on `f32` rounding and cannot be reproduced exactly |
 | D-17 | `origami_hexmap` is removed from `origami` `main` at the end, kept on the registry and in a tag | Kept on `main` as deprecated | |
 
-## Questions for the game, to be answered before 0.1.0
+## Questions for the game: answered, except one
 
-They do not block the gate. They go to the project manager.
+Answered by the project manager on 2026-09-28 (`bal7hazar/grimworld`, `main` at `9790a43`,
+`docs/needs/hexmap.md` § *Answers to the questions of LIB-03*). They do not block the gate.
 
-| # | Question | Plan |
+| # | Question | Answer |
 |---|---|---|
-| Q-5 / D-25 | Does the tick truncate the flood, and what does a goblin beyond do? | Above, §2 |
-| D-24 | Does a wall tile at the **end** of a line block sight? The plan proposes no: only the tiles strictly between are tested | §6.6 |
-| D-22 | Ring tiles of a chunk that face no generated neighbour: drawn from the seed and frozen (plan), or wall until a neighbour exists? | §6.2 |
-| D-23 | `cut` clears the ring as well as what is outside the mask | §6.5 |
-| D-32 | A goblin next to an adventurer standing on an open edge tile may step onto that tile | §6.9 |
-| Q-1 | Earshot (radius 8) reaches beyond the window: a distance test on global coordinates, without a board? | §11 |
-| Q-4 | Does SPK-7 consume the release candidates, or stay on 1.8.0 until 0.1.0? | §11 |
+| Q-5 / D-25 | Does the tick truncate the flood, and what does a goblin beyond do? | **With the owner** (the game's `PENDING-L-G2.md`). Recommended by the project manager: 15 layers, a goblin not reached holds its position. The library keeps `depth` as a parameter whatever the answer |
+| D-23 | `cut` clears the ring as well as what is outside the mask | **Reversed: `cut` is `grid & mask`**, the ring tiles inside the mask are kept. The ring of a chunk holds the openings to its neighbours. Fifth open point of §14 of the plan, carried into the brief of N-4 |
+| D-24 | Does a wall tile at the end of a line block sight? | No, as the plan: only the tiles strictly between are tested |
+| D-22 | Ring tiles of a chunk that face no generated neighbour | Drawn at generation and frozen, as the plan |
+| D-32 | A goblin may step onto an adventurer's open edge tile | As the plan. It does not occur in the game |
+| Q-1 | Earshot (radius 8) beyond the window | A distance on global coordinates, without a board |
+| Q-4 | Does SPK-7 consume the release candidates? | No: it stays on `origami_hexmap` 1.8.0 and is measured again on the first release candidate that carries N-3 and N-8 |
 
 ## Options
 
