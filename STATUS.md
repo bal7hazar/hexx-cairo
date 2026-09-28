@@ -5,7 +5,8 @@
 | | |
 |---|---|
 | Phase | **Milestone L-M1: LIB-05, task M1-T1a** (the take-over of the engine, the move) |
-| Running agents | `[Sonnet 5.5]` M1-T1a, profile implement, launched once this pull request is merged; `[Sonnet 5.5]` LIB-04b beside it when the shared slot is free |
+| Running agents | `[Sonnet 5.5]` M1-T1a (the take-over, the move). **Cap: 1 agent at a time for the library, audits included** (game's `OPERATIONS.md` §3, `377576a`: game 2, library 1, quiver 1, the game first); before each launch the file `~/orchestrator/waiting/game` is checked: present and less than 30 minutes old, nothing is launched |
+| Waiting for the slot, in this order | Audit of M1-T1a; audit of LIB-04b (pull request #26, done by `[Sonnet 5.5]`, CI green); audit of the launcher sync (pull request #25) |
 | LIB-04 | Merged (pull request #18) by [decision of the project manager](docs/decisions/LIB-04-fix-loops.md), with three findings open: task LIB-04b, **condition of the first publication** |
 | Pending decisions | None |
 | Gates | L-G1 and L-G2 decided by the owner on 2026-09-28: [L-G1](docs/decisions/L-G1-hexx-port.md), [L-G2](docs/decisions/L-G2-porting-plan.md) |
@@ -36,6 +37,14 @@ extracted and published by a separate session; the library will depend on it by 
 version.
 
 ## Notes
+
+- **Inputs of the game for N-1 and N-3 (D-134, 2026-09-28).** Corners of a chunk always wall,
+  openings never on a corner; a void chunk is assembled as wall without a read and the window
+  is never clamped. Recorded in §14 of the plan and carried into the briefs. The game's spike
+  SPK-7 measured about +720,000 L2 gas per tick with goblins on `origami_hexmap` 1.8.0.
+- **Cap exceeded on 2026-09-28, corrected.** The orchestrator held two agents (M1-T1a and
+  LIB-04b) while its cap is one; a queued audit was cancelled before it started, the two agents
+  were left to end.
 
 - **Credentials and agents (corrected on 2026-09-28).** The user-level settings of the machine
   define the registry token and, since 20:21 UTC, the Sepolia account (`STARKNET_*`, a private
