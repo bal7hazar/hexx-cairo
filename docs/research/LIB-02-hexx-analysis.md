@@ -144,7 +144,12 @@ These are in `src/storage/` and are not gated. Every map stores a generic `T` pe
 
 | Feature | Where | Content |
 |---|---|---|
-| Meshes (`mesh`) | `src/mesh/` | `MeshInfo { vertices: Vec<Vec3>, normals, uvs, indices: Vec<u16> }` (`mod.rs:105-114`). Builders: `ColumnMeshBuilder`, `PlaneMeshBuilder` and `HeightMapMeshBuilder`. Also `UVOptions`, `InsetOptions` and `face` (`Quad`, `Hexagon`) |
+| Meshes (`mesh`), shared types | `src/mesh/mod.rs` | Re-exports (`:3, 10-13`). `InsetOptions` (`:26`), `InsetScaleMode` (`:39`), `FaceOptions` with `new` (`:52, 63`). `MeshInfo { vertices: Vec<Vec3>, normals, uvs, indices: Vec<u16> }` (`:105`) with `rotated` (`:121`), `with_offset` (`:134`), `with_scale` (`:142`), `with_uv_scale` (`:150`), `centroid` (`:159`), `uv_centroid` (`:168`), `merge_with` (`:184`) and `cheap_hexagonal_column` (`:206`) |
+| Meshes: column builder | `src/mesh/column_builder.rs` | `ColumnMeshBuilder` (`:41`): `new(layout, height: f32)` (`:73`), `at` (`:97`), `facing` (`:110`), `with_rotation` (`:117`), `with_offset` (`:140`), `with_scale` (`:147`), `with_subdivisions` (`:155`), `without_bottom_face` (`:163`), `without_top_face` (`:171`), `with_caps_uv_options` (`:182`), `with_caps_inset_options` (`:198`), `with_sides_options` (`:214`), `with_sides_options_fn` (`:225`), `with_multi_sides_options` (`:238`), `with_multi_custom_sides_options` (`:248`), `center_aligned` (`:260`), `build` (`:268`) |
+| Meshes: plane builder | `src/mesh/plane_builder.rs` | `PlaneMeshBuilder` (`:21`): `new` (`:44`), `at` (`:63`), `facing` (`:75`), `with_rotation` (`:82`), `with_offset` (`:89`), `with_scale` (`:96`), `with_face_options` (`:103`), `with_uv_options` (`:110`), `with_inset_options` (`:118`), `center_aligned` (`:127`), `build` (`:134`) |
+| Meshes: height-map builder | `src/mesh/heightmap_builder.rs` | `HeightMapMeshBuilder<HeightMap: HexStore<f32>>` (`:60`): `new` (`:109`), `with_height_range` (`:142`), `with_rotation` (`:149`), `with_offset` (`:158`), `with_scale` (`:165`), `without_top_face` (`:173`), `with_cap_options` (`:181`), `with_cap_uv_options` (`:195`), `with_cap_inset_options` (`:211`), `with_custom_cap_options` (`:230`), `without_sides` (`:241`), `with_side_options` (`:249`), `with_custom_sides_options` (`:269`), `with_fringe_heights` (`:293`), `with_default_height` (`:314`), `center_aligned` (`:323`), `build` (`:329`) |
+| Meshes: UV mapping | `src/mesh/uv_mapping.rs` | `UVOptions` (`:27`): `new` (`:65`), `with_scale_factor` (`:79`), `with_offset` (`:89`), `with_rect` (`:98`), `flip_u` (`:106`), `flip_v` (`:114`), `alter_uv` (`:127`), `alter_uvs` (`:140`). `Rect` (`:51`) |
+| Meshes: faces | `src/mesh/face.rs` | `Tri` with `flip` (`:14, 39`). `Face<VERTS, TRIS>` (`:20`) with `centroid` (`:126`), `uv_centroid` (`:134`), `apply_options` (`:140`), `inset` (`:158`), and `From<Face> for MeshInfo` (`:226`). `type Quad` with `new` (`:32, 55`). `type Hexagon` with `center_aligned` (`:34, 103`) |
 | Integrations | `Cargo.toml:17-40` | `serde`, `facet`, `rayon`, `bevy` (`bevy_reflect`, `bevy_platform`, `bevy_ecs`: `Reflect` derives, `Component` on `Hex`, `bevy_platform` hash maps) and `packed` (`repr(C)`) |
 | Examples and benches | `examples/`, `benches/` | 17 Bevy demos, among them `chunks`, `field_of_view`, `a_star` and `wrap_map`. 7 criterion benches |
 
@@ -180,8 +185,9 @@ Test discipline, from the source:
 
 ### 2.1 Every public function
 
-The facade is `HexMapTrait`, in `src/map.cairo`, on `struct HexMap { width: u8, height: u8,
-grid: felt252, seed: felt252 }` (`:64-69`).
+The facade is `HexMapTrait` (`src/map.cairo:73`), on `struct HexMap { width: u8, height: u8,
+grid: felt252, seed: felt252 }` (`:64-69`), deriving `Copy, Drop, Serde` (`:63`). The helper
+`is_inside` and the `bounded_int` helper impls (`:34-60`) are private.
 
 | Function | Line | Semantics |
 |---|---|---|
@@ -211,21 +217,24 @@ The library modules are public: `pub mod` in `src/lib.cairo`. Only `HexMap`, `He
 
 | Module | Public items (line) |
 |---|---|
-| `src/types/direction.cairo` | `enum Direction { East, NorthEast, NorthWest, West, SouthWest, SouthEast }` (`:25`); `DIRECTION_COUNT` (`:19`), `DIRECTION_SIZE` (`:21`). `DirectionTrait`: `opposite` (`:42`), `next(position, width, odd)` (`:62`), `pop_front(ref u32)` (`:98`). `Into<Direction, u8>`: `0..5` in the enum order (`:112-124`). `TryInto<u8, Direction>` (`:126`) |
-| `src/finders/bfs.cairo` | `Bfs`: `search` (`:175`), `distance` (`:207`), `reachable` (`:248`), `tiles_within_range` (`:300`); `errors::BFS_POSITION_NOT_WALKABLE`. The flood internals, including `flood`, `layer` and the backtracking, are `pub(crate)` (`:351`) |
-| `src/finders/dial.cairo` | `Dial`: `search` (`:172`), `field_of_movement` (`:227`); `errors` (`:39-41`) |
-| `src/generators/caver.cairo` | `Caver`: `generate` (`:53`), `keep_component` (`:82`). The automaton (`evolve`, `step`, `rule`) is private (`:93`) |
-| `src/generators/digger.cairo` | `Digger`: `maze` (`:51`), `corridor` (`:65`) |
-| `src/generators/mazer.cairo` | `Mazer`: `generate` (`:541`); `errors` (`:52`) |
-| `src/generators/spreader.cairo` | `Spreader`: `generate` (`:431`); `errors` (`:108`) |
-| `src/generators/walker.cairo` | `Walker`: `generate` (`:73`) |
-| `src/helpers/layout.cairo` | `struct Layout` (`:31`), `struct Dilation` (`:48`). `LayoutTrait`: `new` (`:68`), `board` (`:89`), `even` (`:101`), `interior` (`:121`), `hexagon` (`:134`), `with_interior` (`:161`), `expand` (`:192`), `expand_small` (`:206`), `dilation` (`:216`), `edge_neighbours` (`:234`), `neighbour_in` (`:253`), `neighbour_mask` (`:273`), `index` (`:294`), `coords` (`:305`), `parity` (`:317`), `neighbor` (`:334`). `DilationTrait`: `dilate` (`:401`), `expand_small` (`:433`) |
-| `src/helpers/geometry.cairo` | `Geometry`: `to_axial` (`:20`, returns `(i16, i16)`), `distance` (`:35`) |
-| `src/helpers/bits.cairo` | `Bits`: `bitwise` (`:65`), `and` (`:76`), `or` (`:89`), `xor` (`:102`), `pow` (`:114`), `inv` (`:124`), `shl` (`:135`), `shr_exact` (`:146`), `to_felt` (`:156`), `get` (`:167`), `set` (`:182`), `unset` (`:193`), `popcount` (`:202`), `popcount_small` (`:215`), `top_byte` (`:227`), `low_byte` (`:239`), `byte_counts` (`:250`), `popcount_sparse` (`:269`). `trait Set<T>` (`:287`), with `WideSet` for `u256` (`:306`) and `SmallSet` for `u128` (`:357`): `from_felt`, `from_wide`, `to_felt`, `and`, `sub`, `is_empty`, `hits`, `limb`. Tables `POW` (`:403`), `INV` (`:537`), `POW128` (`:791`); constants `TWO_POW_*`, `BYTES_ONE` (`:17-31`) |
-| `src/helpers/rng.cairo` | `struct Rng` (`:62`). `RngTrait`: `new` (`:75`), `mix` (`:86`), `draw` (`:100`), `draw6` (`:116`), `draw_byte` (`:133`), `next_below` (`:149`), `shuffle6` (`:161`), `split216` (`:178`), `refill` (`:189`). `PERMUTATIONS` (`:199`) |
-| `src/helpers/asserter.cairo` | `MAX_SIZE = 251` (`:6`), `errors` (`:9`). `Asserter`: `is_edge` (`:27`), `is_corner` (`:40`), `assert_valid_dimension` (`:51`), `assert_on_edge` (`:66`), `assert_not_corner` (`:79`), `assert_inside` (`:92`) |
-| `src/types/u252.cairo` | `struct u252` (`:36`), `PRIME` (`:28`). `U252Trait`: `new` (`:48`), `value` (`:58`), `shl` (`:72`), `shr_exact` (`:88`), `shr` (`:110`), `div_rem` (`:123`), `bit` (`:138`), `set_bit` (`:149`). Conversions to and from `felt252`, `u256` and `u8`–`u128` (`:200-297`), `StorePacking` (`:303`). Checked and wrapping `+ - *`, `/`, `%` (`:317-431`), `PartialOrd` (`:438`), `& | ^` (`:462-481`), `Zero`, `One` and `Bounded` (`:490-524`) |
-| `src/helpers/printer.cairo` | `HexPrinter`: `render`, `render_with_path`, `print`, `print_with_path` (`:25-102`). **Compiled for tests only** (`src/lib.cairo:30-31`) |
+| `src/types/direction.cairo` | `DIRECTION_COUNT` (`:19`), `DIRECTION_SIZE` (`:21`). `enum Direction { East, NorthEast, NorthWest, West, SouthWest, SouthEast }` (`:25`), deriving `Copy, Drop, Serde, PartialEq, Debug` (`:24`). `DirectionTrait` (`:35`): `opposite` (`:42`), `next(position, width, odd)` (`:62`), `pop_front(ref u32)` (`:98`). `DirectionIntoU8::into`, `0..5` in the enum order (`:114`). `U8TryIntoDirection::try_into` (`:128`) |
+| `src/finders/bfs.cairo` | `Bfs` (`:163`): `search` (`:175`), `distance` (`:207`), `reachable` (`:248`), `tiles_within_range` (`:300`). `errors::BFS_POSITION_NOT_WALKABLE` (`:33`). The flood internals, including `flood`, `layer` and the backtracking, are `pub(crate)` (`:351`), and so are `Back`, `Endpoint`, `Store`, `SmallStore` and `Goal` (`:38-133`) |
+| `src/finders/dial.cairo` | `Dial` (`:160`): `search` (`:172`), `field_of_movement` (`:227`). `errors::DIAL_TOO_MANY_COSTS` (`:40`), `errors::DIAL_POSITION_NOT_WALKABLE` (`:41`). `DialInternal` and the `Frontier` impls are private (`:108, 142, 293`) |
+| `src/generators/caver.cairo` | `Caver` (`:44`): `generate` (`:53`), `keep_component` (`:82`). `errors::CAVER_POSITION_NOT_FLOOR` (`:23`). The automaton (`evolve`, `step`, `rule`) is private (`:93`) |
+| `src/generators/digger.cairo` | `Digger` (`:40`): `maze` (`:51`), `corridor` (`:65`). `DiggerInternal` is `pub(crate)` (`:73`) |
+| `src/generators/mazer.cairo` | `Mazer` (`:530`): `generate` (`:541`). `errors::MAZER_INVALID_ORDER` (`:53`). `Carver`, `Heading` and `MazerInternal` are `pub(crate)` (`:58-585`) |
+| `src/generators/spreader.cairo` | `Spreader` (`:403`): `generate` (`:431`). `errors::SPREADER_NOT_ENOUGH_PLACE` (`:109`), `errors::SPREADER_INVALID_GRID` (`:110`). `BitSetTrait` and `SpreaderInternal` are `pub(crate)` (`:127, 451`) |
+| `src/generators/walker.cairo` | `Walker` (`:64`): `generate` (`:73`). `WalkImpl` is private (`:158`) |
+| `src/helpers/layout.cairo` | `struct Layout` (`:31`), `struct Dilation` (`:48`), both with public fields. `LayoutTrait` (`:60`): `new` (`:68`), `board` (`:89`), `even` (`:101`), `interior` (`:121`), `hexagon` (`:134`), `with_interior` (`:161`), `expand` (`:192`), `expand_small` (`:206`), `dilation` (`:216`), `edge_neighbours` (`:234`), `neighbour_in` (`:253`), `neighbour_mask` (`:273`), `index` (`:294`), `coords` (`:305`), `parity` (`:317`), `neighbor` (`:334`). `DilationTrait` (`:389`): `dilate` (`:401`), `expand_small` (`:433`) |
+| `src/helpers/geometry.cairo` | `Geometry` (`:12`): `to_axial` (`:20`, returns `(i16, i16)`), `distance` (`:35`) |
+| `src/helpers/bits.cairo` | `Bits`: `bitwise` (`:65`), `and` (`:76`), `or` (`:89`), `xor` (`:102`), `pow` (`:114`), `inv` (`:124`), `shl` (`:135`), `shr_exact` (`:146`), `to_felt` (`:156`), `get` (`:167`), `set` (`:182`), `unset` (`:193`), `popcount` (`:202`), `popcount_small` (`:215`), `top_byte` (`:227`), `low_byte` (`:239`), `byte_counts` (`:250`), `popcount_sparse` (`:269`); `Bits` is declared at `:57`. `trait Set<T>` (`:287`), declaring `from_felt`, `from_wide`, `to_felt`, `and`, `sub`, `is_empty`, `hits` and `limb` (`:289-303`). `WideSet` for `u256` (`:306`): `from_felt` (`:308`), `from_wide` (`:313`), `to_felt` (`:318`), `and` (`:323`), `sub` (`:328`), `is_empty` (`:333`), `hits` (`:338`), `limb` (`:348`). `SmallSet` for `u128` (`:357`): `from_felt` (`:359`), `from_wide` (`:364`), `to_felt` (`:369`), `and` (`:374`), `sub` (`:380`), `is_empty` (`:385`), `hits` (`:390`), `limb` (`:396`). Constants `TWO_POW_128` (`:17`), `TWO_POW_32` (`:19`), `TWO_POW_64` (`:21`), `BYTES_ONE` (`:23`), `TWO_POW_120` (`:31`). Tables `POW` (`:403`), `INV` (`:537`), `POW128` (`:791`). The `DivRemHelper` impls (`:40, 46`) are private |
+| `src/helpers/rng.cairo` | `struct Rng` (`:62`). `RngTrait` (`:68`): `new` (`:75`), `mix` (`:86`), `draw` (`:100`), `draw6` (`:116`), `draw_byte` (`:133`), `next_below` (`:149`), `shuffle6` (`:161`), `split216` (`:178`), `refill` (`:189`). `PERMUTATIONS` (`:199`). The `DivRemHelper` impls (`:37-55`) are private |
+| `src/helpers/asserter.cairo` | `MAX_SIZE = 251` (`:6`). `errors::ASSERTER_INVALID_DIMENSION` (`:10`), `errors::ASSERTER_POSITION_IS_CORNER` (`:11`), `errors::ASSERTER_POSITION_NOT_EDGE` (`:12`), `errors::ASSERTER_POSITION_NOT_INSIDE` (`:13`). `Asserter` (`:17`): `is_edge` (`:27`), `is_corner` (`:40`), `assert_valid_dimension` (`:51`), `assert_on_edge` (`:66`), `assert_not_corner` (`:79`), `assert_inside` (`:92`) |
+| `src/types/u252.cairo`, type and inherent methods | `PRIME` (`:28`). `struct u252` (`:36`), deriving `Copy, Drop, PartialEq, Serde, Debug, Default` (`:35`). `U252Trait` (`:41`): `new` (`:48`), `value` (`:58`), `shl` (`:72`), `shr_exact` (`:88`), `shr` (`:110`), `div_rem` (`:123`), `bit` (`:138`), `set_bit` (`:149`). The helpers `split`, `join`, `low_bits` and `product_fits` (`:175, 181, 188, 364`) are private |
+| `src/types/u252.cairo`, conversions | `Felt252IntoU252::into` (`:202`), `U252IntoFelt252::into` (`:209`), `U252IntoU256::into` (`:216`), `U256TryIntoU252::try_into` (`:223`). `U128IntoU252::into` (`:234`), `U64IntoU252::into` (`:241`), `U32IntoU252::into` (`:248`), `U16IntoU252::into` (`:255`), `U8IntoU252::into` (`:262`). `U252TryIntoU128::try_into` (`:269`), `U252TryIntoU64::try_into` (`:276`), `U252TryIntoU32::try_into` (`:283`), `U252TryIntoU16::try_into` (`:290`), `U252TryIntoU8::try_into` (`:297`). `U252StorePacking::pack` (`:305`), `U252StorePacking::unpack` (`:310`) |
+| `src/types/u252.cairo`, arithmetic | Checked: `U252CheckedAdd::checked_add` (`:320`), `U252CheckedSub::checked_sub` (`:342`), `U252CheckedMul::checked_mul` (`:383`). Operators, panicking on overflow: `U252Add::add` (`:332`), `U252Sub::sub` (`:354`), `U252Mul::mul` (`:394`), `U252Div::div` (`:402`), `U252Rem::rem` (`:409`). Wrapping: `U252WrappingAdd::wrapping_add` (`:417`), `U252WrappingSub::wrapping_sub` (`:424`), `U252WrappingMul::wrapping_mul` (`:431`) |
+| `src/types/u252.cairo`, order, bits and constants | `U252PartialOrd`: `lt` (`:440`), `le` (`:445`), `gt` (`:450`), `ge` (`:455`). `U252BitAnd::bitand` (`:464`), `U252BitOr::bitor` (`:472`), `U252BitXor::bitxor` (`:481`). `U252Zero`: `zero` (`:492`), `is_zero` (`:497`), `is_non_zero` (`:502`). `U252One`: `one` (`:509`), `is_one` (`:514`), `is_non_one` (`:519`). `U252Bounded` (`:524`): `MIN` (`:525`), `MAX` (`:526`) |
+| `src/helpers/printer.cairo` | `HexPrinter` (`:17`): `render` (`:25`), `render_with_path` (`:39`), `print` (`:90`), `print_with_path` (`:102`). **Compiled for tests only** (`src/lib.cairo:30-31`) |
 
 ### 2.2 How it names things
 
@@ -583,8 +592,10 @@ what would the work be. The board is the window of `grimworld:docs/architecture/
   the `u8` conversions are in `src/types/direction.cairo`. It has no rotation and no arcs.
 - **Work:** small, and all arithmetic on `u8`:
   - `rotate(d, n) = (d + n) % 6`;
-  - `arc(facing, tile_direction) = table[(tile_direction − facing + 6) % 6]`, giving front,
-    front-side, rear-side, back, front-side (`grimworld:docs/design/04-combat.md` § Facing);
+  - `arc(facing, tile_direction) = table[(tile_direction − facing + 6) % 6]`. The six entries,
+    for the values 0 to 5, are front, front-side, rear-side, back, rear-side and front-side
+    (`grimworld:docs/design/04-combat.md` § Facing: front `d`, front-side `d ± 1`, rear-side
+    `d ± 2`, back `d + 3`);
   - the direction from a tile to a neighbour, from `neighbour_mask` or a 6-entry table.
 
   Each is about 1–3k **(estimate)**. The naming of rotation is the trap of §3.1: `hexx`'s
@@ -608,20 +619,47 @@ what would the work be. The board is the window of `grimworld:docs/architecture/
 - **Work:** one function, for example `flood_layers(grid, from, depth) -> Span<felt252>` or
   `next_steps(grid, from, walkers) -> …`, built on the public `Dilation::dilate`
   (`src/helpers/layout.cairo:401`) or on `BfsInternal` if the work lands in the same crate.
-  - **Extra obstacles** (occupied tiles) are `grid − occupied` before flooding. Walkers read
-    the layers from outside, through their neighbour masks, so they need not be walkable.
-  - **Moves in id order.** Goblins act one after another, so a goblin that moved changes the
-    occupancy seen by the next. The candidates of each goblin are
-    `neighbour_mask(g) & layer(d−1) & ~occupied_now`; if that is empty, it falls back to
-    `layer(d)`.
+  - **Extra obstacles** (occupied tiles) are removed from the grid before flooding. Walkers
+    read the layers from outside, through their neighbour masks, so they need not be walkable.
+  - **Moves in id order.** Goblins act one after another in ascending id order
+    (`grimworld:docs/design/02-core-loop.md` § The tick), so a goblin that moved changes the
+    occupancy seen by the next. The distances can follow that change in one of two ways:
+    - **(a) One flood per tick, on frozen occupancy.** The distance layers are computed once
+      per tick on the occupancy frozen at the start of the tick. The current occupancy only
+      filters each walker's candidate tiles:
+      `neighbour_mask(g) & layer(d−1) & ~occupied_now`. If that is empty, the walker falls back
+      to `layer(d)`. Consequences:
+      - A walker can be routed toward a tile, or through a corridor, that a previous walker has
+        just blocked. The filter only stops it stepping *onto* that tile. Its distance may be
+        stale, so it may wait or side-step where a fresh flood would send it another way.
+      - A walker is not routed through a tile that a previous walker has just freed. That tile
+        was occupied at the start of the tick, so it is absent from the layers, and a shorter
+        way through it is ignored until the next tick.
+      - Cost: **1 flood per tick.**
+    - **(b) Distances follow current occupancy.** A new flood follows every move that changes
+      occupancy, so each walker sees exact distances. Consequences:
+      - A walker is never routed toward a tile a previous walker just blocked.
+      - A walker can use a tile a previous walker just freed.
+      - Cost: **up to 8 floods per tick**, one per awake goblin.
+  - **Which rule the design implies.** The design says "one flood per tick, not one per goblin:
+    a single breadth-first flood from the adventurer on the window gives every goblin its next
+    step" (`grimworld:docs/design/02-core-loop.md` § Simulation budget; also
+    `grimworld:docs/design/04-combat.md` § Goblin AI, "each goblin steps to its free neighbour
+    closest to the target"). Both texts point to **rule (a)**: one flood, and "free" read as
+    the filter on current occupancy **(inferred)**. This report assumes (a). **LIB-03 and the
+    game must confirm it**, because the two rules give different moves and moves are numeric
+    API.
   - **Kiting.** Profiles that want distance take the highest layer instead
     (`grimworld:docs/design/04-combat.md` § Goblin AI).
   - **Goblins on the ring.** They sit on the wall ring, 7 tiles out
     (`grimworld:ADR-0006` §4). This matches the "open edge tile as endpoint" rule of the
     library.
 - **Cost compared with the present tools:** eight separate `search_path` calls cost about
-  8 × 700k ≈ 5.6M on a 17×14 cave (`README.md` § Gas). One flood of about 12–14 layers at
-  ~19.3k, plus 8 steps at ~8–10k, is about 300–450k **(estimate)**.
+  8 × 700k ≈ 5.6M on a 17×14 cave (`README.md` § Gas).
+  - Rule (a): one flood of about 12–14 layers at ~19.3k, plus 8 steps at ~8–10k, is about
+    300–450k per tick **(estimate)**.
+  - Rule (b): up to 8 such floods, about 8 × 250–300k plus the steps, so about 2.1–2.5M per
+    tick **(estimate)**.
 
 ### 5.10 Summary table
 
@@ -635,7 +673,7 @@ what would the work be. The board is the window of `grimworld:docs/architecture/
 | N-5 Line of sight | `line_to` in `f32`, no nudge, ties not translation-invariant | No | Integer line with the lower-index tie rule (a deviation from `line_to`); LOS test, loop or table |
 | N-6 Range and ring as geometry | Coordinate iterators (`range`, `ring`) | `range`/`ring` with walls; `hexagon` mask at fixed centre | Geometric masks at any position (tables + masked shift); resolve the name clash |
 | N-7 Directions, rotation, arcs | Yes (`EdgeDirection`, `rotate_*`, `way_to`) | `Direction`, `opposite` | `rotate`, `arc`, direction to a neighbour; the naming of "clockwise" |
-| N-8 One flood, many walkers | No | BFS layers exist but internal; single-target API | `flood_layers` / `next_steps` with extra obstacles and the id-order rule |
+| N-8 One flood, many walkers | No | BFS layers exist but internal; single-target API | `flood_layers` / `next_steps` with extra obstacles and the id-order rule; one flood per tick on frozen occupancy (rule (a) of §5.9), to be confirmed |
 
 ---
 
@@ -650,7 +688,7 @@ it takes the **two-limb** path.
 | Assembly (N-3), cut (N-4), side masks (N-2) | Yes: masked field shifts and ANDs | ~5k per chunk and layer; cut ~2.7k (`GAS.md:58`) **(estimate** except the AND) |
 | Openings across a seam (N-2) | Yes: masked shifts by `±W`, `2^-(W-1)` | ~10–20k per seam **(estimate)** |
 | Cave generation with margins (N-1) | Yes: bit-sliced automaton | 35.7k per generation on 17×14, measured (`GAS.md` § L4); +5–15 % with margins **(estimate)** |
-| Flood for all walkers (N-8) | Yes: bit-parallel layers, one per step | ~19.3k per layer on two limbs, measured (`GAS.md:156`); ~300–450k per tick with 8 goblins **(estimate)** |
+| Flood for all walkers (N-8) | Yes: bit-parallel layers, one per step | ~19.3k per layer on two limbs, measured (`GAS.md:156`); ~300–450k per tick with 8 goblins under rule (a), one flood per tick; ~2.1–2.5M under rule (b), up to 8 floods (§5.9) **(estimate)** |
 | Geometric range and ring (N-6) | Yes if **tabled**; the flood on an empty board costs 159k (r = 6, measured) | 5–15k with tables **(estimate)** |
 | Line of sight (N-5) | Table: yes. Loop: per tile, ≤ 6 steps | 5–10k with a table, ~40k with a loop **(estimate)** |
 | Rotation and arcs (N-7) | Yes: `u8` arithmetic and 6-entry tables | 1–3k **(estimate)** |
@@ -720,7 +758,9 @@ research, and the off-chain harness that generates the parity vectors from `hexx
 3. N-5: the integer line and line of sight with the game's tie rule.
 4. N-3: `assemble`. N-4: `cut`. N-2: side masks and `openings`.
 5. N-1: a cave generator with margins and a parity flag.
-6. N-8: `flood_layers` or `next_steps`.
+6. N-8: `flood_layers` or `next_steps`, one flood per tick on the occupancy frozen at the
+   start of the tick, with current occupancy filtering each goblin's candidates (rule (a) of
+   §5.9, about 300–450k per tick, an estimate).
 7. A distance on global coordinates.
 
 Each item is test-driven with a gas budget and a scalar oracle.
@@ -752,6 +792,8 @@ Each item is test-driven with a gas budget and a scalar oracle.
 - The global axis orientation.
 - The names of the geometric range and ring, and of rotation.
 - The output format of N-8 (layers, or next steps).
+- With the game, the N-8 rule: one flood per tick on frozen occupancy (a), as the design
+  implies, or distances that follow each move (b), at up to 8 floods per tick.
 - Tables against dilations for N-5 and N-6, with class size stated.
 - The parity-table method: vectors generated from `hexx` 0.25.0, and a deviation list at line
   ties.
