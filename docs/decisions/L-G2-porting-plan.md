@@ -17,9 +17,10 @@ orchestrator by cross-session message.
 | D-127 | **The flood of the game's tick stops at 15 layers; a goblin it did not reach holds its position.** `depth` stays a parameter of the library. The flood is benchmarked at 10, 15, 20 layers and without a limit on the serpentine fixture. The number is tuned by SPK-7 and the first playtest, before 0.1.0 |
 | D-23 | As answered by the project manager: `cut` keeps the ring tiles inside the mask (`grid & mask`) |
 
-**Not granted: any publication.** Reserving the name with an empty `hexx` 0.0.1 waits for a
-go from the owner that names it. The orchestrator does not publish and does not ask again: the
-project manager carries the question. What becomes of `origami_hexmap` on `origami` `main`
+**Not granted: any publication.** The reservation of the name was **declined by the owner**
+(2026-09-28, passed by the project manager): no empty `hexx` 0.0.1 is published. The first
+publication of `hexx` is 0.1.0, release candidates included, and each publication needs the
+owner's go through the project manager. What becomes of `origami_hexmap` on `origami` `main`
 (D-17) is decided at milestone L-M4.
 
 Budget: 1 agent at a time; the launcher's load thresholds apply.
