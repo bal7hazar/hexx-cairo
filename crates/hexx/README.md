@@ -8,11 +8,13 @@ workspace: see the repository root for the plan, the decisions and the status.
 
 ## Status
 
-**Not published.** This package is a placeholder: milestone L-M1 (task LIB-05) is the first task
-that ports a mirror item or adds an extension. It exists now, with one trivial public item and
-one test, so that every tool of the workspace — format, lint, build, test, the API parity table,
-the gas budget rule, the class-size check, the reference generator, the publication pipeline —
-has something to run on (task LIB-04).
+**Not published.** This package holds the board engine of `origami_hexmap` 1.8.0, moved
+unchanged into the module tree of the plan (`board`, `finders`, `generators`; task LIB-05
+M1-T1a); the mirror of `hexx` itself and the extensions land with the next tasks of L-M1.
+
+The board engine is taken over from `origami_hexmap` 1.8.0 (`dojoengine/origami`, commit
+`04ab30c`, MIT): its notice is [`LICENSE-origami`](../../LICENSE-origami). The record of its gas
+measurements is [`GAS-origami-1.8.0.md`](GAS-origami-1.8.0.md).
 
 No `starknet` dependency, no Dojo dependency: this package is pure Cairo. `snforge_std` is a
 dev-dependency only.

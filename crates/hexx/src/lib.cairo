@@ -2,24 +2,16 @@
 //! with a bitmap board engine for Starknet (plan: `docs/research/LIB-03-porting-plan.md` of
 //! `bal7hazar/hexx-cairo`).
 //!
-//! Placeholder crate: milestone L-M1 (LIB-05) is the first task that ports a mirror item or an
-//! extension. This file exists so that every tool of the workspace (format, lint, build, test,
-//! parity, gas, class size, packaging) has something to run on; see `README.md`,
-//! `docs/API_PARITY.md`, `docs/EXTENSIONS.md`.
+//! The board engine (`board`, `finders`, `generators`) is taken over from `origami_hexmap`
+//! 1.8.0 (`dojoengine/origami`, commit `04ab30c`, MIT), see `LICENSE-origami`. The mirror of
+//! `hexx` itself lands with the later tasks of milestone L-M1 and L-M2.
 
-/// The version of `hexx` this package mirrors, until the port carries its own numbered items.
-/// Mirrors nothing in particular: a placeholder public item (plan, LIB-04 scope).
-pub fn mirrored_hexx_version() -> felt252 {
-    '0.25.0'
-}
+pub mod board;
+pub use board::direction::Direction;
+pub use board::map::{HexMap, HexMapTrait};
+
+pub mod finders;
+pub mod generators;
 
 #[cfg(test)]
-mod tests {
-    use super::mirrored_hexx_version;
-
-    #[test]
-    #[available_gas(l2_gas: 14406)]
-    fn test_mirrored_hexx_version() {
-        assert(mirrored_hexx_version() == '0.25.0', 'wrong hexx version');
-    }
-}
+pub mod tests;
