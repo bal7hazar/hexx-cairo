@@ -4,10 +4,10 @@
 
 | | |
 |---|---|
-| Phase | Planning: **LIB-03 (porting plan)** and **LIB-03b (compiler target, need N-9)**, before gate L-G2 |
+| Phase | Planning: **LIB-03 (porting plan)**, before gate L-G2 |
 | Gate L-G1 | **Decided by the owner on 2026-09-28**: [L-G1](docs/decisions/L-G1-hexx-port.md). Full parity with `hexx` wherever it makes sense, extended with what Cairo and the network require; the library lives here; the engine of `origami_hexmap` is taken over; `origami_hexmap` is decommissioned once the port is complete |
-| Running agents | `[Fable 5.1]` LIB-03, resumed for fix loop 1 after the audit by `[GPT-6-Astra]` (FAIL, 20 findings; pull request #9 open). LIB-03b follows, one agent at a time |
-| Need N-9 (2026-09-28) | The game cannot build `origami_hexmap` 1.8.0: Dojo 1.8 pins Cairo 2.13.1, the library needs 2.19 (`BoundedInt`). The library must build with the game's compiler; the compiler target is the owner's decision at L-G2 |
+| Running agents | `[Fable 5.1]` LIB-03, resumed for fix loop 1 after the audit by `[GPT-6-Astra]` (FAIL, 20 findings; pull request #9 open). |
+| Need N-9 (2026-09-28) | Raised and reduced the same day. The owner dropped Dojo (the game's ADR-0007): the game is on Cairo 2.19, the library keeps its compiler and `BoundedInt`. **LIB-03b is cancelled, never launched.** What remains: `snforge_std` as a dev-dependency, no dependency on Dojo, tests with snforge only. LIB-03 receives it at its next resume |
 | Pending owner decisions | None |
 | Window (D-120, owner, 2026-09-28) | It follows the adventurer, is 15 columns × 16 rows, is recomputed at each tick and not stored. Merged in the game's documents (`bal7hazar/grimworld` `2e5bdbc`), on the basis of [the check of the library's code](docs/research/window-parity-check.md). LIB-03 receives it as an input when it is resumed |
 | Next | Audit of LIB-03 by `[GPT-6-Astra]`, then gate L-G2 |

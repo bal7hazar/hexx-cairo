@@ -1,4 +1,10 @@
-# LIB-03b — Compiler target of the library (need N-9)
+# LIB-03b — Compiler target of the library (need N-9) — CANCELLED
+
+> **Cancelled on 2026-09-28, before any launch.** The owner dropped Dojo the same day (the
+> game's ADR-0007, D-123): the game is on Cairo 2.19, the compiler of the library. The study
+> of a floor at Cairo 2.13 and of a separate class has no object. What remains of N-9 is one
+> line, `snforge_std` as a dev-dependency, and goes into the porting plan (LIB-03). The brief
+> is kept for the record.
 
 ## Agent
 
