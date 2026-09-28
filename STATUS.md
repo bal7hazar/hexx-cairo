@@ -36,14 +36,19 @@ version.
 
 ## Notes
 
-- **The registry token reaches the agents (measured 2026-09-28).** It is defined in the
-  user-level settings of the machine, and the claude CLI passes it to every shell an agent
-  opens: the variable is present in the shell of the LIB-04 agent (names checked, never
-  values). A `--settings` override from the launcher does not remove it (tested). The profiles
-  refuse `scarb publish`, tags, releases, and now the reading or printing of settings,
-  environment and tokens by a typed command; they cannot stop a program an agent runs. The
-  real remedy is the owner's: take the token out of the machine's settings. Reported to the
-  project manager.
+- **Credentials and agents (corrected on 2026-09-28).** The user-level settings of the machine
+  define the registry token and, since 20:21 UTC, the Sepolia account (`STARKNET_*`, a private
+  key among them); the claude CLI passes them to every shell an agent opens. **The launcher
+  now empties them** through its `--settings` override, as the game's does: a probe agent
+  started from a clean environment reads them present without the override and empty with
+  it. *The earlier note here said that the override did not work: that probe was started from
+  the orchestrator's own shell, which already holds the variables, and the agent inherited
+  them. The measurement was wrong, not the override.* What remains: the agent of LIB-04 now
+  running was started before this change and holds them until it ends; a program an agent
+  runs can still read the settings file of the same user (accepted residual, the owner's act
+  is asked by the project manager); `CLAUDE_CODE_MESSAGING_TOKEN` cannot be emptied this way.
+- **Models.** `sonnet` is now Sonnet 5.5 in the launcher, as in the game's; `claude-sonnet-5`
+  only resumes an agent started on it (LIB-04). A resume must use the model of the launch.
 - **Rule of decision (game's `OPERATIONS.md` §10, D-128).** At a gate or a blocker the project
   manager decides by its own recommendation and reports to the owner afterwards. Publishing
   on a registry, money, accounts and secrets stay the owner's act.
@@ -51,9 +56,6 @@ version.
   slot is the library's, the third is shared. Count units `grimworld-*`, `hexmap-*`,
   `quiver-*` and the codex audits (detached processes, not units) before each launch.
 
-- **Model policy (game's `OPERATIONS.md` §2, `e67a66b`).** Sonnet 5.5 (`claude-sonnet-5-5`, title
-  `[Sonnet 5.5]`) replaces Sonnet 5 for every new launch of a mechanical task; the launcher
-  knows it as `sonnet-5.5`. LIB-04 keeps Sonnet 5 until it closes.
 - **Restart of the desktop app, 2026-09-28 around 19:00 UTC.** The agent of LIB-04 (a systemd
   user unit) went on; the orchestrator's background wait was re-armed.
 
