@@ -53,13 +53,11 @@ version.
 - **Rule of decision (game's `OPERATIONS.md` §10, D-128).** At a gate or a blocker the project
   manager decides by its own recommendation and reports to the owner afterwards. Publishing
   on a registry, money, accounts and secrets stay the owner's act.
-- **Open findings of the launcher, inherited (pull request #24, merged by decision of the
-  project manager, 2026-09-28).** Two majors of the [audit](docs/audits/PR-24-launcher-audit-gpt-6-sol.md)
-  are in the counting code shared with the game's launcher (`bal7hazar/grimworld`,
-  `scripts/agent.sh` at `64d4d67`, the reference of the three launchers): (1) the count misses
-  a codex audit started under another command form and without a pid file; (2) an unreadable
-  or inconsistent pid record is skipped instead of refusing the launch. They are fixed there
-  first; this copy is then synced in a pull request that names the commit it matches.
+- **Launcher synced with its reference.** `scripts/agent.sh` matches the game's at `39cd2c2`
+  (the reference of the three launchers), except the unit prefix and the two refused options.
+  The two findings inherited at pull request #24 are **closed** there: the count scans `/proc`
+  for any `codex` process with an `exec` argument, so a start without a pid file is counted;
+  an unreadable or malformed launch record refuses the count.
 - **Launch lock (game's pull request 48).** The launcher counts the running Grim World agents
   of the three tracks (units `grimworld-*`, `hexmap-*`, `quiver-*`, and detached codex audits)
   and starts a unit under the shared lock `~/orchestrator/agent-launch.lock`; it refuses at 3
