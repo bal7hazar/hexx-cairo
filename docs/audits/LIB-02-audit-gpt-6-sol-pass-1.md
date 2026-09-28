@@ -1,0 +1,24 @@
+> Orchestrator note `[Fable 5.1]`, 2026-09-28: a first run of this audit read nothing, because the read-only sandbox of `codex` cannot start a shell on the VPS (`bwrap: loopback: Failed RTM_NEWADDR`). The auditor was resumed with the material passed in its prompt. In this pass the line-ranged source excerpts were empty by an error of the orchestrator; pass 2 repeats the checks with them. The four findings below were verified and fixed in commit `67b7392`.
+
+# [GPT-6-Sol] Audit — LIB-02 — consistency and completeness
+
+## Verdict
+
+**FAIL.** Part 2 does not meet the literal public-function inventory criterion, and the proposed N-8 algorithm does not resolve how one flood handles occupancy changing between walkers.
+
+## Findings
+
+| # | Severity (blocker, major, minor, note) | Location | Finding | Evidence | Suggested fix |
+|---|---|---|---|---|---|
+| 1 | major | Part 2.1; AC-3 | The facade’s 20 functions are listed, but the broader public-function inventory is incomplete. Public `u252` methods are grouped under operator names rather than listed as functions. | `sources/origami/crates/hexmap/src/types/u252.cairo:320`: “`fn checked_add(self: u252, v: u252) -> Option<u252>`”; `:502`: “`fn is_non_zero(self: @u252) -> bool`”. `docs/research/LIB-02-hexx-analysis.md:227` instead says “Checked and wrapping `+ - *`, `/`, `%` … `Zero`, `One` and `Bounded`.” | List each public method by name and file, including conversion, operator, `Zero`, `One`, and `Bounded` methods. |
+| 2 | major | §5.9 N-8; §§6–7 | The proposed flood removes occupied tiles once, while goblins move sequentially and change occupancy. Later walkers would use distance layers computed for an earlier obstacle set; the report neither defines that as game policy nor accounts for recomputation in its cost and recommendation. | `docs/research/LIB-02-hexx-analysis.md:611`: “Extra obstacles (occupied tiles) are `grid − occupied` before flooding.” `:613-615`: “Goblins act one after another, so a goblin that moved changes the occupancy seen by the next” and candidates use “`~occupied_now`.” `sources/grimworld/docs/design/04-combat.md:180-183`: “one breadth-first flood … shared by all awake goblins” and each steps to its “free neighbour closest to the target.” | Specify whether flood distances use occupancy frozen at tick start or current occupancy. If current occupancy must affect distances, revise the one-flood design and cost estimate; if occupancy only filters moves, state that rule and its consequences. |
+| 3 | minor | §5.8 N-7 | The proposed arc-table values omit one of the six directions and the second rear-side entry. | `docs/research/LIB-02-hexx-analysis.md:586-587`: “`table[(tile_direction − facing + 6) % 6]`, giving front, front-side, rear-side, back, front-side.” `sources/grimworld/docs/design/04-combat.md:75-78`: “Front \| `d`”; “Front-side \| `d ± 1`”; “Rear-side \| `d ± 2`”; “Back \| `d + 3`.” | Give the six entries: front, front-side, rear-side, back, rear-side, front-side. |
+| 4 | minor | §1.10; AC-2 | The mesh feature entry cites a directory, where AC-2 requires a file citation for each feature family. | `docs/briefs/LIB-02-hexx-analysis.md:124-125`: “Every feature family … has an entry citing a file of `sources/hexx/`.” `docs/research/LIB-02-hexx-analysis.md:147`: “Meshes (`mesh`) \| `src/mesh/`”. | Cite a specific mesh source file and its public symbols. |
+
+## Coverage
+
+Reviewed the supplied brief, common rules, report, source excerpts, and mechanical public-item listing. AC-1, AC-4, and AC-6 are supported by the material; AC-2 and AC-3 have the findings above. Source citations and inference labels were sampled for AC-5. The report’s three relative links have plausible targets from their paths, but AC-7 could not be checked on disk. AC-8, including PR contents and CI status, could not be assessed.
+
+The supplied excerpts are a sample, not the full sources. The `hexx` `line_to`, `Hex::round`, and edge-direction code blocks were empty, so their implementation could not be directly verified. Under the report’s stated rounding rule, the worked midpoint calculations do follow: `(0.5, 0.5, -1)` resolves to `(0, 1)`, while `(-1.5, -1.5, 3)` resolves to `(-1, -2)`; these differ after translation. The supplied search listing supports the absence of a literal `nudge` or `epsilon` in `hexx/src`, but cannot rule out an equivalent operation under another name.
+
+The coordinate conversion algebra supports the mirrored pointy `Even` mapping: origami’s `q = x − floor(y/2), r = y` gives cube `s = −x − ceil(y/2)`; hexx’s pointy `Even` conversion then gives column `−x`, or `C − x` after translation. The supplied origami direction table, public-function listing, GAS.md, README.md, and game documents were sufficient to check the cited facade functions, BFS and cave visibility, quoted gas figures, and the alternating parity of chunks 15 rows high. No code was run.
