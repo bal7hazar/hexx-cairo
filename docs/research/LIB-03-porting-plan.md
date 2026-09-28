@@ -15,6 +15,7 @@ corrected or refined, the section says so.
 | `hexx` (github.com/ManevilleF/hexx) | tag `0.25.0` | `b6b9afb1a6d413817509d00ce9ec6b9d52339a7c` | `sources/hexx/` |
 | `origami` (github.com/dojoengine/origami), `crates/hexmap`, workspace 1.8.0 | `main` | `04ab30caf02dcc8d2ecc46e9596b81732eedcec1` | `sources/origami/crates/hexmap/` |
 | Grim World documents (`bal7hazar/grimworld`) | `origin/main`, refreshed for D-120 | `0a3d85e26094ce3cc7b7e31542249a23d561939e` | `sources/grimworld/` |
+| Grim World documents refreshed for ADR-0007 (`docs/needs/hexmap.md`, `docs/architecture/ADR-0007-native-starknet.md`, `docs/CAIRO.md`, `PLAN.md`) | `origin/main` | `a9f6e5663274021c2e37a3d86ad5db5ee61c792c` | `sources/grimworld/` |
 | `hexx-cairo` `main` (`window-parity-check.md`, `PLAN.md`) | `origin/main` | `2af2b88a931c911ec8cf60f00a44776cb285348b` | `sources/hexx-cairo-main/` |
 | `glam-cairo` (house style) | local HEAD | `dc03def57edb8260576af0567388242a6c0cc40f` | `sources/house-style/glam-cairo/` |
 | `nalgebra-cairo` (house style) | local HEAD | `7177cf30734ca5c3edf216f66d5c97b6f4b0ff93` | `sources/house-style/nalgebra-cairo/` |
@@ -30,6 +31,17 @@ is published on scarbs.xyz (checked on 2026-09-28: one version, 1.8.0). No packa
 
 Toolchain of every figure marked *measured*: scarb 2.19.4, snforge 0.61.0, Sierra gas
 (`sources/origami/crates/hexmap/GAS.md:140`).
+
+**Compiler target: Cairo 2.19** (Scarb 2.19.4, snforge 0.61), the toolchain of
+`origami_hexmap` 1.8.0 and of the owner's other libraries. The game is on the same compiler
+since the owner dropped Dojo (ADR-0007, D-123, 2026-09-28: plain Starknet contracts on Cairo
+2.19; exact pins by the game's SPK-5b). Consequences: `BoundedInt` stays (used by the engine at
+`hexmap:src/map.cairo:8-11`, `helpers/bits.cairo:11-12`, `helpers/rng.cairo:23-24`); **no floor
+at Cairo 2.13**, no second code base and **no separate class** called by library call; the
+library keeps one target. What remains of need N-9 is `snforge_std` as a dev-dependency (§2.1,
+§8). Nothing in the library depends on Dojo: no dependency, no model, no world; the consumer
+is a Starknet contract (`#[starknet::contract]`) or a storage-free library of rules; the
+tests and examples use snforge only.
 
 Conventions:
 
@@ -106,7 +118,9 @@ vectors and the client.
 |---|---|---|
 | Scarb package name | **`hexx`** (free on scarbs.xyz on 2026-09-28). The house names the Cairo package after the Rust crate: `glam`, `nalgebra`, `fixed`, `simba` (`sources/house-style/glam-cairo/docs/DESIGN.md` §1) | `hexx_cairo`: nothing else on the registry needs the disambiguation, and the game would import `hexx_cairo::Hex` for a crate whose name is the parity claim |
 | Repository | `bal7hazar/hexx-cairo`, a Scarb workspace: `crates/hexx` (published), `crates/takeover_tests` (unpublished, depends on `origami_hexmap = "1.8.0"` from the registry, §5.4), later `crates/hexx_glam` (§4, L-M3) and `crates/benches` if the class-size fixture of the house is adopted (`consumer` in `glam-cairo`) | One package with everything: the take-over test needs a dependency on `origami_hexmap` that the published package must not carry |
-| Edition, dependencies | `edition = "2024_07"`, no `starknet` dependency (the library is pure Cairo, as the house ports; storage packing of `HexMap` is the consumer's). Dev-dependency `snforge_std` as in `hexmap:Scarb.toml:14-15` | — |
+| Edition, dependencies | `edition = "2024_07"`, Cairo 2.19 (§0), no `starknet` dependency and no Dojo dependency (the library is pure Cairo, as the house ports; storage packing of `HexMap` is the consumer's, a Starknet contract or a storage-free library of rules). `snforge_std` under **`[dev-dependencies]` only** (need N-9, §8) | A regular dependency on `snforge_std`, which is what the published `origami_hexmap` 1.8.0 resolves to for its consumers |
+| Need N-9 | The source manifest of 1.8.0 already declares `snforge_std` under `[dev-dependencies]` (`hexmap:Scarb.toml:14-15`, `snforge_std.workspace = true`; the workspace pins `0.61.0`, `sources/origami/Scarb.toml`), yet the package published on scarbs.xyz is resolved by its consumers as depending on `snforge_std >=0.61.0, <0.62.0` (`grimworld:docs/needs/hexmap.md` § "N-9 in detail", failure 1). **The defect is in the published artefact, not in the manifest**: the criterion of N-9 is therefore demonstrated on the published package (§8, L-M1 exit (8)), not by reading `Scarb.toml`. LIB-04 finds where the publication turns the dev-dependency into a dependency (the packaging step, the registry's index, or the version of Scarb that published 1.8.0) and records it | — |
+| Manifest metadata | `description = "Hexagonal grids for Starknet: the hexx port and a bitmap board engine"`, `keywords = ["starknet", "cairo", "hexagon", "hexx", "pathfinding", "generation"]`, `homepage`, `documentation` and `repository` pointing at this repository. The description ("Hexagonal tile maps library for Dojo based games") and the keyword `dojo` of `hexmap:Scarb.toml:5, 12` are **not** taken over (§5.5) | — |
 | Version | `0.1.0` at L-M1, pre-releases `0.1.0-rc.N` before it (§9) | — |
 | Licence | MIT, as the repository already is. `origami_hexmap` is MIT (`sources/origami/Scarb.toml:14`), its author is the owner; the taken-over files keep their module headers and the README credits `origami_hexmap` 1.8.0 at commit `04ab30c` (§5.6) | — |
 
@@ -119,16 +133,20 @@ files and the game's migration is a change of import path.
 ```text
 crates/hexx/src/
   lib.cairo                    re-exports (§2.4)
-  hex.cairo                    Hex, HexTrait: src/hex/mod.rs + rings.rs + swizzle.rs + euclidean.rs + convert.rs
-  hex/impls.cairo              operator impls of Hex (src/hex/impls.rs)
+  hex.cairo                    Hex, HexTrait (src/hex/mod.rs); one trait per hexx source file below
+  hex/impls.cairo              operator impls of Hex (src/hex/impls.rs)                        L-M2
+  hex/rings.cairo              HexRingsTrait (src/hex/rings.rs)                                L-M2
+  hex/swizzle.cairo            HexSwizzleTrait (src/hex/swizzle.rs)                            L-M2
+  hex/euclidean.cairo          HexEuclideanTrait (src/hex/euclidean.rs)                        L-M2
+  hex/convert.cairo            HexConvertTrait, the Into impls (src/hex/convert.rs)            L-M2
   hex/iter.cairo               HexSpanExt: counterpart of HexIterExt (src/hex/iter.rs)         L-M2
   hex/grid/edge.cairo          GridEdge (src/hex/grid/edge.rs)                                L-M2
   hex/grid/vertex.cairo        GridVertex (src/hex/grid/vertex.rs)                            L-M2
   direction/edge_direction.cairo   EdgeDirection (src/direction/edge_direction.rs)
   direction/vertex_direction.cairo VertexDirection (src/direction/vertex_direction.rs)         L-M2
   direction/way.cairo          DirectionWay (src/direction/way.rs)                             L-M2
-  direction/impls.cairo        Neg, Mul<i32>, rotation operators of the directions
-  conversions.cairo            OffsetHexMode, DoubledHexMode, the conversions (src/conversions.rs)
+  direction/impls.cairo        Neg, mul_scalar of the directions (src/direction/impls.rs)      L-M2
+  conversions.cairo            OffsetHexMode, the offset conversions (src/conversions.rs); DoubledHexMode, doubled and hexmod L-M2
   orientation.cairo            enum HexOrientation only (src/orientation.rs:124)
   bounds.cairo                 HexBounds (src/bounds.rs)                                       L-M2
   shapes.cairo                 shapes (src/shapes.rs)                                          L-M2
@@ -142,10 +160,12 @@ crates/hexx/src/
   board/asserter.cairo         Asserter (helpers/asserter.cairo)
   board/bits.cairo             Bits, Set, POW, INV, POW128 (helpers/bits.cairo)
   board/rng.cairo              Rng (helpers/rng.cairo)
+  board/tables.cairo           the band tables COL_FROM, COL_TO, ROW_FROM, ROW_TO             new
   board/seams.cairo            N-2: sides, openings                                            new
   board/assembly.cairo         N-3: origin, assemble, window (15 × 16 from 2 or 4 chunks)      new
-  board/line.cairo             N-5: line, line_of_sight, approach, LINE table                  new
-  board/hexagon.cairo          N-6: hexagon, hexagon_ring, HEXAGON tables                      new
+  board/cut.cairo              N-4: cut                                                        new
+  board/line.cairo             N-5: line, line_of_sight, approach, LINES and LINE_SPANS        new
+  board/hexagon.cairo          N-6: hexagon, hexagon_ring, HEXAGONS tables                     new
   board/printer.cairo          HexPrinter, test only (helpers/printer.cairo)
   finders/bfs.cairo            Bfs (finders/bfs.cairo) + N-8 flood entry point
   finders/dial.cairo           Dial (finders/dial.cairo)
@@ -177,7 +197,7 @@ Files without a milestone mark are in L-M1 (§8).
 | `algorithms` | `algorithms` | **adapted**: counterparts on boards | `algorithms/` | The four functions take callbacks and return hash sets; the board engine has their bitmap forms |
 | `orientation` | — | **adapted**: the enum `HexOrientation` (with `Not` and `Default`) is kept; `HexOrientationData`, `forward`, `inverse`, `orientation_data`, `Deref` are excluded | `orientation.cairo` | The enum parametrises the integer offset conversions (`src/conversions.rs:65-84`); the data are `f32` matrices (`src/orientation.rs:52-115`) |
 | `layout` | — | **excluded** | — | `HexLayout` and its 24 functions map hexes to `f32` world positions (`src/layout.rs:61-315`); world and screen space belong to the client (L-G1 consequence, parity table) |
-| `storage` | — | **excluded** as a module | — | `HexStore<T>`, `HexagonalMap<T>`, `HexModMap<T>`, `RombusMap<T>`, `RectMap<T>`, `RectMetadata`, `WrapStrategy` store one generic `T` per hex in a `Vec` or a `HashMap` (`src/storage/mod.rs:69-104`). On-chain state lives in models and boards live in bitmaps: the counterpart of the whole module is `board` (one bitmap per layer). The index formulas survive as `LayoutTrait::index` and `coords` (row-major offset, like `RectMap`, `src/storage/rect.rs:337-358`) and as `Hex::to_hexmod_coordinates` (like `HexModMap`) |
+| `storage` | — | **excluded** as a module | — | `HexStore<T>`, `HexagonalMap<T>`, `HexModMap<T>`, `RombusMap<T>`, `RectMap<T>`, `RectMetadata`, `WrapStrategy` store one generic `T` per hex in a `Vec` or a `HashMap` (`src/storage/mod.rs:69-104`). On-chain state lives in the consumer's contract storage and boards live in bitmaps: the counterpart of the whole module is `board` (one bitmap per layer). The index formulas survive as `LayoutTrait::index` and `coords` (row-major offset, like `RectMap`, `src/storage/rect.rs:337-358`) and as `Hex::to_hexmod_coordinates` (like `HexModMap`) |
 | `mesh` | `mesh` | **excluded** as a module | — | Rendering: `MeshInfo`, the three builders, `UVOptions`, `Rect`, `Face`, `Tri`, `InsetOptions`, `InsetScaleMode`, `FaceOptions` (inventory in LIB-02 §1.10) produce `Vec<Vec3>` vertices |
 | `glam` re-exports (`src/lib.rs:301`), `serde`, `facet`, `rayon`, `bevy*`, `packed` | features | **excluded** | — | Host integrations. Cairo's `Serde`, `Hash`, `Debug`, `Default` derives are applied to every mirror type as a matter of course, not as a port of `serde` |
 
@@ -292,8 +312,8 @@ The type is not defined in this library. It is **published** on scarbs.xyz since
 as the package **`uint252`**, version 0.1.0 (repository `bal7hazar/types-cairo`,
 `crates/u252`, commit `35f74d5`); the package is named `uint252`, the type keeps the name
 `u252`, and its only dependency is `snforge_std` for its tests (L-G1, question 3). Where a
-future extension needs the type (a packed model of several boards, a `StorePacking`), the
-library depends on `uint252 = "0.1.0"` by published version and does not re-export it. The bit
+future extension needs the type (a packed storage struct of several boards, a `StorePacking`),
+the library depends on `uint252 = "0.1.0"` by published version and does not re-export it. The bit
 helpers that `u252` shares with the engine (`Bits`, `POW`, `INV`, `POW128`,
 `hexmap:src/helpers/bits.cairo`) stay in `board::bits`; `uint252` carries its own copy.
 
@@ -350,8 +370,9 @@ without a Rust toolchain; `rustdoc` JSON is unstable across nightly versions and
 | Aspect | `glam-cairo` script | `hexx` adaptation |
 |---|---|---|
 | Owners | One file per type (`TYPE_FILES`) | `Hex` spans `src/hex/mod.rs`, `rings.rs`, `swizzle.rs`, `euclidean.rs`, `convert.rs`, `conversions.rs` (all `impl Hex` blocks); `EdgeDirection` and `VertexDirection` have their own files; `shapes.rs` and `algorithms/*.rs` hold free functions; `way.rs` holds a generic enum |
-| Cairo side | `pub trait XTrait` methods, `pub impl X of Trait<…>` | Same, plus `#[generate_trait] pub impl HexImpl of HexTrait` |
-| Rules | Regex rules for `dropped` and `renamed` | The exclusion rules of §4.4: any signature with `f32`, `Vec2`, `Vec3`, `Quat`, `&HexLayout`, `impl Fn`, `HashSet`, `&mut [i32]`, `&[i32]`, `[Vec<Self>; RANGE]` |
+| Effective visibility | Every `pub` declaration of the listed files | Only what a consumer can reach: the walk follows `pub mod` and `pub use` from `src/lib.rs` and drops `pub(crate)` modules and re-exports (`pub(crate) mod way` in `src/direction/mod.rs:11`: `DirectionWay` is public through `pub use way::DirectionWay`, the trait `Way` is not; `pub(crate) use iter::ExactSizeHexIterator` in `src/hex/mod.rs:23`: not public). Public **fields** (`Hex::{x, y}`, `HexBounds::{center, radius}`, the shape fields, `GridEdge::{origin, direction}`, `GridVertex::{origin, direction}`), enum **variants** (`DirectionWay::{Single, Tie}`, `OffsetHexMode::{Even, Odd}`, `DoubledHexMode::{DoubledWidth, DoubledHeight}`, `HexOrientation::{Pointy, Flat}`) and public **trait members** (`HexIterExt`) are inventoried as items (audit, finding 12) |
+| Cairo side | `pub trait XTrait` methods, `pub impl X of Trait<…>` | Same, plus `#[generate_trait] pub impl HexImpl of HexTrait`, one trait per `hexx` source file (§8, L-M2) |
+| Precedence | Direct name match, then regex rules, else `missing` | (1) A direct match of name and owner; (2) **a curated per-item map** `COUNTERPARTS` (Rust item → Cairo item, or Rust item → reason), which is the machine form of §4.4 and wins over every rule: it holds the counterparts whose Rust signature would otherwise trip an exclusion rule (`field_of_movement`, `a_star`, `range_fov`, `directional_fov` with `impl Fn` and `HashSet`; `cached_*` with `[Vec<Self>; RANGE]`; `HexIterExt`; `FromIterator`); (3) the broad exclusion rules (`f32`, `Vec2`, `Vec3`, `Quat`, `&HexLayout`, `&mut [i32]`, `&[i32]`, reference glue, `serde`) for what neither of the first two resolved; (4) everything else stays **`missing`**, and a `missing` item fails `--check` at the release that scheduled it. The first version of this plan let the broad rules classify the counterparts' signatures, which would have hidden incomplete parity (audit, finding 13). The parser has unit tests on those cases, on public trait methods, on effective visibility and on re-exports |
 | Extras | Cairo-only items per owner | Extension modules are excluded from the walk (`board`, `finders`, `generators`); their public items are listed by module in `docs/EXTENSIONS.md` (generated by the same script, `--extensions`) so that they stay outside the parity percentage but are still inventoried |
 | Check | `python3 scripts/api_parity.py --check` in `scripts/check.sh` | Same; `--refresh --hexx /path/to/hexx` regenerates the embedded inventory from the pinned checkout |
 
@@ -396,37 +417,41 @@ documented once on the type, and counted as `ported` when the name is kept.
 
 | Item | Status | Cairo form or reason | Milestone |
 |---|---|---|---|
-| `struct Hex { x, y }` `:69` | port | `Hex { pub x: i32, pub y: i32 }`, derives `Copy, Drop, Serde, PartialEq, Debug, Default, Hash` | L-M1 |
-| `fn hex(x, y)` `:89` | port | `hexx::hex::hex` (imported from its module, as the house does for `vec3`) | L-M1 |
-| `ORIGIN`, `ZERO`, `ONE`, `NEG_ONE`, `X`, `NEG_X`, `Y`, `NEG_Y` `:95-110` | port | `const` on `HexTrait` | L-M1 |
+| `struct Hex` `:69`, public fields `x`, `y` `:71, 73` | port | `Hex { pub x: i32, pub y: i32 }`, derives `Copy, Drop, Serde, PartialEq, Debug, Default, Hash` | L-M1 |
+| `fn hex(x, y)` `:89` | port | `hexx::hex::hex` (imported from its module, as the house does for `vec3`) | L-M2 |
+| `ZERO` `:97` | port | `const` on `HexTrait` | L-M1 |
+| `ORIGIN`, `ONE`, `NEG_ONE`, `X`, `NEG_X`, `Y`, `NEG_Y` `:95-110` | port | `const` on `HexTrait` | L-M2 |
 | `INCR_X`, `INCR_Y`, `INCR_Z`, `DECR_X`, `DECR_Y`, `DECR_Z` `:113-124` | port | `const [Hex; 2]` | L-M2 |
-| `NEIGHBORS_COORDS` `:159`, `DIAGONAL_COORDS` `:186` | port | `const [Hex; 6]` | L-M1 |
-| `new` `:208`, `splat` `:225` | port | | L-M1 |
-| `new_cubic` `:247` | port | panics `'Hex: cubic sum'` when `x + y + z != 0` (Rust `assert!`) | L-M1 |
+| `NEIGHBORS_COORDS` `:159` | port | `const [Hex; 6]` (read by `EdgeDirection::into_hex`) | L-M1 |
+| `DIAGONAL_COORDS` `:186` | port | `const [Hex; 6]` | L-M2 |
+| `new` `:208` | port | | L-M1 |
+| `splat` `:225` | port | | L-M2 |
+| `new_cubic` `:247` | port | panics `'Hex: cubic sum'` when `x + y + z != 0` (Rust `assert!`) | L-M2 |
 | `x` `:256`, `y` `:264`, `z` `:274` | port | | L-M1 |
-| `from_array` `:290`, `to_array` `:307`, `to_cubic_array` `:333` | port | `[i32; 2]`, `[i32; 3]` | L-M1 |
+| `from_array` `:290`, `to_array` `:307`, `to_cubic_array` `:333` | port | `[i32; 2]`, `[i32; 3]` | L-M2 |
 | `to_array_f32` `:315`, `to_cubic_array_f32` `:341` | excluded | `f32` output | — |
 | `from_slice` `:352`, `write_to_slice` `:362` | excluded | slice APIs (house rule) | — |
 | `as_ivec2` `:375`, `as_ivec3` `:390` | counterpart | `Into<Hex, IVec2>`, `Into<Hex, IVec3>` in the companion package `hexx_glam` (§9), as `nalgebra_glam` | L-M3 |
 | `as_vec2` `:406` | excluded | `f32` output | — |
-| `const_neg` `:421`, `const_add` `:435`, `const_sub` `:449` | port | same names (Cairo has no `const fn`; they are the plain functions behind the operators) | L-M1 |
+| `const_sub` `:449` | port | same name (Cairo has no `const fn`; the plain function behind `-`), used by `distance_to` | L-M1 |
+| `const_neg` `:421`, `const_add` `:435` | port | same names | L-M2 |
 | `round([f32; 2])` `:474` | excluded | `f32` input. The hexround algorithm is used internally on exact rationals by `line_to` and `Div<i32>` | — |
 | `abs` `:498`, `min` `:511`, `max` `:525`, `dot` `:535`, `signum` `:546` | port | | L-M2 |
 | `length` `:568`, `ulength` `:594`, `distance_to` `:615`, `unsigned_distance_to` `:625` | port | | L-M1 |
-| `neighbor_coord` `:633`, `neighbor` `:665`, `all_neighbors` `:760` | port | | L-M1 |
+| `neighbor_coord` `:633`, `neighbor` `:665`, `all_neighbors` `:760` | port | | L-M2 |
 | `diagonal_neighbor_coord` `:641`, `diagonal_neighbor` `:682`, `all_diagonals` `:767` | port | | L-M2 |
-| `neighbor_direction` `:700` | port | `Option<EdgeDirection>` | L-M1 |
+| `neighbor_direction` `:700` | port | `Option<EdgeDirection>` | L-M2 |
 | `main_diagonal_to` `:709`, `diagonal_way_to` `:715` | port | | L-M2 |
 | `main_direction_to` `:734`, `way_to` `:740` | port | `DirectionWay<EdgeDirection>` | L-M2 |
-| `counter_clockwise` `:784`, `ccw_around` `:791`, `rotate_ccw` `:799`, `rotate_ccw_around` `:814`, `clockwise` `:831`, `cw_around` `:838`, `rotate_cw` `:846`, `rotate_cw_around` `:860` | port | the sense is `hexx`'s (§3.2) | L-M1 |
+| `counter_clockwise` `:784`, `ccw_around` `:791`, `rotate_ccw` `:799`, `rotate_ccw_around` `:814`, `clockwise` `:831`, `cw_around` `:838`, `rotate_cw` `:846`, `rotate_cw_around` `:860` | port | the sense is `hexx`'s (§3.2) | L-M2 |
 | `reflect_x` `:868`, `reflect_y` `:876`, `reflect_z` `:884` | port | | L-M2 |
-| `line_to` `:903` | port, **deviation** | `Span<Hex>`, `distance + 1` items, endpoints included. Integer line; exact ties resolved by the game's rule (§6.6). Differs from `hexx` on the exact-tie pairs listed by `refgen`; identical elsewhere | L-M1 |
+| `line_to` `:903` | port, **deviation** | `Span<Hex>`, `distance + 1` items, endpoints included. Integer line; exact ties resolved by the game's rule (§6.6). Identical to `hexx` where both endpoints have `|x|, |y| < 2^24` and no exact tie occurs; at ties the game's rule applies (the pairs of the 15 × 16 window listed by `refgen`); beyond `2^24` `hexx` rounds its endpoints to `f32` (`:906`) and the results differ without a tie: documented, not claimed identical (§6.6) | L-M1 |
 | `rectiline_to` `:936` | port | `Span<Hex>` | L-M2 |
 | `lerp` `:973` | excluded | `f32` parameter | — |
 | `range` `:993`, `xrange` `:1021` | port | `Span<Hex>`, same order (x then y) | L-M2 |
 | `to_lower_res` `:1064` | port, deviation | exact floor division instead of `f32` floor: identical while `hexx`'s `f32` is exact (`|value| < 2^24`), exact beyond | L-M2 |
 | `to_higher_res` `:1114`, `to_local` `:1143`, `wrap_in_range` `:1183` | port | | L-M2 |
-| `range_count` `:1160` | port | | L-M1 |
+| `range_count` `:1160` | port | | L-M2 |
 | `impl Debug` `:1189` | port | prints `x`, `y`, `z` as `hexx` | L-M2 |
 
 #### `hex` — operators (`src/hex/impls.rs`)
@@ -434,15 +459,15 @@ documented once on the type, and counted as `ported` when the name is kept.
 | Item | Status | Cairo form or reason | Milestone |
 |---|---|---|---|
 | `PartialEq<Hex> for &Hex` `:10` | excluded | reference glue | — |
-| `Add<Hex>` `:16`, `Sub<Hex>` `:95`, `Neg` `:321` | port | `HexAdd`, `HexSub`, `HexNeg` | L-M1 |
+| `Add<Hex>` `:16`, `Sub<Hex>` `:95`, `Neg` `:321` | port | `HexAdd`, `HexSub`, `HexNeg` | L-M2 |
 | `Add<i32>` `:25`, `Sub<i32>` `:104` | counterpart | `add_scalar`, `sub_scalar` (Cairo's `Add<T>` is homogeneous; house convention `mul_scalar`) | L-M2 |
-| `Add<EdgeDirection>` `:37`, `Sub<EdgeDirection>` `:116` | counterpart | `add_direction`, `sub_direction` (same reason) | L-M1 |
+| `Add<EdgeDirection>` `:37`, `Sub<EdgeDirection>` `:116` | counterpart | `add_direction`, `sub_direction` (same reason) | L-M2 |
 | `Add<VertexDirection>` `:46`, `Sub<VertexDirection>` `:125` | counterpart | `add_diagonal`, `sub_diagonal` | L-M2 |
 | `AddAssign` `:55`, `SubAssign` `:134`, `MulAssign` `:196`, `DivAssign` `:268`, `RemAssign` `:307` | port | `core::ops::*Assign` | L-M2 |
 | `AddAssign<i32>` `:62`, `SubAssign<i32>` `:141`, `MulAssign<i32>` `:203`, `DivAssign<i32>` `:275`, `RemAssign<i32>` `:314`, `AddAssign<EdgeDirection>` `:69`, `AddAssign<VertexDirection>` `:76`, `SubAssign<EdgeDirection>` `:148`, `SubAssign<VertexDirection>` `:155` | excluded | heterogeneous assignment operators; the named `*_scalar` / `*_direction` methods cover them (house rule for `Vec * scalar`) | — |
 | `Sum`, `Sum<&Hex>` `:83-89`, `Product`, `Product<&Hex>` `:217-223` | port | `Sum` / `Product` of an iterator, as `nalgebra-cairo` does (`docs/DESIGN.md` D10); the `&Hex` variants collapse into the by-value ones | L-M2 |
 | `Mul<Hex>` `:162`, `Div<Hex>` `:229`, `Rem<Hex>` `:289` | port | per component; `Div` truncates toward zero as Rust; division by a zero component panics | L-M2 |
-| `Mul<i32>` `:174` | counterpart | `mul_scalar` | L-M1 |
+| `Mul<i32>` `:174` | counterpart | `mul_scalar` | L-M2 |
 | `Mul<f32>` `:186`, `Div<f32>` `:254`, `MulAssign<f32>` `:210`, `DivAssign<f32>` `:282` | excluded | `f32` operand | — |
 | `Div<i32>` `:241`, `Rem<i32>` `:298` | counterpart, deviation | `div_scalar`, `rem_scalar`: `hexx` rescales the **length** through an `f32` lerp and `Hex::round`. The counterpart computes the same rescale on exact rationals with the same rounding rule (half away from zero, then `>=`); vectors from `hexx` decide, and any pair where `f32` error made `hexx` deviate from its own rule is listed as a deviation | L-M2 |
 | `BitAnd`, `BitOr`, `BitXor` (`Hex`) `:330-352`, (`i32`) `:363-385` | excluded | Cairo's corelib has no bitwise operators on signed integers; a two's-complement emulation per component is more code than any use justifies, and no consumer names one. Reversible (§12) | — |
@@ -473,15 +498,15 @@ documented once on the type, and counted as `ported` when the name is kept.
 | `squared_euclidean_length` (`src/hex/euclidean.rs:20`), `squared_euclidean_distance_to` `:65` | port | integer | L-M2 |
 | `euclidean_length` `:41`, `euclidean_distance_to` `:90` | excluded | `f32` output; the squared forms are the integer counterparts | — |
 | `circular_range(f32)` `:110` | counterpart | `circular_range_squared(range_squared: i32) -> Span<Hex>`: the same set for `range_squared = round(range²)` when `range` is an integer | L-M2 |
-| `HexIterExt::{average, center, bounds}` (`src/hex/iter.rs:4-46`) | counterpart | `HexSpanExt` on `Span<Hex>`: `average` through the exact `div_scalar` (same deviation), `center`, `bounds` | L-M2 |
-| `ExactSizeHexIterator` `:73` | excluded | iterator plumbing; a `Span` has a length | — |
+| `trait HexIterExt` and its members `average`, `center`, `bounds` (`src/hex/iter.rs:4-46`) | counterpart | `HexSpanExt` on `Span<Hex>`: `average` through the exact `div_scalar` (same deviation), `center`, `bounds` | L-M2 |
+| `ExactSizeHexIterator` `:73` | not public | `pub(crate) use` in `src/hex/mod.rs:23`: not in the inventory (the first version counted it as an excluded public item, audit finding 12) | — |
 
 #### `hex::grid` (`src/hex/grid/`)
 
 | Item | Status | Cairo form or reason | Milestone |
 |---|---|---|---|
-| `GridEdge { origin, direction }` (`edge.rs:12`); `equivalent` `:23`, `destination` `:31`, `vertices` `:38`, `flipped` `:55`, `const_neg` `:65`, `clockwise` `:75`, `counter_clockwise` `:85`, `rotate_cw` `:95`, `rotate_ccw` `:104`, `Hex::all_edges` `:116`, `Neg` `:124`, `From<EdgeDirection>` `:133` | port | | L-M2 |
-| `GridVertex { origin, direction }` (`vertex.rs:13`); `equivalent` `:24`, `coordinates` `:44`, `destinations` `:54`, `side_edges` `:65`, `const_neg` `:81`, `clockwise` `:91`, `counter_clockwise` `:101`, `rotate_cw` `:111`, `rotate_ccw` `:120`, `Hex::all_vertices` `:132`, `Neg` `:140`, `From<VertexDirection>` `:149` | port | | L-M2 |
+| `GridEdge` (`edge.rs:12`), public fields `origin` `:14`, `direction` `:16`; `equivalent` `:23`, `destination` `:31`, `vertices` `:38`, `flipped` `:55`, `const_neg` `:65`, `clockwise` `:75`, `counter_clockwise` `:85`, `rotate_cw` `:95`, `rotate_ccw` `:104`, `Hex::all_edges` `:116`, `Neg` `:124`, `From<EdgeDirection>` `:133` | port | | L-M2 |
+| `GridVertex` (`vertex.rs:13`), public fields `origin` `:15`, `direction` `:17`; `equivalent` `:24`, `coordinates` `:44`, `destinations` `:54`, `side_edges` `:65`, `const_neg` `:81`, `clockwise` `:91`, `counter_clockwise` `:101`, `rotate_cw` `:111`, `rotate_ccw` `:120`, `Hex::all_vertices` `:132`, `Neg` `:140`, `From<VertexDirection>` `:149` | port | | L-M2 |
 
 #### `direction` (`src/direction/`)
 
@@ -493,23 +518,25 @@ documented once on the type, and counted as `ported` when the name is kept.
 | `index` `:219`, `into_hex` `:226`, `const_neg` `:243`, `clockwise` `:261`, `counter_clockwise` `:279`, `rotate_ccw` `:296`, `rotate_cw` `:313` | port | | L-M1 |
 | `angle_between` `:326`, `angle_degrees_between` `:333`, `angle_to` `:341`, `angle_degrees_to` `:350`, `angle_flat` `:360`, `angle_pointy` `:370`, `angle` `:378`, `unit_vector` `:393`, `world_unit_vector` `:404`, `angle_flat_degrees` `:415`, `angle_pointy_degrees` `:425`, `angle_degrees` `:435`, `from_pointy_angle_degrees` `:453`, `from_flat_angle_degrees` `:469`, `from_pointy_angle` `:486`, `from_flat_angle` `:502`, `from_angle_degrees` `:527`, `from_angle` `:553` | excluded | `f32` angles and vectors. Integer counterparts of "the direction of a hex": `Hex::way_to`, `main_direction_to`, `neighbor_direction`; of "rotate by an angle": `rotate_cw(n)` | — |
 | `diagonal_ccw` `:571`, `vertex_ccw` `:586`, `diagonal_cw` `:601`, `vertex_cw` `:616`, `vertex_directions` `:623` | port | | L-M2 |
-| `From<EdgeDirection> for Hex` `:628`, `impl Debug` `:635` | port | `Into<EdgeDirection, Hex>`; `Debug` prints the index and the pointy name | L-M1 |
+| `From<EdgeDirection> for Hex` `:628` | port | `Into<EdgeDirection, Hex>` | L-M1 |
+| `impl Debug` for `EdgeDirection` `:635` | port | prints the index and the pointy name | L-M2 |
 | `struct VertexDirection(u8)` (`vertex_direction.rs:74`), its 36 compass constants `:78-201` (`X_NEG_Y_NEG_Z`, `X`, `FLAT_RIGHT`, `FLAT_EAST`, `POINTY_TOP_RIGHT`, `POINTY_NORTH_EAST`, `X_NEG_Y_Z`, `NEG_Y`, `FLAT_TOP_RIGHT`, `FLAT_NORTH_EAST`, `POINTY_TOP`, `POINTY_NORTH`, `NEG_X_NEG_Y`, `Z`, `FLAT_TOP_LEFT`, `FLAT_NORTH_WEST`, `POINTY_TOP_LEFT`, `POINTY_NORTH_WEST`, `NEG_X_Y_Z`, `NEG_X`, `FLAT_LEFT`, `FLAT_WEST`, `POINTY_BOTTOM_LEFT`, `POINTY_SOUTH_WEST`, `NEG_X_Y_NEG_Z`, `Y`, `FLAT_BOTTOM_LEFT`, `FLAT_SOUTH_WEST`, `POINTY_BOTTOM`, `POINTY_SOUTH`, `X_Y`, `NEG_Z`, `FLAT_BOTTOM_RIGHT`, `FLAT_SOUTH_EAST`, `POINTY_BOTTOM_RIGHT`, `POINTY_SOUTH_EAST`), `ALL_DIRECTIONS` `:221` | port | | L-M2 |
 | `VertexDirection::iter` `:225` | counterpart | `ALL_DIRECTIONS.span()` | L-M2 |
 | `VertexDirection::{index, into_hex, const_neg, clockwise, counter_clockwise, rotate_ccw, rotate_cw}` `:232-314`, `direction_ccw` `:573`, `edge_ccw` `:588`, `direction_cw` `:603`, `edge_cw` `:618`, `edge_directions` `:625`, `From<VertexDirection> for Hex` `:630`, `Debug` `:637` | port | | L-M2 |
 | `VertexDirection` angle functions `:327-555` (same 18 names as the edge ones) | excluded | `f32` | — |
-| `Neg` for both directions (`impls.rs:5, 13`) | port | | L-M1 (edge), L-M2 (vertex) |
+| `Neg` for both directions (`impls.rs:5, 13`) | port | | L-M2 |
 | `Shr<u8>`, `Shl<u8>` for both `:21-51` | counterpart | Cairo's corelib has no `Shl`/`Shr` for user types; the named `rotate_cw(n)` / `rotate_ccw(n)` are the operators' bodies (`:25, :41`) | — (nothing to add) |
-| `Mul<i32>` for both `:53, 61` | counterpart | `mul_scalar(n) -> Hex` | L-M1 (edge), L-M2 (vertex) |
-| `enum DirectionWay<T>` (`way.rs:30`), `unwrap` `:53`, `contains` `:62`, `map` `:75`, `PartialEq<T>` `:42`, `From<T>` `:95`, `From<[T; 2]>` `:102` | port | `map` takes a function pointer, not a closure, unless the `closures` feature of Cairo is adopted (LIB-04 decides) | L-M2 |
-| `trait Way` `:37` and its impls `:109, 121` | port | | L-M2 |
+| `Mul<i32>` for both `:53, 61` | counterpart | `mul_scalar(n) -> Hex` | L-M2 |
+| `enum DirectionWay<T>` (`way.rs:30`, public through `pub use way::DirectionWay`, `mod.rs:15`), variants `Single` `:32`, `Tie` `:34`, `unwrap` `:53`, `contains` `:62`, `map` `:75`, `PartialEq<T>` `:42`, `From<T>` `:95`, `From<[T; 2]>` `:102` | port | `map` takes a function pointer, not a closure, unless the `closures` feature of Cairo is adopted (LIB-04 decides) | L-M2 |
+| `trait Way` `:37` and its impls `:109, 121` | not public | `pub(crate) mod way` (`src/direction/mod.rs:11`): only `DirectionWay` is re-exported; `Way` is a crate-private helper and is not in the inventory (the first version marked it ported, audit finding 12). Its two methods are `counter_clockwise` and `clockwise` of the directions, already ported | — |
 | `angles::{DIRECTION_ANGLE_OFFSET_RAD, DIRECTION_ANGLE_OFFSET_DEGREES, DIRECTION_ANGLE_RAD, DIRECTION_ANGLE_DEGREES}` (`mod.rs:18-31`) | excluded | `f32` constants | — |
 
 #### `conversions` (`src/conversions.rs`)
 
 | Item | Status | Cairo form or reason | Milestone |
 |---|---|---|---|
-| `enum DoubledHexMode` `:12` (`Default = DoubledWidth`), `enum OffsetHexMode` `:29` | port | | L-M1 |
+| `enum OffsetHexMode` `:29`, variants `Even` `:34`, `Odd` `:39` | port | | L-M1 |
+| `enum DoubledHexMode` `:12`, variants `DoubledWidth` `:15` (`Default`), `DoubledHeight` `:17` | port | | L-M2 |
 | `to_offset_coordinates` `:65`, `from_offset_coordinates` `:142` | port | exact: `midpoint` and the divisions act on even numerators | L-M1 |
 | `to_doubled_coordinates` `:50`, `from_doubled_coordinates` `:128` | port | | L-M2 |
 | `to_hexmod_coordinates` `:92`, `from_hexmod_coordinates` `:110` | port | `rem_euclid` written out | L-M2 |
@@ -518,14 +545,14 @@ documented once on the type, and counted as `ported` when the name is kept.
 
 | Item | Status | Cairo form or reason | Milestone |
 |---|---|---|---|
-| `enum HexOrientation { Pointy, Flat }` `:124`, `Default = Flat`, `Not` `:152` | port | | L-M1 |
+| `enum HexOrientation` `:124`, variants `Pointy`, `Flat`, `Default = Flat`, `Not` `:152` | port | | L-M1 |
 | `HexOrientationData` `:52`, `flat` `:65`, `pointy` `:86`, `forward` `:106`, `inverse` `:113`, `orientation_data` `:136`, `Deref` `:144` | excluded | `f32` matrices | — |
 
 #### `bounds` (`src/bounds.rs`)
 
 | Item | Status | Cairo form or reason | Milestone |
 |---|---|---|---|
-| `struct HexBounds { center, radius }` `:36`; `new` `:47`, `from_radius` `:54`, `positive_radius` `:78`, `is_in_bounds` `:86`, `hex_count` `:95`, `hex_count32` `:104`, `wrap_local` `:135`, `wrap` `:149`, `corners` `:156` | port | `hex_count` returns `usize` | L-M2 |
+| `struct HexBounds` `:36`, public fields `center` `:38`, `radius` `:40`; `new` `:47`, `from_radius` `:54`, `positive_radius` `:78`, `is_in_bounds` `:86`, `hex_count` `:95`, `hex_count32` `:104`, `wrap_local` `:135`, `wrap` `:149`, `corners` `:156` | port | `hex_count` returns `usize` | L-M2 |
 | `from_min_max` `:64` | port, deviation | uses `div_scalar` (exact rational; same rounding rule) | L-M2 |
 | `all_coords` `:111`, `intersecting_with` `:116` | port | `Span<Hex>` | L-M2 |
 | `FromIterator<Hex>` `:161` | counterpart | `from_span(Span<Hex>)` | L-M2 |
@@ -534,12 +561,12 @@ documented once on the type, and counted as `ported` when the name is kept.
 
 | Item | Status | Cairo form or reason | Milestone |
 |---|---|---|---|
-| `Parallelogram` `:11` (`new` `:31`, `coords` `:37`, `Default` `:18`), `parallelogram` `:45` | port | `Span<Hex>` | L-M2 |
-| `Triangle` `:62` (`new` `:77`, `coords` `:84`, `Default` `:67`), `triangle` `:95` | port | | L-M2 |
-| `Hexagon` `:111` (`new` `:131`, `coords` `:137`, `Default` `:118`), `hexagon` `:144` | port | the coordinate form of the bitmap `HexMapTrait::hexagon` (§6.7) | L-M2 |
-| `Rombus` `:156` (`coords` `:178`, `Default` `:165`), `rombus` `:186` | port | | L-M2 |
-| `PointyRectangle` `:205` (`coords` `:231`, `Default` `:216`), `pointy_rectangle` `:243` | port | | L-M2 |
-| `FlatRectangle` `:266` (`coords` `:291`, `Default` `:277`), `flat_rectangle` `:303` | port | | L-M2 |
+| `Parallelogram` `:11`, public fields `min` `:13`, `max` `:15`; `new` `:31`, `coords` `:37`, `Default` `:18`; `parallelogram` `:45` | port | `Span<Hex>` | L-M2 |
+| `Triangle` `:62`, public field `size` `:64`; `new` `:77`, `coords` `:84`, `Default` `:67`; `triangle` `:95` | port | | L-M2 |
+| `Hexagon` `:111`, public fields `center` `:113`, `radius` `:115`; `new` `:131`, `coords` `:137`, `Default` `:118`; `hexagon` `:144` | port | the coordinate form of the bitmap `HexMapTrait::hexagon` (§6.7) | L-M2 |
+| `Rombus` `:156`, public fields `origin` `:158`, `rows` `:160`, `columns` `:162`; `coords` `:178`, `Default` `:165`; `rombus` `:186` | port | | L-M2 |
+| `PointyRectangle` `:205`, public fields `left` `:207`, `right` `:209`, `top` `:211`, `bottom` `:213`; `coords` `:231`, `Default` `:216`; `pointy_rectangle` `:243` | port | | L-M2 |
+| `FlatRectangle` `:266`, public fields `left` `:268`, `right` `:270`, `top` `:272`, `bottom` `:274`; `coords` `:291`, `Default` `:277`; `flat_rectangle` `:303` | port | | L-M2 |
 
 #### `algorithms` (`src/algorithms/`)
 
@@ -548,7 +575,7 @@ documented once on the type, and counted as `ported` when the name is kept.
 | `field_of_movement(coord, budget, cost: Fn(Hex) -> Option<u32>) -> HashSet<Hex>` (`field_of_movement.rs:63`) | counterpart | `hexx::algorithms::field_of_movement(map: HexMap, from: u8, budget: u8, costs: Span<felt252>) -> felt252`, forwarding to `HexMapTrait::field_of_movement`. Same cost model: `hexx` charges `1 + cost(h)` (`:16-18`), the board charges `k + 2` for class `k` (`hexmap:src/finders/dial.cairo:3-4`), so class `k` is `cost(h) = k + 1`, `None` is a wall, and `cost(h) = 0` is any other walkable tile. Limits documented: at most 3 classes (cost 2..=4), a bounded board, the outer ring as wall. This corrects LIB-02 §3.2, which called the two "close": they are the same model within those limits | L-M3 |
 | `a_star(start, end, cost: Fn(Hex, Hex) -> Option<u32>) -> Option<Vec<Hex>>` (`pathfinding.rs:110`) | counterpart, deviation | `hexx::algorithms::a_star(map, from, to, costs) -> Option<Span<u8>>`, forwarding to `search_path_weighted` and reordering the path from start to end with both included (the board returns target to start, start excluded, `hexmap:src/map.cairo:255`). Per-directed-step costs (`cost(a, b)`) have no counterpart: only per-tile entry costs. Ties: lowest tile index (the board's rule) against the heap order of `hexx` (unspecified) | L-M3 |
 | `range_fov(coord, range, blocking: Fn(Hex) -> bool) -> HashSet<Hex>` (`fov.rs:29`) | counterpart, deviation | `hexx::algorithms::range_fov(map, from, range) -> felt252`: for every tile of `hexagon_ring(from, range)`, the prefix of `line` up to the first wall (`take_while(!blocking)`, `:29-34`); walls are the blocking set. The lines carry the game's tie rule (§6.6) | L-M3 |
-| `directional_fov(coord, range, direction: VertexDirection, blocking)` `:61` | counterpart, deviation | `directional_fov(map, from, range, direction: VertexDirection) -> felt252`, keeping the ring tiles whose `diagonal_way_to` matches the two vertex directions of the facing (`:61-76`) | L-M3 |
+| `directional_fov(coord, range, direction: EdgeDirection, blocking)` `:61-66` | counterpart, deviation | `directional_fov(map, from, range, direction: EdgeDirection) -> felt252`: as upstream, the facing is an **`EdgeDirection`** (`:64`), whose two vertex directions `direction.vertex_directions()` (`:67`) select the ring tiles whose `diagonal_way_to` matches one of them (`:70-73`); then the board and line deviations of `range_fov`. The first version of this plan wrote `VertexDirection` for the parameter (audit, finding 11) | L-M3 |
 
 #### Modules excluded as a whole
 
@@ -561,15 +588,18 @@ percentage is honest.
 
 #### Counts
 
-From the source: `hex` has 62 public functions and 16 constants in `mod.rs`, 24 in
-`rings.rs`, 8 swizzles, 5 euclidean, 2 packing functions, 57 operator impls and 8 `From`
-impls; the directions have 31 functions and 31 constants (edge), 31 and 37 (vertex), 8
-operator impls, 3 `DirectionWay` methods; `conversions` 6 functions and 2 enums; `bounds` 12
-functions; `shapes` 15 functions and 6 structs; `grid` 20 functions; `algorithms` 4;
-`orientation` 5 and 1 enum; `layout` 24; `storage` 55; `mesh` 69. Of the kept and adapted
-modules, 46 items are excluded, all `f32`, slice, bit-operator or reference glue; every other
-item is a port or a counterpart. The percentage of the generated table will be computed by
-the script, not by hand.
+From the source, counting effective visibility: `hex` has 62 public functions and 16
+constants in `mod.rs`, 24 in `rings.rs`, 8 swizzles, 5 euclidean, 2 packing functions, 57
+operator impls, 8 `From` impls, 2 public fields and the 3 members of `HexIterExt`; the
+directions have 31 functions and 31 constants (edge), 31 and 37 (vertex), 8 operator impls,
+the `DirectionWay` enum with 2 variants, 3 methods and 3 impls; `conversions` 6 functions and
+2 enums with 4 variants; `bounds` 12 functions, 2 fields and 1 impl; `shapes` 15 functions, 6
+structs with 16 public fields and 6 `Default` impls; `grid` 20 functions, 4 fields and 4
+impls; `algorithms` 4; `orientation` 5 functions, 1 enum with 2 variants and 2 impls; `layout`
+24; `storage` 55; `mesh` 69. `Way` and `ExactSizeHexIterator` are crate-private and not
+counted. Every item of a kept or adapted module is a port or a counterpart except the
+`f32`, slice, bit-operator and reference-glue items marked excluded above. The percentage of
+the generated table is computed by the script, not by hand.
 
 ## 5. The take-over of the engine of `origami_hexmap`
 
@@ -626,13 +656,19 @@ and the seams of chunks on odd global rows only (§6.2, §6.3) and never enters 
 
 Three layers, all in CI from the first pull request that moves the files:
 
-1. **Every test of 1.8.0 moves with its budget** (`src/tests/*`, the module tests, and
-   `tests/readme.cairo`): the pinned grids of one seed per generator (`README.md`
-   § Randomness, "each generator has a test pinning the exact grid of one seed"), the property
-   tests (`src/tests/properties.cairo`), the oracles (scalar BFS at
+1. **Every engine test of 1.8.0 moves with its budget** (`src/tests/*` except
+   `bench_u252.cairo`, the module tests except those of `types/u252.cairo`, and
+   `tests/readme.cairo` except `test_readme_u252`): the pinned grids of one seed per generator
+   (`README.md` § Randomness, "each generator has a test pinning the exact grid of one seed"),
+   the property tests (`src/tests/properties.cairo`), the oracles (scalar BFS at
    `src/finders/bfs.cairo:1183`, scalar Dial in `bench_dial.cairo`, scalar automaton in
    `bench_caver.cairo`, reference walker at `src/generators/walker.cairo:535`), the variants
-   and the 256-seed spreader statistics.
+   and the 256-seed spreader statistics. **The tests of the type `u252` belong to the package
+   `uint252`**: `src/tests/bench_u252.cairo` imports `types::u252::{PRIME, U252Trait, u252}`
+   and `starknet::storage_access::StorePacking` (`:16-17`), neither of which exists in this
+   library (`u252` is dropped, §5.1; no `starknet` dependency, §2.1). They move to
+   `bal7hazar/types-cairo` with the type, and this plan claims nothing about them (audit,
+   finding 17).
 2. **Equality against the registry package**: the unpublished package
    `crates/takeover_tests` depends on `origami_hexmap = "1.8.0"` (scarbs.xyz) and on `hexx`
    by path, and asserts, function by function, that both return the same value on the same
@@ -651,7 +687,10 @@ The equality package is kept until `origami_hexmap` is decommissioned (§10), th
 
 `u252` (§3.4). The `README.md` of 1.8.0, replaced by this repository's, with its sections
 Conventions, Border ring and entrances, Panics, Randomness and Migration carried into the
-`board` documentation because they define the results.
+`board` documentation because they define the results; its first paragraph ("for Dojo-based
+games", "the hexagonal sibling of `origami_map`") is not carried. The manifest of 1.8.0: its
+description and its keyword `dojo` are replaced (§2.1), and `snforge_std` stays a
+dev-dependency, verified on the published package (N-9).
 
 ### 5.6 Licence and attribution
 
@@ -682,12 +721,13 @@ was taken on a 17 × 14 board (238 bits, also two-limb) and is carried as the ta
 
 | | |
 |---|---|
-| Signatures | Mirror: `HexTrait::distance_to(self, rhs) -> i32`, `unsigned_distance_to -> u32`, `neighbor(self, EdgeDirection) -> Hex`, `all_neighbors -> [Hex; 6]`, `neighbor_direction(self, other) -> Option<EdgeDirection>`. Board (taken over): `HexMapTrait::hex_distance(from, to) -> u8`, `neighbor(position, direction) -> Option<u8>`, `LayoutTrait::neighbor_mask(position) -> felt252`. New: `Geometry::distance_between(x1: u8, y1: u8, x2: u8, y2: u8) -> u8` (global coordinates, no board), `Geometry::chunk_of(x: u8, y: u8) -> (u8, u8)` (`(x / 15, y / 15)`, chunk size a constant of the caller: `chunk_of(x, y, size: NonZero<u8>)`), `LayoutTrait::neighbor_direction(width, from: u8, to: u8) -> Option<Direction>` |
+| Signatures | Mirror (L-M1 subset, §8): `HexTrait::distance_to(self, rhs) -> i32`, `unsigned_distance_to -> u32`. Board (taken over): `HexMapTrait::hex_distance(from, to) -> u8`, `neighbor(position, direction) -> Option<u8>`, `LayoutTrait::neighbor_mask(self, position) -> felt252` (renamed, §5.2). New, one signature each: `Geometry::distance_between(x1: u8, y1: u8, x2: u8, y2: u8) -> u16` (global coordinates, no board); `Geometry::chunk_of(x: u8, y: u8) -> (u8, u8)` (`(x / 15, y / 15)`, the chunk size is the constant `CHUNK = 15` of D-120); `LayoutTrait::neighbor_direction(width: u8, height: u8, from: u8, to: u8) -> Option<Direction>` |
+| Domain | `distance_between`: every `u8` pair; the result reaches 382 for `(255, 0)` and `(0, 255)`, hence `u16`, and every intermediate sum is computed on `u16`. `chunk_of`: every `u8` pair (chunk indices `0..=17`). `neighbor_direction`: `from` and `to` inside the board (`< W·H`, else `None`); `None` when the two tiles are not adjacent |
 | Module | `board::geometry`, `board::layout` |
-| Algorithm | Arithmetic: the formula of `Geometry::distance` (`hexmap:src/helpers/geometry.cairo:35-59`, no negative intermediates) on coordinates; two `DivRem` for the chunk; `neighbor_direction` from `to − from` and the row parity, a `match` on the six offsets |
-| Oracle | `distance_between(x1, y1, x2, y2) == hex_distance` on a board that contains both; `Hex` distance through `to_hex`; the property test of all pairs of a 7 × 7 (`src/tests/properties.cairo:153`) extended to global coordinates up to 105 |
-| Worst case | Any pair; `neighbor_direction` on an odd row |
-| Gas | `hex_distance` **10,393 measured** (`GAS.md:1878`); `distance_between` ~5k **estimate** (the same arithmetic without the two `bounded_int` checks); `chunk_of` ~2.5k **estimate** (2 × 1,098 measured `DivRem`, `GAS.md:1535`); `neighbor` **6,959 measured** (`:1869`); `neighbor_direction` ~3k **estimate** |
+| Algorithm | Arithmetic: the formula of `Geometry::distance` (`hexmap:src/helpers/geometry.cairo:35-59`, no negative intermediates) on `u16`; two `DivRem` by 15 for the chunk. `neighbor_direction` decodes both indices into `(x, y)` with `LayoutTrait::coords` and matches on `(x_to − x_from, y_to − y_from)` and the parity of `y_from` against the six offsets of the neighbour table (`hexmap:src/types/direction.cairo:7-14`): a difference of indices alone would take `14 → 15` on width 15 (the last tile of a row and the first of the next) for a horizontal neighbour, which it is not |
+| Oracle | `distance_between(x1, y1, x2, y2) == hex_distance` on a board that contains both; `Hex` distance through `to_hex`; the property test of all pairs of a 7 × 7 (`src/tests/properties.cairo:153`) extended to global coordinates; the extreme pairs `(0, 0)`–`(255, 255)`, `(255, 0)`–`(0, 255)`; `neighbor_direction` against `LayoutTrait::neighbor` on every position and direction of a 15 × 16 and against `None` on every non-adjacent pair of a 7 × 7 |
+| Worst case | `distance_between`: `(255, 0)` and `(0, 255)`; `neighbor_direction`: an odd row, a non-adjacent pair |
+| Gas | `hex_distance` **10,393 measured** (`GAS.md:1878`); `neighbor` **6,959 measured** (`:1869`). `distance_between`: 2 `DivRem` (2 × 1,098 measured, `:1535`) plus ~10 `u16` operations at ~300 each **estimate**: ~5.2k → target 6k. `chunk_of`: 2 × 1,098 → 2.5k. `neighbor_direction`: 2 `DivRem` (2,196) + 1 `DivRem` for the parity (1,098) + the `match` (~1k) **estimate**: 4.3k → target 5k. `neighbor_mask` (taken over, no bench in 1.8.0): 1 `DivRem` (1,098) + 1 lookup (1,269) + 2 products (196) **estimate**: 2.6k → target 3k |
 
 ### 6.2 N-1 — Generation of a board given its margins
 
@@ -698,44 +738,51 @@ chunks stay 15 × 15, and a parity flag handles chunks whose first row is a glob
 ```cairo
 /// `fixed`: the ring tiles whose value is given (the sides that face a generated neighbour);
 /// `values`: their values; the other ring tiles are drawn from the seed with the interior
-/// and do not evolve; `odd`: the chunk's first row is a global odd row.
+/// and then frozen (D-22); `odd`: the chunk's first row is a global odd row.
 fn generate_with_margins(
     width: u8, height: u8, order: u8, seed: felt252, fixed: felt252, values: felt252, odd: bool,
 ) -> felt252;                                                   // Caver
-fn new_cave_with_margins(width, height, order, seed, fixed, values, odd) -> HexMap;   // facade
-fn smooth(self: HexMap, order: u8, fixed: felt252, odd: bool) -> HexMap;   // `order` generations on an existing grid, the tiles of `fixed` held
+fn new_cave_with_margins(width, height, order, seed, fixed, values, odd) -> HexMap;   // facade, forwards
+/// `order` generations on an existing grid; the tiles of `held` (any tiles, interior included)
+/// and the whole ring keep their current value (D-28).
+fn smooth(self: HexMap, order: u8, held: felt252, odd: bool) -> HexMap;
 ```
 
 | | |
 |---|---|
 | Module | `generators::caver`, facade in `board::map` |
-| Algorithm | Bitwise, the bit-sliced automaton B4/S2 of `Caver` (`hexmap:src/generators/caver.cairo:1-5, 171-249`) with three changes **(inferred from the code)**: (1) the initial fill ANDs the noise with `interior + (ring − fixed)` instead of `interior`, then ORs `values & fixed`; (2) before every down-shift, the bits the shift would drop are cleared (row 0 for `2^-W` and `2^-(W+1)`, tile `(0, 1)` for `2^-(W-1)` on odd-row operands): three limb ANDs with constant masks, so that the field products stay exact (`hexmap:src/helpers/layout.cairo:5-8`); the up-shifts stay exact because `2^(W·H) · 2^(W+1) < 2^251` for 15 × 15 (241 bits); (3) after the rule, the next grid is `(next & interior) + (grid & ring)`: the ring never evolves. The neighbour planes of an interior tile read the ring tiles' values, which is the purpose. The parity flag swaps `up_even`/`up_odd` and `down_even`/`down_odd` and complements the `even` mask within the board (`LayoutTrait::new_odd(width, height)`), the two constants the project manager named. The flag serves generation and seams only: the window of the tick has an even origin by construction (D-120) and the finders never see it |
+| Domain | `W, H ≥ 3` and **`W·(H + 1) + 1 ≤ 251`** (`'Caver: dimensions too large'`): with ring tiles present the grid can hold bit `W·H − 1`, and the widest up-shift multiplies by `2^(W+1)`, so the product must stay below `2^251` to be exact. 15 × 15 gives 241 bits and passes; 17 × 14, the fixture of every measured figure, gives 256 and is refused by this function (it stays valid for `generate`, whose ring is empty). `fixed` and `values` are masked to the ring; `held` may be any tiles |
+| The six planes, derived | Bit `i` of plane `P_D` is the grid at the neighbour `D` of tile `i`. From the neighbour table (`hexmap:src/types/direction.cairo:7-14`), for a tile `i` on a **globally even** row: `E = i − 1`, `W = i + 1`, `NE = i + W − 1`, `NW = i + W`, `SE = i − W − 1`, `SW = i − W`; on a globally odd row: `NE = i + W`, `NW = i + W + 1`, `SE = i − W`, `SW = i − W + 1`, `E` and `W` unchanged. Hence, with `G` the grid and `G_e`, `G_o` its restriction to the globally even and odd **local** rows: `P_E = G·2`, `P_W = G / 2`, `P_N1 = G / 2^W` (the `NW` of even rows and the `NE` of odd rows), `P_N2 = G_o / 2^(W−1) + G_e / 2^(W+1)` (the `NE` of even rows, whose source lies on an odd row, and the `NW` of odd rows), `P_S1 = G · 2^W`, `P_S2 = G_o · 2^(W+1) + G_e · 2^(W−1)`. These are the formulas of `CaverInternal::step` (`hexmap:src/generators/caver.cairo:179-184`), in which `grid_even` is `G & even` (`:174-177`). **For a chunk whose local row 0 is a global odd row, `G_e` is the set of odd local rows and `G_o` the set of even local rows: the parity split is complemented and the shift factors are unchanged.** This corrects the first version of this plan, which also swapped the factors: applying both transformations sends the impulse `(7, 6)` of an odd-origin chunk to `(6, 7)` and `(7, 7)` instead of `(7, 7)` and `(8, 7)` (audit, finding 2). `LayoutTrait::new_odd(width, height)` therefore returns a `Layout` whose `even` field is `board − even`, everything else equal |
+| Exactness of every field product | A product by `2^k` is exact when the result stays below `2^251`: the domain above guarantees it. A product by `2^-k` is exact only when the operand has no set bit below `k` (`hexmap:src/helpers/layout.cairo:5-8`). With margins the ring may hold bits, so before the three downward planes the operand is masked: `G_low = G & ~(ROW_0 | 2^W)` clears row 0 (bits `0..W−1`) and tile `(0, 1)` (bit `W`), the only bits below `W + 1`; `P_W = G_low / 2` (bit 0 cleared: without it, `G / 2` on `{0, 190, 191}` puts a false west neighbour on tile 191, audit finding 1), `P_N1 = G_low / 2^W`, and `P_N2` is computed from `G_low_o / 2^(W−1)` and `G_low_e / 2^(W+1)`. The cleared bits are ring tiles whose only destinations under these shifts are the ring or nothing, so no interior plane bit is lost. The upward planes take `G`, `G_e`, `G_o` unmasked |
+| Algorithm | Bitwise, the bit-sliced automaton B4/S2 of `Caver` (`:1-5, 171-249`) with: (1) the initial fill `(noise & (interior | (ring − fixed))) + (values & fixed)`; (2) the masked planes above; (3) after the rule, `next = (rule & interior) + (G & ring)` for `generate_with_margins`, and `next = (rule & interior & ~held) + (G & (ring | held))` for `smooth`: the ring never evolves, held tiles never evolve. The neighbour planes of an interior tile read the ring tiles' values, which is the purpose. The parity flag serves generation and seams only: the window of the tick has an even origin by construction (D-120) and the finders never see it |
 | Why not a loop or a wider board | A per-tile loop is ≥ 1.1M (LIB-02 §6); a 17 × 17 margin does not fit a felt |
-| Oracle | The scalar automaton `reference` of `src/tests/bench_caver.cairo`, extended with fixed tiles and the parity flag; a property: the fixed tiles are unchanged after any `order`; the free ring tiles equal the fill; on `fixed = 0`, `odd = false`, the result of `generate_with_margins` on the **interior** equals `generate` (the rings differ: `generate` leaves the ring wall) |
-| Stream | The stream of `generate_with_margins` is API from 0.1.0: one test pins the grid of one seed per parity |
-| Worst case | 15 × 15, order 3, all four sides fixed, `odd = true`; and order 5 for the per-generation figure |
-| Gas | One generation **35,710 measured** on 17 × 14 (`GAS.md:629`); with margins ~42–46k per generation **estimate** (+3 limb ANDs ≈ 5k, +1 interior AND and ring OR ≈ 4k); `Layout::new` **12.9k measured** (`:630`); fill 27k measured (`:616`); whole call at order 3: ~165–180k **estimate**, against **143,737 measured** for `generate(17, 14, 3)` (`:618`). LIB-02 §5.2 estimated +5–15 %; this plan estimates +15–25 % |
+| Oracle | (1) The scalar automaton `reference` of `src/tests/bench_caver.cairo`, extended with a set of frozen tiles and with the global parity of row 0, run on 3 × 3 to 15 × 15 boards and both parities. (2) **Equality with `generate`** when the whole ring is fixed to wall: `generate_with_margins(W, H, o, s, ring, 0, false) == generate(W, H, o, s)` bit for bit, because every ring bit is zero and every mask is then a no-op (the first version of this plan compared with `fixed = 0`, which is false: a random free ring changes the interior, audit finding 3). (3) The fixed tiles and, for `smooth`, the held tiles are unchanged after any `order`; the free ring tiles equal the fill. (4) A parity oracle: the odd-origin chunk compared with the scalar automaton run on a board whose row 0 is odd, on impulses (one live tile, one generation) at every interior position |
+| Stream | The stream of `generate_with_margins` is API from 0.1.0: one test pins the grid of one seed per parity, all sides fixed and none fixed |
+| Worst case | `generate_with_margins`: 15 × 15, order 3, all four sides fixed, `odd = true`; order 5 for the per-generation figure. `smooth`: 15 × 15, order 3, `held` = ring plus 20 interior tiles, `odd = true` |
+| Gas, as a sum | One generation of `generate`: **35,710 measured** on 17 × 14 (`GAS.md:629`). Added per generation: the low-limb clear of `G_low` (1 limb AND 1,696 measured, `:57`), the split of `G_low` by parity on two limbs (2 × 1,696), the interior AND on two limbs (3,392), the ring AND on two limbs (3,392), two rebuilds (394): **+12.3k** → ~48k per generation **estimate**; `smooth` adds one `held` AND (3,392) → ~51.4k. `Layout::new` **12.9k measured** (`:630`), the fill **27,157 measured** (`:616`, order 0), the two fill masks (2 × 3,392 + 1,809): ~8.6k. `generate_with_margins` at order 3: 27.2 + 8.6 + 12.9 + 3 × 48 = **192.7k estimate** → target 195k, against **143,737 measured** for `generate(17, 14, 3)` (`:618`), so +34 % (LIB-02 §5.2 estimated +5–15 %). `smooth` at order 3 on an existing grid: 12.9 + 3 × 51.4 = **167k estimate** → target 170k |
 
 ### 6.3 N-2 — Edges and openings between boards
 
 ```cairo
-pub enum Side { East, North, West, South }      // East = column 0 (the low x side), West = column W-1
-fn side(width: u8, height: u8, side: Side) -> felt252;                     // the mask of one side, ring included
-fn openings(width: u8, height: u8, near: felt252, far: felt252, side: Side, odd: bool) -> felt252;
+pub enum Side { East, North, West, South }      // East = column 0 (the low x side), West = column W-1, South = row 0, North = row H-1
+fn side(width: u8, height: u8, side: Side) -> felt252;                     // the mask of one side, corners included
 /// Tiles of `near`'s `side` that are open and adjacent, across the seam, to an open tile of the
-/// neighbouring board `far` (whose opposite side touches `side`). `odd`: the parity of `near`'s
-/// row 0 in global coordinates (North/South seams) or of `near`'s rows (East/West seams).
+/// neighbouring board `far`, whose opposite side touches `side`. `odd`: `near`'s local row 0 is
+/// a global odd row (the same flag as N-1, for every side).
+fn openings(width: u8, height: u8, near: felt252, far: felt252, side: Side, odd: bool) -> felt252;
 fn is_open_across(width, height, near, far, side, odd) -> bool;            // openings != 0
 ```
 
 | | |
 |---|---|
 | Module | `board::seams`; `Digger::corridor` (taken over) creates an opening from a chosen edge tile; `Asserter::is_edge`, `is_corner` (taken over) validate it. Seams are between chunks of 15 × 15; the `odd` flag is the second and last use of the row-parity flag (D-120) |
-| Algorithm | Arithmetic and bitwise. Side masks are constants of `W` and `H`: rows `2^W − 1` and `(2^W − 1)·2^(W(H−1))`; columns `(2^(WH) − 1)/(2^W − 1)` (exact field division, as `LayoutTrait::even`, `hexmap:src/helpers/layout.cairo:93-112`) and its product by `2^(W−1)`. East/West seams: `far`'s column `W−1` is shifted onto `near`'s column 0 by `2^-(W-1)` after masking, then the two diagonal contacts are the same column shifted by `±W` on the rows whose parity gives a diagonal contact across the seam (even rows in local terms, swapped by `odd`), masked by the `even` or odd-row mask. North/South seams: `far`'s row `H−1` shifted by `2^-(W(H−1))` onto row 0, then its neighbours by `2^±1` on the parity that applies. Every shift is an exact field product because the operand was masked to one row or column first; the union is an addition of disjoint bitmaps and the final AND with `near & side` needs one limb AND. LIB-02 §5.3 derived the same, with the parity alternation of chunk rows (`15cy + 14` and `15cy + 15` have opposite parities) |
-| Why | Reading a column tile by tile costs 15 × 4.9k ≈ 75k (`GAS.md:65`, `Bits::get`); the masked shifts cost a few products and two ANDs |
-| Oracle | A scalar loop over the 15 tiles of the side, calling `LayoutTrait::neighbor` on a 30 × 15 (or 15 × 30) board that holds both chunks side by side with the right global parity |
-| Worst case | A North seam with `odd = true` (three contacts per tile), both sides fully open |
-| Gas | ~12–20k per seam **estimate** (4 field products, 2 lookups at 1,269 measured each, 2 `u256` ANDs at 2,682 measured, 2 wide conversions at 1,809 measured; `GAS.md:48, 58, 53`) |
+| Domain | `W, H ≥ 3`, `W·H ≤ 251` (both boards of the same dimensions); any bitmaps. Corner tiles of a side are tested like the others (a corner of `near` touches `far` across one seam only) |
+| Contacts across a seam | Let `E_rows` be the mask of `near`'s globally even rows (`layout.even` when `odd = false`, `board − even` when `odd = true`) and `O_rows` its complement. From the neighbour table (`hexmap:src/types/direction.cairo:7-14`): a tile `(0, y)` of the East side touches `far`'s `(W−1, y)` always, and `(W−1, y ± 1)` when `y` is globally even (its `NE` and `SE` are `i + W − 1` and `i − W − 1`, column `−1`); a tile `(W−1, y)` of the West side touches `(0, y)` always, and `(0, y ± 1)` when `y` is globally odd; a tile `(x, 0)` of the South side touches `far`'s `(x, H−1)` and `(x − 1, H−1)` when row 0 is even, `(x, H−1)` and `(x + 1, H−1)` when it is odd; a tile `(x, H−1)` of the North side touches `far`'s `(x, 0)` and `(x − 1, 0)` when row `H−1` is even, `(x, 0)` and `(x + 1, 0)` when it is odd, the parity of row `H−1` being `odd XOR ((H − 1) mod 2)`. So a vertical seam has up to **three** contacts per tile and a horizontal seam **two** (the first version of this plan said three for a North seam: wrong, audit finding 4) |
+| Formulas, one per side, every product proved exact | Constants of `W` and `H` (arithmetic, no loop): `ROW_0 = 2^W − 1`, `ROW_LAST = ROW_0 · 2^(W(H−1))`, `COL_0 = (2^(WH) − 1)/(2^W − 1)` (exact field division, as `LayoutTrait::even`, `hexmap:src/helpers/layout.cairo:93-112`), `COL_LAST = COL_0 · 2^(W−1)`. **East** (`near`'s column 0 against `far`'s column `W−1`): `A = far & COL_LAST` (bits at `W−1 + kW`); `C = A / 2^(W−1)`, exact since every bit of `A` is at position `≥ W − 1`; `C` holds the contacts `(W−1, y) → (0, y)`. The upper diagonal contact `(W−1, y+1) → (0, y)` is `(C & ~1) / 2^W`, exact once bit 0 (row 0 of `C`) is cleared; the lower one `(W−1, y−1) → (0, y)` is `C · 2^W`, exact since `C < 2^(W(H−1)+1)`. `openings = near & COL_0 & (C | ((C & ~1) / 2^W | C · 2^W) & E_rows)`. **West** (`near`'s column `W−1` against `far`'s column 0): `A = far & COL_0`, `C = A · 2^(W−1)` (exact, below `2^(WH)`), diagonals on `O_rows`: `openings = near & COL_LAST & (C | ((C & ~2^(W−1)) / 2^W | C · 2^W) & O_rows)`, the cleared bit being `(W−1, 0)`, the only bit of `C` below `W`. **South** (`near`'s row 0 against `far`'s row `H−1`): `A = far & ROW_LAST`, `R = A / 2^(W(H−1))` (exact: every bit of `A` is at `≥ W(H−1)`); when row 0 is even, `openings = near & ROW_0 & (R | R · 2)`; when odd, `openings = near & ROW_0 & (R | (R & ~1) / 2)`. The bit that `R · 2` pushes to position `W` lies outside `ROW_0` and is removed by the AND; `R / 2` is exact once bit 0 is cleared. **North** (`near`'s row `H−1` against `far`'s row 0): `A = far & ROW_0`, `R = A · 2^(W(H−1))` (exact, below `2^(WH)`); when row `H−1` is even, `openings = near & ROW_LAST & (R | R · 2)`; when odd, `near & ROW_LAST & (R | R / 2)`, exact since every bit of `R` is at `≥ W(H−1) ≥ 2`; the bit that `R / 2` moves to column `W−1` of row `H−2` is outside `ROW_LAST`. **The contact sets overlap** (the straight and the diagonal contacts land on the same tiles), so they are combined with **OR**, never added (the first version said "disjoint, added": wrong, audit finding 4) |
+| Why | Reading a column tile by tile costs 15 × 4.9k ≈ 75k (`GAS.md:65`, `Bits::get`); the masked shifts cost a few products and a handful of limb operations |
+| Oracle | A **scalar oracle on signed global coordinates**: for every tile of `near`'s side, its global coordinates and those of its six neighbours are computed with the global parity (`odd` gives the parity of `near`'s row 0), the neighbours that fall in `far` are looked up bit by bit, and the tile is open across the seam when it is open and one of them is open. No board of `2W × H` is built (450 tiles exceed the engine's 251 and the `u8` index, audit finding 5). Run on every side, both parities, 32 seeded pairs of boards and the four full/empty combinations, on 15 × 15 and 7 × 7 |
+| Worst case | An **East seam with `odd = false`** (three contacts on every even row), both boards fully open; and a North seam with `odd = true` for the two-contact form |
+| Gas, as a sum (East seam) | `far → u256` 1,809 (measured, `GAS.md:53`), AND `COL_LAST` on two limbs 3,392 (`:57`), rebuild 197 (`:55`), product `/2^(W−1)` 98 (`:46`), low-limb clear (`& ~1`: conversion 1,809 + 1 limb AND 1,696 + rebuild 197), two products 196, two conversions 3,618, OR of the two diagonals 3,392, AND `E_rows` 3,392, OR with `C` 3,392, `near → u256` 1,809, AND `near` 3,392, AND `COL_0` 3,392, rebuild 197: **31.6k estimate** → target 32k. A horizontal seam drops one shifted piece: ~24k |
 
 ### 6.4 N-3 — Assembly of a board of 15 × 16 from 2 or 4 chunks of 15 × 15
 
@@ -767,11 +814,13 @@ fn window(terrain: [felt252; 4], occupied: [felt252; 4], origin: @Origin, seed: 
 | | |
 |---|---|
 | Module | `board::assembly` |
-| Algorithm | Arithmetic and bitwise, no loop. Per chunk and per layer: (1) the rectangle that lands in the window is the **product of two constants from tables**: a column band `COL_BAND[k]` (the 15 masks `(2^(15−k) − 1)·2^k` of columns `k..=14` in row 0, and their complements for columns `0..k`) and a row band `ROW_BAND[k]` (the 15 masks `Σ_{j≥k} 2^(15j)` of rows `k..=14` at column 0, and their complements), 60 felts in all; the product of a band in row 0 by a band at column 0 is the rectangle, exact because the bits are disjoint. (2) One limb AND of the chunk with the rectangle. (3) One shift, exact because the dropped bits were masked: chunk `(cx, cy)` moves by `−(15·oy + ox)` (a product by `INV`), chunk `(cx + 1, cy)` by `15 − ox − 15·oy`, chunk `(cx, cy + 1)` by `15·(15 − oy) − ox`, chunk `(cx + 1, cy + 1)` by `15·(15 − oy) + 15 − ox`; a negative shift is a product by `INV[−s]`, a positive one by `POW[s]`, and no piece exceeds `2^240`, so the field products stay exact. (4) The pieces are disjoint and are added. The window and the chunk share the width 15, which is what makes a 2-D move one 1-D shift (ADR-0006 §1). Finally one AND with `LayoutTrait::interior(15, 16)` imposes the wall ring on the terrain layer. The parity check is one `u8` addition and one `DivRem` |
+| Domain | `ox, oy < 15`, `oy + cy` even; the chunks are any bitmaps of 15 × 15 (bits at or above 225 are cleared by the rectangle mask). The window is always 15 × 16 |
+| The four rectangles, half-open | The chunk `(cx, cy)` contributes columns `[ox, 15)` and rows `[oy, 15)`; `(cx + 1, cy)` columns `[0, ox)` and rows `[oy, 15)`; `(cx, cy + 1)` columns `[ox, 15)` and rows `[0, oy + 1)`; `(cx + 1, cy + 1)` columns `[0, ox)` and rows `[0, oy + 1)`. The four rectangles partition the 240 tiles of the window for every `(ox, oy)` (the audit re-checked the 225 offsets and 900 pieces: a partition, exact field arithmetic, no row wrapping) |
+| Algorithm | Arithmetic and bitwise, no loop. Per chunk and per layer: (1) the rectangle is the **product of two constants from tables** (`board::tables`): a column band (`COL_FROM[k]`, the mask `(2^(15−k) − 1)·2^k` of columns `[k, 15)` in row 0, and `COL_TO[k]`, the mask `2^k − 1` of columns `[0, k)`) and a row band (`ROW_FROM[k]`, the mask `Σ_{j=k}^{14} 2^(15j)` of rows `[k, 15)` at column 0, and `ROW_TO[k]`, the mask of rows `[0, k)`), 60 felts in all; the product of a band in row 0 by a band at column 0 is the rectangle, exact because the bits are disjoint and below `2^225`. (2) One AND of the chunk with the rectangle, on two limbs. (3) One shift, exact because the dropped bits were masked: chunk `(cx, cy)` moves by `−(15·oy + ox)` (a product by `INV`), chunk `(cx + 1, cy)` by `15 − ox − 15·oy`, chunk `(cx, cy + 1)` by `15·(15 − oy) − ox`, chunk `(cx + 1, cy + 1)` by `15·(15 − oy) + 15 − ox`; a negative shift is a product by `INV[−s]`, exact because no bit of the masked piece lies below `s`; a positive one by `POW[s]`, exact because every destination is below `2^240`. (4) The pieces are disjoint and are added. The window and the chunk share the width 15, which is what makes a 2-D move one 1-D shift (ADR-0006 §1). Finally one AND with `LayoutTrait::interior(15, 16)` imposes the wall ring on the terrain layer. The parity check is one `u8` addition and one `DivRem` |
 | Why a panic and not an `Option` | An odd origin is a programming error of the caller, never a runtime condition: `origin` cannot produce one, and a window on an odd origin is a board on which every neighbour is wrong (`window-parity-check.md` §1). The library's convention for invalid inputs is a panic with a named message (`README.md` § Panics, `Asserter` errors); an `Option` would put a branch in every tick and invite a silent fallback that returns a wrong grid. The message is `errors::ASSEMBLY_ODD_ORIGIN = 'Assembly: odd origin'` |
 | Oracle | A scalar per-tile copy through `LayoutTrait::coords` and `index` over the 240 tiles, on 2 and on 4 chunks, for every `(ox, oy)` of `0..15 × 0..15` with the matching parity; a `#[should_panic]` test on each odd origin |
 | Worst case | **4 chunks, two layers each, at each tick**: `ox = oy = 7`, `odd_chunk_row = true` (every chunk contributes, both layers) |
-| Gas | Per chunk and layer ~8k **estimate**: 3 lookups (band, band, shift: 3 × 1,269 measured, `GAS.md:48`), 2 products (98 measured, `:46`), 1 wide conversion (1,809 measured, `:53`), 1 limb AND (2 × 1,696 measured, `:57`), 1 rebuild (197 measured, `:55`). `assemble` (one layer, 4 chunks) ~32k **estimate**; `window` (two layers, ring, parity check) ~65–70k **estimate**, storage reads excluded. This is above the "about 40k" of ADR-0006 § Cost, which is itself an estimate; SPK-7 measures it, with and without a stored window, as the ADR says. Two chunks: half |
+| Gas, as a sum | Per piece: 3 lookups (band, band, shift: 3 × 1,269 measured, `GAS.md:48`) 3,807; 2 products (98 measured, `:46`) 196; 1 wide conversion (1,809 measured, `:53`); 1 AND on two limbs (2 × 1,696 measured, `:57`) 3,392; 1 rebuild (197 measured, `:55`): **9,401**. `assemble`, one layer, 4 pieces plus 3 additions (294) and the parity check (1,098 + ~300): **39.3k estimate** → target 40k. `window`: two layers (78.6k), the ring AND (1,809 + 3,392 + 197), the `HexMap` construction (~300): **84.3k estimate** → target 85k, storage reads excluded; two chunks: ~45k. This is above the "about 40k" of ADR-0006 § Cost, which is itself an estimate; SPK-7 measures it, with and without a stored window, as the ADR says |
 
 ### 6.4b The fallback size, not designed
 
@@ -786,16 +835,17 @@ SPK-7 asks for it, as one task of L-M3.
 ### 6.5 N-4 — Cutting a board by a mask
 
 ```cairo
-fn cut(self: HexMap, mask: felt252) -> HexMap;   // grid & mask & interior
+fn cut(self: HexMap, mask: felt252) -> HexMap;   // grid & mask & interior: the ring is cleared too (D-23)
 ```
 
 | | |
 |---|---|
-| Module | `board::map` |
-| Algorithm | Bitwise: two limb ANDs (`Bits::and`) |
+| Module | `board::cut`, forwarded by the facade |
+| Domain | Any `HexMap` of valid dimensions; any mask (bits outside the board are cleared) |
+| Algorithm | Bitwise: `grid → u256` (1,809 measured, `GAS.md:53`), `mask → u256` (1,809), AND on two limbs (3,392, `:57`), `interior(W, H)` (3 lookups and 2 products: ~4k, `hexmap:src/helpers/layout.cairo:121-126`) converted (1,809) and ANDed (3,392), rebuild (197). Clearing the ring is a library policy (D-23): a cut board must keep the border invariant that every finder relies on, so an outline mask that opens a ring tile cannot be honoured; the game's outline masks never do (ADR-0006 § Outlines, "what is outside is impassable") |
 | Oracle | Per-tile `is_walkable` after the cut equals `is_walkable` before AND the bit of the mask, and is false on the ring |
 | Worst case | Any; input independent |
-| Gas | ~6k **estimate** (2 × 2,682 measured `u256 &`, `GAS.md:58`, minus the shared conversion) |
+| Gas, as a sum | **16.4k estimate** → target 17k (the first version said 6k, below its own operations) |
 
 ### 6.6 N-5 — Line of sight
 
@@ -812,29 +862,33 @@ frame (§3.5, `x_hex = −x − ⌈y/2⌉`) the same rule reads **the smaller `y
 larger `x`**. The rule depends only on the two candidates, so it is symmetric and
 translation-invariant; `hexx`'s `f32` rule is neither (LIB-02 §5.6, worked examples). One
 subtlety for the board form **(inferred)**: at a tie on the same row, the preferred tile may lie
-at column `−1` (off the board, wrapping to the previous row's last column in the index); the
-board form therefore clears every tile outside the column band `[min(x1, x2) − 1, max(x1, x2) + 1]`
-before testing, and a line that leaves the board is treated as blocked.
+at column `−1`, off the board (on a 7 × 7, `(0, 0) → (0, 2)` has the tied midpoint `(−1, 1)`).
+Such a line **leaves the board**, and the board form says so explicitly (`None`) instead of
+clipping: a clipped between-mask would be empty and `line & ~grid == 0` would report a clear
+sight where the rule requires a blocked one (audit, finding 7). A line that leaves the board
+blocks sight (D-27).
 
 ```cairo
 // Mirror (hexx name, documented deviation)
 fn line_to(self: Hex, other: Hex) -> Span<Hex>;                 // distance + 1 tiles, endpoints included
 // Board
-fn line(self: HexMap, from: u8, to: u8) -> felt252;              // the tiles strictly between, as a bitmap
-fn line_of_sight(self: HexMap, from: u8, to: u8) -> bool;        // line & ~grid == 0: walls block, actors do not, endpoints are not tested
-fn approach(self: HexMap, from: u8, to: u8) -> Direction;        // the direction, from `to`, of the last tile of the line before `to` (`from` itself when adjacent): the arc a ranged attack arrives from
+fn line(self: HexMap, from: u8, to: u8) -> Option<felt252>;      // Some(the tiles strictly between, as a bitmap); None when a tile of the line lies outside the board
+fn line_of_sight(self: HexMap, from: u8, to: u8) -> bool;        // Some(m) with m & ~grid == 0: walls block, actors do not, endpoints are not tested (D-24); None is blocked
+fn approach(self: HexMap, from: u8, to: u8) -> Option<Direction>; // the direction, from `to`, of the last tile of the line before `to` (`from` itself when adjacent); None when from == to or when the line leaves the board
 ```
 
 | | |
 |---|---|
-| Module | `hex` (mirror), `board::line` with the table `LINES: [felt252; 254]` |
+| Module | `hex` (mirror), `board::line` with the tables `LINES: [felt252; 254]` (the between-masks) and `LINE_SPANS: [u8; 254]` (the column extent of each mask relative to its start, `(cmin + 7)·16 + (cmax + 7)`) |
+| Domain | Mirror: every pair of `Hex`. Board: `from`, `to` inside the board (`< W·H`, else `'Asserter: position not inside'`); **the table path is taken only when `width == 15`** and the distance is at most 6; every other board, and every longer line, runs the loop on indices. The first version of this plan took the table on every board: translating the width-15 masks by a difference of indices is wrong on any other width (on 7 × 7, `(3, 3) → (3, 5)` would land its midpoint on index 39 instead of 31, audit finding 7) |
 | Inputs | Both endpoints are **local positions** of the caller's choosing: the adventurer is on local `(7, 7)` or `(7, 8)` of the window (D-120), a goblin anywhere; nothing is indexed from a fixed centre. The table is indexed by the offset and by the **row parity of the start**, which the function reads from the start's index |
-| Algorithm | Mirror: a bounded loop (`N ≤ 2^31`, in practice ≤ 29 on a window), one accumulator per step, no division (Bresenham-like), `Span<Hex>` output. Board: **a table**, because the rule is translation-invariant and depends only on the offset and the row parity of the start: for every offset within distance 6 (127 offsets, `range_count(6)`) and each parity, the between-mask around a canonical centre of the 15 × 16 board (`(7, 8)` even, `(7, 7)` odd: the adventurer's two positions) is stored; placing it is one product by `2^(i − c0)` (or its inverse) after clearing the bits that would fall below 0, then one AND with the column band (kills the bits that wrapped to another row) and one with the board (`2^240 − 1`). Beyond distance 6 the board form runs the loop of the mirror on indices (bounded by the board's diameter, 15 on 15 × 16). `line_of_sight` is one more AND with `~grid` (`grid` XOR board). `approach`: `neighbor_mask(to) & line` is one bit (the line enters `to` from exactly one neighbour); its index is the lowest set bit (the backtracking primitive of `Bfs`, `hexmap:src/finders/bfs.cairo:4-6`), then `neighbor_direction` |
-| Why the table | The rules prefer a table (`grimworld:docs/CAIRO.md` §1); the loop form is ~6 bit tests at 4,949 measured each (`GAS.md:65`) plus the arithmetic, ~40k; the table form is one lookup and three ANDs |
-| Class size | 254 felts; ~300 CASM felts **estimate** (one felt per entry plus the array's Sierra constant), 0.4 % of the 81,920-felt class limit cited by the house (`glam-cairo docs/DESIGN.md` §4.3) |
-| Oracle | The mirror loop against the Rust model of `refgen` (exhaustive on 7 × 7, sampled on 15 × 16, §4.3); the table against the loop on every pair within distance 6 of a 15 × 16 board (57,360 ordered pairs, one Cairo test per start row); symmetry `line(a, b) == line(b, a)` on all pairs; `line_of_sight` against a per-tile scalar walk |
-| Worst case | Distance 6 with a tie on every even step (`N = 6`, e.g. `Δ = (3, 3)` in axial), start on an odd row, from the adventurer's position `(7, 7)`; and distance 14 (the longest line inside the interior of 15 × 16) for the loop fallback |
-| Gas | Table path ~10k **estimate** (lookup 1,269, product 98, 2 wide conversions 3,618, 2 `u256` ANDs 5,364, index arithmetic ~1k; all from measured primitives `GAS.md:46-58`); `line_of_sight` ~13k **estimate**; `approach` ~10k **estimate** (one more AND and a lowest-bit extraction, ~8.4k measured per backtracking step, `GAS.md:159`); loop fallback ~6k per step **estimate** |
+| Algorithm | Mirror: a bounded loop of `N` steps, one accumulator per step, no division (Bresenham-like), `Span<Hex>` output. Board, table path: for every offset within distance 6 (127 offsets, `range_count(6)`) and each start parity, the between-mask around a canonical start of the 15 × 16 board (`(7, 8)` even, `(7, 7)` odd) is stored with its column extent. The rows of the between tiles lie between the endpoint rows, so they are always inside the board; the columns are not (the tie above). Placement: (1) read the extent; if `x_from + cmin < 0` or `x_from + cmax ≥ 15`, return `None`: the line leaves the board; (2) otherwise multiply the mask by `2^(i − c0)` (`POW`) or `2^-(c0 − i)` (`INV`): exact, because every bit lands at a position in `[0, 240)` (no bit is dropped below 0, none reaches `2^251`), and no bit wraps into another row, because the extent test guaranteed that every column stays in `[0, 15)`. **No clipping after the shift and no clipping before it**: a shift is exact or it is not performed. Board, loop path: the mirror's loop on `index_to_hex(from)` and `index_to_hex(to)`, each sample converted back with `hex_to_index`; a sample outside the board returns `None`; the bound is the distance, at most **22 on a 15 × 16 board** (`(0, 0) → (14, 15)`: `dq = 7`, `dr = 15`, `ds = −22`) and **19 between interior tiles** (`(1, 14) → (13, 1)`), and at most `W + H − 2` on any board of the engine. `line_of_sight`: `line` then one AND of the mask with `~grid`. `approach`: `line`, then `neighbor_mask(to) & mask` is one bit (the line enters `to` from exactly one neighbour); its index is the lowest set bit (the backtracking primitive of `Bfs`, `hexmap:src/finders/bfs.cairo:4-6`), then `neighbor_direction(to, that tile)`; when the mask is empty (adjacent endpoints) the tile is `from`; when `from == to`, `None` |
+| Why the table | The rules prefer a table (`grimworld:docs/CAIRO.md` §1); the loop form costs ~3k per step (below) plus the conversions; the table form is two lookups, one product and a few `u8` operations |
+| Deviation from `hexx`, stated domain | `hexx` converts both endpoints to `f32` (`src/hex/mod.rs:906`, `as_vec2`) and interpolates in `f32`. The integer line is identical to `hexx` **where both endpoints have `|x|, |y| < 2^24` and the line has no exact tie**; at exact ties it applies the game's rule; beyond `2^24` `hexx` rounds the endpoints themselves and the two differ without a tie (`Hex(16_777_217, 0) → Hex(16_777_218, 0)`, audit finding 8). The parity claim of §4.4 is therefore: exhaustive on the 15 × 16 window, sampled on `[-40, 40]²`, and documented as a deviation outside `|x|, |y| < 2^24` |
+| Class size | 254 felts and 254 bytes; ~560 CASM felts **estimate** (one felt per entry plus the arrays' Sierra constants), 0.7 % of the 81,920-felt class limit cited by the house (`glam-cairo docs/DESIGN.md` §4.3) |
+| Oracle | The mirror loop against the Rust model of `refgen` (exhaustive on 7 × 7, exhaustive on the 15 × 16 window in the mirror frame, sampled on `[-40, 40]²`, §4.3); the table against the loop on every pair within distance 6 of a 15 × 16 board (one Cairo test per start row); symmetry `line(a, b) == line(b, a)` on all pairs, `None` included; `line_of_sight` against a per-tile scalar walk that reports a tile outside the board as blocked; the 7 × 7 cases of finding 7 |
+| Worst case | Table: distance 6 with a tie on every even step (`N = 6`, `Δ = (3, 3)` in axial), start on an odd row at `(7, 7)`. Loop: the longest line on the board, `(0, 0) → (14, 15)` (22 steps), and the longest between interior tiles, `(1, 14) → (13, 1)` (19 steps) |
+| Gas, as a sum | Table path: index arithmetic for the offset and the parity (2 `DivRem`, 2,196 measured, `GAS.md:1535`), 2 lookups (2,538, `:48`), the extent split (1 `DivRem`, 1,098), 2 comparisons (~200), 1 product (98): **6.1k estimate** → target 7k. `line_of_sight`: `line` + `mask → u256` (1,809) + `grid → u256` (1,809) + AND on two limbs (3,392) + a zero test (~100): **13.3k estimate** → target 14k. `approach`: `line` (6.1k) + `neighbor_mask` (2.6k, §6.1) + 2 conversions (3,618) + AND (3,392) + the lowest-bit step (8,400 measured, `:159`) + `neighbor_direction` (4.3k): **28.4k estimate** → target 29k. Loop path: per step ~3k **estimate** (an `i32` accumulator update ~600, the tie test ~600, `hex_to_index` ~1.5k, one `POW` lookup and addition 1,367) plus 2 `index_to_hex` (~4k): 19 steps **61k** → target 62k; 22 steps **70k** → target 71k |
 
 ### 6.7 N-6 — Range and ring as geometry
 
@@ -845,13 +899,15 @@ fn hexagon_ring(self: HexMap, position: u8, radius: u8) -> felt252;  // tiles at
 
 | | |
 |---|---|
-| Module | `board::hexagon` with the tables `HEXAGONS: [felt252; 16]` and `HEXAGON_RINGS: [felt252; 16]` (parity × radius 1..=8; radius 0 is `2^position`) |
+| Module | `board::hexagon` with the tables `HEXAGONS: [felt252; 14]` and `HEXAGON_RINGS: [felt252; 14]` (parity × radius `1..=7`; radius 0 is `2^position`), and the band tables of `board::tables` (§6.4) |
+| Domain | `position` inside the board; any radius; any dimensions of the engine. **The table path is taken only when `width == 15` and `radius ≤ 7`**: a canonical hexagon of radius `r` spans `2r + 1` columns, so radius 8 (17 columns) has no complete representation on a width of 15, and a table of it would lose a valid cell when the centre moves (audit finding 6). Every other case runs the row loop below |
 | Inputs | `position` is a **local position**: the adventurer's `(7, 7)` or `(7, 8)` for sight (D-120: the sight of radius 6 then always lies inside the ring, rows 1 to 13 or 2 to 14 of the 16), a target's tile for an area of effect; the row parity is read from the index |
-| Algorithm | Table and arithmetic: the canonical hexagon of each radius and parity (the mask of `LayoutTrait::hexagon`, `hexmap:src/helpers/layout.cairo:134-151`, re-centred on `(7, 8)` or `(7, 7)` of the 15 × 16 board) is placed by one product after clearing the bits that fall below 0, then ANDed with the column band `[x − r, x + r]` and the board (`2^240 − 1`, which clips the rows above 15 for centres near the top). The tables depend on the width only; they serve every board of width 15 (a chunk of 15 × 15 included, with its own board mask); for other widths the function builds the mask arithmetically as `LayoutTrait::hexagon` does (a loop of `2r + 1` rows, ≤ 17 iterations), which is the general fallback. Radii above 8 fall back to the same loop |
-| Why not the flood | `tiles_within_range(6)` on an empty 17 × 14 costs **159,255 measured** (`GAS.md:242`): one dilation per unit of radius. Why not a table per position (240 felts per radius, one lookup, ~2k): it saves ~10k on a query made once per tick and costs 1,440 felts of class for six radii; it is kept as a measured **variant** in the benches and promoted only if SPK-7 finds the query on a hot path |
-| Oracle | `hexagon(p, r) == tiles_within_range(p, r)` on `new_empty` boards where the hexagon fits (`README.md` § Migration, "on an empty board they hold the same tiles"); per-tile `hex_distance <= r` on every position of a 15 × 16 for every radius; the sight of radius 6 from `(7, 7)` and `(7, 8)` never touches the ring |
-| Worst case | Radius 8, centre `(1, 1)` (maximal clipping), odd row; and radius 6 from `(7, 8)` for the tick's own figure |
-| Gas | ~12k **estimate** (2 lookups, 1 product, 2 wide conversions, 2–3 `u256` ANDs, from `GAS.md:46-58`) for both functions; the loop fallback ~2k per row **estimate** (`Bits::pow` lookups and products) |
+| Algorithm, table path | The canonical hexagon of each radius and parity (the mask of `LayoutTrait::hexagon`, `hexmap:src/helpers/layout.cairo:134-151`, re-centred on `(7, 8)` or `(7, 7)` of the 15 × 16 board) is **clipped before it is shifted**: the canonical columns that would land outside `[0, 15)` and the canonical rows that would land outside `[0, H)` are removed by one AND with the product of a column band and a row band taken from `COL_FROM`/`COL_TO` and `ROW_FROM`/`ROW_TO` (the kept canonical columns are `[7 − x, 7 − x + 15) ∩ [0, 15)`, the kept canonical rows `[y0 − y, y0 − y + H) ∩ [0, 16)` with `y0` the canonical centre row; the "to" bands are ANDed with the "from" bands, two limb ANDs). Then one product by `2^(i − c0)` or its inverse, exact because after the clip every bit lands in `[0, W·H)` and no bit crosses a row. The first version of this plan shifted first and clipped afterwards: moving the canonical centre `(7, 8)` to `(7, 14)` for radius 6 pushes bits beyond `2^251`, the product reduces modulo the field and false bits appear at `(1, 0)`, `(2, 0)` and elsewhere (audit finding 6) |
+| Algorithm, loop path | Any width, any radius, `width == 15` with radius above 7: a loop over the `2r + 1` rows of the hexagon clipped to `[0, H)`, each iteration computing the row's extent from the centre with the formula of `LayoutTrait::hexagon` (`:141-147`), clipping it to `[0, W)`, and adding `(2^len − 1)·2^(y·W + start)` (two lookups, one product, one addition); bounded by `H` iterations. The ring is `hexagon(r) − hexagon(r − 1)`, two calls, or the same loop on the two extents |
+| Why not the flood | `tiles_within_range(6)` on an empty 17 × 14 costs **159,255 measured** (`GAS.md:242`): one dilation per unit of radius. Why not a table per position (240 felts per radius, one lookup, ~2k): it saves ~18k on a query made once per tick and costs 1,440 felts of class for six radii; it is kept as a measured **variant** in the benches and promoted only if SPK-7 finds the query on a hot path |
+| Oracle | `hexagon(p, r) == tiles_within_range(p, r)` on `new_empty` boards where the hexagon fits (`README.md` § Migration, "on an empty board they hold the same tiles"); per-tile `hex_distance <= r` on **every position of a 15 × 16 for every radius 0..=8**, table path against loop path; the cases of finding 6 (radius 6 from `(7, 14)`, radius 8 from `(6, 8)`); the sight of radius 6 from `(7, 7)` and `(7, 8)` never touches the ring |
+| Worst case | Table: radius 7, centre `(1, 1)` (maximal clipping), odd row; radius 6 from `(7, 8)` for the tick's own figure. Loop: radius 8, centre `(7, 8)` on 15 × 16 (16 rows) |
+| Gas, as a sum | Table path: parity and coordinates (2 `DivRem`, 2,196), 1 mask lookup (1,269), 4 band lookups (5,076), 2 band products (196), 2 conversions of the bands to limbs (3,618), 1 AND of the two bands (3,392), the mask conversion (1,809), 1 AND with the mask (3,392), rebuild (197), 1 shift lookup (1,269), 1 product (98): **22.5k estimate** → target 23k, for `hexagon` and for `hexagon_ring` (its own table). Loop path: per row ~3.2k **estimate** (extent arithmetic ~500, 2 lookups 2,538, product and addition ~200) → radius 8 on 16 rows **52k** → target 53k |
 
 ### 6.8 N-7 — Directions, opposite, rotation, arcs
 
@@ -862,18 +918,19 @@ fn rotate_cw(self: EdgeDirection, offset: u8) -> EdgeDirection;  fn rotate_ccw(.
 // Board (north-up names)
 pub enum Arc { Front, FrontSide, RearSide, Back }
 fn opposite(self: Direction) -> Direction;                    // taken over
-fn rotate(self: Direction, steps: u8) -> Direction;           // (index + steps) % 6, counter-clockwise on the map
-fn arc(self: Direction, facing: Direction) -> Arc;            // from (self - facing) mod 6: 0 Front, 1 and 5 FrontSide, 2 and 4 RearSide, 3 Back
+fn rotate(self: Direction, steps: u8) -> Direction;           // (index + steps % 6) % 6, counter-clockwise on the map; any `steps` in 0..=255
+fn arc(self: Direction, facing: Direction) -> Arc;            // from (index + 6 - facing) % 6: 0 Front, 1 and 5 FrontSide, 2 and 4 RearSide, 3 Back
 impl Into<Direction, EdgeDirection>; impl Into<EdgeDirection, Direction>;   // index identity
 ```
 
 | | |
 |---|---|
 | Module | `direction::edge_direction` (mirror), `board::direction` (extension) |
-| Algorithm | Arithmetic on `u8`: one addition and one `DivRem` by 6; `arc` is a `match` on the difference (six arms; `grimworld:docs/design/04-combat.md` § Facing: front `d`, front-side `d ± 1`, rear-side `d ± 2`, back `d + 3`). The game writes arcs with directions, never with the word "clockwise" (L-G1, point 7) |
-| Oracle | Exhaustive: 36 pairs for `arc`, 6 × 12 for the rotations, `rotate(3) == opposite`, `Into` round trips, and `EdgeDirection::rotate_cw(n).into() == Direction::rotate(n)` (same index arithmetic) |
-| Worst case | Input independent |
-| Gas | ~1.5k **estimate** per rotation (`DivRem` 1,098 measured, `GAS.md:1535`), ~1k **estimate** for `arc` |
+| Domain | Every `u8` for `steps`; every pair of directions for `arc` |
+| Algorithm | Arithmetic on `u8`: **the offset is reduced modulo 6 before the addition** (`steps % 6`, then `(index + r) % 6`), as `hexx` does (`src/direction/edge_direction.rs:314`, `(self.0 + (offset % 6)) % 6`); `index + steps` alone overflows `u8` for index 5 and `steps = 255` (audit finding 10). `arc` computes `(index + 6 − facing) % 6`, which never underflows, then a `match` on the six values (`grimworld:docs/design/04-combat.md` § Facing: front `d`, front-side `d ± 1`, rear-side `d ± 2`, back `d + 3`). The game writes arcs with directions, never with the word "clockwise" (L-G1, point 7) |
+| Oracle | Exhaustive: 36 pairs for `arc`, 6 × 256 for `rotate` and for `EdgeDirection::rotate_cw` / `rotate_ccw` (every `steps` of `u8`), `rotate(3) == opposite`, `Into` round trips, and `EdgeDirection::rotate_cw(n).into() == Direction::rotate(n)` (same index arithmetic) |
+| Worst case | Input independent (`steps = 255` for the overflow test) |
+| Gas, as a sum | `rotate`: 2 `DivRem` (2 × 1,098 measured, `GAS.md:1535`) and 1 addition: **2.3k estimate** → target 2.5k; `arc`: 1 addition, 1 subtraction, 1 `DivRem`, 1 `match`: **1.5k estimate** → target 2k; the mirror's `rotate_cw` / `rotate_ccw`: the same 2.3k |
 
 ### 6.9 N-8 — One flood giving every walker its next step
 
@@ -885,77 +942,104 @@ first release.
 ```cairo
 #[derive(Drop)]
 pub struct Flood { width: u8, height: u8, layers: Span<u256> }   // layers[d] = tiles at path distance d from the source, on grid & ~obstacles; layers[0] = {from}
+/// `depth`: the largest number of layers computed after layer 0; the flood stops earlier when
+/// the frontier is empty. `depth = 0` is not special. The bound the caller needs is D-25.
 fn flood(self: HexMap, from: u8, obstacles: felt252, depth: u8) -> Flood;         // Bfs::flood; `from` walkable and not an obstacle, else 'Bfs: position not walkable'
 fn next_step(self: @Flood, position: u8, blocked: felt252) -> Option<u8>;       // the free neighbour in the lowest layer, lowest index; None when no neighbour is in any layer or all are blocked
-fn next_step_away(self: @Flood, position: u8, blocked: felt252) -> Option<u8>;  // the free neighbour in the highest layer (kiting)
-fn distance(self: @Flood, position: u8) -> Option<u8>;                           // the layer of `position`, or of its nearest neighbour + 1 when `position` was an obstacle
+fn next_step_away(self: @Flood, position: u8, blocked: felt252) -> Option<u8>;  // the free neighbour in the highest layer, lowest index (kiting)
+fn distance(self: @Flood, position: u8) -> Option<u8>;                           // the layer of `position`; for a tile in no layer, the lowest layer of a neighbour plus one (D-26); None when neither exists
+fn depth(self: @Flood) -> u8;                                                    // the number of layers computed after layer 0
 ```
 
 | | |
 |---|---|
 | Module | `finders::bfs` (`Bfs::flood`), `finders::flood` (`Flood`, `FloodTrait`); facade `HexMapTrait::flood` |
-| Algorithm | Bitwise: the layer loop of `Bfs` (`hexmap:src/finders/bfs.cairo:1-16`) on `grid & ~obstacles`, storing every layer (`ArrayStore`, `:87`) up to `depth` or until the frontier is empty; the source is not an obstacle, the walkers are (they sit on occupied tiles), so a walker is in no layer and its neighbours are. `next_step`: `around = neighbor_mask(position)` (or `edge_neighbors` on the ring, where goblins stand 7 tiles out, ADR-0006 §4), then the first layer `k` with `around & layers[k] != 0`, then `candidates = around & layers[k] & ~blocked`, else `around & layers[k + 1] & ~blocked` (the walker's own distance is `k + 1`: the fallback of the rule), then the lowest set bit. With `blocked` = the current occupancy, the id-order rule of the tick is the caller's loop |
+| Domain | `from` walkable and not in `obstacles`, else the panic of `Bfs`; `position` inside the board (`None` outside); any `blocked`; `depth` any `u8`. A walker whose nearest layer is beyond `depth` gets `None` from `next_step`, `next_step_away` and `distance` |
+| Algorithm | Bitwise: the layer loop of `Bfs` (`hexmap:src/finders/bfs.cairo:1-16`) on `grid & ~obstacles`, storing every layer (`ArrayStore`, `:87`) up to `depth` or until the frontier is empty; the source is not an obstacle, the walkers are (they sit on occupied tiles), so a walker is in no layer and its neighbours are. `next_step`: `around = neighbor_mask(position)` (or `edge_neighbors` on the ring), then scan the layers from 0 upward for the first `k` with `around & layers[k] != 0`; `candidates = around & layers[k] & ~blocked`; if empty, `around & layers[k + 1] & ~blocked` when layer `k + 1` exists (the walker's own distance is `k + 1`: the fallback of the rule); the result is the lowest set bit of the candidates, hence the lowest tile index. `next_step_away`: the same scan from the highest computed layer downward for the first `k` with `around & layers[k] & ~blocked != 0`, lowest set bit; no fallback. `distance`: if `position` is in a layer `k`, `Some(k)`; otherwise the first `k` with `around & layers[k] != 0` gives `Some(k + 1)`; otherwise `None`. Every scan is bounded by the number of layers. With `blocked` = the current occupancy, the id-order rule of the tick is the caller's loop |
+| The true bound of the flood | A layer holds at least one tile and the layers are disjoint subsets of the walkable interior, so the number of layers is at most the number of walkable interior tiles: **at most 182 on 15 × 16** (13 × 14). It is not 15: on a serpentine of open rows 2, 4, 6, 8, 10, 12 joined at alternating ends, a walker at `(1, 2)` has its nearest layer at 45 (audit finding 9), and the `SERPENTINE_17X14` fixture has paths of 90 steps (`GAS.md:182`). Whether the game truncates the flood, and what a walker beyond the truncation does, is a **game decision** (D-25, §11 Q-5) that this library does not take: `depth` is a parameter, the benchmarks cover both a cave and a serpentine, and nothing in the library gives a move to a walker beyond the computed layers |
 | Why one flood | The design ("one flood per tick, not one per goblin", `grimworld:docs/design/02-core-loop.md` § Simulation budget); rule (b) of LIB-02 §5.9 costs up to 8 floods |
-| Oracle | The scalar queue BFS of `src/finders/bfs.cairo:1183` (`reference_all`) for the layers; a scalar choice for `next_step`; a property: `next_step` is never a wall, never blocked, and is adjacent |
-| Worst case | 15 × 16 cave assembled from 4 chunks, the adventurer at `(7, 8)`, 8 walkers at distances 3 to 14, `depth = 15`, `blocked` changing after each walker |
-| Gas | Flood: **~19.3k measured per layer** on two limbs (`GAS.md:156`; the 240 tiles of the window are on the same path as the 238 of the measurement, `window-parity-check.md` §3) plus **~55k measured** fixed (`:162`): ~345k for 15 layers **estimate**, one layer more than a 15 × 15 window in open ground. `next_step`: ~2.5k per layer scanned **estimate** (two limb ANDs on stored limbs and a loop iteration at 1,270 measured, `:45`) plus ~8.4k measured for the lowest-bit step (`:159`): 15–45k per walker **estimate**. Per tick with 8 walkers: **470–670k estimate**, before the assembly of the window (§6.4, ~70k). This refines LIB-02 §5.9 (300–450k), which did not count the per-walker layer scans. Eight `search_path` calls would cost ~5.6M (8 × 706,135 measured, `GAS.md:1207`) |
+| Oracle | The scalar queue BFS of `src/finders/bfs.cairo:1183` (`reference_all`) for the layers; a scalar choice for `next_step`, `next_step_away` and `distance` over every walkable and every obstacle tile of the fixtures, with ties checked against the lowest index; the serpentine of finding 9 with `depth = 15` (every walker beyond gets `None`) and `depth = 182` (every walker gets a move); a property: a step is never a wall, never blocked, and is adjacent |
+| Worst case | Two benchmarks. **Cave**: 15 × 16 cave assembled from 4 chunks, the adventurer at `(7, 8)`, 8 walkers at distances 3 to 15, `depth = 30`, `blocked` changing after each walker. **Serpentine**: the corridor of finding 9, `depth = 182`, 8 walkers spread along it, the farthest at layer 45 or beyond |
+| Gas, as a sum | Flood: **~19.3k measured per layer** on two limbs (`GAS.md:156`; 240 tiles are on the path of the 238-tile measurement, `window-parity-check.md` §3) plus **~55k measured** fixed (`:162`). Cave benchmark: the flood exhausts a cave in ~25 layers on the fixtures (`bench_bfs_search_cave_far_17x14` has a 24-step path, `:178`): **538k estimate**. Serpentine at `depth = 182`, bounded by the walkable tiles: 55k + 84 layers on the corridor of finding 9 (6 rows of 13 plus the joints) ≈ **1.68M estimate**; the absolute bound `55k + 182 × 19.3k = 3.57M`. Per walker, `next_step`: per layer scanned 2 limb ANDs (3,392 measured, `:57`) and a loop iteration (1,270, `:45`): 4.7k; a walker at distance `d` scans `d` layers; plus the fallback AND (3,392), the lowest-bit step (8,400 measured, `:159`) and `neighbor_mask` (2.6k): **at distance 15: 84.9k estimate**; at distance 45: 226k. `next_step_away` and `distance`: the same per-layer cost. **Tick, cave benchmark**: `window` 84.3k + flood 538k + 8 × 84.9k = **1.30M estimate** → target 1.31M; the first version's 740k did not sum its own parts (audit finding 14). Eight `search_path` calls would cost ~5.6M (8 × 706,135 measured, `GAS.md:1207`). LIB-02 §5.9 estimated 300–450k without the per-walker scans and without the assembly |
 
 ## 7. Gas targets of milestone L-M1
 
-Every public function of L-M1, with its target and the origin of the figure. Budgets on the
-tests are `ceil(1.05 × measured)` once measured (`grimworld:docs/CAIRO.md` §2). A target marked
-estimate is a ceiling that the implementation must meet or explain.
+Every public function of L-M1, with its target and the origin of the figure, or an explicit
+reference to the target it shares. Budgets on the tests are `ceil(1.05 × measured)` once
+measured (`grimworld:docs/CAIRO.md` §2). A target marked estimate is the sum of the operations
+listed in §6 (the sums are shown there), rounded up; the implementation must meet it or
+explain. "Fixture" marks a measured figure taken on a fixture of 1.8.0, which is not always
+the worst case of the function (the worst cases of the take-over are those of `GAS.md`).
 
-| Function | Module | Worst case | Target | Origin |
+| Function | Module | Worst case or fixture | Target | Origin |
 |---|---|---|---:|---|
-| `HexMapTrait::new_empty` | board | 17 × 14 | 18,480 | measured `GAS.md:1198` |
-| `new_maze` | board | 17 × 14, order 0 | 2,873,670 | measured `:1199` |
-| `new_cave` | board | 17 × 14, order 3 | 144,927 | measured `:1200` |
-| `new_random_walk` | board | 17 × 14, 200 steps | 999,629 | measured `:1201` |
-| `new_hexagon` | board | radius 6 | 125,770 | measured `:1202` |
-| `open_with_corridor` / `open_with_maze` | board | 17 × 14 cave, entrance 8 | 63,018 / 61,858 | measured `:1203-1204` |
-| `keep_component` / `reachable` | board | 17 × 14 cave | 555,119 | measured `:1205` |
-| `compute_distribution` | board | 17 × 14 cave, 10 objects | 193,168 | measured `:1855` |
-| `search_path` | board | 17 × 14 cave, 24 steps | 706,135 | measured `:1207` |
-| `search_path_weighted` | board | 17 × 14 cave, 2 classes | 1,427,654 | measured `:1208` |
-| `field_of_movement` | board | 17 × 14 cave, budget 6, 2 classes | 261,829 | measured `:1209` |
-| `distance_to` | board | 17 × 14 cave, 24 steps | 501,642 | measured `:1210` |
-| `range` / `ring` | board | 17 × 14 cave, radius 4 | 103,793 / 99,903 | measured `:1212, :1318` |
+| `HexMapTrait::new_empty` | board | fixture 17 × 14 | 18,480 | measured `GAS.md:1198` |
+| `new_maze` | board | fixture 17 × 14, order 0 | 2,873,670 | measured `:1199` |
+| `new_cave` | board | fixture 17 × 14, order 3 | 144,927 | measured `:1200` |
+| `new_random_walk` | board | fixture 17 × 14, 200 steps | 999,629 | measured `:1201` |
+| `new_hexagon` | board | radius 6 (the largest) | 125,770 | measured `:1202` |
+| `open_with_corridor` / `open_with_maze` | board | fixture 17 × 14 cave, entrance 8 | 63,018 / 61,858 | measured `:1203-1204` |
+| `keep_component` / `reachable` | board | fixture 17 × 14 cave; serpentine 1,843,335 | 555,119 | measured `:1205`, `:230` |
+| `compute_distribution` | board | fixture 17 × 14 cave, 10 objects | 193,168 | measured `:1855` |
+| `search_path` | board | fixture 17 × 14 cave, 24 steps; serpentine 2,532,090 | 706,135 | measured `:1207`, `:182` |
+| `search_path_weighted` | board | fixture 17 × 14 cave, 2 classes | 1,427,654 | measured `:1208` |
+| `field_of_movement` | board | fixture 17 × 14 cave, budget 6, 2 classes | 261,829 | measured `:1209` |
+| `distance_to` | board | fixture 17 × 14 cave, 24 steps | 501,642 | measured `:1210` |
+| `range` / `ring` | board | fixture 17 × 14 cave, radius 4 | 103,793 / 99,903 | measured `:1212, :1318` |
 | `hex_distance` / `neighbor` / `is_walkable` | board | per call | 10,393 / 6,959 / 7,073 | measured `:1878, :1869, :1874` |
-| `Geometry::distance_between` | board | any | 5,000 | estimate §6.1 |
+| `HexMapTrait::new` | board | any | shares `new_empty` minus the interior (~300) | estimate |
+| `LayoutTrait::{new, board, even, interior, hexagon, with_interior, expand, expand_small, dilation, index, coords, parity, neighbor}`, `DilationTrait::*`, `Bits::*`, `Rng::*`, `Asserter::*`, `Geometry::{to_axial, distance}`, `Direction::{opposite, next, pop_front}` (taken over) | board | as in `GAS.md` L0, P1 | the budgets of their existing benches, unchanged (`Layout::new` 12.9k `:630`, `expand` 18,613 `:1543`, `expand_small` 7,816 `:1544`, `popcount` 13,448 `:1542`, `Rng::draw6` 3,737 `:1538`, `shuffle6` 5,769 `:1541`, `Geometry::distance` = `hex_distance` minus the checks) | measured |
+| `LayoutTrait::neighbor_mask` (renamed) | board | odd row | 3,000 | estimate §6.1 |
+| `LayoutTrait::edge_neighbors` / `neighbor_in` (renamed) | board | corner tile | shares the `Bfs` edge-endpoint budgets (`GAS.md:162`, in the 55k fixed cost) | measured |
+| `LayoutTrait::new_odd` | board | any | 13,500 (`Layout::new` 12.9k + one subtraction) | estimate §6.2 |
+| `Geometry::distance_between` | board | `(255, 0)`–`(0, 255)` | 6,000 | estimate §6.1 |
 | `Geometry::chunk_of` | board | any | 2,500 | estimate §6.1 |
-| `LayoutTrait::neighbor_direction` | board | odd row | 3,000 | estimate §6.1 |
-| `Caver::generate_with_margins` | generators | 15 × 15, order 3, 4 sides fixed, odd | 180,000 | estimate §6.2 |
-| `HexMapTrait::smooth` (per generation) | board | 15 × 15, 4 sides fixed | 46,000 | estimate §6.2 |
-| `seams::side` | board | any | 3,000 | estimate §6.3 |
-| `seams::openings` | board | North seam, odd, both open | 20,000 | estimate §6.3 |
-| `assembly::origin` / `local` | board | any | 3,000 each | estimate §6.4 |
-| `assembly::assemble` (one layer, 4 chunks) | board | `ox = oy = 7`, odd chunk row | 32,000 | estimate §6.4 |
-| `assembly::window` (2 layers, 4 chunks, ring) | board | same, **at each tick** | 70,000 | estimate §6.4 |
-| `HexMapTrait::cut` | board | any | 6,000 | estimate §6.5 |
-| `HexMapTrait::line` | board | distance 6, ties, from `(7, 7)` | 10,000 | estimate §6.6 |
-| `line_of_sight` | board | same | 13,000 | estimate §6.6 |
-| `approach` | board | same | 10,000 | estimate §6.6 |
-| `line` beyond radius 6 (loop) | board | distance 14 | 85,000 | estimate §6.6 |
-| `hexagon` / `hexagon_ring` | board | radius 8, centre `(1, 1)`, odd; radius 6 from `(7, 8)` | 12,000 each | estimate §6.7 |
-| `Direction::rotate` / `arc` | board | any | 1,500 / 1,000 | estimate §6.8 |
-| `Bfs::flood` | finders | 15 × 16 cave, 15 layers | 345,000 | estimate §6.9 |
-| `FloodTrait::next_step` / `next_step_away` | finders | 14 layers scanned | 45,000 | estimate §6.9 |
-| One tick, 8 walkers (`window` + `flood` + 8 `next_step`) | — | 4 chunks, two layers, as above | 740,000 | estimate §6.4, §6.9 |
-| `HexTrait::distance_to`, `neighbor`, `rotate_cw`, `to_offset_coordinates` | hex | any | 1,500 each | estimate §3.1 |
-| `HexTrait::line_to` | hex | distance 13 | 3,000 per tile | estimate §6.6 |
-| `EdgeDirection::rotate_cw` | direction | any | 1,500 | estimate §6.8 |
-| `Geometry::to_hex` / `from_hex` | board | any | 2,000 | estimate §3.5 |
+| `Geometry::to_hex` / `from_hex` | board | any | 2,000 each (1 `DivRem`, 3 `i32` operations) | estimate §3.5 |
+| `Geometry::index_to_hex` / `hex_to_index` | board | any | 4,000 each (2 `DivRem`, `to_hex`; the inverse with the bound checks) | estimate §3.5 |
+| `LayoutTrait::neighbor_direction` | board | odd row, non-adjacent pair | 5,000 | estimate §6.1 |
+| `Caver::generate_with_margins` | generators | 15 × 15, order 3, 4 sides fixed, odd | 195,000 | estimate §6.2 |
+| `HexMapTrait::new_cave_with_margins` | board | same | shares `generate_with_margins` (the facade adds nothing, `GAS.md:1191`) | — |
+| `HexMapTrait::smooth` | board | 15 × 15, order 3, ring + 20 held tiles, odd | 170,000 | estimate §6.2 |
+| `seams::side` | board | any | 3,000 (2 lookups, 1 field division 494 `:47`) | estimate §6.3 |
+| `seams::openings` | board | East seam, even, both open | 32,000 | estimate §6.3 |
+| `seams::is_open_across` | board | same | shares `openings` plus a zero test | — |
+| `assembly::origin` / `local` | board | any | 3,000 each (2 `DivRem` on `i16`, comparisons) | estimate §6.4 |
+| `assembly::assemble` (one layer, 4 chunks) | board | `ox = oy = 7`, odd chunk row | 40,000 | estimate §6.4 |
+| `assembly::window` (2 layers, 4 chunks, ring) | board | same, **at each tick** | 85,000 | estimate §6.4 |
+| `HexMapTrait::cut` | board | any | 17,000 | estimate §6.5 |
+| `HexMapTrait::line` (table) | board | width 15, distance 6, ties, from `(7, 7)` | 7,000 | estimate §6.6 |
+| `HexMapTrait::line` (loop) | board | `(0, 0) → (14, 15)`, 22 steps; interior `(1, 14) → (13, 1)`, 19 steps | 71,000 / 62,000 | estimate §6.6 |
+| `line_of_sight` | board | table case | 14,000 (loop case: `line` + 7.2k) | estimate §6.6 |
+| `approach` | board | table case | 29,000 (loop case: `line` + 22.3k) | estimate §6.6 |
+| `hexagon` / `hexagon_ring` (table) | board | radius 7, centre `(1, 1)`, odd; radius 6 from `(7, 8)` | 23,000 each | estimate §6.7 |
+| `hexagon` / `hexagon_ring` (loop) | board | radius 8, centre `(7, 8)`, 16 rows | 53,000 each | estimate §6.7 |
+| `Direction::rotate` / `arc` | board | `steps = 255`; any pair | 2,500 / 2,000 | estimate §6.8 |
+| `Into<Direction, EdgeDirection>` and back | board | any | 500 (a `match`) | estimate |
+| `Bfs::flood`, cave | finders | 15 × 16 cave, ~25 layers | 540,000 | estimate §6.9 |
+| `Bfs::flood`, serpentine | finders | the corridor of finding 9, 84 layers | 1,680,000 (bound 3,570,000 at 182 layers) | estimate §6.9 |
+| `FloodTrait::next_step` / `next_step_away` / `distance` | finders | distance 15 (cave) | 85,000 each | estimate §6.9 |
+| `FloodTrait::next_step`, serpentine | finders | distance 45 | 226,000 | estimate §6.9 |
+| `FloodTrait::depth` | finders | any | 200 (a length) | estimate |
+| One tick, cave: `window` + `flood` + 8 × `next_step` at distance 15 | — | 4 chunks, two layers | 1,310,000 | estimate §6.4, §6.9 |
+| `HexTrait::{new, x, y, z, const_sub, distance_to, unsigned_distance_to}` | hex | any | 1,500 each (2 to 5 `i32` operations at ~300, 1 comparison chain) | estimate §3.1 |
+| `HexTrait::line_to` | hex | 22 steps | 3,000 per tile (66,000) | estimate §6.6 |
+| `Hex::from_offset_coordinates` / `to_offset_coordinates` (Even, Pointy) | hex | any | 1,500 each | estimate §3.5 |
+| `EdgeDirection::{index, into_hex, const_neg, clockwise, counter_clockwise}` | direction | any | 1,500 each (1 `DivRem` or 1 lookup) | estimate §6.8 |
+| `EdgeDirection::rotate_cw` / `rotate_ccw` | direction | `steps = 255` | 2,500 each | estimate §6.8 |
+| `EdgeDirection::ALL_DIRECTIONS`, the constants, `HexOrientation`, `OffsetHexMode` | direction, orientation, conversions | — | no cost (constants) | — |
 
-Tables and their class-size cost (estimate, one CASM felt per entry plus a constant per array):
+Tables: entries as declared, and the compiled class size as an estimate (one CASM felt per
+entry plus a constant per array; the release check is the consumer-size measurement of R-11):
 
-| Table | Entries | Used by | Estimated class cost |
+| Table | Entries (declared) | Used by | Estimated class cost |
 |---|---:|---|---:|
-| `POW`, `INV`, `POW128` (taken over, `hexmap:src/helpers/bits.cairo:403, 537, 791`) | 252 + 252 + 129 | every shift | already paid by the game today |
-| `LINES` (canonical centres `(7, 7)` and `(7, 8)` of 15 × 16) | 254 | `line`, `line_of_sight`, `approach` | ~300 felts (0.4 %) |
-| `HEXAGONS`, `HEXAGON_RINGS` | 16 + 16 | `hexagon`, `hexagon_ring` | ~40 felts |
-| `COL_BAND`, `ROW_BAND` (with complements) | 30 + 30 | `assemble` | ~70 felts |
+| `POW: [felt252; 252]`, `INV: [felt252; 252]`, `POW128: [u128; 128]` (taken over, `hexmap:src/helpers/bits.cairo:403, 537, 791`) | 252 + 252 + 128 | every shift | already paid by the game today (~700 felts) |
+| `PERMUTATIONS: [u32; 720]` (taken over, `hexmap:src/helpers/rng.cairo:199`), `SUBSETS: [u8; 511]`, `SUBSET_OFFSETS: [u16; 90]`, `NIBBLE_SELECT: [felt252; 64]`, `NIBBLE_COUNT: [u8; 16]` (`hexmap:src/generators/spreader.cairo:61-100`) | 720 + 511 + 90 + 64 + 16 | `Rng::shuffle6`, `Spreader` | already paid by the game today (~1,500 felts) |
+| `LINES: [felt252; 254]` (canonical starts `(7, 7)` and `(7, 8)` of 15 × 16), `LINE_SPANS: [u8; 254]` | 254 + 254 | `line`, `line_of_sight`, `approach` | ~560 felts (0.7 %) |
+| `HEXAGONS: [felt252; 14]`, `HEXAGON_RINGS: [felt252; 14]` | 14 + 14 | `hexagon`, `hexagon_ring` | ~35 felts |
+| `COL_FROM`, `COL_TO`, `ROW_FROM`, `ROW_TO: [felt252; 15]` (`board::tables`) | 60 | `assemble`, `hexagon` | ~70 felts |
 | `arc` | 6 arms of a `match` | `arc` | negligible |
+| **New tables of L-M1** | **596** | | **~665 felts (0.8 %)** |
 | Variant, not shipped by default: per-position sight table | 240 per radius | `hexagon` | ~280 felts per radius |
 
 ## 8. Milestones
@@ -964,39 +1048,47 @@ Tables and their class-size cost (estimate, one CASM felt per entry plus a const
 
 | | |
 |---|---|
-| Content | The take-over of the engine with identical results (§5); the extensions N-1 to N-8, distance and neighbours (§6); the **mirror foundation**: `Hex` (constructors, constants, `z`, arrays, `const_*`, length and distance, `neighbor`, `all_neighbors`, `neighbor_direction`, rotations, `line_to`, `range_count`, `Add`, `Sub`, `Neg`, `mul_scalar`, `add_direction`), `EdgeDirection` (constants, `index`, `into_hex`, `const_neg`, rotations, `Neg`, `mul_scalar`, `Into<Hex>`), `HexOrientation`, `OffsetHexMode`, `DoubledHexMode`, the offset conversions, the board ↔ `Hex` conversions (§3.5) |
-| Why the mirror foundation is in L-M1 | N-7's rotation and N-5's line are specified in `hexx`'s terms and their vectors come from `hexx`; and the parity table and the deviation list must exist at the first release, since numeric results are API from then on. Everything else of the mirror waits |
+| Content | The take-over of the engine with identical results (§5); the extensions N-1 to N-8, distance and neighbours (§6); **need N-9, reduced** (ADR-0007): `snforge_std` under `[dev-dependencies]`, so that the library resolves next to any test setup of its consumer, verified on the published package; and the **mirror items that the extensions depend on**, each traced below. Nothing else of the mirror is in L-M1 |
+| The mirror items of L-M1, each with its trace | `Hex` (the struct, its fields, `new`, `x`, `y`, `z`, `ZERO`, `const_sub`, `distance_to`, `unsigned_distance_to`): the frame in which N-5's line and its tie rule are defined and in which the `refgen` vectors are generated; `to_hex`/`from_hex` (§3.5) return it; the loop path of `line` runs on it. `HexTrait::line_to`: the definition of N-5 (the board `line` is proved against it). `OffsetHexMode`, `HexOrientation` (the enums, with `Default` and `Not`), `from_offset_coordinates`, `to_offset_coordinates`: the two calls that define the board mapping of §3.5. `EdgeDirection` (the struct, `ALL_DIRECTIONS`, the 30 constants, `index`, `into_hex`, `NEIGHBORS_COORDS` that `into_hex` reads, `const_neg`, `clockwise`, `counter_clockwise`, `rotate_cw`, `rotate_ccw`, `Into<EdgeDirection, Hex>`): N-7's "rotation by steps of 60°" is specified against `hexx`'s rotation and tested equal to `Direction::rotate` (§6.8), and the conversions of §3.2 need the type. Every other item of §4.4 that carried "L-M1" in the first version of this plan (`hex()`, the other constants, `splat`, `new_cubic`, the array conversions, `const_neg`, `const_add`, `neighbor`, `all_neighbors`, `neighbor_direction`, the `Hex` rotations, `range_count`, the operators, `mul_scalar`, `add_direction`, `DoubledHexMode`, the `Neg`, `mul_scalar` and `Debug` of `EdgeDirection`) has no game need and no implementation dependency and moves to L-M2 (audit, finding 18). The alternative, publishing the wider foundation in 0.1.0, is D-5 for the owner |
 | Depends on | LIB-04 (repository, CI, parity script, `refgen`, gas tooling, publication pipeline) |
-| Exit criterion | (1) `crates/takeover_tests` green against `origami_hexmap` 1.8.0 on every function (§5.4); (2) every extension has a scalar oracle, a worst-case bench and a budget within 5 % of its measurement, and the estimates of §7 are replaced by measurements in `GAS.md` (a target missed by more than 25 % is reported to the owner before release); (3) `api_parity.py --check`, `deviations.py --check`, `bench.py check` green; (4) `docs/deviations/line_ties.md` generated; (5) the pinned streams of `generate_with_margins` committed; (6) `0.1.0` published on scarbs.xyz and consumed by the game's SPK-7 branch |
-| Size | 9 tasks (below), 2 of them in parallel at most (1 agent at a time in wave 1, `PLAN.md`; the pairs below are for when the budget allows) |
+| Exit criterion | (1) `crates/takeover_tests` green against `origami_hexmap` 1.8.0 on every function (§5.4); (2) every extension has a scalar oracle, the worst-case benches of §6 and a budget within 5 % of its measurement, and every estimate of §7 is replaced by a measurement in `GAS.md` (a target missed by more than 25 % is reported to the owner before release); (3) `api_parity.py --check`, `deviations.py --check`, `bench.py check` green, every item scheduled for L-M1 `ported` or `renamed`, the items scheduled later listed as such; (4) `docs/deviations/line_ties.md` generated; (5) the pinned streams of `generate_with_margins` committed; (6) the two design tasks below closed (§6.2 planes and masks, §6.3 formulas) with their oracles green; (7) `0.1.0` published on scarbs.xyz and consumed by the game's SPK-7 branch; (8) **N-9 demonstrated on the published package**: the two consumer packages of `tools/consumer_check/` (outside the workspace, `hexx = "0.1.0-rc.N"` then `"0.1.0"` from the registry; one with `cairo_test` as its only dev-dependency and no `snforge_std`, one with `snforge_std` of another version than the library's) each resolve (`scarb metadata`) and build (`scarb build`), and the registry index entry of the version lists no `snforge_std` dependency; the check runs in CI on every publication |
+| Size | 11 tasks (below), sequential by default (1 agent at a time in wave 1, `PLAN.md`); the pairs marked "can run with" have disjoint allowlists and may run together when the budget allows |
 
-Tasks of L-M1, with allowlists that do not overlap:
+Tasks of L-M1. Every task owns the files of its allowlist exclusively; a file appears in one
+allowlist only; the facade `board/map.cairo`, `lib.cairo`, `Scarb.toml`, `scripts/**`,
+`README.md`, `CHANGELOG.md` and `docs/API_PARITY.md` belong to the orchestrator, who adds the
+one-line forwarding methods of the facade after each task merges (`hexmap:src/map.cairo:1-4`).
 
-| Task | Content | Allowlist | Can run with |
-|---|---|---|---|
-| M1-T1 | Take-over: move the sources and tests, `takeover_tests`, `docs/GAS.md`, budgets unchanged | `crates/hexx/src/board/**`, `finders/**`, `generators/**`, `tests/**`, `crates/takeover_tests/**` | — (first) |
-| M1-T2 | Mirror foundation: `hex.cairo`, `hex/impls.cairo`, `direction/edge_direction.cairo`, `direction/impls.cairo`, `conversions.cairo`, `orientation.cairo`, `refgen` specs for them, golden tests | `crates/hexx/src/{hex.cairo,hex/impls.cairo,direction/**,conversions.cairo,orientation.cairo}`, `tools/refgen/specs/{hex,direction,conversions}.toml`, `crates/hexx/tests/golden_{hex,direction,conversions}.cairo` | M1-T3, M1-T4 |
-| M1-T3 | N-7 and distance: `board/direction.cairo` (`rotate`, `arc`, conversions), `board/geometry.cairo` (`distance_between`, `chunk_of`, `to_hex`…), `board/layout.cairo` (`neighbor_direction`, renames) | those three files and their tests | M1-T2 |
-| M1-T4 | N-4 and N-3: `cut`, `board/assembly.cairo` (`origin`, `local`, `assemble`, `window` for the 15 × 16 window, the band tables, the odd-origin panic, the per-tick bench with 4 chunks and two layers) | `board/assembly.cairo`, the `cut` block of `board/map.cairo` (a dedicated file `board/cut.cairo` forwarded by the facade avoids sharing `map.cairo`) | M1-T2 |
-| M1-T5 | N-6: `board/hexagon.cairo`, tables generated by `tools/refgen` (or a Python script), the per-position variant in the benches | `board/hexagon.cairo`, `tools/refgen/src/hexagon.rs`, its tests and benches | M1-T6 |
-| M1-T6 | N-5: `Hex::line_to`, `board/line.cairo`, `LINES` table, `docs/deviations/line_ties.md`, the exhaustive off-chain comparison | `hex.cairo` (the `line_to` block: coordinate with M1-T2, or run after it), `board/line.cairo`, `tools/refgen/src/line.rs`, `docs/deviations/` | M1-T5 |
-| M1-T7 | N-2: `board/seams.cairo` | that file, tests, benches | M1-T8 |
-| M1-T8 | N-1: `Caver::generate_with_margins`, `LayoutTrait::new_odd`, the facade entries, pinned streams | `generators/caver.cairo`, the `new_cave_with_margins` / `smooth` block of the facade, `board/layout.cairo` (`new_odd`: coordinate with M1-T3, or run after it) | M1-T7 |
-| M1-T9 | N-8: `Bfs::flood`, `finders/flood.cairo`, the tick bench with 8 walkers | `finders/bfs.cairo`, `finders/flood.cairo`, tests, benches | — (needs M1-T3 for `neighbor_direction`) |
-| M1-R | Release 0.1.0: README, CHANGELOG, `API_PARITY.md`, publication | orchestrator | — |
+| Task | Content | Allowlist (exclusive) | Runs after | Can run with |
+|---|---|---|---|---|
+| M1-T1 | Take-over: move the sources and tests, `takeover_tests`, `docs/GAS.md`, budgets unchanged; the file split of `hex` is not touched here | `crates/hexx/src/board/{map,direction,layout,geometry,asserter,bits,rng,printer}.cairo`, `crates/hexx/src/finders/{bfs,dial}.cairo`, `crates/hexx/src/generators/**`, `crates/hexx/src/tests/**`, `crates/hexx/tests/readme.cairo`, `crates/takeover_tests/**`, `docs/GAS.md` | — | — |
+| M1-T2 | Mirror items of L-M1 except `line_to`: `hex.cairo` (`HexTrait`), `direction/edge_direction.cairo`, `conversions.cairo`, `orientation.cairo`, their `refgen` specs and golden tests | `crates/hexx/src/hex.cairo`, `crates/hexx/src/direction/edge_direction.cairo`, `crates/hexx/src/conversions.cairo`, `crates/hexx/src/orientation.cairo`, `tools/refgen/specs/{hex,direction,conversions}.toml`, `crates/hexx/tests/golden_{hex,direction,conversions}.cairo` | M1-T1 | M1-T3 |
+| M1-T3 | N-7 and distance: `rotate`, `arc`, `Arc`, the `Into` conversions; `distance_between`, `chunk_of`, `to_hex`, `from_hex`, `index_to_hex`, `hex_to_index`; `neighbor_direction`, `new_odd`, the three renames | `crates/hexx/src/board/direction.cairo`, `crates/hexx/src/board/geometry.cairo`, `crates/hexx/src/board/layout.cairo` (taken from M1-T1's ownership once M1-T1 is merged), `crates/hexx/src/tests/{test_direction,test_geometry,test_layout}.cairo` | M1-T1 | M1-T2 |
+| M1-T4 | N-3 and N-4: `board/tables.cairo` (the band tables), `board/assembly.cairo` (`Origin`, `origin`, `local`, `assemble`, `window`, the odd-origin panic, the per-tick bench with 4 chunks and two layers), `board/cut.cairo` | `crates/hexx/src/board/{tables,assembly,cut}.cairo`, `crates/hexx/src/tests/{test_assembly,test_cut,bench_assembly}.cairo` | M1-T3 (`origin` uses `chunk_of`) | M1-T7 |
+| M1-T5 | N-6: `board/hexagon.cairo`, the `HEXAGONS` tables generated by `tools/refgen`, the table path and the loop path, the per-position variant in the benches | `crates/hexx/src/board/hexagon.cairo`, `tools/refgen/src/hexagon.rs`, `crates/hexx/src/tests/{test_hexagon,bench_hexagon}.cairo` | M1-T4 (uses `board/tables.cairo`) | M1-T6 |
+| M1-T6 | N-5: `HexTrait::line_to` (added to `hex.cairo`, which this task owns once M1-T2 is merged), `board/line.cairo` with `LINES` and `LINE_SPANS`, `docs/deviations/line_ties.md`, the exhaustive off-chain comparison | `crates/hexx/src/hex.cairo`, `crates/hexx/src/board/line.cairo`, `tools/refgen/src/line.rs`, `tools/refgen/specs/line.toml`, `crates/hexx/tests/golden_line.cairo`, `crates/hexx/src/tests/{test_line,bench_line}.cairo`, `docs/deviations/line_ties.md` | M1-T2, M1-T3 | M1-T5 |
+| M1-T7 | N-2: `board/seams.cairo`, the four formulas of §6.3, the scalar oracle on global coordinates | `crates/hexx/src/board/seams.cairo`, `crates/hexx/src/tests/{test_seams,bench_seams}.cairo` | M1-T3 (`new_odd`) | M1-T4 |
+| M1-T8 | N-1: `Caver::generate_with_margins`, `smooth`, the derived planes and masks of §6.2, the extended scalar automaton, the pinned streams | `crates/hexx/src/generators/caver.cairo` (taken from M1-T1's ownership), `crates/hexx/src/tests/{test_caver_margins,bench_caver_margins}.cairo` | M1-T3 | M1-T9 |
+| M1-T9 | N-8: `Bfs::flood`, `finders/flood.cairo`, the cave and serpentine benches, the scalar oracles of the three selection functions | `crates/hexx/src/finders/bfs.cairo` (taken from M1-T1's ownership), `crates/hexx/src/finders/flood.cairo`, `crates/hexx/src/tests/{test_flood,bench_flood,bench_tick}.cairo` | M1-T3 | M1-T8 |
+| M1-N9 | N-9: `snforge_std` under `[dev-dependencies]` in `crates/hexx/Scarb.toml`; the two consumer packages of `tools/consumer_check/` and their CI job against the first release candidate; the cause of the 1.8.0 defect found and written down | `tools/consumer_check/**`, `.github/workflows/consumer_check.yml` (the manifest itself is the orchestrator's: this task proposes the line, the orchestrator applies it) | M1-T1 | any task |
+| M1-R | Release 0.1.0: the facade entries of the tasks above, README, CHANGELOG, `API_PARITY.md`, publication, the consumer check green against `0.1.0` | orchestrator | all | — |
 
-The facade file `board/map.cairo` is shared by several tasks: the orchestrator adds the
-forwarding entries after each task merges (one-line methods, as every facade method is,
-`hexmap:src/map.cairo:1-4`), so that no task edits it.
+Two of these are **design tasks** as well as implementation tasks, because the plan states
+their formulas but their correctness is only certain once the oracle passes: M1-T8 (the
+planes and the divisibility masks of §6.2, oracle (1), (2) and (4)) and M1-T7 (the four seam
+formulas of §6.3, the scalar oracle on global coordinates). Their briefs say so, and a formula
+that the oracle refutes is corrected in the task, with the plan updated in the same pull
+request.
 
 ### L-M2 — The mirror completed (release 0.2.0)
 
 | | |
 |---|---|
-| Content | Every remaining port and counterpart of §4.4 marked L-M2: the rest of `Hex` (operators, swizzles, rings, wedges, spirals, ranges, reflections, resolution, `way_to`, packing, euclidean), `VertexDirection`, `DirectionWay`, `HexBounds`, `shapes`, `HexSpanExt`, `GridEdge`, `GridVertex`, the doubled and hexmod conversions |
+| Content | Every remaining port and counterpart of §4.4 marked L-M2: the rest of `Hex` (constants, constructors, arrays, operators, swizzles, rings, wedges, spirals, ranges, rotations, reflections, resolution, `way_to`, packing, euclidean), the rest of `EdgeDirection`, `VertexDirection`, `DirectionWay`, `HexBounds`, `shapes`, `HexSpanExt`, `GridEdge`, `GridVertex`, the doubled and hexmod conversions, `DoubledHexMode` |
 | Depends on | L-M1 (0.1.0 released) |
-| Exit criterion | `API_PARITY.md`: no `missing` item in `hex`, `direction`, `conversions`, `bounds`, `shapes`, `grid`, `orientation`; golden tests from `refgen` for every ported item; every deviation documented and inventoried; benches for every non-trivial function; 0.2.0 published |
-| Size | 6 tasks: `Hex` operators and arithmetic (impls, swizzles, euclidean, packing); rings, wedges, spirals, ranges; `VertexDirection` and `DirectionWay` and `way_to`; `HexBounds` and `HexSpanExt` and resolution; `shapes`; `grid`. All six have disjoint files; up to three in parallel |
+| File split | The mirror follows `hexx`'s file split so that tasks own whole files: one trait per file, `HexTrait` in `hex.cairo` (`src/hex/mod.rs`), `HexRingsTrait` in `hex/rings.cairo`, `HexSwizzleTrait` in `hex/swizzle.cairo`, `HexEuclideanTrait` in `hex/euclidean.cairo`, `HexConvertTrait` in `hex/convert.cairo`, the operator impls in `hex/impls.cairo`, `HexSpanExt` in `hex/iter.cairo`, the conversions in `conversions.cairo` (§2.2). Cairo allows one `impl` block per trait, not one trait split across files, hence one trait per source file of `hexx` |
+| Exit criterion | `API_PARITY.md`: every item scheduled for L-M2 in §4.4 is `ported` or `renamed`; the only `missing` items are those scheduled for L-M3 (`as_ivec2`, `as_ivec3`, the three `IVec` `From` impls, the four `algorithms` functions), listed as scheduled; golden tests from `refgen` for every ported item; every deviation documented and inventoried; benches for every non-trivial function; 0.2.0 published |
+| Tasks, exclusive files, order | M2-T1 `direction/vertex_direction.cairo`, `direction/way.cairo`, `direction/impls.cairo` (`VertexDirection`, `DirectionWay`, `Way`-less impls); M2-T2 (after M2-T1, needs `DirectionWay`) `hex.cairo`: the remaining `HexTrait` items (constants, constructors, arrays, `abs`…`signum`, diagonals, `way_to` family, rotations, reflections, `rectiline_to`, `range`, `xrange`, resolution, `range_count`, `Debug`) and `direction/edge_direction.cairo` (`Neg`, `mul_scalar`, `Debug`); M2-T3 `hex/impls.cairo`, `hex/swizzle.cairo`, `hex/euclidean.cairo`, `hex/convert.cairo`, `conversions.cairo` (doubled, hexmod); M2-T4 `hex/rings.cairo`; M2-T5 (after M2-T2, needs `range` and `div_scalar` of M2-T3) `bounds.cairo`, `hex/iter.cairo`; M2-T6 `shapes.cairo`; M2-T7 (after M2-T1) `hex/grid/edge.cairo`, `hex/grid/vertex.cairo`. Each task also owns `tools/refgen/specs/<file>.toml`, `crates/hexx/tests/golden_<file>.cairo` and its bench file. Up to three in parallel among tasks whose "after" conditions are met |
 
 ### L-M3 — Algorithms, interop, closure of the table (release 0.3.0)
 
@@ -1004,8 +1096,8 @@ forwarding entries after each task merges (one-line methods, as every facade met
 |---|---|
 | Content | `algorithms` counterparts on boards (`range_fov`, `directional_fov`, `field_of_movement`, `a_star`, §4.4); the companion package `hexx_glam` (`Into` between `Hex` and `IVec2`/`IVec3` of `glam-cairo`, published separately, like `nalgebra_glam`); the `uint252` dependency if the owner decides on `u252`-typed bitmaps (§12); whatever new need the game files in `docs/needs/hexmap.md` during phases 1 and 2 |
 | Depends on | L-M2 |
-| Exit criterion | No `missing` item in any kept or adapted module; every exclusion has its reason in the generated table; `hexx_glam` published; 0.3.0 published |
-| Size | 4 tasks: fov; field of movement and a_star; `hexx_glam`; the game's new needs (one task per need) |
+| Exit criterion | No `missing` item in any kept or adapted module (the items scheduled for L-M3 in §4.4 `ported` or `renamed`); every exclusion has its reason in the generated table; `hexx_glam` published; 0.3.0 published |
+| Size | 4 tasks with exclusive files: `algorithms/fov.cairo`; `algorithms/{field_of_movement,pathfinding}.cairo`; `crates/hexx_glam/**`; the game's new needs (one task and one new file per need) |
 
 ### L-M4 — Final release (1.0.0) and decommissioning
 
@@ -1022,7 +1114,7 @@ forwarding entries after each task merges (one-line methods, as every facade met
 
 | Version | Content | Consumed by |
 |---|---|---|
-| `0.1.0-rc.1` | The take-over alone (M1-T1), results identical to 1.8.0 | SPK-7 can start on it, or on `origami_hexmap` 1.8.0 (`grimworld:PLAN.md`, R-18) |
+| `0.1.0-rc.1` | The take-over alone (M1-T1) with N-9 (M1-N9), results identical to 1.8.0 | SPK-7, which runs inside the game's workspace on Cairo 2.19 (ADR-0007). Meanwhile the game, on Scarb 2.19.4 and snforge 0.61 since ADR-0007, can build `origami_hexmap` 1.8.0 only while its own `snforge_std` stays within `0.61.x`, because the published 1.8.0 resolves `snforge_std` as a regular dependency (N-9); `0.1.0-rc.1` removes that constraint |
 | `0.1.0-rc.2` … | Each extension as it merges (N-3, N-4, N-6, N-7 first: they unblock the window and the sight; then N-5, N-2, N-1, N-8) | SPK-7 |
 | `0.1.0` | L-M1 complete | ENG-05 (`grimworld:PLAN.md`, Phase 1) |
 | `0.2.0`, `0.3.0` | L-M2, L-M3 | The game, at its pace (by published version, never a git revision) |
@@ -1047,7 +1139,7 @@ the milestone; LIB-04 verifies on the first publication and records the answer.
 The package `uint252` 0.1.0 is published on scarbs.xyz (§3.4). L-M1 does not depend on it
 (§3.3): bitmaps are `felt252` in the API, as in 1.8.0, and the engine uses `u256` limbs
 internally. The dependency `uint252 = "0.1.0"` is added by the first item that needs the type
-(a packed model, a `StorePacking`, or the owner's decision to type the bitmaps), as a MINOR
+(a packed storage struct, a `StorePacking`, or the owner's decision to type the bitmaps), as a MINOR
 bump, by published version. The library does not re-export `u252`; a consumer that wants it
 depends on `uint252` itself. `origami_hexmap` 1.8.0 keeps its own `u252` for its users until
 it is decommissioned.
@@ -1064,7 +1156,7 @@ PATCH). The game reads the last heading to know whether its vectors move.
 
 | Step | Condition | What is done | Who |
 |---|---|---|---|
-| 1. Pre-releases | `0.1.0-rc.1` published | SPK-7 may consume it or stay on 1.8.0: both give the same results. The game's `docs/CAIRO.md` §4 still names `origami_hexmap` | Game's orchestrator |
+| 1. Pre-releases | `0.1.0-rc.1` published | SPK-7 (in the game's workspace, Cairo 2.19, ADR-0007) consumes it, or 1.8.0 while the game's `snforge_std` stays within `0.61.x`: both give the same results. The game's `docs/CAIRO.md` §4 still names `origami_hexmap` | Game's orchestrator |
 | 2. Migration | `0.1.0` published; `takeover_tests` green | The game's dependency moves to `hexx = "0.1.0"` and `uint252 = "0.1.0"` (published; needed for the type); imports change from `origami_hexmap::{HexMap, HexMapTrait, Direction, U252Trait, u252}` to `hexx::{HexMap, HexMapTrait, Direction}` and `uint252::{U252Trait, u252}`; the three renamed helpers (§5.2) if used; the game's test vectors are unchanged by construction. `docs/CAIRO.md` §4 is updated ("`u252` from the package `uint252`", "the map library `hexx`") | Game (ENG-05 or a dedicated lot), with the library's changelog |
 | 3. Deprecation notice | The game's migration merged | A pull request in `dojoengine/origami`: the README of `crates/hexmap` says "Superseded by `hexx` (scarbs.xyz), same results; no further releases", the `Scarb.toml` description says the same. No code change, no release needed; the notice is on `main` and on the registry's README when 1.8.1 is published, which is the owner's call | Owner (maintainer of `origami`) |
 | 4. Removal | LIB-07: parity reached or exclusions closed; the game on `hexx` for one full phase; no open issue naming `origami_hexmap` | `crates/hexmap` removed from the `origami` workspace on `main`; the tag `v1.8.0` keeps the source; the registry keeps `origami_hexmap` 1.8.0 (registry packages are not unpublished). `takeover_tests` deleted here | Owner, LIB-07 |
@@ -1085,19 +1177,23 @@ Final state of the crate in `dojoengine/origami`: absent from `main`, present in
 | R-2 | **Closed.** The `u252` type was published on 2026-09-28 as the package `uint252` 0.1.0 (§3.4); L-M1 does not depend on it anyway (§9.3) | L-G1, question 3 | Nothing to do | — |
 | R-3 | scarbs.xyz may refuse pre-release identifiers | Not verified | Fallback `0.0.N` (§9.1) | LIB-04 verifies |
 | R-4 | The name `hexx` may be taken before publication | Free on 2026-09-28 | LIB-04 publishes an empty `0.0.1` at repository setup to reserve it, if the owner agrees | Owner |
-| R-5 | The estimates of §7 are refuted by measurement, in particular N-8 (470–670k per tick), the assembly (~70k per tick) and N-1 (+15–25 %) | All marked estimate; the tick budget is the game's R-2 (`grimworld:PLAN.md`) | Every estimate is replaced by a measurement in LIB-05; a miss above 25 % is reported before the release; the fallback of ADR-0006 (sight 5 on 13 × 14, not designed here, §6.4b) stays the game's | LIB-05 reports; owner decides |
-| R-6 | The row-parity trap: a chunk-level function (N-1, N-2) called with the wrong `odd` flag, or a window built on an odd origin, runs on a different hex grid than the map | LIB-02 §5.4; ADR-0006 §4; `window-parity-check.md` §1 | The flag is explicit on the two chunk-level functions and nowhere else; `assembly::origin` cannot produce an odd origin and `assemble` panics on one (`'Assembly: odd origin'`); the seam tests run on a double-width board with true global parity | LIB-05 |
+| R-5 | The estimates of §7 are refuted by measurement, in particular the tick (1.31M on the cave benchmark, §6.9), the assembly (~85k per tick) and N-1 (+34 %) | All marked estimate, each the sum of its operations; the tick budget is the game's R-2 (`grimworld:PLAN.md`) | Every estimate is replaced by a measurement in LIB-05; a miss above 25 % is reported before the release; the fallback of ADR-0006 (sight 5 on 13 × 14, not designed here, §6.4b) stays the game's | LIB-05 reports; owner decides |
+| R-6 | The row-parity trap: a chunk-level function (N-1, N-2) called with the wrong `odd` flag, or a window built on an odd origin, runs on a different hex grid than the map | LIB-02 §5.4; ADR-0006 §4; `window-parity-check.md` §1 | The flag is explicit on the two chunk-level functions and nowhere else; `assembly::origin` cannot produce an odd origin and `assemble` panics on one (`'Assembly: odd origin'`); the seam and generation oracles run on signed global coordinates with the true global parity | LIB-05 |
 | R-14 | The window's origin can lie before the location's first tile (adventurer within 7 columns or 8 rows of the location's edge) | §6.4 | Global coordinates are `i16` in `origin` and `local`; a chunk outside the location is passed as 0 (wall), which the location's closed border already implies | LIB-05 |
-| R-7 | The tie rule at column 0 (the preferred tile can be off the board) | §6.6 (inferred) | The board form clears the column band and treats leaving the board as blocked; the property `line(a, b) == line(b, a)` is tested on every pair | LIB-05 |
+| R-15 | **The flood has no small bound**: on a winding board it reaches up to 182 layers on 15 × 16 (3.57M), and the per-walker scans grow with the distance (§6.9) | Audit finding 9; `GAS.md:182` (a 90-step path on the serpentine fixture) | The library exposes `depth` and benchmarks both a cave and a serpentine; whether the game truncates, and what a truncated walker does, is Q-5 | Game decides Q-5; SPK-7 measures |
+| R-16 | The formulas of N-1 (planes and divisibility masks) and N-2 (four seam formulas) are derived here and checked by reasoning only; a wrong term would give wrong boards | §6.2, §6.3; audit findings 1, 2, 4 | M1-T8 and M1-T7 are design tasks with their oracles (§8); a refuted formula is corrected in the task and the plan | LIB-05 |
+| R-7 | The tie rule at column 0 (the preferred tile can be off the board) | §6.6 (inferred), audit finding 7 | `line` returns `None` when a tile of the line lies outside the board and `line_of_sight` treats `None` as blocked (D-27); no clipping; the property `line(a, b) == line(b, a)` is tested on every pair, `None` included | LIB-05 |
 | R-8 | `hexx`'s `f32` ties in `Div<i32>` and `to_lower_res` cannot be reproduced bit for bit where `f32` error decides | LIB-02 §4; §4.4 | Exact rational counterparts; the vectors list the inputs where `hexx` deviates from its own rule; they are deviations, not misses | Owner accepts at L-G2 |
-| R-9 | Toolchain drift: every measured figure is at scarb 2.19.4 / snforge 0.61.0; the game pins its own toolchain in SPK-5 | `GAS.md:140`; `grimworld:PLAN.md` SPK-5 | LIB-04 pins the same versions in `.tool-versions`; a bump is a dedicated pull request that regenerates every snapshot (house rule) | LIB-04 |
+| R-9 | Toolchain drift: every measured figure is at scarb 2.19.4 / snforge 0.61.0; the game is on the same Cairo 2.19 since ADR-0007, its exact pins set by SPK-5b | `GAS.md:140`; ADR-0007 § Decision | LIB-04 pins scarb 2.19.4 and snforge 0.61 in `.tool-versions`; a bump is a dedicated pull request that regenerates every snapshot (house rule); the game's pins and the library's are reconciled when SPK-5b reports | LIB-04; SPK-5b |
+| R-17 | The published package carries `snforge_std` as a regular dependency although the manifest declares a dev-dependency, as happened to 1.8.0 (§2.1, N-9) | `grimworld:docs/needs/hexmap.md` § "N-9 in detail" against `hexmap:Scarb.toml:14-15` | The consumer check of M1-N9 runs against the published artefact of every release candidate and release, not against the manifest; LIB-04 records the cause | M1-N9; LIB-04 |
 | R-10 | The local `extern fn bitwise` declaration (`hexmap:src/helpers/bits.cairo:54`) is a private corelib libfunc; a compiler version could refuse it | Allowed by the owner for `origami_hexmap` | Kept; the fallback is the corelib operators at +30 % per generation (`GAS.md:654`) | Owner, if a compiler refuses it |
-| R-11 | Class size of the game's contract with the tables | §7: ~340 felts for L-M1's new tables | A `consumer` fixture and `bytecode_size.py check` as in `glam-cairo`, from LIB-04 | LIB-04 |
+| R-11 | Class size of the game's contract with the tables | §7: 596 new entries, ~665 CASM felts (estimate) for L-M1's new tables, on top of the ~2,200 felts of the taken-over tables the game already pays | A `consumer` fixture and `bytecode_size.py check` as in `glam-cairo`, from LIB-04; the compiled size is what counts, the entry counts are declarations | LIB-04 |
 | R-12 | Two direction types (§3.2) may confuse consumers | — | One table in the README (§3.2), conversions in both directions, the compass note on `EdgeDirection` | Owner may reverse (§12) |
 | R-13 | The mirror's `Span<Hex>` outputs allocate per element; a consumer that calls them in a hot path pays for it | LIB-02 §4 | Documented on the type: the bitmap forms of `board` are the on-chain tools; the mirror's spans are for parity, tests and the client | — |
 | Q-1 | Does the game need `hexagon(8)` (earshot) on the window, where the adventurer at `(7, 7)` or `(7, 8)` is 7 tiles from the ring? | `grimworld:docs/design/04-combat.md` § Ranges | `hexagon` clips at the board; earshot beyond the window is a distance test on global coordinates (`distance_between`), which the game can do without a board. To confirm with the game | Game |
-| Q-3 | Which toolchain versions does LIB-04 pin: `origami_hexmap`'s (2.19.4 / 0.61.0) or SPK-5's? | R-9 | Recommendation: `origami_hexmap`'s until SPK-5 is done, then the game's, in one dedicated bump | Owner |
+| Q-3 | **Closed by ADR-0007**: the game and the library share Cairo 2.19 (Scarb 2.19.4, snforge 0.61); LIB-04 pins `origami_hexmap`'s versions, and the game's exact pins (SPK-5b) are reconciled in one dedicated bump if they differ | R-9 | Nothing to decide | — |
 | Q-4 | Should the release candidates be consumed by SPK-7, or should SPK-7 stay on 1.8.0 and switch at 0.1.0? | `grimworld:PLAN.md` R-18 | Recommendation: switch at `0.1.0-rc.1` (identical results, no risk) so that the extensions are exercised as they land | Game's orchestrator |
+| Q-5 | **Does the tick truncate the flood, and what does a walker beyond the truncation do?** The library computes up to `depth` layers and gives no move to a walker whose neighbours are in no computed layer (§6.9, D-25) | Audit finding 9: a valid route of 45 layers on a 15 × 16 serpentine; the true bound is 182 layers | Two answers, each with its cost. (a) **No truncation** (`depth = 182`): every reachable walker moves; the flood costs 55k + 19.3k per layer, 538k on a cave and up to 3.57M on a serpentine, and a walker at distance `d` costs 4.7k × `d` + 14.4k to scan. (b) **Truncation at `D`** (for example 15 or 30): the flood costs at most 55k + 19.3k × `D` and a scan at most 4.7k × `D` + 14.4k, but a walker beyond `D` gets `None` and the game must say what it does (waits, walks by `hex_distance`, is frozen); that is a gameplay rule and a numeric result of the tick, frozen at 0.1.0. The plan decides nothing here | Game (project manager), before 0.1.0 |
 
 The former Q-2 (goblins on the ring as targets) is closed by D-120: a tile of the ring is 7
 tiles or more from the adventurer, never in sight and never in ranged range (ADR-0006 §4).
@@ -1137,11 +1233,11 @@ alternative:
 | D-2 | `Hex` on `i32`, overflow panics (§3.1) | `i16` components (no measurable gain; breaks `as_u64`) |
 | D-3 | Two direction types: `EdgeDirection` (mirror, `hexx` names, y-down compass) and `Direction` (board, north-up names), same indices (§3.2) | One type, at the price of renaming `hexx`'s constants or teaching the game y-down names |
 | D-4 | Bitmaps stay `felt252` in the board API; no `uint252` dependency in L-M1 (§3.3, §9.3) | `u252`-typed bitmaps from 0.1.0 (`uint252 = "0.1.0"`, published), changing every signature |
-| D-5 | The mirror foundation is inside L-M1 (§8) | L-M1 = extensions only; the mirror starts at L-M2 and the line's definition lives only on the board |
+| D-5 | L-M1 carries only the mirror items its extensions depend on (`Hex` core, `line_to`, the offset conversions and enums, `EdgeDirection` and its rotations), each traced in §8; the rest of the mirror is L-M2 | Either narrower (L-M1 = extensions only, the line defined on the board alone and the parity table starting at 0.2.0) or wider (the first version's foundation: constructors, constants, `neighbor`, the `Hex` rotations, operators, in 0.1.0); the owner chooses, since L-G1 says "L-M1 unchanged" |
 | D-6 | `Hex::line_to` carries the game's tie rule as a documented deviation (§6.6) | A separately named `line_between`, leaving `line_to` unported (it cannot be reproduced without an `f32` model) |
 | D-7 | Geometric bitmaps named `hexagon` and `hexagon_ring` on the facade (§6.7) | `range_geometric` / `ring_geometric` |
-| D-8 | Canonical hexagon tables shifted and clipped, not a table per position (§6.7) | Per-position table for radius 6 (~2k instead of ~12k per query, +280 felts of class) |
-| D-9 | Line table for distance ≤ 6, loop beyond (§6.6) | Loop only (~40k per query, no table) |
+| D-8 | Canonical hexagon tables for radius ≤ 7 on width 15, clipped before the shift; the row loop elsewhere (§6.7) | Per-position table for radius 6 (~2k instead of ~23k per query, +280 felts of class) |
+| D-9 | Line table for distance ≤ 6 on width 15, with the extent test; the loop beyond and on other widths (§6.6) | Loop only (~62k per query in the interior, no table) |
 | D-10 | N-8 as `flood` returning layers plus `next_step` per walker, the id-order loop in the game (§6.9) | `next_steps(walkers) -> Span<u8>` computing all moves inside the library, which would freeze the id-order rule in the library |
 | D-11 | Parity tooling by source parsing, house scripts adapted (§4.2) | `rustdoc` JSON |
 | D-12 | Iterator-returning items ported as eager spans (§1.1) | Excluding them (the table would drop ~40 integer items) |
@@ -1153,7 +1249,22 @@ alternative:
 | D-18 | The parity flag is a parameter of the chunk-level functions (N-1, N-2), not a field of `HexMap` (§3.3) | A `parity` field or a `Chunk` type, changing the stored layout |
 | D-19 | `assemble` refuses an odd origin by a panic `'Assembly: odd origin'` (§6.4) | An `Option`, at the price of a branch in every tick and of a silent fallback |
 | D-20 | `assemble` takes the chunk offsets `(ox, oy)` and the chunk-row parity; the helper `origin(x, y)` on `i16` global coordinates computes them and can never produce an odd origin (§6.4) | `assemble` on global coordinates directly, with the two `DivRem` inside the per-tick call |
-| D-21 | The rectangle masks of the assembly are the product of two 15-entry band tables (§6.4) | One 225-entry table per chunk role (900 felts), or a field division per call |
+| D-21 | The rectangle masks of the assembly are the product of band tables (60 felts, shared with `hexagon`) (§6.4) | One 225-entry table per chunk role (900 felts), or a field division per call |
+
+**Behavioural decisions that become numeric results at 0.1.0**, each with who accepts it:
+
+| # | Decision (section) | Alternative | Game-mandated or library policy | Decides |
+|---|---|---|---|---|
+| D-22 | The ring tiles of a chunk that face no generated neighbour are drawn from the seed with the interior and then frozen (§6.2) | Left as wall until a neighbour is generated (the chunk's free sides closed, opened later by seams); or evolved with an assumed wall beyond the chunk | Library policy, derived from ADR-0006 § Joining chunks ("draws its other edges") | Game confirms, owner at L-G2 |
+| D-23 | `cut` clears the ring as well as the tiles outside the mask (§6.5) | Keep ring bits that the mask allows (breaks the border invariant of every finder) | Library policy | Library; game confirms its masks never open the ring |
+| D-24 | `line_of_sight` never tests the endpoints: walls between block, the actors at the ends do not (§6.6) | Test `to` as well (a target on a wall tile is never visible) | Game-mandated: `grimworld:docs/design/04-combat.md` § Ranges, "walls block, actors do not" | Game |
+| D-25 | The flood is computed to `depth` layers and gives no move to a walker beyond them; the library does not choose `depth` (§6.9, Q-5) | The library floods to exhaustion always (no `depth`), at up to 3.57M on a serpentine | Game question | Game, before 0.1.0 |
+| D-26 | `FloodTrait::distance` of a tile that is not in any layer (an obstacle, a walker) is the lowest layer of a neighbour plus one (§6.9) | `None` for every tile outside the layers | Library policy (it is what the walker's own distance means under the frozen-occupancy rule) | Library; game confirms |
+| D-27 | A line that leaves the board is `None`, and `None` blocks sight; nothing is clipped (§6.6) | Clip the line to the board and test what remains (reports clear sight for the tied midpoint of `(0, 0) → (0, 2)` on a 7 × 7) | Library policy, forced by the game's tie rule at column 0 | Library; game confirms |
+| D-28 | `smooth` holds the tiles of `held` and the whole ring; its domain is that of `generate_with_margins` (§6.2) | Hold `held` only, letting ring tiles evolve against an assumed wall outside | Library policy | Library |
+| D-29 | `distance_between` returns `u16` and computes on `u16`; `neighbor_direction` validates adjacency through coordinates; `rotate` reduces its offset first (§6.1, §6.8) | A bounded `u8` domain for coordinates (below 128 per side), documented and asserted | Library policy | Library |
+| D-30 | `Caver::generate_with_margins` and `smooth` refuse boards with `W·(H + 1) + 1 > 251` (`'Caver: dimensions too large'`), so 17 × 14 is refused while every chunk of 15 × 15 passes (§6.2) | Mask the top rows before the up-shifts at the cost of two more ANDs per generation, to accept every board of the engine | Library policy | Library; owner if a larger chunk is ever wanted |
+| D-31 | Compiler target Cairo 2.19 (Scarb 2.19.4, snforge 0.61), `BoundedInt` kept, one code base, no floor at Cairo 2.13, no separate class; `snforge_std` a dev-dependency verified on the published package; no Dojo dependency, model or world anywhere (§0, §2.1, §8 N-9) | A floor at Cairo 2.13 with `BoundedInt` replaced, for a consumer that is not on 2.19: none exists since ADR-0007 | Follows the owner's D-123 | Owner at L-G2 |
 
 ## 13. Where each decision and answer is honoured
 
@@ -1166,14 +1277,16 @@ alternative:
 | L-G1 consequences: parity table against the whole public API of 0.25.0, every exclusion with its reason and its integer counterpart | §4 |
 | L-G1 consequences: extensions documented outside the parity table | §1.2, §4.2 (`docs/EXTENSIONS.md`) |
 | L-G1 consequences: results identical to 1.8.0 so that the game migrates without moving its vectors | §5.4, §10 step 2 |
-| L-G1 consequences: milestone L-M1 unchanged | §8 |
+| L-G1 consequences: milestone L-M1 unchanged | §8: the extensions N-1 to N-8, distance and neighbours, plus only the mirror items they depend on, each traced; the width of that mirror set is D-5 for the owner |
 | L-G1 consequences: decommissioning steps and condition in the release plan | §10 |
 | Point 1: margins inside the chunk, 13 × 13 interior evolves | §6.2 |
 | Point 2: a parity flag in the layout; chunks stay 15 × 15 | §6.2 (`LayoutTrait::new_odd`), §3.3 (a parameter, not a field), §6.3 |
 | Point 3: the library's axis convention is kept (`+x` West, odd-r); the client mirrors | §3.3, §3.5 (the negation of `x` in the conversion) |
 | Point 4, decided by D-120 (owner, 2026-09-28): the window follows the adventurer, is 15 × 16, is recomputed at each tick and not stored; chunks stay 15 × 15; the origin on an even global row is an explicit constraint; the adventurer is on local `(7, 7)` or `(7, 8)`; the parity flag serves N-1 and N-2 only; the fallback is sight 5 on 13 × 14 | §6.4 (assembly, the refusal of an odd origin, the worst case at each tick), §6.4b (the fallback, not designed), §6.6 and §6.7 (local position as input), §6.9 and §7 (figures on 15 × 16), §3.3 and §5.3 (the flag never reaches the finders), §11 R-1 and R-6 |
-| Point 5: one flood per tick on frozen occupancy; current occupancy filters; id order; fallback to the same layer; frozen at the first release | §6.9, §9.2 |
+| Point 5: one flood per tick on frozen occupancy; current occupancy filters; id order; fallback to the same layer; frozen at the first release | §6.9, §9.2; the depth of the flood is the game's open question Q-5 (§11) and D-25 (§12) |
 | Point 6: the game's tie rule; a documented deviation from `line_to`, excluded from the table at ties | §6.6, §4.3 (the tie list), §4.4 (`line_to` row) |
 | Point 7: `hexx`'s names and semantics kept in the mirror; the game's arcs written with directions | §3.2, §6.8, §2.4 (the clash table) |
+| N-9, reduced (`grimworld:docs/needs/hexmap.md` row N-9 and § "N-9 in detail"): `snforge_std` as a dev-dependency so that the library resolves next to any test setup of its consumer; part of L-M1 | §2.1 (the manifest, the defect of the published 1.8.0), §8 (L-M1 content, exit (8), task M1-N9), §11 R-17 |
+| ADR-0007, D-123 (owner, 2026-09-28): the game is a set of plain Starknet contracts on Cairo 2.19, without Dojo; the compiler part of N-9 is void | §0 (compiler target: Cairo 2.19, `BoundedInt` kept, no floor, no separate class), §2.1 (no Dojo dependency; description and keywords), §5.5, §9.1 and §10 (what the game does meanwhile), §11 R-9, Q-3 closed, §12 D-31 |
 | COMMON.md §5: parity table generated and checked in CI; deviations documented; numeric results are API; what is taken over keeps its results | §4.2, §9.2, §5.4 |
 | `grimworld:docs/CAIRO.md`: test-driven, gas as a test result, execution cost first, arithmetic then bitwise then loops, tables, oracles, determinism (lowest tile index) | §6 (each entry), §7, §6.9 |
