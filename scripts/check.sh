@@ -31,6 +31,10 @@ python3 -m unittest discover -s scripts/tests
 python3 scripts/api_parity.py --check
 python3 scripts/api_parity.py --extensions --check
 python3 scripts/deviations.py --check
+# The take-over of origami_hexmap 1.8.0 is a move: every moved file equals its source after the
+# rewrites of the script. Needs the read-only checkout of dojoengine/origami at 04ab30c
+# (sources/origami); says so and skips when it is not there (CI clones it in the `takeover` job).
+python3 scripts/takeover_check.py --skip-if-missing
 # Golden vectors are up to date with tools/refgen. CI's dedicated `golden` job always has a Rust
 # toolchain and always runs this; locally, and in every other CI job, a missing `cargo` is a
 # failure unless CHECK_SKIP_GOLDEN=1 is set on purpose (a machine or a CI job with no Rust

@@ -52,6 +52,23 @@ jobs:
       # docs/DEVIATIONS.md must match the `#### Deviations` doc comments of crates/hexx/src.
       - run: python3 scripts/deviations.py --check
 
+  takeover:
+    name: Take-over of origami_hexmap is a move
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
+        with:
+          scarb-version: "2.19.4"
+      # Read-only checkout of the source at the commit of sources/VERSIONS.md, outside the repository.
+      - name: Fetch dojoengine/origami at the pinned commit
+        run: |
+          git init --quiet "$RUNNER_TEMP/origami"
+          git -C "$RUNNER_TEMP/origami" fetch --quiet --depth 1 https://github.com/dojoengine/origami.git 04ab30caf02dcc8d2ecc46e9596b81732eedcec1
+          git -C "$RUNNER_TEMP/origami" checkout --quiet FETCH_HEAD
+      - run: python3 scripts/takeover_check.py --source "$RUNNER_TEMP/origami/crates/hexmap"
+
   test:
     name: Build and test ${{ matrix.package }}
     runs-on: ubuntu-latest
@@ -151,7 +168,7 @@ jobs:
   all-checks:
     name: All checks passed
     if: always()
-    needs: [links, scripts, fmt, test, package, gas, golden]
+    needs: [links, scripts, fmt, takeover, test, package, gas, golden]
     runs-on: ubuntu-latest
     steps:
       - env:
