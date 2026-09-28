@@ -68,18 +68,21 @@ The extraction is done by a separate session, not by this track.
 
 ## Points for the game, found by LIB-02
 
-They do not block L-G1. They must be answered before or during LIB-03, by the project manager
-or the owner, since they are design questions of the game:
+Answered by the project manager on 2026-09-28 in the game's repository
+(`bal7hazar/grimworld`, `main` at `60e61a6`, `docs/needs/hexmap.md` § *Answers to the
+library's questions*), except point 4, which changes ADR-0006 and is with the owner. Each
+answer stands unless a measurement of LIB-03 or SPK-7 shows it wrong. LIB-03 takes them as
+inputs.
 
-| # | Point | Why it matters |
+| # | Point | Answer |
 |---|---|---|
-| 1 | **Margins (N-1)**: the chunk's own outer ring copied from its neighbours, or the neighbours' tiles outside the chunk? | The second needs 17 × 17 = 289 bits and does not fit one felt |
-| 2 | **Chunks on odd rows**: chunks are 15 rows high, so every other row of chunks starts on an odd global row | The library derives neighbours from local row parity: generation and seams of those chunks need a parity flag, or a chunk height that is even |
-| 3 | **Global axis**: does `+x` point East? | The index of `origami_hexmap` has `+x` West |
-| 4 | **Sight beyond the window**: the window re-centres only within 3 tiles of its edge, so sight of radius 6 and ranged lines can leave it | Interplay of ADR-0006 §4 and design/04 |
-| 5 | **Flood and occupancy (N-8)**: one flood per tick on the occupancy frozen at the start of the tick, current occupancy only filtering each goblin's step? | The alternative costs up to 8 floods per tick (about 2.1–2.5M against 300–450k, estimates); moves are numeric API |
-| 6 | **Line of sight**: `hexx` has no tie rule (float rounding decides, and the result changes under translation). The game's rule (lower tile index) is symmetric | It is a documented deviation from `hexx`, not a port of `line_to` |
-| 7 | **"Clockwise"**: `hexx`'s `clockwise` turns counter-clockwise on a north-up map | Keep the name as-is and document it, or rename as a deviation |
+| 1 | **Margins (N-1)**: inside the chunk, or the neighbours' tiles outside it (17 × 17 = 289 bits, more than a felt)? | **Inside**: the chunk's outer ring holds the tiles copied from its neighbours; the 13 × 13 interior evolves |
+| 2 | **Chunks on odd rows**: chunks are 15 rows high, so every other row of chunks starts on an odd global row, where the library's neighbour logic is wrong | **A parity flag in the layout**; chunks stay 15 × 15 |
+| 3 | **Global axis**: does `+x` point East? | **The library's convention is kept** (`+x` West in the index, odd-r); the game's global coordinates follow it, the client mirrors for display |
+| 4 | **Sight beyond the window**: the window re-centres only within 3 tiles of its edge, so sight of radius 6 and ranged lines can leave it | **Open, with the owner** (game's `docs/decisions/PENDING-L-G1.md`) |
+| 5 | **Flood and occupancy (N-8)** | **One flood per tick** on the occupancy frozen at the start of the tick; current occupancy filters each goblin's candidate tiles, in ascending id order; fallback to the same layer. Frozen at the first release |
+| 6 | **Line of sight**: `hexx` has no tie rule | **The game's rule**: integer line, ties to the lower tile index. A documented deviation from `line_to`, excluded from the parity table at ties |
+| 7 | **"Clockwise"**: `hexx`'s `clockwise` turns counter-clockwise on a north-up map | **Keep `hexx`'s names and semantics** in the `hexx`-named module, documented. The game's arcs are written with directions, never with the word |
 
 ## Answer
 
