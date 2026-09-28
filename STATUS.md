@@ -4,20 +4,21 @@
 
 | | |
 |---|---|
-| Phase | Planning: **LIB-03 (porting plan)**, before gate L-G2 |
-| Gate L-G1 | **Decided by the owner on 2026-09-28**: [L-G1](docs/decisions/L-G1-hexx-port.md). Full parity with `hexx` wherever it makes sense, extended with what Cairo and the network require; the library lives here; the engine of `origami_hexmap` is taken over; `origami_hexmap` is decommissioned once the port is complete |
-| Running agents | `[Fable 5.1]` LIB-03, resumed for fix loop 1 after the audit by `[GPT-6-Astra]` (FAIL, 20 findings; pull request #9 open). |
-| Need N-9 (2026-09-28) | Raised and reduced the same day. The owner dropped Dojo (the game's ADR-0007): the game is on Cairo 2.19, the library keeps its compiler and `BoundedInt`. **LIB-03b is cancelled, never launched.** What remains: `snforge_std` as a dev-dependency, no dependency on Dojo, tests with snforge only. LIB-03 receives it at its next resume |
-| Pending owner decisions | None |
-| Window (D-120, owner, 2026-09-28) | It follows the adventurer, is 15 columns × 16 rows, is recomputed at each tick and not stored. Merged in the game's documents (`bal7hazar/grimworld` `2e5bdbc`), on the basis of [the check of the library's code](docs/research/window-parity-check.md). LIB-03 receives it as an input when it is resumed |
-| Next | Audit of LIB-03 by `[GPT-6-Astra]`, then gate L-G2 |
-| Blocked | Nothing |
+| Phase | **Stopped: LIB-03 escalated.** Three fix loops used, audit pass 4 still FAIL (6 findings, 3 major) |
+| Pending decisions | [PENDING-LIB-03-fix-loops](docs/decisions/PENDING-LIB-03-fix-loops.md): a fourth fix loop limited to the six findings (recommended), merge as is, or restructure |
+| Lot | Pull request #9 (the porting plan), open, CI green, not merged |
+| Running agents | None |
+| Gate L-G1 | Decided by the owner on 2026-09-28: [L-G1](docs/decisions/L-G1-hexx-port.md) |
+| Gate L-G2 | Not reached: it opens when the plan is merged |
+| Inputs received since L-G1 | Window of 15 × 16, recomputed at each tick (D-120); `uint252` 0.1.0 published; the game dropped Dojo and is on Cairo 2.19 (its ADR-0007); N-9 reduced to `snforge_std` as a dev-dependency; LIB-03b cancelled before launch. All are in the plan |
+| Estimate to remember | The tick, worst case of the plan: 1.34M to 1.67M, against 740k in the first draft. Estimates; nothing was measured |
 
 ## Done
 
 | Date | What |
 |---|---|
 | 2026-09-28 | LIB-01: repository set up (pull request #1) |
+| 2026-09-28 | LIB-03: plan written by `[Fable 5.1]`, four audit passes by `[GPT-6-Astra]`, three fix loops; escalated |
 | 2026-09-28 | Gate L-G1 decided by the owner; launcher of the game adopted; brief of LIB-03 |
 | 2026-09-28 | LIB-02: [analysis of `hexx` and `origami_hexmap`](docs/research/LIB-02-hexx-analysis.md) by `[Opus 5.5]` (pull request #2); audit by `[GPT-6-Sol]` in two passes, 4 then 2 findings, all fixed by the resumed agent in two fix loops; [report](docs/reports/LIB-02-REPORT.md) archived |
 
@@ -36,8 +37,7 @@ version.
 - **Launcher adopted.** `scripts/agent.sh`, `scripts/lock.sh` and `scripts/profiles/` are
   copied from `bal7hazar/grimworld` (`6c2351e`); only the unit prefix (`hexmap-`) and the
   lock name differ. It detaches `codex` with `setsid`, where the read-only sandbox is
-  expected to start (it could not from a systemd unit during LIB-02): to be confirmed by the
-  audit of LIB-03.
+  starts: confirmed by the audits of LIB-03, where the auditor read the sources itself.
 - **`u252`.** Delivered: package `uint252` 0.1.0 on scarbs.xyz (owner, 2026-09-28; checked in
   the registry index and in `bal7hazar/types-cairo` at `35f74d5`). The first version of the
   LIB-03 plan calls it `u252`: corrected at its next resume.
