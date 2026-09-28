@@ -165,13 +165,16 @@ jobs:
       - name: Run the full local gate (golden vectors mandatory)
         run: scripts/check.sh
 
-      # A pre-release version (one with a hyphen, `0.1.0-rc.N`) carries only part of the milestone
-      # it maps to (plan §9.1: `0.1.0-rc.1` is the take-over alone; the full L-M1 mirror is due
-      # only at the stable `0.1.0`, §9.2) — the gate is informational for it, not enforced; a
-      # stable version (no hyphen) enforces it. `--report-only` is `scripts/api_parity.py`'s own,
-      # tested option, never a `|| true` here, which would as readily hide a real failure of a
-      # stable-version release. The missing-item listing (if any) goes to the job summary and the
-      # uploaded artifact either way, so a reviewer sees exactly what is still open.
+      # A pre-release version (a hyphen in the part before any `+`, `0.1.0-rc.N`) carries only part
+      # of the milestone it maps to (plan §9.1: `0.1.0-rc.1` is the take-over alone; the full L-M1
+      # mirror is due only at the stable `0.1.0`, §9.2) — the gate is informational for it, not
+      # enforced; any other version enforces it. Whether a version is a pre-release is decided by
+      # `scripts/api_parity.py --is-prerelease` (unit-tested; `0.1.0+build-1` is stable), never by
+      # a pattern here. `--report-only` is `scripts/api_parity.py`'s own, tested option, never a
+      # `|| true` here, which would as readily hide a real failure of a stable-version release.
+      # The whole missing-item listing (if any) goes to the job summary and the uploaded artifact
+      # either way — stdout and stderr both captured, the summary written even when the check
+      # fails — so a reviewer sees exactly what is still open.
       - name: Verify the milestone the version implies is met
         id: milestone_check
         env:
@@ -179,13 +182,17 @@ jobs:
           VERSION: ${{ inputs.version }}
         run: |
           set -o pipefail
-          if [[ "$VERSION" == *-* ]]; then
-            python3 scripts/api_parity.py --check-release "$MILESTONE" --report-only \
-              | tee milestone-report.txt
+          prerelease=$(python3 scripts/api_parity.py --is-prerelease "$VERSION")
+          status=0
+          if [ "$prerelease" = "true" ]; then
+            python3 scripts/api_parity.py --check-release "$MILESTONE" --report-only 2>&1 \
+              | tee milestone-report.txt || status=$?
           else
-            python3 scripts/api_parity.py --check-release "$MILESTONE" | tee milestone-report.txt
+            python3 scripts/api_parity.py --check-release "$MILESTONE" 2>&1 \
+              | tee milestone-report.txt || status=$?
           fi
           cat milestone-report.txt >> "$GITHUB_STEP_SUMMARY"
+          exit "$status"
 
       - name: Package crates/hexx
         run: scarb package -p hexx

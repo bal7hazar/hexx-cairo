@@ -897,5 +897,155 @@ class RealCheckoutClassification(unittest.TestCase):
         self.assertEqual([], bad)
 
 
+class TransitiveReexports(FixtureTreeCase):
+    """LIB-04b finding *New 1*: a re-export resolved through a chain (a `pub use` of a `pub use`,
+    through private modules), a glob in the chain, and one item exported under two names."""
+
+    STRUCT = "pub struct Hex {\n    pub x: u8,\n}\n"
+
+    def exported(self, root_text: str, files: dict[str, str], path=("inner",), name="Hex"):
+        nodes = self.build(root_text, files, root_name="lib.cairo")
+        reachable = ap.compute_reachable_modules(nodes, cfg_exempt=frozenset())
+        bridged, globs, _used = ap.collect_use_statements(nodes, reachable)
+        return ap.exported_names(path, name, reachable, bridged, globs), (
+            nodes, reachable, bridged, globs)
+
+    def scanned(self, tree) -> set[str]:
+        nodes, reachable, bridged, globs = tree
+        items = ap.scan_cairo_tree(nodes, reachable, bridged, globs,
+                                   lambda path, name: "Hex")
+        return {i.name for i in items if i.kind == "struct"}
+
+    def test_chain_of_two_reexports_with_an_alias(self) -> None:
+        # the auditor's scenario: `pub use middle::Hex as Other` over `pub use super::inner::Hex`
+        names, tree = self.exported(
+            "mod inner;\nmod middle;\npub use middle::Hex as Other;\n",
+            {"inner.cairo": self.STRUCT, "middle.cairo": "pub use super::inner::Hex;\n"},
+        )
+        self.assertEqual(["Other"], names)
+        self.assertEqual({"Other"}, self.scanned(tree))
+
+    def test_chain_of_three_reexports(self) -> None:
+        names, _ = self.exported(
+            "mod inner;\nmod a;\nmod b;\npub use b::Hex as Far;\n",
+            {"inner.cairo": self.STRUCT, "a.cairo": "pub use super::inner::Hex;\n",
+             "b.cairo": "pub use super::a::Hex;\n"},
+        )
+        self.assertEqual(["Far"], names)
+
+    def test_two_root_exports_of_one_item_keep_both_names(self) -> None:
+        names, tree = self.exported(
+            "mod inner;\npub use inner::Hex;\npub use inner::Hex as Other;\n",
+            {"inner.cairo": self.STRUCT},
+        )
+        self.assertEqual(["Hex", "Other"], names)
+        self.assertEqual({"Hex", "Other"}, self.scanned(tree))
+
+    def test_reachable_module_reexported_under_an_alias_keeps_its_own_name_too(self) -> None:
+        names, _ = self.exported(
+            "pub mod inner;\npub use inner::Hex as Other;\n", {"inner.cairo": self.STRUCT})
+        self.assertEqual(["Hex", "Other"], names)
+
+    def test_glob_in_the_chain(self) -> None:
+        names, _ = self.exported(
+            "mod inner;\nmod middle;\npub use middle::Hex as Other;\n",
+            {"inner.cairo": self.STRUCT, "middle.cairo": "pub use super::inner::*;\n"},
+        )
+        self.assertEqual(["Other"], names)
+
+    def test_glob_over_a_module_that_holds_a_named_reexport(self) -> None:
+        names, _ = self.exported(
+            "mod inner;\nmod middle;\npub use middle::*;\n",
+            {"inner.cairo": self.STRUCT, "middle.cairo": "pub use super::inner::Hex as Renamed;\n"},
+        )
+        self.assertEqual(["Renamed"], names)
+
+    def test_glob_chain_exports_the_declaration_under_its_own_name(self) -> None:
+        names, _ = self.exported(
+            "mod inner;\nmod middle;\npub use middle::*;\n",
+            {"inner.cairo": self.STRUCT, "middle.cairo": "pub use super::inner::*;\n"},
+        )
+        self.assertEqual(["Hex"], names)
+
+    def test_cycle_of_globs_is_legal_and_terminates(self) -> None:
+        names, _ = self.exported(
+            "mod inner;\nmod a;\nmod b;\npub use a::Hex;\n",
+            {"inner.cairo": self.STRUCT, "a.cairo": "pub use super::b::*;\npub use super::inner::*;\n",
+             "b.cairo": "pub use super::a::*;\n"},
+        )
+        self.assertEqual(["Hex"], names)
+
+    def test_cycle_of_named_reexports_raises_with_file_and_line(self) -> None:
+        with self.assertRaises(SystemExit) as ctx:
+            self.exported(
+                "mod a;\nmod b;\npub use a::X;\n",
+                {"a.cairo": "pub use super::b::X;\n", "b.cairo": "pub use super::a::X;\n"},
+            )
+        self.assertRegex(str(ctx.exception), r"\.cairo:\d+.*cycle of re-exports")
+
+    def test_reexport_of_a_module_raises_with_file_and_line(self) -> None:
+        with self.assertRaises(SystemExit) as ctx:
+            self.exported("mod inner;\npub use inner as other;\n", {"inner.cairo": self.STRUCT})
+        self.assertRegex(str(ctx.exception), r"lib\.cairo:2.*re-exporting a module")
+
+    def test_private_use_does_not_extend_the_chain(self) -> None:
+        names, _ = self.exported(
+            "mod inner;\nmod middle;\npub use middle::Hex;\n",
+            {"inner.cairo": self.STRUCT, "middle.cairo": "use super::inner::Hex;\n"},
+        )
+        self.assertEqual([], names)
+
+
+class VersionIsPrerelease(unittest.TestCase):
+    """LIB-04b finding *New 2*: a pre-release iff the part before any `+` holds a hyphen."""
+
+    def test_versions(self) -> None:
+        for version, expected in [
+            ("0.1.0", False), ("0.1.0-rc.1", True), ("0.1.0+build-1", False),
+            ("1.0.0-rc.1+build-1", True), ("1.0.0+a-b", False), ("1.0.0-", True),
+            ("1.0.0+", False), ("1.0.0-rc.1", True),
+        ]:
+            with self.subTest(version=version):
+                self.assertEqual(expected, ap.is_prerelease(version))
+
+    def test_cli_prints_true_or_false(self) -> None:
+        for version, expected in [("0.1.0+build-1", "false"), ("0.1.0-rc.1", "true")]:
+            with self.subTest(version=version), mock.patch.object(
+                sys, "argv", ["api_parity.py", "--is-prerelease", version]
+            ), mock.patch("builtins.print") as printed:
+                self.assertEqual(0, ap.main())
+                printed.assert_called_once_with(expected)
+
+
+class ReleaseReportIsComplete(unittest.TestCase):
+    """LIB-04b finding *P2-13*: the whole missing-item list, on the stream the workflow captures."""
+
+    def items(self, count: int) -> list[ap.Item]:
+        return [ap.Item("Hex", "method", f"m{i}", "hex/mod.rs") for i in range(count)]
+
+    def run_report(self, report_only: bool):
+        import io
+        out, err = io.StringIO(), io.StringIO()
+        with mock.patch.object(ap, "milestone_of", return_value="L-M1"), \
+                mock.patch.object(ap, "classify",
+                                  side_effect=lambda h, c: ({i: ("missing", "") for i in h}, [])), \
+                mock.patch.object(sys, "stdout", out), mock.patch.object(sys, "stderr", err):
+            code = ap.check_release(self.items(66), [], "L-M1", report_only=report_only)
+        return code, out.getvalue(), err.getvalue()
+
+    def test_report_only_prints_all_items_to_stdout(self) -> None:
+        code, out, err = self.run_report(report_only=True)
+        self.assertEqual(0, code)
+        self.assertEqual("", err)
+        self.assertEqual(67, len(out.splitlines()))  # heading + 66 items
+        self.assertIn("Hex::m65", out)
+
+    def test_enforced_failure_lists_all_items_too(self) -> None:
+        code, out, err = self.run_report(report_only=False)
+        self.assertEqual(1, code)
+        self.assertEqual("", out)
+        self.assertEqual(67, len(err.splitlines()))
+
+
 if __name__ == "__main__":
     unittest.main()
