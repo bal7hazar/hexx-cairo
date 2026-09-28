@@ -1,2 +1,2 @@
 # gas: measured budget
-takeover_tests::test_origami_hexmap_new_empty: 17080 17934
+takeover_tests::tests::test_origami_hexmap_new_empty: 17080 17934

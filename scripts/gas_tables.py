@@ -58,9 +58,11 @@ def render(packages: dict[str, dict[str, tuple[int, int]]]) -> str:
         "(`.tool-versions`), Sierra gas (`l2_gas`, what a transaction pays).",
         "",
         "The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries "
-        "`#[available_gas(l2_gas: N)]`, `N = ceil(1.05 * measured)`. "
-        "`python3 scripts/bench.py check` fails a test with no `#[available_gas]`, or whose "
-        "budget is more than 5 % above its measurement (`scripts/check.sh`, CI job `gas`).",
+        "`#[available_gas(l2_gas: N)]`; `N = ceil(1.05 * measured)` when a budget is set or "
+        "raised, and lowering one needs nothing but the lower number. "
+        "`python3 scripts/bench.py check` fails a test that was not measured (ignored, "
+        "filtered) and has no budget, or whose budget is outside "
+        "`[measured, ceil(1.05 * measured)]` (`scripts/check.sh`, CI job `gas`).",
         "",
         "| Test | Measured | Budget | Margin |",
         "|---|---:|---:|---:|",
