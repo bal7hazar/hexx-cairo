@@ -12,3 +12,5 @@ coverage/
 .DS_Store
 .idea/
 .vscode/
+# Experiments of research tasks, never committed
+/work/

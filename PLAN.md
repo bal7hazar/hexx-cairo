@@ -10,7 +10,7 @@ on 2026-09-28 and **owned here from now on**. The game's needs stay in the game'
 | Scope | **`hexx` is the reference**: feature parity wherever it makes sense on-chain, **extended** with the features tied to Cairo and to the network (bitmap boards, generation, floods, assembly). The engine of `origami_hexmap` is taken over here |
 | `origami_hexmap` | **Decommissioned once the port is complete** |
 | `u252` | From the package `uint252` (scarbs.xyz, 0.1.0 published on 2026-09-28; repository `bal7hazar/types-cairo`), by published version |
-| Meanwhile | The game consumes `origami_hexmap` 1.8.0, then migrates to this library by published version |
+| Meanwhile | The game **cannot** build `origami_hexmap` 1.8.0 (need N-9): it has no map library until the first release of this one that builds on its compiler |
 | Subject | `origami_hexmap` (`dojoengine/origami`, `crates/hexmap`) and the Rust crate [`hexx`](https://github.com/ManevilleF/hexx) |
 | Rules | The game's `OPERATIONS.md` and `docs/CAIRO.md` in full: test-driven, gas budget on every test, execution cost first, arithmetic then bitwise then loops, `u252`, oracles |
 | Convention | Mirror the Rust crate, same names, same API where it makes sense on-chain, deviations documented; a generated parity table checked in CI; numeric results are API |
@@ -25,6 +25,7 @@ on 2026-09-28 and **owned here from now on**. The game's needs stay in the game'
 | LIB-02 | **Analysis of `hexx`** and of its intersection with `origami_hexmap`, against needs N-1 to N-8 and milestone L-M1. Brief: [LIB-02](docs/briefs/LIB-02-hexx-analysis.md). Report: `docs/research/LIB-02-hexx-analysis.md` | LIB-01 | Opus 5.5, research | GPT-6-Sol | **done** (2026-09-28, pull request #2) |
 | **Gate L-G1** | **Is a port relevant, and where does it land?** | LIB-02 | Owner | — | **decided** 2026-09-28: [L-G1](docs/decisions/L-G1-hexx-port.md) |
 | LIB-03 | **Porting plan**: module tree mirroring `hexx`, exclusions and integer counterparts, extensions, take-over of the engine of `origami_hexmap`, parity-table method, milestones with API and gas targets, release plan, migration of the game, decommissioning. First milestone = L-M1. Brief: [LIB-03](docs/briefs/LIB-03-porting-plan.md) | L-G1 | Fable 5.1, research | GPT-6-Astra | in progress |
+| LIB-03b | **Compiler target** (need N-9): can the engine build on the Cairo that Dojo imposes (2.13), what replaces `BoundedInt`, at what cost in gas, one code base or two; the alternative of a separate class called by library call. Brief: [LIB-03b](docs/briefs/LIB-03b-compiler-target.md) | LIB-02 | Opus 5.5, audit profile | With LIB-03 | todo |
 | **Gate L-G2** | **Is the plan accepted?** Owner's decision | LIB-03 | Owner | — | — |
 | LIB-04 | Repository, CI, parity table, gas tooling, publication pipeline to scarbs.xyz | L-G2 | Sonnet 5 | GPT-6-Luna | todo |
 | LIB-05 | **Milestone L-M1**: implementation, test-driven, at minimal cost; **released on scarbs.xyz** | LIB-04 | Opus 5.5, Fable 5.1 for the hardest algorithms | GPT-6-Astra (determinism, cost) | todo |
@@ -44,6 +45,7 @@ on 2026-09-28 and **owned here from now on**. The game's needs stay in the game'
 | Directions, opposite, rotation by steps of 60°; the arc of a tile relative to a facing | N-7 | Facing, flank, back | design/04 |
 | One flood giving every goblin its next step, on a board with extra obstacles | N-8 | The tick | design/02 |
 | Distance, neighbours | — | Everywhere | — |
+| **A release that builds with the compiler of the game** (Cairo 2.13 today, imposed by Dojo 1.8), `snforge_std` as a dev-dependency | N-9 | The game cannot build `origami_hexmap` 1.8.0 at all | `docs/needs/hexmap.md` § *N-9 in detail*, D-122 |
 
 The parity flag of the layout serves generation and seams of the chunks that start on an odd
 global row (N-1, N-2) only; the window does not use it. Fallback if the game's spike SPK-7
