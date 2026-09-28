@@ -73,7 +73,10 @@ Toolchain versions live in `.tool-versions` only (Scarb 2.19.4, starknet-foundry
     (`HexxSink`, or a further contract in that crate once one fixture needs to stay small),
     committing the resulting `gas/bytecode.size` snapshot with its own change — otherwise a
     removed or dead-code-eliminated item goes on shrinking the tracked class size unnoticed
-    (fix loop 1 of LIB-04, finding 9).
+    (fix loop 1 of LIB-04, finding 9). **M1-T1**, the first task of L-M1 to land public items in
+    `crates/hexx` (the take-over of `board/map.cairo` and the rest of §5), is the first task that
+    adds call sites of them to `crates/consumer`: LIB-04 ships only the placeholder, on nothing
+    else to call yet (fix loop 2 of LIB-04, decision D).
 
 ## Roles
 

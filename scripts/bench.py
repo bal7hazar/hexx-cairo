@@ -22,15 +22,22 @@ other).
 `gas/*.snap` is the single source of truth: `scripts/gas_tables.py` renders `docs/GAS.md` from it,
 a pure function of committed data (no snforge run).
 
-Every test is accounted for **by its full path** (`package::module::...::name`, matching what
+Every test is accounted for **by its full path** (`package::module::...::name` for a unit test,
+`package_integrationtest::file_stem::module::...::name` for an integration test — matching what
 snforge itself prints), not by function name alone — fix loop 1 finding 8: two tests with the
 same short name in different modules used to collapse into one row, and a test snforge does not
 measure at all (`#[ignore]`d, or excluded by a filter) produced no violation even with no budget,
 because it was simply absent from `snforge`'s own output, the only thing `check` used to read.
 `declared_tests` below finds every `#[test]` from the Cairo source directly (a small,
 purpose-built module-path walker, not `scripts/api_parity.py`'s: that one computes *public API*
-reachability, irrelevant to a private `#[cfg(test)] mod tests`, which is exactly where every test
-of this workspace lives) and `check` requires every one of them to appear in what was measured.
+reachability, irrelevant to a private `#[cfg(test)] mod tests`, which is exactly where every unit
+test of this workspace lives) — every module file reachable from `src/lib.cairo` (directory and
+flat forms) and every integration test under `tests/` (fix loop 2 decision C: `declared_tests`
+used to scan `src/lib.cairo` only, so an integration test under `tests/` produced no declared row
+regardless of budget, and a flat file's own child module in a sibling directory was never found
+at all). A `.cairo` file under `src/` or `tests/` that contains `#[test]` and that this walk never
+reached is an error, not a silent skip. `check` requires every declared test to appear in what was
+measured.
 
 usage:
   scripts/bench.py run              measure every test, print a table, check nothing
@@ -88,14 +95,23 @@ def closing_brace(text: str, opening: int) -> int:
     return len(text)
 
 
-def module_nodes(root_file: Path) -> list[tuple[tuple[str, ...], str]]:
-    """Every module of a Cairo crate as `(path, own_text)`, walked from `root_file`
-    (`src/lib.cairo`), the same `mod NAME;` / `mod NAME { ... }` syntax
-    `scripts/api_parity.py`'s walker uses (no `pub`/private distinction here: a test can be
-    private and still be a test)."""
-    nodes: list[tuple[tuple[str, ...], str]] = []
+def module_nodes(
+    root_file: Path, root_dir: Path | None = None
+) -> list[tuple[tuple[str, ...], str, Path]]:
+    """Every module of a Cairo crate (or of one `tests/` integration-test file) as
+    `(path, own_text, file)`, walked from `root_file`, the same `mod NAME;` / `mod NAME { ... }`
+    syntax `scripts/api_parity.py`'s walker uses (no `pub`/private distinction here: a test can be
+    private and still be a test). `path` is relative to `root_file` itself; the caller prefixes it
+    with the package (and, for an integration-test root, the file's own stem).
 
-    def visit(path: tuple[str, ...], dir_path: Path, text: str) -> None:
+    `root_dir` is where `root_file`'s own `mod NAME;` children resolve; it defaults to
+    `root_file.parent` (`src/lib.cairo` is the crate root, so its children sit directly in `src/`).
+    A `tests/<stem>.cairo` integration-test root is itself a *flat file*, not a crate root: its own
+    children resolve in the sibling directory named after it (`tests/<stem>/`), exactly like any
+    other flat file's children one level down — the caller passes that directory explicitly."""
+    nodes: list[tuple[tuple[str, ...], str, Path]] = []
+
+    def visit(path: tuple[str, ...], dir_path: Path, text: str, file: Path) -> None:
         chars = list(text)
         consumed_until = 0
         children: list[tuple[str, str | None]] = []
@@ -115,39 +131,89 @@ def module_nodes(root_file: Path) -> list[tuple[tuple[str, ...], str]]:
                 if chars[i] != "\n":
                     chars[i] = " "
             consumed_until = end
-        nodes.append((path, "".join(chars)))
+        nodes.append((path, "".join(chars), file))
         for name, inline_body in children:
             child_path = path + (name,)
             if inline_body is not None:
-                visit(child_path, dir_path, inline_body)
+                visit(child_path, dir_path, inline_body, file)
                 continue
             flat = dir_path / f"{name}.cairo"
             nested = dir_path / name / "mod.cairo"
             if flat.is_file():
-                visit(child_path, dir_path, flat.read_text())
+                # `name`'s own further children (if `name.cairo` itself declares `mod
+                # grandchild;`) resolve in a sibling directory named after it (`dir_path/name/`),
+                # exactly as for the `X/mod.cairo` form below — the same bug `scripts/api_parity.py`
+                # had (fix loop 2 finding 4/8): this used to pass `dir_path` unchanged, so a flat
+                # parent's own child module (`foo.cairo` declaring `mod bar;`, real file
+                # `foo/bar.cairo`) was never discovered.
+                visit(child_path, dir_path / name, flat.read_text(), flat)
             elif nested.is_file():
-                visit(child_path, dir_path / name, nested.read_text())
+                visit(child_path, dir_path / name, nested.read_text(), nested)
             # else: declared but the file does not exist (should not happen in a building
-            # workspace) — skip rather than fail a gas check on a missing-file build error.
+            # workspace) — skip rather than fail a gas check on a missing-file build error. A
+            # `#[test]` left behind in an orphaned file is still caught: `declared_tests` below
+            # separately walks every `.cairo` file under `src/` and `tests/` and errors on any
+            # that this traversal never visited.
 
     if root_file.is_file():
-        visit((), root_file.parent, root_file.read_text())
+        visit((), root_dir if root_dir is not None else root_file.parent, root_file.read_text(),
+              root_file)
     return nodes
 
 
+def integration_test_roots(package_dir: Path) -> list[tuple[str, Path]]:
+    """`(file_stem, file)` for every top-level `*.cairo` file directly under `tests/`: each is its
+    own snforge integration-test crate root, printed as `<package>_integrationtest::<file_stem>::
+    ...` — confirmed empirically against snforge 0.61.0 (`tests/flat.cairo`'s own `mod sub;`
+    resolves in the sibling directory `tests/flat/sub.cairo`, exactly `src/`'s flat-file
+    convention; a directory directly under `tests/` with no matching top-level file, or vice
+    versa, is not a form snforge itself accepts, so it is not handled here)."""
+    tests_dir = package_dir / "tests"
+    if not tests_dir.is_dir():
+        return []
+    return sorted((p.stem, p) for p in tests_dir.glob("*.cairo"))
+
+
 def declared_tests(package: str, package_dir: Path) -> dict[str, int | None]:
-    """Full test name (`package::module::...::fn`, matching what snforge itself prints) -> its
-    declared `l2_gas` budget, or None when the test has no `#[available_gas(...)]`. Attributes
-    may appear before or after `#[test]`, in either order."""
+    """Full test name (`package::module::...::fn` for a unit test, `package_integrationtest::
+    file_stem::module::...::fn` for an integration test — matching what snforge itself prints) ->
+    its declared `l2_gas` budget, or None when the test has no `#[available_gas(...)]`. Attributes
+    may appear before or after `#[test]`, in either order. Raises if a `.cairo` file under `src/`
+    or `tests/` contains `#[test]` but this discovery never reached it (fix loop 2 decision C):
+    such a file would otherwise produce no measurement and no declared row, silently exempting it
+    from the gas budget rule."""
     tests: dict[str, int | None] = {}
-    for path, text in module_nodes(package_dir / "src" / "lib.cairo"):
-        for match in FN_RE.finditer(text):
-            attrs, name = match.group(1), match.group(2)
-            if "#[test]" not in attrs:
-                continue
-            full = "::".join((package, *path, name))
-            gas_match = AVAILABLE_GAS_RE.search(attrs)
-            tests[full] = int(gas_match.group(1)) if gas_match else None
+    visited: set[Path] = set()
+
+    def scan(prefix: tuple[str, ...], root_file: Path, root_dir: Path | None = None) -> None:
+        for path, text, file in module_nodes(root_file, root_dir):
+            visited.add(file.resolve())
+            for match in FN_RE.finditer(text):
+                attrs, name = match.group(1), match.group(2)
+                if "#[test]" not in attrs:
+                    continue
+                full = "::".join((*prefix, *path, name))
+                gas_match = AVAILABLE_GAS_RE.search(attrs)
+                tests[full] = int(gas_match.group(1)) if gas_match else None
+
+    scan((package,), package_dir / "src" / "lib.cairo")
+    for stem, root_file in integration_test_roots(package_dir):
+        scan((f"{package}_integrationtest", stem), root_file, root_file.parent / stem)
+
+    all_cairo = set((package_dir / "src").rglob("*.cairo"))
+    tests_dir = package_dir / "tests"
+    if tests_dir.is_dir():
+        all_cairo |= set(tests_dir.rglob("*.cairo"))
+    for file in sorted(all_cairo):
+        if file.resolve() in visited:
+            continue
+        if "#[test]" in file.read_text():
+            raise SystemExit(
+                f"{file.resolve().relative_to(ROOT)}: contains #[test] but was not reached by "
+                f"gas-test discovery (not declared by any `mod` reachable from src/lib.cairo, and "
+                f"not a top-level file directly under tests/) — fix loop 2 decision C"
+            )
+
     return tests
 
 
