@@ -1,4 +1,32 @@
-# PENDING — Gate L-G2: is the porting plan accepted?
+# L-G2 — The porting plan: accepted
+
+**Decided by the owner on 2026-09-28** (see [Answer](#answer)). What follows the answer is the
+file as it was put to the owner.
+
+## Answer
+
+Given by the owner on 2026-09-28, recorded by the project manager in `bal7hazar/grimworld`
+(`main` at `e10be91`, `docs/decisions/2026-09-28-L-G2-porting-plan.md`), and passed to the
+orchestrator by cross-session message.
+
+| # | Decision |
+|---|---|
+| D-126 | **The plan is accepted**: option A with its two conditions. LIB-05 starts with the assembly (N-3) and the flood with its selection (N-8), proved against their oracles and measured on their worst cases; above the upper bound of a range the orchestrator stops and reports before any budget is set |
+| D-126 | The package is named **`hexx`**. Rule: a mirror of a Rust crate keeps the crate's name |
+| D-126 | Boards stay `felt252` in the API of L-M1 (D-4); L-M1 carries the needs and the part of the mirror they rest on (D-5); two direction types (D-3); `line_to` carries the game's tie rule (D-6) |
+| D-127 | **The flood of the game's tick stops at 15 layers; a goblin it did not reach holds its position.** `depth` stays a parameter of the library. The flood is benchmarked at 10, 15, 20 layers and without a limit on the serpentine fixture. The number is tuned by SPK-7 and the first playtest, before 0.1.0 |
+| D-23 | As answered by the project manager: `cut` keeps the ring tiles inside the mask (`grid & mask`) |
+
+**Not granted: any publication.** Reserving the name with an empty `hexx` 0.0.1 waits for a
+go from the owner that names it. The orchestrator does not publish and does not ask again: the
+project manager carries the question. What becomes of `origami_hexmap` on `origami` `main`
+(D-17) is decided at milestone L-M4.
+
+Budget: 1 agent at a time; the launcher's load thresholds apply.
+
+---
+
+# As put to the owner — Gate L-G2: is the porting plan accepted?
 
 | | |
 |---|---|
@@ -6,7 +34,7 @@
 | Decides | The owner |
 | Based on | [LIB-03, the porting plan](../research/LIB-03-porting-plan.md) (`[Fable 5.1]`), audited five times by `[GPT-6-Astra]` ([1](../audits/LIB-03-audit-gpt-6-astra-pass-1.md), [2](../audits/LIB-03-audit-gpt-6-astra-pass-2.md), [3](../audits/LIB-03-audit-gpt-6-astra-pass-3.md), [4](../audits/LIB-03-audit-gpt-6-astra-pass-4.md), [5](../audits/LIB-03-audit-gpt-6-astra-pass-5.md)) |
 | Blocks | LIB-04 (repository, CI, tooling), LIB-05 (milestone L-M1), and through them the game's ENG-02 and ENG-05 |
-| State | **Open.** No agent is running. Nothing is launched until the answer |
+| State | Decided on 2026-09-28 |
 
 ## Read this first
 
@@ -115,6 +143,3 @@ What would change the recommendation: if the game's budget for a tick is far bel
 question is no longer the plan but the window and the flood themselves (the ADR's fallback of
 sight 5, a truncated flood), and that is a decision of the game before L-M1 starts.
 
-## Answer
-
-*To be filled by the project manager with the owner's decision and its date.*
