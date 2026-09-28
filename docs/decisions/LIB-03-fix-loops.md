@@ -1,12 +1,12 @@
-# PENDING — LIB-03: three fix loops used, the audit still fails
+# LIB-03 — Three fix loops used, the audit still failed: decided
 
 | | |
 |---|---|
 | Asked by | `[Fable 5.1]` Orchestrateur hexmap (lib), 2026-09-28 |
 | Decides | The owner, through the project manager (the game's `OPERATIONS.md` §6: "after three fix loops on the same lot, escalate") |
-| Lot | LIB-03, the porting plan: pull request #9, branch `docs/lib-03-porting-plan`, **not merged**. CI green |
+| Lot | LIB-03, the porting plan: pull request #9, branch `docs/lib-03-porting-plan` |
 | Blocks | Gate L-G2, and through it LIB-04 and LIB-05 |
-| State | **Open.** No agent is running. Nothing is launched until the answer |
+| State | **Decided on 2026-09-28** by the project manager: option A. Carried out the same day; the plan is merged (pull request #9) |
 
 ## What happened
 
@@ -72,4 +72,26 @@ LIB-05 that **no figure of the plan is a budget**: budgets are set from measurem
 
 ## Answer
 
-*To be filled with the decision and its date.*
+**Option A, decided by the project manager on 2026-09-28** (cross-session message to the
+orchestrator). A fourth fix loop limited to findings 42, 33, 27, 14, 30 and 39, by resuming
+the same implementer; then a fifth `[GPT-6-Astra]` pass limited to those six and to what they
+touch. Merge if no major remains. If a major remains, no sixth loop: merge with the
+remaining findings listed in the plan as open points and carried into the briefs of LIB-05
+and L-M2, and say so in the pending file of L-G2.
+
+Reasons given: the trend converges; the two blocking majors are one-line contradictions in
+normative text; restructuring would cost days for what a short resume fixes. Also accepted:
+no figure of the plan is a budget.
+
+Rule from now on (being written in the game's `OPERATIONS.md` §6): after three fix loops the
+orchestrator escalates to the project manager, who decides and reports to the owner; the
+owner is asked only when the cause is a design or scope question.
+
+## Outcome
+
+| | |
+|---|---|
+| Fix loop 4 | Done by the resumed implementer, limited to the six findings |
+| [Pass 5](../audits/LIB-03-audit-gpt-6-astra-pass-5.md) | **FAIL**: the three majors of pass 4 are resolved (42, 33, 27), and so is minor 14. One **new major** (43), introduced by the fix of 27, concerns milestone L-M2 only; minors 30 and 39 are partly resolved; one new minor (44) |
+| Applied | The second branch of the decision: no sixth loop. The four findings are listed in §14 of [the plan](../research/LIB-03-porting-plan.md), which wins over the body where they disagree, and are carried into the briefs. The plan is merged |
+| Auditor's statement | "LIB-04 and LIB-05 can start correctly. The remaining major finding concerns L-M2" |
