@@ -68,6 +68,12 @@ Toolchain versions live in `.tool-versions` only (Scarb 2.19.4, starknet-foundry
 9. No stubbed success: an unported function does not exist.
 10. Numeric results are API: a changed result for the same input is a versioned change
     (`CHANGELOG.md`, plan §9.4's "Results changed").
+11. `crates/consumer`'s class-size fixture only tracks what it calls: each task of milestone L-M1
+    (LIB-05) that ships a public item adds at least one call site of it to `crates/consumer`
+    (`HexxSink`, or a further contract in that crate once one fixture needs to stay small),
+    committing the resulting `gas/bytecode.size` snapshot with its own change — otherwise a
+    removed or dead-code-eliminated item goes on shrinking the tracked class size unnoticed
+    (fix loop 1 of LIB-04, finding 9).
 
 ## Roles
 

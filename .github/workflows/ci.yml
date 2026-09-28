@@ -44,9 +44,11 @@ jobs:
           scarb-version: "2.19.4"
       - run: scarb fmt --check --workspace
       - run: python3 -m unittest discover -s scripts/tests
-      # docs/API_PARITY.md and docs/EXTENSIONS.md must match the embedded hexx 0.25.0 inventory
-      # (regenerate with `python3 scripts/api_parity.py --refresh --hexx /path/to/hexx`).
+      # docs/API_PARITY.md must match the embedded hexx 0.25.0 inventory (regenerate with
+      # `python3 scripts/api_parity.py --refresh --hexx /path/to/hexx`).
       - run: python3 scripts/api_parity.py --check
+      # docs/EXTENSIONS.md must match the extension modules of crates/hexx/src (none yet).
+      - run: python3 scripts/api_parity.py --extensions --check
       # docs/DEVIATIONS.md must match the `#### Deviations` doc comments of crates/hexx/src.
       - run: python3 scripts/deviations.py --check
 
@@ -68,6 +70,30 @@ jobs:
           starknet-foundry-version: "0.61.0"
       - run: scarb build -p ${{ matrix.package }}
       - run: snforge test -p ${{ matrix.package }}
+
+  package:
+    name: Package crates/hexx (rehearsal, never scarb publish)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
+        with:
+          scarb-version: "2.19.4"
+      # `scarb package` alone (never `scarb publish`, never a token): lets a reviewer download
+      # and inspect exactly what a release would ship, on every pull request, without re-running
+      # it themselves — fix loop 1 finding 11 (the audit could not reach the archive this task's
+      # own report described, since `target/package/` is a build artifact, gitignored, and not
+      # otherwise preserved anywhere a reviewer can reach).
+      - run: scarb package -p hexx
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: hexx-package-${{ github.sha }}
+          path: |
+            target/package/hexx-*/Scarb.toml
+            target/package/hexx-*.tar.zst
+          if-no-files-found: error
+          retention-days: 30
 
   gas:
     name: Gas budgets and class size
@@ -121,7 +147,7 @@ jobs:
   all-checks:
     name: All checks passed
     if: always()
-    needs: [links, scripts, fmt, test, gas, golden]
+    needs: [links, scripts, fmt, test, package, gas, golden]
     runs-on: ubuntu-latest
     steps:
       - run: |
