@@ -113,9 +113,9 @@ MODULE_OWNER: dict[tuple[str, ...], str] = {
 DYNAMIC_MODULES = (("direction", "impls"),)
 
 RUST_IMPL_TRAITS = {
-    "Add", "AddAssign", "BitAnd", "BitOr", "BitXor", "Debug", "Default", "Div", "DivAssign",
-    "From", "FromIterator", "Mul", "MulAssign", "Neg", "Not", "PartialEq", "Product", "Rem",
-    "RemAssign", "Shl", "Shr", "Sub", "SubAssign", "Sum",
+    "Add", "AddAssign", "BitAnd", "BitOr", "BitXor", "Debug", "Default", "Deref", "Div",
+    "DivAssign", "From", "FromIterator", "Mul", "MulAssign", "Neg", "Not", "PartialEq", "Product",
+    "Rem", "RemAssign", "Shl", "Shr", "Sub", "SubAssign", "Sum",
 }
 
 
@@ -177,25 +177,46 @@ RULES = (
     rule("Hex", r"impl:PartialEq<Hex>$", "dropped",
          "reference glue (`impl PartialEq<Hex> for &Hex`): Cairo values are Copy and passed by "
          "value."),
-    rule("Hex", r"method:(?:as_ivec2|as_ivec3)", "renamed",
-         "moved to the companion package hexx_glam (L-M3), as Into<Hex, IVec2> / "
-         "Into<Hex, IVec3>, the same convention nalgebra_glam uses."),
+    # Interop with the companion package hexx_glam (L-M3, plan §9): the Cairo replacement lives
+    # in a *different* package this parser never scans (`CAIRO_SRC` is `crates/hexx/src` only),
+    # so `replacement` below can never resolve true from inside this crate's own inventory — by
+    # design (fix loop 2 finding 3): a mapping to code this package cannot ever contain must read
+    # `missing` forever, not `renamed`, since "renamed" would otherwise claim work this crate's
+    # own parity table has no way to verify. Scheduled at L-M3 (`_INTEROP_ITEMS` below), not the
+    # L-M2 every other Hex operator counterpart defaults to.
+    rule("Hex", r"method:as_ivec2$", "renamed", "Into<Hex, IVec2> (hexx_glam).",
+         replacement=("method", "as_ivec2")),
+    rule("Hex", r"method:as_ivec3$", "renamed", "Into<Hex, IVec3> (hexx_glam).",
+         replacement=("method", "as_ivec3")),
     rule("Hex", r"impl:From<\(f32,f32\)> for Hex|impl:From<\[f32;2\]> for Hex|"
                 r"impl:From<Vec2> for Hex",
          "dropped", "f32 input."),
-    rule("Hex", r"impl:From<Hex> for IVec2|impl:From<Hex> for IVec3|impl:From<IVec2> for Hex",
-         "renamed", "moved to the companion package hexx_glam (L-M3)."),
-    rule("Hex", r"impl:Add<i32>$", "renamed", "add_scalar — Cairo's Add<T> is homogeneous."),
-    rule("Hex", r"impl:Sub<i32>$", "renamed", "sub_scalar — same reason."),
-    rule("Hex", r"impl:Add<EdgeDirection>$", "renamed", "add_direction — same reason."),
-    rule("Hex", r"impl:Sub<EdgeDirection>$", "renamed", "sub_direction — same reason."),
-    rule("Hex", r"impl:Add<VertexDirection>$", "renamed", "add_diagonal — same reason."),
-    rule("Hex", r"impl:Sub<VertexDirection>$", "renamed", "sub_diagonal — same reason."),
-    rule("Hex", r"impl:Mul<i32>$", "renamed", "mul_scalar — same reason."),
+    rule("Hex", r"impl:From<Hex> for IVec2$", "renamed", "Into<Hex, IVec2> (hexx_glam).",
+         replacement=("impl", "From<Hex> for IVec2")),
+    rule("Hex", r"impl:From<Hex> for IVec3$", "renamed", "Into<Hex, IVec3> (hexx_glam).",
+         replacement=("impl", "From<Hex> for IVec3")),
+    rule("Hex", r"impl:From<IVec2> for Hex$", "renamed", "Into<IVec2, Hex> (hexx_glam).",
+         replacement=("impl", "From<IVec2> for Hex")),
+    rule("Hex", r"impl:Add<i32>$", "renamed", "add_scalar — Cairo's Add<T> is homogeneous.",
+         replacement=("method", "add_scalar")),
+    rule("Hex", r"impl:Sub<i32>$", "renamed", "sub_scalar — same reason.",
+         replacement=("method", "sub_scalar")),
+    rule("Hex", r"impl:Add<EdgeDirection>$", "renamed", "add_direction — same reason.",
+         replacement=("method", "add_direction")),
+    rule("Hex", r"impl:Sub<EdgeDirection>$", "renamed", "sub_direction — same reason.",
+         replacement=("method", "sub_direction")),
+    rule("Hex", r"impl:Add<VertexDirection>$", "renamed", "add_diagonal — same reason.",
+         replacement=("method", "add_diagonal")),
+    rule("Hex", r"impl:Sub<VertexDirection>$", "renamed", "sub_diagonal — same reason.",
+         replacement=("method", "sub_diagonal")),
+    rule("Hex", r"impl:Mul<i32>$", "renamed", "mul_scalar — same reason.",
+         replacement=("method", "mul_scalar")),
     rule("Hex", r"impl:Div<i32>$", "renamed",
          "div_scalar — exact rational rescale, same rounding rule as hexx's f32 lerp; a "
-         "documented deviation where hexx's own f32 error moves its result off that rule."),
-    rule("Hex", r"impl:Rem<i32>$", "renamed", "rem_scalar — same reason as div_scalar."),
+         "documented deviation where hexx's own f32 error moves its result off that rule.",
+         replacement=("method", "div_scalar")),
+    rule("Hex", r"impl:Rem<i32>$", "renamed", "rem_scalar — same reason as div_scalar.",
+         replacement=("method", "rem_scalar")),
     rule("Hex", r"impl:(?:Add|Sub|Mul|Div|Rem)Assign<(?:i32|EdgeDirection|VertexDirection)>$",
          "dropped",
          "heterogeneous assignment operators; the named *_scalar / *_direction / *_diagonal "
@@ -218,10 +239,19 @@ RULES = (
          "f32 angles and vectors. Integer counterparts of \"the direction of a hex\" exist on "
          "Hex (way_to, main_direction_to, neighbor_direction); of \"rotate by an angle\", "
          "rotate_cw(n)."),
-    rule("EdgeDirection|VertexDirection", r"impl:Sh[lr]<u8>$", "renamed",
-         "Cairo has no shift operators for user types; the named rotate_cw(n) / rotate_ccw(n) "
-         "are the operators' bodies — nothing to add."),
-    rule("EdgeDirection|VertexDirection", r"impl:Mul<i32>$", "renamed", "mul_scalar(n) -> Hex."),
+    # `hexx`'s `Shr<u8>`/`Shl<u8>` are the *bodies* of `rotate_cw(n)`/`rotate_ccw(n)`
+    # respectively (src/direction/impls.rs): each impl's presence check is against the named
+    # method it forwards to, already an independently tracked mirror item — not a second, new
+    # Cairo name (fix loop 2 finding 3: this pair previously had no `replacement` at all, so both
+    # read "renamed" unconditionally, regardless of whether rotate_cw/rotate_ccw existed).
+    rule("EdgeDirection|VertexDirection", r"impl:Shr<u8>$", "renamed",
+         "Cairo has no shift operators for user types; the named rotate_cw(n) is the operator's "
+         "body — nothing to add.", replacement=("method", "rotate_cw")),
+    rule("EdgeDirection|VertexDirection", r"impl:Shl<u8>$", "renamed",
+         "Cairo has no shift operators for user types; the named rotate_ccw(n) is the operator's "
+         "body — nothing to add.", replacement=("method", "rotate_ccw")),
+    rule("EdgeDirection|VertexDirection", r"impl:Mul<i32>$", "renamed", "mul_scalar(n) -> Hex.",
+         replacement=("method", "mul_scalar")),
     # direction::angles (inline module of direction/mod.rs): f32 constants.
     rule("EdgeDirection",
          r"const:(?:DIRECTION_ANGLE_OFFSET_RAD|DIRECTION_ANGLE_OFFSET_DEGREES|"
@@ -309,8 +339,13 @@ COUNTERPARTS: dict[tuple[str, str, str], tuple[str, tuple[str, str, str], str]] 
 # Parsing: masking, balanced blocks (shared by the Rust and the Cairo side)
 
 
-def mask_comments(text: str) -> str:
-    """Replace comments and strings by spaces while preserving offsets and newlines."""
+def mask_comments(text: str, mask_strings: bool = True) -> str:
+    """Replace comments (and, unless `mask_strings=False`, strings) by spaces while preserving
+    offsets and newlines. `mask_strings=False` is for reading a `#[cfg(feature = "x")]`
+    attribute's own string content, which the default mode (needed everywhere else, so a string
+    literal's braces or parentheses never confuse brace/paren depth counting) would otherwise
+    blank out — fix loop 2: `#[cfg(feature = "algorithms")]` read back as `#[cfg(feature = )]`
+    before this, since only one masked copy of the text existed."""
     out = list(text)
     i = 0
     state = "code"
@@ -329,7 +364,8 @@ def mask_comments(text: str) -> str:
             continue
         if state == "code" and text[i] == '"':
             state, quote = "string", text[i]
-            out[i] = " "
+            if mask_strings:
+                out[i] = " "
             i += 1
             continue
         if state == "line":
@@ -351,15 +387,16 @@ def mask_comments(text: str) -> str:
             continue
         if state == "string":
             if text[i] == "\\" and i + 1 < len(text):
-                if text[i] != "\n":
-                    out[i] = " "
-                if text[i + 1] != "\n":
-                    out[i + 1] = " "
+                if mask_strings:
+                    if text[i] != "\n":
+                        out[i] = " "
+                    if text[i + 1] != "\n":
+                        out[i + 1] = " "
                 i += 2
                 continue
             if text[i] == quote:
                 state = "code"
-            if text[i] != "\n":
+            if mask_strings and text[i] != "\n":
                 out[i] = " "
             i += 1
             continue
@@ -432,18 +469,113 @@ class ModuleNode:
     vis: str  # "pub" | "crate" | "private"
     text: str  # this module's own body, masked, with inline children's bodies blanked out
     source: str  # the file (or "<file>#<inline path>") this module's text came from
+    cfg_enabled: bool = True  # this module's own `#[cfg(...)]`, evaluated (see `evaluate_cfg`)
 
 
 MOD_DECL_RE = re.compile(r"(?m)^[ \t]*(pub(?:\(crate\))?\s+)?mod\s+([A-Za-z_]\w*)\s*(;|\{)")
+ATTR_RE = re.compile(r"#\[\s*cfg\((.*)\)\s*\]\Z", re.S)
+
+# The feature set `tools/refgen`'s `Cargo.toml` builds `hexx` with (plan §4.3): `algorithms` and
+# `grid` are on; every other cargo feature `hexx` 0.25.0 defines is off. Fix loop 2 decision B
+# (iii): evaluated, not ignored — a module or item gated by a feature outside this set is not
+# part of what this crate can ever see or depend on, so it must not be treated as reachable.
+ENABLED_CARGO_FEATURES = {"algorithms", "grid"}
+KNOWN_DISABLED_CARGO_FEATURES = {"bevy_reflect", "facet", "mesh", "packed", "rayon", "serde"}
+
+# `layout`, `storage` and `mesh` are inventoried whole, as "dropped", regardless of whether the
+# feature that gates a module-level `pub mod` is on (plan §4.4 "Modules excluded as a whole": the
+# percentage must stay honest against hexx's *whole* public surface, not just the subset this
+# crate happens to depend on) — only `mesh` is actually cfg-gated among the three
+# (`#[cfg(feature = "mesh")]`; `layout` and `storage` are unconditional). This does not change
+# `mesh`'s status (`dropped` either way, RULES catch-all) or reachability for anything *outside*
+# it: nothing else in the crate references a `mesh` type.
+CFG_EXEMPT_TOP_LEVEL = frozenset({("mesh",)})
 
 
-def split_own_and_children(text: str) -> tuple[str, list[tuple[str, str, str | None]]]:
-    """`(own_text, [(name, vis, inline_body_or_None), ...])` for the `mod` declarations directly
-    in `text` (not nested inside another inline `mod X { ... }` found earlier in the same text).
-    `own_text` has every inline child's span blanked out, so a later scan of `own_text` for local
-    declarations or `use` statements never double-counts a nested inline module's own content."""
+def evaluate_cfg(expr: str, location: str) -> bool:
+    expr = expr.strip()
+    m = re.match(r'feature\s*=\s*"([^"]+)"$', expr)
+    if m:
+        name = m.group(1)
+        if name in ENABLED_CARGO_FEATURES:
+            return True
+        if name in KNOWN_DISABLED_CARGO_FEATURES:
+            return False
+        raise SystemExit(
+            f"{location}: unrecognized cfg feature {name!r} on a public item; add it to "
+            f"ENABLED_CARGO_FEATURES or KNOWN_DISABLED_CARGO_FEATURES in scripts/api_parity.py "
+            f"once its status against tools/refgen's feature set is known (fix loop 2, decision B)"
+        )
+    if expr == "test":
+        return False
+    if re.fullmatch(r"any\(\s*\)", expr):
+        return False
+    if re.fullmatch(r"all\(\s*\)", expr):
+        return True
+    m = re.fullmatch(r"not\((.*)\)", expr, re.S)
+    if m:
+        return not evaluate_cfg(m.group(1), location)
+    raise SystemExit(f"{location}: unrecognized cfg predicate {expr!r} on a public item")
+
+
+def find_preceding_attr(text: str, pos: int, attr_re: re.Pattern[str]) -> str | None:
+    """Walk backward from `pos` (the start of a declaration: a `mod`, or a `pub struct`/`pub
+    enum`) over whitespace and a stack of immediately-adjacent `#[...]` attributes (any order:
+    the wanted one need not be the closest), stopping at the first attribute `attr_re` matches, or
+    as soon as the immediately preceding non-whitespace content is not an attribute at all.
+
+    A manual scan, not a fixed-size lookback window: fix loop 2 found that a window (even a
+    small, ReDoS-safe one) picks up an *earlier, unrelated* declaration's attribute whenever two
+    declarations sit closer together than the window — `pub mod mesh;`'s
+    `#[cfg(feature = "mesh")]` was wrongly attributed to `pub mod orientation;` and `pub mod
+    shapes;`, both undecorated, a few dozen masked-doc-comment bytes later in `src/lib.rs`;
+    `#[derive(Default)] pub struct A;` was wrongly attributed to a `pub struct B;` right after it,
+    for the same reason (finding 15) — silently disabling, or deriving, declarations that carry
+    no attribute of their own. Adjacency, not proximity, is the only correct rule for "which
+    declaration does this attribute belong to"."""
+    i = pos
+    while True:
+        j = i
+        while j > 0 and text[j - 1] in " \t\r\n":
+            j -= 1
+        if j == 0 or text[j - 1] != "]":
+            return None
+        depth = 0
+        k = j - 1
+        while k >= 0:
+            if text[k] == "]":
+                depth += 1
+            elif text[k] == "[":
+                depth -= 1
+                if depth == 0:
+                    break
+            k -= 1
+        if k < 1 or text[k - 1] != "#":
+            return None
+        attr_start = k - 1
+        attr_text = text[attr_start:j]
+        m = attr_re.match(attr_text)
+        if m:
+            return m.group(1)
+        i = attr_start  # some other attribute (`derive`, `allow`, `cfg`, ...): keep looking back
+
+
+def find_preceding_cfg(text: str, pos: int) -> str | None:
+    return find_preceding_attr(text, pos, ATTR_RE)
+
+
+def split_own_and_children(
+    text: str, text_with_strings: str, source: str
+) -> tuple[str, list[tuple[str, str, bool, str | None]]]:
+    """`(own_text, [(name, vis, cfg_enabled, inline_body_or_None), ...])` for the `mod`
+    declarations directly in `text` (not nested inside another inline `mod X { ... }` found
+    earlier in the same text). `own_text` has every inline child's span blanked out, so a later
+    scan of `own_text` for local declarations or `use` statements never double-counts a nested
+    inline module's own content. `text_with_strings`: same file, same offsets, comments masked but
+    string contents kept — reading a `#[cfg(feature = "x")]`'s own feature name needs it (`text`
+    itself has already had `"x"` blanked, like every other string literal)."""
     chars = list(text)
-    children: list[tuple[str, str, str | None]] = []
+    children: list[tuple[str, str, bool, str | None]] = []
     consumed_until = 0
     for m in MOD_DECL_RE.finditer(text):
         if m.start() < consumed_until:
@@ -451,13 +583,15 @@ def split_own_and_children(text: str) -> tuple[str, list[tuple[str, str, str | N
         vis_raw = (m.group(1) or "").strip()
         vis = "pub" if vis_raw == "pub" else ("crate" if vis_raw else "private")
         name, term = m.group(2), m.group(3)
+        cfg_expr = find_preceding_cfg(text_with_strings, m.start())
+        cfg_enabled = True if cfg_expr is None else evaluate_cfg(cfg_expr, f"{source}: mod {name}")
         if term == ";":
-            children.append((name, vis, None))
+            children.append((name, vis, cfg_enabled, None))
             end = m.end()
         else:
             open_pos = m.end() - 1
             close_pos = closing_brace(text, open_pos)
-            children.append((name, vis, text[open_pos + 1:close_pos]))
+            children.append((name, vis, cfg_enabled, text[open_pos + 1:close_pos]))
             end = close_pos + 1
         for i in range(m.start(), end):
             if chars[i] != "\n":
@@ -472,101 +606,149 @@ def build_module_tree(root_file: Path, comment_syntax: str = "rust") -> dict[tup
     del comment_syntax
     nodes: dict[tuple[str, ...], ModuleNode] = {}
 
-    def visit(path: tuple[str, ...], dir_path: Path, text: str, vis: str, source: str) -> None:
-        own_text, children = split_own_and_children(text)
-        nodes[path] = ModuleNode(path=path, vis=vis, text=own_text, source=source)
-        for name, child_vis, inline_body in children:
+    def visit(path: tuple[str, ...], dir_path: Path, raw: str, vis: str, cfg_enabled: bool,
+              source: str) -> None:
+        text = mask_comments(raw)
+        text_with_strings = mask_comments(raw, mask_strings=False)
+        own_text, children = split_own_and_children(text, text_with_strings, source)
+        nodes[path] = ModuleNode(path=path, vis=vis, text=own_text, source=source,
+                                  cfg_enabled=cfg_enabled)
+        for name, child_vis, child_cfg_enabled, inline_body in children:
             child_path = path + (name,)
             if inline_body is not None:
-                visit(child_path, dir_path, inline_body, child_vis, f"{source}#{name}")
+                # `inline_body` is a slice of `text` (comments and strings already masked): the
+                # inline case has no separate raw source to re-derive a strings-preserved copy
+                # from, so a `#[cfg(feature = "x")]` immediately inside an *inline* `mod { ... }`
+                # (none of hexx's do) would not resolve its own feature name. Not hit by the
+                # pinned checkout; would raise (unrecognized cfg feature ''), not silently pass.
+                visit(child_path, dir_path, inline_body, child_vis, child_cfg_enabled,
+                      f"{source}#{name}")
                 continue
             ext = ".cairo" if root_file.suffix == ".cairo" else ".rs"
             flat = dir_path / f"{name}{ext}"
             nested = dir_path / name / f"mod{ext}"
             if flat.is_file():
-                child_text = mask_comments(flat.read_text())
-                visit(child_path, dir_path, child_text, child_vis,
+                # `name`'s own further children (if `name`.rs itself declares `mod grandchild;`)
+                # resolve in a sibling directory named after it (`dir_path/name/`), exactly as
+                # for the `X/mod.ext` form below — fix loop 2 finding 4: this used to pass
+                # `dir_path` unchanged, so a flat parent's own child module could never be found
+                # (`foo.rs` declaring `mod bar;`, real file `foo/bar.rs`, raised "cannot resolve").
+                visit(child_path, dir_path / name, flat.read_text(), child_vis, child_cfg_enabled,
                       str(flat.relative_to(root_file.parents[1])))
             elif nested.is_file():
-                child_text = mask_comments(nested.read_text())
-                visit(child_path, dir_path / name, child_text, child_vis,
+                visit(child_path, dir_path / name, nested.read_text(), child_vis, child_cfg_enabled,
                       str(nested.relative_to(root_file.parents[1])))
             else:
-                raise SystemExit(f"cannot resolve `mod {name};` declared in {source}")
+                raise SystemExit(f"cannot resolve `mod {name};` declared in {source}: looked for "
+                                  f"{flat} and {nested}")
 
-    root_text = mask_comments(root_file.read_text())
-    visit((), root_file.parent, root_text, "pub", str(root_file.relative_to(root_file.parents[1])))
+    visit((), root_file.parent, root_file.read_text(), "pub", True,
+          str(root_file.relative_to(root_file.parents[1])))
     return nodes
 
 
-def compute_reachable_modules(nodes: dict[tuple[str, ...], ModuleNode]) -> set[tuple[str, ...]]:
+def compute_reachable_modules(
+    nodes: dict[tuple[str, ...], ModuleNode], cfg_exempt: frozenset = CFG_EXEMPT_TOP_LEVEL
+) -> set[tuple[str, ...]]:
     reachable: set[tuple[str, ...]] = {()}
     for path in sorted(nodes, key=len):
         if not path:
             continue
         parent = path[:-1]
-        if parent in reachable and nodes[path].vis == "pub":
+        node = nodes[path]
+        if parent in reachable and node.vis == "pub" and (node.cfg_enabled or path in cfg_exempt):
             reachable.add(path)
     return reachable
 
 
-# `pub use child::Name;` / `pub use child::{A, B};` / `pub use child::*;`, and their `pub(crate)`
-# (non-bridging) counterparts, always a single path segment relative to the module the statement
-# sits in (module docstring: verified end to end against the pinned checkout).
-USE_RE = re.compile(
-    r"(?m)^[ \t]*(pub(?:\(crate\))?\s+)?use\s+([A-Za-z_]\w*)\s*::\s*"
-    r"(?:\*|\{([^}]*)\}|([A-Za-z_]\w*))\s*;"
-)
+# `pub use path::to::Name;`, an alias (`as Alias`), a group (`path::{A, B as C}`), a nested group
+# (`path::{A, sub::{B, C}}` — the pinned checkout's own `direction/edge_direction.rs` uses exactly
+# this, `use crate::{Hex, ..., angles::{DIRECTION_ANGLE_RAD, ...}};`), a glob (`path::*`), and
+# `crate::`/`self::`-prefixed or plain multi-segment paths: fix loop 2 finding 4 generalizes this
+# from the single-relative-segment form fix loop 1 supported. A form this parser does not
+# recognize (a glob nested inside a group) raises, naming the file and the statement — never
+# silently skipped.
+USE_STATEMENT_RE = re.compile(r"(?m)^[ \t]*(pub(?:\(crate\))?\s+)?use\s+([^;]+);")
 
 
-def collect_bridges(
+def resolve_use_segments(segments: list[str], current_path: tuple[str, ...]) -> tuple[str, ...]:
+    if segments and segments[0] == "crate":
+        return tuple(segments[1:])
+    if segments and segments[0] == "self":
+        return current_path + tuple(segments[1:])
+    return current_path + tuple(segments)
+
+
+def parse_use_tree(
+    expr: str, current_path: tuple[str, ...], location: str,
+    entries: list[tuple[tuple[str, ...], str, str | None]], globs: list[tuple[str, ...]],
+) -> None:
+    """Recursively walks one `use` tree node (`crate::{A, sub::{B as C}, D::*}`-shaped), appending
+    every named leaf as `(target_module_path, original_name, alias_or_None)` to `entries` and
+    every glob leaf's target path to `globs`."""
+    expr = expr.strip()
+    brace_pos = expr.find("{")
+    if brace_pos >= 0:
+        if not expr.endswith("}"):
+            raise SystemExit(f"{location}: malformed use group (trailing text after '}}'): {expr!r}")
+        close_pos = closing_brace(expr, brace_pos)
+        if close_pos != len(expr) - 1:
+            raise SystemExit(f"{location}: malformed use group (trailing text after '}}'): {expr!r}")
+        prefix = expr[:brace_pos].rstrip().rstrip(":").rstrip()
+        segments = [s.strip() for s in prefix.split("::") if s.strip()] if prefix else []
+        sub_path = resolve_use_segments(segments, current_path)
+        for raw in split_top_level(expr[brace_pos + 1:close_pos], ","):
+            raw = raw.strip()
+            if raw:
+                parse_use_tree(raw, sub_path, location, entries, globs)
+        return
+    if expr.endswith("*"):
+        prefix = expr[:-1].rstrip().rstrip(":").rstrip()
+        if "{" in prefix or "}" in prefix:
+            raise SystemExit(f"{location}: a glob inside a use group is not supported: {expr!r}")
+        segments = [s.strip() for s in prefix.split("::") if s.strip()] if prefix else []
+        globs.append(resolve_use_segments(segments, current_path))
+        return
+    m = re.fullmatch(r"(.*?)(?:\s+as\s+([A-Za-z_]\w*))?", expr, re.S)
+    base, alias = m.group(1).strip(), m.group(2)
+    segments = [s.strip() for s in base.split("::") if s.strip()]
+    if not segments:
+        raise SystemExit(f"{location}: malformed use path: {expr!r}")
+    name = segments.pop()
+    entries.append((resolve_use_segments(segments, current_path), name, alias))
+
+
+def collect_use_statements(
     nodes: dict[tuple[str, ...], ModuleNode], reachable: set[tuple[str, ...]]
-) -> tuple[dict[tuple[str, ...], set[str]], set[tuple[str, ...]]]:
-    """`(bridged, glob_targets)`: `bridged[target_path]` is the set of names re-exported from
-    `target_path` by a `pub use` sitting in a reachable module; `glob_targets` is the set of
-    module paths re-exported wholesale (`pub use target::*;`) from a reachable module."""
+) -> tuple[dict[tuple[str, ...], set[str]], set[tuple[str, ...]], set[str]]:
+    """`(bridged, glob_targets, used_names)`: `bridged[target_path]` is the set of *original*
+    names (never the alias: reachability of a declaration is keyed by where and how it was
+    declared, not by the path a re-export gives it — fix loop 2, see `declared_reachable`)
+    re-exported from `target_path` by a `pub use` sitting in a reachable module; `glob_targets` is
+    the set of module paths re-exported wholesale (`pub use target::*;`) from a reachable module;
+    `used_names` is every name imported by any `use` statement anywhere (`pub` or not, reachable
+    module or not — fix loop 1: a private module's own `use glam::IVec2;` still matters, because
+    an `impl From<Hex> for IVec2` can sit in that same private file)."""
     bridged: dict[tuple[str, ...], set[str]] = {}
     glob_targets: set[tuple[str, ...]] = set()
+    used_names: set[str] = set()
     for path, node in nodes.items():
-        if path not in reachable:
-            continue
-        for m in USE_RE.finditer(node.text):
+        for m in USE_STATEMENT_RE.finditer(node.text):
             vis = (m.group(1) or "").strip()
-            if vis != "pub":  # plain `use` or `pub(crate) use`: does not bridge externally
-                continue
-            target_path = path + (m.group(2),)
-            if target_path not in nodes:
-                continue  # a foreign crate re-export (e.g. `pub use glam::...;`), not ours
-            group, single = m.group(3), m.group(4)
-            if group is not None:
-                names = [n.split(" as ")[0].strip() for n in group.split(",") if n.strip()]
-                bridged.setdefault(target_path, set()).update(names)
-            elif single is not None:
-                bridged.setdefault(target_path, set()).add(single)
-            else:
-                glob_targets.add(target_path)
-    return bridged, glob_targets
-
-
-def collect_used_names(nodes: dict[tuple[str, ...], ModuleNode]) -> set[str]:
-    """Every name this crate's own source imports via any `use` statement (`pub` or not),
-    anywhere: an impl targeting one of these (`impl From<Hex> for IVec2`, `IVec2` imported from
-    `glam`) is part of the crate's own API surface even though `IVec2` is not declared here, so
-    it must still be discovered (fix loop 1: `impl From<Hex> for IVec2` and `impl From<Hex> for
-    IVec3` were silently never scanned at all before this fix, not even as `missing`)."""
-    names: set[str] = set()
-    plain_use = re.compile(
-        r"(?m)^[ \t]*(?:pub(?:\(crate\))?\s+)?use\s+(?:[A-Za-z_]\w*\s*::\s*)*"
-        r"(?:\*|\{([^}]*)\}|([A-Za-z_]\w*))\s*;"
-    )
-    for node in nodes.values():
-        for m in plain_use.finditer(node.text):
-            group, single = m.group(1), m.group(2)
-            if group is not None:
-                names.update(n.split(" as ")[0].strip() for n in group.split(",") if n.strip())
-            elif single is not None:
-                names.add(single)
-    return names
+            location = f"{node.source}: use {m.group(2)}"
+            entries: list[tuple[tuple[str, ...], str, str | None]] = []
+            globs: list[tuple[str, ...]] = []
+            parse_use_tree(m.group(2), path, location, entries, globs)
+            used_names.update(name for _target, name, _alias in entries)
+            if vis != "pub" or path not in reachable:
+                continue  # plain / pub(crate) use, or inside an unreachable module: no bridge
+            for target_path, name, _alias in entries:
+                if target_path in nodes:
+                    bridged.setdefault(target_path, set()).add(name)
+            for target_path in globs:
+                if target_path in nodes:
+                    glob_targets.add(target_path)
+    return bridged, glob_targets, used_names
 
 
 def declared_reachable(
@@ -585,12 +767,7 @@ STRUCT_HEAD_RE = re.compile(r"\bpub\s+struct\s+([A-Za-z_]\w*)")
 ENUM_HEAD_RE = re.compile(r"\bpub\s+enum\s+([A-Za-z_]\w*)")
 TRAIT_RE = re.compile(r"\bpub\s+trait\s+([A-Za-z_]\w*)[^\n\{]*\{")
 TYPE_ALIAS_RE = re.compile(r"\bpub\s+type\s+([A-Za-z_]\w*)\s*(?:<[^=;\n]*>)?\s*=")
-DERIVE_RE = re.compile(r"#\[derive\(([^)]*)\)\]")
-# How far back from a struct/enum name to look for its `#[derive(...)]` (small and fixed: no
-# backtracking risk regardless of file size, unlike a regex capturing everything since the last
-# declaration would — fix loop 1: exactly that shape of pattern caused catastrophic backtracking
-# on storage/rect.rs, see the note on `find_declaration_body`).
-DERIVE_LOOKBACK = 400
+DERIVE_RE = re.compile(r"#\[\s*derive\((.*)\)\s*\]\Z", re.S)
 
 
 def scoped(prefix: bool, type_name: str, name: str) -> str:
@@ -708,18 +885,21 @@ def derived_impl_items(text: str, decl_start: int, owner: str, type_name: str,
     commonly derived too but plan §4.4 does not itemize them for any type, and generalizing to
     every derived trait here would manufacture new disagreements against the plan's own counts
     that finding 5/6 did not ask for — recorded as a scope limit in the report, not silently).
-    Looks back a small fixed window (`DERIVE_LOOKBACK`), not to the start of the file: see
-    `find_declaration_body` for why an unbounded backward scan is exactly the shape that caused
-    the catastrophic-backtracking bug this rewrite fixes."""
-    window = text[max(0, decl_start - DERIVE_LOOKBACK):decl_start]
-    items = []
-    for m in DERIVE_RE.finditer(window):
-        traits = {t.strip() for t in m.group(1).split(",")}
-        if "Default" in traits:
-            built = build_impl_item(owner, "Default", type_name)
-            if built:
-                items.append(built)
-    return items
+
+    Bound by adjacency (`find_preceding_attr`), not a fixed lookback window: fix loop 2 finding 15
+    — a 400-character window still let `#[derive(Default)] pub struct A;` bind to the *next*
+    declaration, `pub struct B;`, whenever both sat within the window (as they always do for two
+    short adjacent declarations), attributing a derived `Default` to a type that never asked for
+    one."""
+    del source
+    attr = find_preceding_attr(text, decl_start, DERIVE_RE)
+    if attr is None:
+        return []
+    traits = {t.strip() for t in attr.split(",")}
+    if "Default" not in traits:
+        return []
+    built = build_impl_item(owner, "Default", type_name)
+    return [built] if built else []
 
 
 def scan_trait_declarations(text: str, owner: str, source: str, name_ok, prefix: bool) -> list[Item]:
@@ -734,10 +914,31 @@ def scan_trait_declarations(text: str, owner: str, source: str, name_ok, prefix:
     return items
 
 
-FREE_FN_RE = re.compile(r"(?m)^pub\s+(?:const\s+)?fn\s+([A-Za-z_]\w*)")
-FREE_CONST_RE = re.compile(r"(?m)^pub\s+const\s+([A-Z][A-Z0-9_]*)\s*:")
+FREE_FN_RE = re.compile(r"\bpub\s+(?:const\s+)?fn\s+([A-Za-z_]\w*)")
+FREE_CONST_RE = re.compile(r"\bpub\s+const\s+([A-Z][A-Z0-9_]*)\s*:")
 INHERENT_FN_RE = re.compile(r"\bpub\s+(?:const\s+)?fn\s+([A-Za-z_]\w*)")
 INHERENT_CONST_RE = re.compile(r"\bpub\s+const\s+([A-Z][A-Z0-9_]*)\s*:")
+ANY_IMPL_RE = re.compile(r"(?m)^\s*impl\b[^\n{]*\{")
+
+
+def mask_impl_bodies(text: str) -> str:
+    """Blank out every `impl ... { ... }` block's body (not its header), so a free-item scan run
+    on the result finds only genuinely module-level `pub fn`/`pub const` — fix loop 2: the
+    previous design instead required column 0 (`(?m)^pub fn`) to reject impl-block content, which
+    also rejects a free item that is merely *indented*, as everything inside an inline
+    `pub mod angles { pub const ...; }` is in the source: none of `direction::angles`'s four
+    constants were ever discovered by `FREE_CONST_RE` before this fix (impl blocks never nest in
+    valid Rust, so this single pass cannot itself blank out an already-blanked impl body)."""
+    chars = list(text)
+    for m in ANY_IMPL_RE.finditer(text):
+        open_pos = text.find("{", m.start())
+        if open_pos < 0:
+            continue
+        close_pos = closing_brace(text, open_pos)
+        for i in range(open_pos + 1, close_pos):
+            if chars[i] != "\n":
+                chars[i] = " "
+    return "".join(chars)
 
 
 def build_impl_item(owner: str, trait_expr: str, target: str) -> Item | None:
@@ -826,21 +1027,26 @@ def scan_module(text: str, owner: str, source: str, name_ok, reachable_type_name
     items = scan_declarations(text, owner, source, name_ok, prefix)
     items.extend(scan_trait_declarations(text, owner, source, name_ok, prefix))
     items.extend(scan_inherent_impls(text, owner, source, reachable_type_names, prefix))
-    # Module-level free functions (`hex()`, `parallelogram()`, `to_offset_coordinates`'s
-    # siblings — none of hexx's owner-relevant modules have a free `pub const` outside an impl
-    # block) are not indented under this source's rustfmt (an impl body's own `pub fn` always
-    # is): a bare name is already unique, matching plan §4.4's own un-prefixed rows for them.
-    for match in FREE_FN_RE.finditer(text):
+    # Module-level free functions (`hex()`, `parallelogram()`, ...) and free constants
+    # (`direction::angles`'s four `f32` constants, fix loop 2 finding 5) are found on a copy of
+    # `text` with every `impl` block's body blanked out, so an indented free item (everything in
+    # an inline `pub mod angles { pub const ...; }` is indented, in the source, exactly like an
+    # impl body's own content) is still found, while an impl body's own `pub fn`/`pub const`
+    # (scanned separately, above, scoped per type) is not double-counted.
+    free_text = mask_impl_bodies(text)
+    for match in FREE_FN_RE.finditer(free_text):
         if name_ok(match.group(1)):
             items.append(Item(owner, "method", match.group(1), source))
+    for match in FREE_CONST_RE.finditer(free_text):
+        if name_ok(match.group(1)):
+            items.append(Item(owner, "const", match.group(1), source))
     return items
 
 
 def parse_hexx(hexx_root: Path) -> list[Item]:
     nodes = build_module_tree(hexx_root / "src" / "lib.rs")
     reachable = compute_reachable_modules(nodes)
-    bridged, glob_targets = collect_bridges(nodes, reachable)
-    used_names = collect_used_names(nodes)
+    bridged, glob_targets, used_names = collect_use_statements(nodes, reachable)
 
     def name_ok_at(path: tuple[str, ...]):
         return lambda name: declared_reachable(path, name, reachable, bridged, glob_targets)
@@ -873,60 +1079,126 @@ def parse_hexx(hexx_root: Path) -> list[Item]:
 # The Cairo side (this package): the same reachability walk, Cairo syntax.
 
 
-CAIRO_STRUCT_RE = re.compile(r"\bpub\s+struct\s+([A-Za-z_]\w*)\s*\{")
-# No generic-skipping negated character class here (a `pub enum X<T> { ... }` with a large gap
-# before `{` would risk the same catastrophic backtracking `find_declaration_body` was written
-# to avoid on the Rust side, module docstring, fix loop 1 finding 4). The Cairo source is trivial
-# today (no generic enum), so `[^\n{]*` — bounded to one line, no nested quantifier — is enough;
-# revisit with the same manual scan as the Rust side if a multi-line generic enum lands here.
-CAIRO_ENUM_RE = re.compile(r"\bpub\s+enum\s+([A-Za-z_]\w*)[^\n\{]*\{")
+# Cairo declaration heads (name only; `find_declaration_body`, shared with the Rust side, finds
+# the brace robustly — fix loop 2 finding 4's Rust-side fix applies here identically: a fixed
+# regex tail like `[^\n{]*\{` cannot see past a struct's generics onto a second line).
+CAIRO_STRUCT_HEAD_RE = re.compile(r"\bpub\s+struct\s+([A-Za-z_]\w*)")
+CAIRO_ENUM_HEAD_RE = re.compile(r"\bpub\s+enum\s+([A-Za-z_]\w*)")
 CAIRO_TRAIT_RE = re.compile(r"\bpub\s+trait\s+([A-Za-z_]\w*)[^\{]*\{")
 CAIRO_IMPL_OF_RE = re.compile(r"\bpub\s+impl\s+[A-Za-z_]\w*\s+of\s+([A-Za-z_]\w*)(?:<[^\{]*>)?\s*\{")
+CAIRO_FREE_FN_RE = re.compile(r"\bpub\s+fn\s+([A-Za-z_]\w*)")
+CAIRO_FREE_CONST_RE = re.compile(r"\bpub\s+const\s+([A-Za-z_]\w*)\s*:")
 
 
-def parse_cairo() -> list[Item]:
+def build_cairo_tree():
+    """`(nodes, reachable, bridged, glob_targets)` of the Cairo source tree from
+    `crates/hexx/src/lib.cairo`, or `None` if that file does not exist yet — shared by
+    `parse_cairo` (the twelve mirror owners) and `parse_extensions` (fix loop 2 finding 14: both
+    walk the *same* reachability computation; only which declarations they keep, and how they
+    name the owner, differs)."""
     if not CAIRO_ROOT_FILE.is_file():
-        return []
+        return None
     nodes = build_module_tree(CAIRO_ROOT_FILE)
-    reachable = compute_reachable_modules(nodes)
-    bridged, glob_targets = collect_bridges(nodes, reachable)
+    reachable = compute_reachable_modules(nodes, cfg_exempt=frozenset())
+    bridged, glob_targets, _used_names = collect_use_statements(nodes, reachable)
+    return nodes, reachable, bridged, glob_targets
 
+
+def scan_cairo_tree(
+    nodes: dict[tuple[str, ...], ModuleNode], reachable: set[tuple[str, ...]],
+    bridged: dict[tuple[str, ...], set[str]], glob_targets: set[tuple[str, ...]],
+    owner_of,
+) -> list[Item]:
+    """Walk every node of a Cairo module tree, keeping a declaration only when `owner_of(path,
+    name) -> str | None` returns an owner for it (`None` skips it) — the one traversal `parse_
+    cairo` and `parse_extensions` share (fix loop 2 finding 14)."""
     items: set[Item] = set()
     for path, node in nodes.items():
         ok = lambda name, path=path: declared_reachable(path, name, reachable, bridged, glob_targets)
         text, source = node.text, node.source
 
-        for match, opening, end in blocks(text, CAIRO_STRUCT_RE) + blocks(text, CAIRO_ENUM_RE):
-            name = match.group(1)
-            if name not in OWNERS or not ok(name):
-                continue
-            kind = "struct" if match.re is CAIRO_STRUCT_RE else "enum"
-            items.add(Item(name, kind, name, source))
-            body = text[opening + 1:end]
-            for field_m in re.finditer(r"\bpub\s+([a-z_]\w*)\s*:", body):
-                items.add(Item(name, "field", field_m.group(1), source))
-            for variant_m in re.finditer(r"(?m)^\s*([A-Za-z_]\w*)\s*(?:[:,]|$)",
-                                          strip_leading_attrs(body)):
-                items.add(Item(name, "variant", variant_m.group(1), source))
+        for head_re, kind in ((CAIRO_STRUCT_HEAD_RE, "struct"), (CAIRO_ENUM_HEAD_RE, "enum")):
+            for match in head_re.finditer(text):
+                name = match.group(1)
+                owner = owner_of(path, name) if ok(name) else None
+                if owner is None:
+                    continue
+                body = find_declaration_body(text, match.end())
+                if body is None or body[0] != "{":
+                    continue
+                items.add(Item(owner, kind, name, source))
+                end = closing_brace(text, body[1])
+                inner = text[body[1] + 1:end]
+                for field_m in re.finditer(r"\bpub\s+([a-z_]\w*)\s*:", inner):
+                    items.add(Item(owner, "field", scoped(owner != name, name, field_m.group(1)),
+                                    source))
+                if kind == "enum":
+                    for variant_m in re.finditer(r"(?m)^\s*([A-Za-z_]\w*)\s*(?:[:,]|$)",
+                                                  strip_leading_attrs(inner)):
+                        items.add(Item(owner, "variant",
+                                       scoped(owner != name, name, variant_m.group(1)), source))
 
         for match, opening, end in blocks(text, CAIRO_TRAIT_RE):
-            owner = match.group(1).removesuffix("Trait")
-            if owner not in OWNERS or not ok(match.group(1)):
+            trait_name = match.group(1)
+            type_name = trait_name.removesuffix("Trait")
+            # Reachability is checked against the trait's own declared name (what is actually
+            # `pub`, and what a `pub use` would re-export); the owner bucket is asked for the
+            # derived type name (`Hex`, not `HexTrait`), matching `OWNERS`/the extension's
+            # per-type scoping — fix loop 2: the first version of this unification asked
+            # `owner_of` for `trait_name`, which is never a member of `OWNERS`, so no mirror
+            # trait was ever attributed to anything.
+            owner = owner_of(path, type_name) if ok(trait_name) else None
+            if owner is None:
                 continue
+            items.add(Item(owner, "trait", trait_name, source))
             body = text[opening + 1:end]
             for fn in re.finditer(r"\bfn\s+([A-Za-z_]\w*)\s*(?:<[^;{()]*>)?\s*\(", body):
-                items.add(Item(owner, "method", fn.group(1), source))
-            for const in re.finditer(r"\bconst\s+([A-Z][A-Z0-9_]*)\s*:", body):
-                items.add(Item(owner, "const", const.group(1), source))
+                items.add(Item(owner, "method", scoped(owner != type_name, type_name, fn.group(1)),
+                                source))
+            for const in re.finditer(r"\bconst\s+([A-Za-z_]\w*)\s*:", body):
+                items.add(Item(owner, "const",
+                                scoped(owner != type_name, type_name, const.group(1)), source))
 
         for match, opening, end in blocks(text, CAIRO_IMPL_OF_RE):
-            owner = match.group(1).removesuffix("Trait")
-            if owner not in OWNERS:
+            trait_name = match.group(1)
+            type_name = trait_name.removesuffix("Trait")
+            # An impl's own reachability follows its trait's (Cairo impls are not separately
+            # named on the public path the way a Rust inherent impl's methods are); `owner_of`
+            # is asked for the derived type name, as in the trait-declaration branch above, so
+            # the same type consistently maps to the same owner whether accessed through its
+            # trait declaration or through one of (potentially several) `pub impl ... of` blocks.
+            owner = owner_of(path, type_name) if ok(trait_name) else None
+            if owner is None:
                 continue
             body = text[opening + 1:end]
             for fn in re.finditer(r"\bfn\s+([A-Za-z_]\w*)\s*(?:<[^;{()]*>)?\s*\(", body):
-                items.add(Item(owner, "method", fn.group(1), source))
+                items.add(Item(owner, "method", scoped(owner != type_name, type_name, fn.group(1)),
+                                source))
+
+        for match in CAIRO_FREE_FN_RE.finditer(mask_impl_bodies(text)):
+            name = match.group(1)
+            owner = owner_of(path, name) if ok(name) else None
+            if owner is not None:
+                items.add(Item(owner, "method", name, source))
+        for match in CAIRO_FREE_CONST_RE.finditer(mask_impl_bodies(text)):
+            name = match.group(1)
+            owner = owner_of(path, name) if ok(name) else None
+            if owner is not None:
+                items.add(Item(owner, "const", name, source))
     return unique_items(items)
+
+
+def parse_cairo() -> list[Item]:
+    tree = build_cairo_tree()
+    if tree is None:
+        return []
+    nodes, reachable, bridged, glob_targets = tree
+
+    def owner_of(path: tuple[str, ...], name: str) -> str | None:
+        del path
+        return name if name in OWNERS else None
+
+    return scan_cairo_tree(nodes, reachable, bridged, glob_targets, owner_of)
 
 
 def unique_items(items: set[Item] | list[Item]) -> list[Item]:
@@ -981,8 +1253,7 @@ def classify(hexx: list[Item], cairo: list[Item]) -> tuple[dict[Item, tuple[str,
                     result[item] = ("renamed", matched.reason)
                     consumed.add(replacement_key)
                 else:
-                    result[item] = ("missing", f"renamed {matched.replacement[1]} — "
-                                                f"{matched.reason} — not yet ported")
+                    result[item] = ("missing", f"not yet ported as {matched.reason}")
             else:
                 result[item] = (matched.status, matched.reason)
             continue
@@ -1038,13 +1309,22 @@ _L_M1: set[tuple[str, str, str]] = {
     ("EdgeDirection", "impl", "From<EdgeDirection> for Hex"),
 } | {("EdgeDirection", "const", name) for name in _EDGE_DIRECTION_CONSTANTS}
 
+# Interop with the companion package hexx_glam, scheduled L-M3 (plan §9, §4.4's own "L-M3" rows
+# for these five items) — fix loop 2 finding 3: they used to fall through to the generic L-M2
+# default with every other Hex operator counterpart, which is wrong specifically for these five.
+_INTEROP_ITEMS: set[tuple[str, str, str]] = {
+    ("Hex", "method", "as_ivec2"), ("Hex", "method", "as_ivec3"),
+    ("Hex", "impl", "From<Hex> for IVec2"), ("Hex", "impl", "From<Hex> for IVec3"),
+    ("Hex", "impl", "From<IVec2> for Hex"),
+}
+
 
 def milestone_of(item: Item, status: str) -> str:
     if status == "dropped":
         return "—"
     if item.key in _L_M1:
         return "L-M1"
-    if item.owner == "algorithms":
+    if item.owner == "algorithms" or item.key in _INTEROP_ITEMS:
         return "L-M3"
     if item.owner in ("layout", "storage", "mesh"):
         return "—"
@@ -1137,24 +1417,33 @@ EXTENSION_MODULES = ("board", "finders", "generators")
 
 
 def parse_extensions() -> dict[str, list[Item]]:
+    """The whole public surface of `EXTENSION_MODULES` — traits and their members, impls,
+    constants, fields, variants — through the same reachability walk `parse_cairo` uses (fix loop
+    2 finding 14: the previous version scanned `pub fn`/`pub struct`/`pub enum` with three
+    unrelated regexes, over every `.cairo` file under the module's directory regardless of
+    whether Scarb's own module tree ever reaches it, and missed trait declarations, their
+    members, impls and constants entirely — the same reachability walk both sides need is what
+    `scan_cairo_tree` now provides to both). Every item is scoped `Type.name` (`scoped(True, ...)`
+    is forced below): an extension module is inherently multi-type (`board` alone carries
+    `HexMap`, `Direction`, `Layout`, ...), the same reasoning as `MULTI_TYPE_OWNERS`. Works in
+    both the directory form (`board/map.cairo`, `board/direction.cairo`, ...) and a flat form
+    (`board.cairo` declaring `pub mod map;` to a sibling `board/map.cairo`) — the same module-tree
+    walker plan §2.2's directory tree and a flat file both resolve through (fix loop 2 finding 4)."""
     result: dict[str, list[Item]] = {name: [] for name in EXTENSION_MODULES}
-    if not CAIRO_SRC.is_dir():
+    tree = build_cairo_tree()
+    if tree is None:
         return result
+    nodes, reachable, bridged, glob_targets = tree
+
+    def owner_of(path: tuple[str, ...], name: str) -> str | None:
+        del name
+        return path[0] if path and path[0] in EXTENSION_MODULES else None
+
+    by_module: dict[str, list[Item]] = {name: [] for name in EXTENSION_MODULES}
+    for item in scan_cairo_tree(nodes, reachable, bridged, glob_targets, owner_of):
+        by_module.setdefault(item.owner, []).append(item)
     for module in EXTENSION_MODULES:
-        module_dir = CAIRO_SRC / module
-        if not module_dir.is_dir():
-            continue
-        items: set[Item] = set()
-        for path in sorted(module_dir.rglob("*.cairo")):
-            text = mask_comments(path.read_text())
-            source = str(path.relative_to(ROOT))
-            for match in re.finditer(r"\bpub\s+(?:const\s+)?fn\s+([A-Za-z_]\w*)", text):
-                items.add(Item(module, "method", match.group(1), source))
-            for match in re.finditer(r"\bpub\s+struct\s+([A-Za-z_]\w*)", text):
-                items.add(Item(module, "struct", match.group(1), source))
-            for match in re.finditer(r"\bpub\s+enum\s+([A-Za-z_]\w*)", text):
-                items.add(Item(module, "enum", match.group(1), source))
-        result[module] = unique_items(items)
+        result[module] = unique_items(by_module.get(module, []))
     return result
 
 
@@ -1218,8 +1507,12 @@ def load_inventory(path: Path) -> list[Item]:
 def check_release(hexx: list[Item], cairo: list[Item], release: str) -> int:
     """Every item scheduled at or before `release` must not be `missing` (AC-3: "an item
     scheduled for a release and absent fails the check of that release"). Milestone order:
-    L-M1 < L-M2 < L-M3. Not part of `--check`/CI: no release is cut by this task (brief, Out)."""
-    order = {"L-M1": 1, "L-M2": 2, "L-M3": 3}
+    L-M1 < L-M2 < L-M3 < L-M4 (`milestone_of` never actually returns "L-M4" today — nothing in
+    the plan's classification is scheduled there yet — so `--check-release L-M4` currently reduces
+    to "every non-dropped item is present"; it exists so `.github/workflows/release-check.yml`'s
+    version→milestone table, `1.x -> L-M4` per D-132, is a check this tool can run without raising
+    "unknown release"). Not part of `--check`/CI: no release is cut by this task (brief, Out)."""
+    order = {"L-M1": 1, "L-M2": 2, "L-M3": 3, "L-M4": 4}
     statuses, _ = classify(hexx, cairo)
     due = order.get(release)
     if due is None:
@@ -1245,7 +1538,8 @@ def parse_args() -> argparse.Namespace:
     modes = parser.add_mutually_exclusive_group()
     modes.add_argument("--refresh", action="store_true", help="refresh the embedded hexx inventory")
     modes.add_argument("--check-release", metavar="MILESTONE",
-                        help="fail if an item scheduled by MILESTONE (L-M1, L-M2, L-M3) is missing")
+                        help="fail if an item scheduled by MILESTONE (L-M1, L-M2, L-M3, L-M4) is "
+                             "missing")
     parser.add_argument("--check", action="store_true",
                          help="fail if the target (docs/API_PARITY.md, or docs/EXTENSIONS.md with "
                               "--extensions) is stale, instead of writing it")
