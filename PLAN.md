@@ -6,8 +6,11 @@ on 2026-09-28 and **owned here from now on**. The game's needs stay in the game'
 
 | | |
 |---|---|
-| Repository | `bal7hazar/hexx-cairo`. Whether the work ends here, in `origami`, or elsewhere is a **finding of the track**, reported at gate L-G1 |
-| Meanwhile | The game consumes `origami_hexmap` 1.8.0 |
+| Repository | `bal7hazar/hexx-cairo`: the library lives here ([L-G1](docs/decisions/L-G1-hexx-port.md), owner, 2026-09-28) |
+| Scope | **`hexx` is the reference**: feature parity wherever it makes sense on-chain, **extended** with the features tied to Cairo and to the network (bitmap boards, generation, floods, assembly). The engine of `origami_hexmap` is taken over here |
+| `origami_hexmap` | **Decommissioned once the port is complete** |
+| `u252` | From the crate `u252` of `bal7hazar/types-cairo`, by published version |
+| Meanwhile | The game consumes `origami_hexmap` 1.8.0, then migrates to this library by published version |
 | Subject | `origami_hexmap` (`dojoengine/origami`, `crates/hexmap`) and the Rust crate [`hexx`](https://github.com/ManevilleF/hexx) |
 | Rules | The game's `OPERATIONS.md` and `docs/CAIRO.md` in full: test-driven, gas budget on every test, execution cost first, arithmetic then bitwise then loops, `u252`, oracles |
 | Convention | Mirror the Rust crate, same names, same API where it makes sense on-chain, deviations documented; a generated parity table checked in CI; numeric results are API |
@@ -20,13 +23,13 @@ on 2026-09-28 and **owned here from now on**. The game's needs stay in the game'
 |---|---|---|---|---|---|
 | LIB-01 | Repository setup: README, plan, status, folders, link check in CI | — | Orchestrator | — | done |
 | LIB-02 | **Analysis of `hexx`** and of its intersection with `origami_hexmap`, against needs N-1 to N-8 and milestone L-M1. Brief: [LIB-02](docs/briefs/LIB-02-hexx-analysis.md). Report: `docs/research/LIB-02-hexx-analysis.md` | LIB-01 | Opus 5.5, research | GPT-6-Sol | **done** (2026-09-28, pull request #2) |
-| **Gate L-G1** | **Is a port relevant, and where does it land?** Owner's decision on the report | LIB-02 | Owner | — | **open**: [PENDING-L-G1](docs/decisions/PENDING-L-G1.md) |
-| LIB-03 | **Porting analysis**, if relevant: milestones, API per milestone, what is mirrored and what is adapted, gas targets per function, release plan. First milestone = L-M1 | L-G1 | Opus 5.5 or Fable 5.1 | GPT-6-Astra | todo |
+| **Gate L-G1** | **Is a port relevant, and where does it land?** | LIB-02 | Owner | — | **decided** 2026-09-28: [L-G1](docs/decisions/L-G1-hexx-port.md) |
+| LIB-03 | **Porting plan**: module tree mirroring `hexx`, exclusions and integer counterparts, extensions, take-over of the engine of `origami_hexmap`, parity-table method, milestones with API and gas targets, release plan, migration of the game, decommissioning. First milestone = L-M1. Brief: [LIB-03](docs/briefs/LIB-03-porting-plan.md) | L-G1 | Fable 5.1, research | GPT-6-Astra | in progress |
 | **Gate L-G2** | **Is the plan accepted?** Owner's decision | LIB-03 | Owner | — | — |
 | LIB-04 | Repository, CI, parity table, gas tooling, publication pipeline to scarbs.xyz | L-G2 | Sonnet 5 | GPT-6-Luna | todo |
 | LIB-05 | **Milestone L-M1**: implementation, test-driven, at minimal cost; **released on scarbs.xyz** | LIB-04 | Opus 5.5, Fable 5.1 for the hardest algorithms | GPT-6-Astra (determinism, cost) | todo |
 | LIB-06 | Milestones L-M2 and following, each ending with a release | LIB-05 | As above | As above | todo |
-| LIB-07 | **Final release**: parity reached or exclusions closed and documented | LIB-06 | — | GPT-6-Astra | todo |
+| LIB-07 | **Final release**: parity reached or exclusions closed and documented; **`origami_hexmap` decommissioned** | LIB-06 | — | GPT-6-Astra | todo |
 
 ## Milestone L-M1 — what the game needs first
 

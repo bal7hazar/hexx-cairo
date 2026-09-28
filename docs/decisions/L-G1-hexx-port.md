@@ -1,4 +1,37 @@
-# PENDING — Gate L-G1: is a port of `hexx` relevant, and where does it land?
+# L-G1 — The port of `hexx`: decided
+
+**Decided by the owner on 2026-09-28** (see [Answer](#answer)). What follows the answer is the
+file as it was put to the owner, kept for the record; its recommendations were **not** all
+followed.
+
+## Answer
+
+Given by the owner in the orchestrator's session on 2026-09-28.
+
+| # | Question | Decision |
+|---|---|---|
+| 1 | Is a port relevant? | **Yes, in full.** `hexx` becomes the reference of the scope: its features are ported to Cairo for **feature parity wherever that makes sense** on-chain. Storing a board as a bitmap is a constraint of Cairo and of the network, so features beyond `hexx` are normal: the scope is **extended** with the features tied to Cairo and to the network (boards in one felt, generation, floods, assembly, and the like) |
+| 2 | Where does it land? | **In `bal7hazar/hexx-cairo`**, published under its own name and cadence. The bitmap engine of `origami_hexmap` is taken over here as an extension |
+| 2b | What becomes of `origami_hexmap`? | **Decommissioned once the port is complete.** Until then the game consumes `origami_hexmap` 1.8.0, then migrates to `hexx-cairo` by published version |
+| 3 | `u252` | Its own crate `u252` in `bal7hazar/types-cairo` (below) |
+
+What differs from the orchestrator's recommendation: it was "partly" and option B (extend
+`origami_hexmap` in place). The owner chose full parity and this repository. The analysis of
+LIB-02 stands as a description of the two libraries; its recommendation is superseded.
+
+Consequences, for LIB-03 to plan:
+
+| | |
+|---|---|
+| Parity table | Against the whole public API of `hexx` 0.25.0; every exclusion (floating point, meshes, engine integrations…) listed with its reason, and with its integer counterpart where one exists |
+| Extensions | A documented part of the library, outside the parity table |
+| Engine taken over | From `origami_hexmap` 1.8.0 (MIT, the owner is its author). Results for the same input must stay identical, so that the game migrates without moving its test vectors |
+| Milestone L-M1 | Unchanged: what Grim World needs first (N-1 to N-8) |
+| Decommissioning | Its steps and its condition (parity reached or exclusions closed, the game migrated) are part of the release plan |
+
+---
+
+# As put to the owner — Gate L-G1: is a port of `hexx` relevant, and where does it land?
 
 | | |
 |---|---|
@@ -6,7 +39,7 @@
 | Decides | The owner |
 | Based on | [LIB-02 report](../research/LIB-02-hexx-analysis.md) (`[Opus 5.5]`), audited by `[GPT-6-Sol]`: [pass 1](../audits/LIB-02-audit-gpt-6-sol-pass-1.md), [pass 2](../audits/LIB-02-audit-gpt-6-sol-pass-2.md) (PASS WITH FINDINGS, all fixed) |
 | Blocks | LIB-03 (porting analysis), and through it L-M1, SPK-7 and ENG-05 of the game |
-| State | **Open.** Nothing is launched until the answer |
+| State | Decided on 2026-09-28 |
 
 ## Question 1 — Is a port of `hexx` relevant?
 
@@ -84,6 +117,3 @@ inputs.
 | 6 | **Line of sight**: `hexx` has no tie rule | **The game's rule**: integer line, ties to the lower tile index. A documented deviation from `line_to`, excluded from the parity table at ties |
 | 7 | **"Clockwise"**: `hexx`'s `clockwise` turns counter-clockwise on a north-up map | **Keep `hexx`'s names and semantics** in the `hexx`-named module, documented. The game's arcs are written with directions, never with the word |
 
-## Answer
-
-*To be filled by the project manager with the owner's decision and its date.*
