@@ -36,6 +36,12 @@ version.
 
 ## Notes
 
+- **Model policy (game's `OPERATIONS.md` §2, `e67a66b`).** Sonnet 5.5 (`claude-sonnet-5-5`, title
+  `[Sonnet 5.5]`) replaces Sonnet 5 for every new launch of a mechanical task; the launcher
+  knows it as `sonnet-5.5`. LIB-04 keeps Sonnet 5 until it closes.
+- **Restart of the desktop app, 2026-09-28 around 19:00 UTC.** The agent of LIB-04 (a systemd
+  user unit) went on; the orchestrator's background wait was re-armed.
+
 - **Launcher adopted.** `scripts/agent.sh`, `scripts/lock.sh` and `scripts/profiles/` are
   copied from `bal7hazar/grimworld` (`6c2351e`); only the unit prefix (`hexmap-`) and the
   lock name differ. It detaches `codex` with `setsid`, where the read-only sandbox is
