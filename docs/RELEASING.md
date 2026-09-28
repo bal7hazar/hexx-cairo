@@ -1,69 +1,109 @@
 # Releasing `hexx`
 
-**Every publication needs the owner's explicit go, each time** (decision L-G2: "the orchestrator
-does not publish and does not ask again: the project manager carries the question"). Nothing in
-this repository — no workflow, no script, no agent profile — is allowed to publish, tag or
-release on its own; `.github/workflows/publish.yml` only runs when the owner dispatches it by
-hand, from `main`, and only after every guard in it passes.
+**D-132: no agent and no workflow publishes.** A publication is made by the orchestrator
+session, by hand, from a clean checkout of a named commit — never by a CI job, never by a script
+running unattended, never by any agent acting on its own judgement. It happens only after a go
+from the project manager that names the package, the version and the commit, and the tag and the
+GitHub release come only after the registry itself shows the version. No workflow of this
+repository holds or reads the registry token: there is no `environment:` block, no
+`SCARB_REGISTRY_AUTH_TOKEN` secret and no `scarb publish` step anywhere under
+`.github/workflows/`. This supersedes the previous (fix loop 1) design, in which
+`.github/workflows/publish.yml` ran `scarb publish` itself, gated by a required-reviewer
+environment; that workflow is deleted.
 
-## Prerequisites: settings of the owner, not something a workflow can create
+## The pending file
 
-These live in the repository's GitHub settings, outside any file this repository commits. A
-workflow file cannot grant itself an approval gate or a secret; both are configured by the owner,
-once, before the first release:
+Before a release, the orchestrator opens `docs/decisions/PENDING-publish-hexx-<version>.md`
+(the naming convention of `docs/decisions/README.md`: `PENDING-<gate>.md`, renamed once decided).
+It records:
 
-| Setting | Where | What it does |
-|---|---|---|
-| The `publish` environment | Repository → Settings → Environments → `publish` | `.github/workflows/publish.yml`'s job runs `environment: publish`; GitHub will not start that job until the environment's own rules are satisfied |
-| A required reviewer on `publish` | Same environment, "Deployment protection rules" | The actual approval gate: someone (the owner, or whoever the owner names) must approve the run before it proceeds, even though the workflow's own guards (ref, actor, version, tag) already passed |
-| `SCARB_REGISTRY_AUTH_TOKEN` | Same environment's own secrets (not the repository's) | The scarbs.xyz registry token, read only by the `Publish crates/hexx` step of `publish.yml`, and only once the environment's protection rules clear. Scoping it to the environment, not the repository, means no other workflow — including this one on a different ref — can ever read it |
+- the package (`hexx`) and the exact version string to publish;
+- the exact commit sha the release is cut from (a commit already on `main`);
+- a link to the green run of `.github/workflows/release-check.yml` dispatched against that
+  version and that sha — the evidence the project manager reviews, not a re-run of the checks by
+  hand;
+- anything the project manager needs to sign off: the milestone the version implies
+  (`docs/RELEASING.md`'s table below), `docs/API_PARITY.md`'s state, open deviations.
 
-Without the environment's required reviewer, `environment: publish` alone still restricts
-*where* the secret is visible, but does not stop the workflow from running to completion by
-itself once dispatched: the reviewer is what turns "an owner can dispatch this" into "an owner
-must also confirm this specific run."
+## What the project manager checks
 
-## What the workflow itself checks (`.github/workflows/publish.yml`)
+The project manager's go is bound to a specific commit, not to "the current state of `main`" or
+to a branch name: a later commit on `main`, even one that only fixes a typo, needs a new go. Before
+giving it, the project manager:
 
-Manual trigger only (`workflow_dispatch`, one input, `version`), never a tag push. Four guards,
-each its own step, before the checks or the packaging run:
+1. Confirms the pending file names a package, a version and a commit sha, and that the sha is on
+   `main`.
+2. Dispatches (or asks the orchestrator to dispatch) **Actions → Release check → Run workflow**
+   with that exact `version` and `sha`, and waits for it to go green. The workflow (below) is the
+   evidence, not a formality: it fails loudly if the sha is not an ancestor of `main`, if the
+   version does not match the manifest, if the version is not valid semver, if the tag already
+   exists, if any check of `scripts/check.sh` (golden vectors included) fails, or if an item the
+   version's milestone requires is still `missing` in `docs/API_PARITY.md`.
+3. Inspects the uploaded artifact (the packaged `Scarb.toml` and a listing of the archive's
+   contents) for anything unexpected — an extra file, a missing one, a dependency that should not
+   be there.
+4. Records the go: renames the pending file, or replaces its content with the decision and its
+   date, per `docs/decisions/README.md`'s convention.
 
-1. The ref is `refs/heads/main` — never a branch, never a fork's ref.
-2. The actor is the repository owner (`github.actor == github.repository_owner`).
-3. The `version` input equals the version `Scarb.toml`'s `[workspace.package]` actually declares
-   — a typo in the dispatch form fails loudly instead of publishing the wrong version.
-4. No tag `v<version>` exists yet on the remote — a version cannot be published twice under this
-   process.
+## `.github/workflows/release-check.yml`: what it verifies, not what it does
 
-Then: the full local gate (`scripts/check.sh`), `scarb package -p hexx`, and only then
-`scarb publish -p hexx` (`SCARB_REGISTRY_AUTH_TOKEN` from the `publish` environment). The workflow
-never creates a tag itself (`permissions: contents: read` — it cannot write to the repository even
-if a step tried to).
+Manual trigger only (`workflow_dispatch`, inputs `version` and `sha`), `permissions: contents:
+read` — it cannot write to the repository, create a tag or a release, even if a step tried to.
+No secret, no `environment:`, no `scarb publish`. In order:
 
-## Steps of a release
+1. Checks out exactly the input `sha`.
+2. Verifies that `sha` is an ancestor of `origin/main` — never a fork's ref, never an unmerged
+   branch.
+3. Verifies that the input `version` equals `Scarb.toml`'s `[workspace.package].version`.
+4. Verifies that `version` has valid semver syntax.
+5. Verifies that no tag `v<version>` exists yet on the remote.
+6. Runs `scripts/check.sh` with the golden-vector check mandatory (it installs the Rust
+   toolchain itself, so `tools/refgen`'s check can never be silently skipped here).
+7. Derives the milestone the version implies from the table below, and runs
+   `python3 scripts/api_parity.py --check-release <milestone>`: fails if an item that milestone
+   requires is still `missing`.
+8. Runs `scarb package -p hexx` and uploads the packaged `Scarb.toml` and a listing of the
+   archive's contents (not the archive itself: a workflow that does not publish has no reason to
+   keep the compressed bytes around).
 
-1. The owner decides a version is ready (through the project manager, per L-G2) and merges
-   whatever pull request brings `crates/hexx`, `CHANGELOG.md` and `docs/API_PARITY.md` to that
-   state, on `main`.
-2. The owner (or whoever they name, confirmed by the `publish` environment's required reviewer)
-   opens **Actions → Publish → Run workflow**, on `main`, with `version` set to the exact string
-   `Scarb.toml`'s `[workspace.package].version` carries.
-3. The four guards run; any failure stops the workflow before anything is built or packaged.
-4. `scripts/check.sh` runs the full gate. `scarb package -p hexx` builds the archive.
-5. The `publish` environment's required reviewer approves the run.
-6. `scarb publish -p hexx` publishes to scarbs.xyz, reading the token from the environment's own
-   secret.
-7. The orchestrator tags the released commit **by hand**, `v<version>`, once publication is
-   confirmed (`scarbs.xyz/packages/hexx`) — the workflow does not do this for them.
-8. The orchestrator (or a following task) updates `CHANGELOG.md`'s heading from `[Unreleased]` to
-   the released version and date, if that pull request had not already done so.
+| Version | Milestone |
+|---|---|
+| `0.1.x` | L-M1 |
+| `0.2.x` | L-M2 |
+| `0.3.x` | L-M3 |
+| `1.x` | L-M4 |
 
-## What this task (LIB-04) rehearsed, and what it never touched
+## Publication itself: the orchestrator session, by hand
 
-LIB-04 rehearsed the pipeline up to `scarb package -p hexx` only — a real, local run, whose
-output and file list are in `docs/reports/LIB-04-REPORT.md`, "Fix loop 1" and the original
-report's Scope item 7. It never ran `scarb publish` (its `implement` profile refuses the command
-outright), never created a tag, and never asked for or touched a registry token. No environment,
-no required reviewer and no registry secret were configured by this task either: those are the
-owner's own settings, listed above, to put in place before the workflow is ever dispatched for
-real.
+Once the project manager's go is recorded:
+
+1. The orchestrator session clones (or fetches into) a clean checkout of the repository, then
+   checks out exactly the commit sha the go names — not `main`'s tip, not a rebase, not a merge:
+   the same sha the release-check workflow ran green against.
+2. The orchestrator session runs `scarb package -p hexx` and `scarb publish -p hexx` from that
+   checkout, by hand, with a registry token it holds itself (never a repository or environment
+   secret — no workflow of this repository has one to hand it).
+3. The orchestrator session confirms the version on the registry (`scarbs.xyz/packages/hexx`)
+   before doing anything else. Nothing below happens until the registry shows the version.
+4. Once confirmed, the orchestrator session tags the released commit by hand, `v<version>`, and
+   creates the GitHub release from that tag.
+5. `CHANGELOG.md`'s `[Unreleased]` heading is updated to the released version and date, if the
+   pull request that reached this state had not already done so.
+
+## After publication: need N-9
+
+N-9 (`snforge_std` a dev-dependency of `hexx`, so it must not resolve as a regular dependency of
+a consumer of the *published* package — the defect that hit `origami_hexmap` 1.8.0, plan §2.1)
+is demonstrated on the artifact the registry actually serves, not on `Scarb.toml`: the two
+consumer packages of `tools/consumer_check/` (task M1-N9, not LIB-04) resolve and build against
+`hexx = "<version>"` from the registry, and the registry's own index entry for that version lists
+no `snforge_std` dependency. This check runs after every publication, against the published
+package, never against the manifest alone — the manifest already declaring `[dev-dependencies]`
+correctly did not stop 1.8.0's defect (plan §2.1, R-17).
+
+## What LIB-04 rehearsed, and what it never touched
+
+LIB-04 rehearsed the pipeline up to `scarb package -p hexx` only, and wrote
+`.github/workflows/release-check.yml` as a check, never a publish step. It never ran `scarb
+publish`, never created a tag, never configured a registry secret, and never asked for one: under
+D-132, no workflow of this repository ever will.

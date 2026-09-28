@@ -1,0 +1,142 @@
+name: Release check
+
+# D-132 (fix loop 2, decision A): no agent and no workflow publishes. A publication is made by the
+# orchestrator session, from a clean checkout of a named commit, after a go of the project manager
+# that names package, version and commit; the tag and the GitHub release come only after the
+# registry shows the version. This workflow is the project manager's evidence for that go: it
+# checks out exactly the named commit, verifies it against `main` and the manifest, runs the full
+# local gate with the golden-vector check mandatory, verifies the milestone the version implies is
+# actually met, packages the crate, and uploads what a reviewer needs to inspect the result —
+# nothing more. It never publishes: no `environment:`, no secret, no `scarb publish`, anywhere in
+# this workflow or any other of this repository. See docs/RELEASING.md.
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to check (must equal Scarb.toml's [workspace.package] version)"
+        required: true
+        type: string
+      sha:
+        description: "Commit to check out (must be an ancestor of origin/main)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-check
+  cancel-in-progress: false
+
+jobs:
+  release-check:
+    name: Release check of crates/hexx
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Check out exactly the input sha
+        env:
+          SHA: ${{ inputs.sha }}
+        run: git checkout --quiet "$SHA"
+
+      - name: Verify the sha is an ancestor of origin/main
+        env:
+          SHA: ${{ inputs.sha }}
+        run: |
+          if ! git merge-base --is-ancestor "$SHA" origin/main; then
+            echo "::error::$SHA is not an ancestor of origin/main"
+            exit 1
+          fi
+
+      - name: Verify the input version matches the manifest
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          manifest_version=$(awk -F'"' '/^version = /{print $2; exit}' Scarb.toml)
+          if [ -z "$manifest_version" ]; then
+            echo "::error::could not read [workspace.package].version from Scarb.toml"
+            exit 1
+          fi
+          if [ "$VERSION" != "$manifest_version" ]; then
+            echo "::error::input version '$VERSION' does not match Scarb.toml's '$manifest_version'"
+            exit 1
+          fi
+
+      - name: Verify the version has valid semver syntax
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          semver_re='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$'
+          if ! [[ "$VERSION" =~ $semver_re ]]; then
+            echo "::error::'$VERSION' is not valid semver"
+            exit 1
+          fi
+
+      - name: Verify no tag v<version> exists yet
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          if git ls-remote --exit-code --tags origin "refs/tags/v$VERSION" >/dev/null 2>&1; then
+            echo "::error::tag v$VERSION already exists"
+            exit 1
+          fi
+
+      # docs/RELEASING.md's table (0.1.x -> L-M1, 0.2.x -> L-M2, 0.3.x -> L-M3, 1.x -> L-M4).
+      - name: Derive the milestone the version implies
+        id: milestone
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          case "$VERSION" in
+            0.1.*) milestone=L-M1 ;;
+            0.2.*) milestone=L-M2 ;;
+            0.3.*) milestone=L-M3 ;;
+            1.*) milestone=L-M4 ;;
+            *)
+              echo "::error::'$VERSION' has no milestone mapping (0.1.x -> L-M1, 0.2.x -> L-M2, 0.3.x -> L-M3, 1.x -> L-M4)"
+              exit 1
+              ;;
+          esac
+          echo "milestone=$milestone" >> "$GITHUB_OUTPUT"
+
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
+        with:
+          scarb-version: "2.19.4"
+      - uses: foundry-rs/setup-snfoundry@16e23ddd0e2845f38727c92f4b913a7b728cda9e # v6.0.0
+        with:
+          starknet-foundry-version: "0.61.0"
+      # The golden-vector check (tools/refgen) is mandatory here, unlike a job with no Rust
+      # toolchain: `scripts/check.sh` refuses to skip it silently once cargo is on PATH.
+      - name: Install the Rust toolchain
+        run: |
+          rustup toolchain install stable --profile minimal --no-self-update
+          rustup default stable
+      - name: Run the full local gate (golden vectors mandatory)
+        run: scripts/check.sh
+
+      - name: Verify the milestone the version implies is met
+        env:
+          MILESTONE: ${{ steps.milestone.outputs.milestone }}
+        run: python3 scripts/api_parity.py --check-release "$MILESTONE"
+
+      - name: Package crates/hexx
+        run: scarb package -p hexx
+
+      # The packaged manifest and a listing of the archive's contents, not the archive itself
+      # (never published from a workflow; a reviewer inspecting names and sizes does not need the
+      # compressed bytes, and this workflow keeps no build artifact larger than it must).
+      - name: List the packaged archive
+        run: tar --zstd -tvf target/package/hexx-*.tar.zst > archive-listing.txt
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: hexx-release-check-${{ inputs.version }}
+          path: |
+            target/package/hexx-*/Scarb.toml
+            archive-listing.txt
+          if-no-files-found: error
+          retention-days: 30
