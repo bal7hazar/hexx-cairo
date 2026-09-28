@@ -19,8 +19,8 @@ on 2026-09-28 and **owned here from now on**. The game's needs stay in the game'
 | ID | Task | Depends on | Executor | Audits | Status |
 |---|---|---|---|---|---|
 | LIB-01 | Repository setup: README, plan, status, folders, link check in CI | — | Orchestrator | — | done |
-| LIB-02 | **Analysis of `hexx`** and of its intersection with `origami_hexmap`, against needs N-1 to N-8 and milestone L-M1. Brief: [LIB-02](docs/briefs/LIB-02-hexx-analysis.md). Report: `docs/research/LIB-02-hexx-analysis.md` | LIB-01 | Opus 5.5, research | GPT-6-Sol | todo |
-| **Gate L-G1** | **Is a port relevant, and where does it land?** Owner's decision on the report | LIB-02 | Owner | — | — |
+| LIB-02 | **Analysis of `hexx`** and of its intersection with `origami_hexmap`, against needs N-1 to N-8 and milestone L-M1. Brief: [LIB-02](docs/briefs/LIB-02-hexx-analysis.md). Report: `docs/research/LIB-02-hexx-analysis.md` | LIB-01 | Opus 5.5, research | GPT-6-Sol | **done** (2026-09-28, pull request #2) |
+| **Gate L-G1** | **Is a port relevant, and where does it land?** Owner's decision on the report | LIB-02 | Owner | — | **open**: [PENDING-L-G1](docs/decisions/PENDING-L-G1.md) |
 | LIB-03 | **Porting analysis**, if relevant: milestones, API per milestone, what is mirrored and what is adapted, gas targets per function, release plan. First milestone = L-M1 | L-G1 | Opus 5.5 or Fable 5.1 | GPT-6-Astra | todo |
 | **Gate L-G2** | **Is the plan accepted?** Owner's decision | LIB-03 | Owner | — | — |
 | LIB-04 | Repository, CI, parity table, gas tooling, publication pipeline to scarbs.xyz | L-G2 | Sonnet 5 | GPT-6-Luna | todo |
