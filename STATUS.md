@@ -7,7 +7,7 @@
 | Phase | **Milestone L-M1, tooling: LIB-04** |
 | Gate L-G2 | **Decided by the owner on 2026-09-28**: the plan is accepted with two conditions; the package is named `hexx`. [L-G2](docs/decisions/L-G2-porting-plan.md) |
 | Running agents | `[Sonnet 5]` LIB-04, profile implement, launched once this pull request is merged |
-| Publication | **Not granted.** The owner declined the reservation of the name: no `hexx` 0.0.1. The first publication is 0.1.0 (release candidates included), each on the owner's go through the project manager. The agents' profile refuses `scarb publish`, tags and releases |
+| Publication | Nothing is published. The first publication is 0.1.0, release candidates included. Rule D-132 (game's `OPERATIONS.md` §7, passed by the project manager on 2026-09-28): the decision to publish is delegated by the owner to the project manager; the orchestrator's session publishes, never an agent, after a go that names package, version and commit. **Before its first publication the orchestrator asks the owner, in its own session, to confirm this delegation**: a publication cannot be undone |
 | Next | Audit of LIB-04 by `[GPT-6-Luna]`; then LIB-05, starting with M1-T1 (take-over), then what N-3 and N-8 need, **N-3 and N-8 first among the extensions**, measured on their worst cases |
 | Stop condition | A measurement above the upper bound of its range: stop and report before any budget is set |
 | Game's rule for the flood (D-127) | 15 layers; a goblin not reached holds its position. `depth` stays a parameter; benches at 10, 15, 20 layers and without a limit |
