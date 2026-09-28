@@ -4,13 +4,13 @@
 
 | | |
 |---|---|
-| Phase | **Stopped: LIB-04 escalated.** Three fix loops used, audit pass 4 still FAIL (3 findings, all major, none blocking M1-T1) |
-| Pending decisions | [PENDING-LIB-04-fix-loops](docs/decisions/PENDING-LIB-04-fix-loops.md), for the project manager: a fourth fix loop limited to the three findings (recommended), merge now with a follow-up task, or re-scope |
-| Lot | Pull request #18 (workspace and tooling), open, CI green, not merged |
-| Running agents | None of the library |
+| Phase | **Milestone L-M1: LIB-05, task M1-T1a** (the take-over of the engine, the move) |
+| Running agents | `[Sonnet 5.5]` M1-T1a, profile implement, launched once this pull request is merged; `[Sonnet 5.5]` LIB-04b beside it when the shared slot is free |
+| LIB-04 | Merged (pull request #18) by [decision of the project manager](docs/decisions/LIB-04-fix-loops.md), with three findings open: task LIB-04b, **condition of the first publication** |
+| Pending decisions | None |
 | Gates | L-G1 and L-G2 decided by the owner on 2026-09-28: [L-G1](docs/decisions/L-G1-hexx-port.md), [L-G2](docs/decisions/L-G2-porting-plan.md) |
-| Publication | Nothing is published. No workflow of the repository publishes or holds a token (pull request #18). Rule D-132 (game's `OPERATIONS.md` §7): the orchestrator's session publishes, never an agent, after a go that names package, version and commit. **Before its first publication the orchestrator asks the owner, in its own session, to confirm the delegation of that decision to the project manager** |
-| Next | After the decision and the merge: LIB-05, M1-T1 (take-over of the engine), then what N-3 and N-8 need, N-3 and N-8 first among the extensions |
+| Publication | Nothing is published. No workflow of the repository publishes or holds a token. Rule D-132 (game's `OPERATIONS.md` §7): the orchestrator's session publishes, never an agent, after a go that names package, version and commit. **Before its first publication the orchestrator asks the owner, in its own session, to confirm the delegation of that decision to the project manager** |
+| Order of LIB-05 | [PLAN.md](PLAN.md) § *LIB-05*: the take-over, then N-3 and N-8 first among the extensions. One function per task, so that one audit pass reads a lot in full |
 | Stop condition of LIB-05 | A measurement above the upper bound of its range: stop and report before any budget is set |
 | Estimate to remember | One tick, worst case of the plan: 1.34M to 1.67M gas with a flood of 25 layers; the game's flood stops at 15 layers (D-127). Estimates: nothing was measured, and no figure of the plan is a budget |
 
@@ -19,7 +19,7 @@
 | Date | What |
 |---|---|
 | 2026-09-28 | LIB-01: repository set up (pull request #1) |
-| 2026-09-28 | LIB-04: workspace and tooling by `[Sonnet 5]`; four audit passes by `[GPT-6-Sol]`, three fix loops; escalated |
+| 2026-09-28 | LIB-04: workspace and tooling by `[Sonnet 5]`; four audit passes by `[GPT-6-Sol]`, three fix loops; merged by decision of the project manager; [report](docs/reports/LIB-04-REPORT.md) archived |
 | 2026-09-28 | Gate L-G2 decided by the owner; brief of LIB-04; profile `implement` extended with `cargo` and closed to publication |
 | 2026-09-28 | LIB-03: plan written by `[Fable 5.1]`; five audit passes by `[GPT-6-Astra]`, four fix loops (the fourth authorised by the project manager); merged with four open findings; [report](docs/reports/LIB-03-REPORT.md) archived |
 | 2026-09-28 | Gate L-G1 decided by the owner; launcher of the game adopted; brief of LIB-03 |

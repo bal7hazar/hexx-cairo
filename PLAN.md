@@ -28,10 +28,37 @@ on 2026-09-28 and **owned here from now on**. The game's needs stay in the game'
 | LIB-03 | **Porting plan**: module tree mirroring `hexx`, exclusions and integer counterparts, extensions, take-over of the engine of `origami_hexmap`, parity-table method, milestones with API and gas targets, release plan, migration of the game, decommissioning. First milestone = L-M1. Brief: [LIB-03](docs/briefs/LIB-03-porting-plan.md) | L-G1 | Fable 5.1, research | GPT-6-Astra | **done** (2026-09-28, pull request #9); open points in §14 of the plan |
 | LIB-03b | ~~Compiler target (need N-9)~~: **cancelled** before launch, the game dropped Dojo and is on Cairo 2.19 (its ADR-0007). Brief kept: [LIB-03b](docs/briefs/LIB-03b-compiler-target.md) | — | — | — | cancelled |
 | **Gate L-G2** | **Is the plan accepted?** Owner's decision | LIB-03 | Owner | — | **decided** 2026-09-28: accepted. [L-G2](docs/decisions/L-G2-porting-plan.md) |
-| LIB-04 | Workspace, CI, parity table, gas tooling, reference generator, publication pipeline rehearsed and not run. Brief: [LIB-04](docs/briefs/LIB-04-repository-tooling.md) | L-G2 | Sonnet 5, implement | GPT-6-Sol (security of the workflows and quality: a stronger model than the GPT-6-Luna first planned) | **escalated** after three fix loops: [pending](docs/decisions/PENDING-LIB-04-fix-loops.md); pull request #18 open |
-| LIB-05 | **Milestone L-M1**: the 11 tasks of §8 of the plan, test-driven, at minimal cost. After the take-over, **N-3 (assembly) and N-8 (flood and selection) first**, measured on their worst cases. **Released on scarbs.xyz only on the owner's go** | LIB-04 | Opus 5.5, Fable 5.1 for the hardest algorithms | GPT-6-Astra (determinism, cost) | todo |
+| LIB-04 | Workspace, CI, parity table, gas tooling, reference generator, release check (no workflow publishes). Brief: [LIB-04](docs/briefs/LIB-04-repository-tooling.md) | L-G2 | Sonnet 5, implement | GPT-6-Sol, four passes | **done** (2026-09-28, pull request #18), merged with three findings open by [decision](docs/decisions/LIB-04-fix-loops.md) |
+| LIB-04b | The three findings left open by the audit of LIB-04 (re-exports in chain and under two names; hyphen in build metadata; list of missing items of a pre-release). Brief: [LIB-04b](docs/briefs/LIB-04b-tooling-findings.md). **Condition of the first publication** | LIB-04 | Sonnet 5.5, implement | GPT-6-Sol, limited | todo |
+| LIB-05 | **Milestone L-M1**: the 11 tasks of §8 of the plan, test-driven, at minimal cost. After the take-over, **N-3 (assembly) and N-8 (flood and selection) first**, measured on their worst cases. **Released on scarbs.xyz only on the owner's go** | LIB-04 | Opus 5.5, Fable 5.1 for the hardest algorithms | GPT-6-Astra (determinism, cost) | in progress: tasks below |
 | LIB-06 | Milestones L-M2 and following, each ending with a release | LIB-05 | As above | As above | todo |
 | LIB-07 | **Final release**: parity reached or exclusions closed and documented; **`origami_hexmap` decommissioned** | LIB-06 | — | GPT-6-Astra | todo |
+
+## LIB-05 — the tasks of milestone L-M1
+
+Cut from the 11 tasks of §8 of [the plan](docs/research/LIB-03-porting-plan.md) so that one
+audit pass can read a lot in full: one function of L-M1, with its oracle and its benchmarks,
+per task; each brief states what the auditor will check. Order: the take-over, then what the
+assembly and the flood need, **N-3 and N-8 first among the extensions** (condition of gate
+L-G2), then the rest. A measurement above the upper bound of its range stops the track until
+it is reported.
+
+| Task | Content | Plan | Runs after | Executor | Audit | Status |
+|---|---|---|---|---|---|---|
+| M1-T1a | Take-over, the move: the engine of `origami_hexmap` 1.8.0 under `board`, `finders`, `generators`, unchanged, proved by a script. Brief: [M1-T1a](docs/briefs/LIB-05-T1a-takeover-move.md) | §5, M1-T1 | LIB-04 | Sonnet 5.5 | GPT-6-Sol | in progress |
+| M1-T1b | Take-over, the proof: `crates/takeover_tests`, equality against the published 1.8.0, function by function | §5.4, M1-T1 | M1-T1a | Opus 5.5 | GPT-6-Astra (determinism) | todo |
+| M1-T4a | **N-3**: band tables, `origin`, `local`, `assemble`, `window`; oracle; bench of 4 chunks and two layers | §6.4, M1-T4 | M1-T1a | Opus 5.5 | GPT-6-Astra (cost) | todo |
+| M1-T4b | N-4: `cut` as `grid & mask` (§14 of the plan) | §6.5, M1-T4 | M1-T4a | Sonnet 5.5 | GPT-6-Sol | todo |
+| M1-T2 | Mirror items of L-M1 except `line_to`: `Hex`, `EdgeDirection`, offset conversions, `HexOrientation`; reference vectors | §8, M1-T2 | M1-T1a | Opus 5.5 | GPT-6-Astra (parity) | todo |
+| M1-T3 | N-7 and distance: `rotate`, `arc`, conversions, `distance_between`, `new_odd`, the three renames | §6.1, §6.8, M1-T3 | M1-T2 | Opus 5.5 | GPT-6-Astra | todo |
+| M1-T9a | **N-8**: `Bfs::flood`, `Flood`, `depth`; the serpentine fixture; benches at 10, 15, 20 layers and without a limit (D-127) | §6.9, M1-T9 | M1-T3 | Fable 5.1 or Opus 5.5 | GPT-6-Astra (cost) | todo |
+| M1-T9b | **N-8**: `next_step`, `next_step_away`, `distance`, their oracles; the bench of the tick with the window of M1-T4a | §6.9, M1-T9 | M1-T9a, M1-T4a | Opus 5.5 | GPT-6-Astra (cost) | todo |
+| M1-T6 | N-5: `line_to`, `line`, `line_of_sight`, `approach`; the exhaustive comparison with `hexx` | §6.6, M1-T6 | M1-T3 | Opus 5.5 | GPT-6-Astra | todo |
+| M1-T5 | N-6: `hexagon`, `hexagon_ring`, tables | §6.7, M1-T5 | M1-T4a | Opus 5.5 | GPT-6-Astra | todo |
+| M1-T7 | N-2: sides and openings, the four seam formulas, the oracle on global coordinates | §6.3, M1-T7 | M1-T3 | Opus 5.5 | GPT-6-Astra | todo |
+| M1-T8 | N-1: `generate_with_margins`, `smooth`; planes and masks; pinned streams | §6.2, M1-T8 | M1-T3 | Fable 5.1 or Opus 5.5 | GPT-6-Astra | todo |
+| M1-N9 | N-9: consumer check against the published package | §8, M1-N9 | first release candidate | Sonnet 5.5 | GPT-6-Sol | todo |
+| M1-R | Release 0.1.0 and its candidates: asked by a pending file, published by the orchestrator's session after a go (game's `OPERATIONS.md` §7). **Needs LIB-04b merged** | §9, M1-R | all | Orchestrator | — | todo |
 
 ## Milestone L-M1 — what the game needs first
 
