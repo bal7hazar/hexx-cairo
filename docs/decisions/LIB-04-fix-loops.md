@@ -1,12 +1,12 @@
-# PENDING — LIB-04: three fix loops used, the audit still fails
+# LIB-04 — Three fix loops used, the audit still failed: decided
 
 | | |
 |---|---|
 | Asked by | `[Fable 5.1]` Orchestrateur hexmap (lib), 2026-09-28 |
 | Decides | The project manager (the game's `OPERATIONS.md` §6 and §10: after three fix loops the orchestrator escalates; the project manager decides and reports to the owner) |
-| Lot | LIB-04, workspace and tooling: pull request #18, branch `feat/lib-04-workspace-tooling`, **not merged**. CI green (10 checks) |
+| Lot | LIB-04, workspace and tooling: pull request #18, branch `feat/lib-04-workspace-tooling` |
 | Blocks | LIB-05, whose first task (M1-T1, the take-over of the engine) depends on LIB-04 |
-| State | **Open.** No agent of the library is running. Nothing is launched until the answer |
+| State | **Decided on 2026-09-28** by the project manager: option B. Pull request #18 merged the same day |
 
 ## What happened
 
@@ -56,4 +56,16 @@ raises on the others; what remains is two forms of re-export.
 
 ## Answer
 
-*To be filled with the decision and its date.*
+**Option B, decided by the project manager on 2026-09-28** (cross-session message to the
+orchestrator; the orchestrator had recommended A). Pull request #18 is merged now and M1-T1
+starts. The three findings become task **LIB-04b** (`[Sonnet 5.5]`), with a `[GPT-6-Sol]` pass
+limited to them. **LIB-04b must be merged before the first release candidate**: the project
+manager's publication check refuses a go while it is open.
+
+Reasons given: the library is on the game's critical path (its ENG-02 and ENG-05 wait for
+0.1.0); the auditor states that M1-T1 can proceed; none of the three findings touches a gate
+that M1-T1 uses; and the rule of three loops exists so that a lot does not hold the next one.
+
+For the next briefs (project manager): LIB-03 and LIB-04 both needed four passes, each pass
+finding a new layer. The tasks of LIB-05 are cut so that one audit pass can read a lot in
+full, and each brief states what the auditor will check.
