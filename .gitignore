@@ -8,6 +8,9 @@ target/
 .snfoundry_cache/
 snfoundry_trace/
 coverage/
+# Python
+__pycache__/
+*.pyc
 # Editors, OS
 .DS_Store
 .idea/

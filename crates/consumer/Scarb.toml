@@ -1,0 +1,19 @@
+[package]
+name = "consumer"
+version.workspace = true
+edition.workspace = true
+cairo-version.workspace = true
+license.workspace = true
+publish = false
+description = "Unpublished Starknet contract fixture: class size of a consumer of `hexx` (scripts/bytecode_size.py, gas/bytecode.size)."
+
+[dependencies]
+hexx = { path = "../hexx" }
+starknet = "2.19.4"
+
+[[target.starknet-contract]]
+sierra = true
+casm = true
+
+[tool.fmt]
+sort-module-level-items = true
