@@ -470,6 +470,25 @@ class ModuleNode:
     text: str  # this module's own body, masked, with inline children's bodies blanked out
     source: str  # the file (or "<file>#<inline path>") this module's text came from
     cfg_enabled: bool = True  # this module's own `#[cfg(...)]`, evaluated (see `evaluate_cfg`)
+    text_with_strings: str = ""  # same body, comments masked but string contents kept (cfg reads)
+    line_offset: int = 1  # the 1-indexed line, in `source`, this node's own text starts at
+
+
+def node_location(node: ModuleNode, pos: int) -> str:
+    """`file:line` for a position inside `node.text` (or `node.text_with_strings`: same offsets,
+    same newlines) — fix loop 3 finding P2-4: every unsupported-form error must name a line, not
+    only a file, so the person fixing it does not have to grep for the declaration."""
+    return f"{node.source}:{node.line_offset + node.text.count(chr(10), 0, pos)}"
+
+
+def cfg_ok_at(node: ModuleNode, pos: int) -> bool:
+    """Whether the declaration starting at `pos` (a struct/enum/trait/fn/const/impl head, or a
+    `use` statement) is enabled by its own immediately-preceding `#[cfg(...)]`, if it has one —
+    fix loop 3 finding P2-4: cfg used to be evaluated for `mod` declarations only, so a real
+    example like `#[cfg(feature = "rayon")] pub fn new_parallel` (rayon disabled here) stayed in
+    the generated inventory."""
+    attr = find_preceding_attr(node.text_with_strings, pos, ATTR_RE)
+    return attr is None or evaluate_cfg(attr, node_location(node, pos))
 
 
 MOD_DECL_RE = re.compile(r"(?m)^[ \t]*(pub(?:\(crate\))?\s+)?mod\s+([A-Za-z_]\w*)\s*(;|\{)")
@@ -480,7 +499,21 @@ ATTR_RE = re.compile(r"#\[\s*cfg\((.*)\)\s*\]\Z", re.S)
 # (iii): evaluated, not ignored — a module or item gated by a feature outside this set is not
 # part of what this crate can ever see or depend on, so it must not be treated as reachable.
 ENABLED_CARGO_FEATURES = {"algorithms", "grid"}
-KNOWN_DISABLED_CARGO_FEATURES = {"bevy_reflect", "facet", "mesh", "packed", "rayon", "serde"}
+# `tools/refgen/Cargo.toml` pins `hexx = { default-features = false, features = ["algorithms",
+# "grid"] }`: every other feature `hexx` 0.25.0's own `Cargo.toml` `[features]` table defines is
+# off, `bevy`/`bevy_platform`/`bevy_ecs` included — fix loop 3 finding P2-4: cfg was evaluated for
+# `mod` declarations only before this fix, so a *declaration*-level `#[cfg(feature =
+# "bevy_platform")]` (`algorithms/field_of_movement.rs:2`, a `use bevy_platform::...;`) was never
+# actually checked, and "bevy_platform" was never added to either set.
+KNOWN_DISABLED_CARGO_FEATURES = {
+    "bevy", "bevy_ecs", "bevy_platform", "bevy_reflect", "facet", "mesh", "packed", "rayon",
+    "serde",
+}
+# `not(target_arch = "spirv")` gates hexx's own `Debug` impls (`hex/mod.rs`,
+# `direction/{edge,vertex}_direction.rs`): `tools/refgen` never builds for a GPU shader target, so
+# `target_arch = "spirv"` is always false here; any other `target_arch` value is unrecognized until
+# checked, exactly like an unrecognized cargo feature.
+KNOWN_FALSE_TARGET_ARCHES = {"spirv"}
 
 # `layout`, `storage` and `mesh` are inventoried whole, as "dropped", regardless of whether the
 # feature that gates a module-level `pub mod` is on (plan §4.4 "Modules excluded as a whole": the
@@ -505,6 +538,16 @@ def evaluate_cfg(expr: str, location: str) -> bool:
             f"{location}: unrecognized cfg feature {name!r} on a public item; add it to "
             f"ENABLED_CARGO_FEATURES or KNOWN_DISABLED_CARGO_FEATURES in scripts/api_parity.py "
             f"once its status against tools/refgen's feature set is known (fix loop 2, decision B)"
+        )
+    m = re.match(r'target_arch\s*=\s*"([^"]+)"$', expr)
+    if m:
+        arch = m.group(1)
+        if arch in KNOWN_FALSE_TARGET_ARCHES:
+            return False
+        raise SystemExit(
+            f"{location}: unrecognized cfg target_arch {arch!r} on a public item; add it to "
+            f"KNOWN_FALSE_TARGET_ARCHES in scripts/api_parity.py once it is confirmed tools/refgen "
+            f"never builds for it (fix loop 3, decision P2-4)"
         )
     if expr == "test":
         return False
@@ -565,17 +608,30 @@ def find_preceding_cfg(text: str, pos: int) -> str | None:
 
 
 def split_own_and_children(
-    text: str, text_with_strings: str, source: str
-) -> tuple[str, list[tuple[str, str, bool, str | None]]]:
-    """`(own_text, [(name, vis, cfg_enabled, inline_body_or_None), ...])` for the `mod`
-    declarations directly in `text` (not nested inside another inline `mod X { ... }` found
-    earlier in the same text). `own_text` has every inline child's span blanked out, so a later
-    scan of `own_text` for local declarations or `use` statements never double-counts a nested
-    inline module's own content. `text_with_strings`: same file, same offsets, comments masked but
-    string contents kept — reading a `#[cfg(feature = "x")]`'s own feature name needs it (`text`
-    itself has already had `"x"` blanked, like every other string literal)."""
+    raw: str, text: str, text_with_strings: str, source: str, line_offset: int
+) -> tuple[str, list[tuple[str, str, bool, str | None, int, int]]]:
+    """`(own_text, [(name, vis, cfg_enabled, inline_body_or_None, mod_pos, body_pos), ...])` for
+    the `mod` declarations directly in `text` (not nested inside another inline `mod X { ... }`
+    found earlier in the same text). `own_text` has every inline child's span blanked out, so a
+    later scan of `own_text` for local declarations or `use` statements never double-counts a
+    nested inline module's own content. `text_with_strings`: same file, same offsets, comments
+    masked but string contents kept — reading a `#[cfg(feature = "x")]`'s own feature name needs
+    it (`text` itself has already had `"x"` blanked, like every other string literal). `mod_pos`
+    is the offset of the `mod` keyword itself (for "cannot resolve"'s own `file:line`); `body_pos`
+    is the offset an inline child's own body starts at (its own `line_offset`, once the caller
+    adds `text.count("\\n", 0, body_pos)`; meaningless for a file-based child).
+
+    An inline child's own body is sliced from `raw` (genuinely unmasked source), not `text`: `raw`
+    and `text` share the same length and the same offsets (masking never removes a character, only
+    blanks it), so this is exact, and it is what lets the recursive `visit()` call re-derive its
+    own comments-masked and strings-preserved copies correctly — fix loop 3 finding P2-4: slicing
+    from the already-masked `text` instead (the previous design) fed the next `mask_comments(...,
+    mask_strings=False)` pass already-blanked string content, so a `#[cfg(feature = "x")]` *inside*
+    an inline `mod { ... }` could never read its own feature name back (`#[cfg(test)] mod tests {
+    #[cfg(feature = "bevy_platform")] use ...; }`, real in the pinned checkout, is exactly this
+    shape once `use` statements gained their own cfg check)."""
     chars = list(text)
-    children: list[tuple[str, str, bool, str | None]] = []
+    children: list[tuple[str, str, bool, str | None, int, int]] = []
     consumed_until = 0
     for m in MOD_DECL_RE.finditer(text):
         if m.start() < consumed_until:
@@ -584,14 +640,17 @@ def split_own_and_children(
         vis = "pub" if vis_raw == "pub" else ("crate" if vis_raw else "private")
         name, term = m.group(2), m.group(3)
         cfg_expr = find_preceding_cfg(text_with_strings, m.start())
-        cfg_enabled = True if cfg_expr is None else evaluate_cfg(cfg_expr, f"{source}: mod {name}")
+        mod_loc = f"{source}:{line_offset + text.count(chr(10), 0, m.start())}"
+        cfg_enabled = True if cfg_expr is None else evaluate_cfg(cfg_expr, f"{mod_loc}: mod {name}")
         if term == ";":
-            children.append((name, vis, cfg_enabled, None))
+            children.append((name, vis, cfg_enabled, None, m.start(), -1))
             end = m.end()
         else:
             open_pos = m.end() - 1
             close_pos = closing_brace(text, open_pos)
-            children.append((name, vis, cfg_enabled, text[open_pos + 1:close_pos]))
+            children.append(
+                (name, vis, cfg_enabled, raw[open_pos + 1:close_pos], m.start(), open_pos + 1)
+            )
             end = close_pos + 1
         for i in range(m.start(), end):
             if chars[i] != "\n":
@@ -607,22 +666,24 @@ def build_module_tree(root_file: Path, comment_syntax: str = "rust") -> dict[tup
     nodes: dict[tuple[str, ...], ModuleNode] = {}
 
     def visit(path: tuple[str, ...], dir_path: Path, raw: str, vis: str, cfg_enabled: bool,
-              source: str) -> None:
+              source: str, line_offset: int) -> None:
         text = mask_comments(raw)
         text_with_strings = mask_comments(raw, mask_strings=False)
-        own_text, children = split_own_and_children(text, text_with_strings, source)
+        own_text, children = split_own_and_children(raw, text, text_with_strings, source,
+                                                      line_offset)
         nodes[path] = ModuleNode(path=path, vis=vis, text=own_text, source=source,
-                                  cfg_enabled=cfg_enabled)
-        for name, child_vis, child_cfg_enabled, inline_body in children:
+                                  cfg_enabled=cfg_enabled, text_with_strings=text_with_strings,
+                                  line_offset=line_offset)
+        for name, child_vis, child_cfg_enabled, inline_body, mod_pos, body_pos in children:
             child_path = path + (name,)
+            mod_line = line_offset + text.count("\n", 0, mod_pos)
             if inline_body is not None:
-                # `inline_body` is a slice of `text` (comments and strings already masked): the
-                # inline case has no separate raw source to re-derive a strings-preserved copy
-                # from, so a `#[cfg(feature = "x")]` immediately inside an *inline* `mod { ... }`
-                # (none of hexx's do) would not resolve its own feature name. Not hit by the
-                # pinned checkout; would raise (unrecognized cfg feature ''), not silently pass.
+                # `inline_body` is a slice of `raw` (genuinely unmasked): `visit` re-derives its
+                # own masked/strings-preserved copies from it exactly as for a file-based child,
+                # so a `#[cfg(feature = "x")]` inside an inline `mod { ... }` (real: `#[cfg(test)]
+                # mod tests { #[cfg(feature = "bevy_platform")] use ...; }`) resolves correctly.
                 visit(child_path, dir_path, inline_body, child_vis, child_cfg_enabled,
-                      f"{source}#{name}")
+                      f"{source}#{name}", line_offset + text.count("\n", 0, body_pos))
                 continue
             ext = ".cairo" if root_file.suffix == ".cairo" else ".rs"
             flat = dir_path / f"{name}{ext}"
@@ -634,16 +695,16 @@ def build_module_tree(root_file: Path, comment_syntax: str = "rust") -> dict[tup
                 # `dir_path` unchanged, so a flat parent's own child module could never be found
                 # (`foo.rs` declaring `mod bar;`, real file `foo/bar.rs`, raised "cannot resolve").
                 visit(child_path, dir_path / name, flat.read_text(), child_vis, child_cfg_enabled,
-                      str(flat.relative_to(root_file.parents[1])))
+                      str(flat.relative_to(root_file.parents[1])), 1)
             elif nested.is_file():
                 visit(child_path, dir_path / name, nested.read_text(), child_vis, child_cfg_enabled,
-                      str(nested.relative_to(root_file.parents[1])))
+                      str(nested.relative_to(root_file.parents[1])), 1)
             else:
-                raise SystemExit(f"cannot resolve `mod {name};` declared in {source}: looked for "
-                                  f"{flat} and {nested}")
+                raise SystemExit(f"cannot resolve `mod {name};` declared at {source}:{mod_line}: "
+                                  f"looked for {flat} and {nested}")
 
     visit((), root_file.parent, root_file.read_text(), "pub", True,
-          str(root_file.relative_to(root_file.parents[1])))
+          str(root_file.relative_to(root_file.parents[1])), 1)
     return nodes
 
 
@@ -671,12 +732,26 @@ def compute_reachable_modules(
 USE_STATEMENT_RE = re.compile(r"(?m)^[ \t]*(pub(?:\(crate\))?\s+)?use\s+([^;]+);")
 
 
-def resolve_use_segments(segments: list[str], current_path: tuple[str, ...]) -> tuple[str, ...]:
+def resolve_use_segments(
+    segments: list[str], current_path: tuple[str, ...], location: str
+) -> tuple[str, ...]:
+    """`crate::` is absolute from the root; `self::` is relative to `current_path`; one or more
+    leading `super::` walks up one parent module per occurrence (fix loop 3 finding P2-4: this
+    used to fall through to the plain-relative case, so `super::Thing` written in module
+    `foo::bar` resolved to `foo::bar::super::Thing` — a path that can never match a real
+    declaration — instead of `foo::Thing`, its actual parent-relative target)."""
     if segments and segments[0] == "crate":
         return tuple(segments[1:])
     if segments and segments[0] == "self":
         return current_path + tuple(segments[1:])
-    return current_path + tuple(segments)
+    path = current_path
+    i = 0
+    while i < len(segments) and segments[i] == "super":
+        if not path:
+            raise SystemExit(f"{location}: `super::` has no parent module at the crate root")
+        path = path[:-1]
+        i += 1
+    return path + tuple(segments[i:])
 
 
 def parse_use_tree(
@@ -696,7 +771,7 @@ def parse_use_tree(
             raise SystemExit(f"{location}: malformed use group (trailing text after '}}'): {expr!r}")
         prefix = expr[:brace_pos].rstrip().rstrip(":").rstrip()
         segments = [s.strip() for s in prefix.split("::") if s.strip()] if prefix else []
-        sub_path = resolve_use_segments(segments, current_path)
+        sub_path = resolve_use_segments(segments, current_path, location)
         for raw in split_top_level(expr[brace_pos + 1:close_pos], ","):
             raw = raw.strip()
             if raw:
@@ -707,7 +782,7 @@ def parse_use_tree(
         if "{" in prefix or "}" in prefix:
             raise SystemExit(f"{location}: a glob inside a use group is not supported: {expr!r}")
         segments = [s.strip() for s in prefix.split("::") if s.strip()] if prefix else []
-        globs.append(resolve_use_segments(segments, current_path))
+        globs.append(resolve_use_segments(segments, current_path, location))
         return
     m = re.fullmatch(r"(.*?)(?:\s+as\s+([A-Za-z_]\w*))?", expr, re.S)
     base, alias = m.group(1).strip(), m.group(2)
@@ -715,48 +790,74 @@ def parse_use_tree(
     if not segments:
         raise SystemExit(f"{location}: malformed use path: {expr!r}")
     name = segments.pop()
-    entries.append((resolve_use_segments(segments, current_path), name, alias))
+    entries.append((resolve_use_segments(segments, current_path, location), name, alias))
 
 
 def collect_use_statements(
     nodes: dict[tuple[str, ...], ModuleNode], reachable: set[tuple[str, ...]]
-) -> tuple[dict[tuple[str, ...], set[str]], set[tuple[str, ...]], set[str]]:
-    """`(bridged, glob_targets, used_names)`: `bridged[target_path]` is the set of *original*
-    names (never the alias: reachability of a declaration is keyed by where and how it was
-    declared, not by the path a re-export gives it — fix loop 2, see `declared_reachable`)
-    re-exported from `target_path` by a `pub use` sitting in a reachable module; `glob_targets` is
-    the set of module paths re-exported wholesale (`pub use target::*;`) from a reachable module;
-    `used_names` is every name imported by any `use` statement anywhere (`pub` or not, reachable
-    module or not — fix loop 1: a private module's own `use glam::IVec2;` still matters, because
-    an `impl From<Hex> for IVec2` can sit in that same private file)."""
-    bridged: dict[tuple[str, ...], set[str]] = {}
+) -> tuple[dict[tuple[str, ...], dict[str, str]], set[tuple[str, ...]], set[str]]:
+    """`(bridged, glob_targets, used_names)`: `bridged[target_path]` maps every *original* name
+    re-exported from `target_path`, by a `pub use` sitting in a reachable module, to the name it
+    is actually visible under from outside — itself, unless the `pub use` aliased it (`pub use
+    inner::Hex as Other;` maps `"Hex" -> "Other"`: fix loop 3 finding 16, reversing fix loop 2's
+    "never the alias" design, which let a Cairo item exported only as `Other` still classify
+    against hexx's `Hex` by matching the *declaration's* name instead of its exported one).
+    `glob_targets` is the set of module paths re-exported wholesale (`pub use target::*;`) from a
+    reachable module — a glob never renames. `used_names` is every name a `use` statement anywhere
+    (`pub` or not, reachable module or not — fix loop 1: a private module's own `use glam::IVec2;`
+    still matters, because an `impl From<Hex> for IVec2` can sit in that same private file) makes
+    available under, i.e. the alias where one exists, since that is the identifier the rest of
+    that file's own source actually writes.
+
+    A `use` statement's own `#[cfg(...)]` is evaluated exactly like a declaration's (fix loop 3
+    finding P2-4): a `use` gated by a disabled feature contributes nothing, bridges nothing, and
+    is not itself an error — the code that follows it usually still compiles without it."""
+    bridged: dict[tuple[str, ...], dict[str, str]] = {}
     glob_targets: set[tuple[str, ...]] = set()
     used_names: set[str] = set()
     for path, node in nodes.items():
         for m in USE_STATEMENT_RE.finditer(node.text):
             vis = (m.group(1) or "").strip()
-            location = f"{node.source}: use {m.group(2)}"
+            location = node_location(node, m.start())
+            cfg_expr = find_preceding_attr(node.text_with_strings, m.start(), ATTR_RE)
+            if cfg_expr is not None and not evaluate_cfg(cfg_expr, f"{location}: use {m.group(2)}"):
+                continue
             entries: list[tuple[tuple[str, ...], str, str | None]] = []
             globs: list[tuple[str, ...]] = []
-            parse_use_tree(m.group(2), path, location, entries, globs)
-            used_names.update(name for _target, name, _alias in entries)
+            parse_use_tree(m.group(2), path, f"{location}: use {m.group(2)}", entries, globs)
+            used_names.update((alias if alias is not None else name) for _t, name, alias in entries)
             if vis != "pub" or path not in reachable:
                 continue  # plain / pub(crate) use, or inside an unreachable module: no bridge
-            for target_path, name, _alias in entries:
+            for target_path, name, alias in entries:
                 if target_path in nodes:
-                    bridged.setdefault(target_path, set()).add(name)
+                    bridged.setdefault(target_path, {})[name] = alias if alias is not None else name
             for target_path in globs:
                 if target_path in nodes:
                     glob_targets.add(target_path)
     return bridged, glob_targets, used_names
 
 
-def declared_reachable(
+def exported_name(
     path: tuple[str, ...], name: str,
-    reachable: set[tuple[str, ...]], bridged: dict[tuple[str, ...], set[str]],
+    reachable: set[tuple[str, ...]], bridged: dict[tuple[str, ...], dict[str, str]],
     glob_targets: set[tuple[str, ...]],
-) -> bool:
-    return path in reachable or name in bridged.get(path, ()) or path in glob_targets
+) -> str | None:
+    """The name a declaration at `(path, name)` is actually visible under from outside its own
+    module, or `None` if it is not visible at all. `path in reachable` (the module itself is
+    public all the way to the root): visible under its own name. Otherwise, a `pub use` from a
+    reachable module may still bridge it in — under `name` itself, or under the alias the `pub
+    use` gave it (fix loop 3 finding 16: `pub use inner::Hex as Other;` makes the declaration
+    visible as `Other`, not `Hex` — matching hexx's own `Hex` by the declaration's name, as fix
+    loop 2 did, would misclassify an item Cairo never actually exports under that name). A glob
+    re-export never renames."""
+    if path in reachable:
+        return name
+    renamed = bridged.get(path, {}).get(name)
+    if renamed is not None:
+        return renamed
+    if path in glob_targets:
+        return name
+    return None
 
 
 # ---------------------------------------------------------------------------------------------
@@ -822,19 +923,24 @@ def local_declared_traits(text: str) -> set[str]:
     return {m.group(1) for m in TRAIT_RE.finditer(text)}
 
 
-def scan_declarations(text: str, owner: str, source: str, name_ok, prefix: bool) -> list[Item]:
-    """Struct/enum/type-alias declarations local to this module, filtered by `name_ok(name)`
-    (the module's own reachability), with their fields/variants and any derived trait `RULES`
+def scan_declarations(node: ModuleNode, owner: str, name_ok, prefix: bool) -> list[Item]:
+    """Struct/enum/type-alias declarations local to this module, filtered by `name_ok(name) ->
+    str | None` (the module's own reachability; the returned name is the declaration's *exported*
+    name, alias included — fix loop 3 finding 16) and by the declaration's own `#[cfg(...)]`, if
+    it has one (fix loop 3 finding P2-4), with their fields/variants and any derived trait `RULES`
     would otherwise miss (fix loop 1 finding 7: `#[default]`-attributed variants and a derived,
     not explicitly written, `impl Default`)."""
+    text, source = node.text, node.source
     items: list[Item] = []
 
     for match in STRUCT_HEAD_RE.finditer(text):
-        name = match.group(1)
+        if not cfg_ok_at(node, match.start()):
+            continue
         body = find_declaration_body(text, match.end())
         if body is None or body[0] == "(":
             continue  # tuple struct: no brace body here, or unresolved (skipped, not hung)
-        if not name_ok(name):
+        name = name_ok(match.group(1))
+        if name is None:
             continue
         items.append(Item(owner, "struct", name, source))
         if body[0] == "{":
@@ -846,8 +952,10 @@ def scan_declarations(text: str, owner: str, source: str, name_ok, prefix: bool)
         items.extend(derived_impl_items(text, match.start(), owner, name, source))
 
     for match in re.finditer(r"\bpub\s+struct\s+([A-Za-z_]\w*)\s*\(([^;\n]*)\)\s*;", text):
-        name = match.group(1)
-        if not name_ok(name):
+        if not cfg_ok_at(node, match.start()):
+            continue
+        name = name_ok(match.group(1))
+        if name is None:
             continue
         items.append(Item(owner, "struct", name, source))
         for index, part in enumerate(split_top_level(match.group(2))):
@@ -855,11 +963,13 @@ def scan_declarations(text: str, owner: str, source: str, name_ok, prefix: bool)
                 items.append(Item(owner, "field", scoped(prefix, name, str(index)), source))
 
     for match in ENUM_HEAD_RE.finditer(text):
-        name = match.group(1)
+        if not cfg_ok_at(node, match.start()):
+            continue
         body = find_declaration_body(text, match.end())
         if body is None or body[0] != "{":
             continue
-        if not name_ok(name):
+        name = name_ok(match.group(1))
+        if name is None:
             continue
         items.append(Item(owner, "enum", name, source))
         end = closing_brace(text, body[1])
@@ -870,8 +980,10 @@ def scan_declarations(text: str, owner: str, source: str, name_ok, prefix: bool)
         items.extend(derived_impl_items(text, match.start(), owner, name, source))
 
     for match in TYPE_ALIAS_RE.finditer(text):
-        name = match.group(1)
-        if name_ok(name):
+        if not cfg_ok_at(node, match.start()):
+            continue
+        name = name_ok(match.group(1))
+        if name is not None:
             items.append(Item(owner, "type", name, source))
 
     return items
@@ -902,11 +1014,14 @@ def derived_impl_items(text: str, decl_start: int, owner: str, type_name: str,
     return [built] if built else []
 
 
-def scan_trait_declarations(text: str, owner: str, source: str, name_ok, prefix: bool) -> list[Item]:
+def scan_trait_declarations(node: ModuleNode, owner: str, name_ok, prefix: bool) -> list[Item]:
+    text, source = node.text, node.source
     items = []
     for match, opening, end in blocks(text, TRAIT_RE):
-        name = match.group(1)
-        if not name_ok(name):
+        if not cfg_ok_at(node, match.start()):
+            continue
+        name = name_ok(match.group(1))
+        if name is None:
             continue
         items.append(Item(owner, "trait", name, source))
         for fn in re.finditer(r"\bfn\s+([A-Za-z_]\w*)\s*\(", text[opening + 1:end]):
@@ -970,16 +1085,22 @@ IMPL_RE = re.compile(r"(?m)^\s*impl(?:\s*<[^\n{]*>)?\s+(.+?)\s+for\s+&?([A-Za-z_
 INHERENT_IMPL_RE = re.compile(r"(?m)^\s*impl(?:\s*<[^\n{]*>)?\s+([A-Za-z_]\w*)(?:<[^\n{]*>)?\s*\{")
 
 
-def scan_impls(text: str, owner_or_dynamic: str | None, source: str,
+def scan_impls(node: ModuleNode, owner_or_dynamic: str | None,
                allowed_targets: set[str], prefix_targets: set[str]) -> list[Item]:
     """`impl Trait<Args> for Target { ... }`. `owner_or_dynamic=None`: owner = target (only
     `direction/impls.rs`, which carries impls of two owners in one file). `allowed_targets`: the
     crate-wide reachable type/trait names plus every name this crate's own source `use`s (so a
     foreign target like `IVec2` is still discovered when hexx itself references it) — a target
     outside that set is a private helper (`Node` of `algorithms/pathfinding.rs`, never `pub`, never
-    imported) and contributes nothing to the public API."""
+    imported) and contributes nothing to the public API. The whole block's own `#[cfg(...)]`, if
+    it has one, is evaluated (fix loop 3 finding P2-4: a real example, `impl<T, S: ...>
+    HexStore<T> for ...` in `storage/mod.rs`, is gated by `#[cfg(feature = "bevy_platform")]`,
+    disabled here)."""
+    text, source = node.text, node.source
     items = []
     for match in IMPL_RE.finditer(text):
+        if not cfg_ok_at(node, match.start()):
+            continue
         target = match.group(2).strip()
         if target not in allowed_targets:
             continue
@@ -993,7 +1114,7 @@ def scan_impls(text: str, owner_or_dynamic: str | None, source: str,
     return items
 
 
-def scan_inherent_impls(text: str, owner: str, source: str, reachable_type_names: set[str],
+def scan_inherent_impls(node: ModuleNode, owner: str, reachable_type_names: set[str],
                          prefix: bool) -> list[Item]:
     """`impl Type { pub fn ... }`, scoped per type: an associated function or constant is public
     exactly when its *type* is reachable (`Hex::ZERO`'s reachability is `Hex`'s, not a separate
@@ -1003,30 +1124,40 @@ def scan_inherent_impls(text: str, owner: str, source: str, reachable_type_names
     a type declared elsewhere (fix loop 1: scoping this to file-local types only made every
     associated constant of `EdgeDirection`, and every method conversions.rs and grid/edge.rs add
     to `Hex`, silently vanish, since none of their *individual* names are separately re-exported —
-    only the type name is)."""
+    only the type name is). Both the impl block's own `#[cfg(...)]` and each individual method's
+    or constant's are evaluated (fix loop 3 finding P2-4: `storage/hexagonal.rs`'s
+    `#[cfg(feature = "rayon")] pub fn new_parallel`, inside an otherwise-unconditional impl,
+    stayed in the inventory before this fix — rayon is disabled here)."""
+    text, source = node.text, node.source
     items = []
     for match, opening, end in blocks(text, INHERENT_IMPL_RE):
+        if not cfg_ok_at(node, match.start()):
+            continue
         type_name = match.group(1)
         if type_name not in reachable_type_names:
             continue
         body = text[opening + 1:end]
         for fn in INHERENT_FN_RE.finditer(body):
-            items.append(Item(owner, "method", scoped(prefix, type_name, fn.group(1)), source))
+            if cfg_ok_at(node, opening + 1 + fn.start()):
+                items.append(Item(owner, "method", scoped(prefix, type_name, fn.group(1)), source))
         for const in INHERENT_CONST_RE.finditer(body):
-            items.append(Item(owner, "const", scoped(prefix, type_name, const.group(1)), source))
+            if cfg_ok_at(node, opening + 1 + const.start()):
+                items.append(Item(owner, "const", scoped(prefix, type_name, const.group(1)),
+                                   source))
     return items
 
 
-def scan_module(text: str, owner: str, source: str, name_ok, reachable_type_names: set[str],
+def scan_module(node: ModuleNode, owner: str, name_ok, reachable_type_names: set[str],
                  prefix: bool) -> list[Item]:
     """Every kind of local public item of one module file: type/trait declarations (with fields,
     variants, derived `Default`), their associated impl-block content, and genuinely free
     (module-level, not inside any `impl`) functions. `prefix`: scope method/field/const/variant
     names by their owning type (`MULTI_TYPE_OWNERS`) or leave them bare (every other owner, where
     a bare name is already exact)."""
-    items = scan_declarations(text, owner, source, name_ok, prefix)
-    items.extend(scan_trait_declarations(text, owner, source, name_ok, prefix))
-    items.extend(scan_inherent_impls(text, owner, source, reachable_type_names, prefix))
+    text, source = node.text, node.source
+    items = scan_declarations(node, owner, name_ok, prefix)
+    items.extend(scan_trait_declarations(node, owner, name_ok, prefix))
+    items.extend(scan_inherent_impls(node, owner, reachable_type_names, prefix))
     # Module-level free functions (`hex()`, `parallelogram()`, ...) and free constants
     # (`direction::angles`'s four `f32` constants, fix loop 2 finding 5) are found on a copy of
     # `text` with every `impl` block's body blanked out, so an indented free item (everything in
@@ -1035,11 +1166,17 @@ def scan_module(text: str, owner: str, source: str, name_ok, reachable_type_name
     # (scanned separately, above, scoped per type) is not double-counted.
     free_text = mask_impl_bodies(text)
     for match in FREE_FN_RE.finditer(free_text):
-        if name_ok(match.group(1)):
-            items.append(Item(owner, "method", match.group(1), source))
+        if not cfg_ok_at(node, match.start()):
+            continue
+        name = name_ok(match.group(1))
+        if name is not None:
+            items.append(Item(owner, "method", name, source))
     for match in FREE_CONST_RE.finditer(free_text):
-        if name_ok(match.group(1)):
-            items.append(Item(owner, "const", match.group(1), source))
+        if not cfg_ok_at(node, match.start()):
+            continue
+        name = name_ok(match.group(1))
+        if name is not None:
+            items.append(Item(owner, "const", name, source))
     return items
 
 
@@ -1049,7 +1186,7 @@ def parse_hexx(hexx_root: Path) -> list[Item]:
     bridged, glob_targets, used_names = collect_use_statements(nodes, reachable)
 
     def name_ok_at(path: tuple[str, ...]):
-        return lambda name: declared_reachable(path, name, reachable, bridged, glob_targets)
+        return lambda name: exported_name(path, name, reachable, bridged, glob_targets)
 
     reachable_type_names: set[str] = set()
     reachable_trait_names: set[str] = set()
@@ -1064,13 +1201,13 @@ def parse_hexx(hexx_root: Path) -> list[Item]:
         node = nodes[path]
         ok = name_ok_at(path)
         prefix = owner in MULTI_TYPE_OWNERS
-        items.update(scan_module(node.text, owner, node.source, ok, reachable_type_names, prefix))
+        items.update(scan_module(node, owner, ok, reachable_type_names, prefix))
         prefix_targets = local_declared_types(node.text) if prefix else set()
-        items.update(scan_impls(node.text, owner, node.source, allowed_targets, prefix_targets))
+        items.update(scan_impls(node, owner, allowed_targets, prefix_targets))
 
     for path in DYNAMIC_MODULES:
         node = nodes[path]
-        items.update(scan_impls(node.text, None, node.source, allowed_targets, set()))
+        items.update(scan_impls(node, None, allowed_targets, set()))
 
     return unique_items(items)
 
@@ -1088,6 +1225,11 @@ CAIRO_TRAIT_RE = re.compile(r"\bpub\s+trait\s+([A-Za-z_]\w*)[^\{]*\{")
 CAIRO_IMPL_OF_RE = re.compile(r"\bpub\s+impl\s+[A-Za-z_]\w*\s+of\s+([A-Za-z_]\w*)(?:<[^\{]*>)?\s*\{")
 CAIRO_FREE_FN_RE = re.compile(r"\bpub\s+fn\s+([A-Za-z_]\w*)")
 CAIRO_FREE_CONST_RE = re.compile(r"\bpub\s+const\s+([A-Za-z_]\w*)\s*:")
+# `#[generate_trait] pub impl XImpl of XTrait { fn f(...) ... }`: the Cairo compiler synthesizes
+# `XTrait` (and each of its function signatures) from the impl; no `pub trait XTrait { ... }`
+# text ever exists to match `CAIRO_TRAIT_RE` — fix loop 3 finding P2-14. This is the exact form
+# `origami_hexmap::map::HexMapImpl of HexMapTrait` uses, the take-over M1-T1 lands.
+GENERATE_TRAIT_RE = re.compile(r"#\[\s*(generate_trait)\s*\]\Z")
 
 
 def build_cairo_tree():
@@ -1106,21 +1248,27 @@ def build_cairo_tree():
 
 def scan_cairo_tree(
     nodes: dict[tuple[str, ...], ModuleNode], reachable: set[tuple[str, ...]],
-    bridged: dict[tuple[str, ...], set[str]], glob_targets: set[tuple[str, ...]],
+    bridged: dict[tuple[str, ...], dict[str, str]], glob_targets: set[tuple[str, ...]],
     owner_of,
 ) -> list[Item]:
     """Walk every node of a Cairo module tree, keeping a declaration only when `owner_of(path,
     name) -> str | None` returns an owner for it (`None` skips it) — the one traversal `parse_
-    cairo` and `parse_extensions` share (fix loop 2 finding 14)."""
+    cairo` and `parse_extensions` share (fix loop 2 finding 14). A declaration's own `#[cfg(...)]`
+    is evaluated (fix loop 3 finding P2-4); its item is named after its *exported* name, alias
+    included (fix loop 3 finding 16)."""
     items: set[Item] = set()
     for path, node in nodes.items():
-        ok = lambda name, path=path: declared_reachable(path, name, reachable, bridged, glob_targets)
+        exported = (lambda name, path=path:
+                    exported_name(path, name, reachable, bridged, glob_targets))
         text, source = node.text, node.source
+        cfg_ok = lambda pos, node=node: cfg_ok_at(node, pos)
 
         for head_re, kind in ((CAIRO_STRUCT_HEAD_RE, "struct"), (CAIRO_ENUM_HEAD_RE, "enum")):
             for match in head_re.finditer(text):
-                name = match.group(1)
-                owner = owner_of(path, name) if ok(name) else None
+                if not cfg_ok(match.start()):
+                    continue
+                name = exported(match.group(1))
+                owner = owner_of(path, name) if name else None
                 if owner is None:
                     continue
                 body = find_declaration_body(text, match.end())
@@ -1139,15 +1287,20 @@ def scan_cairo_tree(
                                        scoped(owner != name, name, variant_m.group(1)), source))
 
         for match, opening, end in blocks(text, CAIRO_TRAIT_RE):
-            trait_name = match.group(1)
-            type_name = trait_name.removesuffix("Trait")
+            if not cfg_ok(match.start()):
+                continue
+            literal_trait_name = match.group(1)
+            type_name = literal_trait_name.removesuffix("Trait")
             # Reachability is checked against the trait's own declared name (what is actually
             # `pub`, and what a `pub use` would re-export); the owner bucket is asked for the
             # derived type name (`Hex`, not `HexTrait`), matching `OWNERS`/the extension's
             # per-type scoping — fix loop 2: the first version of this unification asked
             # `owner_of` for `trait_name`, which is never a member of `OWNERS`, so no mirror
-            # trait was ever attributed to anything.
-            owner = owner_of(path, type_name) if ok(trait_name) else None
+            # trait was ever attributed to anything. The owner-bucket derivation stays on the
+            # trait's *literal* name (aliasing a trait declaration itself is not a form any real
+            # Cairo source here uses; only the item's own displayed name follows the export).
+            trait_name = exported(literal_trait_name)
+            owner = owner_of(path, type_name) if trait_name else None
             if owner is None:
                 continue
             items.add(Item(owner, "trait", trait_name, source))
@@ -1160,29 +1313,42 @@ def scan_cairo_tree(
                                 scoped(owner != type_name, type_name, const.group(1)), source))
 
         for match, opening, end in blocks(text, CAIRO_IMPL_OF_RE):
-            trait_name = match.group(1)
-            type_name = trait_name.removesuffix("Trait")
+            if not cfg_ok(match.start()):
+                continue
+            literal_trait_name = match.group(1)
+            type_name = literal_trait_name.removesuffix("Trait")
             # An impl's own reachability follows its trait's (Cairo impls are not separately
             # named on the public path the way a Rust inherent impl's methods are); `owner_of`
             # is asked for the derived type name, as in the trait-declaration branch above, so
             # the same type consistently maps to the same owner whether accessed through its
             # trait declaration or through one of (potentially several) `pub impl ... of` blocks.
-            owner = owner_of(path, type_name) if ok(trait_name) else None
+            trait_name = exported(literal_trait_name)
+            owner = owner_of(path, type_name) if trait_name else None
             if owner is None:
                 continue
+            # `#[generate_trait] pub impl XImpl of XTrait { ... }`: the trait itself has no other
+            # text anywhere, so the block that introduces it is also where its own "trait" item
+            # comes from (fix loop 3 finding P2-14) — only once per trait (`items` is a set).
+            if find_preceding_attr(text, match.start(), GENERATE_TRAIT_RE) is not None:
+                items.add(Item(owner, "trait", trait_name, source))
             body = text[opening + 1:end]
             for fn in re.finditer(r"\bfn\s+([A-Za-z_]\w*)\s*(?:<[^;{()]*>)?\s*\(", body):
                 items.add(Item(owner, "method", scoped(owner != type_name, type_name, fn.group(1)),
                                 source))
 
-        for match in CAIRO_FREE_FN_RE.finditer(mask_impl_bodies(text)):
-            name = match.group(1)
-            owner = owner_of(path, name) if ok(name) else None
+        free_text = mask_impl_bodies(text)
+        for match in CAIRO_FREE_FN_RE.finditer(free_text):
+            if not cfg_ok(match.start()):
+                continue
+            name = exported(match.group(1))
+            owner = owner_of(path, name) if name else None
             if owner is not None:
                 items.add(Item(owner, "method", name, source))
-        for match in CAIRO_FREE_CONST_RE.finditer(mask_impl_bodies(text)):
-            name = match.group(1)
-            owner = owner_of(path, name) if ok(name) else None
+        for match in CAIRO_FREE_CONST_RE.finditer(free_text):
+            if not cfg_ok(match.start()):
+                continue
+            name = exported(match.group(1))
+            owner = owner_of(path, name) if name else None
             if owner is not None:
                 items.add(Item(owner, "const", name, source))
     return unique_items(items)
@@ -1504,14 +1670,23 @@ def load_inventory(path: Path) -> list[Item]:
     return sorted(Item(**entry) for entry in data)
 
 
-def check_release(hexx: list[Item], cairo: list[Item], release: str) -> int:
+def check_release(hexx: list[Item], cairo: list[Item], release: str,
+                   report_only: bool = False) -> int:
     """Every item scheduled at or before `release` must not be `missing` (AC-3: "an item
     scheduled for a release and absent fails the check of that release"). Milestone order:
     L-M1 < L-M2 < L-M3 < L-M4 (`milestone_of` never actually returns "L-M4" today — nothing in
     the plan's classification is scheduled there yet — so `--check-release L-M4` currently reduces
     to "every non-dropped item is present"; it exists so `.github/workflows/release-check.yml`'s
     version→milestone table, `1.x -> L-M4` per D-132, is a check this tool can run without raising
-    "unknown release"). Not part of `--check`/CI: no release is cut by this task (brief, Out)."""
+    "unknown release"). Not part of `--check`/CI: no release is cut by this task (brief, Out).
+
+    `report_only` (fix loop 3, decision P2-13, plan §9.1/§9.2): a pre-release version (one with a
+    hyphen, `0.1.0-rc.N`) carries only *part* of the milestone it maps to (`0.1.0-rc.1` is the
+    take-over alone, plan §9.1; the full L-M1 mirror is due only at the stable `0.1.0`, §9.2) — the
+    gate is informational for it: the same missing-item list prints, but the exit code is always 0.
+    A stable version (no hyphen) enforces the gate as before. This is `.github/workflows/
+    release-check.yml`'s own `--report-only`, an explicit, tested option — never a `|| true` in
+    the workflow, which would silence a real failure just as readily as an expected partial one."""
     order = {"L-M1": 1, "L-M2": 2, "L-M3": 3, "L-M4": 4}
     statuses, _ = classify(hexx, cairo)
     due = order.get(release)
@@ -1522,10 +1697,12 @@ def check_release(hexx: list[Item], cairo: list[Item], release: str) -> int:
         if statuses[item][0] == "missing" and order.get(milestone_of(item, "missing"), 99) <= due
     ]
     if missing:
-        print(f"{len(missing)} item(s) scheduled by {release} are still missing:", file=sys.stderr)
+        verb = "are still missing (informational: this is a pre-release)" if report_only \
+            else "are still missing"
+        print(f"{len(missing)} item(s) scheduled by {release} {verb}:", file=sys.stderr)
         for item in missing[:40]:
             print(f"  {item.owner}::{item.name} ({milestone_of(item, 'missing')})", file=sys.stderr)
-        return 1
+        return 0 if report_only else 1
     print(f"every item scheduled by {release} is present")
     return 0
 
@@ -1545,11 +1722,16 @@ def parse_args() -> argparse.Namespace:
                               "--extensions) is stale, instead of writing it")
     parser.add_argument("--extensions", action="store_true",
                          help="target docs/EXTENSIONS.md instead of docs/API_PARITY.md")
+    parser.add_argument("--report-only", action="store_true",
+                         help="with --check-release: print the missing-item list but always exit "
+                              "0 (a pre-release version, plan §9.1/§9.2 — decision P2-13)")
     parser.add_argument("--hexx", type=Path, default=Path("/tmp/hexx"),
                          help="hexx 0.25.0 checkout (used only with --refresh)")
     args = parser.parse_args()
     if args.extensions and (args.refresh or args.check_release):
         parser.error("--extensions is incompatible with --refresh/--check-release")
+    if args.report_only and not args.check_release:
+        parser.error("--report-only only applies to --check-release")
     return args
 
 
@@ -1561,7 +1743,7 @@ def main() -> int:
     hexx = parse_hexx(args.hexx) if args.refresh else load_inventory(OUTPUT)
     cairo = parse_cairo()
     if args.check_release:
-        return check_release(hexx, cairo, args.check_release)
+        return check_release(hexx, cairo, args.check_release, report_only=args.report_only)
     generated = render(hexx, cairo)
     return write_or_check(OUTPUT, generated, args.check)
 

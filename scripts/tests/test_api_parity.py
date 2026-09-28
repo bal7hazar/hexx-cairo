@@ -29,6 +29,16 @@ import api_parity as ap  # noqa: E402
 TMP_ROOT = Path(__file__).resolve().parent / "tmp"
 
 
+def node_of(raw: str, source: str) -> ap.ModuleNode:
+    """A standalone `ModuleNode` from a raw (unmasked) text snippet, for the scan_* unit tests
+    that exercise one declaration form in isolation rather than a whole fixture tree — fix loop 3:
+    `scan_declarations`/`scan_trait_declarations`/`scan_inherent_impls`/`scan_module`/`scan_impls`
+    all take a `ModuleNode` now (cfg-gating a declaration needs the node's own `text_with_strings`
+    and `line_offset`, not just its plain masked text)."""
+    return ap.ModuleNode(path=(), vis="pub", text=ap.mask_comments(raw), source=source,
+                          text_with_strings=ap.mask_comments(raw, mask_strings=False))
+
+
 class FixtureTreeCase(unittest.TestCase):
     """Base class: `self.build(root_text, files)` writes a small Rust-shaped crate under
     `scripts/tests/tmp/<TestClass>/<test_method>/` and returns its module tree."""
@@ -67,9 +77,9 @@ class ReachabilityFixtureTree(FixtureTreeCase):
         reachable = ap.compute_reachable_modules(nodes)
         self.assertNotIn(("inner",), reachable)
         bridged, globs, _used = ap.collect_use_statements(nodes, reachable)
-        self.assertFalse(ap.declared_reachable(("inner",), "exported", reachable, bridged, globs))
+        self.assertFalse(ap.exported_name(("inner",), "exported", reachable, bridged, globs))
         self.assertFalse(
-            ap.declared_reachable(("inner",), "not_exported", reachable, bridged, globs)
+            ap.exported_name(("inner",), "not_exported", reachable, bridged, globs)
         )
 
     def test_named_reexport_bridges_one_name_but_not_its_sibling(self) -> None:
@@ -79,9 +89,9 @@ class ReachabilityFixtureTree(FixtureTreeCase):
         )
         reachable = ap.compute_reachable_modules(nodes)
         bridged, globs, _used = ap.collect_use_statements(nodes, reachable)
-        self.assertTrue(ap.declared_reachable(("inner",), "exported", reachable, bridged, globs))
+        self.assertTrue(ap.exported_name(("inner",), "exported", reachable, bridged, globs))
         self.assertFalse(
-            ap.declared_reachable(("inner",), "not_exported", reachable, bridged, globs)
+            ap.exported_name(("inner",), "not_exported", reachable, bridged, globs)
         )
 
     def test_pub_crate_module_and_pub_crate_use_do_not_bridge(self) -> None:
@@ -96,9 +106,9 @@ class ReachabilityFixtureTree(FixtureTreeCase):
         reachable = ap.compute_reachable_modules(nodes)
         self.assertNotIn(("inner",), reachable)
         bridged, globs, _used = ap.collect_use_statements(nodes, reachable)
-        self.assertTrue(ap.declared_reachable(("inner",), "Exported", reachable, bridged, globs))
+        self.assertTrue(ap.exported_name(("inner",), "Exported", reachable, bridged, globs))
         self.assertFalse(
-            ap.declared_reachable(("inner",), "NotExported", reachable, bridged, globs)
+            ap.exported_name(("inner",), "NotExported", reachable, bridged, globs)
         )
 
     def test_glob_reexport_bridges_every_name(self) -> None:
@@ -109,8 +119,8 @@ class ReachabilityFixtureTree(FixtureTreeCase):
         reachable = ap.compute_reachable_modules(nodes)
         bridged, globs, _used = ap.collect_use_statements(nodes, reachable)
         self.assertIn(("inner",), globs)
-        self.assertTrue(ap.declared_reachable(("inner",), "a", reachable, bridged, globs))
-        self.assertTrue(ap.declared_reachable(("inner",), "b", reachable, bridged, globs))
+        self.assertTrue(ap.exported_name(("inner",), "a", reachable, bridged, globs))
+        self.assertTrue(ap.exported_name(("inner",), "b", reachable, bridged, globs))
 
     def test_impl_block_of_a_reachable_type_counts_wherever_it_sits(self) -> None:
         nodes = self.build(
@@ -124,11 +134,11 @@ class ReachabilityFixtureTree(FixtureTreeCase):
         bridged, globs, _used = ap.collect_use_statements(nodes, reachable)
         reachable_types = {
             n for n in ap.local_declared_types(nodes[("hex",)].text)
-            if ap.declared_reachable(("hex",), n, reachable, bridged, globs)
+            if ap.exported_name(("hex",), n, reachable, bridged, globs)
         }
         self.assertEqual({"Hex"}, reachable_types)
         items = ap.scan_inherent_impls(
-            nodes[("extra",)].text, owner="Hex", source="extra.rs",
+            nodes[("extra",)], owner="Hex",
             reachable_type_names=reachable_types, prefix=False,
         )
         self.assertIn(("Hex", "method", "helper"), {i.key for i in items})
@@ -152,7 +162,7 @@ class FlatFileWithSiblingDirectory(FixtureTreeCase):
         reachable = ap.compute_reachable_modules(nodes)
         bridged, globs, _used = ap.collect_use_statements(nodes, reachable)
         self.assertTrue(
-            ap.declared_reachable(("foo", "bar"), "Thing", reachable, bridged, globs)
+            ap.exported_name(("foo", "bar"), "Thing", reachable, bridged, globs)
         )
 
     def test_two_levels_of_flat_parents_each_resolve_their_own_child(self) -> None:
@@ -173,15 +183,19 @@ class UsePathForms(FixtureTreeCase):
     `direction/edge_direction.rs` uses) all resolve; a glob nested inside a group raises, naming
     the file and the statement."""
 
-    def test_alias_bridges_the_original_name_not_the_alias(self) -> None:
+    def test_alias_exports_under_the_alias_not_the_original_name(self) -> None:
+        # Fix loop 3 finding 16: a declaration reachable only through an aliased re-export is
+        # visible under the alias, not its own declared name — matching hexx's `Thing` against a
+        # Cairo item found here by the *original* name `Thing` would misclassify it, since `Thing`
+        # is not actually part of this tree's public API; only `Alias` is.
         nodes = self.build(
             root_text="mod inner;\npub use inner::Thing as Alias;\n",
             files={"inner.rs": "pub struct Thing;\n"},
         )
         reachable = ap.compute_reachable_modules(nodes)
         bridged, globs, used = ap.collect_use_statements(nodes, reachable)
-        self.assertTrue(ap.declared_reachable(("inner",), "Thing", reachable, bridged, globs))
-        self.assertNotIn("Alias", used)  # the alias itself is not a declared item anywhere
+        self.assertEqual("Alias", ap.exported_name(("inner",), "Thing", reachable, bridged, globs))
+        self.assertIn("Alias", used)  # the alias is the identifier the rest of this file writes
 
     def test_crate_prefixed_path_resolves_from_the_root(self) -> None:
         nodes = self.build(
@@ -205,6 +219,28 @@ class UsePathForms(FixtureTreeCase):
         globs: list = []
         ap.parse_use_tree("self::deep::Thing", ("inner",), "test", entries, globs)
         self.assertEqual([(("inner", "deep"), "Thing", None)], entries)
+
+    def test_super_prefixed_path_resolves_to_the_parent_module(self) -> None:
+        # Fix loop 3 finding P2-4: `super::` used to fall through to the plain-relative case, so
+        # `super::Thing` written in module `foo::bar` resolved to `foo::bar::super::Thing` — a
+        # path that can never match a real declaration — instead of `foo::Thing`.
+        entries: list = []
+        globs: list = []
+        ap.parse_use_tree("super::Thing", ("foo", "bar"), "test", entries, globs)
+        self.assertEqual([(("foo",), "Thing", None)], entries)
+
+    def test_double_super_walks_up_two_parent_modules(self) -> None:
+        entries: list = []
+        globs: list = []
+        ap.parse_use_tree("super::super::Thing", ("foo", "bar", "baz"), "test", entries, globs)
+        self.assertEqual([(("foo",), "Thing", None)], entries)
+
+    def test_super_at_the_crate_root_raises(self) -> None:
+        entries: list = []
+        globs: list = []
+        with self.assertRaises(SystemExit) as ctx:
+            ap.parse_use_tree("super::Thing", (), "src/lib.rs:1", entries, globs)
+        self.assertIn("src/lib.rs:1", str(ctx.exception))
 
     def test_nested_group_path_resolves_every_leaf(self) -> None:
         # The exact shape `direction/edge_direction.rs` uses:
@@ -328,97 +364,154 @@ class CfgEvaluation(FixtureTreeCase):
         nodes = self.build(root_text='#[cfg(any())]\npub mod hidden;\n', files={"hidden.rs": ""})
         self.assertNotIn(("hidden",), ap.compute_reachable_modules(nodes))
 
+    def test_target_arch_spirv_is_always_false(self) -> None:
+        # `not(target_arch = "spirv")` gates hexx's own `Debug` impls; tools/refgen never builds
+        # for a GPU shader target, so this is always true here.
+        self.assertFalse(ap.evaluate_cfg('target_arch = "spirv"', "test"))
+        self.assertTrue(ap.evaluate_cfg('not(target_arch = "spirv")', "test"))
+
+    def test_unrecognized_target_arch_raises(self) -> None:
+        with self.assertRaises(SystemExit) as ctx:
+            ap.evaluate_cfg('target_arch = "wasm32"', "test")
+        self.assertIn("wasm32", str(ctx.exception))
+
+    def test_bevy_platform_feature_is_known_disabled(self) -> None:
+        self.assertFalse(ap.evaluate_cfg('feature = "bevy_platform"', "test"))
+        self.assertTrue(ap.evaluate_cfg('not(feature = "bevy_platform")', "test"))
+
+    def test_disabled_cfg_declaration_error_names_a_line_not_only_a_file(self) -> None:
+        # Fix loop 3 finding P2-4: every unsupported-form error must report `file:line`, not just
+        # a file (`scan_declarations` on a struct's own `#[cfg(...)]`, one line down from a
+        # padding line so line 1 would be a wrong-but-plausible answer if line tracking were off).
+        node = node_of(
+            'pub fn padding() {}\n#[cfg(feature = "unknown_future_feature")]\npub struct S;\n',
+            "src/lib.rs",
+        )
+        with self.assertRaises(SystemExit) as ctx:
+            ap.scan_declarations(node, "owner", lambda n: n, False)
+        self.assertIn("src/lib.rs:3", str(ctx.exception))  # the struct's own line, not the cfg's
+
+    def test_use_statement_cfg_error_names_the_line_it_is_on(self) -> None:
+        node = node_of(
+            "pub fn f() {}\n\n"  # lines 1-2: padding, so the use is not on line 1
+            '#[cfg(feature = "unknown_future_feature")]\n'
+            "pub use inner::Thing;\n",
+            "src/lib.rs",
+        )
+        with self.assertRaises(SystemExit) as ctx:
+            ap.collect_use_statements({(): node}, {()})
+        self.assertIn("src/lib.rs:4", str(ctx.exception))
+
 
 class PublicFieldsVariantsAndTraitMembers(unittest.TestCase):
     def test_struct_fields_are_items(self) -> None:
-        text = ap.mask_comments("pub struct Hex {\n    pub x: i32,\n    pub y: i32,\n}\n")
-        items = ap.scan_declarations(text, "Hex", "hex/mod.rs", name_ok=lambda n: True, prefix=False)
+        node = node_of("pub struct Hex {\n    pub x: i32,\n    pub y: i32,\n}\n", "hex/mod.rs")
+        items = ap.scan_declarations(node, "Hex", name_ok=lambda n: n, prefix=False)
         kinds_names = {(i.kind, i.name) for i in items}
         self.assertEqual({("struct", "Hex"), ("field", "x"), ("field", "y")}, kinds_names)
 
     def test_enum_variants_are_items(self) -> None:
-        text = ap.mask_comments("pub enum OffsetHexMode {\n    Even,\n    Odd,\n}\n")
-        items = ap.scan_declarations(text, "conversions", "conversions.rs", lambda n: True, False)
+        node = node_of("pub enum OffsetHexMode {\n    Even,\n    Odd,\n}\n", "conversions.rs")
+        items = ap.scan_declarations(node, "conversions", lambda n: n, False)
         kinds_names = {(i.kind, i.name) for i in items}
         self.assertEqual(
             {("enum", "OffsetHexMode"), ("variant", "Even"), ("variant", "Odd")}, kinds_names
         )
 
     def test_attributed_default_variant_is_still_a_variant(self) -> None:
-        text = ap.mask_comments(
-            "pub enum HexOrientation {\n    Pointy,\n    #[default]\n    Flat,\n}\n"
+        node = node_of(
+            "pub enum HexOrientation {\n    Pointy,\n    #[default]\n    Flat,\n}\n",
+            "orientation.rs",
         )
-        items = ap.scan_declarations(text, "HexOrientation", "orientation.rs", lambda n: True, False)
+        items = ap.scan_declarations(node, "HexOrientation", lambda n: n, False)
         names = {i.name for i in items if i.kind == "variant"}
         self.assertEqual({"Pointy", "Flat"}, names)
 
     def test_derived_default_is_an_impl_item(self) -> None:
-        text = ap.mask_comments(
+        node = node_of(
             "#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Default)]\n"
-            "pub enum HexOrientation {\n    Pointy,\n    #[default]\n    Flat,\n}\n"
+            "pub enum HexOrientation {\n    Pointy,\n    #[default]\n    Flat,\n}\n",
+            "orientation.rs",
         )
-        items = ap.scan_declarations(text, "HexOrientation", "orientation.rs", lambda n: True, False)
+        items = ap.scan_declarations(node, "HexOrientation", lambda n: n, False)
         self.assertIn(("HexOrientation", "impl", "Default"), {i.key for i in items})
 
     def test_derive_binds_to_the_immediately_following_declaration_only(self) -> None:
         # Fix loop 2 finding 15: a derive must not attach to a *different* type that merely sits
         # within the same lookback window.
-        text = ap.mask_comments(
-            "#[derive(Default)]\npub struct A;\npub struct B;\n"
-        )
-        items = ap.scan_declarations(text, "shapes", "shapes.rs", lambda n: True, prefix=True)
+        node = node_of("#[derive(Default)]\npub struct A;\npub struct B;\n", "shapes.rs")
+        items = ap.scan_declarations(node, "shapes", lambda n: n, prefix=True)
         keys = {i.key for i in items}
         self.assertIn(("shapes", "impl", "Default for A"), keys)
         self.assertNotIn(("shapes", "impl", "Default for B"), keys)
 
     def test_derive_does_not_leak_across_an_intervening_declaration(self) -> None:
         # Same finding: even a *short* gap must not let a derive skip over another declaration.
-        text = ap.mask_comments(
-            "#[derive(Default)]\npub struct A;\n\npub struct B;\n"
-        )
-        items = ap.scan_declarations(text, "shapes", "shapes.rs", lambda n: True, prefix=True)
+        node = node_of("#[derive(Default)]\npub struct A;\n\npub struct B;\n", "shapes.rs")
+        items = ap.scan_declarations(node, "shapes", lambda n: n, prefix=True)
         keys = {i.key for i in items}
         self.assertIn(("shapes", "impl", "Default for A"), keys)
         self.assertNotIn(("shapes", "impl", "Default for B"), keys)
 
     def test_private_tuple_field_is_not_a_public_field(self) -> None:
-        text = ap.mask_comments("pub struct EdgeDirection(pub(crate) u8);\n")
-        items = ap.scan_declarations(text, "EdgeDirection", "edge_direction.rs", lambda n: True, False)
+        node = node_of("pub struct EdgeDirection(pub(crate) u8);\n", "edge_direction.rs")
+        items = ap.scan_declarations(node, "EdgeDirection", lambda n: n, False)
         self.assertEqual([("struct", "EdgeDirection")], [(i.kind, i.name) for i in items])
 
     def test_reexported_trait_is_scanned_with_its_members(self) -> None:
-        text = ap.mask_comments(
+        node = node_of(
             "pub trait HexIterExt: Iterator {\n"
             "    fn average(&self) -> Hex;\n"
             "    fn center(&self) -> Hex;\n"
             "    fn bounds(&self) -> HexBounds;\n"
-            "}\n"
+            "}\n",
+            "hex/iter.rs",
         )
-        items = ap.scan_trait_declarations(text, "HexSpanExt", "hex/iter.rs", lambda n: True, False)
+        items = ap.scan_trait_declarations(node, "HexSpanExt", lambda n: n, False)
         names = {(i.kind, i.name) for i in items}
         self.assertIn(("trait", "HexIterExt"), names)
         self.assertIn(("method", "average"), names)
         self.assertIn(("method", "center"), names)
         self.assertIn(("method", "bounds"), names)
 
+    def test_declaration_with_a_disabled_cfg_is_skipped(self) -> None:
+        # Fix loop 3 finding P2-4: cfg used to be evaluated for `mod` declarations only.
+        node = node_of(
+            '#[cfg(feature = "rayon")]\npub struct RayonOnly;\npub struct Kept;\n', "shapes.rs"
+        )
+        items = ap.scan_declarations(node, "shapes", lambda n: n, False)
+        names = {i.name for i in items}
+        self.assertNotIn("RayonOnly", names)
+        self.assertIn("Kept", names)
+
+    def test_use_statement_with_a_disabled_cfg_bridges_nothing(self) -> None:
+        node = node_of(
+            '#[cfg(feature = "rayon")]\npub use inner::Thing;\n', "shapes.rs"
+        )
+        bridged, _globs, used = ap.collect_use_statements({(): node}, {()})
+        self.assertEqual({}, bridged)
+        self.assertNotIn("Thing", used)
+
     def test_free_const_in_an_inline_module_is_found_despite_indentation(self) -> None:
         # Fix loop 2 finding 5: `direction::angles`'s own shape — indented because it sits inside
         # an inline `pub mod angles { ... }`, which the old column-0-anchored FREE_CONST_RE
         # rejected as if it were impl-block content.
-        text = ap.mask_comments(
+        node = node_of(
             "    pub const DIRECTION_ANGLE_RAD: f32 = 1.0;\n"
-            "    pub const DIRECTION_ANGLE_DEGREES: f32 = 60.0;\n"
+            "    pub const DIRECTION_ANGLE_DEGREES: f32 = 60.0;\n",
+            "direction/angles",
         )
-        items = ap.scan_module(text, "EdgeDirection", "direction/angles", lambda n: True, set(), False)
+        items = ap.scan_module(node, "EdgeDirection", lambda n: n, set(), False)
         names = {i.name for i in items if i.kind == "const"}
         self.assertEqual({"DIRECTION_ANGLE_RAD", "DIRECTION_ANGLE_DEGREES"}, names)
 
     def test_free_item_scan_does_not_double_count_an_impl_blocks_own_method(self) -> None:
-        text = ap.mask_comments(
+        node = node_of(
             "pub fn free_fn() {}\n"
-            "impl Hex {\n    pub fn method() {}\n}\n"
+            "impl Hex {\n    pub fn method() {}\n}\n",
+            "hex/mod.rs",
         )
-        items = ap.scan_module(text, "Hex", "hex/mod.rs", lambda n: True, {"Hex"}, False)
+        items = ap.scan_module(node, "Hex", lambda n: n, {"Hex"}, False)
         names = {i.name for i in items if i.kind == "method"}
         self.assertIn("free_fn", names)
         self.assertEqual(1, sum(1 for i in items if i.kind == "method" and i.name == "method"))
@@ -426,17 +519,16 @@ class PublicFieldsVariantsAndTraitMembers(unittest.TestCase):
 
 class MultiTypeOwnerScoping(unittest.TestCase):
     def test_same_named_methods_of_two_local_types_do_not_collapse(self) -> None:
-        text = ap.mask_comments(
+        node = node_of(
             "pub struct A;\n"
             "pub struct B;\n"
             "impl A {\n    pub fn new() -> A { A }\n}\n"
-            "impl B {\n    pub fn new() -> B { B }\n}\n"
+            "impl B {\n    pub fn new() -> B { B }\n}\n",
+            "shapes.rs",
         )
-        items = ap.scan_declarations(text, "shapes", "shapes.rs", lambda n: True, prefix=True)
+        items = ap.scan_declarations(node, "shapes", lambda n: n, prefix=True)
         reachable_types = {"A", "B"}
-        items = list(items) + ap.scan_inherent_impls(
-            text, "shapes", "shapes.rs", reachable_types, prefix=True
-        )
+        items = list(items) + ap.scan_inherent_impls(node, "shapes", reachable_types, prefix=True)
         names = {i.name for i in items if i.kind == "method"}
         self.assertEqual({"A.new", "B.new"}, names)
 
@@ -514,6 +606,17 @@ class ScheduledReleaseCheck(unittest.TestCase):
         item = ap.Item("Hex", "struct", "Hex", "hex/mod.rs")
         self.assertIn(item.key, ap._L_M1)
         self.assertEqual(1, ap.check_release([item], [], "L-M1"))
+
+    def test_report_only_never_fails_even_with_missing_items(self) -> None:
+        # Fix loop 3 decision P2-13: a pre-release version (0.1.0-rc.N) carries only part of its
+        # milestone (plan §9.1) — the gate is informational for it, not enforced.
+        item = ap.Item("Hex", "struct", "Hex", "hex/mod.rs")
+        self.assertIn(item.key, ap._L_M1)
+        self.assertEqual(0, ap.check_release([item], [], "L-M1", report_only=True))
+
+    def test_report_only_still_passes_when_nothing_is_missing(self) -> None:
+        item = ap.Item("Hex", "struct", "Hex", "hex/mod.rs")
+        self.assertEqual(0, ap.check_release([item], [item], "L-M1", report_only=True))
 
     def test_present_item_passes(self) -> None:
         item = ap.Item("Hex", "struct", "Hex", "hex/mod.rs")
@@ -606,6 +709,56 @@ class ExtensionInventory(FixtureTreeCase):
         self.assertIn(("board", "trait", "HexMapTrait"), keys)
         self.assertIn(("board", "method", "HexMap.new_empty"), keys)
 
+    def test_generate_trait_impl_produces_the_trait_item_too(self) -> None:
+        # Fix loop 3 finding P2-14: `#[generate_trait]` synthesizes the trait from the impl; no
+        # `pub trait HexMapTrait { ... }` text ever exists for `CAIRO_TRAIT_RE` to match.
+        nodes, reachable, bridged, globs = self.build_cairo(
+            root_text="pub mod board;\n",
+            files={
+                "board.cairo": "pub mod map;\n",
+                "board/map.cairo": (
+                    "#[derive(Copy, Drop)]\n"
+                    "pub struct HexMap {\n    pub width: u8,\n}\n"
+                    "#[generate_trait]\n"
+                    "pub impl HexMapImpl of HexMapTrait {\n"
+                    "    fn new(width: u8) -> HexMap { HexMap { width } }\n"
+                    "}\n"
+                ),
+            },
+        )
+
+        def owner_of(path, name):
+            return path[0] if path and path[0] == "board" else None
+
+        items = ap.scan_cairo_tree(nodes, reachable, bridged, globs, owner_of)
+        keys = {i.key for i in items}
+        self.assertIn(("board", "trait", "HexMapTrait"), keys)
+        self.assertIn(("board", "method", "HexMap.new"), keys)
+
+    def test_plain_impl_of_without_generate_trait_does_not_synthesize_a_trait_item(self) -> None:
+        # The trait item only comes from the impl when `#[generate_trait]` is actually there: a
+        # plain `pub impl X of Y` implementing a trait declared *elsewhere* (unreachable here)
+        # must not manufacture a phantom `Y` row.
+        nodes, reachable, bridged, globs = self.build_cairo(
+            root_text="pub mod board;\n",
+            files={
+                "board.cairo": "pub mod map;\n",
+                "board/map.cairo": (
+                    "pub impl HexMapImpl of HexMapTrait {\n"
+                    "    fn new(width: u8) -> u8 { width }\n"
+                    "}\n"
+                ),
+            },
+        )
+
+        def owner_of(path, name):
+            return path[0] if path and path[0] == "board" else None
+
+        items = ap.scan_cairo_tree(nodes, reachable, bridged, globs, owner_of)
+        keys = {i.key for i in items}
+        self.assertNotIn(("board", "trait", "HexMapTrait"), keys)
+        self.assertIn(("board", "method", "HexMap.new"), keys)
+
     def test_flat_form_extension_module(self) -> None:
         # `board.cairo` itself declares the item (no `board/` directory at all).
         nodes, reachable, bridged, globs = self.build_cairo(
@@ -621,6 +774,64 @@ class ExtensionInventory(FixtureTreeCase):
         self.assertIn(("board", "enum", "Direction"), keys)
         self.assertIn(("board", "variant", "Direction.East"), keys)
         self.assertIn(("board", "variant", "Direction.West"), keys)
+
+
+class RealOrigamiTakeoverForm(FixtureTreeCase):
+    """Fix loop 3 finding P2-14: `#[generate_trait] pub impl HexMapImpl of HexMapTrait { ... }`
+    (`origami_hexmap::map`) is the exact Cairo form M1-T1 takes over (plan §2.2: `board/map.cairo`,
+    `finders/bfs.cairo`, `generators/caver.cairo`). A real, unmodified copy of
+    `sources/origami/crates/hexmap/src` — not a hand-written miniature of the form — placed under
+    a fixture tree shaped like the plan must find every one of the 20 public functions of
+    `docs/research/LIB-02-hexx-analysis.md` §2.1's own facade table, and `HexMapTrait` itself.
+    Nothing else in the real file (the `#[feature("bounded-int-utils")]` internals, the private
+    `bounded_int` helper impls, the inline `#[cfg(test)] mod tests { ... }`) raises: decision B's
+    bar ("an unsupported form raises, you then support it") is met by construction here, not
+    assumed. Skipped (not failed) where the checkout is unavailable: local-only, never in CI (see
+    `sources/VERSIONS.md`, `.gitignore`), same as `RealCheckoutClassification` below."""
+
+    ORIGAMI_SRC = (Path(__file__).resolve().parents[2] / "sources" / "origami" / "crates"
+                   / "hexmap" / "src")
+
+    # docs/research/LIB-02-hexx-analysis.md §2.1's own table, transcribed name for name.
+    FACADE_FUNCTIONS = {
+        "new", "new_empty", "new_maze", "new_cave", "new_random_walk", "new_hexagon",
+        "open_with_corridor", "open_with_maze", "keep_component", "compute_distribution",
+        "search_path", "search_path_weighted", "field_of_movement", "distance_to",
+        "hex_distance", "reachable", "range", "ring", "neighbor", "is_walkable",
+    }
+
+    def test_generate_trait_form_is_fully_inventoried(self) -> None:
+        if not (self.ORIGAMI_SRC / "map.cairo").is_file():
+            self.skipTest(f"{self.ORIGAMI_SRC} not present (local-only checkout, see class "
+                           f"docstring)")
+        nodes = self.build(
+            root_text="pub mod board;\npub mod finders;\npub mod generators;\n",
+            files={
+                "board.cairo": "pub mod map;\n",
+                "board/map.cairo": (self.ORIGAMI_SRC / "map.cairo").read_text(),
+                "finders.cairo": "pub mod bfs;\n",
+                "finders/bfs.cairo": (self.ORIGAMI_SRC / "finders" / "bfs.cairo").read_text(),
+                "generators.cairo": "pub mod caver;\n",
+                "generators/caver.cairo":
+                    (self.ORIGAMI_SRC / "generators" / "caver.cairo").read_text(),
+            },
+            root_name="lib.cairo",
+        )
+        reachable = ap.compute_reachable_modules(nodes, cfg_exempt=frozenset())
+        bridged, globs, _used = ap.collect_use_statements(nodes, reachable)
+
+        def owner_of(path, name):
+            return path[0] if path and path[0] in ap.EXTENSION_MODULES else None
+
+        items = ap.scan_cairo_tree(nodes, reachable, bridged, globs, owner_of)
+        keys = {i.key for i in items}
+        self.assertIn(("board", "trait", "HexMapTrait"), keys)
+        found = {
+            i.name.split(".", 1)[1] for i in items
+            if i.owner == "board" and i.kind == "method" and i.name.startswith("HexMap.")
+        }
+        missing = self.FACADE_FUNCTIONS - found
+        self.assertEqual(set(), missing, f"HexMapTrait functions not inventoried: {sorted(missing)}")
 
 
 class RealCheckoutClassification(unittest.TestCase):
