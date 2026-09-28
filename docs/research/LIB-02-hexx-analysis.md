@@ -290,8 +290,9 @@ scarb 2.19.4.
 ### 3.1 How the two coordinate systems map
 
 This mapping was derived by hand from the two neighbour tables and checked against all six
-directions **(inferred)**. Take an `origami_hexmap` tile `(x, y)`, with `hexx`'s default pointy
-layout and y up (`src/orientation.rs:86-101`, `src/layout.rs:9`).
+directions **(inferred)**. Take an `origami_hexmap` tile `(x, y)`, with a pointy `hexx`
+layout and y up (`src/orientation.rs:86-101`, `src/layout.rs:9`). `hexx`'s default orientation
+is flat (`src/orientation.rs:127-129`), so the layout has to be pointy explicitly.
 
 ```text
 hexx Hex (keeping compass names) = ( -x - ceil(y/2) ,  y )  =  ( s_o , r_o )
@@ -347,7 +348,7 @@ Four consequences follow:
 | `to_lower_res` (`f32` floor) | Floating point, exact only while values fit in 24 bits | **Integer counterpart**: floor division. Low value for the game, whose chunks are rectangles; **defer** |
 | `euclidean_length`, `euclidean_distance_to`, `circular_range(f32)` | Floating point | `squared_euclidean_length` is an integer, so a circular range can compare against an integer `r²`. **Defer** |
 | `ring`, `rings`, `spiral_range`, `cached_*` (`Vec` per ring) | Allocation per call; on-chain an `Array` costs per element | Counterpart: a **bitmap** on a bounded board (§5.7), or a `Span` for small radii |
-| `range_fov`, `directional_fov`, `field_of_movement`, `a_star` (returning `HashSet`, `HashMap` or `BinaryHeap`) | Hash maps and heaps; `a_star` has no bound on an unbounded plane when the target is unreachable **(inferred)** | Counterpart: floods on a bounded bitmap. `origami_hexmap` already has `field_of_movement` and `search_path(_weighted)` |
+| `range_fov`, `directional_fov`, `field_of_movement`, `a_star` (returning `HashSet`, `HashMap` or `BinaryHeap`) | Hash maps and heaps; `a_star` has no bound on an unbounded plane when the target is unreachable **(inferred)** | Counterpart: floods on a bounded bitmap. `origami_hexmap` already has `field_of_movement` and `search_path(_weighted)`, limited to per-tile costs in at most 3 classes (`hexmap:src/map.cairo:252-253`). The arbitrary cost of `a_star` for each directed step (`src/algorithms/pathfinding.rs:110`) has no counterpart |
 | Cost callbacks `impl Fn(Hex) -> Option<u32>` | A per-tile call is the opposite of a whole-board operation | Counterpart: **cost-class bitmaps**, as in `origami_hexmap` (`src/finders/dial.cairo:3-4`) |
 | `HexStore<T>`, `HexagonalMap`, `HexModMap`, `RombusMap`, `RectMap` (generic `T`, `Vec`) | A game stores state in Dojo models, not in in-memory vectors | Counterpart: **one bitmap per layer** (`origami_hexmap`). The index formulas (`hexmod`, row-major offset) remain portable as pure functions |
 | `WrapStrategy::Cycle` (`while` loops) | Unbounded loop | Counterpart: `%` on bounded integers. Not needed by the game |
@@ -768,7 +769,10 @@ Each item is test-driven with a gas budget and a scalar oracle.
 **What stays out:**
 - Everything in part 4: layout, orientation, angles, meshes, integrations, `f32` arithmetic,
   and allocating ring and spiral iterators.
-- `a_star`, which `search_path_weighted` covers.
+- `a_star`. `search_path_weighted` covers the game's pathfinding needs, which are bounded
+  per-tile costs: at most 3 cost classes (`hexmap:src/map.cairo:252-253`). It does not cover
+  the full `a_star` semantics, which allow an arbitrary cost for each directed step
+  (`src/algorithms/pathfinding.rs:110`).
 - Hexagonal resolution and `HexBounds` wrapping.
 - `GridEdge` and `GridVertex`.
 - Generic storage.
