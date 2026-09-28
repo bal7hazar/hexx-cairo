@@ -1,0 +1,12 @@
+# One spec, one function (plan §4.3, brief LIB-04 scope 4): `Hex::distance_to` is not yet ported
+# (M1-T2 ports it); the golden file is generated and committed but declared in no `mod` tree, so
+# it stays out of the build until then (`tools/refgen/README.md`).
+module = "hex"
+package = "hexx"
+
+[[function]]
+name = "distance_to"
+seed = "hex::distance_to"
+samples = 48
+domain_min = -40
+domain_max = 40
