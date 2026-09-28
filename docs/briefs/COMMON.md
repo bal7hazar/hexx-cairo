@@ -29,8 +29,8 @@ and this file disagree, the brief wins for its task, and says so.
 | `implement` | Commit early, in small coherent commits. Push with exactly `git push -u origin HEAD` the first time and `git push` afterwards. Open the pull request with `gh pr create --base main`, title `[<Model>] <TASK-ID> <short description>`, last line of the body `🤖 Generated with [Claude Code](https://claude.com/claude-code)`. Wait for CI in the foreground (`gh pr checks <n> --watch --interval 30`) and fix until green |
 
 Conventional commits, each ending with the trailer naming the model that did the work:
-`Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>` (or `Claude Sonnet 5`,
-`Claude Fable 5.1`). Branch `<type>/<task-id>-<slug>`, cut from `origin/main` by the
+`Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>` (or `Claude Sonnet 5.5`,
+`Claude Sonnet 5`, `Claude Fable 5.1`). Branch `<type>/<task-id>-<slug>`, cut from `origin/main` by the
 orchestrator. Never force-push, never rebase a pushed branch, never skip hooks.
 
 ## 3. The machine

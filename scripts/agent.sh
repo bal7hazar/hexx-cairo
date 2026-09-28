@@ -24,7 +24,7 @@
 #   --with-assets        initialise the `assets` submodule in the task worktree before launching
 #   --branch <name>      create the worktree from origin/main on branch <name> if it is missing
 # arguments:
-#   model     claude: sonnet | opus | fable or their full ids; codex: gpt-6-astra | gpt-6-sol | gpt-6-luna
+#   model     claude: sonnet | sonnet-5.5 | opus | fable or their full ids; codex: gpt-6-astra | gpt-6-sol | gpt-6-luna
 #   profile   research | implement | audit (default: research for claude new, audit for codex;
 #             on resume, the profile the task was launched with)
 #   sid       codex session id, for `codex … resume` (see `sid`); ignored by claude
@@ -62,12 +62,13 @@ running() { # <task>
 tag() { # <cli> <model> -> "<full id>|<display name>"
   case "$1:$2" in
     claude:sonnet | claude:claude-sonnet-5) echo "claude-sonnet-5|Sonnet 5" ;;
+    claude:sonnet-5.5 | claude:claude-sonnet-5-5) echo "claude-sonnet-5-5|Sonnet 5.5" ;;
     claude:opus | claude:claude-opus-5-5) echo "claude-opus-5-5|Opus 5.5" ;;
     claude:fable | claude:claude-fable-5-1) echo "claude-fable-5-1|Fable 5.1" ;;
     codex:gpt-6-astra) echo "gpt-6-astra|GPT-6-Astra" ;;
     codex:gpt-6-sol) echo "gpt-6-sol|GPT-6-Sol" ;;
     codex:gpt-6-luna) echo "gpt-6-luna|GPT-6-Luna" ;;
-    *) die "unknown model '$2' for $1 (claude: sonnet|opus|fable; codex: gpt-6-astra|gpt-6-sol|gpt-6-luna)" ;;
+    *) die "unknown model '$2' for $1 (claude: sonnet|sonnet-5.5|opus|fable; codex: gpt-6-astra|gpt-6-sol|gpt-6-luna)" ;;
   esac
 }
 
