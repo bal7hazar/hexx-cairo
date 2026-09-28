@@ -6,9 +6,16 @@ name: Release check
 # registry shows the version. This workflow is the project manager's evidence for that go: it
 # checks out exactly the named commit, verifies it against `main` and the manifest, runs the full
 # local gate with the golden-vector check mandatory, verifies the milestone the version implies is
-# actually met, packages the crate, and uploads what a reviewer needs to inspect the result —
-# nothing more. It never publishes: no `environment:`, no secret, no `scarb publish`, anywhere in
-# this workflow or any other of this repository. See docs/RELEASING.md.
+# actually met (enforced for a stable version, informational for a pre-release — fix loop 3
+# decision P2-13, plan §9.1/§9.2), packages the crate, and uploads what a reviewer needs to inspect
+# the result — nothing more. It never publishes: no `environment:`, no secret, no `scarb publish`,
+# anywhere in this workflow or any other of this repository. See docs/RELEASING.md.
+#
+# Only a run whose *own workflow revision* is `refs/heads/main` counts as evidence for a go (fix
+# loop 3 decision P2-2): `workflow_dispatch` lets any branch be selected as "Use workflow from",
+# and a modified copy of this file on another branch could weaken or remove every guard below
+# while still checking out a legitimate `main` commit afterward. The first step below fails the
+# run before anything else happens unless GitHub itself resolved this run against `main`.
 on:
   workflow_dispatch:
     inputs:
@@ -17,7 +24,7 @@ on:
         required: true
         type: string
       sha:
-        description: "Commit to check out (must be an ancestor of origin/main)"
+        description: "Full 40-character commit hash to check out (must be an ancestor of origin/main)"
         required: true
         type: string
 
@@ -34,6 +41,25 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
+      # `GITHUB_REF` is already a shell environment variable GitHub Actions itself sets (never a
+      # `${{ }}` expression interpolated into this script), so reading it directly is already
+      # "through env, quoted" — fix loop 3 decision P2-2.
+      - name: Verify this run's own workflow revision is refs/heads/main
+        run: |
+          if [ "$GITHUB_REF" != "refs/heads/main" ]; then
+            echo "::error::this workflow must be dispatched from refs/heads/main (was $GITHUB_REF); a run from another branch is not evidence for a go"
+            exit 1
+          fi
+
+      - name: Verify the input sha is a full commit hash
+        env:
+          SHA: ${{ inputs.sha }}
+        run: |
+          if ! [[ "$SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "::error::'$SHA' is not a 40-character lowercase hex commit hash"
+            exit 1
+          fi
+
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
@@ -42,6 +68,16 @@ jobs:
         env:
           SHA: ${{ inputs.sha }}
         run: git checkout --quiet "$SHA"
+
+      - name: Verify the checked-out commit is exactly the input sha
+        env:
+          SHA: ${{ inputs.sha }}
+        run: |
+          actual=$(git rev-parse HEAD)
+          if [ "$actual" != "$SHA" ]; then
+            echo "::error::checked out $actual, expected $SHA"
+            exit 1
+          fi
 
       - name: Verify the sha is an ancestor of origin/main
         env:
@@ -76,12 +112,23 @@ jobs:
             exit 1
           fi
 
+      # `git ls-remote --exit-code` returns 0 (a match: the tag exists), 2 (no match: the tag is
+      # absent), or another code for a transport/auth failure — fix loop 3 finding 17: treating
+      # every nonzero code as "absent" (the previous design) let a network error silently pass
+      # this guard instead of failing the job closed.
       - name: Verify no tag v<version> exists yet
         env:
           VERSION: ${{ inputs.version }}
         run: |
-          if git ls-remote --exit-code --tags origin "refs/tags/v$VERSION" >/dev/null 2>&1; then
+          set +e
+          git ls-remote --exit-code --tags origin "refs/tags/v$VERSION" >/dev/null 2>&1
+          status=$?
+          set -e
+          if [ "$status" -eq 0 ]; then
             echo "::error::tag v$VERSION already exists"
+            exit 1
+          elif [ "$status" -ne 2 ]; then
+            echo "::error::could not determine whether tag v$VERSION exists (git ls-remote exited $status)"
             exit 1
           fi
 
@@ -118,10 +165,27 @@ jobs:
       - name: Run the full local gate (golden vectors mandatory)
         run: scripts/check.sh
 
+      # A pre-release version (one with a hyphen, `0.1.0-rc.N`) carries only part of the milestone
+      # it maps to (plan §9.1: `0.1.0-rc.1` is the take-over alone; the full L-M1 mirror is due
+      # only at the stable `0.1.0`, §9.2) — the gate is informational for it, not enforced; a
+      # stable version (no hyphen) enforces it. `--report-only` is `scripts/api_parity.py`'s own,
+      # tested option, never a `|| true` here, which would as readily hide a real failure of a
+      # stable-version release. The missing-item listing (if any) goes to the job summary and the
+      # uploaded artifact either way, so a reviewer sees exactly what is still open.
       - name: Verify the milestone the version implies is met
+        id: milestone_check
         env:
           MILESTONE: ${{ steps.milestone.outputs.milestone }}
-        run: python3 scripts/api_parity.py --check-release "$MILESTONE"
+          VERSION: ${{ inputs.version }}
+        run: |
+          set -o pipefail
+          if [[ "$VERSION" == *-* ]]; then
+            python3 scripts/api_parity.py --check-release "$MILESTONE" --report-only \
+              | tee milestone-report.txt
+          else
+            python3 scripts/api_parity.py --check-release "$MILESTONE" | tee milestone-report.txt
+          fi
+          cat milestone-report.txt >> "$GITHUB_STEP_SUMMARY"
 
       - name: Package crates/hexx
         run: scarb package -p hexx
@@ -138,5 +202,6 @@ jobs:
           path: |
             target/package/hexx-*/Scarb.toml
             archive-listing.txt
+            milestone-report.txt
           if-no-files-found: error
           retention-days: 30

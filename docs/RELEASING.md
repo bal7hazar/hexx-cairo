@@ -31,17 +31,26 @@ The project manager's go is bound to a specific commit, not to "the current stat
 to a branch name: a later commit on `main`, even one that only fixes a typo, needs a new go. Before
 giving it, the project manager:
 
-1. Confirms the pending file names a package, a version and a commit sha, and that the sha is on
-   `main`.
+1. Confirms the pending file names a package, a version and a full 40-character commit sha, and
+   that the sha is on `main`.
 2. Dispatches (or asks the orchestrator to dispatch) **Actions → Release check → Run workflow**
-   with that exact `version` and `sha`, and waits for it to go green. The workflow (below) is the
-   evidence, not a formality: it fails loudly if the sha is not an ancestor of `main`, if the
-   version does not match the manifest, if the version is not valid semver, if the tag already
-   exists, if any check of `scripts/check.sh` (golden vectors included) fails, or if an item the
-   version's milestone requires is still `missing` in `docs/API_PARITY.md`.
-3. Inspects the uploaded artifact (the packaged `Scarb.toml` and a listing of the archive's
-   contents) for anything unexpected — an extra file, a missing one, a dependency that should not
-   be there.
+   **from `main`** — the dropdown's "Use workflow from" field, not just the `sha` input — with
+   that exact `version` and `sha`, and waits for it to go green. A run dispatched from any other
+   branch fails its own first step and is not evidence for a go (fix loop 3 decision P2-2: a
+   workflow file modified on another branch could weaken or remove every guard below while still
+   checking out a legitimate `main` commit afterward). The workflow (below) is the evidence, not a
+   formality: it fails loudly if `sha` is not a full commit hash, if the checked-out commit does
+   not exactly match it, if it is not an ancestor of `main`, if the version does not match the
+   manifest, if the version is not valid semver, if the tag already exists (or the tag lookup
+   itself failed — network and auth errors fail the guard closed, fix loop 3 finding 17), if any
+   check of `scripts/check.sh` (golden vectors included) fails, or — for a **stable** version only
+   — if an item the version's milestone requires is still `missing` in `docs/API_PARITY.md`. For a
+   **pre-release** version, that last check is informational (below): read its job summary, don't
+   rely on its exit code.
+3. Inspects the uploaded artifact (the packaged `Scarb.toml`, a listing of the archive's contents,
+   and the milestone-check report) for anything unexpected — an extra file, a missing one, a
+   dependency that should not be there, or, for a pre-release, a missing item the project manager
+   did not expect to still be open.
 4. Records the go: renames the pending file, or replaces its content with the decision and its
    date, per `docs/decisions/README.md`'s convention.
 
@@ -51,27 +60,49 @@ Manual trigger only (`workflow_dispatch`, inputs `version` and `sha`), `permissi
 read` — it cannot write to the repository, create a tag or a release, even if a step tried to.
 No secret, no `environment:`, no `scarb publish`. In order:
 
-1. Checks out exactly the input `sha`.
-2. Verifies that `sha` is an ancestor of `origin/main` — never a fork's ref, never an unmerged
+1. Verifies that this run's own workflow revision is `refs/heads/main` (`GITHUB_REF`, a shell
+   environment variable GitHub Actions itself sets — never a `${{ }}` expression interpolated into
+   a script) — fix loop 3 decision P2-2: `workflow_dispatch` lets any branch be selected as "Use
+   workflow from"; a run from elsewhere is not evidence for a go, whatever `sha` it later checks
+   out.
+2. Verifies that the input `sha` is a full 40-character lowercase hex commit hash.
+3. Checks out exactly the input `sha`, then verifies `git rev-parse HEAD` equals it exactly.
+4. Verifies that `sha` is an ancestor of `origin/main` — never a fork's ref, never an unmerged
    branch.
-3. Verifies that the input `version` equals `Scarb.toml`'s `[workspace.package].version`.
-4. Verifies that `version` has valid semver syntax.
-5. Verifies that no tag `v<version>` exists yet on the remote.
-6. Runs `scripts/check.sh` with the golden-vector check mandatory (it installs the Rust
+5. Verifies that the input `version` equals `Scarb.toml`'s `[workspace.package].version`.
+6. Verifies that `version` has valid semver syntax.
+7. Verifies that no tag `v<version>` exists yet on the remote — `git ls-remote --exit-code`'s exit
+   code 2 ("no match") is the only one read as "absent"; any other nonzero code (a network or auth
+   failure) fails the job closed instead of silently passing this guard (fix loop 3 finding 17).
+8. Runs `scripts/check.sh` with the golden-vector check mandatory (it installs the Rust
    toolchain itself, so `tools/refgen`'s check can never be silently skipped here).
-7. Derives the milestone the version implies from the table below, and runs
-   `python3 scripts/api_parity.py --check-release <milestone>`: fails if an item that milestone
-   requires is still `missing`.
-8. Runs `scarb package -p hexx` and uploads the packaged `Scarb.toml` and a listing of the
-   archive's contents (not the archive itself: a workflow that does not publish has no reason to
-   keep the compressed bytes around).
+9. Derives the milestone the version implies from the table below, and runs
+   `python3 scripts/api_parity.py --check-release <milestone>` — **enforced** (fails on any
+   `missing` item the milestone requires) for a **stable** version (no hyphen); **informational**
+   only (`--report-only`: the same missing-item list prints, to the job summary and the uploaded
+   artifact, but the step always exits 0) for a **pre-release** version (one with a hyphen,
+   `0.1.0-rc.N`) — fix loop 3 decision P2-13, plan §9.1/§9.2: a release candidate carries only part
+   of the milestone it maps to by design, so failing it on the rest of that milestone would make
+   every planned release candidate red by construction.
+10. Runs `scarb package -p hexx` and uploads the packaged `Scarb.toml`, a listing of the archive's
+    contents, and the milestone-check report (not the archive itself: a workflow that does not
+    publish has no reason to keep the compressed bytes around).
 
-| Version | Milestone |
-|---|---|
-| `0.1.x` | L-M1 |
-| `0.2.x` | L-M2 |
-| `0.3.x` | L-M3 |
-| `1.x` | L-M4 |
+Every version in this table maps to a milestone; whether that milestone's gate is enforced or only
+reported depends on whether the version itself carries a pre-release identifier (a hyphen), not on
+which row it falls into — plan §9.1 lists the release candidates this predates each stable version:
+
+| Version | Milestone | Content (plan §9.1) | Gate |
+|---|---|---|---|
+| `0.1.0-rc.1` | L-M1 | The take-over alone (M1-T1), with N-9 | Informational |
+| `0.1.0-rc.2` … | L-M1 | Each extension as it merges | Informational |
+| `0.1.0` | L-M1 | L-M1 complete (plan §9.2: the mirror items of L-M1 are API from here) | Enforced |
+| `0.2.0-rc.N` | L-M2 | L-M2 work in progress | Informational |
+| `0.2.0` | L-M2 | L-M2 complete | Enforced |
+| `0.3.0-rc.N` | L-M3 | L-M3 work in progress | Informational |
+| `0.3.0` | L-M3 | L-M3 complete | Enforced |
+| `1.0.0-rc.N` | L-M4 | Parity or documented exclusions, in progress | Informational |
+| `1.0.0` | L-M4 | Parity or documented exclusions; `origami_hexmap` decommissioned | Enforced |
 
 ## Publication itself: the orchestrator session, by hand
 
