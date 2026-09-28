@@ -8,15 +8,19 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   links:
     name: Markdown links
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       # Links between files of the repository only: external sites are not a gate.
-      - uses: lycheeverse/lychee-action@v2
+      - uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           args: --offline --no-progress --include-fragments './**/*.md'
           fail: true
@@ -26,5 +30,134 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - run: shellcheck scripts/*.sh
+
+  fmt:
+    name: Format and parity/deviations/gas docs
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
+        with:
+          scarb-version: "2.19.4"
+      - run: scarb fmt --check --workspace
+      - run: python3 -m unittest discover -s scripts/tests
+      # docs/API_PARITY.md must match the embedded hexx 0.25.0 inventory (regenerate with
+      # `python3 scripts/api_parity.py --refresh --hexx /path/to/hexx`).
+      - run: python3 scripts/api_parity.py --check
+      # docs/EXTENSIONS.md must match the extension modules of crates/hexx/src (none yet).
+      - run: python3 scripts/api_parity.py --extensions --check
+      # docs/DEVIATIONS.md must match the `#### Deviations` doc comments of crates/hexx/src.
+      - run: python3 scripts/deviations.py --check
+
+  test:
+    name: Build and test ${{ matrix.package }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [hexx, takeover_tests, consumer]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
+        with:
+          scarb-version: "2.19.4"
+      - uses: foundry-rs/setup-snfoundry@16e23ddd0e2845f38727c92f4b913a7b728cda9e # v6.0.0
+        with:
+          starknet-foundry-version: "0.61.0"
+      - env:
+          PACKAGE: ${{ matrix.package }}
+        run: scarb build -p "$PACKAGE"
+      - env:
+          PACKAGE: ${{ matrix.package }}
+        run: snforge test -p "$PACKAGE"
+
+  package:
+    name: Package crates/hexx (rehearsal, never scarb publish)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
+        with:
+          scarb-version: "2.19.4"
+      # `scarb package` alone (never `scarb publish`, never a token): lets a reviewer download
+      # and inspect exactly what a release would ship, on every pull request, without re-running
+      # it themselves — fix loop 1 finding 11 (the audit could not reach the archive this task's
+      # own report described, since `target/package/` is a build artifact, gitignored, and not
+      # otherwise preserved anywhere a reviewer can reach).
+      - run: scarb package -p hexx
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: hexx-package-${{ github.sha }}
+          path: |
+            target/package/hexx-*/Scarb.toml
+            target/package/hexx-*.tar.zst
+          if-no-files-found: error
+          retention-days: 30
+
+  gas:
+    name: Gas budgets and class size
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
+        with:
+          scarb-version: "2.19.4"
+      - uses: foundry-rs/setup-snfoundry@16e23ddd0e2845f38727c92f4b913a7b728cda9e # v6.0.0
+        with:
+          starknet-foundry-version: "0.61.0"
+      # Fails when a test has no #[available_gas], when its budget is more than 5 % above its
+      # measurement, or when gas/*.snap is stale (commit `python3 scripts/bench.py snapshot`).
+      - name: Check gas budgets and snapshots
+        run: |
+          set -o pipefail
+          python3 scripts/bench.py check | tee gas_report.md
+      # docs/GAS.md must match gas/*.snap (regenerate with `python3 scripts/gas_tables.py`).
+      - run: python3 scripts/gas_tables.py --check
+      # Fails on any class size change of crates/consumer not committed in gas/bytecode.size.
+      - name: Check bytecode size
+        run: |
+          set -o pipefail
+          python3 scripts/bytecode_size.py check | tee -a gas_report.md
+      - name: Publish gas report
+        if: always()
+        run: cat gas_report.md >> "$GITHUB_STEP_SUMMARY"
+
+  golden:
+    name: Golden vectors up to date (tools/refgen)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # The stable Rust toolchain is preinstalled on ubuntu-latest.
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            tools/refgen/target
+          key: refgen-${{ runner.os }}-${{ hashFiles('tools/refgen/Cargo.lock') }}
+      - name: Build against hexx = "=0.25.0"
+        run: cargo build --locked --manifest-path tools/refgen/Cargo.toml
+      # Fails when a committed crates/hexx/tests/golden_*.cairo differs from the generator output.
+      - name: Check golden vectors
+        run: cargo run --locked --manifest-path tools/refgen/Cargo.toml -- check
+
+  all-checks:
+    name: All checks passed
+    if: always()
+    needs: [links, scripts, fmt, test, package, gas, golden]
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          HAS_FAILURE: ${{ contains(needs.*.result, 'failure') }}
+          HAS_CANCELLED: ${{ contains(needs.*.result, 'cancelled') }}
+        run: |
+          if [ "$HAS_FAILURE" = "true" ] || [ "$HAS_CANCELLED" = "true" ]; then
+            exit 1
+          fi

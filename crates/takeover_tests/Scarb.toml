@@ -1,0 +1,17 @@
+[package]
+name = "takeover_tests"
+version.workspace = true
+edition.workspace = true
+cairo-version.workspace = true
+license.workspace = true
+publish = false
+description = "Equality tests of the `board` extension against the published origami_hexmap 1.8.0 it takes over. Never published."
+
+[dependencies]
+origami_hexmap = "1.8.0"
+
+[dev-dependencies]
+snforge_std.workspace = true
+
+[tool.fmt]
+sort-module-level-items = true

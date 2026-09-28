@@ -1,0 +1,23 @@
+[package]
+name = "hexx"
+version.workspace = true
+edition.workspace = true
+cairo-version.workspace = true
+license.workspace = true
+license-file = "LICENSE"
+repository.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+description = "Hexagonal grids for Starknet: the hexx port and a bitmap board engine"
+keywords = ["starknet", "cairo", "hexagon", "hexx", "pathfinding", "generation"]
+
+# No dependency: the library is pure Cairo (no starknet dependency, no Dojo dependency).
+# `snforge_std` is a dev-dependency only (need N-9): it must not appear in what a consumer of
+# the published package resolves.
+[dependencies]
+
+[dev-dependencies]
+snforge_std.workspace = true
+
+[tool.fmt]
+sort-module-level-items = true

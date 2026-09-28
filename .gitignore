@@ -8,6 +8,12 @@ target/
 .snfoundry_cache/
 snfoundry_trace/
 coverage/
+# Python
+__pycache__/
+*.pyc
+# Fixture trees scripts/tests writes and removes at run time (never a host temp dir: a read-only
+# sandbox may have none, fix loop 2 decision B viii)
+scripts/tests/tmp/
 # Editors, OS
 .DS_Store
 .idea/
