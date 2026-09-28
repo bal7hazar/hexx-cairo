@@ -36,6 +36,21 @@ version.
 
 ## Notes
 
+- **The registry token reaches the agents (measured 2026-09-28).** It is defined in the
+  user-level settings of the machine, and the claude CLI passes it to every shell an agent
+  opens: the variable is present in the shell of the LIB-04 agent (names checked, never
+  values). A `--settings` override from the launcher does not remove it (tested). The profiles
+  refuse `scarb publish`, tags, releases, and now the reading or printing of settings,
+  environment and tokens by a typed command; they cannot stop a program an agent runs. The
+  real remedy is the owner's: take the token out of the machine's settings. Reported to the
+  project manager.
+- **Rule of decision (game's `OPERATIONS.md` §10, D-128).** At a gate or a blocker the project
+  manager decides by its own recommendation and reports to the owner afterwards. Publishing
+  on a registry, money, accounts and secrets stay the owner's act.
+- **Budget (game's `OPERATIONS.md` §3).** 3 Grim World agents in total over three tracks; one
+  slot is the library's, the third is shared. Count units `grimworld-*`, `hexmap-*`,
+  `quiver-*` and the codex audits (detached processes, not units) before each launch.
+
 - **Model policy (game's `OPERATIONS.md` §2, `e67a66b`).** Sonnet 5.5 (`claude-sonnet-5-5`, title
   `[Sonnet 5.5]`) replaces Sonnet 5 for every new launch of a mechanical task; the launcher
   knows it as `sonnet-5.5`. LIB-04 keeps Sonnet 5 until it closes.
