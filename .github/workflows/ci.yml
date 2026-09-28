@@ -20,3 +20,11 @@ jobs:
         with:
           args: --offline --no-progress --include-fragments './**/*.md'
           fail: true
+
+  scripts:
+    name: Shell scripts
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: shellcheck scripts/*.sh

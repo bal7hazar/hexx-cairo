@@ -7,10 +7,13 @@ that the game consumes today (version 1.8.0).
 
 ## Status
 
-**Analysis.** No code yet. Task LIB-02 compares `hexx`, `origami_hexmap` and the needs of the
-game; the owner then decides, at gate L-G1, whether a port of `hexx` is relevant and where it
-lands (this repository, `dojoengine/origami`, or both). The live state is in
-[STATUS.md](STATUS.md), the order of work in [PLAN.md](PLAN.md).
+**Planning.** No code yet. The owner decided on 2026-09-28
+([L-G1](docs/decisions/L-G1-hexx-port.md)) that this repository is the library: a port of
+`hexx` to Cairo at feature parity wherever that makes sense on-chain, extended with what Cairo
+and the network require (boards stored as bitmaps in one felt, generation, floods, assembly).
+The engine of `origami_hexmap` is taken over here, and `origami_hexmap` is decommissioned once
+the port is complete. Task LIB-03 writes the porting plan; the owner accepts it at gate L-G2.
+The live state is in [STATUS.md](STATUS.md), the order of work in [PLAN.md](PLAN.md).
 
 ## Where things are
 
@@ -23,6 +26,7 @@ lands (this repository, `dojoengine/origami`, or both). The live state is in
 | [docs/decisions/](docs/decisions/README.md) | Decisions of the owner; `PENDING-*.md` for the open ones |
 | `docs/reports/` | Archived `REPORT.md` of merged tasks |
 | `docs/audits/` | Audit reports, titled with the model that wrote them |
+| `scripts/` | The launcher of sub-agents (`agent.sh`), its permission profiles and the build lock, copied from the game's repository |
 
 ## Relation to the game
 
