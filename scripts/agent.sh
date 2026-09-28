@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Launcher of the map library (track LIB of Grim World), copied from bal7hazar/grimworld
-# (scripts/agent.sh at 64d4d67). Differences, all marked `hexmap:` below: the unit prefix, and
-# --with-sepolia refused (the library's agents never deploy). Original header:
+# (scripts/agent.sh at 64d4d67). Differences, all marked `hexmap:` below: the unit prefix;
+# --with-sepolia refused (the library's agents never deploy); --with-assets refused (no assets
+# submodule here). Original header:
 # Grim World launcher: start or resume a sub-agent in its task worktree. claude agents run as
 # transient systemd user units, outside the process tree and the cgroup of the calling session
 # (a restart of the desktop app must not kill them); codex auditors are always detached with setsid (see the note at
@@ -21,9 +22,9 @@
 #   scripts/agent.sh thresholds          may an agent start now? (load and memory; exit 4 if not)
 # options:
 #   --dry-run            print what would be launched, launch nothing, need no worktree
-#   --with-assets        initialise the `assets` submodule in the task worktree before launching
-#   --with-sepolia       leave the Sepolia account variables to the agent (claude only; the brief
-#                        must grant it). Without it they are emptied, like the registry token
+#   --with-sepolia       refused in this repository: the library's agents never deploy, and the
+#                        Sepolia account variables are emptied in every agent
+#   --with-assets        refused in this repository: it has no assets submodule
 #   --branch <name>      create the worktree from origin/main on branch <name> if it is missing
 # arguments:
 #   model     claude: sonnet (Sonnet 5.5) | opus | fable or their full ids (claude-sonnet-5 only to
@@ -293,6 +294,8 @@ case "$cli:$mode" in
       -c 'sandbox_mode="read-only"' -o "$L/$task.last.md" "$prompt") ;;
   *) die "cli must be claude or codex" ;;
 esac
+# hexmap: this repository has no assets submodule
+[ "$assets" = 0 ] || die "--with-assets is refused in this repository: it has no assets submodule"
 # hexmap: the library never deploys, so no agent of this track receives the Sepolia account
 [ "$sepolia" = 0 ] || die "--with-sepolia is refused in this repository: the library's agents never deploy"
 # The Sepolia account goes only to a task whose brief, as committed on origin/main, grants it
