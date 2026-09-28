@@ -37,13 +37,17 @@ on 2026-09-28 and **owned here from now on**. The game's needs stay in the game'
 |---|---|---|---|
 | Generation of a board **given its margins** | N-1 | Chunks that join without seams | ADR-0006 |
 | Edges and openings between boards | N-2 | Reachability of all chunks; emerging outlines | ADR-0006 |
-| **Assembly of a board from up to 4 chunks**, with row parity kept | N-3 | The simulation window | ADR-0006 |
+| **Assembly of a board of 15 columns × 16 rows from 2 or 4 chunks of 15 × 15**, at each tick (the window is not stored), without a loop over rows; the origin on an even global row is an explicit constraint and an odd origin is refused | N-3 | The simulation window (D-120) | ADR-0006 §4, `docs/needs/hexmap.md` § *N-3 in detail*; [check](docs/research/window-parity-check.md) |
 | Cutting a board by a mask | N-4 | Zone outlines | ADR-0006 |
-| **Line of sight** between two tiles | N-5 | Ranged attacks, spells, goblin perception | design/04 |
-| Range and ring as **geometry**, ignoring walls | N-6 | Sight of radius 6, areas of effect | design/04, ADR-0006 |
+| **Line of sight** between two tiles; takes the local position or the row parity as input (the adventurer is on local `(7, 7)` or `(7, 8)`) | N-5 | Ranged attacks, spells, goblin perception | design/04 |
+| Range and ring as **geometry**, ignoring walls; same input | N-6 | Sight of radius 6, areas of effect | design/04, ADR-0006 |
 | Directions, opposite, rotation by steps of 60°; the arc of a tile relative to a facing | N-7 | Facing, flank, back | design/04 |
 | One flood giving every goblin its next step, on a board with extra obstacles | N-8 | The tick | design/02 |
 | Distance, neighbours | — | Everywhere | — |
+
+The parity flag of the layout serves generation and seams of the chunks that start on an odd
+global row (N-1, N-2) only; the window does not use it. Fallback if the game's spike SPK-7
+asks for it: sight 5 on a window of 13 × 14, a later option, not designed now.
 
 What is already in `origami_hexmap` (shortest path, weighted path, field of movement, range
 and ring by movement, generators, distribution) is checked against these needs by LIB-02, not

@@ -7,7 +7,8 @@
 | Phase | Planning: **LIB-03 (porting plan)**, before gate L-G2 |
 | Gate L-G1 | **Decided by the owner on 2026-09-28**: [L-G1](docs/decisions/L-G1-hexx-port.md). Full parity with `hexx` wherever it makes sense, extended with what Cairo and the network require; the library lives here; the engine of `origami_hexmap` is taken over; `origami_hexmap` is decommissioned once the port is complete |
 | Running agents | `[Fable 5.1]` LIB-03, profile research, launched once this pull request is merged |
-| Pending owner decisions | None in this repository. In the game's: sight beyond the window (ADR-0006) |
+| Pending owner decisions | None |
+| Window (D-120, owner, 2026-09-28) | It follows the adventurer, is 15 columns × 16 rows, is recomputed at each tick and not stored. Merged in the game's documents (`bal7hazar/grimworld` `2e5bdbc`), on the basis of [the check of the library's code](docs/research/window-parity-check.md). LIB-03 receives it as an input when it is resumed |
 | Next | Audit of LIB-03 by `[GPT-6-Astra]`, then gate L-G2 |
 | Blocked | Nothing |
 
