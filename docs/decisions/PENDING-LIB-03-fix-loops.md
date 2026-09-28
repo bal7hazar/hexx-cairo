@@ -14,7 +14,7 @@
 |---|---|---|---|
 | [1](../audits/LIB-03-audit-gpt-6-astra-pass-1.md) | FAIL | 20 | 18 |
 | [2](../audits/LIB-03-audit-gpt-6-astra-pass-2.md), after fix loop 1 | FAIL | 17 | 15 |
-| [3](../audits/LIB-03-audit-gpt-6-astra-pass-3.md), after fix loop 2 | FAIL | 17 | 12 |
+| [3](../audits/LIB-03-audit-gpt-6-astra-pass-3.md), after fix loop 2 | FAIL | 17 | 13 |
 | [4](../audits/LIB-03-audit-gpt-6-astra-pass-4.md), after fix loop 3 | FAIL | **6** | **3** |
 
 Every finding was verified by the implementer (`[Fable 5.1]`) before it was fixed; none was
@@ -62,7 +62,7 @@ the start.
 
 ## Recommendation of the orchestrator
 
-**A.** The trend is convergent (20, 17, 17, 6 findings; 18, 15, 12, 3 majors), what remains
+**A.** The trend is convergent (20, 17, 17, 6 findings; 18, 15, 13, 3 majors), what remains
 is small, and two of the three majors are one-line contradictions that an implementer would
 hit on the first day. A fourth loop costs less than carrying them. It is an exception to the
 rule of three loops, which is why it is asked and not taken.
