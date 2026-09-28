@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Launcher of the map library (track LIB of Grim World). Reference: scripts/agent.sh of
-# bal7hazar/grimworld at 39cd2c2, which this copy matches line for line except for the
+# bal7hazar/grimworld at 44586e6, which this copy matches line for line except for the
 # differences marked `hexmap:` below: the unit prefix; --with-sepolia refused (the library's
 # agents never deploy); --with-assets refused (no assets submodule here). A change of the
 # shared code is made in the reference first. Original header:
@@ -181,19 +181,30 @@ thresholds_ok() { # prints the reason and returns 1 when a launch must wait
     for x in "${argv[@]:1}"; do [ "$x" = exec ] && { is_exec=1; break; }; done
     [ "$is_exec" = 1 ] && plist+=$'\n'"${d#/proc/}"
   done
-  local f pid cmd
-  for f in "$HOME"/projects/{grimworld,hexx-cairo,quiver}/.claude/worktrees/logs/*.pid; do
-    [ -e "$f" ] || continue
-    if ! pid=$(cat "$f" 2> /dev/null) || ! [[ $pid =~ ^[0-9]+$ ]]; then
-      echo "agent.sh: the launch record $f cannot be read or holds no pid, so the agents cannot be counted: check it" >&2
+  local f pid cmd dir
+  for dir in "$HOME"/projects/{grimworld,hexx-cairo,quiver}/.claude/worktrees/logs; do
+    [ -e "$dir" ] || [ -L "$dir" ] || continue   # that repository has never launched an agent
+    if ! [ -d "$dir" ] || ! [ -r "$dir" ] || ! [ -x "$dir" ]; then
+      echo "agent.sh: the launch records in $dir cannot be listed, so the agents cannot be counted: check it" >&2
       return 1
     fi
-    kill -0 "$pid" 2> /dev/null || continue   # that launch has ended
-    if ! cmd=$(tr '\0' '\n' < "/proc/$pid/cmdline" 2> /dev/null); then
-      plist+=$'\n'"$pid"; continue   # alive, but its identity cannot be read: counted
-    fi
-    grep -qxF -- "${f%.pid}.log" <<< "$cmd" || continue   # a reused pid
-    plist+=$'\n'"$pid"
+    for f in "$dir"/*.pid; do
+      if ! [ -e "$f" ] && ! [ -L "$f" ]; then continue; fi   # no record: the pattern did not match
+      if ! [ -f "$f" ]; then
+        echo "agent.sh: the launch record $f is not a regular file (a dangling link?), so the agents cannot be counted: check it" >&2
+        return 1
+      fi
+      if ! pid=$(cat "$f" 2> /dev/null) || ! [[ $pid =~ ^[0-9]+$ ]]; then
+        echo "agent.sh: the launch record $f cannot be read or holds no pid, so the agents cannot be counted: check it" >&2
+        return 1
+      fi
+      kill -0 "$pid" 2> /dev/null || continue   # that launch has ended
+      if ! cmd=$(tr '\0' '\n' < "/proc/$pid/cmdline" 2> /dev/null); then
+        plist+=$'\n'"$pid"; continue   # alive, but its identity cannot be read: counted
+      fi
+      grep -qxF -- "${f%.pid}.log" <<< "$cmd" || continue   # a reused pid
+      plist+=$'\n'"$pid"
+    done
   done
   dirs=$(while read -r p; do
       [ -n "$p" ] || continue

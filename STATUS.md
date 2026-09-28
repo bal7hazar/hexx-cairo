@@ -53,11 +53,13 @@ version.
 - **Rule of decision (game's `OPERATIONS.md` §10, D-128).** At a gate or a blocker the project
   manager decides by its own recommendation and reports to the owner afterwards. Publishing
   on a registry, money, accounts and secrets stay the owner's act.
-- **Launcher synced with its reference.** `scripts/agent.sh` matches the game's at `39cd2c2`
-  (the reference of the three launchers), except the unit prefix and the two refused options.
+- **Launcher synced with its reference.** `scripts/agent.sh` matches the game's at `44586e6`
+  (the reference of the three launchers: the commit that the game's CHANGELOG marks as
+  "launcher reference"; read at each check-in, synced in one pull request naming the commit), except the unit prefix and the two refused options.
   The two findings inherited at pull request #24 are **closed** there: the count scans `/proc`
   for any `codex` process with an `exec` argument, so a start without a pid file is counted;
-  an unreadable or malformed launch record refuses the count.
+  an unreadable or malformed launch record, an unlistable logs directory or a dangling pid link
+  refuses the count.
 - **Launch lock (game's pull request 48).** The launcher counts the running Grim World agents
   of the three tracks (units `grimworld-*`, `hexmap-*`, `quiver-*`, and detached codex audits)
   and starts a unit under the shared lock `~/orchestrator/agent-launch.lock`; it refuses at 3
