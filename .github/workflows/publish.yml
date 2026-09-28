@@ -1,0 +1,44 @@
+name: Publish
+
+# Tag-triggered only: never on a pull request, never on a push to a branch. This is the only
+# workflow that reads the registry token (decision L-G2: publication needs the owner's explicit
+# go, given by pushing the tag; no agent tags, see scripts/profiles/implement.txt). Rehearsed by
+# LIB-04 up to `scarb package`: `scarb publish` was never run by that task (its profile refuses
+# it) — see docs/reports/LIB-04-REPORT.md for the rehearsal's real output.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Package and publish crates/hexx
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: publish
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
+        with:
+          scarb-version: "2.19.4"
+      - uses: foundry-rs/setup-snfoundry@16e23ddd0e2845f38727c92f4b913a7b728cda9e # v6.0.0
+        with:
+          starknet-foundry-version: "0.61.0"
+      # The full local gate: format, build, test every package, the parity/deviations/gas/class
+      # size checks. Skips the golden-vector check silently if cargo is absent (scripts/check.sh);
+      # this job does not install Rust, so that check is the golden CI job's, run on every pull
+      # request already merged before a tag exists.
+      - name: Run the checks
+        run: scripts/check.sh
+      - name: Package crates/hexx
+        run: scarb package -p hexx
+      - name: Publish crates/hexx
+        env:
+          SCARB_REGISTRY_AUTH_TOKEN: ${{ secrets.SCARB_REGISTRY_AUTH_TOKEN }}
+        run: scarb publish -p hexx
