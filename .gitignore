@@ -1,0 +1,14 @@
+# Agents: worktrees, logs, per-task reports at a worktree root
+.claude/
+/REPORT.md
+# Read-only clones of the analysed sources (hexx, origami), never committed
+/sources/
+# Cairo / Scarb
+target/
+.snfoundry_cache/
+snfoundry_trace/
+coverage/
+# Editors, OS
+.DS_Store
+.idea/
+.vscode/
