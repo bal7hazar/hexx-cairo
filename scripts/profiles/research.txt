@@ -69,9 +69,7 @@ Bash(gh release list*)
 # Tool versions.
 Bash(scarb --version)
 Bash(snforge --version)
-Bash(sozo --version)
-Bash(katana --version)
-Bash(torii --version)
+Bash(sncast --version)
 Bash(node --version)
 Bash(pnpm --version)
 Bash(asdf --version)
@@ -85,33 +83,33 @@ Bash(asdf list*)
 !Bash(find * -fprint*)
 !Bash(find * -fls*)
 
-# Secrets. The user-level settings of the machine define tokens (the registry token among
-# them) and the claude CLI passes them to every shell an agent opens: measured on 2026-09-28,
-# and a `--settings` override from the launcher does not remove them. These rules stop an agent
-# from reading or printing them by a typed command. They do not stop a script or a program the
-# agent runs: what holds is that the token leaves the machine's settings (the owner's act).
+# Secrets. The user-level settings of the machine define credentials (the registry token, the
+# Sepolia account) for every claude process. The launcher empties them in every agent through
+# its `--settings` override (measured on 2026-09-28 from a clean environment). These rules stop
+# the typed forms of reading them back; code an agent runs (python3, a script) can still read
+# files of the same Unix user: an accepted residual until the owner isolates the credentials
+# (the game's OPERATIONS.md §4).
 !Read(~/.claude/**)
 !Read(//home/claude/.claude/**)
 !Read(~/.codex/**)
 !Read(//home/claude/.codex/**)
 !Read(~/.ssh/**)
 !Read(//home/claude/.ssh/**)
-!Bash(* ~/.claude/*)
-!Bash(* $HOME/.claude/*)
-!Bash(* /home/claude/.claude/*)
-!Bash(* ~/.codex/*)
-!Bash(* /home/claude/.codex/*)
-!Bash(* ~/.ssh/*)
-!Bash(* /home/claude/.ssh/*)
+!Bash(* ~/.claude*)
+!Bash(* $HOME/.claude*)
+!Bash(* /home/claude/.claude*)
+!Bash(* ~/.codex*)
+!Bash(* /home/claude/.codex*)
+!Bash(* ~/.ssh*)
+!Bash(* /home/claude/.ssh*)
 !Bash(env)
 !Bash(env *)
 !Bash(printenv*)
-!Bash(export)
-!Bash(export -p*)
 !Bash(set)
+!Bash(export -p*)
 !Bash(declare -p*)
 !Bash(declare -x*)
-!Bash(*SCARB_REGISTRY_AUTH_TOKEN*)
-!Bash(*_TOKEN*)
+!Bash(*SCARB_REGISTRY*)
+!Bash(*STARKNET_PRIVATE*)
 !Bash(* /proc/*/environ*)
 !Bash(*/proc/self/environ*)

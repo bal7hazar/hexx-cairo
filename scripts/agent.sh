@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Launcher of the map library (track LIB of Grim World), copied from bal7hazar/grimworld
-# (scripts/agent.sh at 6c2351e); only the unit prefix differs. Original header:
+# (scripts/agent.sh at 5267868); the unit prefix and the list of emptied variables differ.
+# Original header:
 # Grim World launcher: start or resume a sub-agent in its task worktree. claude agents run as
 # transient systemd user units, outside the process tree and the cgroup of the calling session
 # (a restart of the desktop app must not kill them), or detached with `setsid nohup` where there
@@ -24,7 +25,8 @@
 #   --with-assets        initialise the `assets` submodule in the task worktree before launching
 #   --branch <name>      create the worktree from origin/main on branch <name> if it is missing
 # arguments:
-#   model     claude: sonnet | sonnet-5.5 | opus | fable or their full ids; codex: gpt-6-astra | gpt-6-sol | gpt-6-luna
+#   model     claude: sonnet (Sonnet 5.5) | opus | fable or their full ids (claude-sonnet-5 only to
+#             resume an agent started on it); codex: gpt-6-astra | gpt-6-sol | gpt-6-luna
 #   profile   research | implement | audit (default: research for claude new, audit for codex;
 #             on resume, the profile the task was launched with)
 #   sid       codex session id, for `codex … resume` (see `sid`); ignored by claude
@@ -61,14 +63,14 @@ running() { # <task>
 # The title tag of every unit, log line and session: the model's display name, never guessed.
 tag() { # <cli> <model> -> "<full id>|<display name>"
   case "$1:$2" in
-    claude:sonnet | claude:claude-sonnet-5) echo "claude-sonnet-5|Sonnet 5" ;;
-    claude:sonnet-5.5 | claude:claude-sonnet-5-5) echo "claude-sonnet-5-5|Sonnet 5.5" ;;
+    claude:sonnet | claude:claude-sonnet-5-5) echo "claude-sonnet-5-5|Sonnet 5.5" ;;
+    claude:claude-sonnet-5) echo "claude-sonnet-5|Sonnet 5" ;;   # only to resume agents started on it
     claude:opus | claude:claude-opus-5-5) echo "claude-opus-5-5|Opus 5.5" ;;
     claude:fable | claude:claude-fable-5-1) echo "claude-fable-5-1|Fable 5.1" ;;
     codex:gpt-6-astra) echo "gpt-6-astra|GPT-6-Astra" ;;
     codex:gpt-6-sol) echo "gpt-6-sol|GPT-6-Sol" ;;
     codex:gpt-6-luna) echo "gpt-6-luna|GPT-6-Luna" ;;
-    *) die "unknown model '$2' for $1 (claude: sonnet|sonnet-5.5|opus|fable; codex: gpt-6-astra|gpt-6-sol|gpt-6-luna)" ;;
+    *) die "unknown model '$2' for $1 (claude: sonnet|opus|fable, claude-sonnet-5 to resume; codex: gpt-6-astra|gpt-6-sol|gpt-6-luna)" ;;
   esac
 }
 
@@ -203,6 +205,19 @@ case "$mode" in new | resume) ;; *) die "mode must be new or resume" ;; esac
 t=$(tag "$cli" "$model")
 model_id=${t%%|*} label=${t#*|}
 wt=$W/cli-$task
+# A resumed agent keeps the model it started on until its task closes (OPERATIONS §2): a resume
+# needs the launch record and the same model. A new launch uses a current model and a fresh
+# task: while the task's worktree exists (the task is not closed), its record is kept.
+if [ "$mode" = resume ]; then
+  [ -f "$L/$task.cli" ] || die "$task has no launch record ($L/$task.cli): nothing to resume"
+  recorded=$(cut -d' ' -f2 "$L/$task.cli")
+  [ "$recorded" = "$model_id" ] || die "$task started on $recorded: resume it with that model, not $model_id"
+else
+  [ "$model_id" != claude-sonnet-5 ] || die "claude-sonnet-5 only resumes agents started on it; new launches use sonnet (Sonnet 5.5)"
+  if [ -f "$L/$task.cli" ] && [ -d "$wt" ]; then
+    die "$task is not closed (its worktree exists): resume it, or close it before a new launch"
+  fi
+fi
 
 if [ -z "$profile" ]; then
   if [ "$mode" = resume ] && [ -f "$L/$task.profile" ]; then profile=$(cat "$L/$task.profile")
@@ -238,6 +253,15 @@ case "$cli:$mode" in
   *) die "cli must be claude or codex" ;;
 esac
 if [ "$cli" = claude ]; then
+  # Secrets out of agents: the machine's user-level Claude settings define the Scarb registry
+  # token for every claude process; --settings takes precedence over them, so every agent runs
+  # with it empty, and the profiles deny typed publishing (an interpreter an agent runs could
+  # still read the settings file: OPERATIONS §4). Codex runs in a whitelisted environment.
+  # Here the Sepolia account's variables (STARKNET_*) are emptied as well: the library's agents
+  # never deploy. Measured on 2026-09-28 by a probe agent started from a clean environment:
+  # present without the override, empty with it. CLAUDE_CODE_MESSAGING_TOKEN cannot be emptied
+  # this way (the CLI sets it itself).
+  cmd+=(--settings '{"env":{"SCARB_REGISTRY_AUTH_TOKEN":"","STARKNET_ACCOUNT_ADDRESS":"","STARKNET_NETWORK":"","STARKNET_PRIVATE_KEY":"","STARKNET_RPC":"","STARKNET_RPC_URL":""}}')
   cmd+=(--permission-mode acceptEdits --allowedTools "${allow[@]}")
   [ "${#deny[@]}" -eq 0 ] || cmd+=(--disallowedTools "${deny[@]}")
   cmd+=(--max-turns 400 --output-format text)
