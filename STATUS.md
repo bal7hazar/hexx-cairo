@@ -53,6 +53,10 @@ version.
 - **Rule of decision (game's `OPERATIONS.md` §10, D-128).** At a gate or a blocker the project
   manager decides by its own recommendation and reports to the owner afterwards. Publishing
   on a registry, money, accounts and secrets stay the owner's act.
+- **Launch lock (game's pull request 48).** The launcher counts the running Grim World agents
+  of the three tracks (units `grimworld-*`, `hexmap-*`, `quiver-*`, and detached codex audits)
+  and starts a unit under the shared lock `~/orchestrator/agent-launch.lock`; it refuses at 3
+  agents, and when the count cannot be made. `--with-sepolia` is refused here.
 - **Budget (game's `OPERATIONS.md` §3).** 3 Grim World agents in total over three tracks; one
   slot is the library's, the third is shared. Count units `grimworld-*`, `hexmap-*`,
   `quiver-*` and the codex audits (detached processes, not units) before each launch.
