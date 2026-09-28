@@ -1,8 +1,5 @@
 # LIB-04 — Workspace, CI, parity and gas tooling, publication pipeline
 
-> **Draft, prepared while gate L-G2 is open. Not launched.** It is completed with the owner's
-> answer (the package name first) before any launch.
-
 ## Agent
 
 Title: `[Sonnet 5] LIB-04 workspace and tooling` · Profile: implement · Model: Sonnet 5
@@ -24,8 +21,8 @@ publication pipeline that has been rehearsed **without publishing anything**.
 - The plan: [LIB-03](../research/LIB-03-porting-plan.md) §2.1 (package), §2.2 (module tree),
   §4.2 (parity table, generation and check), §4.3 (reference vectors), §7 (gas: no figure of
   the plan is a budget), §9 (releases), **§14 (open points: it wins over the body)**.
-- Decisions: [L-G1](../decisions/L-G1-hexx-port.md); gate L-G2 (the owner's answer, to be
-  linked here).
+- Decisions: [L-G1](../decisions/L-G1-hexx-port.md); [L-G2](../decisions/L-G2-porting-plan.md): the plan
+  is accepted, the package is named **`hexx`**, **no publication is granted**.
 - House scripts to adapt, read-only: `/home/claude/projects/glam-cairo/scripts/`
   (`api_parity.py`, `deviations.py`, `gas_tables.py`, `bench.py`, `bytecode_size.py`,
   `check.sh`), `/home/claude/projects/glam-cairo/tools/refgen/`, and its CI workflows. The
@@ -39,7 +36,7 @@ publication pipeline that has been rehearsed **without publishing anything**.
 
 1. **Workspace**: root `Scarb.toml` (workspace, shared versions, `snforge_std` as a
    workspace dev-dependency), `.tool-versions` pinning Scarb 2.19.4 and starknet-foundry
-   0.61.0, `crates/hexx/` with its manifest as in §2.1 of the plan (name decided at L-G2;
+   0.61.0, `crates/hexx/` with its manifest as in §2.1 of the plan (package name `hexx`;
    `edition = "2024_07"`; **no `starknet` dependency, no Dojo dependency**; `snforge_std`
    under `[dev-dependencies]` only; description and keywords of §2.1), a `lib.cairo` with one
    trivial public item and one test carrying `#[available_gas]`, so that every tool has
@@ -71,8 +68,8 @@ publication pipeline that has been rehearsed **without publishing anything**.
    on the trivial package (plan, R-11).
 7. **Publication pipeline, rehearsed and not run**: a workflow triggered by a tag, which
    runs the checks, `scarb package` and `scarb publish`; the token is a repository secret
-   that the workflow alone reads. In this task: `scarb package` and, if the installed Scarb
-   supports it, a dry run, with their real output in the report; the list of files the
+   that the workflow alone reads. In this task: `scarb package` only, with its real output in the report
+   (`scarb publish` is refused by your profile, dry run included); the list of files the
    package would contain; **what the packaged manifest declares for `snforge_std`** (the
    defect of `origami_hexmap` 1.8.0: a dev-dependency in the source, a regular dependency
    for the consumers of the published package; plan §2.1, R-17). Find the cause if it can be

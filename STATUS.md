@@ -4,21 +4,22 @@
 
 | | |
 |---|---|
-| Phase | **Stopped at gate L-G2**, waiting for the owner's decision |
-| Pending owner decisions | [PENDING-L-G2](docs/decisions/PENDING-L-G2.md): is the porting plan accepted |
-| Running agents | None |
-| Next | LIB-04 (repository, CI, parity table, gas tooling, publication), **only after** the decision |
-| Gate L-G1 | Decided by the owner on 2026-09-28: [L-G1](docs/decisions/L-G1-hexx-port.md) |
-| The plan | [LIB-03](docs/research/LIB-03-porting-plan.md), merged (pull request #9) after five audit passes and four fix loops ([decision](docs/decisions/LIB-03-fix-loops.md)). Four findings open, one major on L-M2, listed in its §14 |
-| Estimate to remember | One tick, worst case of the plan: **1.34M to 1.67M gas**, against 740k in the first draft. Estimates: nothing was measured, and no figure of the plan is a budget |
-| Questions for the game | Six of seven answered by the project manager on 2026-09-28; one reverses the plan (`cut` keeps the ring: `grid & mask`), recorded in §14 of the plan. The truncation of the flood is with the owner |
-| Prepared meanwhile | The brief of LIB-04, as a draft: [LIB-04](docs/briefs/LIB-04-repository-tooling.md). Not launched |
+| Phase | **Milestone L-M1, tooling: LIB-04** |
+| Gate L-G2 | **Decided by the owner on 2026-09-28**: the plan is accepted with two conditions; the package is named `hexx`. [L-G2](docs/decisions/L-G2-porting-plan.md) |
+| Running agents | `[Sonnet 5]` LIB-04, profile implement, launched once this pull request is merged |
+| Publication | **Not granted.** Nothing is published, tagged or reserved without a go from the owner that names it. The agents' profile refuses `scarb publish`, tags and releases |
+| Next | Audit of LIB-04 by `[GPT-6-Luna]`; then LIB-05, starting with M1-T1 (take-over), then what N-3 and N-8 need, **N-3 and N-8 first among the extensions**, measured on their worst cases |
+| Stop condition | A measurement above the upper bound of its range: stop and report before any budget is set |
+| Game's rule for the flood (D-127) | 15 layers; a goblin not reached holds its position. `depth` stays a parameter; benches at 10, 15, 20 layers and without a limit |
+| The plan | [LIB-03](docs/research/LIB-03-porting-plan.md), with five open points in its §14, which wins over the body |
+| Estimate to remember | One tick, worst case of the plan: 1.34M to 1.67M gas with a flood of 25 layers. Estimates: nothing was measured, and no figure of the plan is a budget |
 
 ## Done
 
 | Date | What |
 |---|---|
 | 2026-09-28 | LIB-01: repository set up (pull request #1) |
+| 2026-09-28 | Gate L-G2 decided by the owner; brief of LIB-04; profile `implement` extended with `cargo` and closed to publication |
 | 2026-09-28 | LIB-03: plan written by `[Fable 5.1]`; five audit passes by `[GPT-6-Astra]`, four fix loops (the fourth authorised by the project manager); merged with four open findings; [report](docs/reports/LIB-03-REPORT.md) archived |
 | 2026-09-28 | Gate L-G1 decided by the owner; launcher of the game adopted; brief of LIB-03 |
 | 2026-09-28 | LIB-02: [analysis of `hexx` and `origami_hexmap`](docs/research/LIB-02-hexx-analysis.md) by `[Opus 5.5]` (pull request #2); audit by `[GPT-6-Sol]` in two passes, 4 then 2 findings, all fixed by the resumed agent in two fix loops; [report](docs/reports/LIB-02-REPORT.md) archived |
