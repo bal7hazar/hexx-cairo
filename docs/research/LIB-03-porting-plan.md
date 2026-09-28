@@ -1491,3 +1491,20 @@ alternative:
 | ADR-0007, D-123 (owner, 2026-09-28): the game is a set of plain Starknet contracts on Cairo 2.19, without Dojo; the compiler part of N-9 is void | §0 (compiler target: Cairo 2.19, `BoundedInt` kept, no floor, no separate class), §2.1 (no Dojo dependency; description and keywords), §5.5, §9.1 and §10 (what the game does meanwhile), §11 R-9, Q-3 closed, §12 D-31 |
 | COMMON.md §5: parity table generated and checked in CI; deviations documented; numeric results are API; what is taken over keeps its results | §4.2, §9.2, §5.4 |
 | `grimworld:docs/CAIRO.md`: test-driven, gas as a test result, execution cost first, arithmetic then bitwise then loops, tables, oracles, determinism (lowest tile index) | §6 (each entry), §7, §6.9 |
+
+## 14. Open points after the audit
+
+Added by the orchestrator (`[Fable 5.1]`, 2026-09-28), not by the author of the plan. The plan
+went through five audit passes by `[GPT-6-Astra]` and four fix loops. By decision of the
+project manager (`docs/decisions/` of this repository, LIB-03 fix loops), no further loop is
+run: the findings open after pass 5 are listed here and **carried into the briefs** of the
+tasks they concern. Where this section and the body disagree, this section wins.
+
+| # | Severity | Where | What is wrong | What holds instead | Carried into |
+|---|---|---|---|---|---|
+| 43 | major | §8, L-M2, task M2-T3 | The task's description includes the bit and shift operators on `Hex` and `euclidean_length`, `euclidean_distance_to`, which §4.4 and D-13 exclude | **§4.4 and D-13 hold**: those items are excluded. M2-T3 keeps the squared Euclidean methods and the included operators and counterparts only | The brief of M2-T3 (LIB-06) |
+| 44 | minor | §6.4, §7 | The construction of a `HexMap` is charged 300 inside `window` and 400 in its own row | With 400 everywhere: `window` 98,862, tick range `[1,337,778, 1,672,223]`. The difference is below what a measurement will move | LIB-05 measures |
+| 30 | minor | §12, D-9 | The two costs compared are for different workloads (a 19-step line by the loop, a line of distance ≤ 6 by the table) | At distance 6: 49,398 by the loop against 7,399 by the table (targets, not measurements) | The brief of N-5 (LIB-05) |
+| 39 | minor | §6.9 | The text suggests that a board can attain the cardinality bounds of 182 and 187 flood layers | They are analytic bounds, not attainable: on a fully open interior the deepest flood is 20 layers on 15 × 16 and 22 on 19 × 13 (auditor's exhaustive check). The executable worst cases are the fixtures of §6.9 | The brief of N-8 (LIB-05) |
+
+None of these blocks LIB-04 or LIB-05 (auditor's statement, pass 5).
