@@ -6,7 +6,7 @@
 |---|---|
 | Phase | **Stopped at gate L-G1**, waiting for the owner's decision |
 | Running agents | None |
-| Pending owner decisions | [PENDING-L-G1](docs/decisions/PENDING-L-G1.md): is a port of `hexx` relevant, where does it land, and should `u252` get its own package |
+| Pending owner decisions | [PENDING-L-G1](docs/decisions/PENDING-L-G1.md): is a port of `hexx` relevant, and where does it land |
 | Next | LIB-03 (porting analysis), **only after** the decision |
 | Blocked | The `codex` read-only sandbox does not start on the VPS (below). Not blocking today |
 
@@ -21,7 +21,11 @@
 
 Port `hexx` **partly** (its integer geometry: directions and rotation, line, range and ring),
 landing in **`origami_hexmap` extended in place**; this repository keeps the track and the
-parity harness. No separate package for `u252` in that case.
+parity harness.
+
+`u252` moves to its own crate in `bal7hazar/types-cairo` (owner's decision, 2026-09-28),
+extracted and published by a separate session; the library will depend on it by published
+version.
 
 ## Notes
 

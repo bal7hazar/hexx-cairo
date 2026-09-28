@@ -53,17 +53,18 @@ the pace the game needs (pre-releases for SPK-7), option A or C becomes the way 
 cadence of our own, at the price of a second dependency and of making public the internals of
 `origami_hexmap` that the new functions need.
 
-## Question 3 — A dedicated package for `u252`? (raised by the owner on 2026-09-28)
+## Question 3 — A dedicated package for `u252`: decided
+
+**Decided by the owner on 2026-09-28**, in the orchestrator's session: `u252` gets its own
+crate, named `u252`, in the new repository `bal7hazar/types-cairo`, published on scarbs.xyz.
+The extraction is done by a separate session, not by this track.
 
 | | |
 |---|---|
-| Today | `u252` is in `origami_hexmap` (`src/types/u252.cairo`, 810 lines), re-exported at the root. It imports the crate's bit helpers and tables (`helpers/bits.cairo`). The library's algorithms do not use it; the game does |
-| Under B or D | One home, no duplication: **no extraction needed** |
-| Under A or C | Both libraries need it: **extract it**, together with the bit helpers, into one package that both depend on by published version; `origami_hexmap` keeps re-exporting `u252` |
-| Name, if extracted | Suggested: repository and package `u252`. Not `types-cairo`: `<name>-cairo` reads as a port of a Rust crate, and "types" invites a grab bag. Availability on scarbs.xyz not checked |
-
-**Recommendation: follow question 2** (no under B). To decide otherwise if the owner's other
-ports are expected to need a packed one-felt integer.
+| Before | `u252` is in `origami_hexmap` (`src/types/u252.cairo`, 810 lines), re-exported at the root. It imports the crate's bit helpers and tables (`helpers/bits.cairo`) |
+| Consequence for the track | Whatever the answer to question 2, the library depends on the `u252` crate by published version once it is released, and `origami_hexmap` keeps re-exporting `u252` so that existing imports hold. LIB-03 plans that change |
+| Consequence for the game | Its `docs/CAIRO.md` says "`u252` from `origami_hexmap`": to update by the game's side when the crate is published |
+| The orchestrator's advice had been | No extraction under option B, and the name `u252` for the repository. Superseded by the decision |
 
 ## Points for the game, found by LIB-02
 
