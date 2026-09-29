@@ -1,0 +1,17 @@
+   Compiling snforge_scarb_plugin v0.61.0
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Finished `release` profile [optimized] target(s) in 0.16s
+   Compiling test(hexx_unittest) hexx v0.1.0-rc.0 (/home/claude/projects/hexx-cairo/.claude/worktrees/cli-M1-T1a/crates/hexx/Scarb.toml)
+   Compiling test(hexx_integrationtest) hexx_integrationtest v0.1.0-rc.0 (/home/claude/projects/hexx-cairo/.claude/worktrees/cli-M1-T1a/crates/hexx/Scarb.toml)
+    Finished `dev` profile target(s) in 0 seconds
+
+
+Collected 1 test(s) from hexx package
+Running 0 test(s) from tests/
+Running 1 test(s) from src/
+[PASS] hexx::tests::bench_spreader::bench_spreader_generate_empty_17x14_1 (runs: 256, (l1_gas: {max: ~0, min: ~0, mean: ~0, std deviation: ~0}, l1_data_gas: {max: ~0, min: ~0, mean: ~0, std deviation: ~0}, l2_gas: {max: ~186639, min: ~106432, mean: ~128053, std deviation: ~13553}))
+Tests: 1 passed, 0 failed, 0 ignored, 810 filtered out
+Fuzzer seed: 878494309764337997
+

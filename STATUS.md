@@ -4,20 +4,23 @@
 
 | | |
 |---|---|
-| Phase | **Milestone L-M1: LIB-05, task M1-T1a** (the take-over of the engine, the move) |
-| Running agents | `[Sonnet 5.5]` M1-T1a, profile implement, launched once this pull request is merged; `[Sonnet 5.5]` LIB-04b beside it when the shared slot is free |
-| LIB-04 | Merged (pull request #18) by [decision of the project manager](docs/decisions/LIB-04-fix-loops.md), with three findings open: task LIB-04b, **condition of the first publication** |
+| Phase | **Milestone L-M1: LIB-05.** M1-T1a (the take-over, the move) is merged; next M1-T1b (the equality tests), then N-3 and N-8 |
+| Cap | **One agent at a time for the library, audits included**: the single slot `lib-1`, held by a kernel lock (launcher at the game's `2628b21`). Nothing is launched while `~/orchestrator/waiting/game` is less than 30 minutes old |
+| Waiting for the slot, in this order | LIB-04b: merge of `main` and regeneration by the resumed agent, then its audit (pull request #26); audit of the launcher syncs (pull requests #25, #29, #30, merged before audit by exception); M1-T1b |
 | Pending decisions | None |
 | Gates | L-G1 and L-G2 decided by the owner on 2026-09-28: [L-G1](docs/decisions/L-G1-hexx-port.md), [L-G2](docs/decisions/L-G2-porting-plan.md) |
-| Publication | Nothing is published. No workflow of the repository publishes or holds a token. Rule D-132 (game's `OPERATIONS.md` §7): the orchestrator's session publishes, never an agent, after a go that names package, version and commit. **Before its first publication the orchestrator asks the owner, in its own session, to confirm the delegation of that decision to the project manager** |
-| Order of LIB-05 | [PLAN.md](PLAN.md) § *LIB-05*: the take-over, then N-3 and N-8 first among the extensions. One function per task, so that one audit pass reads a lot in full |
+| Publication | Nothing is published. No workflow of the repository publishes or holds a token. Rule D-132 (game's `OPERATIONS.md` §7): the orchestrator's session publishes, never an agent, after a go that names package, version and commit. **LIB-04b must be merged first. Before its first publication the orchestrator asks the owner, in its own session, to confirm the delegation of that decision to the project manager** |
 | Stop condition of LIB-05 | A measurement above the upper bound of its range: stop and report before any budget is set |
-| Estimate to remember | One tick, worst case of the plan: 1.34M to 1.67M gas with a flood of 25 layers; the game's flood stops at 15 layers (D-127). Estimates: nothing was measured, and no figure of the plan is a budget |
+| **Open risk: a gas measurement that moved** | `test_readme_open` measured 2,053,706 on two CI runs and 2,030,366 on every other run, local and CI, on the same tree, same toolchain, same runner image. Cause unknown after the implementer's and the auditor's search. The gas gate compares exactly, so it can fail at random; and the method (budgets within 5 %) rests on measurements being reproducible. M1-T1c makes CI keep what is needed to find the cause at the next occurrence |
+| Figures of the take-over | 811 tests (708 run, 103 ignored), all measurements equal to those of 1.8.0; CI job of the engine's tests 7 min 20 s of the 10 minutes allowed; the 20 functions of the facade do not fit one contract (limit 81,920 CASM felts): three fixtures of 21,007, 44,469 and 49,375 |
+| Figures of the game's spike SPK-7, on 1.8.0 | Assembly of the window 65,224; flood 26,452 per layer; capped flood with 8 goblins and their steps 1,150,737; the chunked map adds about 720,000 per tick. The measurements of N-3 and N-8 are compared with them |
 
 ## Done
 
 | Date | What |
 |---|---|
+| 2026-09-29 | LIB-05 M1-T1a: the engine of `origami_hexmap` 1.8.0 moved unchanged (29 files, proved by `scripts/takeover_check.py` and by the auditor's own comparison), by `[Sonnet 5.5]`; two audit passes by `[GPT-6-Sol]`, one fix loop; [report](docs/reports/LIB-05-M1-T1a-REPORT.md) archived |
+| 2026-09-29 | Launcher synced with the game's slot locks (`2628b21`); rule of the shared machine in `COMMON.md` and the profiles |
 | 2026-09-28 | LIB-01: repository set up (pull request #1) |
 | 2026-09-28 | LIB-04: workspace and tooling by `[Sonnet 5]`; four audit passes by `[GPT-6-Sol]`, three fix loops; merged by decision of the project manager; [report](docs/reports/LIB-04-REPORT.md) archived |
 | 2026-09-28 | Gate L-G2 decided by the owner; brief of LIB-04; profile `implement` extended with `cargo` and closed to publication |
@@ -37,6 +40,21 @@ version.
 
 ## Notes
 
+- **The machine is shared (game's `OPERATIONS.md` §3, `27ceea0`).** Sessions and agents delete
+  and kill only what they created, named exactly; temporary directories under their own
+  scratchpad or worktree. In `COMMON.md` and in the profiles. The orchestrator itself, on
+  2026-09-28, stopped two of its own queued shell loops with a kill by pattern
+  (`pgrep -f` on the text of its own command): only its own loops matched, but the form is the
+  one the rule forbids, and it is not used again: pids are recorded at launch.
+
+- **Inputs of the game for N-1 and N-3 (D-134, 2026-09-28).** Corners of a chunk always wall,
+  openings never on a corner; a void chunk is assembled as wall without a read and the window
+  is never clamped. Recorded in §14 of the plan and carried into the briefs. The game's spike
+  SPK-7 measured about +720,000 L2 gas per tick with goblins on `origami_hexmap` 1.8.0.
+- **Cap exceeded on 2026-09-28, corrected.** The orchestrator held two agents (M1-T1a and
+  LIB-04b) while its cap is one; a queued audit was cancelled before it started, the two agents
+  were left to end.
+
 - **Credentials and agents (corrected on 2026-09-28).** The user-level settings of the machine
   define the registry token and, since 20:21 UTC, the Sepolia account (`STARKNET_*`, a private
   key among them); the claude CLI passes them to every shell an agent opens. **The launcher
@@ -53,17 +71,20 @@ version.
 - **Rule of decision (game's `OPERATIONS.md` §10, D-128).** At a gate or a blocker the project
   manager decides by its own recommendation and reports to the owner afterwards. Publishing
   on a registry, money, accounts and secrets stay the owner's act.
-- **Open findings of the launcher, inherited (pull request #24, merged by decision of the
-  project manager, 2026-09-28).** Two majors of the [audit](docs/audits/PR-24-launcher-audit-gpt-6-sol.md)
-  are in the counting code shared with the game's launcher (`bal7hazar/grimworld`,
-  `scripts/agent.sh` at `64d4d67`, the reference of the three launchers): (1) the count misses
-  a codex audit started under another command form and without a pid file; (2) an unreadable
-  or inconsistent pid record is skipped instead of refusing the launch. They are fixed there
-  first; this copy is then synced in a pull request that names the commit it matches.
-- **Launch lock (game's pull request 48).** The launcher counts the running Grim World agents
-  of the three tracks (units `grimworld-*`, `hexmap-*`, `quiver-*`, and detached codex audits)
-  and starts a unit under the shared lock `~/orchestrator/agent-launch.lock`; it refuses at 3
-  agents, and when the count cannot be made. `--with-sepolia` is refused here.
+- **Launcher: slots held by kernel locks.** `scripts/agent.sh` matches the game's at `2628b21`
+  except `TRACK=hexmap` and the two refused options. Nothing is counted by reading processes any
+  more: an agent holds one of `~/orchestrator/slots/total-1..3` and the slot of its track, which
+  for the library is the single slot **`lib-1`**, by a lock for as long as it lives; a codex
+  audit takes a slot like any agent. The directory `~/orchestrator/slots` is read-only: slot
+  files are opened read-only, never created by a probe or an agent, a missing one refuses the
+  launch, and nobody of this track creates or removes a file there, nor runs `slots-init`. The
+  launcher guards against accidental over-launch and fails closed; a deliberate act by the same
+  Unix user is out of its scope. From now on the reference is read in the game's CHANGELOG at
+  each check-in (no more relay by the project manager). While `~/orchestrator/waiting/game` is less than 30 minutes
+  old the library launches nothing. Synced **by exception before its audit** (decision of the
+  project manager, 2026-09-29: a mixed state of launchers is worse than an unaudited lock); to be
+  read by `[GPT-6-Sol]` when the slot is free, and synced again when the game's CHANGELOG marks
+  the audited reference. The counting code and its inherited findings are gone with it.
 - **Budget (game's `OPERATIONS.md` §3).** 3 Grim World agents in total over three tracks; one
   slot is the library's, the third is shared. Count units `grimworld-*`, `hexmap-*`,
   `quiver-*` and the codex audits (detached processes, not units) before each launch.

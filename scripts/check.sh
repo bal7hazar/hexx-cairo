@@ -22,7 +22,11 @@ for dir in crates/*/; do
   snforge test -p "$pkg"
 done
 # Fails on a declared test snforge did not measure (ignored, filtered) with no budget, a budget
-# outside [measured, ceil(1.05 * measured)], or a stale gas/*.snap.
+# outside [measured, ceil(1.05 * measured)] (a fuzz test: its maximum), a test that ran with no
+# parsable measurement, counts (declared / collected / with a row / ignored) that do not agree, or
+# a stale gas/*.snap. The two exemptions, for the tests inherited from origami_hexmap 1.8.0 listed
+# in gas/takeover-baseline.txt (and only those of gas/takeover-tests.txt): no #[available_gas], and
+# a budget above ceil(1.05 * measured).
 python3 scripts/bench.py check
 python3 scripts/gas_tables.py --check
 # Class size of the crates/consumer contract fixture (gas/bytecode.size, release build).
@@ -31,6 +35,10 @@ python3 -m unittest discover -s scripts/tests
 python3 scripts/api_parity.py --check
 python3 scripts/api_parity.py --extensions --check
 python3 scripts/deviations.py --check
+# The take-over of origami_hexmap 1.8.0 is a move: every moved file equals its source after the
+# rewrites of the script. Needs the read-only checkout of dojoengine/origami at 04ab30c
+# (sources/origami); says so and skips when it is not there (CI clones it in the `takeover` job).
+python3 scripts/takeover_check.py --skip-if-missing
 # Golden vectors are up to date with tools/refgen. CI's dedicated `golden` job always has a Rust
 # toolchain and always runs this; locally, and in every other CI job, a missing `cargo` is a
 # failure unless CHECK_SKIP_GOLDEN=1 is set on purpose (a machine or a CI job with no Rust

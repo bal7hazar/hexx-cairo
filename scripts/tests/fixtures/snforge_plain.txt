@@ -1,0 +1,21 @@
+   Compiling snforge_scarb_plugin v0.61.0
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Finished `release` profile [optimized] target(s) in 0.20s
+   Compiling test(hexx_unittest) hexx v0.1.0-rc.0 (/home/claude/projects/hexx-cairo/.claude/worktrees/cli-M1-T1a/crates/hexx/Scarb.toml)
+   Compiling test(hexx_integrationtest) hexx_integrationtest v0.1.0-rc.0 (/home/claude/projects/hexx-cairo/.claude/worktrees/cli-M1-T1a/crates/hexx/Scarb.toml)
+    Finished `dev` profile target(s) in 0 seconds
+
+
+Collected 1 test(s) from hexx package
+Running 0 test(s) from tests/
+Running 1 test(s) from src/
+[PASS] hexx::tests::properties::test_properties_hexagon (l1_gas: ~0, l1_data_gas: ~0, l2_gas: ~12113482)
+        sierra gas: 12113482
+        syscalls: ()
+        events: (count: 0, keys: 0, data size: 0)
+        messages: (l2 to l1: 0, l1 handler: 0)
+
+Tests: 1 passed, 0 failed, 0 ignored, 810 filtered out
+
