@@ -743,9 +743,22 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::bfs::test_bfs_distance_revert_wall_origami` | 20,723 | 21,760 | 5.0 % |
 | `takeover_tests::bfs::test_bfs_errors` | 13,720 | 14,406 | 5.0 % |
 | `takeover_tests::bfs::test_bfs_fixture_endpoints` | 28,103,660 | 29,508,843 | 5.0 % |
+| `takeover_tests::bfs::test_bfs_floods_edges_15x16` | 62,692,042 | 65,826,645 | 5.0 % |
+| `takeover_tests::bfs::test_bfs_floods_edges_16x8` | 52,771,640 | 55,410,222 | 5.0 % |
+| `takeover_tests::bfs::test_bfs_floods_edges_17x14` | 62,608,042 | 65,738,445 | 5.0 % |
+| `takeover_tests::bfs::test_bfs_floods_edges_19x13` | 62,677,642 | 65,811,525 | 5.0 % |
+| `takeover_tests::bfs::test_bfs_floods_edges_7x7` | 51,317,040 | 53,882,892 | 5.0 % |
+| `takeover_tests::bfs::test_bfs_floods_edges_8x16` | 52,930,040 | 55,576,542 | 5.0 % |
 | `takeover_tests::bfs::test_bfs_floods_entrances_generated` | 298,279,596 | 313,193,576 | 5.0 % |
 | `takeover_tests::bfs::test_bfs_floods_entrances_hand` | 338,856,254 | 355,799,067 | 5.0 % |
 | `takeover_tests::bfs::test_bfs_identical_endpoints` | 227,310,512 | 238,676,038 | 5.0 % |
+| `takeover_tests::bfs::test_bfs_paths_edges_15x16` | 186,360,000 | 195,678,000 | 5.0 % |
+| `takeover_tests::bfs::test_bfs_paths_edges_16x8` | 176,272,428 | 185,086,050 | 5.0 % |
+| `takeover_tests::bfs::test_bfs_paths_edges_17x14` | 186,276,000 | 195,589,800 | 5.0 % |
+| `takeover_tests::bfs::test_bfs_paths_edges_19x13` | 186,139,960 | 195,446,958 | 5.0 % |
+| `takeover_tests::bfs::test_bfs_paths_edges_7x7` | 174,613,070 | 183,343,724 | 5.0 % |
+| `takeover_tests::bfs::test_bfs_paths_edges_8x16` | 176,444,268 | 185,266,482 | 5.0 % |
+| `takeover_tests::bfs::test_bfs_reachable_audit_witness` | 232,336 | 243,953 | 5.0 % |
 | `takeover_tests::bfs::test_bfs_reachable_boards` | 319,221,482 | 335,182,557 | 5.0 % |
 | `takeover_tests::bfs::test_bfs_reachable_fixtures` | 76,773,030 | 80,611,682 | 5.0 % |
 | `takeover_tests::bfs::test_bfs_reachable_revert_outside_hexx` | 15,520 | 16,296 | 5.0 % |
@@ -821,6 +834,12 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::dial::test_dial_field_of_movement_boards_1` | 400,353,942 | 420,371,640 | 5.0 % |
 | `takeover_tests::dial::test_dial_field_of_movement_boards_2` | 394,810,030 | 414,550,532 | 5.0 % |
 | `takeover_tests::dial::test_dial_field_of_movement_boards_3` | 287,992,274 | 302,391,888 | 5.0 % |
+| `takeover_tests::dial::test_dial_field_of_movement_edges_15x16` | 119,484,648 | 125,458,881 | 5.0 % |
+| `takeover_tests::dial::test_dial_field_of_movement_edges_16x8` | 96,750,028 | 101,587,530 | 5.0 % |
+| `takeover_tests::dial::test_dial_field_of_movement_edges_17x14` | 125,563,652 | 131,841,835 | 5.0 % |
+| `takeover_tests::dial::test_dial_field_of_movement_edges_19x13` | 128,716,788 | 135,152,628 | 5.0 % |
+| `takeover_tests::dial::test_dial_field_of_movement_edges_7x7` | 93,444,532 | 98,116,759 | 5.0 % |
+| `takeover_tests::dial::test_dial_field_of_movement_edges_8x16` | 97,143,406 | 102,000,577 | 5.0 % |
 | `takeover_tests::dial::test_dial_field_of_movement_entrances_generated` | 401,339,690 | 421,406,675 | 5.0 % |
 | `takeover_tests::dial::test_dial_field_of_movement_entrances_hand_0` | 181,201,130 | 190,261,187 | 5.0 % |
 | `takeover_tests::dial::test_dial_field_of_movement_entrances_hand_1` | 387,790,852 | 407,180,395 | 5.0 % |
@@ -838,6 +857,12 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::dial::test_dial_search_boards_0` | 343,530,582 | 360,707,112 | 5.0 % |
 | `takeover_tests::dial::test_dial_search_boards_1` | 245,053,684 | 257,306,369 | 5.0 % |
 | `takeover_tests::dial::test_dial_search_boards_2` | 194,549,162 | 204,276,621 | 5.0 % |
+| `takeover_tests::dial::test_dial_search_edges_15x16` | 165,020,826 | 173,271,868 | 5.0 % |
+| `takeover_tests::dial::test_dial_search_edges_16x8` | 136,894,704 | 143,739,440 | 5.0 % |
+| `takeover_tests::dial::test_dial_search_edges_17x14` | 172,331,558 | 180,948,136 | 5.0 % |
+| `takeover_tests::dial::test_dial_search_edges_19x13` | 175,703,940 | 184,489,137 | 5.0 % |
+| `takeover_tests::dial::test_dial_search_edges_7x7` | 132,972,684 | 139,621,319 | 5.0 % |
+| `takeover_tests::dial::test_dial_search_edges_8x16` | 137,145,812 | 144,003,103 | 5.0 % |
 | `takeover_tests::dial::test_dial_search_entrances_generated` | 353,981,832 | 371,680,924 | 5.0 % |
 | `takeover_tests::dial::test_dial_search_entrances_hand` | 472,851,510 | 496,494,086 | 5.0 % |
 | `takeover_tests::dial::test_dial_search_fixtures` | 205,792,922 | 216,082,569 | 5.0 % |
@@ -896,6 +921,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::direction::test_direction_pop_front` | 50,926,662 | 53,472,996 | 5.0 % |
 | `takeover_tests::direction::test_direction_try_into` | 1,267,260 | 1,330,623 | 5.0 % |
 | `takeover_tests::fixtures::tests::test_boards_provenance` | 72,224,806 | 75,836,047 | 5.0 % |
+| `takeover_tests::fixtures::tests::test_edge_boards_provenance` | 18,414,590 | 19,335,320 | 5.0 % |
 | `takeover_tests::fixtures::tests::test_entrance_boards_provenance_generated` | 13,315,849 | 13,981,642 | 5.0 % |
 | `takeover_tests::fixtures::tests::test_entrance_boards_provenance_hand` | 8,284,590 | 8,698,820 | 5.0 % |
 | `takeover_tests::gas::test_gas_compute_distribution_hexx_once` | 405,708 | 425,994 | 5.0 % |
@@ -1041,6 +1067,12 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::map::test_map_field_of_movement_boards_1` | 400,752,242 | 420,789,855 | 5.0 % |
 | `takeover_tests::map::test_map_field_of_movement_boards_2` | 395,208,330 | 414,968,747 | 5.0 % |
 | `takeover_tests::map::test_map_field_of_movement_boards_3` | 288,398,274 | 302,818,188 | 5.0 % |
+| `takeover_tests::map::test_map_field_of_movement_edges_15x16` | 120,436,566 | 126,458,395 | 5.0 % |
+| `takeover_tests::map::test_map_field_of_movement_edges_16x8` | 97,069,778 | 101,923,267 | 5.0 % |
+| `takeover_tests::map::test_map_field_of_movement_edges_17x14` | 125,559,202 | 131,837,163 | 5.0 % |
+| `takeover_tests::map::test_map_field_of_movement_edges_19x13` | 128,739,522 | 135,176,499 | 5.0 % |
+| `takeover_tests::map::test_map_field_of_movement_edges_7x7` | 93,719,804 | 98,405,795 | 5.0 % |
+| `takeover_tests::map::test_map_field_of_movement_edges_8x16` | 97,201,626 | 102,061,708 | 5.0 % |
 | `takeover_tests::map::test_map_field_of_movement_entrances_generated` | 402,218,094 | 422,328,999 | 5.0 % |
 | `takeover_tests::map::test_map_field_of_movement_entrances_hand_0` | 180,937,174 | 189,984,033 | 5.0 % |
 | `takeover_tests::map::test_map_field_of_movement_entrances_hand_1` | 388,012,022 | 407,412,624 | 5.0 % |
@@ -1054,6 +1086,12 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::map::test_map_field_of_movement_revert_wall_hexx` | 48,547 | 50,975 | 5.0 % |
 | `takeover_tests::map::test_map_field_of_movement_revert_wall_origami` | 48,547 | 50,975 | 5.0 % |
 | `takeover_tests::map::test_map_fixture_endpoints` | 184,497,544 | 193,722,422 | 5.0 % |
+| `takeover_tests::map::test_map_floods_edges_15x16` | 188,157,652 | 197,565,535 | 5.0 % |
+| `takeover_tests::map::test_map_floods_edges_16x8` | 164,760,876 | 172,998,920 | 5.0 % |
+| `takeover_tests::map::test_map_floods_edges_17x14` | 188,073,652 | 197,477,335 | 5.0 % |
+| `takeover_tests::map::test_map_floods_edges_19x13` | 187,973,052 | 197,371,705 | 5.0 % |
+| `takeover_tests::map::test_map_floods_edges_7x7` | 163,134,706 | 171,291,442 | 5.0 % |
+| `takeover_tests::map::test_map_floods_edges_8x16` | 164,919,276 | 173,165,240 | 5.0 % |
 | `takeover_tests::map::test_map_floods_entrances_generated_0` | 347,453,414 | 364,826,085 | 5.0 % |
 | `takeover_tests::map::test_map_floods_entrances_generated_1` | 340,465,472 | 357,488,746 | 5.0 % |
 | `takeover_tests::map::test_map_floods_entrances_hand_0` | 176,678,492 | 185,512,417 | 5.0 % |
@@ -1175,6 +1213,12 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::map::test_map_open_with_maze_revert_order_origami` | 15,520 | 16,296 | 5.0 % |
 | `takeover_tests::map::test_map_open_with_maze_revert_outside_hexx` | 18,180 | 19,089 | 5.0 % |
 | `takeover_tests::map::test_map_open_with_maze_revert_outside_origami` | 18,180 | 19,089 | 5.0 % |
+| `takeover_tests::map::test_map_paths_edges_15x16` | 344,768,562 | 362,006,991 | 5.0 % |
+| `takeover_tests::map::test_map_paths_edges_16x8` | 309,673,664 | 325,157,348 | 5.0 % |
+| `takeover_tests::map::test_map_paths_edges_17x14` | 352,472,668 | 370,096,302 | 5.0 % |
+| `takeover_tests::map::test_map_paths_edges_19x13` | 356,716,820 | 374,552,661 | 5.0 % |
+| `takeover_tests::map::test_map_paths_edges_7x7` | 305,284,666 | 320,548,900 | 5.0 % |
+| `takeover_tests::map::test_map_paths_edges_8x16` | 309,653,296 | 325,135,961 | 5.0 % |
 | `takeover_tests::map::test_map_paths_entrances_generated_0` | 313,220,182 | 328,881,192 | 5.0 % |
 | `takeover_tests::map::test_map_paths_entrances_generated_1` | 305,854,054 | 321,146,757 | 5.0 % |
 | `takeover_tests::map::test_map_paths_entrances_hand_0` | 112,179,586 | 117,788,566 | 5.0 % |
@@ -1301,4 +1345,4 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 15,520 | 16,296 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 15,520 | 16,296 | 5.0 % |
 
-1294 measured test(s), 699 inherited (`gas/takeover-baseline.txt`).
+1338 measured test(s), 699 inherited (`gas/takeover-baseline.txt`).
