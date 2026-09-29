@@ -174,3 +174,13 @@ class Check(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class OnlyAdditions(unittest.TestCase):
+    def test_added_lines_are_accepted(self) -> None:
+        self.assertTrue(t.only_additions("a\nb\nc", "a\nx\nb\nc\ny"))
+
+    def test_a_changed_removed_or_reordered_line_is_refused(self) -> None:
+        self.assertFalse(t.only_additions("a\nb", "a\nB"))
+        self.assertFalse(t.only_additions("a\nb\nc", "a\nc"))
+        self.assertFalse(t.only_additions("a\nb\nc", "a\nc\nb"))

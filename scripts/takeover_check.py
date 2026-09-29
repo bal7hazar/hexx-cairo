@@ -65,7 +65,26 @@ OWN_FILES: tuple[str, ...] = (
     "src/board/tables.cairo",
     "src/tests/bench_assembly.cairo",
     "src/tests/test_assembly.cairo",
+    # M1-T9a, N-8: the flood
+    "src/finders/flood.cairo",
+    "src/tests/bench_flood.cairo",
+    "src/tests/test_flood.cairo",
 )
+
+# Moved files that a task of L-M1 has EXTENDED: they are checked in additions-only mode. Every
+# line of the (rewritten, formatted) source must appear in the destination, in the same order;
+# the task may only add lines. What the added lines do is proved by the task's own tests and
+# audit, and `crates/takeover_tests` proves that no result of 1.8.0 changed.
+EXTENDED: dict[str, str] = {
+    "src/finders/bfs.cairo": "M1-T9a (Bfs::flood)",
+    "src/tests/fixtures.cairo": "M1-T9a (SERPENTINE_15X16)",
+}
+
+
+def only_additions(expected: str, actual: str) -> bool:
+    """True when the lines of `expected` are a subsequence of the lines of `actual`."""
+    lines = iter(actual.splitlines())
+    return all(any(line == got for got in lines) for line in expected.splitlines())
 
 # --- The rewrites: (pattern, replacement), in order, applied to every file ---------------------
 
@@ -182,6 +201,12 @@ def check(source: Path, dest: Path, out=sys.stdout, fmt=scarb_fmt) -> int:
             continue
         if formatted.get(f"f{n}.cairo") == actual:
             print(f"{src_rel} -> {dst_rel}: same after scarb fmt", file=out)
+            continue
+        if dst_rel in EXTENDED and (
+                only_additions(expected, actual)
+                or only_additions(formatted.get(f"f{n}.cairo", expected), actual)):
+            print(f"{src_rel} -> {dst_rel}: same, with additions only ({EXTENDED[dst_rel]})",
+                  file=out)
             continue
         expected = formatted.get(f"f{n}.cairo", expected)
         problems += 1
