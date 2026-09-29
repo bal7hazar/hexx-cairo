@@ -846,6 +846,8 @@ hexx::tests::properties::test_properties_sequential_step: 102688 107823
 hexx::tests::properties::test_properties_shuffle6_fisher_yates_is_permutation: 160398 168418
 hexx::tests::test_assembly::test_assembly_all_void: 49046 51499
 hexx::tests::test_assembly::test_assembly_local: 295201090 309961145
+hexx::tests::test_assembly::test_assembly_local_exhaustive: 186380370 195699389
+hexx::tests::test_assembly::test_assembly_local_extreme_origins: 2051970 2154569
 hexx::tests::test_assembly::test_assembly_offsets_row_0: 334976570 351725399
 hexx::tests::test_assembly::test_assembly_offsets_row_1: 335083390 351837560
 hexx::tests::test_assembly::test_assembly_offsets_row_10: 335352980 352120629
@@ -877,6 +879,18 @@ hexx::tests::test_assembly::test_assembly_revert_window_invalid_offset: 17502 18
 hexx::tests::test_assembly::test_assembly_revert_window_odd_origin: 17502 18378
 hexx::tests::test_assembly::test_assembly_void_chunks: 620302322 651317439
 hexx::tests::test_assembly::test_assembly_window_ring: 73164 76823
+hexx::tests::test_cut::bench_cut_once: 27442 28815
+hexx::tests::test_cut::bench_cut_twice: 37564 39443
+hexx::tests::test_cut::test_cut_finders_from_edge_tile_30: 31947241 33544604
+hexx::tests::test_cut::test_cut_finders_from_edge_tile_31: 38213900 40124595
+hexx::tests::test_cut::test_cut_finders_from_interior_tile_30: 26222194 27533304
+hexx::tests::test_cut::test_cut_finders_from_interior_tile_31: 32067953 33671351
+hexx::tests::test_cut::test_cut_oracle_15x15: 168109581 176515061
+hexx::tests::test_cut::test_cut_oracle_15x16: 179453086 188425741
+hexx::tests::test_cut::test_cut_oracle_7x7: 35323983 37090183
+hexx::tests::test_cut::test_cut_r_n4_1_open_edge_tile_stays_open: 1082946 1137094
+hexx::tests::test_cut::test_cut_r_n4_2_high_bits_ignored: 1221400 1282470
+hexx::tests::test_cut::test_cut_r_n4_3_high_bits_only: 80172 84181
 hexx::tests::test_flood::test_flood_cave_15x16: 31307599 32872349
 hexx::tests::test_flood::test_flood_depths_serpentine: 153345196 161008256
 hexx::tests::test_flood::test_flood_depths_small: 40140320 42142296

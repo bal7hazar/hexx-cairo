@@ -853,6 +853,8 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::tests::properties::test_properties_shuffle6_fisher_yates_is_permutation` | 160,398 | 168,418 | 5.0 % |
 | `hexx::tests::test_assembly::test_assembly_all_void` | 49,046 | 51,499 | 5.0 % |
 | `hexx::tests::test_assembly::test_assembly_local` | 295,201,090 | 309,961,145 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_local_exhaustive` | 186,380,370 | 195,699,389 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_local_extreme_origins` | 2,051,970 | 2,154,569 | 5.0 % |
 | `hexx::tests::test_assembly::test_assembly_offsets_row_0` | 334,976,570 | 351,725,399 | 5.0 % |
 | `hexx::tests::test_assembly::test_assembly_offsets_row_1` | 335,083,390 | 351,837,560 | 5.0 % |
 | `hexx::tests::test_assembly::test_assembly_offsets_row_10` | 335,352,980 | 352,120,629 | 5.0 % |
@@ -884,6 +886,18 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::tests::test_assembly::test_assembly_revert_window_odd_origin` | 17,502 | 18,378 | 5.0 % |
 | `hexx::tests::test_assembly::test_assembly_void_chunks` | 620,302,322 | 651,317,439 | 5.0 % |
 | `hexx::tests::test_assembly::test_assembly_window_ring` | 73,164 | 76,823 | 5.0 % |
+| `hexx::tests::test_cut::bench_cut_once` | 27,442 | 28,815 | 5.0 % |
+| `hexx::tests::test_cut::bench_cut_twice` | 37,564 | 39,443 | 5.0 % |
+| `hexx::tests::test_cut::test_cut_finders_from_edge_tile_30` | 31,947,241 | 33,544,604 | 5.0 % |
+| `hexx::tests::test_cut::test_cut_finders_from_edge_tile_31` | 38,213,900 | 40,124,595 | 5.0 % |
+| `hexx::tests::test_cut::test_cut_finders_from_interior_tile_30` | 26,222,194 | 27,533,304 | 5.0 % |
+| `hexx::tests::test_cut::test_cut_finders_from_interior_tile_31` | 32,067,953 | 33,671,351 | 5.0 % |
+| `hexx::tests::test_cut::test_cut_oracle_15x15` | 168,109,581 | 176,515,061 | 5.0 % |
+| `hexx::tests::test_cut::test_cut_oracle_15x16` | 179,453,086 | 188,425,741 | 5.0 % |
+| `hexx::tests::test_cut::test_cut_oracle_7x7` | 35,323,983 | 37,090,183 | 5.0 % |
+| `hexx::tests::test_cut::test_cut_r_n4_1_open_edge_tile_stays_open` | 1,082,946 | 1,137,094 | 5.0 % |
+| `hexx::tests::test_cut::test_cut_r_n4_2_high_bits_ignored` | 1,221,400 | 1,282,470 | 5.0 % |
+| `hexx::tests::test_cut::test_cut_r_n4_3_high_bits_only` | 80,172 | 84,181 | 5.0 % |
 | `hexx::tests::test_flood::test_flood_cave_15x16` | 31,307,599 | 32,872,349 | 5.0 % |
 | `hexx::tests::test_flood::test_flood_depths_serpentine` | 153,345,196 | 161,008,256 | 5.0 % |
 | `hexx::tests::test_flood::test_flood_depths_small` | 40,140,320 | 42,142,296 | 5.0 % |
@@ -1580,4 +1594,4 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 15,520 | 16,296 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 15,520 | 16,296 | 5.0 % |
 
-1573 measured test(s).
+1587 measured test(s).

@@ -6,7 +6,7 @@
 //! engine), so that the tracked class size follows the engine: a removed or dead-code-eliminated
 //! item would otherwise go on shrinking it unnoticed (AGENTS.md, principle 11). Split over three
 //! contracts: the 20 in one exceed the 81,920 CASM felts a class may hold. The extensions of
-//! milestone L-M1 add their own contracts (`HexxAssembly`: N-3; `HexxFlood`: N-8).
+//! milestone L-M1 add their own contracts (`HexxAssembly`: N-3; `HexxCut`: N-4; `HexxFlood`: N-8).
 
 /// The queries, the finders on unit costs and the constructors that call no generator.
 #[starknet::contract]
@@ -174,6 +174,21 @@ pub mod HexxAssembly {
         let (t0, t1, t2, t3) = terrain;
         let (o0, o1, o2, o3) = occupied;
         AssemblyTrait::window([t0, t1, t2, t3], [o0, o1, o2, o3], @origin, seed)
+    }
+}
+
+/// N-4, the cut of a board by a mask (`hexx::board::cut`): the one call site of `CutTrait::cut`.
+#[starknet::contract]
+pub mod HexxCut {
+    use hexx::HexMap;
+    use hexx::board::cut::CutTrait;
+
+    #[storage]
+    struct Storage {}
+
+    #[external(v0)]
+    fn cut(self: @ContractState, map: HexMap, mask: felt252) -> HexMap {
+        map.cut(mask)
     }
 }
 

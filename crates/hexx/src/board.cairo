@@ -4,6 +4,7 @@
 pub mod assembly;
 pub mod asserter;
 pub mod bits;
+pub mod cut;
 pub mod direction;
 pub mod geometry;
 pub mod layout;
