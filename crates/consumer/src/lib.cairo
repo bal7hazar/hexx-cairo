@@ -6,7 +6,7 @@
 //! engine), so that the tracked class size follows the engine: a removed or dead-code-eliminated
 //! item would otherwise go on shrinking it unnoticed (AGENTS.md, principle 11). Split over three
 //! contracts: the 20 in one exceed the 81,920 CASM felts a class may hold. The extensions of
-//! milestone L-M1 add their own contracts (`HexxAssembly`: N-3).
+//! milestone L-M1 add their own contracts (`HexxAssembly`: N-3; `HexxFlood`: N-8).
 
 /// The queries, the finders on unit costs and the constructors that call no generator.
 #[starknet::contract]
@@ -197,5 +197,30 @@ pub mod HexxDial {
         self: @ContractState, map: HexMap, from: u8, budget: u8, costs: Span<felt252>,
     ) -> felt252 {
         map.field_of_movement(from, budget, costs)
+    }
+}
+
+/// N-8, the flood of the tick (`hexx::finders::flood`): one call site per new public function,
+/// `Bfs::flood` and `FloodTrait::depth`. A `Flood` is not an entry point value: its depth is
+/// returned.
+#[starknet::contract]
+pub mod HexxFlood {
+    use hexx::finders::bfs::Bfs;
+    use hexx::finders::flood::FloodTrait;
+
+    #[storage]
+    struct Storage {}
+
+    #[external(v0)]
+    fn flood(
+        self: @ContractState,
+        grid: felt252,
+        width: u8,
+        height: u8,
+        from: u8,
+        obstacles: felt252,
+        depth: u8,
+    ) -> u8 {
+        Bfs::flood(grid, width, height, from, obstacles, depth).depth()
     }
 }
