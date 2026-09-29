@@ -95,7 +95,8 @@ class Discovery(unittest.TestCase):
         found = bench.declared_tests("hexx", bench.ROOT / "crates" / "hexx")
         for name in ("print_stats", "print_rules", "print_fills"):
             self.assertIn(f"hexx::tests::bench_caver::test_bench_caver_{name}", found)
-        self.assertEqual(len(found), 811)
+        # The 811 tests taken over are all found; tasks of L-M1 add their own.
+        self.assertGreaterEqual(len(found), 811)
 
 
 class Reconcile(unittest.TestCase):
