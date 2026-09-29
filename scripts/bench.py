@@ -672,7 +672,7 @@ def main() -> int:
             print("\nsnapshot differences:\n" + "\n".join(bad), file=sys.stderr)
         if violations or bad:
             print(f"\nartefacts of this run (raw output of snforge, SHA-256 of the compiled "
-                  f"files, versions): {where}; in CI, the artefact `gas-<package>-<commit>` of "
+                  f"files, versions): {where}; in CI, the artefact `gas-<package>-<scope>-<commit>` of "
                   f"the job", file=sys.stderr)
         if violations:
             return 1
