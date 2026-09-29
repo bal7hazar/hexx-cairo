@@ -730,7 +730,11 @@ def compute_reachable_modules(
 # from the single-relative-segment form fix loop 1 supported. A form this parser does not
 # recognize (a glob nested inside a group) raises, naming the file and the statement — never
 # silently skipped.
-USE_STATEMENT_RE = re.compile(r"(?m)^[ \t]*(pub(?:\(crate\))?\s+)?use\s+([^;]+);")
+# LIB-04b follow-up 1: not anchored to the start of a line (`mod a { pub use b::C; }` on one line,
+# or `use x;` after another statement, was skipped without an error), and any restricted
+# visibility (`pub(super)`, `pub(in path)`, `pub(crate)`) is recognised — the group holds the
+# whole `pub(...)`, and only the bare `pub` bridges.
+USE_STATEMENT_RE = re.compile(r"(?<![\w:])(?:(pub(?:\s*\([^)]*\))?)\s+)?use\s+([^;]+);")
 
 
 def resolve_use_segments(
@@ -929,6 +933,50 @@ def export_ranks(bridged: dict[tuple[str, ...], dict[str, list[str]]]) -> range:
     nothing). At most one own-name plus the longest alias list."""
     return range(1 + max((len(v) for names in bridged.values() for v in names.values()),
                          default=0))
+
+
+def reject_scoped_aliases(
+    nodes: dict[tuple[str, ...], ModuleNode], reachable: set[tuple[str, ...]],
+    bridged: dict[tuple[str, ...], dict[str, list[str]]], glob_targets: set[tuple[str, ...]],
+    cairo: bool,
+) -> None:
+    """A type or trait exported under a name other than its declared one, while it carries
+    associated items (an inherent or trait impl, a trait's functions), raises with file and line
+    (LIB-04b follow-up 1). The declaration items follow every exported name, but the associated
+    items (`Type.method`, ...) are scoped by the *declared* name, so the two would disagree and an
+    item could be classified against the wrong `hexx` name without any error. Not used by `hexx`
+    0.25.0 nor by the crate's own tree; a form this tool does not model is refused, not guessed."""
+    if cairo:
+        heads = ((CAIRO_STRUCT_HEAD_RE, "type"), (CAIRO_ENUM_HEAD_RE, "type"),
+                 (CAIRO_TRAIT_RE, "trait"))
+        assoc_res = lambda name: [
+            re.compile(rf"\bpub\s+trait\s+{name}Trait\b"),
+            re.compile(rf"\bimpl\s+\w+\s+of\s+{name}Trait\b")]
+    else:
+        heads = ((STRUCT_HEAD_RE, "type"), (ENUM_HEAD_RE, "type"), (TRAIT_RE, "trait"))
+        assoc_res = lambda name: [
+            re.compile(rf"(?m)^\s*impl\b[^\n{{;]*?\b{name}\b[^\n{{;]*\{{")]
+    for path, node in nodes.items():
+        for head_re, kind in heads:
+            for match in head_re.finditer(node.text):
+                if not cfg_ok_at(node, match.start()):
+                    continue
+                declared = match.group(1)
+                renamed = [n for n in exported_names(path, declared, reachable, bridged,
+                                                     glob_targets) if n != declared]
+                if not renamed:
+                    continue
+                has_members = False
+                if kind == "trait":
+                    has_members = True
+                else:
+                    has_members = any(rx.search(other.text) for other in nodes.values()
+                                      for rx in assoc_res(declared))
+                if has_members:
+                    raise SystemExit(
+                        f"{node_location(node, match.start())}: `{declared}` is exported under "
+                        f"{renamed} and carries associated items; an alias of a type or trait "
+                        f"with members is not supported by scripts/api_parity.py")
 
 
 def exported_name_at(
@@ -1264,6 +1312,7 @@ def parse_hexx(hexx_root: Path) -> list[Item]:
     nodes = build_module_tree(hexx_root / "src" / "lib.rs")
     reachable = compute_reachable_modules(nodes)
     bridged, glob_targets, used_names = collect_use_statements(nodes, reachable)
+    reject_scoped_aliases(nodes, reachable, bridged, glob_targets, cairo=False)
 
     def name_ok_at(path: tuple[str, ...], rank: int = 0):
         return lambda name: exported_name_at(rank, path, name, reachable, bridged, glob_targets)
@@ -1325,6 +1374,7 @@ def build_cairo_tree():
     nodes = build_module_tree(CAIRO_ROOT_FILE)
     reachable = compute_reachable_modules(nodes, cfg_exempt=frozenset())
     bridged, glob_targets, _used_names = collect_use_statements(nodes, reachable)
+    reject_scoped_aliases(nodes, reachable, bridged, glob_targets, cairo=True)
     return nodes, reachable, bridged, glob_targets
 
 
@@ -1793,6 +1843,10 @@ def check_release(hexx: list[Item], cairo: list[Item], release: str,
     return 0
 
 
+# The same syntax `.github/workflows/release-check.yml` verifies before it asks.
+SEMVER_RE = re.compile(r"[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?\Z")
+
+
 def is_prerelease(version: str) -> bool:
     """A version is a pre-release if and only if the part before any `+` holds a hyphen (semver
     §9: `1.0.0-rc.1+build-1` is one; `0.1.0+build-1`, whose hyphen sits in the build metadata, is
@@ -1835,6 +1889,8 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     if args.is_prerelease is not None:
+        if not SEMVER_RE.match(args.is_prerelease):
+            raise SystemExit(f"{args.is_prerelease!r} is not valid semver")
         print("true" if is_prerelease(args.is_prerelease) else "false")
         return 0
     if args.extensions:

@@ -996,6 +996,69 @@ class TransitiveReexports(FixtureTreeCase):
         self.assertEqual([], names)
 
 
+class UseStatementForms(FixtureTreeCase):
+    """LIB-04b follow-up 1: the four defects listed in the first report."""
+
+    STRUCT = "pub struct Hex {\n    pub x: u8,\n}\n"
+
+    def collect(self, root_text: str, files: dict[str, str]):
+        nodes = self.build(root_text, files, root_name="lib.cairo")
+        reachable = ap.compute_reachable_modules(nodes, cfg_exempt=frozenset())
+        bridged, globs, used = ap.collect_use_statements(nodes, reachable)
+        return nodes, reachable, bridged, globs, used
+
+    def test_restricted_visibility_use_is_recognised_and_never_bridges(self) -> None:
+        for vis in ("pub(super)", "pub(crate)", "pub(in crate::inner)", "pub (super)"):
+            with self.subTest(vis=vis):
+                _n, reachable, bridged, globs, used = self.collect(
+                    f"pub mod inner;\n{vis} use inner::Hex as Seen;\n",
+                    {"inner.cairo": self.STRUCT})
+                self.assertIn("Seen", used)  # was silently skipped for `pub(super)`
+                self.assertEqual(["Hex"], ap.exported_names(("inner",), "Hex", reachable, bridged,
+                                                            globs))
+
+    def test_use_not_at_the_start_of_a_line_is_seen(self) -> None:
+        _n, reachable, bridged, globs, used = self.collect(
+            "mod inner;\npub mod api { pub use super::inner::Hex as Shown; }\n"
+            "pub fn f() {} pub use inner::Hex as Same;\n",
+            {"inner.cairo": self.STRUCT})
+        self.assertEqual(["Same", "Shown"],
+                         ap.exported_names(("inner",), "Hex", reachable, bridged, globs))
+        self.assertLessEqual({"Shown", "Same"}, used)
+
+    def test_use_in_an_inline_module_is_attributed_to_that_module(self) -> None:
+        # a private inline module's `pub use` cannot bridge; the same one in a `pub mod` does.
+        _n, reachable, bridged, globs, _u = self.collect(
+            "mod inner;\nmod hidden {\n    pub use super::inner::Hex as Hidden;\n}\n"
+            "pub mod shown {\n    pub use super::inner::Hex as Shown;\n}\n",
+            {"inner.cairo": self.STRUCT})
+        self.assertEqual(["Shown"],
+                         ap.exported_names(("inner",), "Hex", reachable, bridged, globs))
+
+    def test_alias_of_a_type_with_members_raises_with_file_and_line(self) -> None:
+        with self.assertRaises(SystemExit) as ctx:
+            nodes = self.build(
+                "mod inner;\npub use inner::Hex as Other;\n",
+                {"inner.cairo": self.STRUCT + "pub trait HexTrait {\n    fn f(self: Hex);\n}\n"},
+                root_name="lib.cairo")
+            reachable = ap.compute_reachable_modules(nodes, cfg_exempt=frozenset())
+            bridged, globs, _u = ap.collect_use_statements(nodes, reachable)
+            ap.reject_scoped_aliases(nodes, reachable, bridged, globs, cairo=True)
+        self.assertRegex(str(ctx.exception), r"inner\.cairo:1.*Hex.*associated items")
+
+    def test_alias_of_a_rust_type_with_an_impl_raises_but_not_without(self) -> None:
+        def tree(text: str):
+            nodes = self.build("mod inner;\npub use inner::Hex as Other;\n", {"inner.rs": text})
+            reachable = ap.compute_reachable_modules(nodes)
+            bridged, globs, _u = ap.collect_use_statements(nodes, reachable)
+            ap.reject_scoped_aliases(nodes, reachable, bridged, globs, cairo=False)
+
+        tree("pub struct Hex {\n    pub x: i32,\n}\n")  # no members: supported
+        with self.assertRaises(SystemExit) as ctx:
+            tree("pub struct Hex {\n    pub x: i32,\n}\nimpl Hex {\n    pub fn new() {}\n}\n")
+        self.assertIn("inner.rs:1", str(ctx.exception))
+
+
 class VersionIsPrerelease(unittest.TestCase):
     """LIB-04b finding *New 2*: a pre-release iff the part before any `+` holds a hyphen."""
 
@@ -1007,6 +1070,15 @@ class VersionIsPrerelease(unittest.TestCase):
         ]:
             with self.subTest(version=version):
                 self.assertEqual(expected, ap.is_prerelease(version))
+
+    def test_cli_refuses_an_invalid_version(self) -> None:
+        for version in ("1.0.0-", "1.0", "v1.0.0", ""):
+            with self.subTest(version=version), mock.patch.object(
+                sys, "argv", ["api_parity.py", "--is-prerelease", version]
+            ):
+                with self.assertRaises(SystemExit) as ctx:
+                    ap.main()
+                self.assertIn("not valid semver", str(ctx.exception))
 
     def test_cli_prints_true_or_false(self) -> None:
         for version, expected in [("0.1.0+build-1", "false"), ("0.1.0-rc.1", "true")]:
