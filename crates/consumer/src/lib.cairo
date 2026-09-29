@@ -5,7 +5,8 @@
 //! One call site per public function of `HexMapTrait` (the 20 of the facade of the board
 //! engine), so that the tracked class size follows the engine: a removed or dead-code-eliminated
 //! item would otherwise go on shrinking it unnoticed (AGENTS.md, principle 11). Split over three
-//! contracts: the 20 in one exceed the 81,920 CASM felts a class may hold.
+//! contracts: the 20 in one exceed the 81,920 CASM felts a class may hold. The extensions of
+//! milestone L-M1 add their own contracts (`HexxAssembly`: N-3).
 
 /// The queries, the finders on unit costs and the constructors that call no generator.
 #[starknet::contract]
@@ -124,6 +125,55 @@ pub mod HexxGenerators {
         self: @ContractState, map: HexMap, count: u8, seed: felt252,
     ) -> felt252 {
         map.compute_distribution(count, seed)
+    }
+}
+
+/// N-3, the assembly of the window (`hexx::board::assembly`): one call site per function of
+/// `AssemblyTrait`. The chunks are taken one by one: a fixed-size array is not an entry point
+/// argument here.
+#[starknet::contract]
+pub mod HexxAssembly {
+    use hexx::HexMap;
+    use hexx::board::assembly::{AssemblyTrait, Origin};
+
+    #[storage]
+    struct Storage {}
+
+    #[external(v0)]
+    fn origin(self: @ContractState, x: u8, y: u8) -> Origin {
+        AssemblyTrait::origin(x, y)
+    }
+
+    #[external(v0)]
+    fn local(self: @ContractState, origin: Origin, x: u8, y: u8) -> Option<u8> {
+        origin.local(x, y)
+    }
+
+    #[external(v0)]
+    fn assemble(
+        self: @ContractState,
+        chunk: Option<felt252>,
+        west: Option<felt252>,
+        north: Option<felt252>,
+        north_west: Option<felt252>,
+        ox: u8,
+        oy: u8,
+        odd_chunk_row: bool,
+    ) -> felt252 {
+        AssemblyTrait::assemble([chunk, west, north, north_west], ox, oy, odd_chunk_row)
+    }
+
+    #[external(v0)]
+    fn window(
+        self: @ContractState,
+        terrain: (Option<felt252>, Option<felt252>, Option<felt252>, Option<felt252>),
+        occupied: (Option<felt252>, Option<felt252>, Option<felt252>, Option<felt252>),
+        origin: Origin,
+        seed: felt252,
+    ) -> (HexMap, felt252) {
+        let (t0, t1, t2, t3) = terrain;
+        let (o0, o1, o2, o3) = occupied;
+        AssemblyTrait::window([t0, t1, t2, t3], [o0, o1, o2, o3], @origin, seed)
     }
 }
 
