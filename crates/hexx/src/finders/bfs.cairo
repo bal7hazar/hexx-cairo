@@ -401,7 +401,7 @@ pub impl Bfs of BfsTrait {
                 );
             }
         }
-        Flood { width, height, layers: layers.span() }
+        Flood { width, height, cap: depth, layers: layers.span() }
     }
 }
 

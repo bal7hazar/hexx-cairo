@@ -4,13 +4,9 @@
 //! eight walkers in ascending id order, each `next_step` filtered by the occupancy updated after
 //! the previous moves (L-G1 point 5).
 //!
-//! The cap is the caller's rule, not the library's: `next_step` answers for the layers the flood
-//! has, so a walker at 16 with a neighbour in layer 15 gets a step. The game's rule (D-127) is
-//! that a goblin the flood did not reach holds its position, so the tick first reads each
-//! walker's `distance` and calls `next_step` only when it is at most the cap. On two windows: the
-//! cave of the tick (`CAVE_15X16`, its walkers at distances 3 to 15, all of them moving; and again
-//! with its last walker on the ring, at 13) and the serpentine (`SERPENTINE_15X16_8`,
-//! no walker reached at 15 layers: each scans every layer and holds its position).
+//! The cap is the flood's (D-25): `next_step` gives no move to a walker whose inferred distance
+//! is greater than the `depth` passed to `Bfs::flood`, so a walker the capped flood did not
+//! reach holds its position (D-127) without any call beyond its `next_step`.
 //!
 //! Each figure is the difference of two tests (the method of the game's SPK-7): the tick is the
 //! tick test minus the baseline, which does everything else (the inputs and one assertion); its
@@ -153,19 +149,12 @@ impl Tick of TickTrait {
 
     /// The eight walkers in ascending id order, each filtered by the current occupancy, which
     /// is updated after each move: the tile left is freed, the tile entered occupied. A walker
-    /// whose inferred distance is greater than the cap, or undefined, was not reached: it holds
-    /// its position and `next_step` is not called (D-127, the caller's rule).
+    /// that gets `None` holds its position: among them, the walkers the flood did not reach,
+    /// whose inferred distance is greater than the cap (D-25, D-127).
     #[inline(always)]
-    fn steps(flood: @Flood, walkers: [u8; 8], occupied: felt252, cap: u8) -> felt252 {
+    fn steps(flood: @Flood, walkers: [u8; 8], occupied: felt252) -> felt252 {
         let mut occupied = occupied;
         for walker in walkers.span() {
-            let reached = match flood.distance(*walker) {
-                Option::Some(distance) => distance <= cap,
-                Option::None => false,
-            };
-            if !reached {
-                continue;
-            }
             if let Option::Some(step) = flood.next_step(*walker, occupied) {
                 occupied = occupied - Bits::pow(*walker) + Bits::pow(step);
             }
@@ -197,7 +186,7 @@ fn bench_tick_cave_window() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 474330)]
+#[available_gas(l2_gas: 474435)]
 fn bench_tick_cave_flood() {
     let bench = Inputs::get();
     let (flood, _) = Tick::flood(@bench, @bench.cave);
@@ -206,18 +195,18 @@ fn bench_tick_cave_flood() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1135112)]
+#[available_gas(l2_gas: 1149182)]
 fn bench_tick_cave() {
     let bench = Inputs::get();
     let (flood, occupied) = Tick::flood(@bench, @bench.cave);
-    assert!(Tick::steps(@flood, bench.cave.walkers, occupied, bench.cap) == bench.cave.after);
+    assert!(Tick::steps(@flood, bench.cave.walkers, occupied) == bench.cave.after);
 }
 
 // The cave of the tick, W8 on the ring
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 474330)]
+#[available_gas(l2_gas: 474435)]
 fn bench_tick_cave_ring_flood() {
     let bench = Inputs::get();
     let (flood, _) = Tick::flood(@bench, @bench.cave_ring);
@@ -226,13 +215,11 @@ fn bench_tick_cave_ring_flood() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1140156)]
+#[available_gas(l2_gas: 1154226)]
 fn bench_tick_cave_ring() {
     let bench = Inputs::get();
     let (flood, occupied) = Tick::flood(@bench, @bench.cave_ring);
-    assert!(
-        Tick::steps(@flood, bench.cave_ring.walkers, occupied, bench.cap) == bench.cave_ring.after,
-    );
+    assert!(Tick::steps(@flood, bench.cave_ring.walkers, occupied) == bench.cave_ring.after);
 }
 
 // The serpentine
@@ -248,7 +235,7 @@ fn bench_tick_serpentine_window() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 482625)]
+#[available_gas(l2_gas: 482730)]
 fn bench_tick_serpentine_flood() {
     let bench = Inputs::get();
     let (flood, _) = Tick::flood(@bench, @bench.serpentine);
@@ -257,22 +244,18 @@ fn bench_tick_serpentine_flood() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1185152)]
+#[available_gas(l2_gas: 1193762)]
 fn bench_tick_serpentine() {
     let bench = Inputs::get();
     let (flood, occupied) = Tick::flood(@bench, @bench.serpentine);
-    assert!(
-        Tick::steps(@flood, bench.serpentine.walkers, occupied, bench.cap) == bench
-            .serpentine
-            .after,
-    );
+    assert!(Tick::steps(@flood, bench.serpentine.walkers, occupied) == bench.serpentine.after);
 }
 
 // `next_step`, `s = 15`: W1 of the cave tick, on its flood (the window given)
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 491182)]
+#[available_gas(l2_gas: 492915)]
 fn bench_tick_next_step_15_once() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.cave_grid, 15, 16, bench.from, bench.cave_walkers, bench.cap);
@@ -281,7 +264,7 @@ fn bench_tick_next_step_15_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 575333)]
+#[available_gas(l2_gas: 578798)]
 fn bench_tick_next_step_15_twice() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.cave_grid, 15, 16, bench.from, bench.cave_walkers, bench.cap);
@@ -296,7 +279,7 @@ fn bench_tick_next_step_15_twice() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1307283)]
+#[available_gas(l2_gas: 1309803)]
 fn bench_tick_next_step_46_once() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.corridor, 15, 16, bench.from, bench.frozen, bench.unlimited);
@@ -305,7 +288,7 @@ fn bench_tick_next_step_46_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1503231)]
+#[available_gas(l2_gas: 1508271)]
 fn bench_tick_next_step_46_twice() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.corridor, 15, 16, bench.from, bench.frozen, bench.unlimited);
@@ -316,7 +299,7 @@ fn bench_tick_next_step_46_twice() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1199910)]
+#[available_gas(l2_gas: 1201643)]
 fn bench_tick_next_step_ring_once() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.ring_grid, 15, 16, bench.from, bench.zero, bench.unlimited);
@@ -325,7 +308,7 @@ fn bench_tick_next_step_ring_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1267920)]
+#[available_gas(l2_gas: 1271385)]
 fn bench_tick_next_step_ring_twice() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.ring_grid, 15, 16, bench.from, bench.zero, bench.unlimited);
@@ -336,7 +319,7 @@ fn bench_tick_next_step_ring_twice() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1299535)]
+#[available_gas(l2_gas: 1299850)]
 fn bench_tick_distance_46_once() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.corridor, 15, 16, bench.from, bench.frozen, bench.unlimited);
@@ -345,7 +328,7 @@ fn bench_tick_distance_46_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1487840)]
+#[available_gas(l2_gas: 1488470)]
 fn bench_tick_distance_46_twice() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.corridor, 15, 16, bench.from, bench.frozen, bench.unlimited);
@@ -356,7 +339,7 @@ fn bench_tick_distance_46_twice() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1382510)]
+#[available_gas(l2_gas: 1384873)]
 fn bench_tick_next_step_away_46_once() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.corridor, 15, 16, bench.from, bench.frozen, bench.unlimited);
@@ -365,7 +348,7 @@ fn bench_tick_next_step_away_46_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1653990)]
+#[available_gas(l2_gas: 1658715)]
 fn bench_tick_next_step_away_46_twice() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.corridor, 15, 16, bench.from, bench.frozen, bench.unlimited);

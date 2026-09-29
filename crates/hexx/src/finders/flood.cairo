@@ -40,6 +40,9 @@ pub struct Flood {
     pub(crate) width: u8,
     /// The height of the board.
     pub(crate) height: u8,
+    /// The `depth` requested from `Bfs::flood`: a walker whose inferred distance is greater is
+    /// not reached and gets no step (D-25).
+    pub(crate) cap: u8,
     /// `layers[k]`: the tiles at path distance `k` from the source, every one non-empty;
     /// `layers[0]` is the source.
     pub(crate) layers: Span<u256>,
@@ -62,20 +65,30 @@ pub impl FloodImpl of FloodTrait {
     /// The step of a walker towards the source: its neighbour in the least layer that touches
     /// its neighbourhood, lowest index first, among those not `blocked`; when all of them are
     /// blocked, its free neighbour in the next layer, lowest index first (the walker's own layer,
-    /// L-G1 point 5).
+    /// L-G1 point 5). A walker whose inferred distance (`distance`) is greater than the `depth`
+    /// requested from `Bfs::flood` was not reached and gets no step (D-25): the least layer it
+    /// touches is then the last one, at that depth, decided in the same scan.
     /// # Arguments
     /// * `self` - The flood
     /// * `position` - The walker, any tile of the board (the ring included)
     /// * `blocked` - The tiles it may not step on: the current occupancy
     /// # Returns
-    /// * The step, `None` outside the board, when no neighbour is in a layer (the walker is
-    ///   beyond `depth` or cut off) or when every candidate is blocked
+    /// * The step, `None` outside the board, when the walker is beyond the requested `depth`
+    ///   (its inferred distance is greater, or no neighbour is in a layer) or cut off, or when
+    ///   every candidate is blocked
     fn next_step(self: @Flood, position: u8, blocked: felt252) -> Option<u8> {
         let (back, walker) = FloodInternal::walker(self, position)?;
         let around: u256 = walker.around.into();
         let mut layers = *self.layers;
         // [Compute] The neighbours in the least layer that touches the neighbourhood
         let hit = FloodInternal::first(ref layers, around)?;
+        // [Check] Reached: the least layer is not the last one at the cap (D-25), or the walker
+        // is the source
+        if layers.len() == 0
+            && FloodInternal::capped(self)
+            && !FloodInternal::source(self, @walker) {
+            return Option::None;
+        }
         // [Compute] The free ones, else the free neighbours in the next layer
         let blocked: u256 = blocked.into();
         let free = FloodInternal::without(hit, blocked);
@@ -93,13 +106,15 @@ pub impl FloodImpl of FloodTrait {
     }
 
     /// The step of a walker away from the source (kiting): its free neighbour in the greatest
-    /// layer, lowest index first.
+    /// layer, lowest index first. A walker whose inferred distance is greater than the `depth`
+    /// requested from `Bfs::flood` was not reached and gets no step (D-25), as for `next_step`.
     /// # Arguments
     /// * `self` - The flood
     /// * `position` - The walker, any tile of the board (the ring included)
     /// * `blocked` - The tiles it may not step on: the current occupancy
     /// # Returns
-    /// * The step, `None` outside the board or when no free neighbour is in a layer
+    /// * The step, `None` outside the board, when the walker is beyond the requested `depth` or
+    ///   when no free neighbour is in a layer
     fn next_step_away(self: @Flood, position: u8, blocked: felt252) -> Option<u8> {
         let (back, walker) = FloodInternal::walker(self, position)?;
         let around: u256 = walker.around.into();
@@ -108,8 +123,21 @@ pub impl FloodImpl of FloodTrait {
         if free.low == 0 && free.high == 0 {
             return Option::None;
         }
-        // [Compute] The free neighbours in the greatest layer that holds one
         let mut layers = *self.layers;
+        // [Check] At the cap, a free neighbour in the last layer is the step only when the walker
+        // is reached (D-25): it touches a lower layer, or it is the source
+        if FloodInternal::capped(self) {
+            let top = Bits::and(*layers.pop_back().unwrap(), free);
+            if top.low != 0 || top.high != 0 {
+                if FloodInternal::source(self, @walker)
+                    || FloodInternal::last(ref layers, around).is_some() {
+                    return Option::Some(FloodInternal::lowest(back, @walker, top));
+                }
+                return Option::None;
+            }
+        }
+        // [Compute] The free neighbours in the greatest layer that holds one: below the cap, the
+        // walker is reached
         let hit = FloodInternal::last(ref layers, free)?;
         Option::Some(FloodInternal::lowest(back, @walker, hit))
     }
@@ -127,8 +155,7 @@ pub impl FloodImpl of FloodTrait {
         let (_, walker) = FloodInternal::walker(self, position)?;
         let mut layers = *self.layers;
         // [Check] The source, layer 0
-        let source = *layers[0];
-        if source.low.into() + source.high.into() * TWO_POW_128 == walker.power {
+        if FloodInternal::source(self, @walker) {
             return Option::Some(0);
         }
         // [Compute] A tile in layer k ≥ 1 has a neighbour in layer k − 1 and none below it: the
@@ -303,6 +330,19 @@ pub(crate) impl FloodInternal of FloodInternalTrait {
             offsets += back.up_odd * row;
         }
         offsets
+    }
+
+    /// Whether the flood stopped at the requested `depth`: its last layer is at the cap.
+    #[inline(always)]
+    fn capped(self: @Flood) -> bool {
+        (*self.layers).len() == (*self.cap).into() + 1
+    }
+
+    /// Whether a walker stands on the source, layer 0.
+    #[inline(always)]
+    fn source(self: @Flood, walker: @Endpoint) -> bool {
+        let source = *(*self.layers)[0];
+        source.low.into() + source.high.into() * TWO_POW_128 == *walker.power
     }
 
     /// The least layer that touches a set, scanned from layer 0; the layers up to it are popped.

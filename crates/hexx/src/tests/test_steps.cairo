@@ -41,6 +41,8 @@ struct Board {
     height: u8,
     from: u8,
     depth: u8,
+    /// The `depth` requested from `Bfs::flood` (D-25).
+    cap: u8,
     /// The layer of each tile, `None` when it is in none.
     layers: Array<Option<u8>>,
     /// The board neighbours of each tile, lowest index first.
@@ -73,7 +75,12 @@ impl Steps of StepsTrait {
             tile += 1;
         }
         let interior: u256 = LayoutTrait::interior(width, height).into();
-        (flood, Board { grid, width, height, from, depth: deepest, layers, around, interior })
+        (
+            flood,
+            Board {
+                grid, width, height, from, depth: deepest, cap: depth, layers, around, interior,
+            },
+        )
     }
 
     /// The board neighbours of a tile, lowest index first.
@@ -143,8 +150,17 @@ impl Steps of StepsTrait {
         Option::None
     }
 
+    /// Whether the flood reached a walker: its distance is at most the requested `depth`
+    /// (D-25).
+    fn reached(board: @Board, position: u8) -> bool {
+        match Self::distance(board, position) {
+            Option::Some(distance) => distance <= *board.cap,
+            Option::None => false,
+        }
+    }
+
     fn next_step(board: @Board, position: u8, blocked: felt252) -> Option<u8> {
-        if position.into() >= board.layers.len() {
+        if position.into() >= board.layers.len() || !Self::reached(board, position) {
             return Option::None;
         }
         let neighbours = Self::neighbours(board, position);
@@ -160,7 +176,7 @@ impl Steps of StepsTrait {
     }
 
     fn next_step_away(board: @Board, position: u8, blocked: felt252) -> Option<u8> {
-        if position.into() >= board.layers.len() {
+        if position.into() >= board.layers.len() || !Self::reached(board, position) {
             return Option::None;
         }
         // [Compute] The free neighbour in the greatest layer, the first one met (lowest index)
@@ -265,26 +281,14 @@ impl Steps of StepsTrait {
     /// The tick of the game: every walker, in ascending id order, takes `next_step` filtered by
     /// the current occupancy, which is updated after each move; checked move by move against
     /// the oracle, whose occupancy is updated the same way. Returns the moves.
-    ///
-    /// The cap is the caller's rule (D-127, `bench_tick`): a walker whose inferred distance is
-    /// greater than `cap`, or undefined, is not reached and holds its position without calling
-    /// `next_step`, even when a neighbour is in the last layer.
+    /// A walker that gets `None` holds its position, a walker the flood did not reach among
+    /// them (D-25, D-127).
     fn tick(
-        flood: @Flood, board: @Board, walkers: Span<u8>, occupied: felt252, cap: u8,
+        flood: @Flood, board: @Board, walkers: Span<u8>, occupied: felt252,
     ) -> Array<Option<u8>> {
         let mut blocked = occupied;
         let mut moves: Array<Option<u8>> = array![];
         for walker in walkers {
-            let distance = flood.distance(*walker);
-            assert!(distance == Self::distance(board, *walker), "distance {}", *walker);
-            let reached = match distance {
-                Option::Some(distance) => distance <= cap,
-                Option::None => false,
-            };
-            if !reached {
-                moves.append(Option::None);
-                continue;
-            }
             let step = flood.next_step(*walker, blocked);
             assert!(step == Self::next_step(board, *walker, blocked), "walker {}", *walker);
             if let Option::Some(step) = step {
@@ -333,7 +337,7 @@ impl Steps of StepsTrait {
 // The regression cases of plan §6.9
 
 #[test]
-#[available_gas(l2_gas: 607545021)]
+#[available_gas(l2_gas: 645696645)]
 fn test_steps_r_n8_1() {
     // (1, 2) frozen, depth 182: 45 layers, (2, 2) at 45, (1, 2) inferred at 46 and steps onto 32
     let flood = Bfs::flood(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, 0x80000000, 182);
@@ -345,7 +349,7 @@ fn test_steps_r_n8_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 437749454)]
+#[available_gas(l2_gas: 444372350)]
 fn test_steps_r_n8_2() {
     // The same at depth 15: (1, 2) is beyond the cap, it holds its position (D-127)
     let flood = Bfs::flood(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, 0x80000000, 15);
@@ -356,7 +360,7 @@ fn test_steps_r_n8_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 607975651)]
+#[available_gas(l2_gas: 645033466)]
 fn test_steps_r_n8_3() {
     // (1, 2) and (3, 2) frozen: (2, 2) is cut off, so (1, 2) gets None at every depth
     let obstacles: felt252 = 0x280000000;
@@ -373,7 +377,7 @@ fn test_steps_r_n8_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 74804008)]
+#[available_gas(l2_gas: 74918196)]
 fn test_steps_r_n8_4() {
     // The eight walkers of `SERPENTINE_15X16_8`, in ascending id order, `blocked` updated after
     // each move: W1 steps to (6, 2), W5 to (6, 12), the six behind them wait
@@ -384,7 +388,7 @@ fn test_steps_r_n8_4() {
     );
     assert!(flood.depth() == 41);
     // No cap: the flood of R-N8-4 is not truncated
-    let moves = Steps::tick(@flood, @board, walkers, SERPENTINE_15X16_8, 255);
+    let moves = Steps::tick(@flood, @board, walkers, SERPENTINE_15X16_8);
     let none = Option::None;
     let expected = array![Option::Some(36), none, none, none, Option::Some(186), none, none, none];
     assert!(moves == expected);
@@ -397,7 +401,7 @@ fn test_steps_r_n8_4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 610975481)]
+#[available_gas(l2_gas: 649469054)]
 fn test_steps_r_n8_5() {
     // A walker on the ring, (0, 8), steps through its in-board neighbour (1, 8), in layer 6
     let grid = SERPENTINE_15X16 + Bits::pow(Steps::at(0, 8));
@@ -409,7 +413,7 @@ fn test_steps_r_n8_5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1739124)]
+#[available_gas(l2_gas: 1747314)]
 fn test_steps_r_n8_6() {
     // (4, 8) at 3 on the flood of R-N8-1, both open neighbours blocked: the reverse scan visits
     // every layer from 45 down to 0 and finds nothing
@@ -426,7 +430,7 @@ fn test_steps_r_n8_6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 109621010)]
+#[available_gas(l2_gas: 109673432)]
 fn test_steps_r_n8_7() {
     // 7 × 7, (1, 3) interior and (0, 3) an open edge tile
     let grid: felt252 = 0x600000;
@@ -450,7 +454,7 @@ fn test_steps_r_n8_7() {
 // The tie-break, the fallback and the cap
 
 #[test]
-#[available_gas(l2_gas: 76048368)]
+#[available_gas(l2_gas: 83360812)]
 fn test_steps_ties_and_fallback() {
     // The empty 7 × 7 from (1, 1): (3, 2), in layer 2, has two neighbours in layer 1, 9 and 16
     let flood = Bfs::flood(EMPTY_7X7, 7, 7, 8, 0, 25);
@@ -470,21 +474,29 @@ fn test_steps_ties_and_fallback() {
 }
 
 #[test]
-#[available_gas(l2_gas: 288669646)]
+#[available_gas(l2_gas: 553472049)]
 fn test_steps_beyond_the_cap() {
-    // Capped at 15: (5, 6) touches (6, 6) in layer 15 and steps onto it; blocked, it has no
-    // layer 16 to fall back to. This is the library's contract, which answers for the layers it
-    // has; the game's tick holds a walker at 16 (D-127): see `test_steps_tick_cap_*`
+    // Capped at 15: (5, 6) touches (6, 6) in layer 15, so its distance is 16, beyond the cap:
+    // no step towards or away (D-25), whatever is blocked
     let flood = Bfs::flood(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, 0x80000000, 15);
     assert!(flood.distance(Steps::at(5, 6)) == Option::Some(16));
-    assert!(flood.next_step(Steps::at(5, 6), 0) == Option::Some(Steps::at(6, 6)));
-    assert!(flood.next_step(Steps::at(5, 6), Bits::pow(Steps::at(6, 6))) == Option::None);
+    assert!(flood.next_step(Steps::at(5, 6), 0) == Option::None);
+    assert!(flood.next_step_away(Steps::at(5, 6), 0) == Option::None);
+    // (6, 6) itself, in layer 15, is reached
+    assert!(flood.next_step(Steps::at(6, 6), 0) == Option::Some(Steps::at(7, 6)));
     // (4, 6) is at 17: beyond the cap, None
     assert!(flood.next_step(Steps::at(4, 6), 0) == Option::None);
     assert!(flood.distance(Steps::at(4, 6)) == Option::None);
-    // depth 0: the source's neighbours step onto it, nothing else moves
+    // depth 0: the source's neighbours are at 1, beyond the cap: nothing moves
     let flood = Bfs::flood(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, 0, 0);
+    assert!(flood.distance(Steps::at(8, 8)) == Option::Some(1));
+    assert!(flood.next_step(Steps::at(8, 8), 0) == Option::None);
+    // depth 1: they are reached and step onto the source
+    let flood = Bfs::flood(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, 0, 1);
     assert!(flood.next_step(Steps::at(8, 8), 0) == Option::Some(SERPENTINE_15X16_FROM));
+    assert!(flood.next_step(SERPENTINE_15X16_FROM, 0) == Option::Some(Steps::at(6, 8)));
+    Steps::sweep(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, 0, 1);
+    let flood = Bfs::flood(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, 0, 0);
     assert!(flood.next_step(Steps::at(9, 8), 0) == Option::None);
     assert!(flood.next_step(SERPENTINE_15X16_FROM, 0) == Option::None);
     assert!(flood.distance(SERPENTINE_15X16_FROM) == Option::Some(0));
@@ -492,7 +504,7 @@ fn test_steps_beyond_the_cap() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1355794)]
+#[available_gas(l2_gas: 1361464)]
 fn test_steps_outside() {
     let flood = Bfs::flood(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, 0, 255);
     for position in array![240_u8, 241, 250, 251, 255] {
@@ -509,7 +521,7 @@ fn test_steps_outside() {
 }
 
 #[test]
-#[available_gas(l2_gas: 66129066)]
+#[available_gas(l2_gas: 67932829)]
 fn test_steps_deterministic() {
     let flood = Bfs::flood(CAVE_15X16, 15, 16, CAVE_15X16_FROM, 0, 15);
     let mut position: u8 = 0;
@@ -523,7 +535,7 @@ fn test_steps_deterministic() {
 // The ticks of `bench_tick`
 
 #[test]
-#[available_gas(l2_gas: 268355833)]
+#[available_gas(l2_gas: 282899274)]
 fn test_steps_tick_cave() {
     // The window assembled from its 4 chunks is the cave, its occupancy the eight walkers
     let walkers = CAVE_15X16_WALKERS.span();
@@ -544,7 +556,7 @@ fn test_steps_tick_cave() {
     ];
     assert!(distances == expected);
     // Ascending id order: W1 takes 55, which W2 wanted, so W2 steps onto 42
-    let moves = Steps::tick(@flood, @board, walkers, occupied, 15);
+    let moves = Steps::tick(@flood, @board, walkers, occupied);
     let expected: Array<Option<u8>> = array![
         Option::Some(55), Option::Some(42), Option::Some(57), Option::Some(71), Option::Some(73),
         Option::Some(86), Option::Some(96), Option::Some(102),
@@ -557,7 +569,7 @@ fn test_steps_tick_cave() {
 }
 
 #[test]
-#[available_gas(l2_gas: 166742452)]
+#[available_gas(l2_gas: 168058009)]
 fn test_steps_tick_serpentine() {
     // The window assembled from its 4 chunks is the serpentine, its occupancy the eight walkers
     let walkers = SERPENTINE_15X16_WALKERS.span();
@@ -567,7 +579,7 @@ fn test_steps_tick_serpentine() {
     // Capped at 15, no walker is reached: each holds its position (D-127)
     let (flood, board) = Steps::board(grid, 15, 16, SERPENTINE_15X16_FROM, occupied, 15);
     assert!(flood.depth() == 15);
-    let moves = Steps::tick(@flood, @board, walkers, occupied, 15);
+    let moves = Steps::tick(@flood, @board, walkers, occupied);
     let none: Option<u8> = Option::None;
     assert!(moves == array![none, none, none, none, none, none, none, none]);
     Steps::check(@flood, @board, occupied);
@@ -576,7 +588,7 @@ fn test_steps_tick_serpentine() {
 // Both limb paths, on the fixtures
 
 #[test]
-#[available_gas(l2_gas: 357841725)]
+#[available_gas(l2_gas: 385870097)]
 fn test_steps_sweep_7x7() {
     // The single limb
     Steps::sweep(EMPTY_7X7, 7, 7, EMPTY_7X7_FAR_FROM, 0, 25);
@@ -587,7 +599,7 @@ fn test_steps_sweep_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 194141466)]
+#[available_gas(l2_gas: 203256094)]
 fn test_steps_sweep_11x11() {
     // The single limb, 121 bits: the neighbourhoods of the last rows reach bit 120
     let grid = Caver::generate(11, 11, 3, 1);
@@ -599,20 +611,20 @@ fn test_steps_sweep_11x11() {
 }
 
 #[test]
-#[available_gas(l2_gas: 442519231)]
+#[available_gas(l2_gas: 471105670)]
 fn test_steps_sweep_cave_15x16() {
     // Two limbs: neighbourhoods in the low limb, the high limb and across both
     Steps::sweep(CAVE_15X16, 15, 16, CAVE_15X16_FROM, CAVE_15X16_8, 15);
 }
 
 #[test]
-#[available_gas(l2_gas: 498594189)]
+#[available_gas(l2_gas: 528082433)]
 fn test_steps_sweep_cave_17x14() {
     Steps::sweep(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, 0, 255);
 }
 
 #[test]
-#[available_gas(l2_gas: 276928822)]
+#[available_gas(l2_gas: 261229166)]
 fn test_steps_sweep_19x13() {
     // The largest board of the engine, 247 bits, from an open edge source (D-32)
     let grid = Caver::generate(19, 13, 3, 1);
@@ -621,7 +633,7 @@ fn test_steps_sweep_19x13() {
 }
 
 #[test]
-#[available_gas(l2_gas: 465691399)]
+#[available_gas(l2_gas: 492317238)]
 fn test_steps_sweep_edge_source_17x14() {
     // An entrance: its interior neighbours step onto it, the other open edge tiles never are a
     // step
@@ -629,13 +641,14 @@ fn test_steps_sweep_edge_source_17x14() {
     Steps::sweep(grid, 17, 14, 85, 0, 255);
 }
 
-// The cap of the tick is the caller's rule (D-127; audit M1-T9b pass 1, finding 1)
+// The cap: a walker beyond the requested depth gets no step (D-25, D-127; audit M1-T9b pass 1,
+// finding 1). At the cap it moves, at the cap + 1 it holds, the walkers frozen as obstacles
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 65832695)]
 fn test_steps_tick_cap_16_holds() {
-    // W1 on (5, 6), inferred at 16: (6, 6) is in layer 15, and `next_step` would take it, but
-    // the flood capped at 15 did not reach W1, which holds its position. The others hold too
+    // W1 on (5, 6), inferred at 16: (6, 6) is in layer 15, the last layer of the flood capped at
+    // 15, which did not reach W1: `next_step` gives it nothing and it holds. The others hold too
     let walkers = Steps::cap_walkers(95).span();
     let occupied = Steps::occupancy(walkers);
     let (flood, board) = Steps::board(
@@ -643,14 +656,14 @@ fn test_steps_tick_cap_16_holds() {
     );
     assert!(flood.depth() == 15);
     assert!(flood.distance(95) == Option::Some(16));
-    assert!(flood.next_step(95, occupied) == Option::Some(96));
-    let moves = Steps::tick(@flood, @board, walkers, occupied, 15);
+    assert!(flood.next_step(95, occupied) == Option::None);
+    let moves = Steps::tick(@flood, @board, walkers, occupied);
     let none: Option<u8> = Option::None;
     assert!(moves == array![none, none, none, none, none, none, none, none]);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 65623819)]
 fn test_steps_tick_cap_15_moves() {
     // W1 on (6, 6), inferred at 15: it is reached and steps onto (7, 6), in layer 14
     let walkers = Steps::cap_walkers(96).span();
@@ -659,15 +672,64 @@ fn test_steps_tick_cap_15_moves() {
         SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, occupied, 15,
     );
     assert!(flood.distance(96) == Option::Some(15));
-    let moves = Steps::tick(@flood, @board, walkers, occupied, 15);
+    let moves = Steps::tick(@flood, @board, walkers, occupied);
     let none: Option<u8> = Option::None;
     assert!(moves == array![Option::Some(97), none, none, none, none, none, none, none]);
+}
+
+#[test]
+#[available_gas(l2_gas: 322432047)]
+fn test_steps_cap_away() {
+    // `next_step_away` on the same floods: (6, 6) at 15 kites to (7, 6), its only neighbour in a
+    // layer; (5, 6) at 16 touches only the last layer and gets nothing
+    let walkers = Steps::cap_walkers(96).span();
+    let occupied = Steps::occupancy(walkers);
+    let (flood, board) = Steps::board(
+        SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, occupied, 15,
+    );
+    assert!(flood.next_step_away(96, occupied) == Option::Some(97));
+    Steps::check(@flood, @board, occupied);
+    let walkers = Steps::cap_walkers(95).span();
+    let occupied = Steps::occupancy(walkers);
+    let (flood, board) = Steps::board(
+        SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, occupied, 15,
+    );
+    assert!(flood.next_step_away(95, occupied) == Option::None);
+    assert!(flood.next_step_away(95, 0) == Option::None);
+    Steps::check(@flood, @board, occupied);
+}
+
+#[test]
+#[available_gas(l2_gas: 145487798)]
+fn test_steps_cap_ring() {
+    // W1 on the ring, (0, 6): its one board neighbour in a layer is (1, 6), at 20, so it is at
+    // 21. Capped at 21 it is reached and steps onto (1, 6), towards and away; capped at 20 it
+    // touches only the last layer and holds
+    let walkers = Steps::cap_walkers(90).span();
+    let occupied = Steps::occupancy(walkers);
+    let (flood, board) = Steps::board(
+        SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, occupied, 21,
+    );
+    assert!(flood.distance(90) == Option::Some(21));
+    assert!(flood.next_step_away(90, occupied) == Option::Some(91));
+    let moves = Steps::tick(@flood, @board, walkers, occupied);
+    let none: Option<u8> = Option::None;
+    assert!(moves == array![Option::Some(91), none, none, none, none, none, none, none]);
+    let (flood, board) = Steps::board(
+        SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, occupied, 20,
+    );
+    assert!(flood.depth() == 20);
+    assert!(flood.distance(90) == Option::Some(21));
+    assert!(flood.next_step(90, occupied) == Option::None);
+    assert!(flood.next_step_away(90, occupied) == Option::None);
+    let moves = Steps::tick(@flood, @board, walkers, occupied);
+    assert!(moves == array![none, none, none, none, none, none, none, none]);
 }
 
 // The ring: the neighbourhood of a walker without the per-direction loop
 
 #[test]
-#[available_gas(l2_gas: 80581711)]
+#[available_gas(l2_gas: 80912303)]
 fn test_steps_tick_cave_ring() {
     // The cave tick with W8 on the ring, (14, 4), inferred at 13: it steps onto (13, 5)
     let walkers = CAVE_15X16_RING_WALKERS.span();
@@ -677,7 +739,7 @@ fn test_steps_tick_cave_ring() {
     assert!(Steps::occupancy(walkers) == CAVE_15X16_RING);
     let (flood, board) = Steps::board(grid, 15, 16, CAVE_15X16_FROM, occupied, 15);
     assert!(flood.distance(74) == Option::Some(13));
-    let moves = Steps::tick(@flood, @board, walkers, occupied, 15);
+    let moves = Steps::tick(@flood, @board, walkers, occupied);
     let expected: Array<Option<u8>> = array![
         Option::Some(55), Option::Some(42), Option::Some(57), Option::Some(71), Option::Some(73),
         Option::Some(86), Option::Some(96), Option::Some(88),
@@ -686,7 +748,7 @@ fn test_steps_tick_cave_ring() {
 }
 
 #[test]
-#[available_gas(l2_gas: 108185581)]
+#[available_gas(l2_gas: 108320096)]
 fn test_steps_ring_neighbourhoods() {
     // Every tile of both limb paths, both row parities, odd and even heights: the walker's
     // neighbour bits are those of `LayoutTrait::edge_neighbours`, the taken-over reference
@@ -715,7 +777,7 @@ fn test_steps_ring_neighbourhoods() {
 }
 
 #[test]
-#[available_gas(l2_gas: 917906)]
+#[available_gas(l2_gas: 927619)]
 fn test_steps_ring_corners() {
     // The four corners of 15 × 16, by hand: (0, 0) and (14, 0) on an even row, (0, 15) and
     // (14, 15) on an odd row
@@ -741,7 +803,7 @@ fn test_steps_ring_corners() {
 }
 
 #[test]
-#[available_gas(l2_gas: 268604921)]
+#[available_gas(l2_gas: 293968828)]
 fn test_steps_ring_open_7x7_11x11() {
     // Every tile open, the ring included, against the oracle. The single limb
     Steps::sweep(LayoutTrait::board(7, 7), 7, 7, 24, 0, 25);
@@ -749,13 +811,13 @@ fn test_steps_ring_open_7x7_11x11() {
 }
 
 #[test]
-#[available_gas(l2_gas: 432184550)]
+#[available_gas(l2_gas: 459234390)]
 fn test_steps_ring_open_15x16() {
     Steps::sweep(LayoutTrait::board(15, 16), 15, 16, SERPENTINE_15X16_FROM, 0, 255);
 }
 
 #[test]
-#[available_gas(l2_gas: 449399923)]
+#[available_gas(l2_gas: 477297060)]
 fn test_steps_ring_open_19x13() {
     Steps::sweep(LayoutTrait::board(19, 13), 19, 13, 123, 0, 255);
 }
