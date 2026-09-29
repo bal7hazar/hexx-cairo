@@ -40,6 +40,7 @@ dependencies = [
 name = "takeover_tests"
 version = "0.1.0-rc.0"
 dependencies = [
+ "hexx",
  "origami_hexmap",
  "snforge_std",
 ]
