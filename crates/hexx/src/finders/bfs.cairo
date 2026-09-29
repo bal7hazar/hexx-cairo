@@ -20,6 +20,7 @@
 use hexx::board::asserter::Asserter;
 use hexx::board::bits::{Bits, TWO_POW_128};
 use hexx::board::layout::{Dilation, DilationTrait, LayoutTrait};
+use hexx::finders::flood::{Flood, FloodAssert, FloodInternal};
 
 // Constants
 
@@ -344,6 +345,63 @@ pub impl Bfs of BfsTrait {
         };
         let reach = Bits::and(near, edges.into());
         Bits::to_felt(Bits::or(reach, ball.into()))
+    }
+
+    /// The layers of path distance from a position, up to a depth (N-8, plan §6.9): the flood of
+    /// the tick, shared by every walker.
+    /// # Arguments
+    /// * `grid` - The grid, `1` is walkable
+    /// * `width` - The width of the map
+    /// * `height` - The height of the map
+    /// * `from` - The source, possibly an open edge tile
+    /// * `obstacles` - The tiles the flood does not enter (the occupancy frozen at the start of
+    /// the tick)
+    /// * `depth` - The largest number of layers computed after layer 0
+    /// # Returns
+    /// * The flood: layer `k` holds the walkable interior tiles outside `obstacles` at path
+    /// distance `k` from `from` through such tiles, layer 0 is `from`; it stops at `depth` or at
+    /// the first empty layer
+    /// # Panics
+    /// * If the dimensions are invalid, or `from` is outside the board, not walkable or an
+    /// obstacle
+    fn flood(
+        grid: felt252, width: u8, height: u8, from: u8, obstacles: felt252, depth: u8,
+    ) -> Flood {
+        // [Check] Dimensions and source, walkable and not an obstacle
+        let open: u256 = BfsInternal::check_one(grid, width, height, from);
+        let obstacles: u256 = obstacles.into();
+        FloodAssert::assert_free(obstacles, from);
+        // [Compute] Layer 0 is the source
+        let (step, back, free) = BfsInternal::constants(open, width, height);
+        let centre = BfsInternal::endpoint(@back, height, from);
+        let mut layers: Array<u256> = array![centre.power.into()];
+        if depth != 0 {
+            // [Compute] The walkable interior tiles outside the obstacles and the source
+            let free = free - Bits::and(free, obstacles);
+            let free = if centre.interior {
+                free - centre.power.into()
+            } else {
+                free
+            };
+            // [Compute] Layer 1, the open interior neighbourhood, then the next ones
+            let first = Bits::and(centre.around.into(), free);
+            if width * height <= SMALL_SIZE {
+                FloodInternal::spread_small(
+                    @step, first.low, free.low - first.low, depth, ref layers,
+                );
+            } else {
+                FloodInternal::spread(
+                    @step,
+                    first.low,
+                    first.high,
+                    free.low - first.low,
+                    free.high - first.high,
+                    depth,
+                    ref layers,
+                );
+            }
+        }
+        Flood { width, height, layers: layers.span() }
     }
 }
 

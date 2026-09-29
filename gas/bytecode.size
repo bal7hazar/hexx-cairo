@@ -1,5 +1,6 @@
 # contract: sierra_felts casm_felts sierra_bytes casm_bytes
 HexxAssembly: 2992 4967 133312 129932
 HexxDial: 9789 21007 515604 479570
+HexxFlood: 3079 4486 136501 113407
 HexxGenerators: 27092 49375 1395788 997126
 HexxSink: 24672 44469 1317348 1014757

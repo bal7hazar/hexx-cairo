@@ -174,3 +174,22 @@ class Check(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class OnlyAdditions(unittest.TestCase):
+    def test_added_lines_are_accepted(self) -> None:
+        self.assertTrue(t.only_additions("a\nb\nc", "a\nx\nb\nc\ny"))
+
+    def test_a_changed_removed_or_reordered_line_is_refused(self) -> None:
+        self.assertFalse(t.only_additions("a\nb", "a\nB"))
+        self.assertFalse(t.only_additions("a\nb\nc", "a\nc"))
+        self.assertFalse(t.only_additions("a\nb\nc", "a\nc\nb"))
+
+    def test_an_original_line_kept_only_in_a_comment_is_refused(self) -> None:
+        original = "fn f() {\n    assert(ok, 'E');\n}"
+        disguised = "fn f() {\n    assert(true, 'E');\n    // assert(ok, 'E');\n}"
+        self.assertFalse(t.only_additions(original, disguised))
+
+    def test_comments_do_not_matter_otherwise(self) -> None:
+        self.assertTrue(t.only_additions("a // one\nb", "a\n// new\nx\nb // two"))
+        self.assertTrue(t.only_additions("s = '//';", "s = '//';\ny"))

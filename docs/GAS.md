@@ -464,6 +464,17 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::tests::bench_dial::tests::test_dial_variants_cave_17x14` | 506,543,878 | 531,871,072 | 5.0 % |
 | `hexx::tests::bench_dial::tests::test_dial_variants_empty_17x14` | 455,809,092 | 478,599,547 | 5.0 % |
 | `hexx::tests::bench_dial::tests::test_dial_variants_maze_17x14` | 349,469,116 | 366,942,572 | 5.0 % |
+| `hexx::tests::bench_flood::bench_flood_baseline` | 16,240 | 17,052 | 5.0 % |
+| `hexx::tests::bench_flood::bench_flood_cave_15` | 374,008 | 392,709 | 5.0 % |
+| `hexx::tests::bench_flood::bench_flood_cave_unlimited` | 412,790 | 433,430 | 5.0 % |
+| `hexx::tests::bench_flood::bench_flood_depth_once` | 267,958 | 281,356 | 5.0 % |
+| `hexx::tests::bench_flood::bench_flood_depth_twice` | 268,628 | 282,060 | 5.0 % |
+| `hexx::tests::bench_flood::bench_flood_serpentine_0` | 51,372 | 53,941 | 5.0 % |
+| `hexx::tests::bench_flood::bench_flood_serpentine_10` | 267,388 | 280,758 | 5.0 % |
+| `hexx::tests::bench_flood::bench_flood_serpentine_15` | 381,118 | 400,174 | 5.0 % |
+| `hexx::tests::bench_flood::bench_flood_serpentine_20` | 494,848 | 519,591 | 5.0 % |
+| `hexx::tests::bench_flood::bench_flood_serpentine_8` | 951,420 | 998,991 | 5.0 % |
+| `hexx::tests::bench_flood::bench_flood_serpentine_unlimited` | 1,044,774 | 1,097,013 | 5.0 % |
 | `hexx::tests::bench_foundation::bench_array_build` | 291,480 | 306,054 | 5.0 % |
 | `hexx::tests::bench_foundation::bench_array_span_at` | 388,680 | 408,114 | 5.0 % |
 | `hexx::tests::bench_foundation::bench_baseline_cave_17x14` | 15,040 | 15,792 | 5.0 % |
@@ -854,6 +865,35 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::tests::test_assembly::test_assembly_revert_window_odd_origin` | 17,502 | 18,378 | 5.0 % |
 | `hexx::tests::test_assembly::test_assembly_void_chunks` | 620,302,322 | 651,317,439 | 5.0 % |
 | `hexx::tests::test_assembly::test_assembly_window_ring` | 73,164 | 76,823 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_cave_15x16` | 31,306,999 | 32,872,349 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_depths_serpentine` | 153,341,196 | 161,008,256 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_depths_small` | 40,135,520 | 42,142,296 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_deterministic` | 931,584 | 978,164 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_disconnected_source` | 11,753,610 | 12,341,291 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_edge_sources` | 209,117,910 | 219,573,806 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_fixtures_17x14` | 814,173,430 | 854,882,102 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_obstacles_off_the_interior` | 14,050,342 | 14,752,860 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_r_n8_1` | 13,864,276 | 14,557,490 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_r_n8_2` | 11,641,012 | 12,223,063 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_r_n8_3` | 86,694,466 | 91,029,190 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_r_n8_4` | 15,283,628 | 16,047,810 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_r_n8_5` | 13,136,734 | 13,793,571 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_r_n8_6` | 12,796,948 | 13,436,796 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_r_n8_7_edge_source` | 835,543 | 877,321 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_r_n8_7_interior_source` | 647,134 | 679,491 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_revert_dimension` | 15,520 | 16,296 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_revert_obstacle` | 25,826 | 27,118 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_revert_outside` | 15,520 | 16,296 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_revert_wall` | 21,583 | 22,663 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_serpentine_hand_distances` | 16,559,610 | 17,387,591 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_sweep_cave_15x16` | 525,644,191 | 551,926,401 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_sweep_cave_7x7` | 235,780,399 | 247,569,419 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_sweep_empty_7x7` | 276,349,571 | 290,167,050 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_sweep_maze_7x7` | 122,581,779 | 128,710,868 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_sweep_random_caves_11x11` | 247,134,138 | 259,490,845 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_sweep_random_caves_19x13` | 231,394,696 | 242,964,431 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_sweep_serpentine_15x16` | 216,798,866 | 227,638,810 | 5.0 % |
+| `hexx::tests::test_flood::test_flood_sweep_unreachable_7x7` | 124,170,207 | 130,378,718 | 5.0 % |
 | `hexx_integrationtest::readme::test_readme_create` | 5,635,625 | 5,917,407 | 5.0 % |
 | `hexx_integrationtest::readme::test_readme_endpoint_on_wall_panics` | 494,141 | 518,849 | 5.0 % |
 | `hexx_integrationtest::readme::test_readme_find_paths` | 2,562,554 | 2,690,682 | 5.0 % |
@@ -1492,4 +1532,4 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 15,520 | 16,296 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 15,520 | 16,296 | 5.0 % |
 
-1485 measured test(s).
+1525 measured test(s).
