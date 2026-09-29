@@ -38,6 +38,13 @@ version.
 
 ## Notes
 
+- **The machine is shared (game's `OPERATIONS.md` §3, `27ceea0`).** Sessions and agents delete
+  and kill only what they created, named exactly; temporary directories under their own
+  scratchpad or worktree. In `COMMON.md` and in the profiles. The orchestrator itself, on
+  2026-09-28, stopped two of its own queued shell loops with a kill by pattern
+  (`pgrep -f` on the text of its own command): only its own loops matched, but the form is the
+  one the rule forbids, and it is not used again: pids are recorded at launch.
+
 - **Inputs of the game for N-1 and N-3 (D-134, 2026-09-28).** Corners of a chunk always wall,
   openings never on a corner; a void chunk is assembled as wall without a read and the window
   is never clamped. Recorded in §14 of the plan and carried into the briefs. The game's spike
