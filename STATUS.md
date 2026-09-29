@@ -6,10 +6,10 @@
 |---|---|
 | Phase | **Milestone L-M1: LIB-05.** M1-T1a (the take-over, the move) is merged; next M1-T1b (the equality tests), then N-3 and N-8 |
 | Cap | **One agent at a time for the library, audits included**: the single slot `lib-1`, held by a kernel lock (launcher at the game's `2628b21`). Nothing is launched while `~/orchestrator/waiting/game` is less than 30 minutes old |
-| Waiting for the slot, in this order | LIB-04b: merge of `main` and regeneration by the resumed agent, then its audit (pull request #26); audit of the launcher syncs (pull requests #25, #29, #30, merged before audit by exception); M1-T1b |
+| Waiting for the slot, in this order | Audit of the launcher syncs (pull requests #25, #29, #30, merged before audit by exception), running; then M1-T1b (the equality tests, `[Opus 5.5]`) |
 | Pending decisions | None |
 | Gates | L-G1 and L-G2 decided by the owner on 2026-09-28: [L-G1](docs/decisions/L-G1-hexx-port.md), [L-G2](docs/decisions/L-G2-porting-plan.md) |
-| Publication | Nothing is published. No workflow of the repository publishes or holds a token. Rule D-132 (game's `OPERATIONS.md` §7): the orchestrator's session publishes, never an agent, after a go that names package, version and commit. **LIB-04b must be merged first. Before its first publication the orchestrator asks the owner, in its own session, to confirm the delegation of that decision to the project manager** |
+| Publication | Nothing is published. No workflow of the repository publishes or holds a token. Rule D-132 (game's `OPERATIONS.md` §7): the orchestrator's session publishes, never an agent, after a go that names package, version and commit. LIB-04b is merged (pull request #26, audit PASS without finding). **Before its first publication the orchestrator asks the owner, in its own session, to confirm the delegation of that decision to the project manager** |
 | Stop condition of LIB-05 | A measurement above the upper bound of its range: stop and report before any budget is set |
 | **Open risk: a gas measurement that moved** | `test_readme_open` measured 2,053,706 on two CI runs and 2,030,366 on every other run, local and CI, on the same tree, same toolchain, same runner image. Cause unknown after the implementer's and the auditor's search. The gas gate compares exactly, so it can fail at random; and the method (budgets within 5 %) rests on measurements being reproducible. M1-T1c makes CI keep what is needed to find the cause at the next occurrence |
 | Figures of the take-over | 811 tests (708 run, 103 ignored), all measurements equal to those of 1.8.0; CI job of the engine's tests 7 min 20 s of the 10 minutes allowed; the 20 functions of the facade do not fit one contract (limit 81,920 CASM felts): three fixtures of 21,007, 44,469 and 49,375 |
@@ -19,6 +19,7 @@
 
 | Date | What |
 |---|---|
+| 2026-09-29 | LIB-04b: the three findings of the tooling audit and four more silent cases of the parity tool, by `[Sonnet 5.5]`; audit by `[GPT-6-Sol]`: PASS, no finding; [report](docs/reports/LIB-04b-REPORT.md) archived |
 | 2026-09-29 | LIB-05 M1-T1a: the engine of `origami_hexmap` 1.8.0 moved unchanged (29 files, proved by `scripts/takeover_check.py` and by the auditor's own comparison), by `[Sonnet 5.5]`; two audit passes by `[GPT-6-Sol]`, one fix loop; [report](docs/reports/LIB-05-M1-T1a-REPORT.md) archived |
 | 2026-09-29 | Launcher synced with the game's slot locks (`2628b21`); rule of the shared machine in `COMMON.md` and the profiles |
 | 2026-09-28 | LIB-01: repository set up (pull request #1) |
