@@ -1,9 +1,11 @@
 //! `generators::walker` of 1.8.0 against `hexx::generators::walker`: `Walker::generate`.
 //!
 //! Inputs: 64 seeds (`common::generator_seed`) on the 9 dimensions of `common::DIMENSIONS`, every
-//! step count of `STEPS` (the walker has no order: the counts cover no step, one step, each
-//! remainder of its blocks of 3 and of 18 moves, the 72 moves of two permutations, and a walk of
-//! 250 moves that crosses seven).
+//! step count of `STEPS`. The walker has no order; its moves go by blocks of 18 (one pool) and
+//! by 3 within a block, and one permutation serves 36 moves. The counts cover no step, one step,
+//! every remainder modulo 3, the remainders 0, 1, 2, 3, 16 and 17 modulo 18 (not the others:
+//! fix loop 1 corrects a comment that claimed every one), the 72 moves of exactly two
+//! permutations, and a walk of 250 moves that draws from seven.
 
 use hexx::generators::walker::Walker as H;
 use origami_hexmap::generators::walker::Walker as O;

@@ -240,8 +240,10 @@ pub const PAIRS: u32 = 12;
 pub const SOURCES: u32 = 6;
 
 /// The endpoints of the finders on board `board` (an index of `fixtures::boards`), all walkable:
-/// 12 seeded pairs (tag `'ends'`), `from == to` once, and every entrance paired with a seeded
-/// tile both ways and with the next entrance.
+/// 12 seeded pairs (tag `'ends'`) and every entrance paired with a seeded tile both ways. The
+/// identical endpoints are `identical_endpoints`, the pairs of distinct entrances
+/// `entrance_pairs` (fix loop 1, finding 1: a pair "entrance, next entrance" of a board with a
+/// single entrance was the same tile twice).
 pub fn endpoints(board: u32, grid: felt252, width: u8, height: u8) -> Array<(u8, u8)> {
     let open = tiles(grid);
     let count = open.len();
@@ -253,8 +255,6 @@ pub fn endpoints(board: u32, grid: felt252, width: u8, height: u8) -> Array<(u8,
         pairs.append((from, to));
         index += 1;
     }
-    let same = *open.at(below('same', board, count));
-    pairs.append((same, same));
     let entrances = entrances(grid, width, height);
     let edges = entrances.len();
     let mut index: u32 = 0;
@@ -263,8 +263,33 @@ pub fn endpoints(board: u32, grid: felt252, width: u8, height: u8) -> Array<(u8,
         let other = *open.at(below('edge', board * 1000 + index, count));
         pairs.append((edge, other));
         pairs.append((other, edge));
-        pairs.append((edge, *entrances.at((index + 1) % edges)));
         index += 1;
+    }
+    pairs
+}
+
+/// The identical endpoints of a board, `from == to` (the early return of the finders): a seeded
+/// tile (tag `'same'`) and every entrance.
+pub fn identical_endpoints(board: u32, grid: felt252, width: u8, height: u8) -> Array<(u8, u8)> {
+    let open = tiles(grid);
+    let same = *open.at(below('same', board, open.len()));
+    let mut pairs: Array<(u8, u8)> = array![(same, same)];
+    for edge in entrances(grid, width, height) {
+        pairs.append((edge, edge));
+    }
+    pairs
+}
+
+/// Every ordered pair of distinct entrances of a board.
+pub fn entrance_pairs(grid: felt252, width: u8, height: u8) -> Array<(u8, u8)> {
+    let entrances = entrances(grid, width, height);
+    let mut pairs: Array<(u8, u8)> = array![];
+    for from in entrances.span() {
+        for to in entrances.span() {
+            if from != to {
+                pairs.append((*from, *to));
+            }
+        }
     }
     pairs
 }

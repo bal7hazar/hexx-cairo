@@ -10,6 +10,7 @@ use hexx::generators::spreader as h;
 use hexx::generators::spreader::Spreader as H;
 use origami_hexmap::generators::spreader as o;
 use origami_hexmap::generators::spreader::Spreader as O;
+use origami_hexmap::helpers::layout::LayoutTrait;
 use crate::common::{below, generator_seed, input_grid, tiles};
 use crate::fixtures::{EMPTY_17X14, EMPTY_7X7, boards};
 
@@ -150,6 +151,44 @@ fn test_spreader_generate_boards() {
     check_generate_boards(10, 42);
 }
 
+/// All 128 tiles of a 16x8 or 8x16 board, the last board of the single-limb path.
+const FULL_128: felt252 = 0xffffffffffffffffffffffffffffffff;
+
+/// `Spreader::generate` on the boards of exactly 128 tiles, 16x8 and 8x16 (fix loop 1, finding 4:
+/// the branch `size == 128` of the grid check): the empty mask (count 0), the full mask of the
+/// 128 tiles, the interior, and 8 caves of order 3; on each mask the count 0, the full count and
+/// 8 seeded counts (tag `'count128'`).
+#[test]
+#[available_gas(l2_gas: 72876981)]
+fn test_spreader_generate_128_tiles() {
+    let mut input: u32 = 0;
+    for (width, height) in [(16_u8, 8_u8), (8, 16)].span() {
+        let (width, height) = (*width, *height);
+        let mut masks: Array<felt252> = array![0, FULL_128, LayoutTrait::interior(width, height)];
+        let mut seed: u32 = 0;
+        while seed != 8 {
+            masks.append(input_grid(width, height, 2 * seed));
+            seed += 1;
+        }
+        for grid in masks {
+            let total = tiles(grid).len();
+            let mut counts: Array<u8> = array![0, total.try_into().unwrap()];
+            let mut draw: u32 = 0;
+            while draw != 8 {
+                counts.append(below('count128', input * 8 + draw, total + 1).try_into().unwrap());
+                draw += 1;
+            }
+            for count in counts {
+                let seed = generator_seed(800000 + input);
+                let lhs = O::generate(grid, width, height, count, seed);
+                let rhs = H::generate(grid, width, height, count, seed);
+                assert(lhs == rhs, 'generate');
+                input += 1;
+            }
+        }
+    }
+}
+
 // Panics: one test per side, same input, same message.
 
 #[test]
@@ -218,4 +257,40 @@ fn test_spreader_generate_revert_dimension_origami() {
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_spreader_generate_revert_dimension_hexx() {
     let _ = H::generate(EMPTY_7X7, 2, 7, 1, 'seed');
+}
+
+/// A grid with bit 128 set on a board of at most 128 tiles: rejected through its high limb (fix
+/// loop 1, finding 4).
+#[test]
+#[available_gas(l2_gas: 20633)]
+#[should_panic(expected: 'Spreader: invalid grid')]
+fn test_spreader_generate_revert_small_bit_128_origami() {
+    let _ = O::generate(EMPTY_7X7 + 0x100000000000000000000000000000000, 7, 7, 1, 'seed');
+}
+
+/// A grid with bit 128 set on a board of at most 128 tiles: rejected through its high limb (fix
+/// loop 1, finding 4).
+#[test]
+#[available_gas(l2_gas: 20633)]
+#[should_panic(expected: 'Spreader: invalid grid')]
+fn test_spreader_generate_revert_small_bit_128_hexx() {
+    let _ = H::generate(EMPTY_7X7 + 0x100000000000000000000000000000000, 7, 7, 1, 'seed');
+}
+
+/// A grid with bit 128 set on a board of at most 128 tiles: rejected through its high limb (fix
+/// loop 1, finding 4).
+#[test]
+#[available_gas(l2_gas: 66603)]
+#[should_panic(expected: 'Spreader: invalid grid')]
+fn test_spreader_generate_revert_128_tiles_bit_128_origami() {
+    let _ = O::generate(FULL_128 + 0x100000000000000000000000000000000, 16, 8, 1, 'seed');
+}
+
+/// A grid with bit 128 set on a board of at most 128 tiles: rejected through its high limb (fix
+/// loop 1, finding 4).
+#[test]
+#[available_gas(l2_gas: 66603)]
+#[should_panic(expected: 'Spreader: invalid grid')]
+fn test_spreader_generate_revert_128_tiles_bit_128_hexx() {
+    let _ = H::generate(FULL_128 + 0x100000000000000000000000000000000, 16, 8, 1, 'seed');
 }

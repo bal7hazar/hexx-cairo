@@ -4,14 +4,15 @@
 //! Inputs: the 10 fixtures of 1.8.0 with their endpoints (`fixtures::ENDPOINTS`) and the 32
 //! generated boards (`fixtures::boards`); on each board the endpoints of `common::endpoints` and
 //! the sources of `common::sources` (entrances included), every budget of `common::RADII`, with
-//! 0 to 3 seeded cost classes (`common::costs`).
+//! 0 to 3 seeded cost classes (`common::costs`); the 15 boards of `fixtures::entrance_boards`
+//! between distinct entrances; identical endpoints apart.
 
 use hexx::finders::dial as h;
 use hexx::finders::dial::Dial as H;
 use origami_hexmap::finders::dial as o;
 use origami_hexmap::finders::dial::Dial as O;
-use crate::common::{RADII, costs, endpoints, sources};
-use crate::fixtures::{ENDPOINTS, UNREACHABLE_7X7, boards};
+use crate::common::{RADII, costs, endpoints, entrance_pairs, identical_endpoints, sources};
+use crate::fixtures::{ENDPOINTS, UNREACHABLE_7X7, boards, entrance_boards};
 
 fn check_search(first: u32, last: u32) {
     let boards = boards();
@@ -87,7 +88,7 @@ fn test_dial_fixture_endpoints() {
 /// `Dial::search` on `common::endpoints`, with 0 to 3 cost classes (`common::costs`). Boards 0 to 9
 /// of `fixtures::boards` (the fixtures of 1.8.0).
 #[test]
-#[available_gas(l2_gas: 218639571)]
+#[available_gas(l2_gas: 216082569)]
 fn test_dial_search_fixtures() {
     check_search(0, 10);
 }
@@ -95,7 +96,7 @@ fn test_dial_search_fixtures() {
 /// `Dial::search` on `common::endpoints`, with 0 to 3 cost classes (`common::costs`). Boards 10 to
 /// 20 of `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 369401256)]
+#[available_gas(l2_gas: 360707112)]
 fn test_dial_search_boards_0() {
     check_search(10, 21);
 }
@@ -103,7 +104,7 @@ fn test_dial_search_boards_0() {
 /// `Dial::search` on `common::endpoints`, with 0 to 3 cost classes (`common::costs`). Boards 21 to
 /// 30 of `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 265592778)]
+#[available_gas(l2_gas: 257306369)]
 fn test_dial_search_boards_1() {
     check_search(21, 31);
 }
@@ -111,7 +112,7 @@ fn test_dial_search_boards_1() {
 /// `Dial::search` on `common::endpoints`, with 0 to 3 cost classes (`common::costs`). Boards 31 to
 /// 41 of `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 210825504)]
+#[available_gas(l2_gas: 204276621)]
 fn test_dial_search_boards_2() {
     check_search(31, 42);
 }
@@ -154,6 +155,124 @@ fn test_dial_field_of_movement_boards_2() {
 #[available_gas(l2_gas: 302391888)]
 fn test_dial_field_of_movement_boards_3() {
     check_field_of_movement(34, 42);
+}
+
+// Entrances (fix loop 1, finding 1).
+
+/// `Dial::search` between every ordered pair of distinct entrances and on the seeded endpoints
+/// (board index `100 + k`) of the boards `[first, last)` of `fixtures::entrance_boards`, with 0
+/// to 3 cost classes; returns the number of distinct-entrance pairs joined by a path.
+fn check_search_entrances(first: u32, last: u32) -> u32 {
+    let boards = entrance_boards();
+    let mut joined: u32 = 0;
+    let mut index = first;
+    while index != last {
+        let board = *boards.at(index);
+        let (grid, width, height) = (board.grid, board.width, board.height);
+        let mut pairs = entrance_pairs(grid, width, height);
+        let distinct = pairs.len();
+        for pair in endpoints(100 + index, grid, width, height) {
+            pairs.append(pair);
+        }
+        let mut input: u32 = 300000 + 1000 * index;
+        let mut count: u32 = 0;
+        for (from, to) in pairs {
+            let costs = costs(input, width, height);
+            let lhs = O::search(grid, width, height, from, to, costs);
+            let rhs = H::search(grid, width, height, from, to, costs);
+            assert(lhs == rhs, 'search');
+            if count < distinct && lhs.len() != 0 {
+                joined += 1;
+            }
+            input += 1;
+            count += 1;
+        }
+        index += 1;
+    }
+    joined
+}
+
+/// `Dial::field_of_movement` from every entrance and the seeded sources, every budget of
+/// `common::RADII`, 0 to 3 cost classes.
+fn check_field_of_movement_entrances(first: u32, last: u32) {
+    let boards = entrance_boards();
+    let mut index = first;
+    while index != last {
+        let board = *boards.at(index);
+        let (grid, width, height) = (board.grid, board.width, board.height);
+        let mut input: u32 = 300000 + 1000 * index + 500;
+        for from in sources(100 + index, grid, width, height) {
+            for budget in RADII.span() {
+                let costs = costs(input, width, height);
+                let lhs = O::field_of_movement(grid, width, height, from, *budget, costs);
+                let rhs = H::field_of_movement(grid, width, height, from, *budget, costs);
+                assert(lhs == rhs, 'field_of_movement');
+                input += 1;
+            }
+        }
+        index += 1;
+    }
+}
+
+/// `Dial::search` between distinct entrances and on the seeded endpoints, the 9 hand-made entrance
+/// boards.
+#[test]
+#[available_gas(l2_gas: 496494086)]
+fn test_dial_search_entrances_hand() {
+    assert(check_search_entrances(0, 9) != 0, 'no joined entrances');
+}
+
+/// The same on the 6 generated entrance boards.
+#[test]
+#[available_gas(l2_gas: 371680924)]
+fn test_dial_search_entrances_generated() {
+    assert(check_search_entrances(9, 15) != 0, 'no joined entrances');
+}
+
+/// `Dial::search` on identical endpoints (the early return), a seeded tile and every entrance of
+/// the 42 boards and of the 15 entrance boards, 0 to 3 cost classes.
+#[test]
+#[available_gas(l2_gas: 264432147)]
+fn test_dial_identical_endpoints() {
+    let mut all = boards();
+    for board in entrance_boards() {
+        all.append(board);
+    }
+    let mut index: u32 = 0;
+    let mut input: u32 = 400000;
+    for board in all {
+        let (grid, width, height) = (board.grid, board.width, board.height);
+        for (from, to) in identical_endpoints(index, grid, width, height) {
+            let costs = costs(input, width, height);
+            let lhs = O::search(grid, width, height, from, to, costs);
+            assert(lhs == H::search(grid, width, height, from, to, costs), 'search');
+            input += 1;
+        }
+        index += 1;
+    }
+}
+
+/// `Dial::field_of_movement` from every entrance and the seeded sources (hand-made boards).
+/// Entrance boards 0 to 3 of `fixtures::entrance_boards`.
+#[test]
+#[available_gas(l2_gas: 190261187)]
+fn test_dial_field_of_movement_entrances_hand_0() {
+    check_field_of_movement_entrances(0, 4);
+}
+
+/// `Dial::field_of_movement` from every entrance and the seeded sources (hand-made boards).
+/// Entrance boards 4 to 8 of `fixtures::entrance_boards`.
+#[test]
+#[available_gas(l2_gas: 407180395)]
+fn test_dial_field_of_movement_entrances_hand_1() {
+    check_field_of_movement_entrances(4, 9);
+}
+
+/// The same on the generated boards. Entrance boards 9 to 14 of `fixtures::entrance_boards`.
+#[test]
+#[available_gas(l2_gas: 421406675)]
+fn test_dial_field_of_movement_entrances_generated() {
+    check_field_of_movement_entrances(9, 15);
 }
 
 // Panics: one test per side, same input, same message.

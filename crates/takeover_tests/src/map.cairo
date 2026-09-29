@@ -6,15 +6,20 @@
 //! packages (`origami_hexmap::{HexMap, HexMapTrait}`, `hexx::{HexMap, HexMapTrait}`).
 //!
 //! Inputs: the generators as in `caver`, `mazer`, `walker`, `digger` and `spreader`; the finders
-//! as in `bfs` and `dial`; the queries on `common::query_positions` and `common::query_pairs`.
+//! as in `bfs` and `dial`, the boards with several entrances included; the queries on
+//! `common::query_positions` and `common::query_pairs`.
 
 use hexx::HexMapTrait as H;
 use origami_hexmap::HexMapTrait as O;
 use crate::common::{
-    RADII, SEEDS, assert_maps, below, costs, endpoints, generator_seed, hexx_direction, input_grid,
-    origami_direction, query_pairs, query_positions, sides, sources, tiles, valid_dimensions,
+    RADII, SEEDS, assert_maps, below, costs, endpoints, entrance_pairs, generator_seed,
+    hexx_direction, identical_endpoints, input_grid, origami_direction, query_pairs,
+    query_positions, sides, sources, tiles, valid_dimensions,
 };
-use crate::fixtures::{EMPTY_17X14, EMPTY_7X7, ENDPOINTS, UNREACHABLE_7X7, boards};
+use crate::fixtures::{
+    Board, EMPTY_17X14, EMPTY_7X7, ENDPOINTS, ENTRANCES_7X7_AUDIT, UNREACHABLE_7X7, boards,
+    entrance_boards,
+};
 use crate::walker::STEPS;
 
 // Generators.
@@ -296,6 +301,140 @@ fn check_compute_distribution_boards(first: u32, last: u32) {
                 'compute_distribution',
             );
             draw += 1;
+        }
+        index += 1;
+    }
+}
+
+// Entrances (fix loop 1, finding 1).
+
+/// The pairs of an entrance board: every ordered pair of distinct entrances, then the seeded
+/// endpoints of `common::endpoints` (board index `100 + k`).
+fn entrance_endpoints(index: u32, board: Board) -> Array<(u8, u8)> {
+    let (grid, width, height) = (board.grid, board.width, board.height);
+    let mut pairs = entrance_pairs(grid, width, height);
+    for pair in endpoints(100 + index, grid, width, height) {
+        pairs.append(pair);
+    }
+    pairs
+}
+
+/// `search_path`, `distance_to` and `search_path_weighted` (0 to 3 cost classes) between distinct
+/// entrances and on the seeded endpoints of the boards `[first, last)` of
+/// `fixtures::entrance_boards`; returns the number of distinct-entrance pairs joined by a path.
+fn check_paths_entrances(first: u32, last: u32) -> u32 {
+    let boards = entrance_boards();
+    let mut joined: u32 = 0;
+    let mut index = first;
+    while index != last {
+        let board = *boards.at(index);
+        let (grid, width, height) = (board.grid, board.width, board.height);
+        let (lhs, rhs) = (O::new(grid, width, height, 0), H::new(grid, width, height, 0));
+        let distinct = entrance_pairs(grid, width, height).len();
+        let mut input: u32 = 500000 + 1000 * index;
+        let mut count: u32 = 0;
+        for (from, to) in entrance_endpoints(index, board) {
+            let left = O::search_path(lhs, from, to);
+            assert(left == H::search_path(rhs, from, to), 'search_path');
+            assert(O::distance_to(lhs, from, to) == H::distance_to(rhs, from, to), 'distance_to');
+            let costs = costs(input, width, height);
+            let weighted = O::search_path_weighted(lhs, from, to, costs);
+            assert(weighted == H::search_path_weighted(rhs, from, to, costs), 'weighted');
+            if count < distinct && left.len() != 0 {
+                joined += 1;
+            }
+            input += 1;
+            count += 1;
+        }
+        index += 1;
+    }
+    joined
+}
+
+/// `reachable`, `keep_component`, and `range` and `ring` at every radius of `common::RADII`, from
+/// every entrance and the seeded sources.
+fn check_floods_entrances(first: u32, last: u32) {
+    let boards = entrance_boards();
+    let mut index = first;
+    while index != last {
+        let board = *boards.at(index);
+        let (grid, width, height) = (board.grid, board.width, board.height);
+        let (lhs, rhs) = (O::new(grid, width, height, 0), H::new(grid, width, height, 0));
+        for from in sources(100 + index, grid, width, height) {
+            assert(O::reachable(lhs, from) == H::reachable(rhs, from), 'reachable');
+            let (mut left, mut right) = (lhs, rhs);
+            O::keep_component(ref left, from);
+            H::keep_component(ref right, from);
+            assert_maps(left, right);
+            for radius in RADII.span() {
+                assert(O::range(lhs, from, *radius) == H::range(rhs, from, *radius), 'range');
+                assert(O::ring(lhs, from, *radius) == H::ring(rhs, from, *radius), 'ring');
+            }
+        }
+        index += 1;
+    }
+}
+
+/// `field_of_movement` from every entrance and the seeded sources, every budget of
+/// `common::RADII`, 0 to 3 cost classes.
+fn check_field_of_movement_entrances(first: u32, last: u32) {
+    let boards = entrance_boards();
+    let mut index = first;
+    while index != last {
+        let board = *boards.at(index);
+        let (grid, width, height) = (board.grid, board.width, board.height);
+        let (lhs, rhs) = (O::new(grid, width, height, 0), H::new(grid, width, height, 0));
+        let mut input: u32 = 500000 + 1000 * index + 500;
+        for from in sources(100 + index, grid, width, height) {
+            for budget in RADII.span() {
+                let costs = costs(input, width, height);
+                let left = O::field_of_movement(lhs, from, *budget, costs);
+                assert(left == H::field_of_movement(rhs, from, *budget, costs), 'field');
+                input += 1;
+            }
+        }
+        index += 1;
+    }
+}
+
+/// The auditor's scenario through the facade: `EMPTY_7X7` with the side tiles 1 and 43 open,
+/// from 1 to 43 (both entrances, joined through the interior).
+#[test]
+#[available_gas(l2_gas: 1856159)]
+fn test_map_audit_scenario() {
+    let (lhs, rhs) = (O::new(ENTRANCES_7X7_AUDIT, 7, 7, 0), H::new(ENTRANCES_7X7_AUDIT, 7, 7, 0));
+    let path = O::search_path(lhs, 1, 43);
+    assert(path.len() != 0, 'path expected');
+    assert(path == H::search_path(rhs, 1, 43), 'search_path');
+    assert(O::distance_to(lhs, 1, 43).is_some(), 'distance expected');
+    assert(O::distance_to(lhs, 1, 43) == H::distance_to(rhs, 1, 43), 'distance_to');
+    let costs: Span<felt252> = [].span();
+    let weighted = O::search_path_weighted(lhs, 1, 43, costs);
+    assert(weighted.len() != 0, 'weighted path expected');
+    assert(weighted == H::search_path_weighted(rhs, 1, 43, costs), 'weighted');
+}
+
+/// `search_path`, `distance_to`, `search_path_weighted` on identical endpoints (the early
+/// return), a seeded tile and every entrance of the 42 boards and of the 15 entrance boards.
+#[test]
+#[available_gas(l2_gas: 273724309)]
+fn test_map_identical_endpoints() {
+    let mut all = boards();
+    for board in entrance_boards() {
+        all.append(board);
+    }
+    let mut index: u32 = 0;
+    let mut input: u32 = 600000;
+    for board in all {
+        let (grid, width, height) = (board.grid, board.width, board.height);
+        let (lhs, rhs) = (O::new(grid, width, height, 0), H::new(grid, width, height, 0));
+        for (from, to) in identical_endpoints(index, grid, width, height) {
+            assert(O::search_path(lhs, from, to) == H::search_path(rhs, from, to), 'search_path');
+            assert(O::distance_to(lhs, from, to) == H::distance_to(rhs, from, to), 'distance_to');
+            let costs = costs(input, width, height);
+            let left = O::search_path_weighted(lhs, from, to, costs);
+            assert(left == H::search_path_weighted(rhs, from, to, costs), 'weighted');
+            input += 1;
         }
         index += 1;
     }
@@ -948,7 +1087,7 @@ fn test_map_compute_distribution_3x83() {
 /// `search_path` on `common::endpoints`. Boards 0 to 9 of `fixtures::boards` (the fixtures of
 /// 1.8.0).
 #[test]
-#[available_gas(l2_gas: 108655882)]
+#[available_gas(l2_gas: 108093775)]
 fn test_map_search_path_fixtures() {
     check_search_path(0, 10);
 }
@@ -956,7 +1095,7 @@ fn test_map_search_path_fixtures() {
 /// `search_path` on `common::endpoints`. Boards 10 to 41 of `fixtures::boards` (the generated
 /// boards).
 #[test]
-#[available_gas(l2_gas: 419024523)]
+#[available_gas(l2_gas: 416634719)]
 fn test_map_search_path_boards() {
     check_search_path(10, 42);
 }
@@ -964,7 +1103,7 @@ fn test_map_search_path_boards() {
 /// `search_path_weighted` on `common::endpoints`, 0 to 3 cost classes. Boards 0 to 9 of
 /// `fixtures::boards` (the fixtures of 1.8.0).
 #[test]
-#[available_gas(l2_gas: 218742471)]
+#[available_gas(l2_gas: 216178119)]
 fn test_map_search_path_weighted_fixtures() {
     check_search_path_weighted(0, 10);
 }
@@ -972,7 +1111,7 @@ fn test_map_search_path_weighted_fixtures() {
 /// `search_path_weighted` on `common::endpoints`, 0 to 3 cost classes. Boards 10 to 20 of
 /// `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 369523266)]
+#[available_gas(l2_gas: 360818097)]
 fn test_map_search_path_weighted_boards_0() {
     check_search_path_weighted(10, 21);
 }
@@ -980,7 +1119,7 @@ fn test_map_search_path_weighted_boards_0() {
 /// `search_path_weighted` on `common::endpoints`, 0 to 3 cost classes. Boards 21 to 30 of
 /// `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 265704498)]
+#[available_gas(l2_gas: 257407799)]
 fn test_map_search_path_weighted_boards_1() {
     check_search_path_weighted(21, 31);
 }
@@ -988,7 +1127,7 @@ fn test_map_search_path_weighted_boards_1() {
 /// `search_path_weighted` on `common::endpoints`, 0 to 3 cost classes. Boards 31 to 41 of
 /// `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 210949719)]
+#[available_gas(l2_gas: 204389076)]
 fn test_map_search_path_weighted_boards_2() {
     check_search_path_weighted(31, 42);
 }
@@ -1036,7 +1175,7 @@ fn test_map_field_of_movement_boards_3() {
 /// `distance_to` on `common::endpoints`. Boards 0 to 9 of `fixtures::boards` (the fixtures of
 /// 1.8.0).
 #[test]
-#[available_gas(l2_gas: 88029254)]
+#[available_gas(l2_gas: 87507572)]
 fn test_map_distance_to_fixtures() {
     check_distance_to(0, 10);
 }
@@ -1044,7 +1183,7 @@ fn test_map_distance_to_fixtures() {
 /// `distance_to` on `common::endpoints`. Boards 10 to 41 of `fixtures::boards` (the generated
 /// boards).
 #[test]
-#[available_gas(l2_gas: 342359991)]
+#[available_gas(l2_gas: 340152099)]
 fn test_map_distance_to_boards() {
     check_distance_to(10, 42);
 }
@@ -1150,6 +1289,152 @@ fn test_map_compute_distribution_boards_fixtures() {
 #[available_gas(l2_gas: 154973610)]
 fn test_map_compute_distribution_boards_boards() {
     check_compute_distribution_boards(10, 42);
+}
+
+/// All 128 tiles of a 16x8 or 8x16 board, the last board of the single-limb path.
+const FULL_128: felt252 = 0xffffffffffffffffffffffffffffffff;
+
+/// `compute_distribution` on the boards of exactly 128 tiles, 16x8 and 8x16 (fix loop 1, finding
+/// 4): the empty mask (count 0), the full mask of the 128 tiles, the interior, and 8 caves of
+/// order 3; on each mask the count 0, the full count and 8 seeded counts (tag `'count128'`).
+#[test]
+#[available_gas(l2_gas: 73478205)]
+fn test_map_compute_distribution_128_tiles() {
+    let mut input: u32 = 0;
+    for (width, height) in [(16_u8, 8_u8), (8, 16)].span() {
+        let (width, height) = (*width, *height);
+        let mut masks: Array<felt252> = array![0, FULL_128, interior_mask(width, height)];
+        let mut seed: u32 = 0;
+        while seed != 8 {
+            masks.append(input_grid(width, height, 2 * seed));
+            seed += 1;
+        }
+        for grid in masks {
+            let total = tiles(grid).len();
+            let mut counts: Array<u8> = array![0, total.try_into().unwrap()];
+            let mut draw: u32 = 0;
+            while draw != 8 {
+                counts.append(below('count128', input * 8 + draw, total + 1).try_into().unwrap());
+                draw += 1;
+            }
+            let lhs = O::new(grid, width, height, 0);
+            let rhs = H::new(grid, width, height, 0);
+            for count in counts {
+                let seed = generator_seed(700000 + input);
+                assert(
+                    O::compute_distribution(
+                        lhs, count, seed,
+                    ) == H::compute_distribution(rhs, count, seed),
+                    'compute_distribution',
+                );
+                input += 1;
+            }
+        }
+    }
+}
+
+/// The interior mask of a board, from 1.8.0.
+fn interior_mask(width: u8, height: u8) -> felt252 {
+    origami_hexmap::helpers::layout::LayoutTrait::interior(width, height)
+}
+
+/// `search_path`, `distance_to`, `search_path_weighted` between distinct entrances and on the
+/// seeded endpoints (hand-made boards). Entrance boards 0 to 2 of `fixtures::entrance_boards`.
+#[test]
+#[available_gas(l2_gas: 117788566)]
+fn test_map_paths_entrances_hand_0() {
+    assert(check_paths_entrances(0, 3) != 0, 'no joined entrances');
+}
+
+/// `search_path`, `distance_to`, `search_path_weighted` between distinct entrances and on the
+/// seeded endpoints (hand-made boards). Entrance boards 3 to 5 of `fixtures::entrance_boards`.
+#[test]
+#[available_gas(l2_gas: 345908855)]
+fn test_map_paths_entrances_hand_1() {
+    assert(check_paths_entrances(3, 6) != 0, 'no joined entrances');
+}
+
+/// `search_path`, `distance_to`, `search_path_weighted` between distinct entrances and on the
+/// seeded endpoints (hand-made boards). Entrance boards 6 to 8 of `fixtures::entrance_boards`.
+#[test]
+#[available_gas(l2_gas: 413649376)]
+fn test_map_paths_entrances_hand_2() {
+    assert(check_paths_entrances(6, 9) != 0, 'no joined entrances');
+}
+
+/// The same on the generated boards. Entrance boards 9 to 11 of `fixtures::entrance_boards`.
+#[test]
+#[available_gas(l2_gas: 328881192)]
+fn test_map_paths_entrances_generated_0() {
+    assert(check_paths_entrances(9, 12) != 0, 'no joined entrances');
+}
+
+/// The same on the generated boards. Entrance boards 12 to 14 of `fixtures::entrance_boards`.
+#[test]
+#[available_gas(l2_gas: 321146757)]
+fn test_map_paths_entrances_generated_1() {
+    assert(check_paths_entrances(12, 15) != 0, 'no joined entrances');
+}
+
+/// `reachable`, `keep_component`, `range`, `ring` from every entrance and the seeded sources
+/// (hand-made boards). Entrance boards 0 to 2 of `fixtures::entrance_boards`.
+#[test]
+#[available_gas(l2_gas: 185512417)]
+fn test_map_floods_entrances_hand_0() {
+    check_floods_entrances(0, 3);
+}
+
+/// `reachable`, `keep_component`, `range`, `ring` from every entrance and the seeded sources
+/// (hand-made boards). Entrance boards 3 to 5 of `fixtures::entrance_boards`.
+#[test]
+#[available_gas(l2_gas: 312957645)]
+fn test_map_floods_entrances_hand_1() {
+    check_floods_entrances(3, 6);
+}
+
+/// `reachable`, `keep_component`, `range`, `ring` from every entrance and the seeded sources
+/// (hand-made boards). Entrance boards 6 to 8 of `fixtures::entrance_boards`.
+#[test]
+#[available_gas(l2_gas: 370651273)]
+fn test_map_floods_entrances_hand_2() {
+    check_floods_entrances(6, 9);
+}
+
+/// The same on the generated boards. Entrance boards 9 to 11 of `fixtures::entrance_boards`.
+#[test]
+#[available_gas(l2_gas: 364826085)]
+fn test_map_floods_entrances_generated_0() {
+    check_floods_entrances(9, 12);
+}
+
+/// The same on the generated boards. Entrance boards 12 to 14 of `fixtures::entrance_boards`.
+#[test]
+#[available_gas(l2_gas: 357488746)]
+fn test_map_floods_entrances_generated_1() {
+    check_floods_entrances(12, 15);
+}
+
+/// `field_of_movement` from every entrance and the seeded sources (hand-made boards). Entrance
+/// boards 0 to 3 of `fixtures::entrance_boards`.
+#[test]
+#[available_gas(l2_gas: 189984033)]
+fn test_map_field_of_movement_entrances_hand_0() {
+    check_field_of_movement_entrances(0, 4);
+}
+
+/// `field_of_movement` from every entrance and the seeded sources (hand-made boards). Entrance
+/// boards 4 to 8 of `fixtures::entrance_boards`.
+#[test]
+#[available_gas(l2_gas: 407412624)]
+fn test_map_field_of_movement_entrances_hand_1() {
+    check_field_of_movement_entrances(4, 9);
+}
+
+/// The same on the generated boards. Entrance boards 9 to 14 of `fixtures::entrance_boards`.
+#[test]
+#[available_gas(l2_gas: 422328999)]
+fn test_map_field_of_movement_entrances_generated() {
+    check_field_of_movement_entrances(9, 15);
 }
 
 // Panics: one test per side, same input, same message (README of 1.8.0, § Panics).
@@ -1890,4 +2175,84 @@ fn test_map_ring_revert_dimension_origami() {
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_map_ring_revert_dimension_hexx() {
     let _ = H::ring(H::new(UNREACHABLE_7X7, 7, 36, 'seed'), 8, 2);
+}
+
+/// Radius 127: `2 * 127 + 3` overflows a `u8` in the addition (fix loop 1, finding 2; the message
+/// was read from a run of both libraries).
+#[test]
+#[available_gas(l2_gas: 16296)]
+#[should_panic(expected: 'u8_add Overflow')]
+fn test_map_new_hexagon_revert_radius_127_origami() {
+    let _ = O::new_hexagon(127, 'seed');
+}
+
+/// Radius 127: `2 * 127 + 3` overflows a `u8` in the addition (fix loop 1, finding 2; the message
+/// was read from a run of both libraries).
+#[test]
+#[available_gas(l2_gas: 16296)]
+#[should_panic(expected: 'u8_add Overflow')]
+fn test_map_new_hexagon_revert_radius_127_hexx() {
+    let _ = H::new_hexagon(127, 'seed');
+}
+
+/// Radius 128: `2 * 128` overflows a `u8` in the product (fix loop 1, finding 2; the message was
+/// read from a run of both libraries).
+#[test]
+#[available_gas(l2_gas: 16296)]
+#[should_panic(expected: 'u8_mul Overflow')]
+fn test_map_new_hexagon_revert_radius_128_origami() {
+    let _ = O::new_hexagon(128, 'seed');
+}
+
+/// Radius 128: `2 * 128` overflows a `u8` in the product (fix loop 1, finding 2; the message was
+/// read from a run of both libraries).
+#[test]
+#[available_gas(l2_gas: 16296)]
+#[should_panic(expected: 'u8_mul Overflow')]
+fn test_map_new_hexagon_revert_radius_128_hexx() {
+    let _ = H::new_hexagon(128, 'seed');
+}
+
+/// A grid with bit 128 set on a board of at most 128 tiles: rejected through its high limb (fix
+/// loop 1, finding 4).
+#[test]
+#[available_gas(l2_gas: 20633)]
+#[should_panic(expected: 'Spreader: invalid grid')]
+fn test_map_compute_distribution_revert_small_bit_128_origami() {
+    let _ = O::compute_distribution(
+        O::new(EMPTY_7X7 + 0x100000000000000000000000000000000, 7, 7, 'seed'), 1, 'seed',
+    );
+}
+
+/// A grid with bit 128 set on a board of at most 128 tiles: rejected through its high limb (fix
+/// loop 1, finding 4).
+#[test]
+#[available_gas(l2_gas: 20633)]
+#[should_panic(expected: 'Spreader: invalid grid')]
+fn test_map_compute_distribution_revert_small_bit_128_hexx() {
+    let _ = H::compute_distribution(
+        H::new(EMPTY_7X7 + 0x100000000000000000000000000000000, 7, 7, 'seed'), 1, 'seed',
+    );
+}
+
+/// A grid with bit 128 set on a board of at most 128 tiles: rejected through its high limb (fix
+/// loop 1, finding 4).
+#[test]
+#[available_gas(l2_gas: 66603)]
+#[should_panic(expected: 'Spreader: invalid grid')]
+fn test_map_compute_distribution_revert_128_tiles_bit_128_origami() {
+    let _ = O::compute_distribution(
+        O::new(FULL_128 + 0x100000000000000000000000000000000, 16, 8, 'seed'), 1, 'seed',
+    );
+}
+
+/// A grid with bit 128 set on a board of at most 128 tiles: rejected through its high limb (fix
+/// loop 1, finding 4).
+#[test]
+#[available_gas(l2_gas: 66603)]
+#[should_panic(expected: 'Spreader: invalid grid')]
+fn test_map_compute_distribution_revert_128_tiles_bit_128_hexx() {
+    let _ = H::compute_distribution(
+        H::new(FULL_128 + 0x100000000000000000000000000000000, 16, 8, 'seed'), 1, 'seed',
+    );
 }

@@ -31,24 +31,43 @@ fn test_rng_permutations() {
     }
 }
 
-/// 64 seeds, and the boundaries 0 and `-1`.
-#[test]
-#[available_gas(l2_gas: 761542)]
-fn test_rng_new() {
-    let mut seeds: Array<felt252> = array![0, -1];
+/// The boundaries of the brief for a felt input: 0, 1, `2^128 - 1`, `2^128`, `2^250`, and `-1`
+/// (the largest felt).
+fn felt_boundaries() -> Array<felt252> {
+    array![
+        0, 1, 0xffffffffffffffffffffffffffffffff, 0x100000000000000000000000000000000,
+        0x400000000000000000000000000000000000000000000000000000000000000, -1,
+    ]
+}
+
+/// The seeds: 256 seeded values (tag `'rng'`), then the boundaries of `felt_boundaries`.
+fn seeds() -> Array<felt252> {
+    let mut seeds: Array<felt252> = array![];
     let mut index: u32 = 0;
-    while index != SEEDS {
+    while index != 256 {
         seeds.append(seed('rng', index));
         index += 1;
     }
-    for seed in seeds {
+    for boundary in felt_boundaries() {
+        seeds.append(boundary);
+    }
+    seeds
+}
+
+/// 256 seeded values and the boundaries 0, 1, `2^128 - 1`, `2^128`, `2^250`, `-1` (fix loop 1,
+/// finding 3).
+#[test]
+#[available_gas(l2_gas: 2998215)]
+fn test_rng_new() {
+    for seed in seeds() {
         assert_rngs(@O::new(seed), @H::new(seed));
     }
 }
 
-/// 256 seeded pairs (tag `'mix'`), and the pairs of the boundaries 0, 1, `-1`.
+/// 256 seeded pairs (tag `'mix'`), and every pair of the boundaries 0, 1, `2^128 - 1`, `2^128`,
+/// `2^250`, `-1` (36 pairs).
 #[test]
-#[available_gas(l2_gas: 5668073)]
+#[available_gas(l2_gas: 5808168)]
 fn test_rng_mix() {
     let mut index: u32 = 0;
     while index != 256 {
@@ -56,11 +75,57 @@ fn test_rng_mix() {
         assert(O::mix(lhs, rhs) == H::mix(lhs, rhs), 'mix');
         index += 1;
     }
-    let bounds: [felt252; 3] = [0, 1, -1];
+    let bounds = felt_boundaries();
     for lhs in bounds.span() {
         for rhs in bounds.span() {
             assert(O::mix(*lhs, *rhs) == H::mix(*lhs, *rhs), 'mix bounds');
         }
+    }
+}
+
+/// The draws from a generator whose pool is a boundary of its `u128` domain (fix loop 1, finding
+/// 3): the boundaries of the brief adapted to a pool, 0, 1, `2^128 - 1` (`2^128` and `2^250` are
+/// not `u128`), with `2^64 - 1` and `2^64` on both sides of the refill threshold. Every seed of
+/// `seeds` (262) with the pool `k % 5`; from each state, one call of `draw` (a seeded bound, tag
+/// `'bound'`), `draw6`, `draw_byte` and `next_below` (a seeded bound in `[1, 255]`), `shuffle6`
+/// and `refill`, the returned value and the generator compared after each.
+#[test]
+#[available_gas(l2_gas: 22946070)]
+fn test_rng_pool_boundaries() {
+    let pools: [u128; 5] = [
+        0, 1, 0xffffffffffffffff, 0x10000000000000000, 0xffffffffffffffffffffffffffffffff,
+    ];
+    let mut index: u32 = 0;
+    for seed in seeds() {
+        let pool = *pools.span().at(index % 5);
+        let bound = word('bound', 10000 + index).low;
+        let bound: NonZero<u128> = (if bound == 0 {
+            1
+        } else {
+            bound
+        }).try_into().unwrap();
+        let byte: u8 = (index % 255 + 1).try_into().unwrap();
+        let nonzero: NonZero<u8> = byte.try_into().unwrap();
+        let (mut lhs, mut rhs) = (ORng { seed, pool }, HRng { seed, pool });
+        assert(lhs.draw(bound) == rhs.draw(bound), 'draw');
+        assert_rngs(@lhs, @rhs);
+        let (mut lhs, mut rhs) = (ORng { seed, pool }, HRng { seed, pool });
+        assert(lhs.draw6() == rhs.draw6(), 'draw6');
+        assert_rngs(@lhs, @rhs);
+        let (mut lhs, mut rhs) = (ORng { seed, pool }, HRng { seed, pool });
+        assert(lhs.draw_byte(nonzero) == rhs.draw_byte(nonzero), 'draw_byte');
+        assert_rngs(@lhs, @rhs);
+        let (mut lhs, mut rhs) = (ORng { seed, pool }, HRng { seed, pool });
+        assert(lhs.next_below(byte) == rhs.next_below(byte), 'next_below');
+        assert_rngs(@lhs, @rhs);
+        let (mut lhs, mut rhs) = (ORng { seed, pool }, HRng { seed, pool });
+        assert(lhs.shuffle6() == rhs.shuffle6(), 'shuffle6');
+        assert_rngs(@lhs, @rhs);
+        let (mut lhs, mut rhs) = (ORng { seed, pool }, HRng { seed, pool });
+        lhs.refill();
+        rhs.refill();
+        assert_rngs(@lhs, @rhs);
+        index += 1;
     }
 }
 
@@ -154,8 +219,9 @@ fn test_rng_shuffle6() {
     }
 }
 
-/// 256 seeded pools (tag `'pool'`, both limbs) and the boundaries 0, 1, 215, 216,
-/// `2^128 - 1`.
+/// 256 seeded pools (tag `'pool'`, both limbs), and the boundaries of the brief adapted to the
+/// `u128` domain of a pool: 0, 1, `2^128 - 1` (`2^128` and `2^250` are not `u128`), with 215 and
+/// 216 on both sides of the divisor.
 #[test]
 #[available_gas(l2_gas: 2719328)]
 fn test_rng_split216() {
