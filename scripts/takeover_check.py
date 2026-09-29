@@ -72,6 +72,9 @@ OWN_FILES: tuple[str, ...] = (
     # M1-T9b, N-8: the steps and the tick
     "src/tests/bench_tick.cairo",
     "src/tests/test_steps.cairo",
+    # M1-T4b, N-4: the cut
+    "src/board/cut.cairo",
+    "src/tests/test_cut.cairo",
 )
 
 # Moved files that a task of L-M1 has EXTENDED: they are checked in additions-only mode. Every
