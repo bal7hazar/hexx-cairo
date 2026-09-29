@@ -22,6 +22,11 @@ use hexx::board::bits::{Bits, TWO_POW_128};
 use hexx::board::layout::Dilation;
 use hexx::finders::bfs::{ArrayStore, Back, BfsInternal, Endpoint};
 
+// Constants
+
+/// 1/2 in the field.
+const INV_2: felt252 = 0x400000000000008800000000000000000000000000000000000000000000001;
+
 /// Errors module.
 pub mod errors {
     /// The error of `Bfs` for a start that cannot be walked on (plan §6.9).
@@ -214,9 +219,8 @@ pub(crate) impl FloodInternal of FloodInternalTrait {
         }
     }
 
-    /// Describe a walker: its tile, its row parity and the bits of its board neighbours (the
-    /// neighbour mask inside, `LayoutTrait::edge_neighbours` on the ring), with the constants
-    /// that identify a neighbour from its bit (`BfsInternal::endpoint`, `BfsInternal::identify`).
+    /// Describe a walker: its tile, its row parity and the bits of its board neighbours, with
+    /// the constants that identify a neighbour from its bit (`BfsInternal::identify`).
     /// # Arguments
     /// * `self` - The flood
     /// * `position` - The walker
@@ -231,8 +235,74 @@ pub(crate) impl FloodInternal of FloodInternalTrait {
         }
         // 2^(W − 1) and 2^−(W + 1), the shifts of an even row
         let back = BfsInternal::back_constants(width, Bits::pow(width - 1), Bits::inv(width + 1));
-        let walker = BfsInternal::endpoint(@back, height, position);
-        Option::Some((back, walker))
+        // [Compute] Column and row, one division by 2W (as `BfsInternal::endpoint`)
+        let (half, rem) = DivRem::div_rem(position, (2 * width).try_into().unwrap());
+        let (x, y, odd) = if rem < width {
+            (rem, 2 * half, false)
+        } else {
+            (rem - width, 2 * half + 1, true)
+        };
+        let power = Bits::pow(position);
+        // [Compute] The neighbour bits: `2^i` times the offsets that stay on the board
+        let lower = x != 0;
+        let upper = x != width - 1;
+        let below = y != 0;
+        let above = y != height - 1;
+        let interior = lower && upper && below && above;
+        let offsets = if interior {
+            if odd {
+                back.around_odd
+            } else {
+                back.around_even
+            }
+        } else {
+            Self::edge(@back, odd, lower, upper, below, above)
+        };
+        let around = power * offsets;
+        Option::Some((back, Endpoint { position, power, interior, odd, x, y, half, around }))
+    }
+
+    /// The relative offsets of the board neighbours of a ring tile, as a field sum, without the
+    /// per-direction loop of `LayoutTrait::edge_neighbours`: `2^-1` and `2` for the tiles of the
+    /// same row, `2^-W · r` and `2^W · r` for the rows below and above, where `r` is the pair of
+    /// columns of that row, `{x, x + 1}` on an odd row (`1 + 2`) and `{x − 1, x}` on an even
+    /// row (`2^-1 + 1`), each offset kept only when its tile lies on the board.
+    /// # Arguments
+    /// * `back` - The constants
+    /// * `odd` - Whether the row is odd
+    /// * `lower`, `upper` - Whether the columns `x − 1`, `x + 1` exist
+    /// * `below`, `above` - Whether the rows `y − 1`, `y + 1` exist
+    /// # Returns
+    /// * The offsets, exact: every kept neighbour is a bit of the board
+    #[inline]
+    fn edge(back: @Back, odd: bool, lower: bool, upper: bool, below: bool, above: bool) -> felt252 {
+        let back = *back;
+        // [Compute] The columns of the rows below and above
+        let row = if odd {
+            if upper {
+                3
+            } else {
+                1
+            }
+        } else if lower {
+            1 + INV_2
+        } else {
+            1
+        };
+        let mut offsets: felt252 = 0;
+        if lower {
+            offsets += INV_2;
+        }
+        if upper {
+            offsets += 2;
+        }
+        if below {
+            offsets += back.down_odd * row;
+        }
+        if above {
+            offsets += back.up_odd * row;
+        }
+        offsets
     }
 
     /// The least layer that touches a set, scanned from layer 0; the layers up to it are popped.

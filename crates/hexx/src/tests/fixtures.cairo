@@ -277,6 +277,17 @@ pub const CAVE_15X16_CHUNKS: [felt252; 4] = [
     0x4c0198038007000f001e000c000000000000000000000000000000, 0x38007200e6019803b806600,
     0xfc01f803f003a006401e8033,
 ];
+/// The cave tick with W8 on the ring: (14, 4) instead of (12, 5), inferred at 13, the deepest
+/// ring tile the cave offers; its step is (13, 5).
+pub const CAVE_15X16_RING: felt252 = 0x2050005000b0000000000;
+/// The same eight walkers, in ascending id order.
+pub const CAVE_15X16_RING_WALKERS: [u8; 8] = [40, 41, 43, 56, 58, 72, 81, 74];
+/// The 4 occupancy chunks of the window of `CAVE_15X16_CHUNKS`, which assemble to
+/// `CAVE_15X16_RING`.
+pub const CAVE_15X16_RING_CHUNKS: [felt252; 4] = [
+    0x2000000000000000000000000000000000000000000000000,
+    0xa000a00160000000000000000000000000000000000, 0x0, 0x0,
+];
 /// The 4 occupancy chunks of the same window, which assemble to `CAVE_15X16_8`.
 pub const CAVE_15X16_8_CHUNKS: [felt252; 4] = [
     0x2000000000000000000000000000000000000000000000000,

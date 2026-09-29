@@ -12,7 +12,7 @@ use hexx::board::bits::Bits;
 use hexx::board::direction::Direction;
 use hexx::board::layout::LayoutTrait;
 use hexx::finders::bfs::Bfs;
-use hexx::finders::flood::{Flood, FloodTrait};
+use hexx::finders::flood::{Flood, FloodInternal, FloodTrait};
 use hexx::generators::caver::Caver;
 use hexx::tests::fixtures::*;
 use hexx::tests::test_flood::{CAVE_15X16, CAVE_15X16_FROM, Oracle};
@@ -605,4 +605,100 @@ fn test_steps_sweep_edge_source_17x14() {
     // step
     let grid = EMPTY_17X14 + Bits::pow(85) + Bits::pow(16) + Bits::pow(8);
     Steps::sweep(grid, 17, 14, 85, 0, 255);
+}
+
+// The ring: the neighbourhood of a walker without the per-direction loop
+
+#[test]
+#[available_gas(l2_gas: 1000000000)]
+fn test_steps_tick_cave_ring() {
+    // The cave tick with W8 on the ring, (14, 4), inferred at 13: it steps onto (13, 5)
+    let walkers = CAVE_15X16_RING_WALKERS.span();
+    let (grid, occupied) = Steps::window(CAVE_15X16_CHUNKS, CAVE_15X16_RING_CHUNKS);
+    assert!(grid == CAVE_15X16);
+    assert!(occupied == CAVE_15X16_RING);
+    assert!(Steps::occupancy(walkers) == CAVE_15X16_RING);
+    let (flood, board) = Steps::board(grid, 15, 16, CAVE_15X16_FROM, occupied, 15);
+    assert!(flood.distance(74) == Option::Some(13));
+    let moves = Steps::tick(@flood, @board, walkers, occupied);
+    let expected: Array<Option<u8>> = array![
+        Option::Some(55), Option::Some(42), Option::Some(57), Option::Some(71), Option::Some(73),
+        Option::Some(86), Option::Some(96), Option::Some(88),
+    ];
+    assert!(moves == expected);
+}
+
+#[test]
+#[available_gas(l2_gas: 1000000000)]
+fn test_steps_ring_neighbourhoods() {
+    // Every tile of both limb paths, both row parities, odd and even heights: the walker's
+    // neighbour bits are those of `LayoutTrait::edge_neighbours`, the taken-over reference
+    let sizes: Array<(u8, u8)> = array![
+        (3, 3), (7, 7), (11, 11), (8, 16), (15, 15), (15, 16), (17, 14), (19, 13),
+    ];
+    for (width, height) in sizes {
+        let size = width * height;
+        let flood = Bfs::flood(LayoutTrait::board(width, height), width, height, 0, 0, 0);
+        let mut position: u8 = 0;
+        while position != size {
+            let (_, walker) = FloodInternal::walker(@flood, position).unwrap();
+            let (x, y) = LayoutTrait::coords(width, position);
+            assert!(walker.x == x && walker.y == y && walker.odd == (y % 2 == 1));
+            assert!(
+                walker.around == LayoutTrait::edge_neighbours(width, height, position),
+                "{} x {}: {}",
+                width,
+                height,
+                position,
+            );
+            position += 1;
+        }
+        assert!(FloodInternal::walker(@flood, size).is_none());
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 1000000000)]
+fn test_steps_ring_corners() {
+    // The four corners of 15 × 16, by hand: (0, 0) and (14, 0) on an even row, (0, 15) and
+    // (14, 15) on an odd row
+    let flood = Bfs::flood(LayoutTrait::board(15, 16), 15, 16, SERPENTINE_15X16_FROM, 0, 255);
+    let corners: Array<(u8, felt252)> = array![
+        (0, Bits::pow(1) + Bits::pow(15)), (14, Bits::pow(13) + Bits::pow(28) + Bits::pow(29)),
+        (225, Bits::pow(210) + Bits::pow(211) + Bits::pow(226)),
+        (239, Bits::pow(224) + Bits::pow(238)),
+    ];
+    for (corner, around) in corners {
+        let (_, walker) = FloodInternal::walker(@flood, corner).unwrap();
+        assert!(walker.around == around, "corner {}", corner);
+    }
+    // On an open board flooded from its centre: (14, 0) and (0, 15) touch one interior tile
+    // each, (0, 0) and (14, 15) none (their neighbours are ring tiles, in no layer)
+    assert!(flood.next_step(0, 0) == Option::None);
+    assert!(flood.next_step(14, 0) == Option::Some(28));
+    assert!(flood.next_step(225, 0) == Option::Some(211));
+    assert!(flood.next_step(239, 0) == Option::None);
+    assert!(flood.next_step(14, Bits::pow(28)) == Option::None);
+    assert!(flood.distance(0) == Option::None);
+    assert!(flood.distance(14) == flood.distance(28).map(|d| d + 1));
+}
+
+#[test]
+#[available_gas(l2_gas: 1000000000)]
+fn test_steps_ring_open_7x7_11x11() {
+    // Every tile open, the ring included, against the oracle. The single limb
+    Steps::sweep(LayoutTrait::board(7, 7), 7, 7, 24, 0, 25);
+    Steps::sweep(LayoutTrait::board(11, 11), 11, 11, 60, SPREAD, 255);
+}
+
+#[test]
+#[available_gas(l2_gas: 1000000000)]
+fn test_steps_ring_open_15x16() {
+    Steps::sweep(LayoutTrait::board(15, 16), 15, 16, SERPENTINE_15X16_FROM, 0, 255);
+}
+
+#[test]
+#[available_gas(l2_gas: 1000000000)]
+fn test_steps_ring_open_19x13() {
+    Steps::sweep(LayoutTrait::board(19, 13), 19, 13, 123, 0, 255);
 }

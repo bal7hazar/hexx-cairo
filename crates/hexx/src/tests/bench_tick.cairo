@@ -3,7 +3,8 @@
 //! of `bench_assembly`), the flood capped at 15 layers (D-127) on the occupancy frozen, then the
 //! eight walkers in ascending id order, each `next_step` filtered by the occupancy updated after
 //! the previous moves (L-G1 point 5). On two windows: the cave of the tick (`CAVE_15X16`, its
-//! walkers at distances 3 to 15, all of them moving) and the serpentine (`SERPENTINE_15X16_8`,
+//! walkers at distances 3 to 15, all of them moving; and again with its last walker on the
+//! ring, at 13) and the serpentine (`SERPENTINE_15X16_8`,
 //! no walker reached at 15 layers: each scans every layer and holds its position).
 //!
 //! Each figure is the difference of two tests (the method of the game's SPK-7): the tick is the
@@ -23,8 +24,9 @@ use hexx::board::bits::Bits;
 use hexx::finders::bfs::Bfs;
 use hexx::finders::flood::{Flood, FloodTrait};
 use hexx::tests::fixtures::{
-    CAVE_15X16_8, CAVE_15X16_8_CHUNKS, CAVE_15X16_CHUNKS, CAVE_15X16_WALKERS, SERPENTINE_15X16,
-    SERPENTINE_15X16_8, SERPENTINE_15X16_8_CHUNKS, SERPENTINE_15X16_CHUNKS, SERPENTINE_15X16_FROM,
+    CAVE_15X16_8, CAVE_15X16_8_CHUNKS, CAVE_15X16_CHUNKS, CAVE_15X16_RING_CHUNKS,
+    CAVE_15X16_RING_WALKERS, CAVE_15X16_WALKERS, SERPENTINE_15X16, SERPENTINE_15X16_8,
+    SERPENTINE_15X16_8_CHUNKS, SERPENTINE_15X16_CHUNKS, SERPENTINE_15X16_FROM,
     SERPENTINE_15X16_WALKERS,
 };
 use hexx::tests::test_flood::{CAVE_15X16, CAVE_15X16_FROM};
@@ -48,6 +50,8 @@ struct Bench {
     /// The game's cap, 15 layers (D-127).
     cap: u8,
     cave: Window,
+    /// The cave tick with W8 on the ring, `(14, 4)`, at 13.
+    cave_ring: Window,
     serpentine: Window,
     /// `SERPENTINE_15X16`, with `(1, 2)` frozen: R-N8-1, 45 layers.
     corridor: felt252,
@@ -80,6 +84,7 @@ impl Inputs of InputsTrait {
     fn get() -> Bench {
         let [c0, c1, c2, c3] = CAVE_15X16_CHUNKS;
         let [d0, d1, d2, d3] = CAVE_15X16_8_CHUNKS;
+        let [r0, r1, r2, r3] = CAVE_15X16_RING_CHUNKS;
         let [s0, s1, s2, s3] = SERPENTINE_15X16_CHUNKS;
         let [t0, t1, t2, t3] = SERPENTINE_15X16_8_CHUNKS;
         Bench {
@@ -91,6 +96,12 @@ impl Inputs of InputsTrait {
                 occupied: [Option::Some(d0), Option::Some(d1), Option::Some(d2), Option::Some(d3)],
                 walkers: CAVE_15X16_WALKERS,
                 after: 0x41004002800280040000000000,
+            },
+            cave_ring: Window {
+                terrain: [Option::Some(c0), Option::Some(c1), Option::Some(c2), Option::Some(c3)],
+                occupied: [Option::Some(r0), Option::Some(r1), Option::Some(r2), Option::Some(r3)],
+                walkers: CAVE_15X16_RING_WALKERS,
+                after: 0x1014002800280040000000000,
             },
             serpentine: Window {
                 terrain: [Option::Some(s0), Option::Some(s1), Option::Some(s2), Option::Some(s3)],
@@ -186,6 +197,26 @@ fn bench_tick_cave() {
     let bench = Inputs::get();
     let (flood, occupied) = Tick::flood(@bench, @bench.cave);
     assert!(Tick::steps(@flood, bench.cave.walkers, occupied) == bench.cave.after);
+}
+
+// The cave of the tick, W8 on the ring
+
+#[test]
+#[inline(never)]
+#[available_gas(l2_gas: 1000000000)]
+fn bench_tick_cave_ring_flood() {
+    let bench = Inputs::get();
+    let (flood, _) = Tick::flood(@bench, @bench.cave_ring);
+    assert!(flood.depth() == bench.cap);
+}
+
+#[test]
+#[inline(never)]
+#[available_gas(l2_gas: 1000000000)]
+fn bench_tick_cave_ring() {
+    let bench = Inputs::get();
+    let (flood, occupied) = Tick::flood(@bench, @bench.cave_ring);
+    assert!(Tick::steps(@flood, bench.cave_ring.walkers, occupied) == bench.cave_ring.after);
 }
 
 // The serpentine
