@@ -68,6 +68,11 @@ Toolchain versions live in `.tool-versions` only (Scarb 2.19.4, starknet-foundry
 9. No stubbed success: an unported function does not exist.
 10. Numeric results are API: a changed result for the same input is a versioned change
     (`CHANGELOG.md`, plan §9.4's "Results changed").
+11b. Functions are scoped (owner's rule D-143): traits and impls with short names, never free
+    functions in a file; a free function needs a written reason next to it (a table of
+    constants is one). The mirror of `hexx` is methods on types and stays so; the engine taken
+    over and the extensions of L-M1 follow the same rule. Checks live in an `...Assert` impl
+    with an `errors` module (`docs/briefs/COMMON.md` §4).
 11. `crates/consumer`'s class-size fixture only tracks what it calls: each task of milestone L-M1
     (LIB-05) that ships a public item adds at least one call site of it to `crates/consumer`
     (`HexxSink`, or a further contract in that crate once one fixture needs to stay small),

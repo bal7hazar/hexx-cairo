@@ -41,6 +41,11 @@ version.
 
 ## Notes
 
+- **Organisation of Cairo code (owner's rule D-143, 2026-09-29).** Functions scoped in traits
+  and impls with short names; a free function needs a written reason. In `COMMON.md` §4,
+  `AGENTS.md` and §14 of the plan; carried into every brief and audit of LIB-05 from its next
+  task. The library stores nothing, so the rules on models and events do not apply.
+
 - **Audit of the launcher and the profiles (`[GPT-6-Sol]`, 2026-09-29): FAIL, three findings.**
   [Report](docs/audits/launcher-2628b21-audit-gpt-6-sol.md). (2) `scarb -v publish` passed the
   profile: fixed, publication is refused with a global option before the subcommand too;
