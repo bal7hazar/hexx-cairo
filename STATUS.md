@@ -69,17 +69,15 @@ version.
 - **Rule of decision (game's `OPERATIONS.md` §10, D-128).** At a gate or a blocker the project
   manager decides by its own recommendation and reports to the owner afterwards. Publishing
   on a registry, money, accounts and secrets stay the owner's act.
-- **Launcher synced with its reference.** `scripts/agent.sh` matches the game's at `44586e6`
-  (the reference of the three launchers: the commit that the game's CHANGELOG marks as
-  "launcher reference"; read at each check-in, synced in one pull request naming the commit), except the unit prefix and the two refused options.
-  The two findings inherited at pull request #24 are **closed** there: the count scans `/proc`
-  for any `codex` process with an `exec` argument, so a start without a pid file is counted;
-  an unreadable or malformed launch record, an unlistable logs directory or a dangling pid link
-  refuses the count.
-- **Launch lock (game's pull request 48).** The launcher counts the running Grim World agents
-  of the three tracks (units `grimworld-*`, `hexmap-*`, `quiver-*`, and detached codex audits)
-  and starts a unit under the shared lock `~/orchestrator/agent-launch.lock`; it refuses at 3
-  agents, and when the count cannot be made. `--with-sepolia` is refused here.
+- **Launcher: slots held by kernel locks.** `scripts/agent.sh` matches the game's at `65425a2`
+  except `TRACK=hexmap` and the two refused options. Nothing is counted by reading processes any
+  more: an agent holds one of `~/orchestrator/slots/total-1..3` and the slot of its track, which
+  for the library is the single slot **`lib-1`**, by a lock for as long as it lives; a codex
+  audit takes a slot like any agent. While `~/orchestrator/waiting/game` is less than 30 minutes
+  old the library launches nothing. Synced **by exception before its audit** (decision of the
+  project manager, 2026-09-29: a mixed state of launchers is worse than an unaudited lock); to be
+  read by `[GPT-6-Sol]` when the slot is free, and synced again when the game's CHANGELOG marks
+  the audited reference. The counting code and its inherited findings are gone with it.
 - **Budget (game's `OPERATIONS.md` §3).** 3 Grim World agents in total over three tracks; one
   slot is the library's, the third is shared. Count units `grimworld-*`, `hexmap-*`,
   `quiver-*` and the codex audits (detached processes, not units) before each launch.
