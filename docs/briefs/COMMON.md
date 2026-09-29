@@ -58,6 +58,7 @@ The game's `docs/CAIRO.md` in full. In short:
 | Types | No `u256` without a written reason; `u252` (package `uint252` on scarbs.xyz, from `bal7hazar/types-cairo`) for bitmaps and packed values; smallest integer that holds the value |
 | Oracles | An optimised algorithm is tested against a plain, obviously correct version kept in the tests |
 | Determinism | Fixed iteration and tie-break orders: lowest tile index. No block data |
+| **Functions are scoped** (owner's rule D-143, game's `docs/CAIRO.md` §7) | Functions live in traits and impls, with short names scoped by the trait: `#[generate_trait] pub impl AssemblyImpl of AssemblyTrait { fn window(…) }`, called `AssemblyTrait::window(…)` or as a method. Not free functions in a file, not names that repeat their module (`assembly_window`). Checks in an `…Assert` impl with an `errors` module. **A free function needs a written reason** next to it (a table of constants is one); an auditor reads a free function as a finding to justify. The library stores nothing: the rules on models, events and the store do not apply here |
 
 ## 5. The port (decision L-G1)
 
