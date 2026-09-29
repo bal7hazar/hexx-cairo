@@ -204,7 +204,9 @@ fn test_flood_serpentine_hand_distances() {
         (1, 12, 32),
     ];
     for (x, y, distance) in hand {
-        assert!(Oracle::layer_of(@flood, Oracle::at(x, y)) == Option::Some(distance), "({}, {})", x, y);
+        assert!(
+            Oracle::layer_of(@flood, Oracle::at(x, y)) == Option::Some(distance), "({}, {})", x, y,
+        );
     }
     assert!(Oracle::count(@flood) == 83);
 }
@@ -395,9 +397,7 @@ fn test_flood_obstacles_off_the_interior() {
     let ring: felt252 = LayoutTrait::board(15, 16) - LayoutTrait::interior(15, 16);
     let beyond: felt252 = Bits::pow(240) + Bits::pow(250);
     let plain = Bfs::flood(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, 0, 255);
-    let other = Oracle::check(
-        SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, ring + beyond, 255,
-    );
+    let other = Oracle::check(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, ring + beyond, 255);
     assert!(plain.layers == other.layers);
 }
 

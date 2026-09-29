@@ -2,6 +2,7 @@ pub mod bench_assembly;
 pub mod bench_bfs;
 pub mod bench_caver;
 pub mod bench_dial;
+pub mod bench_flood;
 pub mod bench_foundation;
 pub mod bench_map;
 pub mod bench_mazer;
