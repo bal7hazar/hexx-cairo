@@ -43,6 +43,7 @@ The VPS (8 vCPU, 31 GB) is shared with the owner's other programmes.
 | Local checks | Package-scoped; the pull-request CI is the full gate |
 | Exit code 137 | The OOM killer, not your code: wait a minute and run again |
 | Toolchain | Never installed, upgraded or changed globally |
+| **Delete and kill only what you created, named exactly** | A path you made yourself, a process whose pid you recorded. Temporary directories under your own worktree (`mktemp -d -p "$PWD/tmp"`), never directly under `/tmp`. Never a wildcard outside your own directory (`rm -rf /tmp/tmp.*`), never a kill by pattern (`pkill`, `killall`, `kill $(pgrep …)`), never a `git clean` or a `git worktree prune` outside your worktree. The machine is shared with other programmes (game's `OPERATIONS.md` §3, incident of 2026-09-29) |
 
 ## 4. Every Cairo task
 
