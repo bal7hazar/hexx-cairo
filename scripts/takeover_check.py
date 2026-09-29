@@ -81,10 +81,27 @@ EXTENDED: dict[str, str] = {
 }
 
 
+def code_of(line: str) -> str:
+    """The line without its `//` comment (Cairo has no block comment), outside quotes."""
+    quote = ""
+    for i, ch in enumerate(line):
+        if quote:
+            if ch == quote and line[i - 1] != "\\":
+                quote = ""
+        elif ch in "'\"":
+            quote = ch
+        elif line.startswith("//", i):
+            return line[:i].rstrip()
+    return line.rstrip()
+
+
 def only_additions(expected: str, actual: str) -> bool:
-    """True when the lines of `expected` are a subsequence of the lines of `actual`."""
-    lines = iter(actual.splitlines())
-    return all(any(line == got for got in lines) for line in expected.splitlines())
+    """True when the code lines of `expected` are a subsequence of the code lines of `actual`.
+    Comments are removed on both sides first, so an original line kept only in a comment does
+    not count as preserved (audit of M1-T9a, finding 1)."""
+    lines = iter(code for code in map(code_of, actual.splitlines()) if code)
+    return all(any(line == got for got in lines)
+               for line in (code for code in map(code_of, expected.splitlines()) if code))
 
 # --- The rewrites: (pattern, replacement), in order, applied to every file ---------------------
 
