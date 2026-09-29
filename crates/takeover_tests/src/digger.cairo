@@ -102,20 +102,12 @@ fn test_digger_maze_25x10() {
     check_maze(25, 10, 0, 64);
 }
 
-/// `Digger::maze`, orders 0 and 1, on `common::input_grid` from a seeded side tile. Seeds 0 to 31
+/// `Digger::maze`, orders 0 and 1, on `common::input_grid` from a seeded side tile. Seeds 0 to 63
 /// on `83x3`.
 #[test]
-#[available_gas(l2_gas: 140500101)]
-fn test_digger_maze_83x3_0() {
-    check_maze(83, 3, 0, 32);
-}
-
-/// `Digger::maze`, orders 0 and 1, on `common::input_grid` from a seeded side tile. Seeds 32 to 63
-/// on `83x3`.
-#[test]
-#[available_gas(l2_gas: 189266644)]
-fn test_digger_maze_83x3_1() {
-    check_maze(83, 3, 32, 64);
+#[available_gas(l2_gas: 328743215)]
+fn test_digger_maze_83x3() {
+    check_maze(83, 3, 0, 64);
 }
 
 /// `Digger::maze`, orders 0 and 1, on `common::input_grid` from a seeded side tile. Seeds 0 to 63
@@ -183,19 +175,11 @@ fn test_digger_corridor_25x10() {
 }
 
 /// `Digger::corridor`, orders 0 and 1, on `common::input_grid` from a seeded side tile. Seeds 0 to
-/// 31 on `83x3`.
-#[test]
-#[available_gas(l2_gas: 138727815)]
-fn test_digger_corridor_83x3_0() {
-    check_corridor(83, 3, 0, 32);
-}
-
-/// `Digger::corridor`, orders 0 and 1, on `common::input_grid` from a seeded side tile. Seeds 32 to
 /// 63 on `83x3`.
 #[test]
-#[available_gas(l2_gas: 187069817)]
-fn test_digger_corridor_83x3_1() {
-    check_corridor(83, 3, 32, 64);
+#[available_gas(l2_gas: 324774102)]
+fn test_digger_corridor_83x3() {
+    check_corridor(83, 3, 0, 64);
 }
 
 /// `Digger::corridor`, orders 0 and 1, on `common::input_grid` from a seeded side tile. Seeds 0 to

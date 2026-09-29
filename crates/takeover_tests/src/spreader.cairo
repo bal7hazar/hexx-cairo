@@ -62,220 +62,76 @@ fn test_spreader_errors() {
     assert(o::errors::SPREADER_INVALID_GRID == h::errors::SPREADER_INVALID_GRID, 'grid');
 }
 
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 20
+/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `3x3`.
 #[test]
-#[available_gas(l2_gas: 5921212)]
-fn test_spreader_generate_3x3_0() {
-    check_generate(3, 3, 0, 21);
+#[available_gas(l2_gas: 18113175)]
+fn test_spreader_generate_3x3() {
+    check_generate(3, 3, 0, 64);
 }
 
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 21 to 42
-/// on `3x3`.
-#[test]
-#[available_gas(l2_gas: 6236676)]
-fn test_spreader_generate_3x3_1() {
-    check_generate(3, 3, 21, 43);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 43 to 63
-/// on `3x3`.
-#[test]
-#[available_gas(l2_gas: 5987376)]
-fn test_spreader_generate_3x3_2() {
-    check_generate(3, 3, 43, 64);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 20
+/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `7x7`.
 #[test]
-#[available_gas(l2_gas: 17027537)]
-fn test_spreader_generate_7x7_0() {
-    check_generate(7, 7, 0, 21);
+#[available_gas(l2_gas: 53107736)]
+fn test_spreader_generate_7x7() {
+    check_generate(7, 7, 0, 64);
 }
 
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 21 to 42
-/// on `7x7`.
-#[test]
-#[available_gas(l2_gas: 18875861)]
-fn test_spreader_generate_7x7_1() {
-    check_generate(7, 7, 21, 43);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 43 to 63
-/// on `7x7`.
-#[test]
-#[available_gas(l2_gas: 17238528)]
-fn test_spreader_generate_7x7_2() {
-    check_generate(7, 7, 43, 64);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 20
+/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `15x15`.
 #[test]
-#[available_gas(l2_gas: 67120748)]
-fn test_spreader_generate_15x15_0() {
-    check_generate(15, 15, 0, 21);
+#[available_gas(l2_gas: 206183337)]
+fn test_spreader_generate_15x15() {
+    check_generate(15, 15, 0, 64);
 }
 
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 21 to 42
-/// on `15x15`.
-#[test]
-#[available_gas(l2_gas: 71282763)]
-fn test_spreader_generate_15x15_1() {
-    check_generate(15, 15, 21, 43);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 43 to 63
-/// on `15x15`.
-#[test]
-#[available_gas(l2_gas: 67811915)]
-fn test_spreader_generate_15x15_2() {
-    check_generate(15, 15, 43, 64);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 20
+/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `15x16`.
 #[test]
-#[available_gas(l2_gas: 70159072)]
-fn test_spreader_generate_15x16_0() {
-    check_generate(15, 16, 0, 21);
+#[available_gas(l2_gas: 218971740)]
+fn test_spreader_generate_15x16() {
+    check_generate(15, 16, 0, 64);
 }
 
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 21 to 42
-/// on `15x16`.
-#[test]
-#[available_gas(l2_gas: 75618773)]
-fn test_spreader_generate_15x16_1() {
-    check_generate(15, 16, 21, 43);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 43 to 63
-/// on `15x16`.
-#[test]
-#[available_gas(l2_gas: 73225984)]
-fn test_spreader_generate_15x16_2() {
-    check_generate(15, 16, 43, 64);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 20
+/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `17x14`.
 #[test]
-#[available_gas(l2_gas: 71096520)]
-fn test_spreader_generate_17x14_0() {
-    check_generate(17, 14, 0, 21);
+#[available_gas(l2_gas: 218462135)]
+fn test_spreader_generate_17x14() {
+    check_generate(17, 14, 0, 64);
 }
 
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 21 to 42
-/// on `17x14`.
-#[test]
-#[available_gas(l2_gas: 75326674)]
-fn test_spreader_generate_17x14_1() {
-    check_generate(17, 14, 21, 43);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 43 to 63
-/// on `17x14`.
-#[test]
-#[available_gas(l2_gas: 72073130)]
-fn test_spreader_generate_17x14_2() {
-    check_generate(17, 14, 43, 64);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 20
+/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `19x13`.
 #[test]
-#[available_gas(l2_gas: 73337590)]
-fn test_spreader_generate_19x13_0() {
-    check_generate(19, 13, 0, 21);
+#[available_gas(l2_gas: 223700787)]
+fn test_spreader_generate_19x13() {
+    check_generate(19, 13, 0, 64);
 }
 
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 21 to 42
-/// on `19x13`.
-#[test]
-#[available_gas(l2_gas: 76707466)]
-fn test_spreader_generate_19x13_1() {
-    check_generate(19, 13, 21, 43);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 43 to 63
-/// on `19x13`.
-#[test]
-#[available_gas(l2_gas: 73689920)]
-fn test_spreader_generate_19x13_2() {
-    check_generate(19, 13, 43, 64);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 20
+/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `25x10`.
 #[test]
-#[available_gas(l2_gas: 72937987)]
-fn test_spreader_generate_25x10_0() {
-    check_generate(25, 10, 0, 21);
+#[available_gas(l2_gas: 222766856)]
+fn test_spreader_generate_25x10() {
+    check_generate(25, 10, 0, 64);
 }
 
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 21 to 42
-/// on `25x10`.
-#[test]
-#[available_gas(l2_gas: 76200064)]
-fn test_spreader_generate_25x10_1() {
-    check_generate(25, 10, 21, 43);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 43 to 63
-/// on `25x10`.
-#[test]
-#[available_gas(l2_gas: 73662994)]
-fn test_spreader_generate_25x10_2() {
-    check_generate(25, 10, 43, 64);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 20
+/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `83x3`.
 #[test]
-#[available_gas(l2_gas: 39619055)]
-fn test_spreader_generate_83x3_0() {
-    check_generate(83, 3, 0, 21);
+#[available_gas(l2_gas: 121069501)]
+fn test_spreader_generate_83x3() {
+    check_generate(83, 3, 0, 64);
 }
 
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 21 to 42
-/// on `83x3`.
-#[test]
-#[available_gas(l2_gas: 39623509)]
-fn test_spreader_generate_83x3_1() {
-    check_generate(83, 3, 21, 43);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 43 to 63
-/// on `83x3`.
-#[test]
-#[available_gas(l2_gas: 41859025)]
-fn test_spreader_generate_83x3_2() {
-    check_generate(83, 3, 43, 64);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 20
+/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `3x83`.
 #[test]
-#[available_gas(l2_gas: 41410238)]
-fn test_spreader_generate_3x83_0() {
-    check_generate(3, 83, 0, 21);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 21 to 42
-/// on `3x83`.
-#[test]
-#[available_gas(l2_gas: 43345631)]
-fn test_spreader_generate_3x83_1() {
-    check_generate(3, 83, 21, 43);
-}
-
-/// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 43 to 63
-/// on `3x83`.
-#[test]
-#[available_gas(l2_gas: 40406588)]
-fn test_spreader_generate_3x83_2() {
-    check_generate(3, 83, 43, 64);
+#[available_gas(l2_gas: 125130367)]
+fn test_spreader_generate_3x83() {
+    check_generate(3, 83, 0, 64);
 }
 
 /// `Spreader::generate`, 8 seeded counts per board, entrances included. Boards 0 to 9 of

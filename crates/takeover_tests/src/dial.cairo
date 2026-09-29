@@ -117,67 +117,43 @@ fn test_dial_search_boards_2() {
 }
 
 /// `Dial::field_of_movement` from `common::sources`, every budget of `common::RADII`, 0 to 3 cost
-/// classes. Boards 0 to 4 of `fixtures::boards` (the fixtures of 1.8.0).
+/// classes. Boards 0 to 9 of `fixtures::boards` (the fixtures of 1.8.0).
 #[test]
-#[available_gas(l2_gas: 246804985)]
-fn test_dial_field_of_movement_fixtures_0() {
-    check_field_of_movement(0, 5);
+#[available_gas(l2_gas: 370485363)]
+fn test_dial_field_of_movement_fixtures() {
+    check_field_of_movement(0, 10);
 }
 
 /// `Dial::field_of_movement` from `common::sources`, every budget of `common::RADII`, 0 to 3 cost
-/// classes. Boards 5 to 9 of `fixtures::boards` (the fixtures of 1.8.0).
+/// classes. Boards 10 to 17 of `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 123772043)]
-fn test_dial_field_of_movement_fixtures_1() {
-    check_field_of_movement(5, 10);
-}
-
-/// `Dial::field_of_movement` from `common::sources`, every budget of `common::RADII`, 0 to 3 cost
-/// classes. Boards 10 to 14 of `fixtures::boards` (the generated boards).
-#[test]
-#[available_gas(l2_gas: 252251715)]
+#[available_gas(l2_gas: 394086536)]
 fn test_dial_field_of_movement_boards_0() {
-    check_field_of_movement(10, 15);
+    check_field_of_movement(10, 18);
 }
 
 /// `Dial::field_of_movement` from `common::sources`, every budget of `common::RADII`, 0 to 3 cost
-/// classes. Boards 15 to 20 of `fixtures::boards` (the generated boards).
+/// classes. Boards 18 to 25 of `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 297918353)]
+#[available_gas(l2_gas: 420371640)]
 fn test_dial_field_of_movement_boards_1() {
-    check_field_of_movement(15, 21);
+    check_field_of_movement(18, 26);
 }
 
 /// `Dial::field_of_movement` from `common::sources`, every budget of `common::RADII`, 0 to 3 cost
-/// classes. Boards 21 to 25 of `fixtures::boards` (the generated boards).
+/// classes. Boards 26 to 33 of `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 264379773)]
+#[available_gas(l2_gas: 414550532)]
 fn test_dial_field_of_movement_boards_2() {
-    check_field_of_movement(21, 26);
+    check_field_of_movement(26, 34);
 }
 
 /// `Dial::field_of_movement` from `common::sources`, every budget of `common::RADII`, 0 to 3 cost
-/// classes. Boards 26 to 30 of `fixtures::boards` (the generated boards).
+/// classes. Boards 34 to 41 of `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 264718352)]
+#[available_gas(l2_gas: 302391888)]
 fn test_dial_field_of_movement_boards_3() {
-    check_field_of_movement(26, 31);
-}
-
-/// `Dial::field_of_movement` from `common::sources`, every budget of `common::RADII`, 0 to 3 cost
-/// classes. Boards 31 to 36 of `fixtures::boards` (the generated boards).
-#[test]
-#[available_gas(l2_gas: 274392370)]
-fn test_dial_field_of_movement_boards_4() {
-    check_field_of_movement(31, 37);
-}
-
-/// `Dial::field_of_movement` from `common::sources`, every budget of `common::RADII`, 0 to 3 cost
-/// classes. Boards 37 to 41 of `fixtures::boards` (the generated boards).
-#[test]
-#[available_gas(l2_gas: 177923364)]
-fn test_dial_field_of_movement_boards_5() {
-    check_field_of_movement(37, 42);
+    check_field_of_movement(34, 42);
 }
 
 // Panics: one test per side, same input, same message.

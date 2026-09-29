@@ -603,193 +603,67 @@ fn test_map_new_cave_3x83() {
     check_new_cave(3, 83, 0, 64);
 }
 
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 20 on `3x3`.
+/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 63 on `3x3`.
 #[test]
-#[available_gas(l2_gas: 293975813)]
-fn test_map_new_random_walk_3x3_0() {
-    check_new_random_walk(3, 3, 0, 21);
+#[available_gas(l2_gas: 319273120)]
+fn test_map_new_random_walk_3x3() {
+    check_new_random_walk(3, 3, 0, 64);
 }
 
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 21 to 42 on `3x3`.
+/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 63 on `7x7`.
 #[test]
-#[available_gas(l2_gas: 308003785)]
-fn test_map_new_random_walk_3x3_1() {
-    check_new_random_walk(3, 3, 21, 43);
+#[available_gas(l2_gas: 317011756)]
+fn test_map_new_random_walk_7x7() {
+    check_new_random_walk(7, 7, 0, 64);
 }
 
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 43 to 63 on `3x3`.
+/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 63 on `15x15`.
 #[test]
-#[available_gas(l2_gas: 294098957)]
-fn test_map_new_random_walk_3x3_2() {
-    check_new_random_walk(3, 3, 43, 64);
+#[available_gas(l2_gas: 324830812)]
+fn test_map_new_random_walk_15x15() {
+    check_new_random_walk(15, 15, 0, 64);
 }
 
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 20 on `7x7`.
+/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 63 on `15x16`.
 #[test]
-#[available_gas(l2_gas: 291561149)]
-fn test_map_new_random_walk_7x7_0() {
-    check_new_random_walk(7, 7, 0, 21);
+#[available_gas(l2_gas: 324544876)]
+fn test_map_new_random_walk_15x16() {
+    check_new_random_walk(15, 16, 0, 64);
 }
 
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 21 to 42 on `7x7`.
+/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 63 on `17x14`.
 #[test]
-#[available_gas(l2_gas: 305498233)]
-fn test_map_new_random_walk_7x7_1() {
-    check_new_random_walk(7, 7, 21, 43);
+#[available_gas(l2_gas: 324903283)]
+fn test_map_new_random_walk_17x14() {
+    check_new_random_walk(17, 14, 0, 64);
 }
 
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 43 to 63 on `7x7`.
+/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 63 on `19x13`.
 #[test]
-#[available_gas(l2_gas: 291681374)]
-fn test_map_new_random_walk_7x7_2() {
-    check_new_random_walk(7, 7, 43, 64);
+#[available_gas(l2_gas: 325087411)]
+fn test_map_new_random_walk_19x13() {
+    check_new_random_walk(19, 13, 0, 64);
 }
 
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 20 on `15x15`.
+/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 63 on `25x10`.
 #[test]
-#[available_gas(l2_gas: 298372877)]
-fn test_map_new_random_walk_15x15_0() {
-    check_new_random_walk(15, 15, 0, 21);
+#[available_gas(l2_gas: 325201483)]
+fn test_map_new_random_walk_25x10() {
+    check_new_random_walk(25, 10, 0, 64);
 }
 
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 21 to 42 on `15x15`.
+/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 63 on `83x3`.
 #[test]
-#[available_gas(l2_gas: 312592600)]
-fn test_map_new_random_walk_15x15_1() {
-    check_new_random_walk(15, 15, 21, 43);
+#[available_gas(l2_gas: 320570038)]
+fn test_map_new_random_walk_83x3() {
+    check_new_random_walk(83, 3, 0, 64);
 }
 
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 43 to 63 on `15x15`.
+/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 63 on `3x83`.
 #[test]
-#[available_gas(l2_gas: 298459250)]
-fn test_map_new_random_walk_15x15_2() {
-    check_new_random_walk(15, 15, 43, 64);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 20 on `15x16`.
-#[test]
-#[available_gas(l2_gas: 298627817)]
-fn test_map_new_random_walk_15x16_0() {
-    check_new_random_walk(15, 16, 0, 21);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 21 to 42 on `15x16`.
-#[test]
-#[available_gas(l2_gas: 313269283)]
-fn test_map_new_random_walk_15x16_1() {
-    check_new_random_walk(15, 16, 21, 43);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 43 to 63 on `15x16`.
-#[test]
-#[available_gas(l2_gas: 298477772)]
-fn test_map_new_random_walk_15x16_2() {
-    check_new_random_walk(15, 16, 43, 64);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 20 on `17x14`.
-#[test]
-#[available_gas(l2_gas: 298958903)]
-fn test_map_new_random_walk_17x14_0() {
-    check_new_random_walk(17, 14, 0, 21);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 21 to 42 on `17x14`.
-#[test]
-#[available_gas(l2_gas: 312786199)]
-fn test_map_new_random_walk_17x14_1() {
-    check_new_random_walk(17, 14, 21, 43);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 43 to 63 on `17x14`.
-#[test]
-#[available_gas(l2_gas: 298901867)]
-fn test_map_new_random_walk_17x14_2() {
-    check_new_random_walk(17, 14, 43, 64);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 20 on `19x13`.
-#[test]
-#[available_gas(l2_gas: 299048531)]
-fn test_map_new_random_walk_19x13_0() {
-    check_new_random_walk(19, 13, 0, 21);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 21 to 42 on `19x13`.
-#[test]
-#[available_gas(l2_gas: 313205443)]
-fn test_map_new_random_walk_19x13_1() {
-    check_new_random_walk(19, 13, 21, 43);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 43 to 63 on `19x13`.
-#[test]
-#[available_gas(l2_gas: 299281232)]
-fn test_map_new_random_walk_19x13_2() {
-    check_new_random_walk(19, 13, 43, 64);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 20 on `25x10`.
-#[test]
-#[available_gas(l2_gas: 299402591)]
-fn test_map_new_random_walk_25x10_0() {
-    check_new_random_walk(25, 10, 0, 21);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 21 to 42 on `25x10`.
-#[test]
-#[available_gas(l2_gas: 313917574)]
-fn test_map_new_random_walk_25x10_1() {
-    check_new_random_walk(25, 10, 21, 43);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 43 to 63 on `25x10`.
-#[test]
-#[available_gas(l2_gas: 299387471)]
-fn test_map_new_random_walk_25x10_2() {
-    check_new_random_walk(25, 10, 43, 64);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 20 on `83x3`.
-#[test]
-#[available_gas(l2_gas: 294882404)]
-fn test_map_new_random_walk_83x3_0() {
-    check_new_random_walk(83, 3, 0, 21);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 21 to 42 on `83x3`.
-#[test]
-#[available_gas(l2_gas: 309815707)]
-fn test_map_new_random_walk_83x3_1() {
-    check_new_random_walk(83, 3, 21, 43);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 43 to 63 on `83x3`.
-#[test]
-#[available_gas(l2_gas: 295860647)]
-fn test_map_new_random_walk_83x3_2() {
-    check_new_random_walk(83, 3, 43, 64);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 0 to 20 on `3x83`.
-#[test]
-#[available_gas(l2_gas: 300915557)]
-fn test_map_new_random_walk_3x83_0() {
-    check_new_random_walk(3, 83, 0, 21);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 21 to 42 on `3x83`.
-#[test]
-#[available_gas(l2_gas: 316202395)]
-fn test_map_new_random_walk_3x83_1() {
-    check_new_random_walk(3, 83, 21, 43);
-}
-
-/// `new_random_walk`, every step count of `walker::STEPS`. Seeds 43 to 63 on `3x83`.
-#[test]
-#[available_gas(l2_gas: 300886031)]
-fn test_map_new_random_walk_3x83_2() {
-    check_new_random_walk(3, 83, 43, 64);
+#[available_gas(l2_gas: 326506444)]
+fn test_map_new_random_walk_3x83() {
+    check_new_random_walk(3, 83, 0, 64);
 }
 
 /// `open_with_corridor`, orders 0 and 1, on `common::input_grid` from a seeded side tile. Seeds 0
@@ -849,19 +723,11 @@ fn test_map_open_with_corridor_25x10() {
 }
 
 /// `open_with_corridor`, orders 0 and 1, on `common::input_grid` from a seeded side tile. Seeds 0
-/// to 31 on `83x3`.
-#[test]
-#[available_gas(l2_gas: 138741255)]
-fn test_map_open_with_corridor_83x3_0() {
-    check_open_with_corridor(83, 3, 0, 32);
-}
-
-/// `open_with_corridor`, orders 0 and 1, on `common::input_grid` from a seeded side tile. Seeds 32
 /// to 63 on `83x3`.
 #[test]
-#[available_gas(l2_gas: 187083257)]
-fn test_map_open_with_corridor_83x3_1() {
-    check_open_with_corridor(83, 3, 32, 64);
+#[available_gas(l2_gas: 324800982)]
+fn test_map_open_with_corridor_83x3() {
+    check_open_with_corridor(83, 3, 0, 64);
 }
 
 /// `open_with_corridor`, orders 0 and 1, on `common::input_grid` from a seeded side tile. Seeds 0
@@ -928,20 +794,12 @@ fn test_map_open_with_maze_25x10() {
     check_open_with_maze(25, 10, 0, 64);
 }
 
-/// `open_with_maze`, orders 0 and 1, on `common::input_grid` from a seeded side tile. Seeds 0 to 31
+/// `open_with_maze`, orders 0 and 1, on `common::input_grid` from a seeded side tile. Seeds 0 to 63
 /// on `83x3`.
 #[test]
-#[available_gas(l2_gas: 140513541)]
-fn test_map_open_with_maze_83x3_0() {
-    check_open_with_maze(83, 3, 0, 32);
-}
-
-/// `open_with_maze`, orders 0 and 1, on `common::input_grid` from a seeded side tile. Seeds 32 to
-/// 63 on `83x3`.
-#[test]
-#[available_gas(l2_gas: 189280084)]
-fn test_map_open_with_maze_83x3_1() {
-    check_open_with_maze(83, 3, 32, 64);
+#[available_gas(l2_gas: 328770095)]
+fn test_map_open_with_maze_83x3() {
+    check_open_with_maze(83, 3, 0, 64);
 }
 
 /// `open_with_maze`, orders 0 and 1, on `common::input_grid` from a seeded side tile. Seeds 0 to 63
@@ -1095,20 +953,12 @@ fn test_map_search_path_fixtures() {
     check_search_path(0, 10);
 }
 
-/// `search_path` on `common::endpoints`. Boards 10 to 25 of `fixtures::boards` (the generated
+/// `search_path` on `common::endpoints`. Boards 10 to 41 of `fixtures::boards` (the generated
 /// boards).
 #[test]
-#[available_gas(l2_gas: 245051854)]
-fn test_map_search_path_boards_0() {
-    check_search_path(10, 26);
-}
-
-/// `search_path` on `common::endpoints`. Boards 26 to 41 of `fixtures::boards` (the generated
-/// boards).
-#[test]
-#[available_gas(l2_gas: 174067421)]
-fn test_map_search_path_boards_1() {
-    check_search_path(26, 42);
+#[available_gas(l2_gas: 419024523)]
+fn test_map_search_path_boards() {
+    check_search_path(10, 42);
 }
 
 /// `search_path_weighted` on `common::endpoints`, 0 to 3 cost classes. Boards 0 to 9 of
@@ -1144,67 +994,43 @@ fn test_map_search_path_weighted_boards_2() {
 }
 
 /// `field_of_movement` from `common::sources`, every budget of `common::RADII`, 0 to 3 cost
-/// classes. Boards 0 to 4 of `fixtures::boards` (the fixtures of 1.8.0).
+/// classes. Boards 0 to 9 of `fixtures::boards` (the fixtures of 1.8.0).
 #[test]
-#[available_gas(l2_gas: 247051210)]
-fn test_map_field_of_movement_fixtures_0() {
-    check_field_of_movement(0, 5);
+#[available_gas(l2_gas: 370977813)]
+fn test_map_field_of_movement_fixtures() {
+    check_field_of_movement(0, 10);
 }
 
 /// `field_of_movement` from `common::sources`, every budget of `common::RADII`, 0 to 3 cost
-/// classes. Boards 5 to 9 of `fixtures::boards` (the fixtures of 1.8.0).
+/// classes. Boards 10 to 17 of `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 124018268)]
-fn test_map_field_of_movement_fixtures_1() {
-    check_field_of_movement(5, 10);
-}
-
-/// `field_of_movement` from `common::sources`, every budget of `common::RADII`, 0 to 3 cost
-/// classes. Boards 10 to 14 of `fixtures::boards` (the generated boards).
-#[test]
-#[available_gas(l2_gas: 252514110)]
+#[available_gas(l2_gas: 394504751)]
 fn test_map_field_of_movement_boards_0() {
-    check_field_of_movement(10, 15);
+    check_field_of_movement(10, 18);
 }
 
 /// `field_of_movement` from `common::sources`, every budget of `common::RADII`, 0 to 3 cost
-/// classes. Boards 15 to 20 of `fixtures::boards` (the generated boards).
+/// classes. Boards 18 to 25 of `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 298229993)]
+#[available_gas(l2_gas: 420789855)]
 fn test_map_field_of_movement_boards_1() {
-    check_field_of_movement(15, 21);
+    check_field_of_movement(18, 26);
 }
 
 /// `field_of_movement` from `common::sources`, every budget of `common::RADII`, 0 to 3 cost
-/// classes. Boards 21 to 25 of `fixtures::boards` (the generated boards).
+/// classes. Boards 26 to 33 of `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 264642168)]
+#[available_gas(l2_gas: 414968747)]
 fn test_map_field_of_movement_boards_2() {
-    check_field_of_movement(21, 26);
+    check_field_of_movement(26, 34);
 }
 
 /// `field_of_movement` from `common::sources`, every budget of `common::RADII`, 0 to 3 cost
-/// classes. Boards 26 to 30 of `fixtures::boards` (the generated boards).
+/// classes. Boards 34 to 41 of `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 264980747)]
+#[available_gas(l2_gas: 302818188)]
 fn test_map_field_of_movement_boards_3() {
-    check_field_of_movement(26, 31);
-}
-
-/// `field_of_movement` from `common::sources`, every budget of `common::RADII`, 0 to 3 cost
-/// classes. Boards 31 to 36 of `fixtures::boards` (the generated boards).
-#[test]
-#[available_gas(l2_gas: 274704010)]
-fn test_map_field_of_movement_boards_4() {
-    check_field_of_movement(31, 37);
-}
-
-/// `field_of_movement` from `common::sources`, every budget of `common::RADII`, 0 to 3 cost
-/// classes. Boards 37 to 41 of `fixtures::boards` (the generated boards).
-#[test]
-#[available_gas(l2_gas: 178193844)]
-fn test_map_field_of_movement_boards_5() {
-    check_field_of_movement(37, 42);
+    check_field_of_movement(34, 42);
 }
 
 /// `distance_to` on `common::endpoints`. Boards 0 to 9 of `fixtures::boards` (the fixtures of
@@ -1246,28 +1072,20 @@ fn test_map_range_fixtures() {
     check_range(0, 10);
 }
 
-/// `range` from `common::sources`, every radius of `common::RADII`. Boards 10 to 20 of
+/// `range` from `common::sources`, every radius of `common::RADII`. Boards 10 to 25 of
 /// `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 298661625)]
+#[available_gas(l2_gas: 429150158)]
 fn test_map_range_boards_0() {
-    check_range(10, 21);
+    check_range(10, 26);
 }
 
-/// `range` from `common::sources`, every radius of `common::RADII`. Boards 21 to 30 of
+/// `range` from `common::sources`, every radius of `common::RADII`. Boards 26 to 41 of
 /// `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 268001316)]
+#[available_gas(l2_gas: 359008430)]
 fn test_map_range_boards_1() {
-    check_range(21, 31);
-}
-
-/// `range` from `common::sources`, every radius of `common::RADII`. Boards 31 to 41 of
-/// `fixtures::boards` (the generated boards).
-#[test]
-#[available_gas(l2_gas: 221589140)]
-fn test_map_range_boards_2() {
-    check_range(31, 42);
+    check_range(26, 42);
 }
 
 /// `ring` from `common::sources`, every radius of `common::RADII`. Boards 0 to 9 of

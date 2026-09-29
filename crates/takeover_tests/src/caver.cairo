@@ -50,193 +50,67 @@ fn test_caver_errors() {
     assert(o::errors::CAVER_POSITION_NOT_FLOOR == h::errors::CAVER_POSITION_NOT_FLOOR, 'errors');
 }
 
-/// `Caver::generate`, orders 0 to 5. Seeds 0 to 20 on `3x3`.
+/// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `3x3`.
 #[test]
-#[available_gas(l2_gas: 15911528)]
-fn test_caver_generate_3x3_0() {
-    check_generate(3, 3, 0, 21);
+#[available_gas(l2_gas: 48456822)]
+fn test_caver_generate_3x3() {
+    check_generate(3, 3, 0, 64);
 }
 
-/// `Caver::generate`, orders 0 to 5. Seeds 21 to 42 on `3x3`.
+/// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `7x7`.
 #[test]
-#[available_gas(l2_gas: 16668396)]
-fn test_caver_generate_3x3_1() {
-    check_generate(3, 3, 21, 43);
+#[available_gas(l2_gas: 48456822)]
+fn test_caver_generate_7x7() {
+    check_generate(7, 7, 0, 64);
 }
 
-/// `Caver::generate`, orders 0 to 5. Seeds 43 to 63 on `3x3`.
+/// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `15x15`.
 #[test]
-#[available_gas(l2_gas: 15911528)]
-fn test_caver_generate_3x3_2() {
-    check_generate(3, 3, 43, 64);
+#[available_gas(l2_gas: 89596662)]
+fn test_caver_generate_15x15() {
+    check_generate(15, 15, 0, 64);
 }
 
-/// `Caver::generate`, orders 0 to 5. Seeds 0 to 20 on `7x7`.
+/// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `15x16`.
 #[test]
-#[available_gas(l2_gas: 15911528)]
-fn test_caver_generate_7x7_0() {
-    check_generate(7, 7, 0, 21);
+#[available_gas(l2_gas: 89529462)]
+fn test_caver_generate_15x16() {
+    check_generate(15, 16, 0, 64);
 }
 
-/// `Caver::generate`, orders 0 to 5. Seeds 21 to 42 on `7x7`.
+/// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `17x14`.
 #[test]
-#[available_gas(l2_gas: 16668396)]
-fn test_caver_generate_7x7_1() {
-    check_generate(7, 7, 21, 43);
+#[available_gas(l2_gas: 89529462)]
+fn test_caver_generate_17x14() {
+    check_generate(17, 14, 0, 64);
 }
 
-/// `Caver::generate`, orders 0 to 5. Seeds 43 to 63 on `7x7`.
+/// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `19x13`.
 #[test]
-#[available_gas(l2_gas: 15911528)]
-fn test_caver_generate_7x7_2() {
-    check_generate(7, 7, 43, 64);
+#[available_gas(l2_gas: 89596662)]
+fn test_caver_generate_19x13() {
+    check_generate(19, 13, 0, 64);
 }
 
-/// `Caver::generate`, orders 0 to 5. Seeds 0 to 20 on `15x15`.
+/// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `25x10`.
 #[test]
-#[available_gas(l2_gas: 29410538)]
-fn test_caver_generate_15x15_0() {
-    check_generate(15, 15, 0, 21);
+#[available_gas(l2_gas: 89529462)]
+fn test_caver_generate_25x10() {
+    check_generate(25, 10, 0, 64);
 }
 
-/// `Caver::generate`, orders 0 to 5. Seeds 21 to 42 on `15x15`.
+/// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `83x3`.
 #[test]
-#[available_gas(l2_gas: 30810216)]
-fn test_caver_generate_15x15_1() {
-    check_generate(15, 15, 21, 43);
+#[available_gas(l2_gas: 84762336)]
+fn test_caver_generate_83x3() {
+    check_generate(83, 3, 0, 64);
 }
 
-/// `Caver::generate`, orders 0 to 5. Seeds 43 to 63 on `15x15`.
+/// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `3x83`.
 #[test]
-#[available_gas(l2_gas: 29410538)]
-fn test_caver_generate_15x15_2() {
-    check_generate(15, 15, 43, 64);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 0 to 20 on `15x16`.
-#[test]
-#[available_gas(l2_gas: 29388488)]
-fn test_caver_generate_15x16_0() {
-    check_generate(15, 16, 0, 21);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 21 to 42 on `15x16`.
-#[test]
-#[available_gas(l2_gas: 30787116)]
-fn test_caver_generate_15x16_1() {
-    check_generate(15, 16, 21, 43);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 43 to 63 on `15x16`.
-#[test]
-#[available_gas(l2_gas: 29388488)]
-fn test_caver_generate_15x16_2() {
-    check_generate(15, 16, 43, 64);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 0 to 20 on `17x14`.
-#[test]
-#[available_gas(l2_gas: 29388488)]
-fn test_caver_generate_17x14_0() {
-    check_generate(17, 14, 0, 21);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 21 to 42 on `17x14`.
-#[test]
-#[available_gas(l2_gas: 30787116)]
-fn test_caver_generate_17x14_1() {
-    check_generate(17, 14, 21, 43);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 43 to 63 on `17x14`.
-#[test]
-#[available_gas(l2_gas: 29388488)]
-fn test_caver_generate_17x14_2() {
-    check_generate(17, 14, 43, 64);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 0 to 20 on `19x13`.
-#[test]
-#[available_gas(l2_gas: 29410538)]
-fn test_caver_generate_19x13_0() {
-    check_generate(19, 13, 0, 21);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 21 to 42 on `19x13`.
-#[test]
-#[available_gas(l2_gas: 30810216)]
-fn test_caver_generate_19x13_1() {
-    check_generate(19, 13, 21, 43);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 43 to 63 on `19x13`.
-#[test]
-#[available_gas(l2_gas: 29410538)]
-fn test_caver_generate_19x13_2() {
-    check_generate(19, 13, 43, 64);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 0 to 20 on `25x10`.
-#[test]
-#[available_gas(l2_gas: 29388488)]
-fn test_caver_generate_25x10_0() {
-    check_generate(25, 10, 0, 21);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 21 to 42 on `25x10`.
-#[test]
-#[available_gas(l2_gas: 30787116)]
-fn test_caver_generate_25x10_1() {
-    check_generate(25, 10, 21, 43);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 43 to 63 on `25x10`.
-#[test]
-#[available_gas(l2_gas: 29388488)]
-fn test_caver_generate_25x10_2() {
-    check_generate(25, 10, 43, 64);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 0 to 20 on `83x3`.
-#[test]
-#[available_gas(l2_gas: 27804626)]
-fn test_caver_generate_83x3_0() {
-    check_generate(83, 3, 0, 21);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 21 to 42 on `83x3`.
-#[test]
-#[available_gas(l2_gas: 29146239)]
-fn test_caver_generate_83x3_1() {
-    check_generate(83, 3, 21, 43);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 43 to 63 on `83x3`.
-#[test]
-#[available_gas(l2_gas: 27846101)]
-fn test_caver_generate_83x3_2() {
-    check_generate(83, 3, 43, 64);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 0 to 20 on `3x83`.
-#[test]
-#[available_gas(l2_gas: 28335506)]
-fn test_caver_generate_3x83_0() {
-    check_generate(3, 83, 0, 21);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 21 to 42 on `3x83`.
-#[test]
-#[available_gas(l2_gas: 29783295)]
-fn test_caver_generate_3x83_1() {
-    check_generate(3, 83, 21, 43);
-}
-
-/// `Caver::generate`, orders 0 to 5. Seeds 43 to 63 on `3x83`.
-#[test]
-#[available_gas(l2_gas: 28428410)]
-fn test_caver_generate_3x83_2() {
-    check_generate(3, 83, 43, 64);
+#[available_gas(l2_gas: 86512581)]
+fn test_caver_generate_3x83() {
+    check_generate(3, 83, 0, 64);
 }
 
 /// `Caver::keep_component` on `common::input_grid` from a seeded floor tile. Seeds 0 to 63 on

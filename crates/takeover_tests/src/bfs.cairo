@@ -173,27 +173,19 @@ fn test_bfs_tiles_within_range_fixtures() {
 }
 
 /// `Bfs::tiles_within_range` from `common::sources`, every radius of `common::RADII`. Boards 10 to
-/// 20 of `fixtures::boards` (the generated boards).
+/// 25 of `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 298249920)]
+#[available_gas(l2_gas: 428550503)]
 fn test_bfs_tiles_within_range_boards_0() {
-    check_tiles_within_range(10, 21);
+    check_tiles_within_range(10, 26);
 }
 
-/// `Bfs::tiles_within_range` from `common::sources`, every radius of `common::RADII`. Boards 21 to
-/// 30 of `fixtures::boards` (the generated boards).
-#[test]
-#[available_gas(l2_gas: 267624891)]
-fn test_bfs_tiles_within_range_boards_1() {
-    check_tiles_within_range(21, 31);
-}
-
-/// `Bfs::tiles_within_range` from `common::sources`, every radius of `common::RADII`. Boards 31 to
+/// `Bfs::tiles_within_range` from `common::sources`, every radius of `common::RADII`. Boards 26 to
 /// 41 of `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 221171660)]
-fn test_bfs_tiles_within_range_boards_2() {
-    check_tiles_within_range(31, 42);
+#[available_gas(l2_gas: 358403000)]
+fn test_bfs_tiles_within_range_boards_1() {
+    check_tiles_within_range(26, 42);
 }
 
 // Panics: one test per side, same input, same message.
