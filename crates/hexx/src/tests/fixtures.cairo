@@ -245,6 +245,43 @@ pub const SERPENTINE_15X16_FROM: u8 = 127;
 /// The eight walkers of `SERPENTINE_15X16_8`: (5, 2), (4, 2), (3, 2), (2, 2), (5, 12), (4, 12),
 /// (3, 12), (2, 12).
 pub const SERPENTINE_15X16_8: felt252 = 0x3c000000000000000000000000000000000000f00000000;
+/// The same eight walkers, in ascending id order.
+pub const SERPENTINE_15X16_WALKERS: [u8; 8] = [35, 34, 33, 32, 185, 184, 183, 182];
+/// The 4 terrain chunks of 15 × 15 from which the window at `Origin { cx: 3, cy: 5, ox: 7,
+/// oy: 7 }` assembles to `SERPENTINE_15X16`, in the order of `AssemblyTrait::window`: `(cx, cy)`,
+/// `(cx + 1, cy)`, `(cx, cy + 1)`, `(cx + 1, cy + 1)`. The tiles outside the window are wall.
+pub const SERPENTINE_15X16_CHUNKS: [felt252; 4] = [
+    0x3f800100fe000003f800000000000000000000000000000000000,
+    0x8001f8000007e008001f8000000000000000000000000000000000, 0x7f000001fc000807f00,
+    0x3f004000fc000003f,
+];
+/// The 4 occupancy chunks of the same window, which assemble to `SERPENTINE_15X16_8`.
+pub const SERPENTINE_15X16_8_CHUNKS: [felt252; 4] = [
+    0xf000000000000000000000000000000000000, 0x0, 0x1e00000000000000000, 0x0,
+];
+
+// CAVE 15x16, the tick: `CAVE_15X16` of `test_flood` (a cave window, 16 layers from (7, 8)) with
+// eight walkers, pinned from the scalar oracle so that, with the flood capped at 15 layers on the
+// occupancy frozen, their distances are 15, 15, 15, 14, 14, 13, 3 and 12, and W2's step depends
+// on W1's move (W1 takes (10, 3), which W2 would take on the frozen occupancy).
+
+/// The eight walkers of the cave tick: (10, 2), (11, 2), (13, 2), (11, 3), (13, 3), (12, 4),
+/// (6, 5), (12, 5).
+pub const CAVE_15X16_8: felt252 = 0x82010005000b0000000000;
+/// The same eight walkers, in ascending id order.
+pub const CAVE_15X16_WALKERS: [u8; 8] = [40, 41, 43, 56, 58, 72, 81, 87];
+/// The 4 terrain chunks from which the window at `Origin { cx: 3, cy: 5, ox: 7, oy: 7 }`
+/// assembles to `CAVE_15X16`, as `SERPENTINE_15X16_CHUNKS`.
+pub const CAVE_15X16_CHUNKS: [felt252; 4] = [
+    0x1d803e003e007c00fc007800400000000000000000000000000000000,
+    0x4c0198038007000f001e000c000000000000000000000000000000, 0x38007200e6019803b806600,
+    0xfc01f803f003a006401e8033,
+];
+/// The 4 occupancy chunks of the same window, which assemble to `CAVE_15X16_8`.
+pub const CAVE_15X16_8_CHUNKS: [felt252; 4] = [
+    0x2000000000000000000000000000000000000000000000000,
+    0x10002000a00160000000000000000000000000000000000, 0x0, 0x0,
+];
 
 #[cfg(test)]
 mod tests {
