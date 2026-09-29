@@ -220,6 +220,32 @@ pub const UNREACHABLE_7X7_FAR_FROM: u8 = 8;
 pub const UNREACHABLE_7X7_FAR_TO: u8 = 40;
 pub const UNREACHABLE_7X7_FAR_DISTANCE: u32 = 0;
 
+// SERPENTINE 15x16: the pinned corridor of N-8 (plan §6.9), the window's size. Rows 2, 4, 6, 8,
+// 10 and 12 open at columns 1 to 13, joined by (13, 3), (1, 5), (13, 7), (1, 9) and (13, 11):
+// 83 open tiles. `#` is the source (7, 8); the deepest tile is (1, 2), at 46.
+//
+// 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+//  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+//  0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+// 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0
+//  0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+// 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0
+//  0 1 1 1 1 1 1 # 1 1 1 1 1 1 0
+// 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0
+//  0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+// 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0
+//  0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+// 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0
+//  0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+// 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+//  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+pub const SERPENTINE_15X16: felt252 = 0x3ffe4000fff80013ffe4000fff80013ffe4000fff80000000;
+pub const SERPENTINE_15X16_FROM: u8 = 127;
+/// The eight walkers of `SERPENTINE_15X16_8`: (5, 2), (4, 2), (3, 2), (2, 2), (5, 12), (4, 12),
+/// (3, 12), (2, 12).
+pub const SERPENTINE_15X16_8: felt252 = 0x3c000000000000000000000000000000000000f00000000;
+
 #[cfg(test)]
 mod tests {
     // Internal imports

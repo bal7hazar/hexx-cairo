@@ -10,4 +10,5 @@ pub mod bench_walker;
 pub mod fixtures;
 pub mod properties;
 pub mod test_assembly;
+pub mod test_flood;
 pub mod variants;
