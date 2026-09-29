@@ -29,8 +29,15 @@ scarb build -p hexx
 snforge test -p hexx
 python3 scripts/api_parity.py --check     # docs/API_PARITY.md up to date
 python3 scripts/deviations.py --check     # docs/DEVIATIONS.md up to date
-python3 scripts/bench.py check            # every test has #[available_gas], budgets within 5 %
+python3 scripts/bench.py check            # every test has #[available_gas], budget within 5 % of its
+                                          # measurement (a fuzz test: its maximum), counts reconciled;
+                                          # the two exemptions: gas/takeover-baseline.txt
 ```
+
+The gas rule has **two exemptions**, for the tests taken over from `origami_hexmap` 1.8.0 and
+listed in `gas/takeover-baseline.txt`: they may have no `#[available_gas]`, and a budget more than
+5 % above `ceil(1.05 * measured)`. Nothing else is exempt, the list only shrinks (only tests of
+`gas/takeover-tests.txt`, the inherited ones, may be in it), and task M1-T1c empties it.
 
 ## License
 

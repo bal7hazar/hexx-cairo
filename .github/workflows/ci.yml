@@ -68,6 +68,9 @@ jobs:
           git -C "$RUNNER_TEMP/origami" fetch --quiet --depth 1 https://github.com/dojoengine/origami.git 04ab30caf02dcc8d2ecc46e9596b81732eedcec1
           git -C "$RUNNER_TEMP/origami" checkout --quiet FETCH_HEAD
       - run: python3 scripts/takeover_check.py --source "$RUNNER_TEMP/origami/crates/hexmap"
+      # gas/takeover-tests.txt (the inherited tests the gas gate accepts in its baseline) is what
+      # the source says.
+      - run: python3 scripts/bench.py baseline --inherited --check --source "$RUNNER_TEMP/origami/crates/hexmap"
 
   test:
     name: Build and test ${{ matrix.package }}
@@ -129,7 +132,11 @@ jobs:
         with:
           starknet-foundry-version: "0.61.0"
       # Fails when a test has no #[available_gas], when its budget is more than 5 % above its
-      # measurement, or when gas/*.snap is stale (commit `python3 scripts/bench.py snapshot`).
+      # measurement (a fuzz test: its maximum), when a test ran with no parsable measurement, when
+      # the counts declared / collected / with a row / ignored disagree, or when gas/*.snap is
+      # stale (commit `python3 scripts/bench.py snapshot`). Two exemptions, for the tests
+      # inherited from origami_hexmap 1.8.0 that gas/takeover-baseline.txt lists (only tests of
+      # gas/takeover-tests.txt may be in it): no #[available_gas], and a budget above 5 %.
       - name: Check gas budgets and snapshots
         run: |
           set -o pipefail

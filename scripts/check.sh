@@ -22,7 +22,11 @@ for dir in crates/*/; do
   snforge test -p "$pkg"
 done
 # Fails on a declared test snforge did not measure (ignored, filtered) with no budget, a budget
-# outside [measured, ceil(1.05 * measured)], or a stale gas/*.snap.
+# outside [measured, ceil(1.05 * measured)] (a fuzz test: its maximum), a test that ran with no
+# parsable measurement, counts (declared / collected / with a row / ignored) that do not agree, or
+# a stale gas/*.snap. The two exemptions, for the tests inherited from origami_hexmap 1.8.0 listed
+# in gas/takeover-baseline.txt (and only those of gas/takeover-tests.txt): no #[available_gas], and
+# a budget more than 5 % above ceil(1.05 * measured).
 python3 scripts/bench.py check
 python3 scripts/gas_tables.py --check
 # Class size of the crates/consumer contract fixture (gas/bytecode.size, release build).

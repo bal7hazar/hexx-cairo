@@ -610,6 +610,35 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::tests::bench_mazer::bench_mazer_variant_stack_17x14` | 4,650,884 | 4,771,000 | 2.6 % |
 | `hexx::tests::bench_mazer::test_bench_mazer_tiles` | 164,411,827 | none (inherited) | — |
 | `hexx::tests::bench_mazer::test_bench_mazer_variants_same_maze` | 29,943,628 | none (inherited) | — |
+| `hexx::tests::bench_spreader::bench_spreader_baseline` | 68,560 | 72,000 | 5.0 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_cave_17x14_1` | 186,639 | 196,000 | 5.0 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_cave_17x14_20` | 291,588 | 307,000 | 5.3 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_cave_17x14_5` | 320,687 | 337,000 | 5.1 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_cave_17x14_60` | 305,451 | 321,000 | 5.1 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_cave_7x7_1` | 161,121 | 170,000 | 5.5 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_cave_7x7_20` | 208,954 | 231,000 | 10.6 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_cave_7x7_5` | 221,614 | 233,000 | 5.1 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_d30_17x14_1` | 162,113 | 171,000 | 5.5 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_d30_17x14_20` | 282,016 | 297,000 | 5.3 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_d30_17x14_5` | 291,349 | 322,000 | 10.5 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_d30_17x14_60` | 297,015 | 312,000 | 5.0 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_empty_17x14_1` | 186,639 | 196,000 | 5.0 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_empty_17x14_20` | 330,186 | 347,000 | 5.1 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_empty_17x14_5` | 361,304 | 380,000 | 5.2 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_empty_17x14_60` | 322,940 | 340,000 | 5.3 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_empty_7x7_1` | 161,121 | 170,000 | 5.5 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_empty_7x7_20` | 221,964 | 234,000 | 5.4 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_empty_7x7_5` | 221,624 | 233,000 | 5.1 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_maze_17x14_1` | 186,639 | 196,000 | 5.0 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_maze_17x14_20` | 300,718 | 316,000 | 5.1 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_maze_17x14_5` | 291,749 | 307,000 | 5.2 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_maze_17x14_60` | 297,112 | 312,000 | 5.0 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_maze_7x7_1` | 161,121 | 170,000 | 5.5 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_maze_7x7_16` | 103,059 | 112,000 | 8.7 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_maze_7x7_5` | 202,811 | 224,000 | 10.4 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_sparse2_10x25_1` | 131,176 | 143,000 | 9.0 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_sparse5_17x14_1` | 145,545 | 158,000 | 8.6 % (inherited) |
+| `hexx::tests::bench_spreader::bench_spreader_generate_sparse5_17x14_2` | 145,445 | 158,000 | 8.6 % (inherited) |
 | `hexx::tests::bench_spreader::bench_spreader_micro_counts_u256` | 250,430 | 273,000 | 9.0 % (inherited) |
 | `hexx::tests::bench_spreader::bench_spreader_micro_deposit_u256` | 325,580 | 342,000 | 5.0 % (inherited) |
 | `hexx::tests::bench_spreader::bench_spreader_micro_level_u128` | 168,140 | 177,000 | 5.3 % (inherited) |
@@ -687,4 +716,4 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx_integrationtest::readme::test_readme_query_areas` | 1,322,457 | none (inherited) | — |
 | `takeover_tests::tests::test_origami_hexmap_new_empty` | 17,080 | 17,934 | 5.0 % |
 
-680 measured test(s), 670 inherited (`gas/takeover-baseline.txt`).
+709 measured test(s), 699 inherited (`gas/takeover-baseline.txt`).
