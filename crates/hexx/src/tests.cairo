@@ -1,3 +1,4 @@
+pub mod bench_assembly;
 pub mod bench_bfs;
 pub mod bench_caver;
 pub mod bench_dial;
@@ -8,4 +9,5 @@ pub mod bench_spreader;
 pub mod bench_walker;
 pub mod fixtures;
 pub mod properties;
+pub mod test_assembly;
 pub mod variants;
