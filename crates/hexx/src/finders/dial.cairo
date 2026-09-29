@@ -883,6 +883,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 7837819)]
     fn test_dial_search_detour() {
         // Cost 4 on x = 2..5 of row 3: 7 tiles of cost 1 instead of 6 tiles of cost 9
         //  0 0 0 0 0 0 0
@@ -897,6 +898,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 5937010)]
     fn test_dial_search_unit() {
         //  0 0 0 0 0 0 0
         // 0 S 1 1 1 1 0
@@ -910,6 +912,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 7834993)]
     fn test_dial_search_overlap_highest_class_wins() {
         // The swamp is in the classes of cost 2 and 4: it costs 4
         let overlap = Dial::search(EMPTY_7X7, 7, 7, 40, 8, array![SWAMP_7X7, 0, SWAMP_7X7].span());
@@ -921,6 +924,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 241884)]
     fn test_dial_search_trivial() {
         assert!(Dial::search(EMPTY_7X7, 7, 7, 24, 24, array![SWAMP_7X7].span()).len() == 0);
         // Adjacent: the target only, whatever its cost
@@ -938,6 +942,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 52019085)]
     fn test_dial_search_edges() {
         // Open edge tiles: 3 (bottom), 21 (x = 0), 27 (x = 6), 45 (top), corner 48
         let grid = EMPTY_7X7
@@ -959,6 +964,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 5885130)]
     fn test_dial_search_edges_adjacent() {
         // Two adjacent open edge tiles 3 and 4 (bottom row), 4 also next to 11
         let grid = EMPTY_7X7 + Bits::pow(3) + Bits::pow(4);
@@ -969,6 +975,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 52068496)]
     fn test_dial_search_dimensions() {
         // 3x3: a single interior tile between open edge tiles
         let grid: felt252 = 0x1ff - 1 - 0x100;
@@ -992,6 +999,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 268209)]
     fn test_dial_field_of_movement() {
         // From 24 with budget 2, the swamp costs 2: its tiles next to 24 only
         //  0 0 0 0 0 0 0
@@ -1022,6 +1030,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 53327948)]
     fn test_dial_field_of_movement_edges() {
         // An edge start reaches its open neighbours, an open edge tile is an endpoint only
         let grid = EMPTY_7X7 + Bits::pow(3) + Bits::pow(4);
@@ -1037,42 +1046,49 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Dial: too many costs')]
     fn test_dial_search_revert_too_many_costs() {
         Dial::search(EMPTY_7X7, 7, 7, 40, 8, array![0, 0, 0, 0].span());
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Dial: too many costs')]
     fn test_dial_field_revert_too_many_costs() {
         Dial::field_of_movement(EMPTY_7X7, 7, 7, 40, 3, array![0, 0, 0, 0].span());
     }
 
     #[test]
+    #[available_gas(l2_gas: 20867)]
     #[should_panic(expected: 'Dial: position not walkable')]
     fn test_dial_search_revert_from_not_walkable() {
         Dial::search(EMPTY_7X7, 7, 7, 0, 8, array![].span());
     }
 
     #[test]
+    #[available_gas(l2_gas: 23516)]
     #[should_panic(expected: 'Dial: position not walkable')]
     fn test_dial_search_revert_to_not_walkable() {
         Dial::search(EMPTY_7X7, 7, 7, 8, 6, array![].span());
     }
 
     #[test]
+    #[available_gas(l2_gas: 52341)]
     #[should_panic(expected: 'Dial: position not walkable')]
     fn test_dial_field_revert_not_walkable() {
         Dial::field_of_movement(EMPTY_7X7, 7, 7, 0, 3, array![].span());
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_dial_search_revert_outside() {
         Dial::search(EMPTY_7X7, 7, 7, 8, 49, array![].span());
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_dial_search_revert_dimension() {
         Dial::search(EMPTY_7X7, 18, 14, 8, 9, array![].span());

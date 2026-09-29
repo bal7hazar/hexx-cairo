@@ -32,7 +32,7 @@ const PERMUTATION_COUNT: NonZero<u128> = 720;
 // Loop baselines
 
 #[test]
-#[available_gas(l2_gas: 150000)]
+#[available_gas(l2_gas: 149195)]
 fn bench_baseline_loop() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -44,7 +44,7 @@ fn bench_baseline_loop() {
 }
 
 #[test]
-#[available_gas(l2_gas: 150000)]
+#[available_gas(l2_gas: 149195)]
 fn bench_baseline_loop_u256() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -59,7 +59,7 @@ fn bench_baseline_loop_u256() {
 // Field operations and lookups
 
 #[test]
-#[available_gas(l2_gas: 283000)]
+#[available_gas(l2_gas: 282440)]
 fn bench_pow_lookup() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -71,7 +71,7 @@ fn bench_pow_lookup() {
 }
 
 #[test]
-#[available_gas(l2_gas: 282000)]
+#[available_gas(l2_gas: 281106)]
 fn bench_pow_match() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -83,7 +83,7 @@ fn bench_pow_match() {
 }
 
 #[test]
-#[available_gas(l2_gas: 160000)]
+#[available_gas(l2_gas: 159485)]
 fn bench_felt_mul() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -96,7 +96,7 @@ fn bench_felt_mul() {
 }
 
 #[test]
-#[available_gas(l2_gas: 202000)]
+#[available_gas(l2_gas: 201065)]
 fn bench_felt_div_nonzero() {
     let divisor: NonZero<felt252> = 0x20000;
     let mut acc: felt252 = 0;
@@ -109,7 +109,7 @@ fn bench_felt_div_nonzero() {
 }
 
 #[test]
-#[available_gas(l2_gas: 304000)]
+#[available_gas(l2_gas: 303440)]
 fn bench_shr_exact_inverse_table() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -121,7 +121,7 @@ fn bench_shr_exact_inverse_table() {
 }
 
 #[test]
-#[available_gas(l2_gas: 357000)]
+#[available_gas(l2_gas: 356045)]
 fn bench_shr_exact_div() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -135,7 +135,7 @@ fn bench_shr_exact_div() {
 // Conversions
 
 #[test]
-#[available_gas(l2_gas: 236000)]
+#[available_gas(l2_gas: 235242)]
 fn bench_felt_to_u256_narrow() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -148,7 +148,7 @@ fn bench_felt_to_u256_narrow() {
 }
 
 #[test]
-#[available_gas(l2_gas: 340000)]
+#[available_gas(l2_gas: 339140)]
 fn bench_felt_to_u256_wide() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -161,7 +161,7 @@ fn bench_felt_to_u256_wide() {
 }
 
 #[test]
-#[available_gas(l2_gas: 178000)]
+#[available_gas(l2_gas: 177650)]
 fn bench_felt_to_u128() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -174,7 +174,7 @@ fn bench_felt_to_u128() {
 }
 
 #[test]
-#[available_gas(l2_gas: 170000)]
+#[available_gas(l2_gas: 169880)]
 fn bench_u256_to_felt_unchecked() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -187,7 +187,7 @@ fn bench_u256_to_felt_unchecked() {
 }
 
 #[test]
-#[available_gas(l2_gas: 261000)]
+#[available_gas(l2_gas: 260316)]
 fn bench_u256_to_felt_checked() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -203,7 +203,7 @@ fn bench_u256_to_felt_checked() {
 // Integer operations
 
 #[test]
-#[available_gas(l2_gas: 328000)]
+#[available_gas(l2_gas: 327275)]
 fn bench_u128_and() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -216,7 +216,7 @@ fn bench_u128_and() {
 }
 
 #[test]
-#[available_gas(l2_gas: 431000)]
+#[available_gas(l2_gas: 430805)]
 fn bench_u256_and() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -229,7 +229,7 @@ fn bench_u256_and() {
 }
 
 #[test]
-#[available_gas(l2_gas: 431000)]
+#[available_gas(l2_gas: 430805)]
 fn bench_u256_or() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -242,7 +242,7 @@ fn bench_u256_or() {
 }
 
 #[test]
-#[available_gas(l2_gas: 354000)]
+#[available_gas(l2_gas: 353871)]
 fn bench_u256_add() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -255,7 +255,7 @@ fn bench_u256_add() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1616000)]
+#[available_gas(l2_gas: 1615152)]
 fn bench_u256_mul_pow() {
     let shift: u256 = 0x20000;
     let mut acc: felt252 = 0;
@@ -269,7 +269,7 @@ fn bench_u256_mul_pow() {
 }
 
 #[test]
-#[available_gas(l2_gas: 816000)]
+#[available_gas(l2_gas: 815840)]
 fn bench_u256_div_pow() {
     let shift: u256 = 0x20000;
     let mut acc: felt252 = 0;
@@ -283,7 +283,7 @@ fn bench_u256_div_pow() {
 }
 
 #[test]
-#[available_gas(l2_gas: 265000)]
+#[available_gas(l2_gas: 264474)]
 fn bench_u8_divrem() {
     let divisor: NonZero<u8> = 17;
     let mut acc: felt252 = 0;
@@ -297,7 +297,7 @@ fn bench_u8_divrem() {
 }
 
 #[test]
-#[available_gas(l2_gas: 314000)]
+#[available_gas(l2_gas: 313331)]
 fn bench_u128_divrem() {
     let divisor: NonZero<u128> = 6;
     let mut acc: felt252 = 0;
@@ -314,7 +314,7 @@ fn bench_u128_divrem() {
 // Bit operations
 
 #[test]
-#[available_gas(l2_gas: 1189000)]
+#[available_gas(l2_gas: 1188516)]
 fn bench_bit_test_limb() {
     let value: u256 = MAZE_17X14.into();
     let mut acc: felt252 = 0;
@@ -333,7 +333,7 @@ fn bench_bit_test_limb() {
 }
 
 #[test]
-#[available_gas(l2_gas: 3843000)]
+#[available_gas(l2_gas: 3842738)]
 fn bench_bit_test_divmod() {
     let value: u256 = MAZE_17X14.into();
     let mut acc: felt252 = 0;
@@ -351,7 +351,7 @@ fn bench_bit_test_divmod() {
 }
 
 #[test]
-#[available_gas(l2_gas: 363000)]
+#[available_gas(l2_gas: 362691)]
 fn bench_bit_set_add() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -363,7 +363,7 @@ fn bench_bit_set_add() {
 }
 
 #[test]
-#[available_gas(l2_gas: 660000)]
+#[available_gas(l2_gas: 659169)]
 fn bench_bit_set_or() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -375,7 +375,7 @@ fn bench_bit_set_or() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1562000)]
+#[available_gas(l2_gas: 1561266)]
 fn bench_popcount_swar_dense() {
     let value: u256 = EMPTY_17X14.into();
     let mut acc: felt252 = 0;
@@ -388,7 +388,7 @@ fn bench_popcount_swar_dense() {
 }
 
 #[test]
-#[available_gas(l2_gas: 56652000)]
+#[available_gas(l2_gas: 56651312)]
 fn bench_popcount_sparse_dense() {
     let value: u256 = EMPTY_17X14.into();
     let mut acc: felt252 = 0;
@@ -401,7 +401,7 @@ fn bench_popcount_sparse_dense() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1572000)]
+#[available_gas(l2_gas: 1571199)]
 fn bench_popcount_swar_sparse() {
     // 8 bits, 4 per limb
     let value: u256 = (Bits::pow(20)
@@ -423,7 +423,7 @@ fn bench_popcount_swar_sparse() {
 }
 
 #[test]
-#[available_gas(l2_gas: 3331000)]
+#[available_gas(l2_gas: 3330065)]
 fn bench_popcount_sparse_sparse() {
     let value: u256 = (Bits::pow(20)
         + Bits::pow(40)
@@ -446,7 +446,7 @@ fn bench_popcount_sparse_sparse() {
 // Randomness
 
 #[test]
-#[available_gas(l2_gas: 464000)]
+#[available_gas(l2_gas: 463985)]
 fn bench_poseidon_hash_state() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -458,7 +458,7 @@ fn bench_poseidon_hash_state() {
 }
 
 #[test]
-#[available_gas(l2_gas: 329000)]
+#[available_gas(l2_gas: 328220)]
 fn bench_poseidon_hades() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -470,7 +470,7 @@ fn bench_poseidon_hades() {
 }
 
 #[test]
-#[available_gas(l2_gas: 542000)]
+#[available_gas(l2_gas: 541532)]
 fn bench_rng_next_below() {
     let mut rng = RngTrait::new('seed');
     let mut acc: felt252 = 0;
@@ -497,7 +497,7 @@ fn bench_rng_draw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 776000)]
+#[available_gas(l2_gas: 754935)]
 fn bench_rng_shuffle6() {
     let mut rng = RngTrait::new('seed');
     let mut acc: felt252 = 0;
@@ -526,7 +526,7 @@ impl BenchDivRem6 of DivRemHelper<u128, UnitInt<6>> {
 }
 
 #[test]
-#[available_gas(l2_gas: 542000)]
+#[available_gas(l2_gas: 541532)]
 fn bench_rng_draw6() {
     let mut rng = RngTrait::new('seed');
     let mut acc: felt252 = 0;
@@ -540,7 +540,7 @@ fn bench_rng_draw6() {
 
 #[test]
 #[feature("bounded-int-utils")]
-#[available_gas(l2_gas: 265000)]
+#[available_gas(l2_gas: 264474)]
 fn bench_u128_divrem_bounded() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -555,7 +555,7 @@ fn bench_u128_divrem_bounded() {
 
 #[test]
 #[feature("bounded-int-utils")]
-#[available_gas(l2_gas: 515000)]
+#[available_gas(l2_gas: 514810)]
 fn bench_rng_draw6_counter() {
     // 24 draws of 6 per 128-bit pool (6^24 < 2^63), the refill decided by a felt counter
     let mut state = CountedPool { seed: 'seed', pool: 0, left: 0 };
@@ -592,7 +592,7 @@ impl BenchDivRemPosition of DivRemHelper<u8, u8> {
 
 #[test]
 #[feature("bounded-int-utils")]
-#[available_gas(l2_gas: 265000)]
+#[available_gas(l2_gas: 264474)]
 fn bench_u128_divrem_bounded_byte() {
     let divisor: NonZero<u8> = 6;
     let mut acc: felt252 = 0;
@@ -608,7 +608,7 @@ fn bench_u128_divrem_bounded_byte() {
 
 #[test]
 #[feature("bounded-int-utils")]
-#[available_gas(l2_gas: 265000)]
+#[available_gas(l2_gas: 264474)]
 fn bench_u8_divrem_bounded() {
     let divisor: NonZero<u8> = 17;
     let mut acc: felt252 = 0;
@@ -622,7 +622,7 @@ fn bench_u8_divrem_bounded() {
 }
 
 #[test]
-#[available_gas(l2_gas: 524000)]
+#[available_gas(l2_gas: 523604)]
 fn bench_shuffle6_table() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -637,7 +637,7 @@ fn bench_shuffle6_table() {
 }
 
 #[test]
-#[available_gas(l2_gas: 12033000)]
+#[available_gas(l2_gas: 12032643)]
 fn bench_shuffle6_fisher_yates() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -652,7 +652,7 @@ fn bench_shuffle6_fisher_yates() {
 // Containers
 
 #[test]
-#[available_gas(l2_gas: 730000)]
+#[available_gas(l2_gas: 729855)]
 fn bench_dict_insert() {
     let mut dict: Felt252Dict<felt252> = Default::default();
     let mut n = REPS;
@@ -664,7 +664,7 @@ fn bench_dict_insert() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1034000)]
+#[available_gas(l2_gas: 1033610)]
 fn bench_dict_insert_get() {
     let mut dict: Felt252Dict<felt252> = Default::default();
     let mut acc: felt252 = 0;
@@ -683,7 +683,7 @@ fn bench_dict_insert_get() {
 }
 
 #[test]
-#[available_gas(l2_gas: 307000)]
+#[available_gas(l2_gas: 306054)]
 fn bench_array_build() {
     let mut array: Array<felt252> = array![];
     let mut n = REPS;
@@ -701,7 +701,7 @@ fn bench_array_build() {
 }
 
 #[test]
-#[available_gas(l2_gas: 409000)]
+#[available_gas(l2_gas: 408114)]
 fn bench_array_span_at() {
     let mut array: Array<felt252> = array![];
     let mut n = REPS;
@@ -722,7 +722,7 @@ fn bench_array_span_at() {
 // Layout
 
 #[test]
-#[available_gas(l2_gas: 916000)]
+#[available_gas(l2_gas: 915065)]
 fn bench_layout_new() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -734,7 +734,7 @@ fn bench_layout_new() {
 }
 
 #[test]
-#[available_gas(l2_gas: 522000)]
+#[available_gas(l2_gas: 521315)]
 fn bench_layout_interior() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -746,7 +746,7 @@ fn bench_layout_interior() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2182000)]
+#[available_gas(l2_gas: 2103581)]
 fn bench_expand_felt() {
     let layout = LayoutTrait::new(17, 14);
     let frontier: u256 = CAVE_17X14.into();
@@ -760,7 +760,7 @@ fn bench_expand_felt() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2271000)]
+#[available_gas(l2_gas: 2270951)]
 fn bench_expand_felt_double() {
     let layout = LayoutTrait::new(17, 14);
     let frontier: u256 = CAVE_17X14.into();
@@ -774,7 +774,7 @@ fn bench_expand_felt_double() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2482000)]
+#[available_gas(l2_gas: 2481581)]
 fn bench_expand_felt_vertical() {
     let layout = LayoutTrait::new(17, 14);
     let frontier: u256 = CAVE_17X14.into();
@@ -788,7 +788,7 @@ fn bench_expand_felt_vertical() {
 }
 
 #[test]
-#[available_gas(l2_gas: 6875000)]
+#[available_gas(l2_gas: 6874980)]
 fn bench_expand_masks() {
     let masks = MaskLayoutTrait::new(17, 14);
     let frontier: u256 = CAVE_17X14.into();
@@ -802,7 +802,7 @@ fn bench_expand_masks() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2271000)]
+#[available_gas(l2_gas: 2270951)]
 fn bench_expand_limbs() {
     let layout = LayoutTrait::new(17, 14);
     let frontier: u256 = CAVE_17X14.into();
@@ -817,7 +817,7 @@ fn bench_expand_limbs() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1771000)]
+#[available_gas(l2_gas: 1770227)]
 fn bench_expand_felt_7x7() {
     let layout = LayoutTrait::new(7, 7);
     let frontier: u256 = CAVE_7X7.into();
@@ -831,7 +831,7 @@ fn bench_expand_felt_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1002000)]
+#[available_gas(l2_gas: 969864)]
 fn bench_expand_small_7x7() {
     let layout = LayoutTrait::new(7, 7);
     let frontier: u128 = CAVE_7X7.try_into().unwrap();
@@ -845,7 +845,7 @@ fn bench_expand_small_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1341000)]
+#[available_gas(l2_gas: 1340934)]
 fn bench_expand_small_felt_double_7x7() {
     let layout = LayoutTrait::new(7, 7);
     let frontier: u128 = CAVE_7X7.try_into().unwrap();
@@ -859,7 +859,7 @@ fn bench_expand_small_felt_double_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2210000)]
+#[available_gas(l2_gas: 2209473)]
 fn bench_step_or() {
     let layout = LayoutTrait::new(17, 14);
     let frontier: u256 = Bits::pow(CAVE_17X14_FAR_FROM).into();
@@ -876,7 +876,7 @@ fn bench_step_or() {
 }
 
 #[test]
-#[available_gas(l2_gas: 6097000)]
+#[available_gas(l2_gas: 6096584)]
 fn bench_step_sequential() {
     let layout = LayoutTrait::new(17, 14);
     let frontier: u256 = Bits::pow(CAVE_17X14_FAR_FROM).into();
@@ -892,7 +892,7 @@ fn bench_step_sequential() {
 }
 
 #[test]
-#[available_gas(l2_gas: 764000)]
+#[available_gas(l2_gas: 763004)]
 fn bench_neighbour_mask() {
     let layout = LayoutTrait::new(17, 14);
     let mut acc: felt252 = 0;
@@ -905,7 +905,7 @@ fn bench_neighbour_mask() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1583000)]
+#[available_gas(l2_gas: 1582560)]
 fn bench_neighbour_mask_lookups() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -917,7 +917,7 @@ fn bench_neighbour_mask_lookups() {
 }
 
 #[test]
-#[available_gas(l2_gas: 821000)]
+#[available_gas(l2_gas: 820292)]
 fn bench_neighbor() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -931,7 +931,7 @@ fn bench_neighbor() {
 }
 
 #[test]
-#[available_gas(l2_gas: 265000)]
+#[available_gas(l2_gas: 264474)]
 fn bench_coords() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -944,7 +944,7 @@ fn bench_coords() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1143000)]
+#[available_gas(l2_gas: 1142694)]
 fn bench_distance() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -956,7 +956,7 @@ fn bench_distance() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1552000)]
+#[available_gas(l2_gas: 1551375)]
 fn bench_distance_split() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -970,61 +970,61 @@ fn bench_distance_split() {
 // Fixture baselines: load the fixture, assert something trivial
 
 #[test]
-#[available_gas(l2_gas: 16000)]
+#[available_gas(l2_gas: 15792)]
 fn bench_baseline_empty_17x14() {
     assert!(EMPTY_17X14 != 0 && EMPTY_17X14_FAR_FROM != EMPTY_17X14_FAR_TO);
 }
 
 #[test]
-#[available_gas(l2_gas: 16000)]
+#[available_gas(l2_gas: 15792)]
 fn bench_baseline_cave_17x14() {
     assert!(CAVE_17X14 != 0 && CAVE_17X14_FAR_FROM != CAVE_17X14_FAR_TO);
 }
 
 #[test]
-#[available_gas(l2_gas: 16000)]
+#[available_gas(l2_gas: 15792)]
 fn bench_baseline_maze_17x14() {
     assert!(MAZE_17X14 != 0 && MAZE_17X14_FAR_FROM != MAZE_17X14_FAR_TO);
 }
 
 #[test]
-#[available_gas(l2_gas: 16000)]
+#[available_gas(l2_gas: 15792)]
 fn bench_baseline_serpentine_17x14() {
     assert!(SERPENTINE_17X14 != 0 && SERPENTINE_17X14_FAR_FROM != SERPENTINE_17X14_FAR_TO);
 }
 
 #[test]
-#[available_gas(l2_gas: 16000)]
+#[available_gas(l2_gas: 15792)]
 fn bench_baseline_unreachable_17x14() {
     assert!(UNREACHABLE_17X14 != 0 && UNREACHABLE_17X14_FAR_FROM != UNREACHABLE_17X14_FAR_TO);
 }
 
 #[test]
-#[available_gas(l2_gas: 16000)]
+#[available_gas(l2_gas: 15792)]
 fn bench_baseline_empty_7x7() {
     assert!(EMPTY_7X7 != 0 && EMPTY_7X7_FAR_FROM != EMPTY_7X7_FAR_TO);
 }
 
 #[test]
-#[available_gas(l2_gas: 16000)]
+#[available_gas(l2_gas: 15792)]
 fn bench_baseline_cave_7x7() {
     assert!(CAVE_7X7 != 0 && CAVE_7X7_FAR_FROM != CAVE_7X7_FAR_TO);
 }
 
 #[test]
-#[available_gas(l2_gas: 16000)]
+#[available_gas(l2_gas: 15792)]
 fn bench_baseline_maze_7x7() {
     assert!(MAZE_7X7 != 0 && MAZE_7X7_FAR_FROM != MAZE_7X7_FAR_TO);
 }
 
 #[test]
-#[available_gas(l2_gas: 16000)]
+#[available_gas(l2_gas: 15792)]
 fn bench_baseline_serpentine_7x7() {
     assert!(SERPENTINE_7X7 != 0 && SERPENTINE_7X7_FAR_FROM != SERPENTINE_7X7_FAR_TO);
 }
 
 #[test]
-#[available_gas(l2_gas: 16000)]
+#[available_gas(l2_gas: 15792)]
 fn bench_baseline_unreachable_7x7() {
     assert!(UNREACHABLE_7X7 != 0 && UNREACHABLE_7X7_FAR_FROM != UNREACHABLE_7X7_FAR_TO);
 }

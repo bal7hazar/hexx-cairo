@@ -147,6 +147,7 @@ mod tests {
     const WIDTH: u8 = 7;
 
     #[test]
+    #[available_gas(l2_gas: 58391)]
     fn test_direction_opposite() {
         let mut index: u8 = 0;
         while index != 6 {
@@ -160,6 +161,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 30986)]
     fn test_direction_round_trip() {
         let mut index: u8 = 0;
         while index != 6 {
@@ -173,6 +175,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 14406)]
     fn test_direction_next_even_row() {
         // (3, 2) = 17
         let position = 2 * WIDTH + 3;
@@ -185,6 +188,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 14406)]
     fn test_direction_next_odd_row() {
         // (3, 3) = 24
         let position = 3 * WIDTH + 3;
@@ -197,6 +201,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 49151)]
     fn test_direction_next_opposite_round_trip() {
         let mut index: u8 = 0;
         while index != 6 {
@@ -211,6 +216,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 14406)]
     fn test_direction_pop_front() {
         let mut directions: u32 = 0x501234;
         assert!(DirectionTrait::pop_front(ref directions) == Direction::SouthWest);

@@ -760,6 +760,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 113809)]
     fn test_spreader_cave_7x7() {
         // u128, 5 of 23 tiles: radix select (2 levels), then the subset table
         //  0 0 0 0 0 0 0
@@ -774,6 +775,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 207960)]
     fn test_spreader_cave_17x14() {
         // u256, 20 of 131 tiles: radix select
         // 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -795,6 +797,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 225326)]
     fn test_spreader_maze_17x14_complement() {
         // 60 of 92 walkable tiles: the 32 tiles left free are chosen
         // 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -816,6 +819,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 3736377)]
     fn test_spreader_invariants() {
         let counts = array![0_u8, 1, 3, 4, 5, 20, 60, 65, 66, 100, 130, 131].span();
         for count in counts {
@@ -833,6 +837,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 169085)]
     fn test_spreader_all_or_nothing() {
         assert!(Spreader::generate(CAVE_17X14, 17, 14, 131, SEED) == CAVE_17X14);
         assert!(Spreader::generate(CAVE_17X14, 17, 14, 0, SEED) == 0);
@@ -842,6 +847,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 793296)]
     fn test_spreader_deterministic() {
         let lhs = Spreader::generate(CAVE_17X14, 17, 14, 20, SEED);
         assert!(lhs == Spreader::generate(CAVE_17X14, 17, 14, 20, SEED));
@@ -852,6 +858,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 1577406)]
     fn test_spreader_dimensions() {
         // Every tile walkable, border included: the draw does not need the border ring
         let full_3x3: felt252 = 0x1ff;
@@ -873,54 +880,63 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 54838279)]
     fn test_spreader_uniform_small_radix() {
         // u128 radix, complement (12 > 23 - 12, 11 chosen); expected 120 per tile
         assert_uniform(CAVE_7X7, 7, 7, 12, 230, 40);
     }
 
     #[test]
+    #[available_gas(l2_gas: 51718587)]
     fn test_spreader_uniform_small_picks() {
         // u128 picks on a set of 47 % of the board (2 trials, then select); expected 20 per tile
         assert_uniform(CAVE_7X7, 7, 7, 1, 460, 20);
     }
 
     #[test]
+    #[available_gas(l2_gas: 112394392)]
     fn test_spreader_uniform_large_radix() {
         // u256 radix, 45 tiles; expected 45 per tile
         assert_uniform(EMPTY_17X14, 17, 14, 45, 180, 30);
     }
 
     #[test]
+    #[available_gas(l2_gas: 168170632)]
     fn test_spreader_uniform_large_complement() {
         // u256 radix, complement (75 > 92 - 75, 17 left out); expected 163 per tile
         assert_uniform(MAZE_17X14, 17, 14, 75, 200, 30);
     }
 
     #[test]
+    #[available_gas(l2_gas: 108723054)]
     fn test_spreader_uniform_large_picks() {
         // u256 picks on a dense set (rejection trials, then select); expected 10 per tile
         assert_uniform(EMPTY_17X14, 17, 14, 4, 450, 15);
     }
 
     #[test]
+    #[available_gas(l2_gas: 109803649)]
     fn test_spreader_uniform_sparse_two() {
         // 2 walkable tiles on 250 bits (audit A2): subset table; expected 500 per tile
         assert_uniform(SPARSE2_10X25, 10, 25, 1, 1000, 80);
     }
 
     #[test]
+    #[available_gas(l2_gas: 32918211)]
     fn test_spreader_uniform_sparse_five() {
         // 5 walkable tiles of 238: subset table; expected 100 per tile
         assert_uniform(SPARSE5_17X14, 17, 14, 2, 250, 40);
     }
 
     #[test]
+    #[available_gas(l2_gas: 68167067)]
     fn test_spreader_uniform_density_30_radix() {
         // 71 walkable tiles of 238 (30 %), u256 radix on a sparse set; expected 50 per tile
         assert_uniform(D30_17X14, 17, 14, 20, 180, 30);
     }
 
     #[test]
+    #[available_gas(l2_gas: 74434360)]
     fn test_spreader_uniform_density_30_picks() {
         // 71 walkable tiles of 238, 2 picks by select; expected 10 per tile
         assert_uniform(D30_17X14, 17, 14, 2, 355, 15);
@@ -937,6 +953,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 172622706)]
     fn test_spreader_select_wide() {
         // select(rank) == walk(rank) for every rank, and the counts follow every removal
         let grids = array![CAVE_17X14, EMPTY_17X14, MAZE_17X14, D30_17X14, SPARSE2_10X25].span();
@@ -975,6 +992,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 36369988)]
     fn test_spreader_select_small() {
         let grids = array![CAVE_7X7, EMPTY_7X7, MAZE_7X7, 0xffffffffffffffffffffffffffffffff]
             .span();
@@ -994,6 +1012,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 110977)]
     fn test_spreader_deposit() {
         // The table masks land on the right tiles, in increasing order of the tiles
         let set: u256 = SPARSE5_17X14.into();
@@ -1005,6 +1024,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 9334321)]
     fn test_spreader_subset_table() {
         // Group (d, j) holds the C(d, j) masks of d bits with j set bits, increasing
         let mut d: u32 = 0;
@@ -1039,6 +1059,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 89544)]
     fn test_spreader_bias_field_bits() {
         // P - 1 = 2^251 + 17 * 2^192: the values of [2^251, P) put a double weight on the 251 low
         // bits of 17 * 2^192 + 1 values out of P, a total variation (17 * 2^192 + 1) / P
@@ -1052,6 +1073,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 472353)]
     fn test_spreader_bias_pool() {
         // `Rng` refills below 2^64: a pool holding at least 2^64 has served bounds multiplying
         // to at most 2^128 / 2^64 = 2^64
@@ -1071,24 +1093,28 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 67653)]
     #[should_panic(expected: 'Spreader: not enough place')]
     fn test_spreader_revert_not_enough_place() {
         Spreader::generate(CAVE_7X7, 7, 7, 24, SEED);
     }
 
     #[test]
+    #[available_gas(l2_gas: 77963)]
     #[should_panic(expected: 'Spreader: not enough place')]
     fn test_spreader_revert_not_enough_place_large() {
         Spreader::generate(CAVE_17X14, 17, 14, 132, SEED);
     }
 
     #[test]
+    #[available_gas(l2_gas: 22911)]
     #[should_panic(expected: 'Spreader: invalid grid')]
     fn test_spreader_revert_invalid_grid() {
         Spreader::generate(Bits::pow(49), 7, 7, 1, SEED);
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_spreader_revert_invalid_dimension() {
         Spreader::generate(1, 2, 7, 1, SEED);

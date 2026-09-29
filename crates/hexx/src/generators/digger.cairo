@@ -440,6 +440,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 716222)]
     fn test_digger_corridor() {
         // 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
         //  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -461,6 +462,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 742690)]
     fn test_digger_corridor_order_1() {
         // 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
         //  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -482,6 +484,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 751166)]
     fn test_digger_corridor_open_neighbour() {
         // The entrance steps into the cave at once: only the entrance is dug
         let result = Digger::corridor(17, 14, 0, START_WEST, CAVE_17X14, SEED);
@@ -490,6 +493,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 4359302)]
     fn test_digger_maze_order_0() {
         // 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
         //  0 1 0 1 1 1 1 1 1 1 1 0 0 1 1 1 0
@@ -511,6 +515,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 822833)]
     fn test_digger_maze_order_1() {
         // The corridor reaches the room in a straight line, which leaves no branch to grow
         let result = Digger::maze(17, 14, 1, START_WEST, ROOM, SEED);
@@ -519,6 +524,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 56332563)]
     fn test_digger_every_edge() {
         // Every non-corner edge tile of 7x7 and 3x3, both modes, both orders, empty grid
         let mut order: u8 = 0;
@@ -547,18 +553,21 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 19089)]
     #[should_panic(expected: 'Asserter: position is a corner')]
     fn test_digger_revert_corner() {
         Digger::corridor(17, 14, 0, 0, CAVE_17X14, SEED);
     }
 
     #[test]
+    #[available_gas(l2_gas: 19089)]
     #[should_panic(expected: 'Asserter: position not an edge')]
     fn test_digger_revert_not_edge() {
         Digger::maze(17, 14, 0, 18, CAVE_17X14, SEED);
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Mazer: order > 1 not supported')]
     fn test_digger_revert_order() {
         Digger::maze(17, 14, 2, START, CAVE_17X14, SEED);

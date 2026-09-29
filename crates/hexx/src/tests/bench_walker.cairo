@@ -1585,63 +1585,63 @@ fn assert_closed(grid: felt252, width: u8, height: u8) {
 // Library walker
 
 #[test]
-#[available_gas(l2_gas: 39000)]
+#[available_gas(l2_gas: 36647)]
 fn bench_walker_17x14_0() {
     let grid = Walker::generate(17, 14, 0, SEED);
     assert!(grid != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 317000)]
+#[available_gas(l2_gas: 308706)]
 fn bench_walker_17x14_50() {
     let grid = Walker::generate(17, 14, 50, SEED);
     assert!(grid != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 1052000)]
+#[available_gas(l2_gas: 1019318)]
 fn bench_walker_17x14_200() {
     let grid = Walker::generate(17, 14, 200, SEED);
     assert!(grid != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 2591000)]
+#[available_gas(l2_gas: 2532240)]
 fn bench_walker_17x14_500() {
     let grid = Walker::generate(17, 14, 500, SEED);
     assert!(grid != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 2587000)]
+#[available_gas(l2_gas: 2526734)]
 fn bench_walker_17x14_504() {
     let grid = Walker::generate(17, 14, 504, SEED);
     assert!(grid == LIBRARY);
 }
 
 #[test]
-#[available_gas(l2_gas: 318000)]
+#[available_gas(l2_gas: 309021)]
 fn bench_walker_7x7_50() {
     let grid = Walker::generate(7, 7, 50, SEED);
     assert!(grid != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 1045000)]
+#[available_gas(l2_gas: 1010792)]
 fn bench_walker_7x7_200() {
     let grid = Walker::generate(7, 7, 200, SEED);
     assert!(grid != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 1060000)]
+#[available_gas(l2_gas: 1021219)]
 fn bench_walker_19x13_200() {
     let grid = Walker::generate(19, 13, 200, SEED);
     assert!(grid != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 321000)]
+#[available_gas(l2_gas: 312234)]
 fn bench_walker_3x3_50() {
     let grid = Walker::generate(3, 3, 50, SEED);
     assert!(grid != 0);
@@ -1650,7 +1650,7 @@ fn bench_walker_3x3_50() {
 // Variants, 17x14, 504 steps
 
 #[test]
-#[available_gas(l2_gas: 2791000)]
+#[available_gas(l2_gas: 2788268)]
 fn bench_walker_variant_winner() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = doubled(17, 14, x, y);
@@ -1659,7 +1659,7 @@ fn bench_walker_variant_winner() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2843000)]
+#[available_gas(l2_gas: 2840369)]
 fn bench_walker_variant_move_coords() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = coords(17, 14, x, y);
@@ -1668,7 +1668,7 @@ fn bench_walker_variant_move_coords() {
 }
 
 #[test]
-#[available_gas(l2_gas: 6249000)]
+#[available_gas(l2_gas: 6246792)]
 fn bench_walker_variant_move_index_mask() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = index(17, 14, x, y);
@@ -1677,7 +1677,7 @@ fn bench_walker_variant_move_index_mask() {
 }
 
 #[test]
-#[available_gas(l2_gas: 4783000)]
+#[available_gas(l2_gas: 4780899)]
 fn bench_walker_variant_move_one_hot_and() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = one_hot(17, 14, x, y);
@@ -1686,7 +1686,7 @@ fn bench_walker_variant_move_one_hot_and() {
 }
 
 #[test]
-#[available_gas(l2_gas: 3794000)]
+#[available_gas(l2_gas: 3791965)]
 fn bench_walker_variant_grid_or_each() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = doubled(17, 14, x, y);
@@ -1695,7 +1695,7 @@ fn bench_walker_variant_grid_or_each() {
 }
 
 #[test]
-#[available_gas(l2_gas: 4690000)]
+#[available_gas(l2_gas: 4688077)]
 fn bench_walker_variant_grid_or_felt() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = doubled(17, 14, x, y);
@@ -1704,7 +1704,7 @@ fn bench_walker_variant_grid_or_felt() {
 }
 
 #[test]
-#[available_gas(l2_gas: 4743000)]
+#[available_gas(l2_gas: 4741039)]
 fn bench_walker_variant_grid_test_add() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = doubled(17, 14, x, y);
@@ -1713,7 +1713,7 @@ fn bench_walker_variant_grid_test_add() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2896000)]
+#[available_gas(l2_gas: 2893315)]
 fn bench_walker_variant_grid_limb() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = doubled(17, 14, x, y);
@@ -1722,7 +1722,7 @@ fn bench_walker_variant_grid_limb() {
 }
 
 #[test]
-#[available_gas(l2_gas: 3619000)]
+#[available_gas(l2_gas: 3616823)]
 fn bench_walker_variant_loop_3() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = doubled(17, 14, x, y);
@@ -1731,7 +1731,7 @@ fn bench_walker_variant_loop_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 3122000)]
+#[available_gas(l2_gas: 3119690)]
 fn bench_walker_variant_loop_6() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = doubled(17, 14, x, y);
@@ -1740,7 +1740,7 @@ fn bench_walker_variant_loop_6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2873000)]
+#[available_gas(l2_gas: 2871124)]
 fn bench_walker_variant_loop_12() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = doubled(17, 14, x, y);
@@ -1749,7 +1749,7 @@ fn bench_walker_variant_loop_12() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2708000)]
+#[available_gas(l2_gas: 2705318)]
 fn bench_walker_variant_loop_36() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = doubled(17, 14, x, y);
@@ -1758,7 +1758,7 @@ fn bench_walker_variant_loop_36() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2813000)]
+#[available_gas(l2_gas: 2811148)]
 fn bench_walker_variant_loop_12_inline() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = doubled(17, 14, x, y);
@@ -1767,7 +1767,7 @@ fn bench_walker_variant_loop_12_inline() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2648000)]
+#[available_gas(l2_gas: 2645342)]
 fn bench_walker_variant_loop_36_inline() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = doubled(17, 14, x, y);
@@ -1776,7 +1776,7 @@ fn bench_walker_variant_loop_36_inline() {
 }
 
 #[test]
-#[available_gas(l2_gas: 3676000)]
+#[available_gas(l2_gas: 3675133)]
 fn bench_walker_variant_random_next_below() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = doubled(17, 14, x, y);
@@ -1785,7 +1785,7 @@ fn bench_walker_variant_random_next_below() {
 }
 
 #[test]
-#[available_gas(l2_gas: 6686000)]
+#[available_gas(l2_gas: 6684128)]
 fn bench_walker_variant_random_octal() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = doubled(17, 14, x, y);
@@ -1794,7 +1794,7 @@ fn bench_walker_variant_random_octal() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2999000)]
+#[available_gas(l2_gas: 2996521)]
 fn bench_walker_variant_random_pairs() {
     let (x, y, seed) = start(17, 14, SEED);
     let mut walk = doubled(17, 14, x, y);
@@ -1803,7 +1803,7 @@ fn bench_walker_variant_random_pairs() {
 }
 
 #[test]
-#[available_gas(l2_gas: 6744000)]
+#[available_gas(l2_gas: 6743189)]
 fn bench_walker_variant_naive() {
     let grid = naive(17, 14, STEPS, SEED);
     assert_closed(grid, 17, 14);

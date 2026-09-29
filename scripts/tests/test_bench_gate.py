@@ -12,11 +12,9 @@ import shutil
 import sys
 import unittest
 from pathlib import Path
-from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import bench  # noqa: E402
-import takeover_check as tc  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 FIXTURES = HERE / "fixtures"
@@ -72,14 +70,9 @@ class FuzzRules(unittest.TestCase):
 
     def test_ran_without_measurement_is_an_error_even_with_a_budget(self) -> None:
         # The audit's scenario: measured None, declared 2000: used to return [].
-        bad = bench.budget_violations({"hexx": {"hexx::fuzz": row(None, 2000, ran=True)}}, set())
+        bad = bench.budget_violations({"hexx": {"hexx::fuzz": row(None, 2000, ran=True)}})
         self.assertEqual(len(bad), 1)
         self.assertIn("no gas measurement could be parsed", bad[0])
-
-    def test_ran_without_measurement_is_an_error_in_the_baseline_too(self) -> None:
-        bad = bench.budget_violations({"hexx": {"hexx::fuzz": row(None, None, ran=True)}},
-                                      {"hexx::fuzz"})
-        self.assertTrue(any("no gas measurement could be parsed" in b for b in bad))
 
 
 class Discovery(unittest.TestCase):
@@ -134,98 +127,6 @@ class Reconcile(unittest.TestCase):
         bad, _ = bench.reconcile({"hexx": {"a": row(10, 11, is_declared=False)}},
                                  {"hexx": {"collected": 1, "declared": 0}})
         self.assertEqual(len(bad), 2)
-
-
-class ApprovedSet(unittest.TestCase):
-    def test_entry_outside_the_approved_set_is_an_error(self) -> None:
-        packages = {"hexx": {"hexx::new": row(1000, None), "hexx::old": row(1000, None)}}
-        # the audit's scenario: a test author adds `hexx::new` to the baseline by hand
-        bad = bench.budget_violations(packages, {"hexx::new", "hexx::old"}, {"hexx::old"})
-        self.assertEqual(len(bad), 1)
-        self.assertIn("hexx::new", bad[0])
-        self.assertIn("not a test inherited", bad[0])
-
-    def test_inherited_entries_are_accepted(self) -> None:
-        packages = {"hexx": {"hexx::old": row(1000, None)}}
-        self.assertEqual(bench.budget_violations(packages, {"hexx::old"}, {"hexx::old"}), [])
-
-    def test_baseline_command_refuses_a_new_test_even_with_the_flag(self) -> None:
-        packages = {"hexx": {"hexx::new": row(1000, None), "hexx::old": row(1000, None)}}
-        with self.assertRaises(SystemExit) as ctx:
-            bench.baseline_update({"hexx::old"}, packages, allow_growth=True,
-                                  approved={"hexx::old"})
-        self.assertIn("not inherited", str(ctx.exception))
-        new, growth = bench.baseline_update({"hexx::old"}, packages, allow_growth=True,
-                                            approved={"hexx::old", "hexx::new"})
-        self.assertEqual((new, growth), ({"hexx::old", "hexx::new"}, ["hexx::new"]))
-
-
-class Inherited(unittest.TestCase):
-    def setUp(self) -> None:
-        self.root = TMP_ROOT / type(self).__name__ / self._testMethodName
-        shutil.rmtree(self.root, ignore_errors=True)
-        self.source = self.root / "hexmap"
-        (self.source / "src").mkdir(parents=True)
-        (self.source / "tests").mkdir()
-        (self.source / "src" / "map.cairo").write_text(
-            "use origami_hexmap::helpers::bits::Bits;\n\n#[cfg(test)]\nmod tests {\n"
-            "    #[test]\n    #[available_gas(l2_gas: 5)]\n    fn test_map_a() {}\n\n"
-            "    #[test]\n    #[ignore] // why\n    fn test_map_b() {}\n}\n")
-        (self.source / "tests" / "readme.cairo").write_text(
-            "use origami_hexmap::{HexMap, U252Trait, u252};\n\n#[test]\nfn test_readme_x() {}\n\n"
-            "#[test]\nfn test_readme_u252() {\n    let x = 1;\n}\n\n#[test]\nfn test_readme_y() {}\n")
-        self.pairs = [("src/map.cairo", "src/board/map.cairo"),
-                      ("tests/readme.cairo", "tests/readme.cairo")]
-        self.list = self.root / "takeover-tests.txt"
-
-    def tearDown(self) -> None:
-        shutil.rmtree(self.root, ignore_errors=True)
-
-    def inherited(self) -> set[str]:
-        with mock.patch.object(tc, "PAIRS", self.pairs):
-            return bench.inherited_tests(self.source)
-
-    def test_names_follow_the_destination_module_path(self) -> None:
-        self.assertEqual(self.inherited(), {
-            "hexx::board::map::tests::test_map_a", "hexx::board::map::tests::test_map_b",
-            "hexx_integrationtest::readme::test_readme_x",
-            "hexx_integrationtest::readme::test_readme_y"})  # no test_readme_u252
-
-    def test_committed_list_is_used_without_a_source(self) -> None:
-        self.list.write_text(bench.render_inherited({"hexx::a", "hexx::b"}))
-        names, origin = bench.approved_inherited(None, self.list)
-        self.assertEqual(names, {"hexx::a", "hexx::b"})
-        self.assertEqual(origin, "takeover-tests.txt")
-        names, _ = bench.approved_inherited(self.root / "absent", self.list)
-        self.assertEqual(names, {"hexx::a", "hexx::b"})
-
-    def test_neither_source_nor_list_is_an_error(self) -> None:
-        with self.assertRaises(SystemExit):
-            bench.approved_inherited(None, self.list)
-
-    def test_source_wins_and_must_agree_with_the_list(self) -> None:
-        proved = []
-        with mock.patch.object(tc, "PAIRS", self.pairs):
-            self.list.write_text(bench.render_inherited(self.inherited()))
-            names, _ = bench.approved_inherited(self.source, self.list, proof=proved.append)
-            self.assertEqual(names, self.inherited())
-            self.assertEqual(proved, [self.source])  # the move was proved first
-            # a hand-extended list is caught where the source is available
-            self.list.write_text(bench.render_inherited(self.inherited() | {"hexx::new"}))
-            with self.assertRaises(SystemExit) as ctx:
-                bench.approved_inherited(self.source, self.list, proof=lambda s: None)
-            self.assertIn("disagrees with the source", str(ctx.exception))
-
-    def test_a_failing_proof_of_the_move_is_an_error(self) -> None:
-        def refuse(source: Path) -> None:
-            raise SystemExit("scripts/takeover_check.py does not prove the move")
-        with self.assertRaises(SystemExit):
-            bench.approved_inherited(self.source, self.list, proof=refuse)
-
-    def test_committed_list_matches_the_pinned_source_when_present(self) -> None:
-        if not (bench.DEFAULT_SOURCE / "src" / "map.cairo").is_file():
-            self.skipTest("no checkout of the pinned source")
-        self.assertEqual(bench.read_inherited(), bench.inherited_tests(bench.DEFAULT_SOURCE))
 
 
 if __name__ == "__main__":

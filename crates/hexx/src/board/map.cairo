@@ -484,6 +484,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 14406)]
     fn test_map_new() {
         let map = HexMapTrait::new(CAVE_17X14, 17, 14, SEED);
         assert!(map.width == 17);
@@ -493,6 +494,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 27962)]
     fn test_map_new_empty() {
         assert!(HexMapTrait::new_empty(17, 14, SEED).grid == EMPTY_17X14);
         assert!(HexMapTrait::new_empty(7, 7, SEED).grid == EMPTY_7X7);
@@ -500,6 +502,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 11070087)]
     fn test_map_new_generators() {
         assert!(HexMapTrait::new_maze(17, 14, 0, SEED).grid == Mazer::generate(17, 14, 0, SEED));
         assert!(HexMapTrait::new_maze(19, 13, 1, SEED).grid == Mazer::generate(19, 13, 1, SEED));
@@ -510,6 +513,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 446476)]
     fn test_map_new_hexagon() {
         //  0 0 0 0 0 0 0
         // 0 0 1 1 1 0 0
@@ -529,6 +533,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 196819)]
     fn test_map_open() {
         let mut map = cave();
         map.open_with_corridor(8, 0);
@@ -539,6 +544,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 719756)]
     fn test_map_keep_component() {
         let mut map = HexMapTrait::new(UNREACHABLE_17X14, 17, 14, SEED);
         map.keep_component(UNREACHABLE_17X14_FAR_FROM);
@@ -552,6 +558,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 404790)]
     fn test_map_compute_distribution() {
         let objects = cave().compute_distribution(10, SEED);
         assert!(objects == Spreader::generate(CAVE_17X14, 17, 14, 10, SEED));
@@ -559,6 +566,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 6803782)]
     fn test_map_finders() {
         let map = cave();
         let (from, to) = (CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO);
@@ -577,6 +585,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 532844)]
     fn test_map_distance_unreachable() {
         let map = HexMapTrait::new(UNREACHABLE_17X14, 17, 14, SEED);
         let distance = map.distance_to(UNREACHABLE_17X14_FAR_FROM, UNREACHABLE_17X14_FAR_TO);
@@ -585,6 +594,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 155516569)]
     fn test_map_ring_fused() {
         // No open edge tile, both limbs and single limb
         check_rings(cave(), CAVE_17X14_FAR_FROM, 30);
@@ -594,6 +604,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 89907412)]
     fn test_map_ring_open_edge() {
         // Open edge tiles: one flood from the interior, two `range` calls from the entrance
         let mut map = cave();
@@ -607,6 +618,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 239333)]
     fn test_map_ring_values() {
         //  0 0 0 0 0 0 0
         // 0 0 1 1 1 0 0
@@ -624,6 +636,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 14406)]
     fn test_map_neighbor() {
         let map = cave();
         assert!(map.neighbor(0, Direction::East).is_none());
@@ -638,6 +651,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 34264)]
     fn test_map_is_walkable() {
         let map = cave();
         assert!(map.is_walkable(CAVE_17X14_FAR_FROM));
@@ -647,6 +661,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 51839)]
     fn test_map_neighbor_outside() {
         // Audit A4: position 9 is outside a 3x3 board (0..=8), `LayoutTrait::neighbor` alone
         // returns `Some(10)` West
@@ -667,6 +682,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 27719)]
     fn test_map_is_walkable_outside() {
         // Audit A4: an unchecked grid with bit 9 set on a 3x3 board
         let map = HexMapTrait::new(0x200, 3, 3, 0);
@@ -681,6 +697,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 65552)]
     fn test_map_distance_to_walls_block() {
         // Audit A4: 5x3, walkable 6 and 8, wall 7 between them: no path, walls are not crossed
         let map = HexMapTrait::new(0x140, 5, 3, 0);
@@ -691,18 +708,21 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 18879)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_map_hex_distance_revert_from_outside() {
         HexMapTrait::new_empty(3, 3, 0).hex_distance(9, 0);
     }
 
     #[test]
+    #[available_gas(l2_gas: 18879)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_map_hex_distance_revert_to_outside() {
         HexMapTrait::new_empty(3, 3, 0).hex_distance(4, 9);
     }
 
     #[test]
+    #[available_gas(l2_gas: 1565682)]
     fn test_map_scenario_17x14() {
         // Cave, component of 113, corridor from 8, 10 objects, path from 8 to 202:
         // 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -731,6 +751,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 495052)]
     fn test_map_scenario_7x7() {
         //  0 0 0 0 0 0 0
         // 0 0 0 1 1 0 0
@@ -750,18 +771,21 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_map_new_empty_revert_invalid_dimension() {
         HexMapTrait::new_empty(16, 16, SEED);
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_map_new_hexagon_revert_radius() {
         HexMapTrait::new_hexagon(7, SEED);
     }
 
     #[test]
+    #[available_gas(l2_gas: 77882)]
     #[should_panic(expected: 'Bfs: position not walkable')]
     fn test_map_keep_component_revert_wall() {
         let mut map = cave();
@@ -769,18 +793,21 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 141896)]
     #[should_panic(expected: 'Bfs: position not walkable')]
     fn test_map_ring_revert_wall() {
         cave().ring(0, 2);
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_map_ring_revert_outside() {
         cave().ring(238, 2);
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Dial: too many costs')]
     fn test_map_search_path_weighted_revert_costs() {
         let costs = array![0, 0, 0, 0].span();
@@ -788,6 +815,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 19089)]
     #[should_panic(expected: 'Asserter: position is a corner')]
     fn test_map_open_with_corridor_revert_corner() {
         let mut map = cave();

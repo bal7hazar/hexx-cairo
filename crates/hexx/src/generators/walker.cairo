@@ -594,6 +594,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 2531820)]
     fn test_walker_generate_17x14() {
         // 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
         //  0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0
@@ -614,6 +615,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 308601)]
     fn test_walker_generate_7x7() {
         //  0 0 0 0 0 0 0
         // 0 1 1 1 0 0 0
@@ -627,6 +629,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 1020799)]
     fn test_walker_generate_19x13() {
         //  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
         // 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -646,6 +649,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 145902)]
     fn test_walker_generate_3x3() {
         // The only interior tile, every move is blocked
         //  0 0 0
@@ -656,6 +660,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 39786)]
     fn test_walker_generate_no_step() {
         // Only the start tile, (9, 4)
         let grid = Walker::generate(17, 14, 0, SEED);
@@ -664,6 +669,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 3019094)]
     fn test_walker_deterministic() {
         let grid = Walker::generate(17, 14, 200, SEED);
         assert!(grid == Walker::generate(17, 14, 200, SEED));
@@ -671,18 +677,21 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_walker_revert_too_large() {
         Walker::generate(18, 14, 10, SEED);
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_walker_revert_too_narrow() {
         Walker::generate(2, 14, 10, SEED);
     }
 
     #[test]
+    #[available_gas(l2_gas: 211914874)]
     fn test_walker_reference_small_steps() {
         // Every tail length and the first refill boundaries
         let mut steps: u16 = 0;
@@ -694,6 +703,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 169202871)]
     fn test_walker_reference_sizes() {
         let sizes: Array<(u8, u8)> = array![
             (3, 3), (4, 3), (3, 4), (7, 7), (17, 14), (19, 13), (16, 15), (25, 10), (83, 3),
@@ -709,6 +719,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 326409604)]
     fn test_walker_reference_seeds() {
         let mut seed: felt252 = 0;
         while seed != 20 {

@@ -65,14 +65,14 @@ fn cave() -> HexMap {
 // Constructors
 
 #[test]
-#[available_gas(l2_gas: 20000)]
+#[available_gas(l2_gas: 19404)]
 fn bench_map_new_empty() {
     let map = HexMapTrait::new_empty(17, 14, SEED);
     assert!(map.grid == EMPTY_17X14);
 }
 
 #[test]
-#[available_gas(l2_gas: 20000)]
+#[available_gas(l2_gas: 19404)]
 fn bench_map_direct_new_empty() {
     Asserter::assert_valid_dimension(17, 14);
     let grid = LayoutTrait::interior(17, 14);
@@ -92,37 +92,37 @@ fn bench_map_direct_new_maze() {
 }
 
 #[test]
-#[available_gas(l2_gas: 153000)]
+#[available_gas(l2_gas: 149013)]
 fn bench_map_new_cave() {
     HexMapTrait::new_cave(17, 14, 3, SEED);
 }
 
 #[test]
-#[available_gas(l2_gas: 153000)]
+#[available_gas(l2_gas: 149013)]
 fn bench_map_direct_new_cave() {
     Caver::generate(17, 14, 3, SEED);
 }
 
 #[test]
-#[available_gas(l2_gas: 1050000)]
+#[available_gas(l2_gas: 1016987)]
 fn bench_map_new_random_walk() {
     HexMapTrait::new_random_walk(17, 14, 200, SEED);
 }
 
 #[test]
-#[available_gas(l2_gas: 1050000)]
+#[available_gas(l2_gas: 1016987)]
 fn bench_map_direct_new_random_walk() {
     Walker::generate(17, 14, 200, SEED);
 }
 
 #[test]
-#[available_gas(l2_gas: 133000)]
+#[available_gas(l2_gas: 132059)]
 fn bench_map_new_hexagon() {
     HexMapTrait::new_hexagon(6, SEED);
 }
 
 #[test]
-#[available_gas(l2_gas: 133000)]
+#[available_gas(l2_gas: 132059)]
 fn bench_map_direct_new_hexagon() {
     Asserter::assert_valid_dimension(15, 15);
     LayoutTrait::hexagon(6);
@@ -131,27 +131,27 @@ fn bench_map_direct_new_hexagon() {
 // Openings
 
 #[test]
-#[available_gas(l2_gas: 67000)]
+#[available_gas(l2_gas: 66169)]
 fn bench_map_open_with_corridor() {
     let mut map = cave();
     map.open_with_corridor(CORRIDOR_ENTRANCE, 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 67000)]
+#[available_gas(l2_gas: 66169)]
 fn bench_map_direct_open_with_corridor() {
     Digger::corridor(17, 14, 0, CORRIDOR_ENTRANCE, CAVE_17X14, SEED);
 }
 
 #[test]
-#[available_gas(l2_gas: 65000)]
+#[available_gas(l2_gas: 64951)]
 fn bench_map_open_with_maze() {
     let mut map = cave();
     map.open_with_maze(MAZE_ENTRANCE, 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 65000)]
+#[available_gas(l2_gas: 64951)]
 fn bench_map_direct_open_with_maze() {
     Digger::maze(17, 14, 0, MAZE_ENTRANCE, CAVE_17X14, SEED);
 }
@@ -160,46 +160,46 @@ fn bench_map_direct_open_with_maze() {
 // the component are kept); `Caver::keep_component` floods the interior only, without the checks
 
 #[test]
-#[available_gas(l2_gas: 583000)]
+#[available_gas(l2_gas: 563062)]
 fn bench_map_keep_component() {
     let mut map = cave();
     map.keep_component(CAVE_17X14_FAR_FROM);
 }
 
 #[test]
-#[available_gas(l2_gas: 583000)]
+#[available_gas(l2_gas: 563062)]
 fn bench_map_direct_keep_component() {
     Bfs::reachable(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM);
 }
 
 #[test]
-#[available_gas(l2_gas: 561000)]
+#[available_gas(l2_gas: 560542)]
 fn bench_map_variant_keep_component_caver() {
     Caver::keep_component(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM);
 }
 
 #[test]
-#[available_gas(l2_gas: 108000)]
+#[available_gas(l2_gas: 102410)]
 fn bench_map_keep_component_7x7() {
     let mut map = HexMapTrait::new(CAVE_7X7, 7, 7, SEED);
     map.keep_component(CAVE_7X7_FAR_FROM);
 }
 
 #[test]
-#[available_gas(l2_gas: 101000)]
+#[available_gas(l2_gas: 100100)]
 fn bench_map_variant_keep_component_caver_7x7() {
     Caver::keep_component(CAVE_7X7, 7, 7, CAVE_7X7_FAR_FROM);
 }
 
 #[test]
-#[available_gas(l2_gas: 1211000)]
+#[available_gas(l2_gas: 1169168)]
 fn bench_map_keep_component_maze() {
     let mut map = HexMapTrait::new(MAZE_17X14, 17, 14, SEED);
     map.keep_component(MAZE_17X14_FAR_FROM);
 }
 
 #[test]
-#[available_gas(l2_gas: 1167000)]
+#[available_gas(l2_gas: 1166648)]
 fn bench_map_variant_keep_component_caver_maze() {
     Caver::keep_component(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM);
 }
@@ -207,13 +207,13 @@ fn bench_map_variant_keep_component_caver_maze() {
 // Distribution
 
 #[test]
-#[available_gas(l2_gas: 203000)]
+#[available_gas(l2_gas: 202827)]
 fn bench_map_compute_distribution() {
     cave().compute_distribution(10, SEED);
 }
 
 #[test]
-#[available_gas(l2_gas: 203000)]
+#[available_gas(l2_gas: 202827)]
 fn bench_map_direct_compute_distribution() {
     Spreader::generate(CAVE_17X14, 17, 14, 10, SEED);
 }
@@ -221,94 +221,94 @@ fn bench_map_direct_compute_distribution() {
 // Finders
 
 #[test]
-#[available_gas(l2_gas: 742000)]
+#[available_gas(l2_gas: 741442)]
 fn bench_map_search_path() {
     let path = cave().search_path(CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO);
     assert!(path.len() == CAVE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 742000)]
+#[available_gas(l2_gas: 741442)]
 fn bench_map_direct_search_path() {
     let path = Bfs::search(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO);
     assert!(path.len() == CAVE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 1500000)]
+#[available_gas(l2_gas: 1477082)]
 fn bench_map_search_path_weighted() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     cave().search_path_weighted(CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 1500000)]
+#[available_gas(l2_gas: 1477082)]
 fn bench_map_direct_search_path_weighted() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     Dial::search(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 275000)]
+#[available_gas(l2_gas: 267140)]
 fn bench_map_field_of_movement() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     cave().field_of_movement(CAVE_17X14_FAR_FROM, 6, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 275000)]
+#[available_gas(l2_gas: 267140)]
 fn bench_map_direct_field_of_movement() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     Dial::field_of_movement(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, 6, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 527000)]
+#[available_gas(l2_gas: 526725)]
 fn bench_map_distance_to() {
     let distance = cave().distance_to(CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO);
     assert!(distance == Some(24));
 }
 
 #[test]
-#[available_gas(l2_gas: 527000)]
+#[available_gas(l2_gas: 526725)]
 fn bench_map_direct_distance_to() {
     let distance = Bfs::distance(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO);
     assert!(distance == Some(24));
 }
 
 #[test]
-#[available_gas(l2_gas: 583000)]
+#[available_gas(l2_gas: 563062)]
 fn bench_map_reachable() {
     cave().reachable(CAVE_17X14_FAR_FROM);
 }
 
 #[test]
-#[available_gas(l2_gas: 583000)]
+#[available_gas(l2_gas: 563062)]
 fn bench_map_direct_reachable() {
     Bfs::reachable(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM);
 }
 
 #[test]
-#[available_gas(l2_gas: 109000)]
+#[available_gas(l2_gas: 108983)]
 fn bench_map_range() {
     cave().range(CAVE_17X14_FAR_FROM, 4);
 }
 
 #[test]
-#[available_gas(l2_gas: 109000)]
+#[available_gas(l2_gas: 108983)]
 fn bench_map_direct_range() {
     Bfs::tiles_within_range(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, 4);
 }
 
 #[test]
-#[available_gas(l2_gas: 105000)]
+#[available_gas(l2_gas: 104899)]
 fn bench_map_ring() {
     cave().ring(CAVE_17X14_FAR_FROM, 4);
 }
 
 /// Loser: two `range` calls (the facade falls back to it on grids with open edge tiles).
 #[test]
-#[available_gas(l2_gas: 186000)]
+#[available_gas(l2_gas: 185115)]
 fn bench_map_variant_ring_two_ranges() {
     let outer = Bfs::tiles_within_range(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, 4);
     let inner = Bfs::tiles_within_range(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, 3);
@@ -316,13 +316,13 @@ fn bench_map_variant_ring_two_ranges() {
 }
 
 #[test]
-#[available_gas(l2_gas: 49000)]
+#[available_gas(l2_gas: 48724)]
 fn bench_map_ring_7x7() {
     HexMapTrait::new(CAVE_7X7, 7, 7, SEED).ring(CAVE_7X7_FAR_FROM, 2);
 }
 
 #[test]
-#[available_gas(l2_gas: 84000)]
+#[available_gas(l2_gas: 83673)]
 fn bench_map_variant_ring_two_ranges_7x7() {
     let outer = Bfs::tiles_within_range(CAVE_7X7, 7, 7, CAVE_7X7_FAR_FROM, 2);
     let inner = Bfs::tiles_within_range(CAVE_7X7, 7, 7, CAVE_7X7_FAR_FROM, 1);
@@ -331,7 +331,7 @@ fn bench_map_variant_ring_two_ranges_7x7() {
 
 /// Fallback path: the same cave with an open edge tile.
 #[test]
-#[available_gas(l2_gas: 177000)]
+#[available_gas(l2_gas: 176057)]
 fn bench_map_ring_open_edge() {
     let mut map = cave();
     map.open_with_corridor(CORRIDOR_ENTRANCE, 0);
@@ -340,7 +340,7 @@ fn bench_map_ring_open_edge() {
 
 /// Same grid, two `range` calls without the facade prologue: the cost of the fallback test.
 #[test]
-#[available_gas(l2_gas: 283000)]
+#[available_gas(l2_gas: 282948)]
 fn bench_map_variant_ring_two_ranges_open_edge() {
     let mut map = cave();
     map.open_with_corridor(CORRIDOR_ENTRANCE, 0);
@@ -353,7 +353,7 @@ fn bench_map_variant_ring_two_ranges_open_edge() {
 
 /// Loop baseline of the query benchmarks: 100 iterations, see `GAS.md`.
 #[test]
-#[available_gas(l2_gas: 150000)]
+#[available_gas(l2_gas: 149195)]
 fn bench_map_loop_baseline() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -365,7 +365,7 @@ fn bench_map_loop_baseline() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1241000)]
+#[available_gas(l2_gas: 1240407)]
 fn bench_map_hex_distance() {
     let map = cave();
     let mut acc: felt252 = 0;
@@ -378,7 +378,7 @@ fn bench_map_hex_distance() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1143000)]
+#[available_gas(l2_gas: 1142694)]
 fn bench_map_direct_hex_distance() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -390,7 +390,7 @@ fn bench_map_direct_hex_distance() {
 }
 
 #[test]
-#[available_gas(l2_gas: 880000)]
+#[available_gas(l2_gas: 879858)]
 fn bench_map_neighbor() {
     let map = cave();
     let mut acc: felt252 = 0;
@@ -405,7 +405,7 @@ fn bench_map_neighbor() {
 }
 
 #[test]
-#[available_gas(l2_gas: 821000)]
+#[available_gas(l2_gas: 820292)]
 fn bench_map_direct_neighbor() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -419,7 +419,7 @@ fn bench_map_direct_neighbor() {
 }
 
 #[test]
-#[available_gas(l2_gas: 892000)]
+#[available_gas(l2_gas: 891881)]
 fn bench_map_is_walkable() {
     let map = cave();
     let mut acc: felt252 = 0;
@@ -434,7 +434,7 @@ fn bench_map_is_walkable() {
 }
 
 #[test]
-#[available_gas(l2_gas: 893000)]
+#[available_gas(l2_gas: 892479)]
 fn bench_map_direct_is_walkable() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -450,20 +450,20 @@ fn bench_map_direct_is_walkable() {
 // Scenario 17x14, one test per prefix
 
 #[test]
-#[available_gas(l2_gas: 153000)]
+#[available_gas(l2_gas: 149013)]
 fn bench_map_scenario_17x14_1_cave() {
     HexMapTrait::new_cave(17, 14, 3, LARGE_SEED);
 }
 
 #[test]
-#[available_gas(l2_gas: 351000)]
+#[available_gas(l2_gas: 340467)]
 fn bench_map_scenario_17x14_2_keep() {
     let mut map = HexMapTrait::new_cave(17, 14, 3, LARGE_SEED);
     map.keep_component(LARGE_KEEP);
 }
 
 #[test]
-#[available_gas(l2_gas: 523000)]
+#[available_gas(l2_gas: 509479)]
 fn bench_map_scenario_17x14_3_corridor() {
     let mut map = HexMapTrait::new_cave(17, 14, 3, LARGE_SEED);
     map.keep_component(LARGE_KEEP);
@@ -471,7 +471,7 @@ fn bench_map_scenario_17x14_3_corridor() {
 }
 
 #[test]
-#[available_gas(l2_gas: 721000)]
+#[available_gas(l2_gas: 695083)]
 fn bench_map_scenario_17x14_4_distribution() {
     let mut map = HexMapTrait::new_cave(17, 14, 3, LARGE_SEED);
     map.keep_component(LARGE_KEEP);
@@ -480,7 +480,7 @@ fn bench_map_scenario_17x14_4_distribution() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1222000)]
+#[available_gas(l2_gas: 1195238)]
 fn bench_map_scenario_17x14_5_total() {
     let mut map = HexMapTrait::new_cave(17, 14, 3, LARGE_SEED);
     map.keep_component(LARGE_KEEP);
@@ -493,20 +493,20 @@ fn bench_map_scenario_17x14_5_total() {
 // Scenario 7x7
 
 #[test]
-#[available_gas(l2_gas: 88000)]
+#[available_gas(l2_gas: 84837)]
 fn bench_map_scenario_7x7_1_cave() {
     HexMapTrait::new_cave(7, 7, 3, SMALL_SEED);
 }
 
 #[test]
-#[available_gas(l2_gas: 149000)]
+#[available_gas(l2_gas: 142324)]
 fn bench_map_scenario_7x7_2_keep() {
     let mut map = HexMapTrait::new_cave(7, 7, 3, SMALL_SEED);
     map.keep_component(SMALL_KEEP);
 }
 
 #[test]
-#[available_gas(l2_gas: 200000)]
+#[available_gas(l2_gas: 192473)]
 fn bench_map_scenario_7x7_3_corridor() {
     let mut map = HexMapTrait::new_cave(7, 7, 3, SMALL_SEED);
     map.keep_component(SMALL_KEEP);
@@ -514,7 +514,7 @@ fn bench_map_scenario_7x7_3_corridor() {
 }
 
 #[test]
-#[available_gas(l2_gas: 325000)]
+#[available_gas(l2_gas: 309333)]
 fn bench_map_scenario_7x7_4_distribution() {
     let mut map = HexMapTrait::new_cave(7, 7, 3, SMALL_SEED);
     map.keep_component(SMALL_KEEP);
@@ -523,7 +523,7 @@ fn bench_map_scenario_7x7_4_distribution() {
 }
 
 #[test]
-#[available_gas(l2_gas: 510000)]
+#[available_gas(l2_gas: 495031)]
 fn bench_map_scenario_7x7_5_total() {
     let mut map = HexMapTrait::new_cave(7, 7, 3, SMALL_SEED);
     map.keep_component(SMALL_KEEP);
@@ -624,7 +624,7 @@ fn neighbor_row(width: u8, height: u8, position: u8, direction: Direction) -> Op
 }
 
 #[test]
-#[available_gas(l2_gas: 901000)]
+#[available_gas(l2_gas: 900333)]
 fn bench_map_variant_neighbor_u16() {
     let map = cave();
     let mut acc: felt252 = 0;
@@ -644,7 +644,7 @@ fn bench_map_variant_neighbor_u16() {
 }
 
 #[test]
-#[available_gas(l2_gas: 901000)]
+#[available_gas(l2_gas: 900333)]
 fn bench_map_variant_neighbor_u8() {
     let map = cave();
     let mut acc: felt252 = 0;
@@ -664,7 +664,7 @@ fn bench_map_variant_neighbor_u8() {
 }
 
 #[test]
-#[available_gas(l2_gas: 890000)]
+#[available_gas(l2_gas: 889938)]
 fn bench_map_variant_neighbor_row() {
     let map = cave();
     let mut acc: felt252 = 0;
@@ -679,7 +679,7 @@ fn bench_map_variant_neighbor_row() {
 }
 
 #[test]
-#[available_gas(l2_gas: 907000)]
+#[available_gas(l2_gas: 906581)]
 fn bench_map_variant_is_walkable_u16() {
     let map = cave();
     let mut acc: felt252 = 0;
@@ -695,7 +695,7 @@ fn bench_map_variant_is_walkable_u16() {
 }
 
 #[test]
-#[available_gas(l2_gas: 907000)]
+#[available_gas(l2_gas: 906581)]
 fn bench_map_variant_is_walkable_u8() {
     let map = cave();
     let mut acc: felt252 = 0;
@@ -711,7 +711,7 @@ fn bench_map_variant_is_walkable_u8() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1282000)]
+#[available_gas(l2_gas: 1281987)]
 fn bench_map_variant_hex_distance_u16() {
     let map = cave();
     let mut acc: felt252 = 0;
@@ -753,7 +753,7 @@ fn distance_rows(width: u8, height: u8, from: u8, to: u8) -> u8 {
 }
 
 #[test]
-#[available_gas(l2_gas: 1445000)]
+#[available_gas(l2_gas: 1444307)]
 fn bench_map_variant_hex_distance_rows() {
     let map = cave();
     let mut acc: felt252 = 0;
@@ -766,7 +766,7 @@ fn bench_map_variant_hex_distance_rows() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1345000)]
+#[available_gas(l2_gas: 1344357)]
 #[feature("bounded-int-utils")]
 fn bench_map_variant_hex_distance_bounded_once() {
     let map = cave();
@@ -792,7 +792,7 @@ fn bench_map_variant_hex_distance_bounded_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1304000)]
+#[available_gas(l2_gas: 1303817)]
 fn bench_map_variant_hex_distance_max() {
     let map = cave();
     let mut acc: felt252 = 0;

@@ -61,6 +61,7 @@ fn check_expand_random(width: u8, height: u8) {
 }
 
 #[test]
+#[available_gas(l2_gas: 84484263)]
 fn test_properties_expand_fixtures() {
     let fixtures: Array<(felt252, u8, u8)> = array![
         (EMPTY_17X14, 17, 14), (CAVE_17X14, 17, 14), (MAZE_17X14, 17, 14),
@@ -81,41 +82,49 @@ fn test_properties_expand_fixtures() {
 }
 
 #[test]
+#[available_gas(l2_gas: 5807471)]
 fn test_properties_expand_3x3() {
     check_expand_random(3, 3);
 }
 
 #[test]
+#[available_gas(l2_gas: 17842436)]
 fn test_properties_expand_7x7() {
     check_expand_random(7, 7);
 }
 
 #[test]
+#[available_gas(l2_gas: 348861587)]
 fn test_properties_expand_17x14() {
     check_expand_random(17, 14);
 }
 
 #[test]
+#[available_gas(l2_gas: 375109952)]
 fn test_properties_expand_19x13() {
     check_expand_random(19, 13);
 }
 
 #[test]
+#[available_gas(l2_gas: 373475095)]
 fn test_properties_expand_25x10() {
     check_expand_random(25, 10);
 }
 
 #[test]
+#[available_gas(l2_gas: 167997290)]
 fn test_properties_expand_83x3() {
     check_expand_random(83, 3);
 }
 
 #[test]
+#[available_gas(l2_gas: 168003811)]
 fn test_properties_expand_3x83() {
     check_expand_random(3, 83);
 }
 
 #[test]
+#[available_gas(l2_gas: 107823)]
 fn test_properties_sequential_step() {
     let layout = LayoutTrait::new(17, 14);
     let unvisited: u256 = CAVE_17X14.into();
@@ -150,6 +159,7 @@ fn check_distance(width: u8, height: u8, from: u8) {
 }
 
 #[test]
+#[available_gas(l2_gas: 576823343)]
 fn test_properties_distance_7x7_all_pairs() {
     let mut from: u8 = 0;
     while from != 49 {
@@ -159,6 +169,7 @@ fn test_properties_distance_7x7_all_pairs() {
 }
 
 #[test]
+#[available_gas(l2_gas: 977177851)]
 fn test_properties_distance_large_boards() {
     // Corners, both row parities, centre
     check_distance(17, 14, 0);
@@ -223,21 +234,25 @@ fn check_neighbor(width: u8, height: u8) {
 }
 
 #[test]
+#[available_gas(l2_gas: 1074633)]
 fn test_properties_neighbor_3x3() {
     check_neighbor(3, 3);
 }
 
 #[test]
+#[available_gas(l2_gas: 6821325)]
 fn test_properties_neighbor_7x7() {
     check_neighbor(7, 7);
 }
 
 #[test]
+#[available_gas(l2_gas: 35355779)]
 fn test_properties_neighbor_17x14() {
     check_neighbor(17, 14);
 }
 
 #[test]
+#[available_gas(l2_gas: 33531383)]
 fn test_properties_neighbor_83x3() {
     check_neighbor(83, 3);
 }
@@ -269,6 +284,7 @@ fn check_masks(width: u8, height: u8) {
 }
 
 #[test]
+#[available_gas(l2_gas: 10983872)]
 fn test_properties_masks() {
     check_masks(3, 3);
     check_masks(7, 7);
@@ -280,6 +296,7 @@ fn test_properties_masks() {
 }
 
 #[test]
+#[available_gas(l2_gas: 12719052)]
 fn test_properties_hexagon() {
     let mut radius: u8 = 1;
     while radius != 7 {
@@ -306,6 +323,7 @@ fn test_properties_hexagon() {
 }
 
 #[test]
+#[available_gas(l2_gas: 168418)]
 fn test_properties_shuffle6_fisher_yates_is_permutation() {
     let mut pool: u128 = 0xfedcba9876543210fedcba9876543210;
     let packed = Variants::shuffle6_fisher_yates(ref pool);
@@ -328,6 +346,7 @@ fn test_properties_shuffle6_fisher_yates_is_permutation() {
 }
 
 #[test]
+#[available_gas(l2_gas: 11012407)]
 fn test_properties_bit_variants() {
     let value: felt252 = MAZE_17X14;
     let mut index: u8 = 0;

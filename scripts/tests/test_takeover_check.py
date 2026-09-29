@@ -135,6 +135,29 @@ class Check(unittest.TestCase):
         problems, _ = self.run_check()
         self.assertEqual(problems, 0)
 
+    def test_gas_budget_lines_are_ignored_on_both_sides_and_only_those(self) -> None:
+        self.put(self.src, "src/map.cairo",
+                 "#[test]\n#[available_gas(l2_gas: 5000)]\nfn a() {}\n\n#[test]\nfn b() {}\n")
+        self.put(self.dst, "src/board/map.cairo",
+                 "#[test]\n    #[available_gas(l2_gas: 123)]\nfn a() {}\n\n#[test]\n"
+                 "#[available_gas(l2_gas: 9)]\nfn b() {}\n")
+        problems, out = self.run_check()
+        self.assertEqual(problems, 0, out)
+        # Any other line is still a difference, next to a budget line.
+        self.put(self.dst, "src/board/map.cairo",
+                 "#[test]\n#[available_gas(l2_gas: 123)]\nfn a() {}\n\n#[test]\nfn b() {} // x\n")
+        problems, out = self.run_check()
+        self.assertEqual(problems, 1)
+        self.assertIn("src/map.cairo -> src/board/map.cairo: DIFFERENT", out)
+
+    def test_a_comment_or_an_attribute_sharing_the_line_is_not_a_budget_line(self) -> None:
+        self.assertEqual(t.without_budgets("//! `#[available_gas(l2_gas: 5)]` budget\n"),
+                         "//! `#[available_gas(l2_gas: 5)]` budget\n")
+        self.assertEqual(t.without_budgets("#[test] #[available_gas(l2_gas: 5)]\n"),
+                         "#[test] #[available_gas(l2_gas: 5)]\n")
+        self.assertEqual(t.without_budgets("  #[available_gas(l2_gas: 5)]\nfn a() {}\n"),
+                         "fn a() {}\n")
+
     def test_formatted_form_is_accepted(self) -> None:
         self.put(self.dst, "src/board/map.cairo", "use hexx::board::bits::Bits; // sorted\n")
 
