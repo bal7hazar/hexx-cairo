@@ -4,21 +4,23 @@
 
 | | |
 |---|---|
-| Phase | **Milestone L-M1: LIB-05, task M1-T1a** (the take-over of the engine, the move) |
-| Running agents | `[Sonnet 5.5]` M1-T1a (the take-over, the move). **Cap: 1 agent at a time for the library, audits included** (game's `OPERATIONS.md` §3, `377576a`: game 2, library 1, quiver 1, the game first); before each launch the file `~/orchestrator/waiting/game` is checked: present and less than 30 minutes old, nothing is launched |
-| Waiting for the slot, in this order | Audit of M1-T1a; audit of LIB-04b (pull request #26, done by `[Sonnet 5.5]`, CI green); audit of the launcher sync (pull request #25) |
-| LIB-04 | Merged (pull request #18) by [decision of the project manager](docs/decisions/LIB-04-fix-loops.md), with three findings open: task LIB-04b, **condition of the first publication** |
+| Phase | **Milestone L-M1: LIB-05.** M1-T1a (the take-over, the move) is merged; next M1-T1b (the equality tests), then N-3 and N-8 |
+| Cap | **One agent at a time for the library, audits included**: the single slot `lib-1`, held by a kernel lock (launcher at the game's `2628b21`). Nothing is launched while `~/orchestrator/waiting/game` is less than 30 minutes old |
+| Waiting for the slot, in this order | LIB-04b: merge of `main` and regeneration by the resumed agent, then its audit (pull request #26); audit of the launcher syncs (pull requests #25, #29, #30, merged before audit by exception); M1-T1b |
 | Pending decisions | None |
 | Gates | L-G1 and L-G2 decided by the owner on 2026-09-28: [L-G1](docs/decisions/L-G1-hexx-port.md), [L-G2](docs/decisions/L-G2-porting-plan.md) |
-| Publication | Nothing is published. No workflow of the repository publishes or holds a token. Rule D-132 (game's `OPERATIONS.md` §7): the orchestrator's session publishes, never an agent, after a go that names package, version and commit. **Before its first publication the orchestrator asks the owner, in its own session, to confirm the delegation of that decision to the project manager** |
-| Order of LIB-05 | [PLAN.md](PLAN.md) § *LIB-05*: the take-over, then N-3 and N-8 first among the extensions. One function per task, so that one audit pass reads a lot in full |
+| Publication | Nothing is published. No workflow of the repository publishes or holds a token. Rule D-132 (game's `OPERATIONS.md` §7): the orchestrator's session publishes, never an agent, after a go that names package, version and commit. **LIB-04b must be merged first. Before its first publication the orchestrator asks the owner, in its own session, to confirm the delegation of that decision to the project manager** |
 | Stop condition of LIB-05 | A measurement above the upper bound of its range: stop and report before any budget is set |
-| Estimate to remember | One tick, worst case of the plan: 1.34M to 1.67M gas with a flood of 25 layers; the game's flood stops at 15 layers (D-127). Estimates: nothing was measured, and no figure of the plan is a budget |
+| **Open risk: a gas measurement that moved** | `test_readme_open` measured 2,053,706 on two CI runs and 2,030,366 on every other run, local and CI, on the same tree, same toolchain, same runner image. Cause unknown after the implementer's and the auditor's search. The gas gate compares exactly, so it can fail at random; and the method (budgets within 5 %) rests on measurements being reproducible. M1-T1c makes CI keep what is needed to find the cause at the next occurrence |
+| Figures of the take-over | 811 tests (708 run, 103 ignored), all measurements equal to those of 1.8.0; CI job of the engine's tests 7 min 20 s of the 10 minutes allowed; the 20 functions of the facade do not fit one contract (limit 81,920 CASM felts): three fixtures of 21,007, 44,469 and 49,375 |
+| Figures of the game's spike SPK-7, on 1.8.0 | Assembly of the window 65,224; flood 26,452 per layer; capped flood with 8 goblins and their steps 1,150,737; the chunked map adds about 720,000 per tick. The measurements of N-3 and N-8 are compared with them |
 
 ## Done
 
 | Date | What |
 |---|---|
+| 2026-09-29 | LIB-05 M1-T1a: the engine of `origami_hexmap` 1.8.0 moved unchanged (29 files, proved by `scripts/takeover_check.py` and by the auditor's own comparison), by `[Sonnet 5.5]`; two audit passes by `[GPT-6-Sol]`, one fix loop; [report](docs/reports/LIB-05-M1-T1a-REPORT.md) archived |
+| 2026-09-29 | Launcher synced with the game's slot locks (`2628b21`); rule of the shared machine in `COMMON.md` and the profiles |
 | 2026-09-28 | LIB-01: repository set up (pull request #1) |
 | 2026-09-28 | LIB-04: workspace and tooling by `[Sonnet 5]`; four audit passes by `[GPT-6-Sol]`, three fix loops; merged by decision of the project manager; [report](docs/reports/LIB-04-REPORT.md) archived |
 | 2026-09-28 | Gate L-G2 decided by the owner; brief of LIB-04; profile `implement` extended with `cargo` and closed to publication |
