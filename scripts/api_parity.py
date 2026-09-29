@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import argparse
 import difflib
+import itertools
 import json
 import re
 import sys
@@ -729,7 +730,11 @@ def compute_reachable_modules(
 # from the single-relative-segment form fix loop 1 supported. A form this parser does not
 # recognize (a glob nested inside a group) raises, naming the file and the statement — never
 # silently skipped.
-USE_STATEMENT_RE = re.compile(r"(?m)^[ \t]*(pub(?:\(crate\))?\s+)?use\s+([^;]+);")
+# LIB-04b follow-up 1: not anchored to the start of a line (`mod a { pub use b::C; }` on one line,
+# or `use x;` after another statement, was skipped without an error), and any restricted
+# visibility (`pub(super)`, `pub(in path)`, `pub(crate)`) is recognised — the group holds the
+# whole `pub(...)`, and only the bare `pub` bridges.
+USE_STATEMENT_RE = re.compile(r"(?<![\w:])(?:(pub(?:\s*\([^)]*\))?)\s+)?use\s+([^;]+);")
 
 
 def resolve_use_segments(
@@ -795,15 +800,21 @@ def parse_use_tree(
 
 def collect_use_statements(
     nodes: dict[tuple[str, ...], ModuleNode], reachable: set[tuple[str, ...]]
-) -> tuple[dict[tuple[str, ...], dict[str, str]], set[tuple[str, ...]], set[str]]:
-    """`(bridged, glob_targets, used_names)`: `bridged[target_path]` maps every *original* name
-    re-exported from `target_path`, by a `pub use` sitting in a reachable module, to the name it
-    is actually visible under from outside — itself, unless the `pub use` aliased it (`pub use
-    inner::Hex as Other;` maps `"Hex" -> "Other"`: fix loop 3 finding 16, reversing fix loop 2's
-    "never the alias" design, which let a Cairo item exported only as `Other` still classify
-    against hexx's `Hex` by matching the *declaration's* name instead of its exported one).
-    `glob_targets` is the set of module paths re-exported wholesale (`pub use target::*;`) from a
-    reachable module — a glob never renames. `used_names` is every name a `use` statement anywhere
+) -> tuple[dict[tuple[str, ...], dict[str, list[str]]], set[tuple[str, ...]], set[str]]:
+    """`(bridged, glob_targets, used_names)`.
+
+    `bridged[decl_path][name]` is the sorted list of every name the declaration `name` of module
+    `decl_path` is re-exported under, by a `pub use` sitting in a module that is *exposed* (see
+    below): `pub use inner::Hex as Other;` maps `("inner",) -> {"Hex": ["Other"]}` (fix loop 3
+    finding 16). Re-exports are resolved transitively (LIB-04b finding *New 1*): a `pub use` whose
+    target is itself a `pub use` binding (in a private module) or a name reached through a glob
+    is followed to the declaration, and one declaration re-exported under two names keeps both.
+
+    A module is *exposed* when it is `reachable` (public all the way to the root) or is the target
+    of a `pub use target::*;` glob sitting in an exposed module (closed transitively): the
+    declarations of an exposed module are visible under their own name and its `pub use`
+    bindings under the name they bind. `glob_targets` is the set of exposed modules that are not
+    `reachable` — a glob never renames. `used_names` is every name a `use` statement anywhere
     (`pub` or not, reachable module or not — fix loop 1: a private module's own `use glam::IVec2;`
     still matters, because an `impl From<Hex> for IVec2` can sit in that same private file) makes
     available under, i.e. the alias where one exists, since that is the identifier the rest of
@@ -811,9 +822,14 @@ def collect_use_statements(
 
     A `use` statement's own `#[cfg(...)]` is evaluated exactly like a declaration's (fix loop 3
     finding P2-4): a `use` gated by a disabled feature contributes nothing, bridges nothing, and
-    is not itself an error — the code that follows it usually still compiles without it."""
-    bridged: dict[tuple[str, ...], dict[str, str]] = {}
-    glob_targets: set[tuple[str, ...]] = set()
+    is not itself an error — the code that follows it usually still compiles without it.
+
+    Forms this resolver cannot follow raise, naming file and line, never silently dropped: the
+    re-export of a module (`pub use a::b;` where `b` is a module, or `pub use a::{self}`), and a
+    cycle of named re-exports (`pub use` chasing itself; a cycle through globs is legal Rust and
+    resolves to nothing further)."""
+    bindings: dict[tuple[str, ...], dict[str, list[tuple[tuple[str, ...], str, str]]]] = {}
+    glob_edges: dict[tuple[str, ...], list[tuple[str, ...]]] = {}
     used_names: set[str] = set()
     for path, node in nodes.items():
         for m in USE_STATEMENT_RE.finditer(node.text):
@@ -824,40 +840,152 @@ def collect_use_statements(
                 continue
             entries: list[tuple[tuple[str, ...], str, str | None]] = []
             globs: list[tuple[str, ...]] = []
-            parse_use_tree(m.group(2), path, f"{location}: use {m.group(2)}", entries, globs)
+            where = f"{location}: use {m.group(2)}"
+            parse_use_tree(m.group(2), path, where, entries, globs)
             used_names.update((alias if alias is not None else name) for _t, name, alias in entries)
-            if vis != "pub" or path not in reachable:
-                continue  # plain / pub(crate) use, or inside an unreachable module: no bridge
+            if vis != "pub":
+                continue  # plain / pub(crate) use: no bridge
             for target_path, name, alias in entries:
-                if target_path in nodes:
-                    bridged.setdefault(target_path, {})[name] = alias if alias is not None else name
+                if name == "self" or target_path + (name,) in nodes:
+                    raise SystemExit(f"{where}: re-exporting a module is not supported by "
+                                     f"scripts/api_parity.py")
+                bindings.setdefault(path, {}).setdefault(
+                    alias if alias is not None else name, []).append((target_path, name, where))
             for target_path in globs:
                 if target_path in nodes:
-                    glob_targets.add(target_path)
-    return bridged, glob_targets, used_names
+                    glob_edges.setdefault(path, []).append(target_path)
+
+    exposed = set(reachable)
+    work = sorted(exposed)
+    while work:
+        for target in glob_edges.get(work.pop(), []):
+            if target not in exposed:
+                exposed.add(target)
+                work.append(target)
+
+    def resolve(path, name, kind, where, stack) -> set[tuple[tuple[str, ...], str]]:
+        """Every declaration `(module_path, name)` that `name` in module `path` denotes."""
+        key = (path, name)
+        for index, (seen, _kind, _where) in enumerate(stack):
+            if seen == key:
+                if kind == "glob" or any(k == "glob" for _s, k, _w in stack[index + 1:]):
+                    return set()  # a cycle through a glob is legal Rust: nothing further
+                raise SystemExit(f"{where}: cycle of re-exports through "
+                                 f"{'::'.join(path + (name,))}")
+        if path not in nodes:
+            return set()  # another crate's name: nothing to follow
+        stack.append((key, kind, where))
+        try:
+            bound = bindings.get(path, {}).get(name)
+            if bound:
+                found: set[tuple[tuple[str, ...], str]] = set()
+                for target, orig, bound_where in bound:
+                    found |= resolve(target, orig, "named", bound_where, stack)
+                return found
+            found = {key}
+            for target in glob_edges.get(path, []):
+                found |= resolve(target, name, "glob", where, stack)
+            return found
+        finally:
+            stack.pop()
+
+    collected: dict[tuple[str, ...], dict[str, set[str]]] = {}
+    for path in sorted(exposed):
+        for alias, bound in sorted(bindings.get(path, {}).items()):
+            for target, orig, where in bound:
+                for decl_path, decl_name in resolve(target, orig, "named", where,
+                                                     [((path, alias), "start", where)]):
+                    collected.setdefault(decl_path, {}).setdefault(decl_name, set()).add(alias)
+    bridged = {p: {n: sorted(v) for n, v in names.items()} for p, names in collected.items()}
+    return bridged, exposed - reachable, used_names
+
+
+def exported_names(
+    path: tuple[str, ...], name: str,
+    reachable: set[tuple[str, ...]], bridged: dict[tuple[str, ...], dict[str, list[str]]],
+    glob_targets: set[tuple[str, ...]],
+) -> list[str]:
+    """Every name a declaration at `(path, name)` is visible under from outside its own module,
+    sorted; empty if it is not visible at all. A module that is public all the way to the root
+    (`reachable`), or reached by a `pub use ...::*;` glob (`glob_targets`), shows it under its own
+    name; each `pub use` of it, through any chain (`bridged`), adds the name that `use` bound
+    (fix loop 3 finding 16: `pub use inner::Hex as Other;` makes the declaration visible as
+    `Other`; LIB-04b finding *New 1*: and a second export of it, under another name, keeps both)."""
+    names = set(bridged.get(path, {}).get(name, ()))
+    if path in reachable or path in glob_targets:
+        names.add(name)
+    return sorted(names)
 
 
 def exported_name(
     path: tuple[str, ...], name: str,
-    reachable: set[tuple[str, ...]], bridged: dict[tuple[str, ...], dict[str, str]],
+    reachable: set[tuple[str, ...]], bridged: dict[tuple[str, ...], dict[str, list[str]]],
     glob_targets: set[tuple[str, ...]],
 ) -> str | None:
-    """The name a declaration at `(path, name)` is actually visible under from outside its own
-    module, or `None` if it is not visible at all. `path in reachable` (the module itself is
-    public all the way to the root): visible under its own name. Otherwise, a `pub use` from a
-    reachable module may still bridge it in — under `name` itself, or under the alias the `pub
-    use` gave it (fix loop 3 finding 16: `pub use inner::Hex as Other;` makes the declaration
-    visible as `Other`, not `Hex` — matching hexx's own `Hex` by the declaration's name, as fix
-    loop 2 did, would misclassify an item Cairo never actually exports under that name). A glob
-    re-export never renames."""
-    if path in reachable:
-        return name
-    renamed = bridged.get(path, {}).get(name)
-    if renamed is not None:
-        return renamed
-    if path in glob_targets:
-        return name
-    return None
+    """The first of `exported_names`, or `None` if the declaration is not visible at all."""
+    names = exported_names(path, name, reachable, bridged, glob_targets)
+    return names[0] if names else None
+
+
+def export_ranks(bridged: dict[tuple[str, ...], dict[str, list[str]]]) -> range:
+    """How many passes a scan needs so that every exported name of every declaration is visited:
+    pass `k` asks for the `k`-th exported name of each declaration (`exported_names(...)[k]`, or
+    nothing). At most one own-name plus the longest alias list."""
+    return range(1 + max((len(v) for names in bridged.values() for v in names.values()),
+                         default=0))
+
+
+def reject_scoped_aliases(
+    nodes: dict[tuple[str, ...], ModuleNode], reachable: set[tuple[str, ...]],
+    bridged: dict[tuple[str, ...], dict[str, list[str]]], glob_targets: set[tuple[str, ...]],
+    cairo: bool,
+) -> None:
+    """A type or trait exported under a name other than its declared one, while it carries
+    associated items (an inherent or trait impl, a trait's functions), raises with file and line
+    (LIB-04b follow-up 1). The declaration items follow every exported name, but the associated
+    items (`Type.method`, ...) are scoped by the *declared* name, so the two would disagree and an
+    item could be classified against the wrong `hexx` name without any error. Not used by `hexx`
+    0.25.0 nor by the crate's own tree; a form this tool does not model is refused, not guessed."""
+    if cairo:
+        heads = ((CAIRO_STRUCT_HEAD_RE, "type"), (CAIRO_ENUM_HEAD_RE, "type"),
+                 (CAIRO_TRAIT_RE, "trait"))
+        assoc_res = lambda name: [
+            re.compile(rf"\bpub\s+trait\s+{name}Trait\b"),
+            re.compile(rf"\bimpl\s+\w+\s+of\s+{name}Trait\b")]
+    else:
+        heads = ((STRUCT_HEAD_RE, "type"), (ENUM_HEAD_RE, "type"), (TRAIT_RE, "trait"))
+        assoc_res = lambda name: [
+            re.compile(rf"(?m)^\s*impl\b[^\n{{;]*?\b{name}\b[^\n{{;]*\{{")]
+    for path, node in nodes.items():
+        for head_re, kind in heads:
+            for match in head_re.finditer(node.text):
+                if not cfg_ok_at(node, match.start()):
+                    continue
+                declared = match.group(1)
+                renamed = [n for n in exported_names(path, declared, reachable, bridged,
+                                                     glob_targets) if n != declared]
+                if not renamed:
+                    continue
+                has_members = False
+                if kind == "trait":
+                    has_members = True
+                else:
+                    has_members = any(rx.search(other.text) for other in nodes.values()
+                                      for rx in assoc_res(declared))
+                if has_members:
+                    raise SystemExit(
+                        f"{node_location(node, match.start())}: `{declared}` is exported under "
+                        f"{renamed} and carries associated items; an alias of a type or trait "
+                        f"with members is not supported by scripts/api_parity.py")
+
+
+def exported_name_at(
+    rank: int, path: tuple[str, ...], name: str,
+    reachable: set[tuple[str, ...]], bridged: dict[tuple[str, ...], dict[str, list[str]]],
+    glob_targets: set[tuple[str, ...]],
+) -> str | None:
+    names = exported_names(path, name, reachable, bridged, glob_targets)
+    return names[rank] if rank < len(names) else None
 
 
 # ---------------------------------------------------------------------------------------------
@@ -1184,9 +1312,10 @@ def parse_hexx(hexx_root: Path) -> list[Item]:
     nodes = build_module_tree(hexx_root / "src" / "lib.rs")
     reachable = compute_reachable_modules(nodes)
     bridged, glob_targets, used_names = collect_use_statements(nodes, reachable)
+    reject_scoped_aliases(nodes, reachable, bridged, glob_targets, cairo=False)
 
-    def name_ok_at(path: tuple[str, ...]):
-        return lambda name: exported_name(path, name, reachable, bridged, glob_targets)
+    def name_ok_at(path: tuple[str, ...], rank: int = 0):
+        return lambda name: exported_name_at(rank, path, name, reachable, bridged, glob_targets)
 
     reachable_type_names: set[str] = set()
     reachable_trait_names: set[str] = set()
@@ -1201,7 +1330,9 @@ def parse_hexx(hexx_root: Path) -> list[Item]:
         node = nodes[path]
         ok = name_ok_at(path)
         prefix = owner in MULTI_TYPE_OWNERS
-        items.update(scan_module(node, owner, ok, reachable_type_names, prefix))
+        for rank in export_ranks(bridged):
+            items.update(scan_module(node, owner, name_ok_at(path, rank), reachable_type_names,
+                                     prefix))
         prefix_targets = local_declared_types(node.text) if prefix else set()
         items.update(scan_impls(node, owner, allowed_targets, prefix_targets))
 
@@ -1243,6 +1374,7 @@ def build_cairo_tree():
     nodes = build_module_tree(CAIRO_ROOT_FILE)
     reachable = compute_reachable_modules(nodes, cfg_exempt=frozenset())
     bridged, glob_targets, _used_names = collect_use_statements(nodes, reachable)
+    reject_scoped_aliases(nodes, reachable, bridged, glob_targets, cairo=True)
     return nodes, reachable, bridged, glob_targets
 
 
@@ -1257,9 +1389,9 @@ def scan_cairo_tree(
     is evaluated (fix loop 3 finding P2-4); its item is named after its *exported* name, alias
     included (fix loop 3 finding 16)."""
     items: set[Item] = set()
-    for path, node in nodes.items():
-        exported = (lambda name, path=path:
-                    exported_name(path, name, reachable, bridged, glob_targets))
+    for rank, (path, node) in itertools.product(export_ranks(bridged), nodes.items()):
+        exported = (lambda name, path=path, rank=rank:
+                    exported_name_at(rank, path, name, reachable, bridged, glob_targets))
         text, source = node.text, node.source
         cfg_ok = lambda pos, node=node: cfg_ok_at(node, pos)
 
@@ -1699,12 +1831,28 @@ def check_release(hexx: list[Item], cairo: list[Item], release: str,
     if missing:
         verb = "are still missing (informational: this is a pre-release)" if report_only \
             else "are still missing"
-        print(f"{len(missing)} item(s) scheduled by {release} {verb}:", file=sys.stderr)
-        for item in missing[:40]:
-            print(f"  {item.owner}::{item.name} ({milestone_of(item, 'missing')})", file=sys.stderr)
+        # The whole list, never truncated (LIB-04b finding *P2-13*). Informational output is a
+        # report and goes to stdout, where the workflow's job summary and artifact capture it; an
+        # enforced failure is an error and goes to stderr, as before.
+        stream = sys.stdout if report_only else sys.stderr
+        print(f"{len(missing)} item(s) scheduled by {release} {verb}:", file=stream)
+        for item in missing:
+            print(f"  {item.owner}::{item.name} ({milestone_of(item, 'missing')})", file=stream)
         return 0 if report_only else 1
     print(f"every item scheduled by {release} is present")
     return 0
+
+
+# The same syntax `.github/workflows/release-check.yml` verifies before it asks.
+SEMVER_RE = re.compile(r"[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?\Z")
+
+
+def is_prerelease(version: str) -> bool:
+    """A version is a pre-release if and only if the part before any `+` holds a hyphen (semver
+    §9: `1.0.0-rc.1+build-1` is one; `0.1.0+build-1`, whose hyphen sits in the build metadata, is
+    not). `.github/workflows/release-check.yml` calls this through `--is-prerelease` — the rule
+    lives here, unit-tested, never as a pattern in the workflow."""
+    return "-" in version.split("+", 1)[0]
 
 
 def parse_args() -> argparse.Namespace:
@@ -1717,6 +1865,9 @@ def parse_args() -> argparse.Namespace:
     modes.add_argument("--check-release", metavar="MILESTONE",
                         help="fail if an item scheduled by MILESTONE (L-M1, L-M2, L-M3, L-M4) is "
                              "missing")
+    modes.add_argument("--is-prerelease", metavar="VERSION",
+                        help="print `true` if VERSION is a pre-release (a hyphen before any `+`), "
+                             "`false` otherwise")
     parser.add_argument("--check", action="store_true",
                          help="fail if the target (docs/API_PARITY.md, or docs/EXTENSIONS.md with "
                               "--extensions) is stale, instead of writing it")
@@ -1728,8 +1879,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--hexx", type=Path, default=Path("/tmp/hexx"),
                          help="hexx 0.25.0 checkout (used only with --refresh)")
     args = parser.parse_args()
-    if args.extensions and (args.refresh or args.check_release):
-        parser.error("--extensions is incompatible with --refresh/--check-release")
+    if args.extensions and (args.refresh or args.check_release or args.is_prerelease):
+        parser.error("--extensions is incompatible with --refresh/--check-release/--is-prerelease")
     if args.report_only and not args.check_release:
         parser.error("--report-only only applies to --check-release")
     return args
@@ -1737,6 +1888,11 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
+    if args.is_prerelease is not None:
+        if not SEMVER_RE.match(args.is_prerelease):
+            raise SystemExit(f"{args.is_prerelease!r} is not valid semver")
+        print("true" if is_prerelease(args.is_prerelease) else "false")
+        return 0
     if args.extensions:
         generated = render_extensions(parse_extensions())
         return write_or_check(EXTENSIONS_OUTPUT, generated, check=args.check)

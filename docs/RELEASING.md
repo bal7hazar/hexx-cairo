@@ -78,10 +78,11 @@ No secret, no `environment:`, no `scarb publish`. In order:
    toolchain itself, so `tools/refgen`'s check can never be silently skipped here).
 9. Derives the milestone the version implies from the table below, and runs
    `python3 scripts/api_parity.py --check-release <milestone>` — **enforced** (fails on any
-   `missing` item the milestone requires) for a **stable** version (no hyphen); **informational**
+   `missing` item the milestone requires) for a **stable** version; **informational**
    only (`--report-only`: the same missing-item list prints, to the job summary and the uploaded
-   artifact, but the step always exits 0) for a **pre-release** version (one with a hyphen,
-   `0.1.0-rc.N`) — fix loop 3 decision P2-13, plan §9.1/§9.2: a release candidate carries only part
+   artifact, the whole list, but the step always exits 0) for a **pre-release** version (a hyphen in
+   the part of the version before any `+`, `0.1.0-rc.N`; `0.1.0+build-1` is stable — decided by
+   `python3 scripts/api_parity.py --is-prerelease <version>`, not by a pattern in the workflow) — fix loop 3 decision P2-13, plan §9.1/§9.2: a release candidate carries only part
    of the milestone it maps to by design, so failing it on the rest of that milestone would make
    every planned release candidate red by construction.
 10. Runs `scarb package -p hexx` and uploads the packaged `Scarb.toml`, a listing of the archive's
@@ -89,7 +90,7 @@ No secret, no `environment:`, no `scarb publish`. In order:
     publish has no reason to keep the compressed bytes around).
 
 Every version in this table maps to a milestone; whether that milestone's gate is enforced or only
-reported depends on whether the version itself carries a pre-release identifier (a hyphen), not on
+reported depends on whether the version itself carries a pre-release identifier (a hyphen before any `+`), not on
 which row it falls into — plan §9.1 lists the release candidates this predates each stable version:
 
 | Version | Milestone | Content (plan §9.1) | Gate |
