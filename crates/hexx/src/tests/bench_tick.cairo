@@ -2,9 +2,14 @@
 //! window assembled from 4 chunks (two layers, `ox = oy = 7` on an odd chunk row, the worst case
 //! of `bench_assembly`), the flood capped at 15 layers (D-127) on the occupancy frozen, then the
 //! eight walkers in ascending id order, each `next_step` filtered by the occupancy updated after
-//! the previous moves (L-G1 point 5). On two windows: the cave of the tick (`CAVE_15X16`, its
-//! walkers at distances 3 to 15, all of them moving; and again with its last walker on the
-//! ring, at 13) and the serpentine (`SERPENTINE_15X16_8`,
+//! the previous moves (L-G1 point 5).
+//!
+//! The cap is the caller's rule, not the library's: `next_step` answers for the layers the flood
+//! has, so a walker at 16 with a neighbour in layer 15 gets a step. The game's rule (D-127) is
+//! that a goblin the flood did not reach holds its position, so the tick first reads each
+//! walker's `distance` and calls `next_step` only when it is at most the cap. On two windows: the
+//! cave of the tick (`CAVE_15X16`, its walkers at distances 3 to 15, all of them moving; and again
+//! with its last walker on the ring, at 13) and the serpentine (`SERPENTINE_15X16_8`,
 //! no walker reached at 15 layers: each scans every layer and holds its position).
 //!
 //! Each figure is the difference of two tests (the method of the game's SPK-7): the tick is the
@@ -147,11 +152,20 @@ impl Tick of TickTrait {
     }
 
     /// The eight walkers in ascending id order, each filtered by the current occupancy, which
-    /// is updated after each move: the tile left is freed, the tile entered occupied.
+    /// is updated after each move: the tile left is freed, the tile entered occupied. A walker
+    /// whose inferred distance is greater than the cap, or undefined, was not reached: it holds
+    /// its position and `next_step` is not called (D-127, the caller's rule).
     #[inline(always)]
-    fn steps(flood: @Flood, walkers: [u8; 8], occupied: felt252) -> felt252 {
+    fn steps(flood: @Flood, walkers: [u8; 8], occupied: felt252, cap: u8) -> felt252 {
         let mut occupied = occupied;
         for walker in walkers.span() {
+            let reached = match flood.distance(*walker) {
+                Option::Some(distance) => distance <= cap,
+                Option::None => false,
+            };
+            if !reached {
+                continue;
+            }
             if let Option::Some(step) = flood.next_step(*walker, occupied) {
                 occupied = occupied - Bits::pow(*walker) + Bits::pow(step);
             }
@@ -196,7 +210,7 @@ fn bench_tick_cave_flood() {
 fn bench_tick_cave() {
     let bench = Inputs::get();
     let (flood, occupied) = Tick::flood(@bench, @bench.cave);
-    assert!(Tick::steps(@flood, bench.cave.walkers, occupied) == bench.cave.after);
+    assert!(Tick::steps(@flood, bench.cave.walkers, occupied, bench.cap) == bench.cave.after);
 }
 
 // The cave of the tick, W8 on the ring
@@ -216,7 +230,9 @@ fn bench_tick_cave_ring_flood() {
 fn bench_tick_cave_ring() {
     let bench = Inputs::get();
     let (flood, occupied) = Tick::flood(@bench, @bench.cave_ring);
-    assert!(Tick::steps(@flood, bench.cave_ring.walkers, occupied) == bench.cave_ring.after);
+    assert!(
+        Tick::steps(@flood, bench.cave_ring.walkers, occupied, bench.cap) == bench.cave_ring.after,
+    );
 }
 
 // The serpentine
@@ -245,7 +261,11 @@ fn bench_tick_serpentine_flood() {
 fn bench_tick_serpentine() {
     let bench = Inputs::get();
     let (flood, occupied) = Tick::flood(@bench, @bench.serpentine);
-    assert!(Tick::steps(@flood, bench.serpentine.walkers, occupied) == bench.serpentine.after);
+    assert!(
+        Tick::steps(@flood, bench.serpentine.walkers, occupied, bench.cap) == bench
+            .serpentine
+            .after,
+    );
 }
 
 // `next_step`, `s = 15`: W1 of the cave tick, on its flood (the window given)
