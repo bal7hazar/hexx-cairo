@@ -69,11 +69,13 @@ version.
 - **Rule of decision (game's `OPERATIONS.md` §10, D-128).** At a gate or a blocker the project
   manager decides by its own recommendation and reports to the owner afterwards. Publishing
   on a registry, money, accounts and secrets stay the owner's act.
-- **Launcher: slots held by kernel locks.** `scripts/agent.sh` matches the game's at `65425a2`
+- **Launcher: slots held by kernel locks.** `scripts/agent.sh` matches the game's at `033043a`
   except `TRACK=hexmap` and the two refused options. Nothing is counted by reading processes any
   more: an agent holds one of `~/orchestrator/slots/total-1..3` and the slot of its track, which
   for the library is the single slot **`lib-1`**, by a lock for as long as it lives; a codex
-  audit takes a slot like any agent. While `~/orchestrator/waiting/game` is less than 30 minutes
+  audit takes a slot like any agent. The directory `~/orchestrator/slots` is read-only: slot
+  files are opened read-only, never created by a probe or an agent, a missing one refuses the
+  launch, and nobody of this track creates or removes a file there. While `~/orchestrator/waiting/game` is less than 30 minutes
   old the library launches nothing. Synced **by exception before its audit** (decision of the
   project manager, 2026-09-29: a mixed state of launchers is worse than an unaudited lock); to be
   read by `[GPT-6-Sol]` when the slot is free, and synced again when the game's CHANGELOG marks
