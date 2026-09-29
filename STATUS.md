@@ -41,6 +41,14 @@ version.
 
 ## Notes
 
+- **Audit of the launcher and the profiles (`[GPT-6-Sol]`, 2026-09-29): FAIL, three findings.**
+  [Report](docs/audits/launcher-2628b21-audit-gpt-6-sol.md). (2) `scarb -v publish` passed the
+  profile: fixed, publication is refused with a global option before the subcommand too;
+  (3) the release deny blocked the read-only `gh release view` and `list`: fixed, only
+  creation and changes are refused. (1) **open, inherited from the reference**: an error
+  while reading the game's waiting marker reads as "no marker" (not failing closed); passed to
+  the project manager for the game's launcher, synced here when the reference fixes it.
+
 - **The machine is shared (game's `OPERATIONS.md` §3, `27ceea0`).** Sessions and agents delete
   and kill only what they created, named exactly; temporary directories under their own
   scratchpad or worktree. In `COMMON.md` and in the profiles. The orchestrator itself, on
