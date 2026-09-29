@@ -1368,6 +1368,7 @@ mod tests {
     // Fixtures
 
     #[test]
+    #[available_gas(l2_gas: 173325913)]
     fn test_bfs_fixtures_17x14() {
         check(EMPTY_17X14, 17, 14, EMPTY_17X14_NEAR_FROM, EMPTY_17X14_NEAR_TO);
         check(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO);
@@ -1382,6 +1383,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 28781426)]
     fn test_bfs_fixtures_7x7() {
         check(EMPTY_7X7, 7, 7, EMPTY_7X7_NEAR_FROM, EMPTY_7X7_NEAR_TO);
         check(EMPTY_7X7, 7, 7, EMPTY_7X7_FAR_FROM, EMPTY_7X7_FAR_TO);
@@ -1396,6 +1398,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 139281611)]
     fn test_bfs_reference_matches_layers() {
         // The queue reference agrees with the layered reference of the fixtures
         let mut to: u8 = 0;
@@ -1412,6 +1415,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 17876946)]
     fn test_bfs_search_print() {
         let path = Bfs::search(MAZE_7X7, 7, 7, MAZE_7X7_FAR_FROM, MAZE_7X7_FAR_TO);
         HexPrinter::print_with_path(MAZE_7X7, 7, 7, MAZE_7X7_FAR_FROM, path);
@@ -1424,16 +1428,19 @@ mod tests {
     // Pseudo-random grids and sizes
 
     #[test]
+    #[available_gas(l2_gas: 350828280)]
     fn test_bfs_sample_cave_17x14() {
         check_sample(CAVE_17X14, 17, 14, 23);
     }
 
     #[test]
+    #[available_gas(l2_gas: 275704999)]
     fn test_bfs_sample_maze_17x14() {
         check_sample(MAZE_17X14, 17, 14, 31);
     }
 
     #[test]
+    #[available_gas(l2_gas: 503575374)]
     fn test_bfs_sample_random_caves() {
         let mut seed: felt252 = 1;
         while seed != 4 {
@@ -1445,6 +1452,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 124698474)]
     fn test_bfs_sample_random_mazes() {
         check_sample(Mazer::generate(17, 14, 1, 'MAZE'), 17, 14, 29);
         check_sample(Mazer::generate(19, 13, 0, 'MAZE'), 19, 13, 37);
@@ -1452,6 +1460,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 683251936)]
     fn test_bfs_sizes() {
         // 3x3: a single interior tile
         let grid: felt252 = Bits::pow(4);
@@ -1480,6 +1489,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 748492253)]
     fn test_bfs_edge_to_interior() {
         // Bottom (3), top (225), right (68, x = 0) and left (84, x = 16) entrances
         let grid = empty_with(array![3, 225, 68, 84].span());
@@ -1494,6 +1504,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 100190368)]
     fn test_bfs_edge_to_edge_no_shortcut() {
         // The whole bottom row open: paths between bottom tiles go through the interior, up
         // one row, 9 tiles along it and down (11 steps), never along the edge (10 steps)
@@ -1507,6 +1518,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 70413321)]
     fn test_bfs_edge_adjacent_interior() {
         // Edge start next to an interior target and the reverse
         let grid = empty_with(array![3].span());
@@ -1517,6 +1529,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 236729268)]
     fn test_bfs_corners() {
         // Corner 16 (x = 16, y = 0) touches the interior tile 32; corner 0 only edge tiles
         let grid = empty_with(array![0, 1, 16].span());
@@ -1531,6 +1544,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 15206073)]
     fn test_bfs_edge_closed() {
         // An entrance with no open interior neighbour is only reachable from its edge neighbours
         let grid = UNREACHABLE_17X14 - Bits::pow(18) - Bits::pow(19) + Bits::pow(2);
@@ -1540,6 +1554,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 648210188)]
     fn test_bfs_digger_entrances() {
         // Entrances dug by the digger on a cave and on an empty board
         let cave = Digger::corridor(17, 14, 0, 3, CAVE_17X14, 'DIG');
@@ -1554,6 +1569,7 @@ mod tests {
     // Reachable and range
 
     #[test]
+    #[available_gas(l2_gas: 51607645)]
     fn test_bfs_reachable_fixtures() {
         check_reachable(UNREACHABLE_17X14, 17, 14, UNREACHABLE_17X14_FAR_FROM);
         check_reachable(UNREACHABLE_17X14, 17, 14, UNREACHABLE_17X14_FAR_TO);
@@ -1562,6 +1578,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 7285542)]
     fn test_bfs_reachable_matches_caver() {
         let mut seed: felt252 = 1;
         while seed != 4 {
@@ -1583,6 +1600,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 178323208)]
     fn test_bfs_range_fixtures() {
         check_ranges(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, 6);
         check_ranges(MAZE_7X7, 7, 7, MAZE_7X7_FAR_FROM, 4);
@@ -1590,6 +1608,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 25351)]
     fn test_bfs_range_zero() {
         assert!(Bfs::tiles_within_range(CAVE_17X14, 17, 14, 52, 0) == Bits::pow(52));
     }
@@ -1597,54 +1616,63 @@ mod tests {
     // Panics
 
     #[test]
+    #[available_gas(l2_gas: 23062)]
     #[should_panic(expected: 'Bfs: position not walkable')]
     fn test_bfs_search_revert_start_wall() {
         let _ = Bfs::search(UNREACHABLE_17X14, 17, 14, 25, 18);
     }
 
     #[test]
+    #[available_gas(l2_gas: 25112)]
     #[should_panic(expected: 'Bfs: position not walkable')]
     fn test_bfs_search_revert_target_wall() {
         let _ = Bfs::search(UNREACHABLE_17X14, 17, 14, 18, 25);
     }
 
     #[test]
+    #[available_gas(l2_gas: 23041)]
     #[should_panic(expected: 'Bfs: position not walkable')]
     fn test_bfs_search_revert_edge_wall() {
         let _ = Bfs::search(EMPTY_17X14, 17, 14, 3, 18);
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_bfs_search_revert_outside() {
         let _ = Bfs::search(EMPTY_17X14, 17, 14, 18, 238);
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_bfs_search_revert_dimension() {
         let _ = Bfs::search(EMPTY_17X14, 18, 14, 19, 20);
     }
 
     #[test]
+    #[available_gas(l2_gas: 24125)]
     #[should_panic(expected: 'Bfs: position not walkable')]
     fn test_bfs_distance_revert_wall() {
         let _ = Bfs::distance(EMPTY_17X14, 17, 14, 18, 0);
     }
 
     #[test]
+    #[available_gas(l2_gas: 77882)]
     #[should_panic(expected: 'Bfs: position not walkable')]
     fn test_bfs_reachable_revert_wall() {
         let _ = Bfs::reachable(EMPTY_17X14, 17, 14, 0);
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_bfs_range_revert_outside() {
         let _ = Bfs::tiles_within_range(EMPTY_17X14, 17, 14, 250, 3);
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_bfs_range_revert_dimension() {
         let _ = Bfs::tiles_within_range(EMPTY_7X7, 2, 7, 8, 3);

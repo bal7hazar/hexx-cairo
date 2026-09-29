@@ -66,6 +66,7 @@ mod tests {
     use super::Geometry;
 
     #[test]
+    #[available_gas(l2_gas: 14406)]
     fn test_geometry_to_axial() {
         // (x, y) = (3, 5) on width 7: q = 3 - 2 = 1
         let (q, r) = Geometry::to_axial(7, 5 * 7 + 3);
@@ -78,6 +79,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 14406)]
     fn test_geometry_distance_design_checks() {
         // (x, 0) -> (x - 1, 1) is 1 step
         assert!(Geometry::distance(7, 3, 7 + 2) == 1);

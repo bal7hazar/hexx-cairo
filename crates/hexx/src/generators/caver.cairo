@@ -287,6 +287,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 150924)]
     fn test_caver_generate_17x14() {
         // 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
         //  0 0 1 1 1 0 0 1 0 0 0 0 0 0 1 0 0
@@ -307,6 +308,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 151029)]
     fn test_caver_generate_19x13() {
         //  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
         // 0 0 1 1 0 0 1 1 1 1 1 0 0 0 0 1 0 0 0
@@ -326,6 +328,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 86748)]
     fn test_caver_generate_7x7() {
         //  0 0 0 0 0 0 0
         // 0 0 0 0 0 0 0
@@ -339,6 +342,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 41301)]
     fn test_caver_generate_order_zero() {
         // Initial fill, about half of the interior
         let grid = Caver::generate(17, 14, 0, SEED);
@@ -347,6 +351,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 7269279)]
     fn test_caver_generate_3x3() {
         // A single interior tile: never has a floor neighbour
         assert!(Caver::generate(3, 3, 0, 2) == 0x10);
@@ -355,64 +360,76 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 106008450)]
     fn test_caver_generate_invariants_7x7() {
         check_generate(7, 7);
     }
 
     #[test]
+    #[available_gas(l2_gas: 334987483)]
     fn test_caver_generate_invariants_11x11() {
         check_generate(11, 11);
     }
 
     #[test]
+    #[available_gas(l2_gas: 745183980)]
     fn test_caver_generate_invariants_17x14() {
         check_generate(17, 14);
     }
 
     #[test]
+    #[available_gas(l2_gas: 773867407)]
     fn test_caver_generate_invariants_19x13() {
         check_generate(19, 13);
     }
 
     #[test]
+    #[available_gas(l2_gas: 335551260)]
     fn test_caver_generate_invariants_83x3() {
         check_generate(83, 3);
     }
 
     #[test]
+    #[available_gas(l2_gas: 359003367)]
     fn test_caver_generate_invariants_3x83() {
         check_generate(3, 83);
     }
 
     #[test]
+    #[available_gas(l2_gas: 760764268)]
     fn test_caver_generate_invariants_25x10() {
         check_generate(25, 10);
     }
 
     #[test]
+    #[available_gas(l2_gas: 346261669)]
     fn test_caver_generate_invariants_16x8() {
         // 128 bits: largest board of the single-limb path
         check_generate(16, 8);
     }
 
     #[test]
+    #[available_gas(l2_gas: 285741)]
     fn test_caver_generate_seeds_differ() {
         assert!(Caver::generate(17, 14, 3, 1) != Caver::generate(17, 14, 3, 2));
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_caver_generate_revert_too_small() {
         Caver::generate(2, 17, 3, SEED);
     }
 
     #[test]
+    #[available_gas(l2_gas: 16296)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_caver_generate_revert_too_large() {
         Caver::generate(16, 16, 3, SEED);
     }
 
     #[test]
+    #[available_gas(l2_gas: 593746)]
     fn test_caver_keep_component_split() {
         // Left half (x = 1..7) of the board split by the wall column x = 8
         let mut expected: felt252 = 0;
@@ -430,6 +447,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 24913302)]
     fn test_caver_keep_component_closed() {
         // The component is a subset of the cave, closed under dilation, and holds the start
         let layout = LayoutTrait::new(17, 14);
@@ -454,6 +472,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 121527)]
     fn test_caver_keep_component_single() {
         // 7x7 cave: one component of 4 tiles
         let cave = Caver::generate(7, 7, 3, SEED);
@@ -461,6 +480,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 44137)]
     #[should_panic(expected: 'Caver: position not floor')]
     fn test_caver_keep_component_revert_wall() {
         Caver::keep_component(UNREACHABLE_17X14, 17, 14, 25);

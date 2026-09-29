@@ -19,9 +19,6 @@ import math
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-import bench  # noqa: E402  (the reader of the baseline of inherited tests)
-
 ROOT = Path(__file__).resolve().parents[1]
 GAS = ROOT / "gas"
 OUTPUT = ROOT / "docs" / "GAS.md"
@@ -52,9 +49,7 @@ def read_snapshots() -> dict[str, dict[str, tuple[int, int | None]]]:
     return packages
 
 
-def render(packages: dict[str, dict[str, tuple[int, int | None]]],
-           baseline: set[str] | None = None) -> str:
-    baseline = baseline or set()
+def render(packages: dict[str, dict[str, tuple[int, int | None]]]) -> str:
     lines = [
         "# Gas budgets",
         "",
@@ -67,11 +62,8 @@ def render(packages: dict[str, dict[str, tuple[int, int | None]]],
         "raised, and lowering one needs nothing but the lower number. "
         "`python3 scripts/bench.py check` fails a test that was not measured (ignored, "
         "filtered) and has no budget, or whose budget is outside "
-        "`[measured, ceil(1.05 * measured)]` (`scripts/check.sh`, CI job `gas`). The tests taken "
-        "over unchanged from `origami_hexmap` 1.8.0 whose budget does not follow the rule are "
-        "listed in `gas/takeover-baseline.txt` (it only shrinks; task M1-T1c empties it): they "
-        "are exempt from those two rules and from nothing else, and are marked *inherited* "
-        "below.",
+        "`[measured, ceil(1.05 * measured)]` (`scripts/check.sh`, the CI `gas` jobs). Every test "
+        "of every package obeys it, the tests taken over from `origami_hexmap` 1.8.0 included.",
         "",
         "| Test | Measured | Budget | Margin |",
         "|---|---:|---:|---:|",
@@ -81,21 +73,16 @@ def render(packages: dict[str, dict[str, tuple[int, int | None]]],
         for name in sorted(packages[package]):
             measured, budget = packages[package][name]
             total_tests += 1
-            inherited = name in baseline
             if budget is None:
-                shown = "none (inherited)" if inherited else "none"
-                lines.append(f"| `{name}` | {measured:,} | {shown} | — |")
+                lines.append(f"| `{name}` | {measured:,} | none | — |")
                 continue
             margin = 100.0 * (budget / measured - 1.0) if measured else 0.0
             allowed = math.ceil(1.05 * measured)
-            note = " (inherited)" if inherited else (
-                "" if budget <= allowed else " (stale: exceeds the rule)")
+            note = "" if budget <= allowed else " (stale: exceeds the rule)"
             lines.append(f"| `{name}` | {measured:,} | {budget:,} | {margin:.1f} %{note} |")
     if total_tests == 0:
         lines.append("| _None yet_ | — | — | — |")
-    inherited_count = sum(1 for rows in packages.values() for n in rows if n in baseline)
-    lines += ["", f"{total_tests} measured test(s), {inherited_count} inherited "
-                  f"(`gas/takeover-baseline.txt`)."]
+    lines += ["", f"{total_tests} measured test(s)."]
     return "\n".join(lines) + "\n"
 
 
@@ -121,7 +108,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--check", action="store_true", help="exit 1 if docs/GAS.md is stale")
     args = ap.parse_args()
-    return write_or_check(render(read_snapshots(), bench.read_baseline()), args.check)
+    return write_or_check(render(read_snapshots()), args.check)
 
 
 if __name__ == "__main__":

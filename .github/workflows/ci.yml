@@ -51,6 +51,8 @@ jobs:
       - run: python3 scripts/api_parity.py --extensions --check
       # docs/DEVIATIONS.md must match the `#### Deviations` doc comments of crates/hexx/src.
       - run: python3 scripts/deviations.py --check
+      # docs/GAS.md must match gas/*.snap (regenerate with `python3 scripts/gas_tables.py`).
+      - run: python3 scripts/gas_tables.py --check
 
   takeover:
     name: Take-over of origami_hexmap is a move
@@ -68,9 +70,6 @@ jobs:
           git -C "$RUNNER_TEMP/origami" fetch --quiet --depth 1 https://github.com/dojoengine/origami.git 04ab30caf02dcc8d2ecc46e9596b81732eedcec1
           git -C "$RUNNER_TEMP/origami" checkout --quiet FETCH_HEAD
       - run: python3 scripts/takeover_check.py --source "$RUNNER_TEMP/origami/crates/hexmap"
-      # gas/takeover-tests.txt (the inherited tests the gas gate accepts in its baseline) is what
-      # the source says.
-      - run: python3 scripts/bench.py baseline --inherited --check --source "$RUNNER_TEMP/origami/crates/hexmap"
 
   test:
     name: Build and test ${{ matrix.package }}
@@ -119,10 +118,23 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+  # One job per package (M1-T1c): each measures its own package and checks it against its own
+  # gas/<package>.snap, so that the time of the gate does not grow with the sum of the packages.
+  # `hexx` is two jobs, its tests without `#[ignore]` and its ignored tests (103, the printouts
+  # and benchmarks): measured together they took 9 m 45 s of the 10 minutes (6 m 32 s without),
+  # measured apart each is far under. Every test is measured in one of them.
   gas:
-    name: Gas budgets and class size
+    name: Gas ${{ matrix.label }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {package: hexx, scope: regular, label: hexx}
+          - {package: hexx, scope: ignored, label: hexx (ignored tests)}
+          - {package: takeover_tests, scope: all, label: takeover_tests}
+          - {package: consumer, scope: all, label: consumer}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
@@ -133,24 +145,46 @@ jobs:
           starknet-foundry-version: "0.61.0"
       # Fails when a test has no #[available_gas], when its budget is above the ceiling of its
       # measurement (a fuzz test: its maximum), when a test ran with no parsable measurement, when
-      # the counts declared / collected / with a row / ignored disagree, or when gas/*.snap is
-      # stale (commit `python3 scripts/bench.py snapshot`). Two exemptions, for the tests
-      # inherited from origami_hexmap 1.8.0 that gas/takeover-baseline.txt lists (only tests of
-      # gas/takeover-tests.txt may be in it): no #[available_gas], and a budget above 5 %.
-      - name: Check gas budgets and snapshots
+      # the counts declared / collected / with a row / ignored disagree, or when
+      # gas/<package>.snap is stale (commit `python3 scripts/bench.py snapshot`). No test is
+      # exempt. On a mismatch it prints the test, both figures and where the evidence is.
+      - name: Check gas budgets and snapshot
+        env:
+          PACKAGE: ${{ matrix.package }}
+          SCOPE: ${{ matrix.scope }}
         run: |
           set -o pipefail
-          python3 scripts/bench.py check | tee gas_report.md
-      # docs/GAS.md must match gas/*.snap (regenerate with `python3 scripts/gas_tables.py`).
-      - run: python3 scripts/gas_tables.py --check
+          python3 scripts/bench.py check --package "$PACKAGE" --scope "$SCOPE" | tee gas_report.md
+      # The tests of Digger, twice in the same job on the same compiled code: two measurements
+      # that differ fail the job (the drift seen in two runs went through Digger::dig). It runs
+      # even when the check failed, the second measurement being evidence. `consumer` has none,
+      # and the ignored tests of `hexx` are not Digger's.
+      - name: Double run of the Digger tests
+        if: ${{ !cancelled() && matrix.package != 'consumer' && matrix.scope != 'ignored' }}
+        env:
+          PACKAGE: ${{ matrix.package }}
+        run: python3 scripts/bench.py repeat --package "$PACKAGE" --filter digger
       # Fails on any class size change of crates/consumer not committed in gas/bytecode.size.
       - name: Check bytecode size
+        if: ${{ matrix.package == 'consumer' }}
         run: |
           set -o pipefail
           python3 scripts/bytecode_size.py check | tee -a gas_report.md
       - name: Publish gas report
         if: always()
         run: cat gas_report.md >> "$GITHUB_STEP_SUMMARY"
+      # The evidence of the run, kept whatever the outcome: the raw output of
+      # `snforge test --detailed-resources`, the SHA-256 of the compiled test files it executed
+      # (artifacts-<run>.sha256, one per run: the check and each repeat), the versions of scarb,
+      # snforge and of the Sierra compiler (versions.txt), and the raw output of each run
+      # (snforge-<run>.txt: the check, the two runs of the Digger tests).
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: gas-${{ matrix.package }}-${{ matrix.scope }}-${{ github.sha }}
+          path: target/gas-artifacts/${{ matrix.package }}
+          if-no-files-found: warn
+          retention-days: 30
 
   golden:
     name: Golden vectors up to date (tools/refgen)

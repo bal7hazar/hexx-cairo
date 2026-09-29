@@ -24,9 +24,8 @@ done
 # Fails on a declared test snforge did not measure (ignored, filtered) with no budget, a budget
 # outside [measured, ceil(1.05 * measured)] (a fuzz test: its maximum), a test that ran with no
 # parsable measurement, counts (declared / collected / with a row / ignored) that do not agree, or
-# a stale gas/*.snap. The two exemptions, for the tests inherited from origami_hexmap 1.8.0 listed
-# in gas/takeover-baseline.txt (and only those of gas/takeover-tests.txt): no #[available_gas], and
-# a budget above ceil(1.05 * measured).
+# a stale gas/*.snap. No test is exempt (task M1-T1c removed the baseline of the take-over). CI
+# runs this once per package (`--package`), in its own job, and keeps the evidence of each run.
 python3 scripts/bench.py check
 python3 scripts/gas_tables.py --check
 # Class size of the crates/consumer contract fixture (gas/bytecode.size, release build).
