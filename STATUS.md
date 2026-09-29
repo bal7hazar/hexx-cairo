@@ -4,16 +4,56 @@
 
 | | |
 |---|---|
-| Phase | **Milestone L-M1: LIB-05.** The two functions that decide the tick are merged and measured (condition 1 of L-G2 met): **the library's part of a worst tick costs 1,064,209 to 1,106,666 L2 gas** (window from 4 chunks, flood capped at 15, 8 walkers), against 1.34M to 1.67M in the audited plan. Next: the rest of L-M1 |
-| Cap | **One agent at a time for the library, audits included**: the single slot `lib-1`, held by a kernel lock (launcher at the game's `2628b21`). Nothing is launched while `~/orchestrator/waiting/game` is less than 30 minutes old |
-| Waiting for the slot, in this order | M1-T4b (N-4, `cut`), M1-T2 (mirror items), M1-T3 (N-7 and the renames), then M1-T6 (N-5), M1-T5 (N-6), M1-T7 (N-2), M1-T8 (N-1) |
-| Pending decisions | None |
-| Gates | L-G1 and L-G2 decided by the owner on 2026-09-28: [L-G1](docs/decisions/L-G1-hexx-port.md), [L-G2](docs/decisions/L-G2-porting-plan.md) |
-| Publication | Nothing is published. No workflow of the repository publishes or holds a token. Rule D-132 (game's `OPERATIONS.md` §7): the orchestrator's session publishes, never an agent, after a go that names package, version and commit. LIB-04b is merged (pull request #26, audit PASS without finding). **Before its first publication the orchestrator asks the owner, in its own session, to confirm the delegation of that decision to the project manager** |
-| Stop condition of LIB-05 | A measurement above the upper bound of its range: stop and report before any budget is set |
-| **Open risk: the compile is not reproducible** | Instrumented by M1-T1c: four builds of the same sources gave four different hashes of the compiled test files, one of them with 0.2–0.6 % more gas on the 42 tests reaching `Digger::dig`; in CI the same three times, and once a class of `crates/consumer` at 27,101 Sierra felts instead of 27,092. Reading: the Cairo compiler of Scarb 2.19.4 is not deterministic on some code (inferred). Decision D-154 of the project manager: the gate stays exact, a gas-only mismatch is re-run once and every occurrence is recorded with its artefacts; the diagnostic is the game's task SPK-13 on the owner's Mac ([reproduction](docs/reports/LIB-05-M1-T1c-REPORT.md)); an upstream issue is the owner's go. It concerns the game's class hashes too |
-| Figures of the take-over | 811 tests (708 run, 103 ignored), all measurements equal to those of 1.8.0; CI job of the engine's tests 7 min 20 s of the 10 minutes allowed; the 20 functions of the facade do not fit one contract (limit 81,920 CASM felts): three fixtures of 21,007, 44,469 and 49,375 |
-| Figures of the game's spike SPK-7, on 1.8.0 | Assembly of the window 65,224; flood 26,452 per layer; capped flood with 8 goblins and their steps 1,150,737; the chunked map adds about 720,000 per tick. The measurements of N-3 and N-8 are compared with them |
+| Phase | **PAUSED** since 2026-09-29, about 20:00 UTC, by the owner (the app's quota at 95 %, reset 2026-09-30 14:00 UTC). Resume only on the owner's or the project manager's message after the reset |
+| Running agents | None of the library |
+
+## Pause 2026-09-29
+
+### Open tasks
+
+| Task | Branch | Pull request | Last commit | State |
+|---|---|---|---|---|
+| M1-T4b, N-4 (`cut`) | `feat/lib-05-m1-t4b-cut` | #46 | `5d70069` (orchestrator: the move proof knows the new files), after `57f6cc7` (the agent) | **Done by `[Sonnet 5.5]`, not audited, not merged.** `CutTrait::cut` is `grid & mask` (§14 of the plan); one `cut` about 10,122 L2 gas (range 16,905 to 21,132); the coverage of `local` deferred from M1-T4a is a documented Cartesian sweep. Worktree `.claude/worktrees/cli-M1-T4b`, report at its root and in `.claude/worktrees/logs/M1-T4b-REPORT.md` |
+
+Resume commands (from this worktree of the orchestrator, after exporting
+`XDG_RUNTIME_DIR=/run/user/$(id -u)` and `DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus`):
+
+```bash
+# M1-T4b: its audit first (GPT-6-Sol, a new codex session: nothing to resume)
+scripts/agent.sh AUD-M1-T4b codex gpt-6-sol new "<the audit prompt, written from docs/briefs/LIB-05-T4b-cut.md § What the auditor will check>" audit "" high
+# if the audit asks for fixes, resume the implementer (claude session a3872e97-acec-41b2-a704-979f49c1c814, model claude-sonnet-5-5)
+scripts/agent.sh M1-T4b claude claude-sonnet-5-5 resume "<follow-up>"
+```
+
+### Next steps, in order (decided with the project manager on 2026-09-29)
+
+1. Audit and merge of M1-T4b (N-4).
+2. M1-T2: the mirror items L-M1 rests on (`Hex`, `EdgeDirection`, the offset conversions, `HexOrientation`, reference vectors).
+3. M1-T3: N-7 (rotation, arcs), `distance_between`, `new_odd`, the three renames.
+4. M1-T6: N-5 (the integer line, line of sight).
+5. **Release candidate `0.1.0-rc.1`** for the game's ENG-02: N-3, N-4, N-5, N-7, N-8. Asked by `docs/decisions/PENDING-publish-hexx-0.1.0-rc.1.md` (D-132).
+6. M1-T7: N-2 (sides and openings). 7. M1-T8: N-1 (generation with margins, corners wall, D-134).
+8. **Release candidate `0.1.0-rc.2`** for the game's ENG-05: adds N-1, N-2.
+9. M1-T5: N-6 (geometric range and ring). 10. M1-R: `0.1.0`, the consumer check of N-9.
+
+### The compile drift (D-154), occurrences recorded
+
+| When | Where | What |
+|---|---|---|
+| 2026-09-28 | CI, M1-T1a | `test_readme_open` 2,053,706 against 2,030,366 (+1.15 %), twice |
+| 2026-09-29 | CI, M1-T1b | 47 tests through `Digger::dig`, +0.5 to +1.3 % |
+| 2026-09-29 | local and CI, M1-T1c | 42 tests +0.22 to +0.62 % (four builds, four hashes); CI run 36568463132: `test_readme_open` +1.15 % and `HexxGenerators` 27,101 against 27,092 Sierra felts |
+| 2026-09-29 | CI, pull request #43, run 36609917335 | `HexxGenerators` 27,101 against 27,092; re-run once, green |
+| 2026-09-29 | local, M1-T4b | `HexxGenerators` 27,101 against 27,092; CI green |
+
+Diagnosis: the game's task SPK-13 on the owner's Mac ([reproduction](docs/reports/LIB-05-M1-T1c-REPORT.md)). An upstream issue is the owner's go.
+
+### Decisions pending
+
+| For | Decision |
+|---|---|
+| The owner, in this session, before the first publication | Confirm the delegation of the decision to publish to the project manager (D-132). Nothing is published until then |
+| The owner | An upstream issue on the compile drift, if SPK-13 finds the cause in the compiler |
 
 ## Done
 
