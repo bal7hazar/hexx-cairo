@@ -64,6 +64,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::rng::tests::test_rng_next_below_range` | 4,856,855 | 5,099,698 | 5.0 % |
 | `hexx::board::rng::tests::test_rng_permutations_table` | 31,286,100 | 32,850,405 | 5.0 % |
 | `hexx::board::rng::tests::test_rng_shuffle6` | 100,432 | 105,454 | 5.0 % |
+| `hexx::board::tables::tests::test_tables_bands` | 903,010 | 948,161 | 5.0 % |
 | `hexx::finders::bfs::tests::test_bfs_corners` | 225,456,445 | 236,729,268 | 5.0 % |
 | `hexx::finders::bfs::tests::test_bfs_digger_entrances` | 617,343,036 | 648,210,188 | 5.0 % |
 | `hexx::finders::bfs::tests::test_bfs_distance_revert_wall` | 22,976 | 24,125 | 5.0 % |
@@ -188,6 +189,16 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::generators::walker::tests::test_walker_reference_small_steps` | 201,823,689 | 211,914,874 | 5.0 % |
 | `hexx::generators::walker::tests::test_walker_revert_too_large` | 15,520 | 16,296 | 5.0 % |
 | `hexx::generators::walker::tests::test_walker_revert_too_narrow` | 15,520 | 16,296 | 5.0 % |
+| `hexx::tests::bench_assembly::bench_assembly_assemble_once` | 58,264 | 61,178 | 5.0 % |
+| `hexx::tests::bench_assembly::bench_assembly_assemble_twice` | 97,698 | 102,583 | 5.0 % |
+| `hexx::tests::bench_assembly::bench_assembly_local_once` | 21,120 | 22,176 | 5.0 % |
+| `hexx::tests::bench_assembly::bench_assembly_local_twice` | 24,200 | 25,410 | 5.0 % |
+| `hexx::tests::bench_assembly::bench_assembly_origin_once` | 21,670 | 22,754 | 5.0 % |
+| `hexx::tests::bench_assembly::bench_assembly_origin_twice` | 25,300 | 26,565 | 5.0 % |
+| `hexx::tests::bench_assembly::bench_assembly_window_once` | 83,064 | 87,218 | 5.0 % |
+| `hexx::tests::bench_assembly::bench_assembly_window_twice` | 147,298 | 154,663 | 5.0 % |
+| `hexx::tests::bench_assembly::bench_assembly_window_two_chunks_once` | 83,064 | 87,218 | 5.0 % |
+| `hexx::tests::bench_assembly::bench_assembly_window_two_chunks_twice` | 147,298 | 154,663 | 5.0 % |
 | `hexx::tests::bench_bfs::bench_bfs_distance_cave_far_17x14` | 501,942 | 527,040 | 5.0 % |
 | `hexx::tests::bench_bfs::bench_bfs_distance_cave_far_7x7` | 88,923 | 93,370 | 5.0 % |
 | `hexx::tests::bench_bfs::bench_bfs_distance_empty_far_17x14` | 407,159 | 427,517 | 5.0 % |
@@ -810,6 +821,39 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::tests::properties::test_properties_neighbor_83x3` | 31,934,650 | 33,531,383 | 5.0 % |
 | `hexx::tests::properties::test_properties_sequential_step` | 102,688 | 107,823 | 5.0 % |
 | `hexx::tests::properties::test_properties_shuffle6_fisher_yates_is_permutation` | 160,398 | 168,418 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_all_void` | 49,046 | 51,499 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_local` | 295,201,090 | 309,961,145 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_offsets_row_0` | 334,976,570 | 351,725,399 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_offsets_row_1` | 335,083,390 | 351,837,560 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_offsets_row_10` | 335,352,980 | 352,120,629 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_offsets_row_11` | 335,791,960 | 352,581,558 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_offsets_row_12` | 335,963,020 | 352,761,171 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_offsets_row_13` | 336,166,760 | 352,975,098 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_offsets_row_14` | 335,956,060 | 352,753,863 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_offsets_row_2` | 334,998,960 | 351,748,908 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_offsets_row_3` | 335,229,860 | 351,991,353 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_offsets_row_4` | 335,279,950 | 352,043,948 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_offsets_row_5` | 335,302,670 | 352,067,804 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_offsets_row_6` | 335,874,400 | 352,668,120 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_offsets_row_7` | 334,887,640 | 351,632,022 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_offsets_row_8` | 335,502,540 | 352,277,667 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_offsets_row_9` | 335,108,920 | 351,864,366 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_origins_0` | 376,022,060 | 394,823,163 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_origins_1` | 376,022,060 | 394,823,163 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_origins_2` | 376,022,060 | 394,823,163 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_origins_3` | 376,022,060 | 394,823,163 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_r_n3_1_origin` | 13,720 | 14,406 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_r_n3_2_local` | 13,720 | 14,406 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_r_n3_3_edges` | 113,538,172 | 119,215,081 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_r_n3_4_zero_chunk` | 7,714,048 | 8,099,751 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_revert_invalid_ox` | 17,502 | 18,378 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_revert_invalid_oy` | 17,502 | 18,378 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_revert_odd_origin_even_row` | 17,502 | 18,378 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_revert_odd_origin_odd_row` | 17,502 | 18,378 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_revert_window_invalid_offset` | 17,502 | 18,378 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_revert_window_odd_origin` | 17,502 | 18,378 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_void_chunks` | 620,302,322 | 651,317,439 | 5.0 % |
+| `hexx::tests::test_assembly::test_assembly_window_ring` | 73,164 | 76,823 | 5.0 % |
 | `hexx_integrationtest::readme::test_readme_create` | 5,635,625 | 5,917,407 | 5.0 % |
 | `hexx_integrationtest::readme::test_readme_endpoint_on_wall_panics` | 494,141 | 518,849 | 5.0 % |
 | `hexx_integrationtest::readme::test_readme_find_paths` | 2,562,554 | 2,690,682 | 5.0 % |
@@ -1448,4 +1492,4 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 15,520 | 16,296 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 15,520 | 16,296 | 5.0 % |
 
-1441 measured test(s).
+1485 measured test(s).
