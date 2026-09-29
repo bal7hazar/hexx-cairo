@@ -1,0 +1,908 @@
+//! Bit helpers on `felt252` bitmaps.
+//!
+//! A bitmap of at most 251 bits is stored as a `felt252`. Shifts are field multiplications,
+//! exact as long as no set bit is dropped (right shift) and the result stays below 2^251 (left
+//! shift). Set operations (`&`, `|`, `^`) need the bitwise builtin: `Bits::bitwise` yields the
+//! three of them from one application, limb by limb.
+
+// Core imports
+
+use core::integer::Bitwise;
+#[feature("bounded-int-utils")]
+use core::internal::bounded_int::{BoundedInt, DivRemHelper, UnitInt, div_rem, upcast};
+
+// Constants
+
+/// 2^128 as a felt, used to rebuild a felt from its `u256` limbs.
+pub const TWO_POW_128: felt252 = 0x100000000000000000000000000000000;
+/// 2^32, lower bound of the random pool before a refill until lot P1 (see `GAS.md`).
+pub const TWO_POW_32: u128 = 0x100000000;
+/// 2^64, lower bound of the random pool before a refill.
+pub const TWO_POW_64: u128 = 0x10000000000000000;
+/// Byte-sum multiplier 0x0101...01 (16 bytes).
+pub const BYTES_ONE: felt252 = 0x01010101010101010101010101010101;
+/// Odd bits mask 0xAAAA... on 128 bits.
+const MASK_ODD_BITS: u128 = 0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa;
+/// Low pairs mask 0x3333... on 128 bits.
+const MASK_PAIRS: u128 = 0x33333333333333333333333333333333;
+/// Low nibbles mask 0x0F0F... on 128 bits.
+const MASK_NIBBLES: u128 = 0x0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f;
+/// 2^120, the byte-sum lands in the top byte of the low limb.
+pub const TWO_POW_120: NonZero<u128> = 0x1000000000000000000000000000000;
+/// 1/2 in the field.
+const INV_2: felt252 = 0x400000000000008800000000000000000000000000000000000000000000001;
+/// 1/4 in the field.
+const INV_4: felt252 = 0x60000000000000cc00000000000000000000000000000000000000000000001;
+/// 1/16 in the field.
+const INV_16: felt252 = 0x78000000000000ff00000000000000000000000000000000000000000000001;
+
+/// `DivRem` of a limb by 2^120: its top byte.
+impl DivRemTopByte of DivRemHelper<u128, UnitInt<0x1000000000000000000000000000000>> {
+    type DivT = BoundedInt<0, 0xff>;
+    type RemT = BoundedInt<0, 0xffffffffffffffffffffffffffffff>;
+}
+
+/// `DivRem` of a limb by 256: its low byte.
+impl DivRemLowByte of DivRemHelper<u128, UnitInt<0x100>> {
+    type DivT = BoundedInt<0, 0xffffffffffffffffffffffffffffff>;
+    type RemT = BoundedInt<0, 0xff>;
+}
+
+/// AND, XOR and OR of two limbs in a single application of the bitwise builtin. The corelib
+/// declares the same libfunc but keeps it private, and its `&`, `^`, `|` each pay a full
+/// application (owner decision: the local declaration is allowed, see `GAS.md`).
+extern fn bitwise(lhs: u128, rhs: u128) -> (u128, u128, u128) implicits(Bitwise) nopanic;
+
+#[generate_trait]
+pub impl Bits of BitsTrait {
+    /// AND, XOR and OR of two limbs, one application of the bitwise builtin.
+    /// # Arguments
+    /// * `lhs` - The left limb
+    /// * `rhs` - The right limb
+    /// # Returns
+    /// * `lhs & rhs`, `lhs ^ rhs`, `lhs | rhs`
+    #[inline(always)]
+    fn bitwise(lhs: u128, rhs: u128) -> (u128, u128, u128) {
+        bitwise(lhs, rhs)
+    }
+
+    /// `u256` AND, one application per limb.
+    /// # Arguments
+    /// * `lhs` - The left set
+    /// * `rhs` - The right set
+    /// # Returns
+    /// * `lhs & rhs`
+    #[inline(always)]
+    fn and(lhs: u256, rhs: u256) -> u256 {
+        let (low, _, _) = bitwise(lhs.low, rhs.low);
+        let (high, _, _) = bitwise(lhs.high, rhs.high);
+        u256 { low, high }
+    }
+
+    /// `u256` OR, one application per limb.
+    /// # Arguments
+    /// * `lhs` - The left set
+    /// * `rhs` - The right set
+    /// # Returns
+    /// * `lhs | rhs`
+    #[inline(always)]
+    fn or(lhs: u256, rhs: u256) -> u256 {
+        let (_, _, low) = bitwise(lhs.low, rhs.low);
+        let (_, _, high) = bitwise(lhs.high, rhs.high);
+        u256 { low, high }
+    }
+
+    /// `u256` XOR, one application per limb.
+    /// # Arguments
+    /// * `lhs` - The left set
+    /// * `rhs` - The right set
+    /// # Returns
+    /// * `lhs ^ rhs`
+    #[inline(always)]
+    fn xor(lhs: u256, rhs: u256) -> u256 {
+        let (_, low, _) = bitwise(lhs.low, rhs.low);
+        let (_, high, _) = bitwise(lhs.high, rhs.high);
+        u256 { low, high }
+    }
+
+    /// Return 2^exp as a felt.
+    /// # Arguments
+    /// * `exp` - The exponent, at most 251
+    /// # Returns
+    /// * 2^exp
+    #[inline]
+    fn pow(exp: u8) -> felt252 {
+        *POW.span().at(exp.into())
+    }
+
+    /// Return 2^-exp in the field.
+    /// # Arguments
+    /// * `exp` - The exponent, at most 251
+    /// # Returns
+    /// * The inverse of 2^exp modulo the field prime
+    #[inline]
+    fn inv(exp: u8) -> felt252 {
+        *INV.span().at(exp.into())
+    }
+
+    /// Shift a bitmap toward the high bits.
+    /// # Arguments
+    /// * `value` - The bitmap
+    /// * `count` - The shift, the result must stay below 2^251
+    /// # Returns
+    /// * `value * 2^count`
+    #[inline]
+    fn shl(value: felt252, count: u8) -> felt252 {
+        value * Self::pow(count)
+    }
+
+    /// Shift a bitmap toward the low bits, when no set bit is dropped.
+    /// # Arguments
+    /// * `value` - The bitmap, its `count` lowest bits must be zero
+    /// * `count` - The shift
+    /// # Returns
+    /// * `value / 2^count`
+    #[inline]
+    fn shr_exact(value: felt252, count: u8) -> felt252 {
+        value * Self::inv(count)
+    }
+
+    /// Convert a `u256` bitmap below 2^251 into a felt without range checks.
+    /// # Arguments
+    /// * `value` - The bitmap
+    /// # Returns
+    /// * The same bitmap as a felt
+    #[inline]
+    fn to_felt(value: u256) -> felt252 {
+        value.low.into() + value.high.into() * TWO_POW_128
+    }
+
+    /// Test a bit with a single-limb AND.
+    /// # Arguments
+    /// * `value` - The bitmap
+    /// * `index` - The bit index, at most 251
+    /// # Returns
+    /// * `true` if the bit is set
+    #[inline]
+    fn get(value: u256, index: u8) -> bool {
+        if index < 128 {
+            value.low & *POW128.span().at(index.into()) != 0
+        } else {
+            value.high & *POW128.span().at(index.into() - 128) != 0
+        }
+    }
+
+    /// Set a bit known to be unset.
+    /// # Arguments
+    /// * `value` - The bitmap, bit `index` must be unset
+    /// * `index` - The bit index, at most 250
+    /// # Returns
+    /// * The bitmap with bit `index` set
+    #[inline]
+    fn set(value: felt252, index: u8) -> felt252 {
+        value + Self::pow(index)
+    }
+
+    /// Clear a bit known to be set.
+    /// # Arguments
+    /// * `value` - The bitmap, bit `index` must be set
+    /// * `index` - The bit index, at most 250
+    /// # Returns
+    /// * The bitmap with bit `index` cleared
+    #[inline]
+    fn unset(value: felt252, index: u8) -> felt252 {
+        value - Self::pow(index)
+    }
+
+    /// Count the set bits: byte counts of both limbs (SWAR), summed, then one byte-sum.
+    /// # Arguments
+    /// * `value` - The bitmap, below 2^251
+    /// # Returns
+    /// * The number of set bits
+    fn popcount(value: u256) -> u8 {
+        // [Compute] Every byte of the sum is at most 16, every prefix sum at most 251
+        let bytes = Self::byte_counts(value.low) + Self::byte_counts(value.high);
+        let total: u256 = (bytes * BYTES_ONE).into();
+        // [Return] Byte 15 of the product holds the total
+        Self::top_byte(total.low)
+    }
+
+    /// Count the set bits of a single limb.
+    /// # Arguments
+    /// * `value` - The limb
+    /// # Returns
+    /// * The number of set bits
+    fn popcount_small(value: u128) -> u8 {
+        let total: u256 = (Self::byte_counts(value) * BYTES_ONE).into();
+        Self::top_byte(total.low)
+    }
+
+    /// Top byte of a limb, `value / 2^120` (`bounded_int` division, see `GAS.md`).
+    /// # Arguments
+    /// * `value` - The limb
+    /// # Returns
+    /// * Byte 15
+    #[feature("bounded-int-utils")]
+    #[inline(always)]
+    fn top_byte(value: u128) -> u8 {
+        let (byte, _) = div_rem::<_, _, DivRemTopByte>(value, 0x1000000000000000000000000000000);
+        upcast(byte)
+    }
+
+    /// Low byte of a limb and the rest (`bounded_int` division).
+    /// # Arguments
+    /// * `value` - The limb
+    /// # Returns
+    /// * `value / 256` and `value % 256`
+    #[feature("bounded-int-utils")]
+    #[inline(always)]
+    fn low_byte(value: u128) -> (u128, u8) {
+        let (rest, byte) = div_rem::<_, _, DivRemLowByte>(value, 0x100);
+        (upcast(rest), upcast(byte))
+    }
+
+    /// Byte counts of a limb, SWAR with the shifts as exact field divisions.
+    /// # Arguments
+    /// * `value` - The limb
+    /// # Returns
+    /// * Byte `j` holds the number of set bits of byte `j` (at most 8), below 2^128
+    #[inline]
+    fn byte_counts(value: u128) -> felt252 {
+        // [Compute] Bit pairs: v - (v >> 1 & 0x55..) = v - (v & 0xAA..) / 2
+        let (odd, _, _) = bitwise(value, MASK_ODD_BITS);
+        let pairs: felt252 = value.into() - odd.into() * INV_2;
+        // [Compute] Nibbles: low pairs + high pairs / 4
+        let (low, _, _) = bitwise(pairs.try_into().unwrap(), MASK_PAIRS);
+        let low: felt252 = low.into();
+        let nibbles = low + (pairs - low) * INV_4;
+        // [Compute] Bytes: low nibbles + high nibbles / 16, each byte is at most 8
+        let (low, _, _) = bitwise(nibbles.try_into().unwrap(), MASK_NIBBLES);
+        let low: felt252 = low.into();
+        low + (nibbles - low) * INV_16
+    }
+
+    /// Count the set bits, one AND per set bit: cheaper than `popcount` up to 4 set bits.
+    /// # Arguments
+    /// * `value` - The bitmap
+    /// # Returns
+    /// * The number of set bits
+    fn popcount_sparse(value: u256) -> u8 {
+        let mut count: u8 = 0;
+        let mut low = value.low;
+        while low != 0 {
+            low = low & (low - 1);
+            count += 1;
+        }
+        let mut high = value.high;
+        while high != 0 {
+            high = high & (high - 1);
+            count += 1;
+        }
+        count
+    }
+}
+
+/// Set operations of the generic bit-parallel loops (lot L3): a `u256`, or a single `u128` limb
+/// on boards of at most 128 bits. Every function is inlined, the generic code costs nothing.
+pub trait Set<T> {
+    /// The set of a felt below 2^251 (below 2^128 for `u128`).
+    fn from_felt(value: felt252) -> T;
+    /// The set of a `u256` (its low limb for `u128`).
+    fn from_wide(value: u256) -> T;
+    /// The set as a felt.
+    fn to_felt(self: T) -> felt252;
+    /// Intersection.
+    fn and(self: T, other: T) -> T;
+    /// Set difference when `other` is a subset of `self`.
+    fn sub(self: T, other: T) -> T;
+    /// Whether the set is empty.
+    fn is_empty(self: T) -> bool;
+    /// Whether the set meets the limb of a one-hot target.
+    fn hits(self: T, target: T) -> bool;
+    /// Limb `high` of the set.
+    fn limb(self: T, high: bool) -> u128;
+}
+
+pub impl WideSet of Set<u256> {
+    #[inline(always)]
+    fn from_felt(value: felt252) -> u256 {
+        value.into()
+    }
+
+    #[inline(always)]
+    fn from_wide(value: u256) -> u256 {
+        value
+    }
+
+    #[inline(always)]
+    fn to_felt(self: u256) -> felt252 {
+        Bits::to_felt(self)
+    }
+
+    #[inline(always)]
+    fn and(self: u256, other: u256) -> u256 {
+        Bits::and(self, other)
+    }
+
+    #[inline(always)]
+    fn sub(self: u256, other: u256) -> u256 {
+        u256 { low: self.low - other.low, high: self.high - other.high }
+    }
+
+    #[inline(always)]
+    fn is_empty(self: u256) -> bool {
+        self.low == 0 && self.high == 0
+    }
+
+    #[inline(always)]
+    fn hits(self: u256, target: u256) -> bool {
+        let (hit, _, _) = if target.low != 0 {
+            bitwise(self.low, target.low)
+        } else {
+            bitwise(self.high, target.high)
+        };
+        hit != 0
+    }
+
+    #[inline(always)]
+    fn limb(self: u256, high: bool) -> u128 {
+        if high {
+            self.high
+        } else {
+            self.low
+        }
+    }
+}
+
+pub impl SmallSet of Set<u128> {
+    #[inline(always)]
+    fn from_felt(value: felt252) -> u128 {
+        value.try_into().unwrap()
+    }
+
+    #[inline(always)]
+    fn from_wide(value: u256) -> u128 {
+        value.low
+    }
+
+    #[inline(always)]
+    fn to_felt(self: u128) -> felt252 {
+        self.into()
+    }
+
+    #[inline(always)]
+    fn and(self: u128, other: u128) -> u128 {
+        let (value, _, _) = bitwise(self, other);
+        value
+    }
+
+    #[inline(always)]
+    fn sub(self: u128, other: u128) -> u128 {
+        self - other
+    }
+
+    #[inline(always)]
+    fn is_empty(self: u128) -> bool {
+        self == 0
+    }
+
+    #[inline(always)]
+    fn hits(self: u128, target: u128) -> bool {
+        let (hit, _, _) = bitwise(self, target);
+        hit != 0
+    }
+
+    #[inline(always)]
+    fn limb(self: u128, high: bool) -> u128 {
+        self
+    }
+}
+
+// Tables, generated offline (`2**k` and `pow(2, -k, P)`).
+
+pub const POW: [felt252; 252] = [
+    0x1, 0x2, 0x4, 0x8, 0x10, 0x20, 0x40, 0x80, 0x100, 0x200, 0x400, 0x800, 0x1000, 0x2000, 0x4000,
+    0x8000, 0x10000, 0x20000, 0x40000, 0x80000, 0x100000, 0x200000, 0x400000, 0x800000, 0x1000000,
+    0x2000000, 0x4000000, 0x8000000, 0x10000000, 0x20000000, 0x40000000, 0x80000000, 0x100000000,
+    0x200000000, 0x400000000, 0x800000000, 0x1000000000, 0x2000000000, 0x4000000000, 0x8000000000,
+    0x10000000000, 0x20000000000, 0x40000000000, 0x80000000000, 0x100000000000, 0x200000000000,
+    0x400000000000, 0x800000000000, 0x1000000000000, 0x2000000000000, 0x4000000000000,
+    0x8000000000000, 0x10000000000000, 0x20000000000000, 0x40000000000000, 0x80000000000000,
+    0x100000000000000, 0x200000000000000, 0x400000000000000, 0x800000000000000, 0x1000000000000000,
+    0x2000000000000000, 0x4000000000000000, 0x8000000000000000, 0x10000000000000000,
+    0x20000000000000000, 0x40000000000000000, 0x80000000000000000, 0x100000000000000000,
+    0x200000000000000000, 0x400000000000000000, 0x800000000000000000, 0x1000000000000000000,
+    0x2000000000000000000, 0x4000000000000000000, 0x8000000000000000000, 0x10000000000000000000,
+    0x20000000000000000000, 0x40000000000000000000, 0x80000000000000000000, 0x100000000000000000000,
+    0x200000000000000000000, 0x400000000000000000000, 0x800000000000000000000,
+    0x1000000000000000000000, 0x2000000000000000000000, 0x4000000000000000000000,
+    0x8000000000000000000000, 0x10000000000000000000000, 0x20000000000000000000000,
+    0x40000000000000000000000, 0x80000000000000000000000, 0x100000000000000000000000,
+    0x200000000000000000000000, 0x400000000000000000000000, 0x800000000000000000000000,
+    0x1000000000000000000000000, 0x2000000000000000000000000, 0x4000000000000000000000000,
+    0x8000000000000000000000000, 0x10000000000000000000000000, 0x20000000000000000000000000,
+    0x40000000000000000000000000, 0x80000000000000000000000000, 0x100000000000000000000000000,
+    0x200000000000000000000000000, 0x400000000000000000000000000, 0x800000000000000000000000000,
+    0x1000000000000000000000000000, 0x2000000000000000000000000000, 0x4000000000000000000000000000,
+    0x8000000000000000000000000000, 0x10000000000000000000000000000,
+    0x20000000000000000000000000000, 0x40000000000000000000000000000,
+    0x80000000000000000000000000000, 0x100000000000000000000000000000,
+    0x200000000000000000000000000000, 0x400000000000000000000000000000,
+    0x800000000000000000000000000000, 0x1000000000000000000000000000000,
+    0x2000000000000000000000000000000, 0x4000000000000000000000000000000,
+    0x8000000000000000000000000000000, 0x10000000000000000000000000000000,
+    0x20000000000000000000000000000000, 0x40000000000000000000000000000000,
+    0x80000000000000000000000000000000, 0x100000000000000000000000000000000,
+    0x200000000000000000000000000000000, 0x400000000000000000000000000000000,
+    0x800000000000000000000000000000000, 0x1000000000000000000000000000000000,
+    0x2000000000000000000000000000000000, 0x4000000000000000000000000000000000,
+    0x8000000000000000000000000000000000, 0x10000000000000000000000000000000000,
+    0x20000000000000000000000000000000000, 0x40000000000000000000000000000000000,
+    0x80000000000000000000000000000000000, 0x100000000000000000000000000000000000,
+    0x200000000000000000000000000000000000, 0x400000000000000000000000000000000000,
+    0x800000000000000000000000000000000000, 0x1000000000000000000000000000000000000,
+    0x2000000000000000000000000000000000000, 0x4000000000000000000000000000000000000,
+    0x8000000000000000000000000000000000000, 0x10000000000000000000000000000000000000,
+    0x20000000000000000000000000000000000000, 0x40000000000000000000000000000000000000,
+    0x80000000000000000000000000000000000000, 0x100000000000000000000000000000000000000,
+    0x200000000000000000000000000000000000000, 0x400000000000000000000000000000000000000,
+    0x800000000000000000000000000000000000000, 0x1000000000000000000000000000000000000000,
+    0x2000000000000000000000000000000000000000, 0x4000000000000000000000000000000000000000,
+    0x8000000000000000000000000000000000000000, 0x10000000000000000000000000000000000000000,
+    0x20000000000000000000000000000000000000000, 0x40000000000000000000000000000000000000000,
+    0x80000000000000000000000000000000000000000, 0x100000000000000000000000000000000000000000,
+    0x200000000000000000000000000000000000000000, 0x400000000000000000000000000000000000000000,
+    0x800000000000000000000000000000000000000000, 0x1000000000000000000000000000000000000000000,
+    0x2000000000000000000000000000000000000000000, 0x4000000000000000000000000000000000000000000,
+    0x8000000000000000000000000000000000000000000, 0x10000000000000000000000000000000000000000000,
+    0x20000000000000000000000000000000000000000000, 0x40000000000000000000000000000000000000000000,
+    0x80000000000000000000000000000000000000000000, 0x100000000000000000000000000000000000000000000,
+    0x200000000000000000000000000000000000000000000,
+    0x400000000000000000000000000000000000000000000,
+    0x800000000000000000000000000000000000000000000,
+    0x1000000000000000000000000000000000000000000000,
+    0x2000000000000000000000000000000000000000000000,
+    0x4000000000000000000000000000000000000000000000,
+    0x8000000000000000000000000000000000000000000000,
+    0x10000000000000000000000000000000000000000000000,
+    0x20000000000000000000000000000000000000000000000,
+    0x40000000000000000000000000000000000000000000000,
+    0x80000000000000000000000000000000000000000000000,
+    0x100000000000000000000000000000000000000000000000,
+    0x200000000000000000000000000000000000000000000000,
+    0x400000000000000000000000000000000000000000000000,
+    0x800000000000000000000000000000000000000000000000,
+    0x1000000000000000000000000000000000000000000000000,
+    0x2000000000000000000000000000000000000000000000000,
+    0x4000000000000000000000000000000000000000000000000,
+    0x8000000000000000000000000000000000000000000000000,
+    0x10000000000000000000000000000000000000000000000000,
+    0x20000000000000000000000000000000000000000000000000,
+    0x40000000000000000000000000000000000000000000000000,
+    0x80000000000000000000000000000000000000000000000000,
+    0x100000000000000000000000000000000000000000000000000,
+    0x200000000000000000000000000000000000000000000000000,
+    0x400000000000000000000000000000000000000000000000000,
+    0x800000000000000000000000000000000000000000000000000,
+    0x1000000000000000000000000000000000000000000000000000,
+    0x2000000000000000000000000000000000000000000000000000,
+    0x4000000000000000000000000000000000000000000000000000,
+    0x8000000000000000000000000000000000000000000000000000,
+    0x10000000000000000000000000000000000000000000000000000,
+    0x20000000000000000000000000000000000000000000000000000,
+    0x40000000000000000000000000000000000000000000000000000,
+    0x80000000000000000000000000000000000000000000000000000,
+    0x100000000000000000000000000000000000000000000000000000,
+    0x200000000000000000000000000000000000000000000000000000,
+    0x400000000000000000000000000000000000000000000000000000,
+    0x800000000000000000000000000000000000000000000000000000,
+    0x1000000000000000000000000000000000000000000000000000000,
+    0x2000000000000000000000000000000000000000000000000000000,
+    0x4000000000000000000000000000000000000000000000000000000,
+    0x8000000000000000000000000000000000000000000000000000000,
+    0x10000000000000000000000000000000000000000000000000000000,
+    0x20000000000000000000000000000000000000000000000000000000,
+    0x40000000000000000000000000000000000000000000000000000000,
+    0x80000000000000000000000000000000000000000000000000000000,
+    0x100000000000000000000000000000000000000000000000000000000,
+    0x200000000000000000000000000000000000000000000000000000000,
+    0x400000000000000000000000000000000000000000000000000000000,
+    0x800000000000000000000000000000000000000000000000000000000,
+    0x1000000000000000000000000000000000000000000000000000000000,
+    0x2000000000000000000000000000000000000000000000000000000000,
+    0x4000000000000000000000000000000000000000000000000000000000,
+    0x8000000000000000000000000000000000000000000000000000000000,
+    0x10000000000000000000000000000000000000000000000000000000000,
+    0x20000000000000000000000000000000000000000000000000000000000,
+    0x40000000000000000000000000000000000000000000000000000000000,
+    0x80000000000000000000000000000000000000000000000000000000000,
+    0x100000000000000000000000000000000000000000000000000000000000,
+    0x200000000000000000000000000000000000000000000000000000000000,
+    0x400000000000000000000000000000000000000000000000000000000000,
+    0x800000000000000000000000000000000000000000000000000000000000,
+    0x1000000000000000000000000000000000000000000000000000000000000,
+    0x2000000000000000000000000000000000000000000000000000000000000,
+    0x4000000000000000000000000000000000000000000000000000000000000,
+    0x8000000000000000000000000000000000000000000000000000000000000,
+    0x10000000000000000000000000000000000000000000000000000000000000,
+    0x20000000000000000000000000000000000000000000000000000000000000,
+    0x40000000000000000000000000000000000000000000000000000000000000,
+    0x80000000000000000000000000000000000000000000000000000000000000,
+    0x100000000000000000000000000000000000000000000000000000000000000,
+    0x200000000000000000000000000000000000000000000000000000000000000,
+    0x400000000000000000000000000000000000000000000000000000000000000,
+    0x800000000000000000000000000000000000000000000000000000000000000,
+];
+
+pub const INV: [felt252; 252] = [
+    0x1, 0x400000000000008800000000000000000000000000000000000000000000001,
+    0x60000000000000cc00000000000000000000000000000000000000000000001,
+    0x70000000000000ee00000000000000000000000000000000000000000000001,
+    0x78000000000000ff00000000000000000000000000000000000000000000001,
+    0x7c0000000000010780000000000000000000000000000000000000000000001,
+    0x7e0000000000010bc0000000000000000000000000000000000000000000001,
+    0x7f0000000000010de0000000000000000000000000000000000000000000001,
+    0x7f8000000000010ef0000000000000000000000000000000000000000000001,
+    0x7fc000000000010f78000000000000000000000000000000000000000000001,
+    0x7fe000000000010fbc000000000000000000000000000000000000000000001,
+    0x7ff000000000010fde000000000000000000000000000000000000000000001,
+    0x7ff800000000010fef000000000000000000000000000000000000000000001,
+    0x7ffc00000000010ff7800000000000000000000000000000000000000000001,
+    0x7ffe00000000010ffbc00000000000000000000000000000000000000000001,
+    0x7fff00000000010ffde00000000000000000000000000000000000000000001,
+    0x7fff80000000010ffef00000000000000000000000000000000000000000001,
+    0x7fffc0000000010fff780000000000000000000000000000000000000000001,
+    0x7fffe0000000010fffbc0000000000000000000000000000000000000000001,
+    0x7ffff0000000010fffde0000000000000000000000000000000000000000001,
+    0x7ffff8000000010fffef0000000000000000000000000000000000000000001,
+    0x7ffffc000000010ffff78000000000000000000000000000000000000000001,
+    0x7ffffe000000010ffffbc000000000000000000000000000000000000000001,
+    0x7fffff000000010ffffde000000000000000000000000000000000000000001,
+    0x7fffff800000010ffffef000000000000000000000000000000000000000001,
+    0x7fffffc00000010fffff7800000000000000000000000000000000000000001,
+    0x7fffffe00000010fffffbc00000000000000000000000000000000000000001,
+    0x7ffffff00000010fffffde00000000000000000000000000000000000000001,
+    0x7ffffff80000010fffffef00000000000000000000000000000000000000001,
+    0x7ffffffc0000010ffffff780000000000000000000000000000000000000001,
+    0x7ffffffe0000010ffffffbc0000000000000000000000000000000000000001,
+    0x7fffffff0000010ffffffde0000000000000000000000000000000000000001,
+    0x7fffffff8000010ffffffef0000000000000000000000000000000000000001,
+    0x7fffffffc000010fffffff78000000000000000000000000000000000000001,
+    0x7fffffffe000010fffffffbc000000000000000000000000000000000000001,
+    0x7ffffffff000010fffffffde000000000000000000000000000000000000001,
+    0x7ffffffff800010fffffffef000000000000000000000000000000000000001,
+    0x7ffffffffc00010ffffffff7800000000000000000000000000000000000001,
+    0x7ffffffffe00010ffffffffbc00000000000000000000000000000000000001,
+    0x7fffffffff00010ffffffffde00000000000000000000000000000000000001,
+    0x7fffffffff80010ffffffffef00000000000000000000000000000000000001,
+    0x7fffffffffc0010fffffffff780000000000000000000000000000000000001,
+    0x7fffffffffe0010fffffffffbc0000000000000000000000000000000000001,
+    0x7ffffffffff0010fffffffffde0000000000000000000000000000000000001,
+    0x7ffffffffff8010fffffffffef0000000000000000000000000000000000001,
+    0x7ffffffffffc010ffffffffff78000000000000000000000000000000000001,
+    0x7ffffffffffe010ffffffffffbc000000000000000000000000000000000001,
+    0x7fffffffffff010ffffffffffde000000000000000000000000000000000001,
+    0x7fffffffffff810ffffffffffef000000000000000000000000000000000001,
+    0x7fffffffffffc10fffffffffff7800000000000000000000000000000000001,
+    0x7fffffffffffe10fffffffffffbc00000000000000000000000000000000001,
+    0x7ffffffffffff10fffffffffffde00000000000000000000000000000000001,
+    0x7ffffffffffff90fffffffffffef00000000000000000000000000000000001,
+    0x7ffffffffffffd0ffffffffffff780000000000000000000000000000000001,
+    0x7fffffffffffff0ffffffffffffbc0000000000000000000000000000000001,
+    0x800000000000000ffffffffffffde0000000000000000000000000000000001,
+    0x800000000000008ffffffffffffef0000000000000000000000000000000001,
+    0x80000000000000cfffffffffffff78000000000000000000000000000000001,
+    0x80000000000000efffffffffffffbc000000000000000000000000000000001,
+    0x80000000000000ffffffffffffffde000000000000000000000000000000001,
+    0x8000000000000107ffffffffffffef000000000000000000000000000000001,
+    0x800000000000010bfffffffffffff7800000000000000000000000000000001,
+    0x800000000000010dfffffffffffffbc00000000000000000000000000000001,
+    0x800000000000010efffffffffffffde00000000000000000000000000000001,
+    0x800000000000010f7ffffffffffffef00000000000000000000000000000001,
+    0x800000000000010fbfffffffffffff780000000000000000000000000000001,
+    0x800000000000010fdfffffffffffffbc0000000000000000000000000000001,
+    0x800000000000010fefffffffffffffde0000000000000000000000000000001,
+    0x800000000000010ff7ffffffffffffef0000000000000000000000000000001,
+    0x800000000000010ffbfffffffffffff78000000000000000000000000000001,
+    0x800000000000010ffdfffffffffffffbc000000000000000000000000000001,
+    0x800000000000010ffefffffffffffffde000000000000000000000000000001,
+    0x800000000000010fff7ffffffffffffef000000000000000000000000000001,
+    0x800000000000010fffbfffffffffffff7800000000000000000000000000001,
+    0x800000000000010fffdfffffffffffffbc00000000000000000000000000001,
+    0x800000000000010fffefffffffffffffde00000000000000000000000000001,
+    0x800000000000010ffff7ffffffffffffef00000000000000000000000000001,
+    0x800000000000010ffffbfffffffffffff780000000000000000000000000001,
+    0x800000000000010ffffdfffffffffffffbc0000000000000000000000000001,
+    0x800000000000010ffffefffffffffffffde0000000000000000000000000001,
+    0x800000000000010fffff7ffffffffffffef0000000000000000000000000001,
+    0x800000000000010fffffbfffffffffffff78000000000000000000000000001,
+    0x800000000000010fffffdfffffffffffffbc000000000000000000000000001,
+    0x800000000000010fffffefffffffffffffde000000000000000000000000001,
+    0x800000000000010ffffff7ffffffffffffef000000000000000000000000001,
+    0x800000000000010ffffffbfffffffffffff7800000000000000000000000001,
+    0x800000000000010ffffffdfffffffffffffbc00000000000000000000000001,
+    0x800000000000010ffffffefffffffffffffde00000000000000000000000001,
+    0x800000000000010fffffff7ffffffffffffef00000000000000000000000001,
+    0x800000000000010fffffffbfffffffffffff780000000000000000000000001,
+    0x800000000000010fffffffdfffffffffffffbc0000000000000000000000001,
+    0x800000000000010fffffffefffffffffffffde0000000000000000000000001,
+    0x800000000000010ffffffff7ffffffffffffef0000000000000000000000001,
+    0x800000000000010ffffffffbfffffffffffff78000000000000000000000001,
+    0x800000000000010ffffffffdfffffffffffffbc000000000000000000000001,
+    0x800000000000010ffffffffefffffffffffffde000000000000000000000001,
+    0x800000000000010fffffffff7ffffffffffffef000000000000000000000001,
+    0x800000000000010fffffffffbfffffffffffff7800000000000000000000001,
+    0x800000000000010fffffffffdfffffffffffffbc00000000000000000000001,
+    0x800000000000010fffffffffefffffffffffffde00000000000000000000001,
+    0x800000000000010ffffffffff7ffffffffffffef00000000000000000000001,
+    0x800000000000010ffffffffffbfffffffffffff780000000000000000000001,
+    0x800000000000010ffffffffffdfffffffffffffbc0000000000000000000001,
+    0x800000000000010ffffffffffefffffffffffffde0000000000000000000001,
+    0x800000000000010fffffffffff7ffffffffffffef0000000000000000000001,
+    0x800000000000010fffffffffffbfffffffffffff78000000000000000000001,
+    0x800000000000010fffffffffffdfffffffffffffbc000000000000000000001,
+    0x800000000000010fffffffffffefffffffffffffde000000000000000000001,
+    0x800000000000010ffffffffffff7ffffffffffffef000000000000000000001,
+    0x800000000000010ffffffffffffbfffffffffffff7800000000000000000001,
+    0x800000000000010ffffffffffffdfffffffffffffbc00000000000000000001,
+    0x800000000000010ffffffffffffefffffffffffffde00000000000000000001,
+    0x800000000000010fffffffffffff7ffffffffffffef00000000000000000001,
+    0x800000000000010fffffffffffffbfffffffffffff780000000000000000001,
+    0x800000000000010fffffffffffffdfffffffffffffbc0000000000000000001,
+    0x800000000000010fffffffffffffefffffffffffffde0000000000000000001,
+    0x800000000000010ffffffffffffff7ffffffffffffef0000000000000000001,
+    0x800000000000010ffffffffffffffbfffffffffffff78000000000000000001,
+    0x800000000000010ffffffffffffffdfffffffffffffbc000000000000000001,
+    0x800000000000010ffffffffffffffefffffffffffffde000000000000000001,
+    0x800000000000010fffffffffffffff7ffffffffffffef000000000000000001,
+    0x800000000000010fffffffffffffffbfffffffffffff7800000000000000001,
+    0x800000000000010fffffffffffffffdfffffffffffffbc00000000000000001,
+    0x800000000000010fffffffffffffffefffffffffffffde00000000000000001,
+    0x800000000000010ffffffffffffffff7ffffffffffffef00000000000000001,
+    0x800000000000010ffffffffffffffffbfffffffffffff780000000000000001,
+    0x800000000000010ffffffffffffffffdfffffffffffffbc0000000000000001,
+    0x800000000000010ffffffffffffffffefffffffffffffde0000000000000001,
+    0x800000000000010fffffffffffffffff7ffffffffffffef0000000000000001,
+    0x800000000000010fffffffffffffffffbfffffffffffff78000000000000001,
+    0x800000000000010fffffffffffffffffdfffffffffffffbc000000000000001,
+    0x800000000000010fffffffffffffffffefffffffffffffde000000000000001,
+    0x800000000000010ffffffffffffffffff7ffffffffffffef000000000000001,
+    0x800000000000010ffffffffffffffffffbfffffffffffff7800000000000001,
+    0x800000000000010ffffffffffffffffffdfffffffffffffbc00000000000001,
+    0x800000000000010ffffffffffffffffffefffffffffffffde00000000000001,
+    0x800000000000010fffffffffffffffffff7ffffffffffffef00000000000001,
+    0x800000000000010fffffffffffffffffffbfffffffffffff780000000000001,
+    0x800000000000010fffffffffffffffffffdfffffffffffffbc0000000000001,
+    0x800000000000010fffffffffffffffffffefffffffffffffde0000000000001,
+    0x800000000000010ffffffffffffffffffff7ffffffffffffef0000000000001,
+    0x800000000000010ffffffffffffffffffffbfffffffffffff78000000000001,
+    0x800000000000010ffffffffffffffffffffdfffffffffffffbc000000000001,
+    0x800000000000010ffffffffffffffffffffefffffffffffffde000000000001,
+    0x800000000000010fffffffffffffffffffff7ffffffffffffef000000000001,
+    0x800000000000010fffffffffffffffffffffbfffffffffffff7800000000001,
+    0x800000000000010fffffffffffffffffffffdfffffffffffffbc00000000001,
+    0x800000000000010fffffffffffffffffffffefffffffffffffde00000000001,
+    0x800000000000010ffffffffffffffffffffff7ffffffffffffef00000000001,
+    0x800000000000010ffffffffffffffffffffffbfffffffffffff780000000001,
+    0x800000000000010ffffffffffffffffffffffdfffffffffffffbc0000000001,
+    0x800000000000010ffffffffffffffffffffffefffffffffffffde0000000001,
+    0x800000000000010fffffffffffffffffffffff7ffffffffffffef0000000001,
+    0x800000000000010fffffffffffffffffffffffbfffffffffffff78000000001,
+    0x800000000000010fffffffffffffffffffffffdfffffffffffffbc000000001,
+    0x800000000000010fffffffffffffffffffffffefffffffffffffde000000001,
+    0x800000000000010ffffffffffffffffffffffff7ffffffffffffef000000001,
+    0x800000000000010ffffffffffffffffffffffffbfffffffffffff7800000001,
+    0x800000000000010ffffffffffffffffffffffffdfffffffffffffbc00000001,
+    0x800000000000010ffffffffffffffffffffffffefffffffffffffde00000001,
+    0x800000000000010fffffffffffffffffffffffff7ffffffffffffef00000001,
+    0x800000000000010fffffffffffffffffffffffffbfffffffffffff780000001,
+    0x800000000000010fffffffffffffffffffffffffdfffffffffffffbc0000001,
+    0x800000000000010fffffffffffffffffffffffffefffffffffffffde0000001,
+    0x800000000000010ffffffffffffffffffffffffff7ffffffffffffef0000001,
+    0x800000000000010ffffffffffffffffffffffffffbfffffffffffff78000001,
+    0x800000000000010ffffffffffffffffffffffffffdfffffffffffffbc000001,
+    0x800000000000010ffffffffffffffffffffffffffefffffffffffffde000001,
+    0x800000000000010fffffffffffffffffffffffffff7ffffffffffffef000001,
+    0x800000000000010fffffffffffffffffffffffffffbfffffffffffff7800001,
+    0x800000000000010fffffffffffffffffffffffffffdfffffffffffffbc00001,
+    0x800000000000010fffffffffffffffffffffffffffefffffffffffffde00001,
+    0x800000000000010ffffffffffffffffffffffffffff7ffffffffffffef00001,
+    0x800000000000010ffffffffffffffffffffffffffffbfffffffffffff780001,
+    0x800000000000010ffffffffffffffffffffffffffffdfffffffffffffbc0001,
+    0x800000000000010ffffffffffffffffffffffffffffefffffffffffffde0001,
+    0x800000000000010fffffffffffffffffffffffffffff7ffffffffffffef0001,
+    0x800000000000010fffffffffffffffffffffffffffffbfffffffffffff78001,
+    0x800000000000010fffffffffffffffffffffffffffffdfffffffffffffbc001,
+    0x800000000000010fffffffffffffffffffffffffffffefffffffffffffde001,
+    0x800000000000010ffffffffffffffffffffffffffffff7ffffffffffffef001,
+    0x800000000000010ffffffffffffffffffffffffffffffbfffffffffffff7801,
+    0x800000000000010ffffffffffffffffffffffffffffffdfffffffffffffbc01,
+    0x800000000000010ffffffffffffffffffffffffffffffefffffffffffffde01,
+    0x800000000000010fffffffffffffffffffffffffffffff7ffffffffffffef01,
+    0x800000000000010fffffffffffffffffffffffffffffffbfffffffffffff781,
+    0x800000000000010fffffffffffffffffffffffffffffffdfffffffffffffbc1,
+    0x800000000000010fffffffffffffffffffffffffffffffefffffffffffffde1,
+    0x800000000000010ffffffffffffffffffffffffffffffff7ffffffffffffef1,
+    0x800000000000010ffffffffffffffffffffffffffffffffbfffffffffffff79,
+    0x800000000000010ffffffffffffffffffffffffffffffffdfffffffffffffbd,
+    0x800000000000010ffffffffffffffffffffffffffffffffefffffffffffffdf,
+    0x800000000000010fffffffffffffffffffffffffffffffff7fffffffffffff0,
+    0x4000000000000087ffffffffffffffffffffffffffffffffbfffffffffffff8,
+    0x2000000000000043ffffffffffffffffffffffffffffffffdfffffffffffffc,
+    0x1000000000000021ffffffffffffffffffffffffffffffffefffffffffffffe,
+    0x800000000000010fffffffffffffffffffffffffffffffff7fffffffffffff,
+    0x44000000000000907ffffffffffffffffffffffffffffffffc0000000000000,
+    0x22000000000000483ffffffffffffffffffffffffffffffffe0000000000000,
+    0x11000000000000241fffffffffffffffffffffffffffffffff0000000000000,
+    0x8800000000000120fffffffffffffffffffffffffffffffff8000000000000,
+    0x44000000000000907ffffffffffffffffffffffffffffffffc000000000000,
+    0x22000000000000483ffffffffffffffffffffffffffffffffe000000000000,
+    0x11000000000000241fffffffffffffffffffffffffffffffff000000000000,
+    0x8800000000000120fffffffffffffffffffffffffffffffff800000000000,
+    0x44000000000000907ffffffffffffffffffffffffffffffffc00000000000,
+    0x22000000000000483ffffffffffffffffffffffffffffffffe00000000000,
+    0x11000000000000241fffffffffffffffffffffffffffffffff00000000000,
+    0x8800000000000120fffffffffffffffffffffffffffffffff80000000000,
+    0x44000000000000907ffffffffffffffffffffffffffffffffc0000000000,
+    0x22000000000000483ffffffffffffffffffffffffffffffffe0000000000,
+    0x11000000000000241fffffffffffffffffffffffffffffffff0000000000,
+    0x8800000000000120fffffffffffffffffffffffffffffffff8000000000,
+    0x44000000000000907ffffffffffffffffffffffffffffffffc000000000,
+    0x22000000000000483ffffffffffffffffffffffffffffffffe000000000,
+    0x11000000000000241fffffffffffffffffffffffffffffffff000000000,
+    0x8800000000000120fffffffffffffffffffffffffffffffff800000000,
+    0x44000000000000907ffffffffffffffffffffffffffffffffc00000000,
+    0x22000000000000483ffffffffffffffffffffffffffffffffe00000000,
+    0x11000000000000241fffffffffffffffffffffffffffffffff00000000,
+    0x8800000000000120fffffffffffffffffffffffffffffffff80000000,
+    0x44000000000000907ffffffffffffffffffffffffffffffffc0000000,
+    0x22000000000000483ffffffffffffffffffffffffffffffffe0000000,
+    0x11000000000000241fffffffffffffffffffffffffffffffff0000000,
+    0x8800000000000120fffffffffffffffffffffffffffffffff8000000,
+    0x44000000000000907ffffffffffffffffffffffffffffffffc000000,
+    0x22000000000000483ffffffffffffffffffffffffffffffffe000000,
+    0x11000000000000241fffffffffffffffffffffffffffffffff000000,
+    0x8800000000000120fffffffffffffffffffffffffffffffff800000,
+    0x44000000000000907ffffffffffffffffffffffffffffffffc00000,
+    0x22000000000000483ffffffffffffffffffffffffffffffffe00000,
+    0x11000000000000241fffffffffffffffffffffffffffffffff00000,
+    0x8800000000000120fffffffffffffffffffffffffffffffff80000,
+    0x44000000000000907ffffffffffffffffffffffffffffffffc0000,
+    0x22000000000000483ffffffffffffffffffffffffffffffffe0000,
+    0x11000000000000241fffffffffffffffffffffffffffffffff0000,
+    0x8800000000000120fffffffffffffffffffffffffffffffff8000,
+    0x44000000000000907ffffffffffffffffffffffffffffffffc000,
+    0x22000000000000483ffffffffffffffffffffffffffffffffe000,
+    0x11000000000000241fffffffffffffffffffffffffffffffff000,
+    0x8800000000000120fffffffffffffffffffffffffffffffff800,
+    0x44000000000000907ffffffffffffffffffffffffffffffffc00,
+    0x22000000000000483ffffffffffffffffffffffffffffffffe00,
+    0x11000000000000241fffffffffffffffffffffffffffffffff00,
+    0x8800000000000120fffffffffffffffffffffffffffffffff80,
+    0x44000000000000907ffffffffffffffffffffffffffffffffc0,
+    0x22000000000000483ffffffffffffffffffffffffffffffffe0,
+    0x11000000000000241fffffffffffffffffffffffffffffffff0,
+    0x8800000000000120fffffffffffffffffffffffffffffffff8,
+    0x44000000000000907ffffffffffffffffffffffffffffffffc,
+    0x22000000000000483ffffffffffffffffffffffffffffffffe,
+    0x11000000000000241fffffffffffffffffffffffffffffffff,
+];
+
+pub const POW128: [u128; 128] = [
+    0x1, 0x2, 0x4, 0x8, 0x10, 0x20, 0x40, 0x80, 0x100, 0x200, 0x400, 0x800, 0x1000, 0x2000, 0x4000,
+    0x8000, 0x10000, 0x20000, 0x40000, 0x80000, 0x100000, 0x200000, 0x400000, 0x800000, 0x1000000,
+    0x2000000, 0x4000000, 0x8000000, 0x10000000, 0x20000000, 0x40000000, 0x80000000, 0x100000000,
+    0x200000000, 0x400000000, 0x800000000, 0x1000000000, 0x2000000000, 0x4000000000, 0x8000000000,
+    0x10000000000, 0x20000000000, 0x40000000000, 0x80000000000, 0x100000000000, 0x200000000000,
+    0x400000000000, 0x800000000000, 0x1000000000000, 0x2000000000000, 0x4000000000000,
+    0x8000000000000, 0x10000000000000, 0x20000000000000, 0x40000000000000, 0x80000000000000,
+    0x100000000000000, 0x200000000000000, 0x400000000000000, 0x800000000000000, 0x1000000000000000,
+    0x2000000000000000, 0x4000000000000000, 0x8000000000000000, 0x10000000000000000,
+    0x20000000000000000, 0x40000000000000000, 0x80000000000000000, 0x100000000000000000,
+    0x200000000000000000, 0x400000000000000000, 0x800000000000000000, 0x1000000000000000000,
+    0x2000000000000000000, 0x4000000000000000000, 0x8000000000000000000, 0x10000000000000000000,
+    0x20000000000000000000, 0x40000000000000000000, 0x80000000000000000000, 0x100000000000000000000,
+    0x200000000000000000000, 0x400000000000000000000, 0x800000000000000000000,
+    0x1000000000000000000000, 0x2000000000000000000000, 0x4000000000000000000000,
+    0x8000000000000000000000, 0x10000000000000000000000, 0x20000000000000000000000,
+    0x40000000000000000000000, 0x80000000000000000000000, 0x100000000000000000000000,
+    0x200000000000000000000000, 0x400000000000000000000000, 0x800000000000000000000000,
+    0x1000000000000000000000000, 0x2000000000000000000000000, 0x4000000000000000000000000,
+    0x8000000000000000000000000, 0x10000000000000000000000000, 0x20000000000000000000000000,
+    0x40000000000000000000000000, 0x80000000000000000000000000, 0x100000000000000000000000000,
+    0x200000000000000000000000000, 0x400000000000000000000000000, 0x800000000000000000000000000,
+    0x1000000000000000000000000000, 0x2000000000000000000000000000, 0x4000000000000000000000000000,
+    0x8000000000000000000000000000, 0x10000000000000000000000000000,
+    0x20000000000000000000000000000, 0x40000000000000000000000000000,
+    0x80000000000000000000000000000, 0x100000000000000000000000000000,
+    0x200000000000000000000000000000, 0x400000000000000000000000000000,
+    0x800000000000000000000000000000, 0x1000000000000000000000000000000,
+    0x2000000000000000000000000000000, 0x4000000000000000000000000000000,
+    0x8000000000000000000000000000000, 0x10000000000000000000000000000000,
+    0x20000000000000000000000000000000, 0x40000000000000000000000000000000,
+    0x80000000000000000000000000000000,
+];
+
+#[cfg(test)]
+mod tests {
+    // Local imports
+
+    use super::{Bits, TWO_POW_128};
+
+    #[test]
+    fn test_bits_pow() {
+        assert!(Bits::pow(0) == 1);
+        assert!(Bits::pow(1) == 2);
+        assert!(Bits::pow(128) == TWO_POW_128);
+        assert!(
+            Bits::pow(251) == 0x800000000000000000000000000000000000000000000000000000000000000,
+        );
+    }
+
+    #[test]
+    fn test_bits_inv() {
+        let mut exp: u8 = 0;
+        while exp != 252 {
+            assert!(Bits::pow(exp) * Bits::inv(exp) == 1);
+            exp += 1;
+        }
+    }
+
+    #[test]
+    fn test_bits_shifts() {
+        assert!(Bits::shl(0b101, 3) == 0b101000);
+        assert!(Bits::shr_exact(0b101000, 3) == 0b101);
+        assert!(Bits::shr_exact(Bits::pow(250), 250) == 1);
+    }
+
+    #[test]
+    fn test_bits_to_felt() {
+        let value: felt252 = 0x7123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde;
+        assert!(Bits::to_felt(value.into()) == value);
+    }
+
+    #[test]
+    fn test_bits_get_set_unset() {
+        let mut exp: u8 = 0;
+        while exp != 251 {
+            let value = Bits::set(0b1, exp + 1);
+            assert!(Bits::get(value.into(), exp + 1));
+            assert!(Bits::get(value.into(), 0));
+            assert!(!Bits::get(value.into(), exp + 2));
+            assert!(Bits::unset(value, exp + 1) == 0b1);
+            exp += 1;
+        }
+    }
+
+    #[test]
+    fn test_bits_popcount() {
+        assert!(Bits::popcount(0) == 0);
+        assert!(Bits::popcount(1) == 1);
+        assert!(Bits::popcount((Bits::pow(251) - 1).into()) == 251);
+        assert!(Bits::popcount(0x0123456789abcdef0123456789abcdef0123456789abcdef) == 96);
+        let mut exp: u8 = 0;
+        let mut count: u8 = 0;
+        let mut value: felt252 = 0;
+        while exp < 251 {
+            value = Bits::set(value, exp);
+            count += 1;
+            assert!(Bits::popcount(value.into()) == count);
+            assert!(Bits::popcount_sparse(value.into()) == count);
+            exp += 5;
+        }
+        assert!(Bits::popcount_small(0) == 0);
+        assert!(Bits::popcount_small(0xffffffffffffffffffffffffffffffff) == 128);
+        assert!(Bits::popcount_small(0x0123456789abcdef0123456789abcdef) == 64);
+    }
+
+    #[test]
+    fn test_bits_bitwise() {
+        let (and, xor, or) = Bits::bitwise(0b1100, 0b1010);
+        assert!(and == 0b1000 && xor == 0b0110 && or == 0b1110);
+        let lhs: u256 = 0x0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef;
+        let rhs: u256 = 0x0fedcba9876543210fedcba9876543210fedcba9876543210fedcba987654321;
+        assert!(Bits::and(lhs, rhs) == lhs & rhs);
+        assert!(Bits::or(lhs, rhs) == lhs | rhs);
+        assert!(Bits::xor(lhs, rhs) == lhs ^ rhs);
+    }
+}

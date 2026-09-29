@@ -19,6 +19,9 @@ import math
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import bench  # noqa: E402  (the reader of the baseline of inherited tests)
+
 ROOT = Path(__file__).resolve().parents[1]
 GAS = ROOT / "gas"
 OUTPUT = ROOT / "docs" / "GAS.md"
@@ -33,8 +36,8 @@ def toolchain() -> str:
     return ", ".join(tools)
 
 
-def read_snapshots() -> dict[str, dict[str, tuple[int, int]]]:
-    packages: dict[str, dict[str, tuple[int, int]]] = {}
+def read_snapshots() -> dict[str, dict[str, tuple[int, int | None]]]:
+    packages: dict[str, dict[str, tuple[int, int | None]]] = {}
     for path in sorted(GAS.glob("*.snap")):
         if path.name == "bytecode.size":
             continue
@@ -43,13 +46,15 @@ def read_snapshots() -> dict[str, dict[str, tuple[int, int]]]:
             if line.startswith("#") or not line.strip():
                 continue
             name, vals = line.rsplit(":", 1)
-            measured, budget = (int(v) for v in vals.split())
-            rows[name] = (measured, budget)
+            measured, budget = vals.split()
+            rows[name] = (int(measured), None if budget == "None" else int(budget))
         packages[path.stem] = rows
     return packages
 
 
-def render(packages: dict[str, dict[str, tuple[int, int]]]) -> str:
+def render(packages: dict[str, dict[str, tuple[int, int | None]]],
+           baseline: set[str] | None = None) -> str:
+    baseline = baseline or set()
     lines = [
         "# Gas budgets",
         "",
@@ -62,7 +67,11 @@ def render(packages: dict[str, dict[str, tuple[int, int]]]) -> str:
         "raised, and lowering one needs nothing but the lower number. "
         "`python3 scripts/bench.py check` fails a test that was not measured (ignored, "
         "filtered) and has no budget, or whose budget is outside "
-        "`[measured, ceil(1.05 * measured)]` (`scripts/check.sh`, CI job `gas`).",
+        "`[measured, ceil(1.05 * measured)]` (`scripts/check.sh`, CI job `gas`). The tests taken "
+        "over unchanged from `origami_hexmap` 1.8.0 whose budget does not follow the rule are "
+        "listed in `gas/takeover-baseline.txt` (it only shrinks; task M1-T1c empties it): they "
+        "are exempt from those two rules and from nothing else, and are marked *inherited* "
+        "below.",
         "",
         "| Test | Measured | Budget | Margin |",
         "|---|---:|---:|---:|",
@@ -72,13 +81,21 @@ def render(packages: dict[str, dict[str, tuple[int, int]]]) -> str:
         for name in sorted(packages[package]):
             measured, budget = packages[package][name]
             total_tests += 1
+            inherited = name in baseline
+            if budget is None:
+                shown = "none (inherited)" if inherited else "none"
+                lines.append(f"| `{name}` | {measured:,} | {shown} | — |")
+                continue
             margin = 100.0 * (budget / measured - 1.0) if measured else 0.0
             allowed = math.ceil(1.05 * measured)
-            note = "" if budget <= allowed else " (stale: exceeds the rule)"
+            note = " (inherited)" if inherited else (
+                "" if budget <= allowed else " (stale: exceeds the rule)")
             lines.append(f"| `{name}` | {measured:,} | {budget:,} | {margin:.1f} %{note} |")
     if total_tests == 0:
         lines.append("| _None yet_ | — | — | — |")
-    lines += ["", f"{total_tests} test(s) with a recorded budget."]
+    inherited_count = sum(1 for rows in packages.values() for n in rows if n in baseline)
+    lines += ["", f"{total_tests} measured test(s), {inherited_count} inherited "
+                  f"(`gas/takeover-baseline.txt`)."]
     return "\n".join(lines) + "\n"
 
 
@@ -104,7 +121,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--check", action="store_true", help="exit 1 if docs/GAS.md is stale")
     args = ap.parse_args()
-    return write_or_check(render(read_snapshots()), args.check)
+    return write_or_check(render(read_snapshots(), bench.read_baseline()), args.check)
 
 
 if __name__ == "__main__":
