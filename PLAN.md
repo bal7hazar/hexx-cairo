@@ -47,7 +47,7 @@ it is reported.
 |---|---|---|---|---|---|---|
 | M1-T1a | Take-over, the move: the engine of `origami_hexmap` 1.8.0 under `board`, `finders`, `generators`, unchanged, proved by a script. Brief: [M1-T1a](docs/briefs/LIB-05-T1a-takeover-move.md) | §5, M1-T1 | LIB-04 | Sonnet 5.5 | GPT-6-Sol | in progress |
 | M1-T1b | Take-over, the proof: `crates/takeover_tests`, equality against the published 1.8.0, function by function | §5.4, M1-T1 | M1-T1a | Opus 5.5 | GPT-6-Astra (determinism) | todo |
-| M1-T4a | **N-3**: band tables, `origin`, `local`, `assemble`, `window`; oracle; bench of 4 chunks and two layers | §6.4, M1-T4 | M1-T1a | Opus 5.5 | GPT-6-Astra (cost) | todo |
+| M1-T4a | **N-3**: band tables, `origin`, `local`, `assemble`, `window`; **void chunks assembled as wall without a read, the window never clamped (D-134)**; oracle; bench of 4 chunks and two layers | §6.4, M1-T4 | M1-T1a | Opus 5.5 | GPT-6-Astra (cost) | todo |
 | M1-T4b | N-4: `cut` as `grid & mask` (§14 of the plan) | §6.5, M1-T4 | M1-T4a | Sonnet 5.5 | GPT-6-Sol | todo |
 | M1-T2 | Mirror items of L-M1 except `line_to`: `Hex`, `EdgeDirection`, offset conversions, `HexOrientation`; reference vectors | §8, M1-T2 | M1-T1a | Opus 5.5 | GPT-6-Astra (parity) | todo |
 | M1-T3 | N-7 and distance: `rotate`, `arc`, conversions, `distance_between`, `new_odd`, the three renames | §6.1, §6.8, M1-T3 | M1-T2 | Opus 5.5 | GPT-6-Astra | todo |
@@ -55,8 +55,8 @@ it is reported.
 | M1-T9b | **N-8**: `next_step`, `next_step_away`, `distance`, their oracles; the bench of the tick with the window of M1-T4a | §6.9, M1-T9 | M1-T9a, M1-T4a | Opus 5.5 | GPT-6-Astra (cost) | todo |
 | M1-T6 | N-5: `line_to`, `line`, `line_of_sight`, `approach`; the exhaustive comparison with `hexx` | §6.6, M1-T6 | M1-T3 | Opus 5.5 | GPT-6-Astra | todo |
 | M1-T5 | N-6: `hexagon`, `hexagon_ring`, tables | §6.7, M1-T5 | M1-T4a | Opus 5.5 | GPT-6-Astra | todo |
-| M1-T7 | N-2: sides and openings, the four seam formulas, the oracle on global coordinates | §6.3, M1-T7 | M1-T3 | Opus 5.5 | GPT-6-Astra | todo |
-| M1-T8 | N-1: `generate_with_margins`, `smooth`; planes and masks; pinned streams | §6.2, M1-T8 | M1-T3 | Fable 5.1 or Opus 5.5 | GPT-6-Astra | todo |
+| M1-T7 | N-2: sides and openings, **never on a corner (D-134)**; the four seam formulas, the oracle on global coordinates | §6.3, M1-T7 | M1-T3 | Opus 5.5 | GPT-6-Astra | todo |
+| M1-T8 | N-1: `generate_with_margins`, `smooth`; planes and masks; pinned streams; **the four corners of a chunk always wall (D-134)** | §6.2, M1-T8 | M1-T3 | Fable 5.1 or Opus 5.5 | GPT-6-Astra | todo |
 | M1-N9 | N-9: consumer check against the published package | §8, M1-N9 | first release candidate | Sonnet 5.5 | GPT-6-Sol | todo |
 | M1-R | Release 0.1.0 and its candidates: asked by a pending file, published by the orchestrator's session after a go (game's `OPERATIONS.md` §7). **Needs LIB-04b merged** | §9, M1-R | all | Orchestrator | — | todo |
 
