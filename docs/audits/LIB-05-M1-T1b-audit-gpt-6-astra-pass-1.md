@@ -1,0 +1,82 @@
+# [GPT-6-Astra] Audit — M1-T1b — take-over, the proof of equality
+
+## Verdict
+
+**FAIL**
+
+Every inventoried public function has an equality test, and the comparisons are substantially sound. However, the finder corpus cannot detect regressions involving two distinct entrances. Fix finding 1 before relying on this package to protect shared finder changes in N-8. N-3 and N-7 with the three renames have no direct blocker identified here.
+
+This is a read-only audit of `f933d34bc6dd2e8d485de78ffd4d22a645ea6603` against `origin/main`. Execution and CI claims could not be independently confirmed.
+
+## Findings
+
+| # | Severity (blocker, major, minor, note) | Location | Finding | Evidence or failing scenario | Suggested fix |
+|---|---|---|---|---|---|
+| 1 | major | `crates/takeover_tests/src/common.cairo:266`; `crates/takeover_tests/src/fixtures.cairo:122` | **The supposed entrance-to-entrance coverage always degenerates to identical endpoints.** Blocks relying on this suite alone for shared finder changes in **N-8**. No direct blocker for N-3 or N-7/renames. | The test appends `pairs.append((edge, *entrances.at((index + 1) % edges)));`. Decoding all 42 boards gives 29 boards without entrances and 13 with **exactly one entrance each**. Thus every such pair is `(edge, edge)`, taking the early return. A one-line guard after endpoint construction in `Bfs::search`, `if !start.interior && !target.interior { return array![].span(); }`, would escape these equality tests. It changes a valid result on `EMPTY_7X7 + 2^1 + 2^43`, searching from 1 to 43: the original has a path through the open interior. | Add boards with several entrances on both limb paths, including 15×16. Compare complete paths, distances and floods between distinct entrances, including adjacent entrances, separated reachable entrances and disconnected entrances. Retain the identical-endpoint cases separately. |
+| 2 | minor | `crates/takeover_tests/src/map.cairo:1231`; `crates/hexx/src/board/map.cairo:170` | **The facade’s panic coverage misses two actual messages for excessive hexagon radii.** Does not block N-3, N-8 or N-7/renames. | The only rejecting radius is `O::new_hexagon(7, 'seed')`, paired with hexx and expecting the dimension message. The engine first evaluates `let width = 2 * radius + 3;`. Radius **127** instead produces `'u8_add Overflow'`; radius **128** produces `'u8_mul Overflow'`. Cairo 2.19.4 defines those messages in `core/src/integer.cairo:381` and `:406`. Neither has a pair in this package. These are reasoned scenarios, not executed tests. | Add exact-message pairs for radii 127 and 128. Preserve the published behavior; do not change the engine in this task. |
+| 3 | minor | `crates/takeover_tests/src/rng.cairo:34`; `docs/briefs/LIB-05-T1b-takeover-equality.md:54` | **The RNG corpus does not meet the brief’s explicit input prescription.** Does not block the three named next tasks. | The brief requires “256 seeded values” and boundaries `0, 1, 2^128−1, 2^128, 2^250`. `test_rng_new` states “64 seeds, and the boundaries 0 and `-1`”; its input array is `array![0, -1]`. `mix` has 256 seeded pairs but substitutes boundaries `[0, 1, -1]`. Repeated draws provide substantial state coverage, but do not supply these missing constructor/mix inputs. | Add the prescribed seeds and representable boundary inputs. For pool-taking functions, adapt boundaries to the documented `u128` domain and state that adaptation explicitly. |
+| 4 | minor | `crates/hexx/src/generators/spreader.cairo:439`; `crates/takeover_tests/src/spreader.cairo:173` | **Spreader’s exact 128-tile boundary is untested.** Does not block N-3, N-8 or N-7/renames. | The engine uses `size == 128 || value.low < *POW128.span().at(size.into())`. No Spreader or facade distribution input has 128 tiles. Removing `size == 128 ||` therefore escapes this corpus, but makes a valid 16×8 board index beyond `POW128`. The small-board invalid-grid pair sets bit 49; it does not exercise rejection through `value.high != 0`. The 128-tile Layout tests do not call Spreader. | Add direct and facade distribution cases for 16×8 or 8×16, including empty/full masks, plus a small-board invalid-grid pair with bit 128 set. |
+| 5 | minor | `REPORT.md:275`; `gas/takeover_tests.snap:59` | **The reported 900-gas observation is inconsistent with the committed evidence.** No blocker for the next tasks; the committed budgets themselves are consistent. | The report says attributed `test_bits_constants` measures **15,120**, whereas the snapshot records `test_bits_constants: 14220 14931`. The source budget is also 14,931, exactly `ceil(1.05 × 14,220)`. Attribute expansion can change generated control flow, so measurement changes are plausible; a universal fixed 900-gas surcharge is not established. | Correct or qualify the observation using the final artifact and reproducible measurements. Measure the final attributed test, then apply the 5% rule; do not add or subtract a presumed universal overhead. |
+| 6 | note | `crates/takeover_tests/src/gas.cairo:820`; `:448`; `:289` | **The gas tests are measurements, not additional equality proofs.** No blocker for the next tasks. | All four `test_gas_is_walkable_{origami,hexx}_{once,twice}` tests use `assert(result || !result, 'result')`, which cannot reject a wrong Boolean. The eight `test_gas_{search_path,search_path_weighted}_{origami,hexx}_{once,twice}` tests check only `result.len() != 255`. Both opening benchmarks use tile 8 and take the acknowledged early exit. Separate equality tests compare these functions correctly. | Describe the figures as marginal costs of the measured call sites, including their checks and argument helpers. Prefer an opaque result consumer for Boolean measurements; retain the opening early-exit caveat. |
+
+## Coverage
+
+**Read in full:** all 18 Cairo files under `crates/takeover_tests/src`, including every repetitive test wrapper, every panic pair, `common`, `fixtures`, and all 80 gas tests; the package manifest; `REPORT.md`; the task brief; `COMMON.md`; `AGENTS.md`; plan §§5.1, 5.4 and 14; and `docs/EXTENSIONS.md`.
+
+**Engine inspection:** read the public implementations and relevant internal paths for the facade, directions, layouts, geometry, assertions, bits, RNG, BFS, Dial and Caver. Sampled Mazer, Digger, Spreader and Walker internals for generation, validation, branches and bounds. Scanned all production engine files for explicit assertions and error constants. Read the upstream README’s Panics section and checked the ten copied fixture values against the pinned source. Did not read every inherited engine test, every generator internal implementation, or every numeric table entry manually; those were outside the requested full-test reading and were inspected where needed.
+
+**Public-function inventory:** `docs/EXTENSIONS.md` lists **99 method entries**, corresponding to **107 implementation methods** when the eight `Set` methods are counted for both implementations. **Functions without an equality test: none.** `u252` and `HexPrinter` were excluded as instructed.
+
+| Public surface checked | Equality-test coverage and verified input counts |
+|---|---|
+| Facade constructors: `new`, `new_empty`, `new_maze`, `new_cave`, `new_random_walk`, `new_hexagon` | `map::test_map_*`: respectively 44, 675, 1,152, 3,456, 5,760 and 448 comparisons. Maps are compared across all four fields. |
+| Facade mutation/distribution: `open_with_corridor`, `open_with_maze`, `keep_component`, `compute_distribution` | Corresponding `map::test_map_*`: 1,152 each opening; **765** component comparisons; 1,530 distribution comparisons. |
+| Facade finders: `search_path`, `search_path_weighted`, `field_of_movement`, `distance_to`, `reachable`, `range`, `ring` | Complete paths, options and bitmaps: respectively 605, 665, 2,385, 605, 265, 2,385 and 2,385 comparisons. |
+| Facade queries: `hex_distance`, `neighbor`, `is_walkable` | Respectively 3,425, 7,884 and 10,752 comparisons. |
+| `Bfs::{search,distance,reachable,tiles_within_range}`; `Dial::{search,field_of_movement}` | Corresponding `bfs`/`dial` tests: 605, 605, 265, 2,385; 665 and 2,385. |
+| `Caver::{generate,keep_component}`, `Digger::{maze,corridor}`, `Mazer::generate`, `Spreader::generate`, `Walker::generate` | Corresponding module tests: 3,456; **500**; 1,152 each; 1,152; 1,530; 5,760. |
+| Direction: `opposite`, `next`, `pop_front`, conversion into `u8`, conversion from `u8` | Six directions; valid neighbours of all query positions; 720 permutations plus 258 packed values; six conversions; all 256 byte values. Mutated packed state is also compared. |
+| Layout: `new`, `board`, `even`, `interior`, `with_interior`, `dilation`, `hexagon`, `expand`, `expand_small`, `edge_neighbours`, `neighbour_in`, `neighbour_mask`, `index`, `coords`, `parity`, `neighbor`; Dilation: `dilate`, `expand_small` | All corresponding tests present. 675 valid dimensions, radii 0–6, 34 frontiers per selected board, and the prescribed query positions. Every Layout and Dilation field is compared. |
+| `Geometry::{to_axial,distance}`; Asserter’s six functions | 1,073 positions and 3,425 pairs; all valid dimensions and 630 side tiles where applicable. Successful assertion calls must return on both sides. |
+| Bits: all 18 methods | 256 seeded words plus five boundaries, adapted to domains. `get` checks all indices 0–251; `pow` and `inv` check all 252 entries. |
+| Both Set implementations: `from_felt`, `from_wide`, `to_felt`, `and`, `sub`, `is_empty`, `hits`, `limb` | 261 wide values and 523 limbs. Both limb selectors are checked. The report’s “9 methods each” means nine assertions: there are **eight methods**, with `limb` called twice. |
+| RNG: `new`, `mix`, `draw`, `draw6`, `draw_byte`, `next_below`, `shuffle6`, `split216`, `refill` | All present; returned values and both mutable fields compared. Draw functions use 2,048 calls each; `mix` 265 pairs; `split216` 261 pools; `refill` 512 calls. Input-prescription exception: finding 3. |
+| Public constants and tables | Both-library comparisons cover every entry of `POW`, `INV`, `POW128`, `PERMUTATIONS`, and all inventoried scalar/error constants. |
+
+The counts above are comparison invocations, not necessarily distinct inputs. I independently recomputed **585 endpoint pairs**, **265 flood sources**, **1,073 query positions**, **3,425 query pairs**, and **675 valid dimensions**.
+
+The component counts require correcting the report’s uncounted skips. An in-memory scalar reconstruction of the seeded cave inputs gives successful comparisons per dimension of **32, 60, 64, 64, 64, 64, 64, 45, 43**. Odd-index Walker inputs always contain their starting tile. Thus Caver gets 500 comparisons and the facade gets 500 + 265. This reconstruction was checked against a written raw-cave fixture; it was not a Cairo test run.
+
+**Comparison liveness and input branches:**
+
+- No equality test compares hexx with itself, origami with itself, or a value with itself. No equality test substitutes a hash or length for an available whole result.
+- No complete equality test has an empty input loop or only `None` results. Conditional exclusions in direction/layout tests respect their documented domains. Component tests skip empty grids, but each still performs comparisons.
+- The provenance test intentionally compares origami generation against recorded constants. The 80 gas tests intentionally measure one library at a time; their weaker checks are identified in finding 6.
+- Inputs are fixed constants or deterministic hashes of written tags and indices. All nine prescribed generator dimensions are present, including 15×16. Finders contain all ten upstream fixtures and 32 generated boards, eight of them 15×16.
+- Both row parities, every direction, query edges/corners, unreachable targets, identical endpoints, both limb paths, and zero through three weighted cost classes are represented.
+- Missing cases identifiable statically include distinct entrance pairs, the Spreader boundary in finding 4, and the overflow paths in finding 2. The finder corpus contains neither an all-wall bitmap nor an all-bits-open bitmap; its `EMPTY_*` fixtures mean **fully open interiors with closed borders**. Empty generator results and empty/full Layout frontiers are tested.
+- The Walker comment at `crates/takeover_tests/src/walker.cairo:4` overstates remainder coverage. Its listed steps cover residues **0, 1, 2, 3, 16, 17 modulo 18**, not every residue. They do exercise all three modulo-3 remainders. This documentation correction does not block the next tasks.
+
+**Panics:** independently matched all **96 pairs**, including **49 facade pairs**. Each pair has identical arguments and identical literal expected data after normalizing the library alias. All eleven explicit engine error constants and all explicitly messaged production assertions have paired coverage; the additional overflow cases are finding 2. These tests use short-string felt expectations, for which changing one character fails matching. Foundry’s ByteArray substring behavior does not apply to these expectations. [Foundry 0.61.0 panic matching](https://raw.githubusercontent.com/foundry-rs/starknet-foundry/v0.61.0/crates/forge-runner/src/test_case_summary.rs).
+
+**Five one-line mutation checks, by reasoning only:**
+
+| Engine mutation | Existing test and revealing input |
+|---|---|
+| `board/direction.cairo:68`: change odd-row NorthEast from `position + width` to `position + width + 1`. | `direction::test_direction_next`, width 7, position 8, NorthEast: **15 → 16**. |
+| `finders/bfs.cairo:1163`: pass `if rest != 0 { rest.into() } else { hit.into() }` to `identify` instead of the lowest set bit. | `bfs::test_bfs_fixture_endpoints` and `map::test_map_fixture_endpoints`, `EMPTY_7X7`, **30 → 8**. At tile 8 the predecessor candidates are 15 and 16; the original path is `[8,15,22]`, while this mutation chooses `[8,16,23]`. |
+| `generators/caver.cairo:246`: replace `Bits::bitwise(grid, b1)` with `Bits::bitwise(grid, b1 & (s1 ^ s2))`, changing survival from two neighbours to three. | `caver::test_caver_generate_7x7` and `map::test_map_new_cave_7x7`, `generator_seed(0)`, order 1. Scalar reconstruction gives **`0xe3c2408000` → `0xe3c0000000`**, removing tiles 15, 22 and 25. |
+| `board/bits.cairo:404`: change `POW[0]` from `0x1` to `0x2`. | `bits::test_bits_tables` and `bits::test_bits_pow_inv`, index/exponent **0**. |
+| `board/rng.cairo:167`: add one to the shuffle table index. | `rng::test_rng_shuffle6`, first draw from `seed('rng', 0)`: index **99 → 100**, result **`0x243150` → `0x324150`**. |
+
+Finding 1 additionally supplies a result-changing mutation that this equality corpus would miss.
+
+**Gas and scope verification:** all 532 source tests have budgets, match the 532 snapshot entries, and satisfy the exact integer formula `ceil(105 × measured / 100)`. No test of this package appears in the takeover baseline. Recorded total gas is **41,399,798,297**. `python3 -B scripts/gas_tables.py --check` passed.
+
+All 20 reported once/twice measurements and differences match the snapshot. The two-library marginal costs are identical **for these measured call sites**. Shared setup and padding cancel; repeated result checks and argument helpers remain in the difference. Mutable maps are correctly reset before the second call. The two opening figures, **70,388**, cover the early exit only.
+
+An attribute-induced measurement change is consistent with generated configuration/control-flow overhead; it is not a fixed charge imposed by the budget value. Foundry checks the configured limit against measured gas. The practical rule is to measure the final attributed test and apply 5% to that measurement. [Foundry 0.61.0 gas handling](https://raw.githubusercontent.com/foundry-rs/starknet-foundry/v0.61.0/crates/forge-runner/src/gas.rs).
+
+The diff contains **22 files, all allowlisted**, with no changes under `crates/hexx`, to either baseline file, or to CI configuration. The lockfile resolves registry `origami_hexmap` **1.8.0**; the test manifest references hexx by path.
+
+**Not independently verified:** package execution, `bench.py check`, the full gate, CI status, and reported durations. The worktree has no build artifacts and is read-only. `takeover_check.py` failed when its formatter attempted to create `target/takeover_fmt`; no successful 29-pair run is claimed. `gh pr view 34` failed to connect to GitHub. No engine mutation or file modification was performed.
