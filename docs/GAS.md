@@ -776,6 +776,25 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::tests::bench_spreader::bench_spreader_u256_maze_7x7_1` | 183,409 | 192,580 | 5.0 % |
 | `hexx::tests::bench_spreader::bench_spreader_u256_maze_7x7_16` | 106,008 | 111,309 | 5.0 % |
 | `hexx::tests::bench_spreader::bench_spreader_u256_maze_7x7_5` | 233,426 | 245,098 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_baseline` | 30,250 | 31,763 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_cave` | 1,081,059 | 1,135,112 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_cave_flood` | 451,742 | 474,330 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_cave_ring` | 1,085,862 | 1,140,156 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_cave_ring_flood` | 451,742 | 474,330 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_cave_window` | 94,474 | 99,198 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_distance_46_once` | 1,237,652 | 1,299,535 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_distance_46_twice` | 1,416,990 | 1,487,840 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_next_step_15_once` | 467,792 | 491,182 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_next_step_15_twice` | 547,936 | 575,333 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_next_step_46_once` | 1,245,031 | 1,307,283 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_next_step_46_twice` | 1,431,648 | 1,503,231 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_next_step_away_46_once` | 1,316,676 | 1,382,510 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_next_step_away_46_twice` | 1,575,228 | 1,653,990 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_next_step_ring_once` | 1,142,771 | 1,199,910 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_next_step_ring_twice` | 1,207,542 | 1,267,920 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_serpentine` | 1,128,716 | 1,185,152 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_serpentine_flood` | 459,642 | 482,625 | 5.0 % |
+| `hexx::tests::bench_tick::bench_tick_serpentine_window` | 94,474 | 99,198 | 5.0 % |
 | `hexx::tests::bench_walker::bench_walker_17x14_0` | 34,901 | 36,647 | 5.0 % |
 | `hexx::tests::bench_walker::bench_walker_17x14_200` | 970,779 | 1,019,318 | 5.0 % |
 | `hexx::tests::bench_walker::bench_walker_17x14_50` | 294,005 | 308,706 | 5.0 % |
@@ -894,6 +913,31 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::tests::test_flood::test_flood_sweep_random_caves_19x13` | 231,394,696 | 242,964,431 | 5.0 % |
 | `hexx::tests::test_flood::test_flood_sweep_serpentine_15x16` | 216,798,866 | 227,638,810 | 5.0 % |
 | `hexx::tests::test_flood::test_flood_sweep_unreachable_7x7` | 124,170,207 | 130,378,718 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_beyond_the_cap` | 274,923,472 | 288,669,646 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_deterministic` | 62,980,062 | 66,129,066 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_outside` | 1,291,232 | 1,355,794 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_r_n8_1` | 578,614,305 | 607,545,021 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_r_n8_2` | 416,904,241 | 437,749,454 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_r_n8_3` | 579,024,429 | 607,975,651 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_r_n8_4` | 71,241,912 | 74,804,008 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_r_n8_5` | 581,881,410 | 610,975,481 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_r_n8_6` | 1,656,308 | 1,739,124 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_r_n8_7` | 104,400,961 | 109,621,010 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_ring_corners` | 874,196 | 917,906 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_ring_neighbourhoods` | 103,033,886 | 108,185,581 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_ring_open_15x16` | 411,604,333 | 432,184,550 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_ring_open_19x13` | 427,999,926 | 449,399,923 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_ring_open_7x7_11x11` | 255,814,210 | 268,604,921 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_sweep_11x11` | 184,896,634 | 194,141,466 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_sweep_19x13` | 263,741,735 | 276,928,822 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_sweep_7x7` | 340,801,642 | 357,841,725 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_sweep_cave_15x16` | 421,446,886 | 442,519,231 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_sweep_cave_17x14` | 474,851,608 | 498,594,189 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_sweep_edge_source_17x14` | 443,515,618 | 465,691,399 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_tick_cave` | 255,576,983 | 268,355,833 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_tick_cave_ring` | 76,744,486 | 80,581,711 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_tick_serpentine` | 158,802,335 | 166,742,452 | 5.0 % |
+| `hexx::tests::test_steps::test_steps_ties_and_fallback` | 72,427,017 | 76,048,368 | 5.0 % |
 | `hexx_integrationtest::readme::test_readme_create` | 5,635,625 | 5,917,407 | 5.0 % |
 | `hexx_integrationtest::readme::test_readme_endpoint_on_wall_panics` | 494,141 | 518,849 | 5.0 % |
 | `hexx_integrationtest::readme::test_readme_find_paths` | 2,562,554 | 2,690,682 | 5.0 % |
@@ -1532,4 +1576,4 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 15,520 | 16,296 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 15,520 | 16,296 | 5.0 % |
 
-1525 measured test(s).
+1569 measured test(s).

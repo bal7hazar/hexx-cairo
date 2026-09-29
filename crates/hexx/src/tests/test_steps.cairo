@@ -313,7 +313,7 @@ impl Steps of StepsTrait {
 // The regression cases of plan §6.9
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 607545021)]
 fn test_steps_r_n8_1() {
     // (1, 2) frozen, depth 182: 45 layers, (2, 2) at 45, (1, 2) inferred at 46 and steps onto 32
     let flood = Bfs::flood(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, 0x80000000, 182);
@@ -325,7 +325,7 @@ fn test_steps_r_n8_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 437749454)]
 fn test_steps_r_n8_2() {
     // The same at depth 15: (1, 2) is beyond the cap, it holds its position (D-127)
     let flood = Bfs::flood(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, 0x80000000, 15);
@@ -336,7 +336,7 @@ fn test_steps_r_n8_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 607975651)]
 fn test_steps_r_n8_3() {
     // (1, 2) and (3, 2) frozen: (2, 2) is cut off, so (1, 2) gets None at every depth
     let obstacles: felt252 = 0x280000000;
@@ -353,7 +353,7 @@ fn test_steps_r_n8_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 74804008)]
 fn test_steps_r_n8_4() {
     // The eight walkers of `SERPENTINE_15X16_8`, in ascending id order, `blocked` updated after
     // each move: W1 steps to (6, 2), W5 to (6, 12), the six behind them wait
@@ -376,7 +376,7 @@ fn test_steps_r_n8_4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 610975481)]
 fn test_steps_r_n8_5() {
     // A walker on the ring, (0, 8), steps through its in-board neighbour (1, 8), in layer 6
     let grid = SERPENTINE_15X16 + Bits::pow(Steps::at(0, 8));
@@ -388,7 +388,7 @@ fn test_steps_r_n8_5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1739124)]
 fn test_steps_r_n8_6() {
     // (4, 8) at 3 on the flood of R-N8-1, both open neighbours blocked: the reverse scan visits
     // every layer from 45 down to 0 and finds nothing
@@ -405,7 +405,7 @@ fn test_steps_r_n8_6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 109621010)]
 fn test_steps_r_n8_7() {
     // 7 × 7, (1, 3) interior and (0, 3) an open edge tile
     let grid: felt252 = 0x600000;
@@ -429,7 +429,7 @@ fn test_steps_r_n8_7() {
 // The tie-break, the fallback and the cap
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 76048368)]
 fn test_steps_ties_and_fallback() {
     // The empty 7 × 7 from (1, 1): (3, 2), in layer 2, has two neighbours in layer 1, 9 and 16
     let flood = Bfs::flood(EMPTY_7X7, 7, 7, 8, 0, 25);
@@ -449,7 +449,7 @@ fn test_steps_ties_and_fallback() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 288669646)]
 fn test_steps_beyond_the_cap() {
     // Capped at 15: (5, 6) touches (6, 6) in layer 15 and steps onto it; blocked, it has no
     // layer 16 to fall back to
@@ -470,7 +470,7 @@ fn test_steps_beyond_the_cap() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1355794)]
 fn test_steps_outside() {
     let flood = Bfs::flood(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, 0, 255);
     for position in array![240_u8, 241, 250, 251, 255] {
@@ -487,7 +487,7 @@ fn test_steps_outside() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 66129066)]
 fn test_steps_deterministic() {
     let flood = Bfs::flood(CAVE_15X16, 15, 16, CAVE_15X16_FROM, 0, 15);
     let mut position: u8 = 0;
@@ -501,7 +501,7 @@ fn test_steps_deterministic() {
 // The ticks of `bench_tick`
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 268355833)]
 fn test_steps_tick_cave() {
     // The window assembled from its 4 chunks is the cave, its occupancy the eight walkers
     let walkers = CAVE_15X16_WALKERS.span();
@@ -535,7 +535,7 @@ fn test_steps_tick_cave() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 166742452)]
 fn test_steps_tick_serpentine() {
     // The window assembled from its 4 chunks is the serpentine, its occupancy the eight walkers
     let walkers = SERPENTINE_15X16_WALKERS.span();
@@ -554,7 +554,7 @@ fn test_steps_tick_serpentine() {
 // Both limb paths, on the fixtures
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 357841725)]
 fn test_steps_sweep_7x7() {
     // The single limb
     Steps::sweep(EMPTY_7X7, 7, 7, EMPTY_7X7_FAR_FROM, 0, 25);
@@ -565,7 +565,7 @@ fn test_steps_sweep_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 194141466)]
 fn test_steps_sweep_11x11() {
     // The single limb, 121 bits: the neighbourhoods of the last rows reach bit 120
     let grid = Caver::generate(11, 11, 3, 1);
@@ -577,20 +577,20 @@ fn test_steps_sweep_11x11() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 442519231)]
 fn test_steps_sweep_cave_15x16() {
     // Two limbs: neighbourhoods in the low limb, the high limb and across both
     Steps::sweep(CAVE_15X16, 15, 16, CAVE_15X16_FROM, CAVE_15X16_8, 15);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 498594189)]
 fn test_steps_sweep_cave_17x14() {
     Steps::sweep(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, 0, 255);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 276928822)]
 fn test_steps_sweep_19x13() {
     // The largest board of the engine, 247 bits, from an open edge source (D-32)
     let grid = Caver::generate(19, 13, 3, 1);
@@ -599,7 +599,7 @@ fn test_steps_sweep_19x13() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 465691399)]
 fn test_steps_sweep_edge_source_17x14() {
     // An entrance: its interior neighbours step onto it, the other open edge tiles never are a
     // step
@@ -610,7 +610,7 @@ fn test_steps_sweep_edge_source_17x14() {
 // The ring: the neighbourhood of a walker without the per-direction loop
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 80581711)]
 fn test_steps_tick_cave_ring() {
     // The cave tick with W8 on the ring, (14, 4), inferred at 13: it steps onto (13, 5)
     let walkers = CAVE_15X16_RING_WALKERS.span();
@@ -629,7 +629,7 @@ fn test_steps_tick_cave_ring() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 108185581)]
 fn test_steps_ring_neighbourhoods() {
     // Every tile of both limb paths, both row parities, odd and even heights: the walker's
     // neighbour bits are those of `LayoutTrait::edge_neighbours`, the taken-over reference
@@ -658,7 +658,7 @@ fn test_steps_ring_neighbourhoods() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 917906)]
 fn test_steps_ring_corners() {
     // The four corners of 15 × 16, by hand: (0, 0) and (14, 0) on an even row, (0, 15) and
     // (14, 15) on an odd row
@@ -684,7 +684,7 @@ fn test_steps_ring_corners() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 268604921)]
 fn test_steps_ring_open_7x7_11x11() {
     // Every tile open, the ring included, against the oracle. The single limb
     Steps::sweep(LayoutTrait::board(7, 7), 7, 7, 24, 0, 25);
@@ -692,13 +692,13 @@ fn test_steps_ring_open_7x7_11x11() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 432184550)]
 fn test_steps_ring_open_15x16() {
     Steps::sweep(LayoutTrait::board(15, 16), 15, 16, SERPENTINE_15X16_FROM, 0, 255);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 449399923)]
 fn test_steps_ring_open_19x13() {
     Steps::sweep(LayoutTrait::board(19, 13), 19, 13, 123, 0, 255);
 }

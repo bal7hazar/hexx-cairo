@@ -164,7 +164,7 @@ impl Tick of TickTrait {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 31763)]
 fn bench_tick_baseline() {
     let bench = Inputs::get();
     assert!(bench.from == 127);
@@ -174,7 +174,7 @@ fn bench_tick_baseline() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 99198)]
 fn bench_tick_cave_window() {
     let bench = Inputs::get();
     let (_, occupied) = Tick::window(@bench.cave, @bench.origin);
@@ -183,7 +183,7 @@ fn bench_tick_cave_window() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 474330)]
 fn bench_tick_cave_flood() {
     let bench = Inputs::get();
     let (flood, _) = Tick::flood(@bench, @bench.cave);
@@ -192,7 +192,7 @@ fn bench_tick_cave_flood() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1135112)]
 fn bench_tick_cave() {
     let bench = Inputs::get();
     let (flood, occupied) = Tick::flood(@bench, @bench.cave);
@@ -203,7 +203,7 @@ fn bench_tick_cave() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 474330)]
 fn bench_tick_cave_ring_flood() {
     let bench = Inputs::get();
     let (flood, _) = Tick::flood(@bench, @bench.cave_ring);
@@ -212,7 +212,7 @@ fn bench_tick_cave_ring_flood() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1140156)]
 fn bench_tick_cave_ring() {
     let bench = Inputs::get();
     let (flood, occupied) = Tick::flood(@bench, @bench.cave_ring);
@@ -223,7 +223,7 @@ fn bench_tick_cave_ring() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 99198)]
 fn bench_tick_serpentine_window() {
     let bench = Inputs::get();
     let (_, occupied) = Tick::window(@bench.serpentine, @bench.origin);
@@ -232,7 +232,7 @@ fn bench_tick_serpentine_window() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 482625)]
 fn bench_tick_serpentine_flood() {
     let bench = Inputs::get();
     let (flood, _) = Tick::flood(@bench, @bench.serpentine);
@@ -241,7 +241,7 @@ fn bench_tick_serpentine_flood() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1185152)]
 fn bench_tick_serpentine() {
     let bench = Inputs::get();
     let (flood, occupied) = Tick::flood(@bench, @bench.serpentine);
@@ -252,7 +252,7 @@ fn bench_tick_serpentine() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 491182)]
 fn bench_tick_next_step_15_once() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.cave_grid, 15, 16, bench.from, bench.cave_walkers, bench.cap);
@@ -261,7 +261,7 @@ fn bench_tick_next_step_15_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 575333)]
 fn bench_tick_next_step_15_twice() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.cave_grid, 15, 16, bench.from, bench.cave_walkers, bench.cap);
@@ -276,7 +276,7 @@ fn bench_tick_next_step_15_twice() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1307283)]
 fn bench_tick_next_step_46_once() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.corridor, 15, 16, bench.from, bench.frozen, bench.unlimited);
@@ -285,7 +285,7 @@ fn bench_tick_next_step_46_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1503231)]
 fn bench_tick_next_step_46_twice() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.corridor, 15, 16, bench.from, bench.frozen, bench.unlimited);
@@ -296,7 +296,7 @@ fn bench_tick_next_step_46_twice() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1199910)]
 fn bench_tick_next_step_ring_once() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.ring_grid, 15, 16, bench.from, bench.zero, bench.unlimited);
@@ -305,7 +305,7 @@ fn bench_tick_next_step_ring_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1267920)]
 fn bench_tick_next_step_ring_twice() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.ring_grid, 15, 16, bench.from, bench.zero, bench.unlimited);
@@ -316,7 +316,7 @@ fn bench_tick_next_step_ring_twice() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1299535)]
 fn bench_tick_distance_46_once() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.corridor, 15, 16, bench.from, bench.frozen, bench.unlimited);
@@ -325,7 +325,7 @@ fn bench_tick_distance_46_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1487840)]
 fn bench_tick_distance_46_twice() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.corridor, 15, 16, bench.from, bench.frozen, bench.unlimited);
@@ -336,7 +336,7 @@ fn bench_tick_distance_46_twice() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1382510)]
 fn bench_tick_next_step_away_46_once() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.corridor, 15, 16, bench.from, bench.frozen, bench.unlimited);
@@ -345,7 +345,7 @@ fn bench_tick_next_step_away_46_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1653990)]
 fn bench_tick_next_step_away_46_twice() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.corridor, 15, 16, bench.from, bench.frozen, bench.unlimited);
