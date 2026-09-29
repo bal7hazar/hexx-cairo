@@ -59,7 +59,13 @@ TESTS_EXCLUDED = ("bench_u252.cairo",)
 # Directories of the destination the take-over fills: a file there with no source is an error.
 # (`src/board` also holds files no source has yet: listed in `OWN_FILES` when a task adds one.)
 COVERED_DIRS = ("src/board", "src/finders", "src/generators", "src/tests", "tests")
-OWN_FILES: tuple[str, ...] = ()
+OWN_FILES: tuple[str, ...] = (
+    # M1-T4a, N-3: the assembly of the window
+    "src/board/assembly.cairo",
+    "src/board/tables.cairo",
+    "src/tests/bench_assembly.cairo",
+    "src/tests/test_assembly.cairo",
+)
 
 # --- The rewrites: (pattern, replacement), in order, applied to every file ---------------------
 
