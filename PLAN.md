@@ -29,7 +29,7 @@ on 2026-09-28 and **owned here from now on**. The game's needs stay in the game'
 | LIB-03b | ~~Compiler target (need N-9)~~: **cancelled** before launch, the game dropped Dojo and is on Cairo 2.19 (its ADR-0007). Brief kept: [LIB-03b](docs/briefs/LIB-03b-compiler-target.md) | — | — | — | cancelled |
 | **Gate L-G2** | **Is the plan accepted?** Owner's decision | LIB-03 | Owner | — | **decided** 2026-09-28: accepted. [L-G2](docs/decisions/L-G2-porting-plan.md) |
 | LIB-04 | Workspace, CI, parity table, gas tooling, reference generator, release check (no workflow publishes). Brief: [LIB-04](docs/briefs/LIB-04-repository-tooling.md) | L-G2 | Sonnet 5, implement | GPT-6-Sol, four passes | **done** (2026-09-28, pull request #18), merged with three findings open by [decision](docs/decisions/LIB-04-fix-loops.md) |
-| LIB-04b | The three findings left open by the audit of LIB-04 (re-exports in chain and under two names; hyphen in build metadata; list of missing items of a pre-release). Brief: [LIB-04b](docs/briefs/LIB-04b-tooling-findings.md). **Condition of the first publication** | LIB-04 | Sonnet 5.5, implement | GPT-6-Sol, limited | todo |
+| LIB-04b | The three findings left open by the audit of LIB-04 (re-exports in chain and under two names; hyphen in build metadata; list of missing items of a pre-release). Brief: [LIB-04b](docs/briefs/LIB-04b-tooling-findings.md). **Condition of the first publication** | LIB-04 | Sonnet 5.5, implement | GPT-6-Sol, limited | **done** (2026-09-29, pull request #26); audit PASS, no finding. The condition of the first publication is met |
 | LIB-05 | **Milestone L-M1**: the 11 tasks of §8 of the plan, test-driven, at minimal cost. After the take-over, **N-3 (assembly) and N-8 (flood and selection) first**, measured on their worst cases. **Released on scarbs.xyz only on the owner's go** | LIB-04 | Opus 5.5, Fable 5.1 for the hardest algorithms | GPT-6-Astra (determinism, cost) | in progress: tasks below |
 | LIB-06 | Milestones L-M2 and following, each ending with a release | LIB-05 | As above | As above | todo |
 | LIB-07 | **Final release**: parity reached or exclusions closed and documented; **`origami_hexmap` decommissioned** | LIB-06 | — | GPT-6-Astra | todo |
@@ -47,7 +47,7 @@ it is reported.
 |---|---|---|---|---|---|---|
 | M1-T1a | Take-over, the move: the engine of `origami_hexmap` 1.8.0 under `board`, `finders`, `generators`, unchanged, proved by a script. Brief: [M1-T1a](docs/briefs/LIB-05-T1a-takeover-move.md) | §5, M1-T1 | LIB-04 | Sonnet 5.5 | GPT-6-Sol | **done** (2026-09-29, pull request #28); two audit passes, PASS WITH FINDINGS; minors deferred to M1-T1c |
 | M1-T1c | **Budgets of the inherited tests made conformant**: each of the 702 tests of `gas/takeover-baseline.txt` gets `#[available_gas]` at `ceil(1.05 × measured)`, the baseline is emptied and removed, `takeover_check.py` ignores the attribute. Deferred findings of the audit of M1-T1a: the baseline can still grow by hand with an already inherited test (finding 3: gone when the list is empty); CI keeps the raw `snforge` output and the hashes of the compiled test artefacts, to find the cause of the gas drift of `test_readme_open` on its next occurrence (finding 4) | §5.4 | M1-T1b | Sonnet 5.5 | GPT-6-Sol | todo |
-| M1-T1b | Take-over, the proof: `crates/takeover_tests`, equality against the published 1.8.0, function by function | §5.4, M1-T1 | M1-T1a | Opus 5.5 | GPT-6-Astra (determinism) | todo |
+| M1-T1b | Take-over, the proof: `crates/takeover_tests`, equality against the published 1.8.0, function by function, panics included. Brief: [M1-T1b](docs/briefs/LIB-05-T1b-takeover-equality.md) | §5.4, M1-T1 | M1-T1a | Opus 5.5 | GPT-6-Astra (determinism) | next |
 | M1-T4a | **N-3**: band tables, `origin`, `local`, `assemble`, `window`; **void chunks assembled as wall without a read, the window never clamped (D-134)**; oracle; bench of 4 chunks and two layers | §6.4, M1-T4 | M1-T1a | Opus 5.5 | GPT-6-Astra (cost) | todo |
 | M1-T4b | N-4: `cut` as `grid & mask` (§14 of the plan) | §6.5, M1-T4 | M1-T4a | Sonnet 5.5 | GPT-6-Sol | todo |
 | M1-T2 | Mirror items of L-M1 except `line_to`: `Hex`, `EdgeDirection`, offset conversions, `HexOrientation`; reference vectors | §8, M1-T2 | M1-T1a | Opus 5.5 | GPT-6-Astra (parity) | todo |
@@ -59,7 +59,7 @@ it is reported.
 | M1-T7 | N-2: sides and openings, **never on a corner (D-134)**; the four seam formulas, the oracle on global coordinates | §6.3, M1-T7 | M1-T3 | Opus 5.5 | GPT-6-Astra | todo |
 | M1-T8 | N-1: `generate_with_margins`, `smooth`; planes and masks; pinned streams; **the four corners of a chunk always wall (D-134)** | §6.2, M1-T8 | M1-T3 | Fable 5.1 or Opus 5.5 | GPT-6-Astra | todo |
 | M1-N9 | N-9: consumer check against the published package | §8, M1-N9 | first release candidate | Sonnet 5.5 | GPT-6-Sol | todo |
-| M1-R | Release 0.1.0 and its candidates: asked by a pending file, published by the orchestrator's session after a go (game's `OPERATIONS.md` §7). **Needs LIB-04b merged** | §9, M1-R | all | Orchestrator | — | todo |
+| M1-R | Release 0.1.0 and its candidates: asked by a pending file, published by the orchestrator's session after a go (game's `OPERATIONS.md` §7). LIB-04b is merged | §9, M1-R | all | Orchestrator | — | todo |
 
 ## Milestone L-M1 — what the game needs first
 
