@@ -4,14 +4,14 @@
 
 | | |
 |---|---|
-| Phase | **Milestone L-M1: LIB-05.** M1-T1a and M1-T1b merged: the engine is taken over and proved equal to the published 1.8.0. Next M1-T1c (the gas gate), then N-3 and N-8 |
+| Phase | **Milestone L-M1: LIB-05.** The take-over is done (M1-T1a, M1-T1b, M1-T1c). Now **M1-T4a, N-3, the assembly of the window**, then N-8 |
 | Cap | **One agent at a time for the library, audits included**: the single slot `lib-1`, held by a kernel lock (launcher at the game's `2628b21`). Nothing is launched while `~/orchestrator/waiting/game` is less than 30 minutes old |
-| Waiting for the slot, in this order | M1-T1c (`[Sonnet 5.5]`); then M1-T4a (N-3, the assembly) |
+| Waiting for the slot, in this order | M1-T4a (`[Opus 5.5]`, N-3), first by decision D-154 of the project manager |
 | Pending decisions | None |
 | Gates | L-G1 and L-G2 decided by the owner on 2026-09-28: [L-G1](docs/decisions/L-G1-hexx-port.md), [L-G2](docs/decisions/L-G2-porting-plan.md) |
 | Publication | Nothing is published. No workflow of the repository publishes or holds a token. Rule D-132 (game's `OPERATIONS.md` §7): the orchestrator's session publishes, never an agent, after a go that names package, version and commit. LIB-04b is merged (pull request #26, audit PASS without finding). **Before its first publication the orchestrator asks the owner, in its own session, to confirm the delegation of that decision to the project manager** |
 | Stop condition of LIB-05 | A measurement above the upper bound of its range: stop and report before any budget is set |
-| **Open risk: gas measurements that moved** | Twice in CI, on an unchanged tree, tests measured 0.5 to 1.3 % above their snapshot and passed on the next run (`test_readme_open`; then 47 tests). **Every test that moved goes through `Digger::dig`.** Toolchain, runner image, cache and actions were the same; the auditor found nothing in the code that can vary. Suspects now: the compiled artefact or the measurement. M1-T1c keeps the raw output and the artefact hashes of every run and runs the `Digger` tests twice; until the cause is found a pull request can fail the gas gate at random |
+| **Open risk: the compile is not reproducible** | Instrumented by M1-T1c: four builds of the same sources gave four different hashes of the compiled test files, one of them with 0.2–0.6 % more gas on the 42 tests reaching `Digger::dig`; in CI the same three times, and once a class of `crates/consumer` at 27,101 Sierra felts instead of 27,092. Reading: the Cairo compiler of Scarb 2.19.4 is not deterministic on some code (inferred). Decision D-154 of the project manager: the gate stays exact, a gas-only mismatch is re-run once and every occurrence is recorded with its artefacts; the diagnostic is the game's task SPK-13 on the owner's Mac ([reproduction](docs/reports/LIB-05-M1-T1c-REPORT.md)); an upstream issue is the owner's go. It concerns the game's class hashes too |
 | Figures of the take-over | 811 tests (708 run, 103 ignored), all measurements equal to those of 1.8.0; CI job of the engine's tests 7 min 20 s of the 10 minutes allowed; the 20 functions of the facade do not fit one contract (limit 81,920 CASM felts): three fixtures of 21,007, 44,469 and 49,375 |
 | Figures of the game's spike SPK-7, on 1.8.0 | Assembly of the window 65,224; flood 26,452 per layer; capped flood with 8 goblins and their steps 1,150,737; the chunked map adds about 720,000 per tick. The measurements of N-3 and N-8 are compared with them |
 
@@ -19,6 +19,7 @@
 
 | Date | What |
 |---|---|
+| 2026-09-29 | LIB-05 M1-T1c: one gas job per package, ignored tests measured, the 702 inherited and 89 more budgets conformant, no baseline left, the drift instrumented, by `[Sonnet 5.5]`; two audit passes by `[GPT-6-Sol]`; [report](docs/reports/LIB-05-M1-T1c-REPORT.md) with a section of reproduction for SPK-13 |
 | 2026-09-29 | LIB-05 M1-T1b: `crates/takeover_tests`, 630 tests proving every public function of the engine equal to the published `origami_hexmap` 1.8.0, panics included, gas identical on the 22 measured call sites, by `[Opus 5.5]`; three audit passes by `[GPT-6-Astra]`, two fix loops; [report](docs/reports/LIB-05-M1-T1b-REPORT.md) archived |
 | 2026-09-29 | LIB-04b: the three findings of the tooling audit and four more silent cases of the parity tool, by `[Sonnet 5.5]`; audit by `[GPT-6-Sol]`: PASS, no finding; [report](docs/reports/LIB-04b-REPORT.md) archived |
 | 2026-09-29 | LIB-05 M1-T1a: the engine of `origami_hexmap` 1.8.0 moved unchanged (29 files, proved by `scripts/takeover_check.py` and by the auditor's own comparison), by `[Sonnet 5.5]`; two audit passes by `[GPT-6-Sol]`, one fix loop; [report](docs/reports/LIB-05-M1-T1a-REPORT.md) archived |
