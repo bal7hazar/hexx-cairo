@@ -26,7 +26,7 @@ done
 # parsable measurement, counts (declared / collected / with a row / ignored) that do not agree, or
 # a stale gas/*.snap. The two exemptions, for the tests inherited from origami_hexmap 1.8.0 listed
 # in gas/takeover-baseline.txt (and only those of gas/takeover-tests.txt): no #[available_gas], and
-# a budget more than 5 % above ceil(1.05 * measured).
+# a budget above ceil(1.05 * measured).
 python3 scripts/bench.py check
 python3 scripts/gas_tables.py --check
 # Class size of the crates/consumer contract fixture (gas/bytecode.size, release build).

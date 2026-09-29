@@ -35,8 +35,8 @@ python3 scripts/bench.py check            # every test has #[available_gas], bud
 ```
 
 The gas rule has **two exemptions**, for the tests taken over from `origami_hexmap` 1.8.0 and
-listed in `gas/takeover-baseline.txt`: they may have no `#[available_gas]`, and a budget more than
-5 % above `ceil(1.05 * measured)`. Nothing else is exempt, the list only shrinks (only tests of
+listed in `gas/takeover-baseline.txt`: they may have no `#[available_gas]`, and a budget
+above `ceil(1.05 * measured)`. Nothing else is exempt, the list only shrinks (only tests of
 `gas/takeover-tests.txt`, the inherited ones, may be in it), and task M1-T1c empties it.
 
 ## License
