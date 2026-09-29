@@ -10,9 +10,11 @@ use hexx::finders::bfs as h;
 use hexx::finders::bfs::Bfs as H;
 use origami_hexmap::finders::bfs as o;
 use origami_hexmap::finders::bfs::Bfs as O;
-use crate::common::{RADII, endpoints, entrance_pairs, identical_endpoints, sources};
+use crate::common::{
+    RADII, endpoints, entrance_pairs, identical_endpoints, open_pairs, sources, tiles,
+};
 use crate::fixtures::{
-    Board, ENDPOINTS, ENTRANCES_7X7_AUDIT, UNREACHABLE_7X7, boards, entrance_boards,
+    Board, ENDPOINTS, ENTRANCES_7X7_AUDIT, UNREACHABLE_7X7, boards, edge_boards, entrance_boards,
 };
 
 fn check_search(first: u32, last: u32) {
@@ -191,6 +193,17 @@ fn test_bfs_tiles_within_range_boards_1() {
     check_tiles_within_range(26, 42);
 }
 
+/// The auditor's witness of fix loop 2 (finding 7): on a `15x16` whose only open tiles are the
+/// adjacent edge tiles 1 and 2, the flood from 1 reaches 2 directly (through the neighbours of
+/// the edge centre, no interior tile involved): `Bfs::reachable(6, 15, 16, 1) == 6`.
+#[test]
+#[available_gas(l2_gas: 243953)]
+fn test_bfs_reachable_audit_witness() {
+    let lhs = O::reachable(6, 15, 16, 1);
+    assert(lhs == 6, 'value of 1.8.0');
+    assert(lhs == H::reachable(6, 15, 16, 1), 'reachable');
+}
+
 // Entrances (fix loop 1, finding 1).
 
 /// The pairs of an entrance board: every ordered pair of distinct entrances, then the seeded
@@ -355,6 +368,146 @@ fn test_bfs_identical_endpoints() {
         }
         index += 1;
     }
+}
+
+// Adjacent edge tiles (fix loop 2, finding 7).
+
+/// `Bfs::reachable` and `Bfs::tiles_within_range` (every radius of `common::RADII`) from every
+/// open tile of the boards `[first, last)` of `fixtures::edge_boards`. The flood from the edge
+/// tile 1 is pinned to `{1, 2}` (value 6) on every board: it reaches the adjacent edge tile 2
+/// directly and does not cross it to 3.
+fn check_floods_edges(first: u32, last: u32) {
+    let boards = edge_boards();
+    let mut index = first;
+    while index != last {
+        let board = *boards.at(index);
+        let (grid, width, height) = (board.grid, board.width, board.height);
+        assert(O::reachable(grid, width, height, 1) == 6, 'edge 1 reaches 2 only');
+        for from in tiles(grid) {
+            let lhs = O::reachable(grid, width, height, from);
+            assert(lhs == H::reachable(grid, width, height, from), 'reachable');
+            for radius in RADII.span() {
+                let lhs = O::tiles_within_range(grid, width, height, from, *radius);
+                let rhs = H::tiles_within_range(grid, width, height, from, *radius);
+                assert(lhs == rhs, 'tiles_within_range');
+            }
+        }
+        index += 1;
+    }
+}
+
+/// `Bfs::search` and `Bfs::distance` between every ordered pair of distinct open tiles of the
+/// boards `[first, last)` of `fixtures::edge_boards`.
+fn check_paths_edges(first: u32, last: u32) {
+    let boards = edge_boards();
+    let mut index = first;
+    while index != last {
+        let board = *boards.at(index);
+        let (grid, width, height) = (board.grid, board.width, board.height);
+        for (from, to) in open_pairs(grid) {
+            let lhs = O::search(grid, width, height, from, to);
+            assert(lhs == H::search(grid, width, height, from, to), 'search');
+            let lhs = O::distance(grid, width, height, from, to);
+            assert(lhs == H::distance(grid, width, height, from, to), 'distance');
+        }
+        index += 1;
+    }
+}
+
+/// `Bfs::reachable`, `Bfs::tiles_within_range` from every open tile of `EDGES_7X7` and
+/// `EDGES_POCKET_7X7` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 53882892)]
+fn test_bfs_floods_edges_7x7() {
+    check_floods_edges(0, 2);
+}
+
+/// `Bfs::reachable`, `Bfs::tiles_within_range` from every open tile of `EDGES_16X8` and
+/// `EDGES_POCKET_16X8` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 55410222)]
+fn test_bfs_floods_edges_16x8() {
+    check_floods_edges(2, 4);
+}
+
+/// `Bfs::reachable`, `Bfs::tiles_within_range` from every open tile of `EDGES_8X16` and
+/// `EDGES_POCKET_8X16` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 55576542)]
+fn test_bfs_floods_edges_8x16() {
+    check_floods_edges(4, 6);
+}
+
+/// `Bfs::reachable`, `Bfs::tiles_within_range` from every open tile of `EDGES_15X16` and
+/// `EDGES_POCKET_15X16` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 65826645)]
+fn test_bfs_floods_edges_15x16() {
+    check_floods_edges(6, 8);
+}
+
+/// `Bfs::reachable`, `Bfs::tiles_within_range` from every open tile of `EDGES_17X14` and
+/// `EDGES_POCKET_17X14` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 65738445)]
+fn test_bfs_floods_edges_17x14() {
+    check_floods_edges(8, 10);
+}
+
+/// `Bfs::reachable`, `Bfs::tiles_within_range` from every open tile of `EDGES_19X13` and
+/// `EDGES_POCKET_19X13` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 65811525)]
+fn test_bfs_floods_edges_19x13() {
+    check_floods_edges(10, 12);
+}
+
+/// `Bfs::search`, `Bfs::distance` between every pair of open tiles of `EDGES_7X7` and
+/// `EDGES_POCKET_7X7` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 183343724)]
+fn test_bfs_paths_edges_7x7() {
+    check_paths_edges(0, 2);
+}
+
+/// `Bfs::search`, `Bfs::distance` between every pair of open tiles of `EDGES_16X8` and
+/// `EDGES_POCKET_16X8` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 185086050)]
+fn test_bfs_paths_edges_16x8() {
+    check_paths_edges(2, 4);
+}
+
+/// `Bfs::search`, `Bfs::distance` between every pair of open tiles of `EDGES_8X16` and
+/// `EDGES_POCKET_8X16` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 185266482)]
+fn test_bfs_paths_edges_8x16() {
+    check_paths_edges(4, 6);
+}
+
+/// `Bfs::search`, `Bfs::distance` between every pair of open tiles of `EDGES_15X16` and
+/// `EDGES_POCKET_15X16` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 195678000)]
+fn test_bfs_paths_edges_15x16() {
+    check_paths_edges(6, 8);
+}
+
+/// `Bfs::search`, `Bfs::distance` between every pair of open tiles of `EDGES_17X14` and
+/// `EDGES_POCKET_17X14` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 195589800)]
+fn test_bfs_paths_edges_17x14() {
+    check_paths_edges(8, 10);
+}
+
+/// `Bfs::search`, `Bfs::distance` between every pair of open tiles of `EDGES_19X13` and
+/// `EDGES_POCKET_19X13` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 195446958)]
+fn test_bfs_paths_edges_19x13() {
+    check_paths_edges(10, 12);
 }
 
 // Panics: one test per side, same input, same message.

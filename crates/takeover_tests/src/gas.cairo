@@ -10,8 +10,9 @@
 //! cave both openings stop at once (the tile next to 8 is floor: the early exit of
 //! `Digger::dig`), so `open_with_corridor_long` and `open_with_maze_long` measure a long dig
 //! beside it: the side tile 8 of a `17x14` whose only open tile is 202, at the other end of the
-//! board. Every value goes through an `#[inline(never)]` identity so that no call is folded at
-//! compile time.
+//! board (the early exits add 1 tile, the long corridor 58 and the long maze 89: their grids
+//! hold 59 and 90 open tiles against 1). Every value goes through an `#[inline(never)]` identity so
+//! that no call is folded at compile time.
 //!
 //! Each result is checked against the value that the equality tests establish for both libraries
 //! (the `EXPECTED_*` constants, read from 1.8.0; a check that fails on a wrong result, so that no

@@ -13,12 +13,12 @@ use hexx::HexMapTrait as H;
 use origami_hexmap::HexMapTrait as O;
 use crate::common::{
     RADII, SEEDS, assert_maps, below, costs, endpoints, entrance_pairs, generator_seed,
-    hexx_direction, identical_endpoints, input_grid, origami_direction, query_pairs,
+    hexx_direction, identical_endpoints, input_grid, open_pairs, origami_direction, query_pairs,
     query_positions, sides, sources, tiles, valid_dimensions,
 };
 use crate::fixtures::{
     Board, EMPTY_17X14, EMPTY_7X7, ENDPOINTS, ENTRANCES_7X7_AUDIT, UNREACHABLE_7X7, boards,
-    entrance_boards,
+    edge_boards, entrance_boards,
 };
 use crate::walker::STEPS;
 
@@ -1435,6 +1435,220 @@ fn test_map_field_of_movement_entrances_hand_1() {
 #[available_gas(l2_gas: 422328999)]
 fn test_map_field_of_movement_entrances_generated() {
     check_field_of_movement_entrances(9, 15);
+}
+
+// Adjacent edge tiles (fix loop 2, finding 7).
+
+/// `reachable`, `keep_component`, `range` and `ring` (every radius of `common::RADII`) from every
+/// open tile of the boards `[first, last)` of `fixtures::edge_boards`.
+fn check_floods_edges(first: u32, last: u32) {
+    let boards = edge_boards();
+    let mut index = first;
+    while index != last {
+        let board = *boards.at(index);
+        let (grid, width, height) = (board.grid, board.width, board.height);
+        let (lhs, rhs) = (O::new(grid, width, height, 0), H::new(grid, width, height, 0));
+        for from in tiles(grid) {
+            assert(O::reachable(lhs, from) == H::reachable(rhs, from), 'reachable');
+            let (mut left, mut right) = (lhs, rhs);
+            O::keep_component(ref left, from);
+            H::keep_component(ref right, from);
+            assert_maps(left, right);
+            for radius in RADII.span() {
+                assert(O::range(lhs, from, *radius) == H::range(rhs, from, *radius), 'range');
+                assert(O::ring(lhs, from, *radius) == H::ring(rhs, from, *radius), 'ring');
+            }
+        }
+        index += 1;
+    }
+}
+
+/// `search_path`, `distance_to` and `search_path_weighted` (0 to 3 cost classes) between every
+/// ordered pair of distinct open tiles of the boards `[first, last)` of `fixtures::edge_boards`.
+fn check_paths_edges(first: u32, last: u32) {
+    let boards = edge_boards();
+    let mut index = first;
+    while index != last {
+        let board = *boards.at(index);
+        let (grid, width, height) = (board.grid, board.width, board.height);
+        let (lhs, rhs) = (O::new(grid, width, height, 0), H::new(grid, width, height, 0));
+        let mut input: u32 = 1000000 + 1000 * index;
+        for (from, to) in open_pairs(grid) {
+            assert(O::search_path(lhs, from, to) == H::search_path(rhs, from, to), 'search_path');
+            assert(O::distance_to(lhs, from, to) == H::distance_to(rhs, from, to), 'distance_to');
+            let costs = costs(input, width, height);
+            let left = O::search_path_weighted(lhs, from, to, costs);
+            assert(left == H::search_path_weighted(rhs, from, to, costs), 'weighted');
+            input += 1;
+        }
+        index += 1;
+    }
+}
+
+/// `field_of_movement` from every open tile of the boards `[first, last)` of
+/// `fixtures::edge_boards`, every budget of `common::RADII`, 0 to 3 cost classes.
+fn check_field_edges(first: u32, last: u32) {
+    let boards = edge_boards();
+    let mut index = first;
+    while index != last {
+        let board = *boards.at(index);
+        let (grid, width, height) = (board.grid, board.width, board.height);
+        let (lhs, rhs) = (O::new(grid, width, height, 0), H::new(grid, width, height, 0));
+        let mut input: u32 = 1100000 + 1000 * index;
+        for from in tiles(grid) {
+            for budget in RADII.span() {
+                let costs = costs(input, width, height);
+                let left = O::field_of_movement(lhs, from, *budget, costs);
+                assert(left == H::field_of_movement(rhs, from, *budget, costs), 'field');
+                input += 1;
+            }
+        }
+        index += 1;
+    }
+}
+
+/// `reachable`, `keep_component`, `range`, `ring` from every open tile of `EDGES_7X7` and
+/// `EDGES_POCKET_7X7` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 171291442)]
+fn test_map_floods_edges_7x7() {
+    check_floods_edges(0, 2);
+}
+
+/// `reachable`, `keep_component`, `range`, `ring` from every open tile of `EDGES_16X8` and
+/// `EDGES_POCKET_16X8` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 172998920)]
+fn test_map_floods_edges_16x8() {
+    check_floods_edges(2, 4);
+}
+
+/// `reachable`, `keep_component`, `range`, `ring` from every open tile of `EDGES_8X16` and
+/// `EDGES_POCKET_8X16` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 173165240)]
+fn test_map_floods_edges_8x16() {
+    check_floods_edges(4, 6);
+}
+
+/// `reachable`, `keep_component`, `range`, `ring` from every open tile of `EDGES_15X16` and
+/// `EDGES_POCKET_15X16` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 197565535)]
+fn test_map_floods_edges_15x16() {
+    check_floods_edges(6, 8);
+}
+
+/// `reachable`, `keep_component`, `range`, `ring` from every open tile of `EDGES_17X14` and
+/// `EDGES_POCKET_17X14` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 197477335)]
+fn test_map_floods_edges_17x14() {
+    check_floods_edges(8, 10);
+}
+
+/// `reachable`, `keep_component`, `range`, `ring` from every open tile of `EDGES_19X13` and
+/// `EDGES_POCKET_19X13` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 197371705)]
+fn test_map_floods_edges_19x13() {
+    check_floods_edges(10, 12);
+}
+
+/// `search_path`, `distance_to`, `search_path_weighted` between every pair of open tiles of
+/// `EDGES_7X7` and `EDGES_POCKET_7X7` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 320548900)]
+fn test_map_paths_edges_7x7() {
+    check_paths_edges(0, 2);
+}
+
+/// `search_path`, `distance_to`, `search_path_weighted` between every pair of open tiles of
+/// `EDGES_16X8` and `EDGES_POCKET_16X8` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 325157348)]
+fn test_map_paths_edges_16x8() {
+    check_paths_edges(2, 4);
+}
+
+/// `search_path`, `distance_to`, `search_path_weighted` between every pair of open tiles of
+/// `EDGES_8X16` and `EDGES_POCKET_8X16` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 325135961)]
+fn test_map_paths_edges_8x16() {
+    check_paths_edges(4, 6);
+}
+
+/// `search_path`, `distance_to`, `search_path_weighted` between every pair of open tiles of
+/// `EDGES_15X16` and `EDGES_POCKET_15X16` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 362006991)]
+fn test_map_paths_edges_15x16() {
+    check_paths_edges(6, 8);
+}
+
+/// `search_path`, `distance_to`, `search_path_weighted` between every pair of open tiles of
+/// `EDGES_17X14` and `EDGES_POCKET_17X14` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 370096302)]
+fn test_map_paths_edges_17x14() {
+    check_paths_edges(8, 10);
+}
+
+/// `search_path`, `distance_to`, `search_path_weighted` between every pair of open tiles of
+/// `EDGES_19X13` and `EDGES_POCKET_19X13` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 374552661)]
+fn test_map_paths_edges_19x13() {
+    check_paths_edges(10, 12);
+}
+
+/// `field_of_movement` from every open tile, 0 to 3 cost classes, of `EDGES_7X7` and
+/// `EDGES_POCKET_7X7` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 98405795)]
+fn test_map_field_of_movement_edges_7x7() {
+    check_field_edges(0, 2);
+}
+
+/// `field_of_movement` from every open tile, 0 to 3 cost classes, of `EDGES_16X8` and
+/// `EDGES_POCKET_16X8` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 101923267)]
+fn test_map_field_of_movement_edges_16x8() {
+    check_field_edges(2, 4);
+}
+
+/// `field_of_movement` from every open tile, 0 to 3 cost classes, of `EDGES_8X16` and
+/// `EDGES_POCKET_8X16` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 102061708)]
+fn test_map_field_of_movement_edges_8x16() {
+    check_field_edges(4, 6);
+}
+
+/// `field_of_movement` from every open tile, 0 to 3 cost classes, of `EDGES_15X16` and
+/// `EDGES_POCKET_15X16` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 126458395)]
+fn test_map_field_of_movement_edges_15x16() {
+    check_field_edges(6, 8);
+}
+
+/// `field_of_movement` from every open tile, 0 to 3 cost classes, of `EDGES_17X14` and
+/// `EDGES_POCKET_17X14` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 131837163)]
+fn test_map_field_of_movement_edges_17x14() {
+    check_field_edges(8, 10);
+}
+
+/// `field_of_movement` from every open tile, 0 to 3 cost classes, of `EDGES_19X13` and
+/// `EDGES_POCKET_19X13` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 135176499)]
+fn test_map_field_of_movement_edges_19x13() {
+    check_field_edges(10, 12);
 }
 
 // Panics: one test per side, same input, same message (README of 1.8.0, § Panics).

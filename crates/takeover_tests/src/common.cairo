@@ -280,6 +280,21 @@ pub fn identical_endpoints(board: u32, grid: felt252, width: u8, height: u8) -> 
     pairs
 }
 
+/// Every ordered pair of distinct walkable tiles of a board (fix loop 2: the boards of adjacent
+/// edge tiles, at most 14 tiles each).
+pub fn open_pairs(grid: felt252) -> Array<(u8, u8)> {
+    let open = tiles(grid);
+    let mut pairs: Array<(u8, u8)> = array![];
+    for from in open.span() {
+        for to in open.span() {
+            if from != to {
+                pairs.append((*from, *to));
+            }
+        }
+    }
+    pairs
+}
+
 /// Every ordered pair of distinct entrances of a board.
 pub fn entrance_pairs(grid: felt252, width: u8, height: u8) -> Array<(u8, u8)> {
     let entrances = entrances(grid, width, height);

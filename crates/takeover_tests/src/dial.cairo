@@ -11,8 +11,10 @@ use hexx::finders::dial as h;
 use hexx::finders::dial::Dial as H;
 use origami_hexmap::finders::dial as o;
 use origami_hexmap::finders::dial::Dial as O;
-use crate::common::{RADII, costs, endpoints, entrance_pairs, identical_endpoints, sources};
-use crate::fixtures::{ENDPOINTS, UNREACHABLE_7X7, boards, entrance_boards};
+use crate::common::{
+    RADII, costs, endpoints, entrance_pairs, identical_endpoints, open_pairs, sources, tiles,
+};
+use crate::fixtures::{ENDPOINTS, UNREACHABLE_7X7, boards, edge_boards, entrance_boards};
 
 fn check_search(first: u32, last: u32) {
     let boards = boards();
@@ -273,6 +275,145 @@ fn test_dial_field_of_movement_entrances_hand_1() {
 #[available_gas(l2_gas: 421406675)]
 fn test_dial_field_of_movement_entrances_generated() {
     check_field_of_movement_entrances(9, 15);
+}
+
+// Adjacent edge tiles (fix loop 2, finding 7).
+
+/// `Dial::search` between every ordered pair of distinct open tiles of the boards `[first, last)`
+/// of `fixtures::edge_boards`, 0 to 3 cost classes (`common::costs`).
+fn check_search_edges(first: u32, last: u32) {
+    let boards = edge_boards();
+    let mut index = first;
+    while index != last {
+        let board = *boards.at(index);
+        let (grid, width, height) = (board.grid, board.width, board.height);
+        let mut input: u32 = 900000 + 1000 * index;
+        for (from, to) in open_pairs(grid) {
+            let costs = costs(input, width, height);
+            let lhs = O::search(grid, width, height, from, to, costs);
+            assert(lhs == H::search(grid, width, height, from, to, costs), 'search');
+            input += 1;
+        }
+        index += 1;
+    }
+}
+
+/// `Dial::field_of_movement` from every open tile, every budget of `common::RADII`, 0 to 3 cost
+/// classes.
+fn check_field_of_movement_edges(first: u32, last: u32) {
+    let boards = edge_boards();
+    let mut index = first;
+    while index != last {
+        let board = *boards.at(index);
+        let (grid, width, height) = (board.grid, board.width, board.height);
+        let mut input: u32 = 950000 + 1000 * index;
+        for from in tiles(grid) {
+            for budget in RADII.span() {
+                let costs = costs(input, width, height);
+                let lhs = O::field_of_movement(grid, width, height, from, *budget, costs);
+                let rhs = H::field_of_movement(grid, width, height, from, *budget, costs);
+                assert(lhs == rhs, 'field_of_movement');
+                input += 1;
+            }
+        }
+        index += 1;
+    }
+}
+
+/// `Dial::search` between every pair of open tiles, 0 to 3 cost classes, of `EDGES_7X7` and
+/// `EDGES_POCKET_7X7` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 139621319)]
+fn test_dial_search_edges_7x7() {
+    check_search_edges(0, 2);
+}
+
+/// `Dial::search` between every pair of open tiles, 0 to 3 cost classes, of `EDGES_16X8` and
+/// `EDGES_POCKET_16X8` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 143739440)]
+fn test_dial_search_edges_16x8() {
+    check_search_edges(2, 4);
+}
+
+/// `Dial::search` between every pair of open tiles, 0 to 3 cost classes, of `EDGES_8X16` and
+/// `EDGES_POCKET_8X16` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 144003103)]
+fn test_dial_search_edges_8x16() {
+    check_search_edges(4, 6);
+}
+
+/// `Dial::search` between every pair of open tiles, 0 to 3 cost classes, of `EDGES_15X16` and
+/// `EDGES_POCKET_15X16` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 173271868)]
+fn test_dial_search_edges_15x16() {
+    check_search_edges(6, 8);
+}
+
+/// `Dial::search` between every pair of open tiles, 0 to 3 cost classes, of `EDGES_17X14` and
+/// `EDGES_POCKET_17X14` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 180948136)]
+fn test_dial_search_edges_17x14() {
+    check_search_edges(8, 10);
+}
+
+/// `Dial::search` between every pair of open tiles, 0 to 3 cost classes, of `EDGES_19X13` and
+/// `EDGES_POCKET_19X13` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 184489137)]
+fn test_dial_search_edges_19x13() {
+    check_search_edges(10, 12);
+}
+
+/// `Dial::field_of_movement` from every open tile, 0 to 3 cost classes, of `EDGES_7X7` and
+/// `EDGES_POCKET_7X7` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 98116759)]
+fn test_dial_field_of_movement_edges_7x7() {
+    check_field_of_movement_edges(0, 2);
+}
+
+/// `Dial::field_of_movement` from every open tile, 0 to 3 cost classes, of `EDGES_16X8` and
+/// `EDGES_POCKET_16X8` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 101587530)]
+fn test_dial_field_of_movement_edges_16x8() {
+    check_field_of_movement_edges(2, 4);
+}
+
+/// `Dial::field_of_movement` from every open tile, 0 to 3 cost classes, of `EDGES_8X16` and
+/// `EDGES_POCKET_8X16` (single-limb path).
+#[test]
+#[available_gas(l2_gas: 102000577)]
+fn test_dial_field_of_movement_edges_8x16() {
+    check_field_of_movement_edges(4, 6);
+}
+
+/// `Dial::field_of_movement` from every open tile, 0 to 3 cost classes, of `EDGES_15X16` and
+/// `EDGES_POCKET_15X16` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 125458881)]
+fn test_dial_field_of_movement_edges_15x16() {
+    check_field_of_movement_edges(6, 8);
+}
+
+/// `Dial::field_of_movement` from every open tile, 0 to 3 cost classes, of `EDGES_17X14` and
+/// `EDGES_POCKET_17X14` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 131841835)]
+fn test_dial_field_of_movement_edges_17x14() {
+    check_field_of_movement_edges(8, 10);
+}
+
+/// `Dial::field_of_movement` from every open tile, 0 to 3 cost classes, of `EDGES_19X13` and
+/// `EDGES_POCKET_19X13` (two-limb path).
+#[test]
+#[available_gas(l2_gas: 135152628)]
+fn test_dial_field_of_movement_edges_19x13() {
+    check_field_of_movement_edges(10, 12);
 }
 
 // Panics: one test per side, same input, same message.

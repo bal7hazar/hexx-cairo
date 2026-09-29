@@ -85,8 +85,9 @@ fn test_rng_mix() {
 
 /// The draws from a generator whose pool is a boundary of its `u128` domain (fix loop 1, finding
 /// 3): the boundaries of the brief adapted to a pool, 0, 1, `2^128 - 1` (`2^128` and `2^250` are
-/// not `u128`), with `2^64 - 1` and `2^64` on both sides of the refill threshold. Every seed of
-/// `seeds` (262) with the pool `k % 5`; from each state, one call of `draw` (a seeded bound, tag
+/// not `u128`), with `2^64 - 1` and `2^64` on both sides of the refill threshold. 262 states: the
+/// seed `k` of `seeds` with the pool of index `k % 5` (one pool per seed, not every pool with every
+/// seed); from each state, one call of `draw` (a seeded bound, tag
 /// `'bound'`), `draw6`, `draw_byte` and `next_below` (a seeded bound in `[1, 255]`), `shuffle6`
 /// and `refill`, the returned value and the generator compared after each.
 #[test]
