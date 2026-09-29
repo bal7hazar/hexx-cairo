@@ -7,6 +7,8 @@ Run: python3 -m unittest discover -s scripts/tests -v
 """
 from __future__ import annotations
 
+import contextlib
+import io
 import shutil
 import sys
 import unittest
@@ -44,7 +46,22 @@ class Scratch(unittest.TestCase):
 class EveryTestObeysTheRule(unittest.TestCase):
     def test_a_conformant_test_is_accepted(self) -> None:
         self.assertEqual(bench.budget_violations(pk(a=row(1000, 1050), b=row(1000, 1000))), [])
-        self.assertEqual(bench.budget_violations(pk(a=row(None, 5000, ran=False))), [])
+
+    def test_an_ignored_test_with_a_budget_and_no_row_is_an_error(self) -> None:
+        bad = bench.budget_violations(pk(a=row(None, 5000, ran=False)))
+        self.assertEqual(len(bad), 1)
+        self.assertIn("cannot be verified", bad[0])
+
+    def test_snforge_is_asked_for_the_ignored_tests_too(self) -> None:
+        seen = []
+
+        class Done:
+            returncode, stdout, stderr = 0, "Collected 0 test(s)\n", ""
+
+        with mock.patch.object(bench.subprocess, "run", lambda cmd, **kw: seen.append(cmd) or Done()), \
+                mock.patch.object(bench, "write_evidence", lambda *args: None):
+            bench.run_snforge("hexx", "check", include_ignored=True)
+        self.assertIn("--include-ignored", seen[0])
 
     def test_no_test_is_exempt(self) -> None:
         packages = pk(over=row(1000, 2000), none=row(1000, None), ign=row(None, None, ran=False),
@@ -114,23 +131,30 @@ class SnapshotDifferences(Scratch):
 
 
 class Evidence(Scratch):
-    def test_raw_output_hashes_and_versions_are_kept(self) -> None:
-        dev = self.dir / "target" / "dev"
-        dev.mkdir(parents=True)
+    def write(self, dev: Path) -> None:
+        dev.mkdir(parents=True, exist_ok=True)
         (dev / "hexx_unittest.test.sierra.json").write_text("sierra")
         (dev / "hexx_unittest.test.json").write_text("{}")
         (dev / "other_unittest.test.json").write_text("not this package")
+
+    def test_raw_output_hashes_and_versions_are_kept_per_run(self) -> None:
+        self.write(self.dir / "target" / "dev")
         with mock.patch.object(bench, "ROOT", self.dir), \
                 mock.patch.object(bench, "ARTIFACTS", self.dir / "art"), \
                 mock.patch.object(bench, "tool_version", lambda cmd: "1.2.3 " + cmd[0]):
-            directory = bench.write_evidence("hexx", "raw output\n")
-        self.assertEqual((directory / "snforge-detailed-resources.txt").read_text(), "raw output\n")
-        hashes = (directory / "artifacts.sha256").read_text().splitlines()
+            directory = bench.write_evidence("hexx", "raw output\n", "check")
+            (self.dir / "target" / "dev" / "hexx_unittest.test.json").write_text("changed")
+            bench.write_evidence("hexx", "second\n", "repeat-1")
+        self.assertEqual((directory / "snforge-check.txt").read_text(), "raw output\n")
+        self.assertEqual((directory / "snforge-repeat-1.txt").read_text(), "second\n")
+        hashes = (directory / "artifacts-check.sha256").read_text().splitlines()
         self.assertEqual(len(hashes), 2)
         self.assertTrue(all("hexx_unittest" in line for line in hashes))
-        # sha256("{}") is well known
+        # sha256("{}") is well known; the later run did not overwrite the earlier one
         self.assertIn("44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a  "
                       "target/dev/hexx_unittest.test.json", hashes)
+        later = (directory / "artifacts-repeat-1.sha256").read_text()
+        self.assertNotIn("44136fa3", later)
         versions = (directory / "versions.txt").read_text()
         for tool in ("scarb", "snforge", "universal-sierra-compiler"):
             self.assertIn(f"1.2.3 {tool}", versions)
@@ -139,25 +163,72 @@ class Evidence(Scratch):
         self.assertIn("unavailable", bench.tool_version(["definitely-not-a-tool-xyz"]))
 
 
-class Repeat(unittest.TestCase):
+class Repeat(Scratch):
     OUT = "Collected 2 test(s) from hexx package\n[PASS] hexx::d::a (l1_gas: ~0)\n" \
           "        sierra gas: {a}\n[PASS] hexx::d::b (l1_gas: ~0)\n        sierra gas: {b}\n"
 
-    def run_repeat(self, first: tuple[int, int], second: tuple[int, int]) -> int:
-        outputs = iter([self.OUT.format(a=first[0], b=first[1]),
-                        self.OUT.format(a=second[0], b=second[1])])
-        with mock.patch.object(bench, "run_snforge", lambda *args: next(outputs)):
-            return bench.repeat("hexx", "d")
+    def run_repeat(self, first, second, hashes=("h", "h", "h")) -> tuple[int, str]:
+        """`hashes`: the hash of the compiled file at the check, repeat 1, repeat 2."""
+        art = self.dir / "art"
+        (art / "hexx").mkdir(parents=True)
+        (art / "hexx" / "artifacts-check.sha256").write_text(f"{hashes[0]}  target/dev/hexx_x.json\n")
+        runs = iter([("repeat-1", first, hashes[1]), ("repeat-2", second, hashes[2])])
 
-    def test_identical_runs_pass(self) -> None:
-        self.assertEqual(self.run_repeat((10, 20), (10, 20)), 0)
+        def fake(package, label, test_filter=None, include_ignored=False):
+            expected, values, digest = next(runs)
+            self.assertEqual(label, expected)
+            self.assertFalse(include_ignored)
+            (art / package / f"artifacts-{label}.sha256").write_text(
+                f"{digest}  target/dev/hexx_x.json\n")
+            return self.OUT.format(a=values[0], b=values[1])
 
-    def test_different_runs_fail(self) -> None:
-        self.assertEqual(self.run_repeat((10, 20), (10, 21)), 1)
+        err = io.StringIO()
+        with mock.patch.object(bench, "ARTIFACTS", art), mock.patch.object(bench, "ROOT", self.dir), \
+                mock.patch.object(bench, "run_snforge", fake), contextlib.redirect_stderr(err):
+            return bench.repeat("hexx", "d"), err.getvalue()
+
+    def test_identical_runs_on_identical_files_pass(self) -> None:
+        status, out = self.run_repeat((10, 20), (10, 20))
+        self.assertEqual(status, 0, out)
+        self.assertIn("identical to those of check", out)
+
+    def test_different_measurements_fail(self) -> None:
+        status, out = self.run_repeat((10, 20), (10, 21))
+        self.assertEqual(status, 1)
+        self.assertIn("hexx::d::b: run 1 (20, True), run 2 (21, True)", out)
+
+    def test_different_compiled_files_are_said_and_fail_even_with_equal_measurements(self) -> None:
+        status, out = self.run_repeat((10, 20), (10, 20), hashes=("h", "h", "other"))
+        self.assertEqual(status, 1)
+        self.assertIn("THE COMPILED FILES OF repeat-2 DIFFER FROM THOSE OF check", out)
+        self.assertIn("target/dev/hexx_x.json: check h, repeat-2 other", out)
 
     def test_no_test_matched_fails(self) -> None:
-        with mock.patch.object(bench, "run_snforge", lambda *args: "Collected 0 test(s)\n"):
+        art = self.dir / "art"
+        (art / "hexx").mkdir(parents=True)
+        with mock.patch.object(bench, "ARTIFACTS", art), mock.patch.object(bench, "ROOT", self.dir), \
+                mock.patch.object(bench, "run_snforge", lambda *a, **k: "Collected 0 test(s)\n"), \
+                contextlib.redirect_stderr(io.StringIO()):
             self.assertEqual(bench.repeat("hexx", "nothing"), 1)
+
+
+class CheckPrintsEverything(unittest.TestCase):
+    def test_a_violation_does_not_hide_the_snapshot_differences_nor_the_evidence(self) -> None:
+        packages = {"hexx": {"hexx::a": row(2000, 1000)}}
+        err = io.StringIO()
+        with mock.patch.object(bench, "collect", lambda *a: (packages, {"hexx": {
+                "collected": 1, "declared": 1}})), \
+                mock.patch.object(bench, "read_snapshots", lambda only=None: {
+                    "hexx::a": {"measured": 1500, "declared": 1000}}), \
+                mock.patch.object(bench.sys, "argv", ["bench.py", "check", "--package", "hexx"]), \
+                contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(err):
+            status = bench.main()
+        out = err.getvalue()
+        self.assertEqual(status, 1)
+        self.assertIn("below its measurement", out)
+        self.assertIn("snapshot measured 1500", out)
+        self.assertIn("now measured 2000", out)
+        self.assertIn("target/gas-artifacts/hexx", out)
 
 
 class GasTables(unittest.TestCase):

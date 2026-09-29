@@ -44,23 +44,30 @@ usage:
   scripts/bench.py snapshot [--package P]  same, then (re)write gas/<package>.snap (only the
                                             packages measured)
   scripts/bench.py check [--package P]     same, then: (1) fail on any declared test that was not
-                                            measured and has no budget, or whose budget is outside
+                                            measured, or has no budget, or whose budget is outside
                                             [measured, ceil(1.05 * measured)]; (2) diff against
-                                            gas/<package>.snap, exit 1 on any difference, naming
-                                            the test, both figures and the artefacts of the run
+                                            gas/<package>.snap, exit 1 on any difference; the
+                                            differences (test, both figures) and the location of
+                                            the evidence are printed with the violations too
   scripts/bench.py repeat --package P [--filter F]
                                             run the tests matching F (default `digger`) twice, in
-                                            the same job, and fail if the two measurements differ
+                                            the same job; fail if the compiled files differ from
+                                            those of the check run (said as such) or the two
+                                            measurements differ
+
+Every test is measured, the `#[ignore]`d ones included (`snforge test --include-ignored`): an
+ignored test has a snapshot row and is held to the rule like any other (M1-T1c fix loop 1).
 
 Without `--package` every package of the workspace is measured (`scripts/check.sh`); CI runs one job
 per package (task LIB-05 M1-T1c).
 
 The evidence of a run (M1-T1c: two CI runs measured more than their snapshot on an unchanged tree,
 and passed on the next run). Every snforge run of a package keeps, under
-`target/gas-artifacts/<package>/` (`ARTIFACTS`; CI uploads the directory as an artefact of the job):
-`snforge-detailed-resources.txt` (the raw output), `artifacts.sha256` (SHA-256 of the compiled
-files of `target/dev/` that snforge executes: `<package>_*.json`), and `versions.txt` (scarb, which
-prints the Cairo and Sierra versions, snforge, and the Sierra-to-CASM compiler when it answers).
+`target/gas-artifacts/<package>/` (`ARTIFACTS`; CI uploads the directory as an artefact of the job),
+per run (`check`, `repeat-1`, `repeat-2`; none overwrites another): `snforge-<run>.txt` (the raw
+output) and `artifacts-<run>.sha256` (SHA-256 of the compiled files of `target/dev/` that snforge
+executes: `<package>_*.json`); and `versions.txt` (scarb, which prints the Cairo and Sierra
+versions, snforge, and the Sierra-to-CASM compiler when it answers).
 A mismatch with the snapshot prints where they are. The exemption for the tests taken over from
 `origami_hexmap` (a baseline file) is gone: every test obeys the rule.
 """
@@ -259,17 +266,35 @@ def tool_version(cmd: list[str]) -> str:
     return (p.stdout + p.stderr).strip() or f"no output (exit {p.returncode})"
 
 
-def write_evidence(package: str, out: str, name: str = "snforge-detailed-resources.txt") -> Path:
-    """Keeps what is needed to find the cause of a measurement that moved on an unchanged tree:
-    the raw output of snforge, the SHA-256 of the compiled files it executed, the versions of the
-    tools. Returns the directory."""
+def artifact_hashes(package: str) -> dict[str, str]:
+    """Relative path -> SHA-256 of the compiled files of `target/dev/` that snforge executes."""
+    files = sorted(p for p in (ROOT / "target" / "dev").glob(f"{package}_*.json") if p.is_file())
+    return {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in files}
+
+
+def hashes_file(package: str, label: str) -> Path:
+    return ARTIFACTS / package / f"artifacts-{label}.sha256"
+
+
+def read_hashes(path: Path) -> dict[str, str] | None:
+    if not path.is_file():
+        return None
+    return {line.split("  ", 1)[1]: line.split("  ", 1)[0]
+            for line in path.read_text().splitlines() if line}
+
+
+def write_evidence(package: str, out: str, label: str) -> Path:
+    """Keeps what is needed to find the cause of a measurement that moved on an unchanged tree,
+    **per run** (`label`: `check`, `repeat-1`, `repeat-2`, ...; a later run never overwrites an
+    earlier one): the raw output of snforge (`snforge-<label>.txt`), the SHA-256 of the compiled
+    files it executed (`artifacts-<label>.sha256`), and, once, the versions of the tools
+    (`versions.txt`). Returns the directory."""
     directory = ARTIFACTS / package
     directory.mkdir(parents=True, exist_ok=True)
-    (directory / name).write_text(out)
-    files = sorted(p for p in (ROOT / "target" / "dev").glob(f"{package}_*.json") if p.is_file())
-    (directory / "artifacts.sha256").write_text("".join(
-        f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.relative_to(ROOT).as_posix()}\n"
-        for p in files))
+    (directory / f"snforge-{label}.txt").write_text(out)
+    hashes_file(package, label).write_text(
+        "".join(f"{digest}  {path}\n" for path, digest in artifact_hashes(package).items()))
     versions = {
         "scarb (cairo and sierra of `scarb --version`)": ["scarb", "--version"],
         "snforge": ["snforge", "--version"],
@@ -277,19 +302,23 @@ def write_evidence(package: str, out: str, name: str = "snforge-detailed-resourc
             ["universal-sierra-compiler", "--version"],
     }
     (directory / "versions.txt").write_text("".join(
-        f"## {label}\n{tool_version(cmd)}\n\n" for label, cmd in versions.items()))
+        f"## {name}\n{tool_version(cmd)}\n\n" for name, cmd in versions.items()))
     return directory
 
 
-def run_snforge(package: str, test_filter: str | None = None,
-                evidence_name: str = "snforge-detailed-resources.txt") -> str:
+def run_snforge(package: str, label: str, test_filter: str | None = None,
+                include_ignored: bool = False) -> str:
+    """One snforge run of a package. `include_ignored` runs the `#[ignore]`d tests too: the gate
+    measures them like the others (M1-T1c fix loop 1, finding 2)."""
     cmd = ["snforge", "test", "-p", package, "--detailed-resources"]
+    if include_ignored:
+        cmd.append("--include-ignored")
     if test_filter:
         cmd.append(test_filter)
     print("$", " ".join(cmd), file=sys.stderr)
     p = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
     out = p.stdout + p.stderr
-    write_evidence(package, out, evidence_name)
+    write_evidence(package, out, label)
     if p.returncode not in (0, 1):  # 1: some test failed, still parseable
         sys.exit(f"snforge failed for {package}:\n" + "\n".join(out.splitlines()[-40:]))
     return out
@@ -365,7 +394,7 @@ def select_packages(only: str | None) -> dict[str, Path]:
     return {only: packages[only]}
 
 
-def collect(only: str | None = None) -> tuple[dict[str, dict[str, dict]], dict[str, dict]]:
+def collect(only: str | None = None, label: str = "check") -> tuple[dict[str, dict[str, dict]], dict[str, dict]]:
     """(rows, infos). rows: package -> {full_test_name: {"measured": int|None, "declared":
     int|None, "passed": bool|None, "ran": bool, "ignored": bool}}; `measured` is None for a test
     snforge did not run (`#[ignore]`d, filtered out) and for a test it ran but printed no usable
@@ -375,7 +404,7 @@ def collect(only: str | None = None) -> tuple[dict[str, dict[str, dict]], dict[s
     infos: dict[str, dict] = {}
     for package, package_dir in select_packages(only).items():
         declared = declared_tests(package, package_dir)
-        out = parse_output(run_snforge(package))
+        out = parse_output(run_snforge(package, label, include_ignored=True))
         rows: dict[str, dict] = {}
         for full in sorted(set(declared) | set(out.ran) | out.ignored):
             gas_passed = out.measured.get(full)
@@ -429,10 +458,11 @@ def budget_violations(packages: dict[str, dict[str, dict]]) -> list[str]:
                 if row.get("ran"):
                     bad.append(f"{name}: ran but no gas measurement could be parsed from the "
                                f"output of snforge")
-                elif row["declared"] is None:
-                    bad.append(f"{name}: not measured (ignored or filtered) and no "
-                               f"#[available_gas(l2_gas: ...)]")
-                continue  # not measured but has a budget: cannot verify it, not a violation
+                else:
+                    bad.append(f"{name}: not measured (ignored or filtered), so its budget "
+                               f"{row['declared']} cannot be verified: every test is measured, "
+                               f"the ignored ones included (--include-ignored)")
+                continue
             if row["passed"] is False:
                 bad.append(f"{name}: test failed, cannot verify its gas budget")
                 continue
@@ -522,26 +552,48 @@ def snapshot_differences(packages: dict[str, dict[str, dict]]) -> list[str]:
 
 
 def repeat(package: str, test_filter: str) -> int:
-    """Runs the tests matching `test_filter` twice, back to back, on the same compiled artefacts,
-    and fails if the two runs measure any of them differently, or match none."""
-    first = parse_output(run_snforge(package, test_filter, "repeat-1.txt")).measured
-    second = parse_output(run_snforge(package, test_filter, "repeat-2.txt")).measured
+    """Runs the tests matching `test_filter` twice, back to back, and fails if the compiled files
+    of a run are not those of the check (or of the other repeat), if the two runs measure any of
+    them differently, or if none matches. The hashes are compared first: two measurements are a
+    comparison of the same code only when the hashes are equal, and a difference of hashes is the
+    evidence sought, said as such."""
+    first = parse_output(run_snforge(package, "repeat-1", test_filter)).measured
+    second = parse_output(run_snforge(package, "repeat-2", test_filter)).measured
     where = ARTIFACTS.relative_to(ROOT) / package
+    status = 0
+    reference_label, reference = "check", read_hashes(hashes_file(package, "check"))
+    if reference is None:
+        reference_label, reference = "repeat-1", read_hashes(hashes_file(package, "repeat-1"))
+        print(f"repeat: no hashes of a check run in {where}; comparing the repeats only",
+              file=sys.stderr)
+    for label in ("repeat-1", "repeat-2"):
+        hashes = read_hashes(hashes_file(package, label))
+        if label == reference_label or hashes == reference:
+            continue
+        status = 1
+        print(f"repeat: THE COMPILED FILES OF {label} DIFFER FROM THOSE OF {reference_label} "
+              f"(the runs are not of the same code; hashes in {where}):", file=sys.stderr)
+        for path in sorted(set(reference or {}) | set(hashes or {})):
+            if (reference or {}).get(path) != (hashes or {}).get(path):
+                print(f"  {path}: {reference_label} {(reference or {}).get(path)}, "
+                      f"{label} {(hashes or {}).get(path)}", file=sys.stderr)
     if not first:
         print(f"repeat: no test of {package} matches {test_filter!r}", file=sys.stderr)
         return 1
     differing = [name for name in sorted(set(first) | set(second))
                  if first.get(name) != second.get(name)]
     if differing:
+        status = 1
         print(f"repeat: {len(differing)} of {len(first)} tests matching {test_filter!r} measured "
-              f"differently between two runs of the same compiled code (raw outputs and hashes "
-              f"in {where}):", file=sys.stderr)
+              f"differently between two runs (raw outputs and hashes in {where}):",
+              file=sys.stderr)
         for name in differing:
             print(f"  {name}: run 1 {first.get(name)}, run 2 {second.get(name)}", file=sys.stderr)
-        return 1
-    print(f"repeat: {len(first)} tests of {package} matching {test_filter!r} measured the same in "
-          f"two runs", file=sys.stderr)
-    return 0
+    if status == 0:
+        print(f"repeat: {len(first)} tests of {package} matching {test_filter!r} measured the "
+              f"same in two runs, on compiled files identical to those of {reference_label}",
+              file=sys.stderr)
+    return status
 
 
 def main() -> int:
@@ -560,7 +612,7 @@ def main() -> int:
         select_packages(args.package)
         return repeat(args.package, args.filter)
 
-    packages, infos = collect(args.package)
+    packages, infos = collect(args.package, args.cmd)
     print_table(packages)
     errors, counts = reconcile(packages, infos)
     print("\nreconciliation (declared in the sources / collected by snforge / with a gas row / "
@@ -573,18 +625,21 @@ def main() -> int:
         return 0
     if args.cmd == "check":
         violations = errors + budget_violations(packages)
+        bad = snapshot_differences(packages)
+        where = ", ".join(str(ARTIFACTS.relative_to(ROOT) / package) for package in packages)
         if violations:
             print("\ngas budget violations:", file=sys.stderr)
             for v in violations:
                 print(f"  {v}", file=sys.stderr)
-            return 1
-        bad = snapshot_differences(packages)
         if bad:
-            where = ", ".join(str(ARTIFACTS.relative_to(ROOT) / package) for package in packages)
-            print("\n" + "\n".join(bad), file=sys.stderr)
+            print("\nsnapshot differences:\n" + "\n".join(bad), file=sys.stderr)
+        if violations or bad:
             print(f"\nartefacts of this run (raw output of snforge, SHA-256 of the compiled "
-                  f"files, versions): {where}; in CI, the artefact `gas-<package>-<commit>` of the job",
-                  file=sys.stderr)
+                  f"files, versions): {where}; in CI, the artefact `gas-<package>-<commit>` of "
+                  f"the job", file=sys.stderr)
+        if violations:
+            return 1
+        if bad:
             sys.exit("gas snapshot mismatch. If the source changed, run `python3 scripts/bench.py "
                      "snapshot` and commit gas/; if it did not, keep the artefacts and report "
                      "the drift.")
