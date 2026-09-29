@@ -4,9 +4,9 @@
 
 | | |
 |---|---|
-| Phase | **Milestone L-M1: LIB-05.** N-3 (the window, 64,234) and the flood of N-8 (364,878 at 15 layers on the serpentine) are merged. Now **M1-T9b: the steps of the walkers and the tick benchmark** |
+| Phase | **Milestone L-M1: LIB-05.** The two functions that decide the tick are merged and measured (condition 1 of L-G2 met): **the library's part of a worst tick costs 1,064,209 to 1,106,666 L2 gas** (window from 4 chunks, flood capped at 15, 8 walkers), against 1.34M to 1.67M in the audited plan. Next: the rest of L-M1 |
 | Cap | **One agent at a time for the library, audits included**: the single slot `lib-1`, held by a kernel lock (launcher at the game's `2628b21`). Nothing is launched while `~/orchestrator/waiting/game` is less than 30 minutes old |
-| Waiting for the slot, in this order | M1-T9b (`[Opus 5.5]`); then M1-T4b (N-4), M1-T2 (the mirror items), M1-T3 (N-7 and the renames) |
+| Waiting for the slot, in this order | M1-T4b (N-4, `cut`), M1-T2 (mirror items), M1-T3 (N-7 and the renames), then M1-T6 (N-5), M1-T5 (N-6), M1-T7 (N-2), M1-T8 (N-1) |
 | Pending decisions | None |
 | Gates | L-G1 and L-G2 decided by the owner on 2026-09-28: [L-G1](docs/decisions/L-G1-hexx-port.md), [L-G2](docs/decisions/L-G2-porting-plan.md) |
 | Publication | Nothing is published. No workflow of the repository publishes or holds a token. Rule D-132 (game's `OPERATIONS.md` §7): the orchestrator's session publishes, never an agent, after a go that names package, version and commit. LIB-04b is merged (pull request #26, audit PASS without finding). **Before its first publication the orchestrator asks the owner, in its own session, to confirm the delegation of that decision to the project manager** |
@@ -19,6 +19,7 @@
 
 | Date | What |
 |---|---|
+| 2026-09-29 | LIB-05 M1-T9b, N-8: the steps of the walkers and the benchmark of the tick, by `[Opus 5.5]`; two audit passes by `[GPT-6-Astra]`, two fix loops, final PASS; [report](docs/reports/LIB-05-M1-T9b-REPORT.md) with the orchestrator's decisions |
 | 2026-09-29 | LIB-05 M1-T9a, N-8: the flood of the tick on the engine's layered flood, `depth` a parameter, by `[Opus 5.5]` (stopped once on the stop condition, `depth()` at 670 accepted); audit by `[GPT-6-Astra]`: PASS WITH FINDINGS (one on the move proof, fixed); [report](docs/reports/LIB-05-M1-T9a-REPORT.md) |
 | 2026-09-29 | LIB-05 M1-T4a, N-3: the window of 15 × 16 assembled from 2 or 4 chunks, void chunks as wall, measured at 64,234 (two layers and ring, 4 chunks), by `[Opus 5.5]`; audit by `[GPT-6-Astra]`: PASS WITH FINDINGS (the stop condition was bypassed, the rewrite accepted after review); [report](docs/reports/LIB-05-M1-T4a-REPORT.md) |
 | 2026-09-29 | LIB-05 M1-T1c: one gas job per package, ignored tests measured, the 702 inherited and 89 more budgets conformant, no baseline left, the drift instrumented, by `[Sonnet 5.5]`; two audit passes by `[GPT-6-Sol]`; [report](docs/reports/LIB-05-M1-T1c-REPORT.md) with a section of reproduction for SPK-13 |
