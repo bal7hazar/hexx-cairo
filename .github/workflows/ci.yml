@@ -120,14 +120,21 @@ jobs:
 
   # One job per package (M1-T1c): each measures its own package and checks it against its own
   # gas/<package>.snap, so that the time of the gate does not grow with the sum of the packages.
+  # `hexx` is two jobs, its tests without `#[ignore]` and its ignored tests (103, the printouts
+  # and benchmarks): measured together they took 9 m 45 s of the 10 minutes (6 m 32 s without),
+  # measured apart each is far under. Every test is measured in one of them.
   gas:
-    name: Gas ${{ matrix.package }}
+    name: Gas ${{ matrix.label }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
-        package: [hexx, takeover_tests, consumer]
+        include:
+          - {package: hexx, scope: regular, label: hexx}
+          - {package: hexx, scope: ignored, label: hexx (ignored tests)}
+          - {package: takeover_tests, scope: all, label: takeover_tests}
+          - {package: consumer, scope: all, label: consumer}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
@@ -144,14 +151,16 @@ jobs:
       - name: Check gas budgets and snapshot
         env:
           PACKAGE: ${{ matrix.package }}
+          SCOPE: ${{ matrix.scope }}
         run: |
           set -o pipefail
-          python3 scripts/bench.py check --package "$PACKAGE" | tee gas_report.md
+          python3 scripts/bench.py check --package "$PACKAGE" --scope "$SCOPE" | tee gas_report.md
       # The tests of Digger, twice in the same job on the same compiled code: two measurements
       # that differ fail the job (the drift seen in two runs went through Digger::dig). It runs
-      # even when the check failed, the second measurement being evidence. `consumer` has none.
+      # even when the check failed, the second measurement being evidence. `consumer` has none,
+      # and the ignored tests of `hexx` are not Digger's.
       - name: Double run of the Digger tests
-        if: ${{ !cancelled() && matrix.package != 'consumer' }}
+        if: ${{ !cancelled() && matrix.package != 'consumer' && matrix.scope != 'ignored' }}
         env:
           PACKAGE: ${{ matrix.package }}
         run: python3 scripts/bench.py repeat --package "$PACKAGE" --filter digger
@@ -166,12 +175,13 @@ jobs:
         run: cat gas_report.md >> "$GITHUB_STEP_SUMMARY"
       # The evidence of the run, kept whatever the outcome: the raw output of
       # `snforge test --detailed-resources`, the SHA-256 of the compiled test files it executed
-      # (artifacts.sha256), the versions of scarb, snforge and of the Sierra compiler
-      # (versions.txt), and the two runs of the Digger tests (repeat-1.txt, repeat-2.txt).
+      # (artifacts-<run>.sha256, one per run: the check and each repeat), the versions of scarb,
+      # snforge and of the Sierra compiler (versions.txt), and the raw output of each run
+      # (snforge-<run>.txt: the check, the two runs of the Digger tests).
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: always()
         with:
-          name: gas-${{ matrix.package }}-${{ github.sha }}
+          name: gas-${{ matrix.package }}-${{ matrix.scope }}-${{ github.sha }}
           path: target/gas-artifacts/${{ matrix.package }}
           if-no-files-found: warn
           retention-days: 30

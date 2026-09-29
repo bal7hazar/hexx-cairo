@@ -206,9 +206,13 @@ def integration_test_roots(package_dir: Path) -> list[tuple[str, Path]]:
     return sorted((p.stem, p) for p in tests_dir.glob("*.cairo"))
 
 
-def tests_of_nodes(prefix: tuple[str, ...],
-                   nodes: list[tuple[tuple[str, ...], str, Path]]) -> dict[str, int | None]:
-    """Full test name -> declared `l2_gas` budget (or None) for the `#[test]` functions of nodes."""
+IGNORE_ATTR_RE = re.compile(r"#\[ignore\b")
+
+
+def tests_of_nodes(prefix: tuple[str, ...], nodes: list[tuple[tuple[str, ...], str, Path]],
+                   ignored: set[str] | None = None) -> dict[str, int | None]:
+    """Full test name -> declared `l2_gas` budget (or None) for the `#[test]` functions of nodes;
+    the names of those that carry `#[ignore]` are added to `ignored` when given."""
     tests: dict[str, int | None] = {}
     for path, text, _file in nodes:
         for match in FN_RE.finditer(text):
@@ -216,12 +220,15 @@ def tests_of_nodes(prefix: tuple[str, ...],
             if "#[test]" not in attrs:
                 continue
             gas_match = AVAILABLE_GAS_RE.search(attrs)
-            tests["::".join((*prefix, *path, name))] = (
-                int(gas_match.group(1)) if gas_match else None)
+            full = "::".join((*prefix, *path, name))
+            tests[full] = int(gas_match.group(1)) if gas_match else None
+            if ignored is not None and IGNORE_ATTR_RE.search(attrs):
+                ignored.add(full)
     return tests
 
 
-def declared_tests(package: str, package_dir: Path) -> dict[str, int | None]:
+def declared_tests(package: str, package_dir: Path,
+                   ignored: set[str] | None = None) -> dict[str, int | None]:
     """Full test name (`package::module::...::fn` for a unit test, `package_integrationtest::
     file_stem::module::...::fn` for an integration test — matching what snforge itself prints) ->
     its declared `l2_gas` budget, or None when the test has no `#[available_gas(...)]`. Attributes
@@ -235,7 +242,7 @@ def declared_tests(package: str, package_dir: Path) -> dict[str, int | None]:
     def scan(prefix: tuple[str, ...], root_file: Path, root_dir: Path | None = None) -> None:
         nodes = module_nodes(root_file, root_dir)
         visited.update(file.resolve() for _, _, file in nodes)
-        tests.update(tests_of_nodes(prefix, nodes))
+        tests.update(tests_of_nodes(prefix, nodes, ignored))
 
     scan((package,), package_dir / "src" / "lib.cairo")
     for stem, root_file in integration_test_roots(package_dir):
@@ -306,13 +313,16 @@ def write_evidence(package: str, out: str, label: str) -> Path:
     return directory
 
 
+SCOPES = ("all", "regular", "ignored")
+SCOPE_FLAGS = {"all": ["--include-ignored"], "regular": [], "ignored": ["--ignored"]}
+
+
 def run_snforge(package: str, label: str, test_filter: str | None = None,
-                include_ignored: bool = False) -> str:
-    """One snforge run of a package. `include_ignored` runs the `#[ignore]`d tests too: the gate
-    measures them like the others (M1-T1c fix loop 1, finding 2)."""
-    cmd = ["snforge", "test", "-p", package, "--detailed-resources"]
-    if include_ignored:
-        cmd.append("--include-ignored")
+                scope: str = "regular") -> str:
+    """One snforge run of a package. `scope`: the tests it runs (`all`: the `#[ignore]`d ones
+    too; `ignored`: only those). The gate measures the ignored tests like the others (M1-T1c fix
+    loop 1, finding 2)."""
+    cmd = ["snforge", "test", "-p", package, "--detailed-resources", *SCOPE_FLAGS[scope]]
     if test_filter:
         cmd.append(test_filter)
     print("$", " ".join(cmd), file=sys.stderr)
@@ -394,30 +404,42 @@ def select_packages(only: str | None) -> dict[str, Path]:
     return {only: packages[only]}
 
 
-def collect(only: str | None = None, label: str = "check") -> tuple[dict[str, dict[str, dict]], dict[str, dict]]:
+def in_scope(name: str, ignored: set[str], scope: str) -> bool:
+    return scope == "all" or (name in ignored) == (scope == "ignored")
+
+
+def collect(only: str | None = None, label: str = "check", scope: str = "all"
+            ) -> tuple[dict[str, dict[str, dict]], dict[str, dict]]:
     """(rows, infos). rows: package -> {full_test_name: {"measured": int|None, "declared":
-    int|None, "passed": bool|None, "ran": bool, "ignored": bool}}; `measured` is None for a test
-    snforge did not run (`#[ignore]`d, filtered out) and for a test it ran but printed no usable
-    measurement for (`ran` is True: an error of `check`). infos: package -> {"collected": int|None,
-    "declared": int}."""
+    int|None, "passed": bool|None, "ran": bool, "ignored": bool}} for the tests of `scope` (`all`,
+    `regular`: those without `#[ignore]`, `ignored`); `measured` is None for a test snforge did
+    not run and for a test it ran but printed no usable measurement for (`ran` is True: an error
+    of `check`). infos: package -> {"collected": int|None, "declared": int (the tests snforge
+    collects: all those of the package, but with `--ignored`, which collects only the ignored), "ignored_names": set, "all_names":
+    set}."""
     packages: dict[str, dict[str, dict]] = {}
     infos: dict[str, dict] = {}
     for package, package_dir in select_packages(only).items():
-        declared = declared_tests(package, package_dir)
-        out = parse_output(run_snforge(package, label, include_ignored=True))
+        ignored_names: set[str] = set()
+        all_declared = declared_tests(package, package_dir, ignored_names)
+        declared = {n: b for n, b in all_declared.items() if in_scope(n, ignored_names, scope)}
+        out = parse_output(run_snforge(package, label, scope=scope))
         rows: dict[str, dict] = {}
-        for full in sorted(set(declared) | set(out.ran) | out.ignored):
+        reported_ignored = out.ignored if scope != "regular" else out.ignored & set(declared)
+        for full in sorted(set(declared) | set(out.ran) | reported_ignored):
             gas_passed = out.measured.get(full)
             rows[full] = {
                 "declared": declared.get(full),
                 "measured": gas_passed[0] if gas_passed else None,
                 "passed": gas_passed[1] if gas_passed else None,
                 "ran": full in out.ran,
-                "ignored": full in out.ignored,
+                "ignored": full in reported_ignored,
                 "is_declared": full in declared,
             }
         packages[package] = rows
-        infos[package] = {"collected": out.collected, "declared": len(declared)}
+        infos[package] = {"collected": out.collected,
+                          "declared": len(ignored_names) if scope == "ignored" else len(all_declared),
+                          "ignored_names": ignored_names, "all_names": set(all_declared)}
     return packages, infos
 
 
@@ -527,9 +549,18 @@ def print_table(packages: dict[str, dict[str, dict]]) -> None:
             print(f"| `{name}` | {measured} | {budget} | {margin} |")
 
 
-def snapshot_differences(packages: dict[str, dict[str, dict]]) -> list[str]:
-    """The tests whose measurement or budget differs from gas/<package>.snap, with both figures."""
+def snapshot_differences(packages: dict[str, dict[str, dict]], infos: dict[str, dict] | None = None,
+                         scope: str = "all") -> list[str]:
+    """The tests whose measurement or budget differs from gas/<package>.snap, with both figures.
+    With a `scope` other than `all` only the rows of that scope are compared: the ignored tests
+    for `ignored`, and for `regular` the others; a row of a test that no longer exists is compared
+    in both (`infos` gives the names of the sources)."""
     snap = read_snapshots(packages)
+    if scope != "all" and infos:
+        ignored = set().union(*(i["ignored_names"] for i in infos.values()))
+        known = set().union(*(i["all_names"] for i in infos.values()))
+        snap = {n: v for n, v in snap.items()
+                if in_scope(n, ignored, scope) or n not in known}
     current = {
         name: {"measured": row["measured"], "declared": row["declared"]}
         for rows in packages.values() for name, row in rows.items()
@@ -602,6 +633,10 @@ def main() -> int:
     ap.add_argument("--package", default=None,
                     help="measure this package only (default: every package of the workspace); "
                          "required by `repeat`")
+    ap.add_argument("--scope", choices=SCOPES, default="all",
+                    help="the tests measured: all (the `#[ignore]`d ones included, the default), "
+                         "regular (without `#[ignore]`), ignored (only those); CI splits `hexx` "
+                         "in two jobs, regular and ignored, for its time; `snapshot` needs all")
     ap.add_argument("--filter", default="digger",
                     help="repeat only: the snforge test filter (default: %(default)s)")
     args = ap.parse_args()
@@ -612,7 +647,9 @@ def main() -> int:
         select_packages(args.package)
         return repeat(args.package, args.filter)
 
-    packages, infos = collect(args.package, args.cmd)
+    if args.cmd == "snapshot" and args.scope != "all":
+        sys.exit("snapshot rewrites the whole snapshot of a package: --scope all")
+    packages, infos = collect(args.package, args.cmd, args.scope)
     print_table(packages)
     errors, counts = reconcile(packages, infos)
     print("\nreconciliation (declared in the sources / collected by snforge / with a gas row / "
@@ -625,7 +662,7 @@ def main() -> int:
         return 0
     if args.cmd == "check":
         violations = errors + budget_violations(packages)
-        bad = snapshot_differences(packages)
+        bad = snapshot_differences(packages, infos, args.scope)
         where = ", ".join(str(ARTIFACTS.relative_to(ROOT) / package) for package in packages)
         if violations:
             print("\ngas budget violations:", file=sys.stderr)

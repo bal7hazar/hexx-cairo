@@ -60,8 +60,12 @@ class EveryTestObeysTheRule(unittest.TestCase):
 
         with mock.patch.object(bench.subprocess, "run", lambda cmd, **kw: seen.append(cmd) or Done()), \
                 mock.patch.object(bench, "write_evidence", lambda *args: None):
-            bench.run_snforge("hexx", "check", include_ignored=True)
-        self.assertIn("--include-ignored", seen[0])
+            for scope, flag in (("all", "--include-ignored"), ("ignored", "--ignored")):
+                bench.run_snforge("hexx", "check", scope=scope)
+                self.assertIn(flag, seen[-1])
+            bench.run_snforge("hexx", "check")
+        self.assertNotIn("--include-ignored", seen[-1])
+        self.assertNotIn("--ignored", seen[-1])
 
     def test_no_test_is_exempt(self) -> None:
         packages = pk(over=row(1000, 2000), none=row(1000, None), ign=row(None, None, ran=False),
@@ -174,10 +178,10 @@ class Repeat(Scratch):
         (art / "hexx" / "artifacts-check.sha256").write_text(f"{hashes[0]}  target/dev/hexx_x.json\n")
         runs = iter([("repeat-1", first, hashes[1]), ("repeat-2", second, hashes[2])])
 
-        def fake(package, label, test_filter=None, include_ignored=False):
+        def fake(package, label, test_filter=None, scope="regular"):
             expected, values, digest = next(runs)
             self.assertEqual(label, expected)
-            self.assertFalse(include_ignored)
+            self.assertEqual(scope, "regular")
             (art / package / f"artifacts-{label}.sha256").write_text(
                 f"{digest}  target/dev/hexx_x.json\n")
             return self.OUT.format(a=values[0], b=values[1])
@@ -210,6 +214,55 @@ class Repeat(Scratch):
                 mock.patch.object(bench, "run_snforge", lambda *a, **k: "Collected 0 test(s)\n"), \
                 contextlib.redirect_stderr(io.StringIO()):
             self.assertEqual(bench.repeat("hexx", "nothing"), 1)
+
+
+class Scopes(Scratch):
+    """`hexx` is measured in two CI jobs, the tests without `#[ignore]` and the ignored ones."""
+
+    def make(self) -> Path:
+        pkg = self.dir / "pkg"
+        (pkg / "src").mkdir(parents=True)
+        (pkg / "src" / "lib.cairo").write_text(
+            "#[test]\n#[available_gas(l2_gas: 10)]\nfn a() {}\n\n"
+            "#[test]\n#[ignore] // printout\n#[available_gas(l2_gas: 20)]\nfn b() {}\n")
+        return pkg
+
+    def test_ignored_tests_are_found_in_the_sources(self) -> None:
+        ignored: set[str] = set()
+        declared = bench.declared_tests("p", self.make(), ignored)
+        self.assertEqual(declared, {"p::a": 10, "p::b": 20})
+        self.assertEqual(ignored, {"p::b"})
+
+    def test_collect_keeps_the_tests_of_the_scope_and_all_are_collected(self) -> None:
+        pkg = self.make()
+        out = "Collected 1 test(s) from p package\n[PASS] p::b (l1_gas: ~0)\n        sierra gas: 19\n"
+        with mock.patch.object(bench, "select_packages", lambda only: {"p": pkg}), \
+                mock.patch.object(bench, "run_snforge", lambda *a, **k: out):
+            packages, infos = bench.collect("p", "check", "ignored")
+        self.assertEqual(set(packages["p"]), {"p::b"})
+        self.assertEqual(infos["p"]["declared"], 1)  # `--ignored` collects only the ignored tests
+        self.assertEqual(bench.reconcile(packages, infos)[0], [])
+        with mock.patch.object(bench, "select_packages", lambda only: {"p": pkg}), \
+                mock.patch.object(bench, "run_snforge", lambda *a, **k: out.replace("p::b", "p::a")):
+            packages, infos = bench.collect("p", "check", "regular")
+        self.assertEqual(infos["p"]["declared"], 2)  # the others are collected and ignored by snforge
+        self.assertEqual(set(packages["p"]), {"p::a"})
+
+    def test_a_scope_compares_only_its_snapshot_rows(self) -> None:
+        (self.dir / "p.snap").write_text(
+            "# gas: measured budget\np::a: 10 10\np::b: 20 20\np::gone: 5 6\n")
+        infos = {"p": {"ignored_names": {"p::b"}, "all_names": {"p::a", "p::b"}}}
+        with mock.patch.object(bench, "GAS", self.dir):
+            regular = bench.snapshot_differences({"p": {"p::a": row(10, 10)}}, infos, "regular")
+            ignored = bench.snapshot_differences({"p": {"p::b": row(20, 20)}}, infos, "ignored")
+        # the row of a test that no longer exists is reported by both
+        self.assertEqual([line.split(": ")[0] for line in regular], ["REMOVED p::gone"])
+        self.assertEqual([line.split(": ")[0] for line in ignored], ["REMOVED p::gone"])
+
+    def test_snapshot_needs_the_whole_scope(self) -> None:
+        with mock.patch.object(bench.sys, "argv", ["bench.py", "snapshot", "--scope", "ignored"]):
+            with self.assertRaises(SystemExit):
+                bench.main()
 
 
 class CheckPrintsEverything(unittest.TestCase):
