@@ -201,8 +201,8 @@ pub mod HexxDial {
 }
 
 /// N-8, the flood of the tick (`hexx::finders::flood`): one call site per new public function,
-/// `Bfs::flood` and `FloodTrait::depth`. A `Flood` is not an entry point value: its depth is
-/// returned.
+/// `Bfs::flood` and `FloodTrait::{depth, next_step, next_step_away, distance}`. A `Flood` is not
+/// an entry point value: each entry point floods, then returns what it selects.
 #[starknet::contract]
 pub mod HexxFlood {
     use hexx::finders::bfs::Bfs;
@@ -222,5 +222,49 @@ pub mod HexxFlood {
         depth: u8,
     ) -> u8 {
         Bfs::flood(grid, width, height, from, obstacles, depth).depth()
+    }
+
+    #[external(v0)]
+    fn next_step(
+        self: @ContractState,
+        grid: felt252,
+        width: u8,
+        height: u8,
+        from: u8,
+        obstacles: felt252,
+        depth: u8,
+        position: u8,
+        blocked: felt252,
+    ) -> Option<u8> {
+        Bfs::flood(grid, width, height, from, obstacles, depth).next_step(position, blocked)
+    }
+
+    #[external(v0)]
+    fn next_step_away(
+        self: @ContractState,
+        grid: felt252,
+        width: u8,
+        height: u8,
+        from: u8,
+        obstacles: felt252,
+        depth: u8,
+        position: u8,
+        blocked: felt252,
+    ) -> Option<u8> {
+        Bfs::flood(grid, width, height, from, obstacles, depth).next_step_away(position, blocked)
+    }
+
+    #[external(v0)]
+    fn distance(
+        self: @ContractState,
+        grid: felt252,
+        width: u8,
+        height: u8,
+        from: u8,
+        obstacles: felt252,
+        depth: u8,
+        position: u8,
+    ) -> Option<u8> {
+        Bfs::flood(grid, width, height, from, obstacles, depth).distance(position)
     }
 }

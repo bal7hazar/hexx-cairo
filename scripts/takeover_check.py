@@ -69,6 +69,9 @@ OWN_FILES: tuple[str, ...] = (
     "src/finders/flood.cairo",
     "src/tests/bench_flood.cairo",
     "src/tests/test_flood.cairo",
+    # M1-T9b, N-8: the steps and the tick
+    "src/tests/bench_tick.cairo",
+    "src/tests/test_steps.cairo",
 )
 
 # Moved files that a task of L-M1 has EXTENDED: they are checked in additions-only mode. Every
