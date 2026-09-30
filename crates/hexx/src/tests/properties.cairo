@@ -52,7 +52,7 @@ fn check_expand_random(width: u8, height: u8) {
     while position != size {
         let tile: u256 = Bits::pow(position).into();
         if tile & interior != 0 {
-            let expected: u256 = (Bits::pow(position) + layout.neighbour_mask(position)).into();
+            let expected: u256 = (Bits::pow(position) + layout.neighbor_mask(position)).into();
             assert!(layout.expand(tile) == expected);
             assert!(Variants::expand_scalar(width, height, tile) == expected);
         }
@@ -226,7 +226,7 @@ fn check_neighbor(width: u8, height: u8) {
         }
         // Interior tiles: the closed-form mask matches the 6 neighbours
         if count == 6 && x > 0 && y > 0 && x < (width - 1).into() && y < (height - 1).into() {
-            assert!(layout.neighbour_mask(position) == mask);
+            assert!(layout.neighbor_mask(position) == mask);
             assert!(Variants::neighbour_mask_lookups(width, position) == mask);
         }
         position += 1;

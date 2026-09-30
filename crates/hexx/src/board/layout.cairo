@@ -231,7 +231,7 @@ pub impl LayoutImpl of LayoutTrait {
     /// * `position` - The tile
     /// # Returns
     /// * The bits of its neighbours
-    fn edge_neighbours(width: u8, height: u8, position: u8) -> felt252 {
+    fn edge_neighbors(width: u8, height: u8, position: u8) -> felt252 {
         let mut around: felt252 = 0;
         for direction in DIRECTIONS.span() {
             if let Option::Some(next) = Self::neighbor(width, height, position, *direction) {
@@ -250,7 +250,7 @@ pub impl LayoutImpl of LayoutTrait {
     /// * `set` - The set
     /// # Returns
     /// * The first neighbour in the set, `None` if there is none
-    fn neighbour_in(width: u8, height: u8, position: u8, set: u256) -> Option<u8> {
+    fn neighbor_in(width: u8, height: u8, position: u8, set: u256) -> Option<u8> {
         for direction in DIRECTIONS.span() {
             if let Option::Some(next) = Self::neighbor(width, height, position, *direction) {
                 if Bits::get(set, next) {
@@ -270,7 +270,7 @@ pub impl LayoutImpl of LayoutTrait {
     /// # Returns
     /// * The neighbour mask
     #[inline]
-    fn neighbour_mask(self: @Layout, position: u8) -> felt252 {
+    fn neighbor_mask(self: @Layout, position: u8) -> felt252 {
         let layout = *self;
         let (_, odd) = Self::parity(layout.width, position);
         let offsets = if odd {

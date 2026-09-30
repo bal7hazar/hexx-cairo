@@ -109,7 +109,7 @@ pub(crate) impl DiggerInternal of DiggerInternalTrait {
         }
         // [Effect] Contact of the first tile with the grid: stop, or merge and go on
         let layout = LayoutTrait::new(width, height);
-        let around: u256 = (layout.neighbour_mask(first) - entrance).into();
+        let around: u256 = (layout.neighbor_mask(first) - entrance).into();
         let mut stop = grid & around != 0;
         if stop {
             if corridor {

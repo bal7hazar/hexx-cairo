@@ -130,7 +130,7 @@ fn test_readme_migration() {
     let layout = LayoutTrait::new(17, 14);
     let map = HexMapTrait::new_empty(17, 14, SEED);
     // Six neighbours, as a bitmap
-    let neighbours: u256 = layout.neighbour_mask(index).into();
+    let neighbours: u256 = layout.neighbor_mask(index).into();
     let ring: u256 = map.ring(index, 1).into();
     let grid: u256 = map.grid.into();
     assert!(neighbours & grid == ring);

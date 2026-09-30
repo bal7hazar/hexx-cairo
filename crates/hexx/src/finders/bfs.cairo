@@ -588,7 +588,7 @@ pub(crate) impl BfsInternal of BfsInternalTrait {
                 back.around_even
             }
         } else {
-            LayoutTrait::edge_neighbours(width, height, position)
+            LayoutTrait::edge_neighbors(width, height, position)
         };
         Endpoint { position, power, interior, odd, x, y, half, around }
     }
@@ -1231,7 +1231,7 @@ pub(crate) impl BfsInternal of BfsInternalTrait {
     /// * The neighbour, its power and its row parity
     fn enter(back: @Back, height: u8, position: u8, layer: u256) -> (u8, felt252, bool) {
         let width = *back.width;
-        let next = LayoutTrait::neighbour_in(width, height, position, layer).unwrap();
+        let next = LayoutTrait::neighbor_in(width, height, position, layer).unwrap();
         let (_, odd) = LayoutTrait::parity(width, next);
         (next, Bits::pow(next), odd)
     }

@@ -290,7 +290,7 @@ pub(crate) impl FloodInternal of FloodInternalTrait {
     }
 
     /// The relative offsets of the board neighbours of a ring tile, as a field sum, without the
-    /// per-direction loop of `LayoutTrait::edge_neighbours`: `2^-1` and `2` for the tiles of the
+    /// per-direction loop of `LayoutTrait::edge_neighbors`: `2^-1` and `2` for the tiles of the
     /// same row, `2^-W · r` and `2^W · r` for the rows below and above, where `r` is the pair of
     /// columns of that row, `{x, x + 1}` on an odd row (`1 + 2`) and `{x − 1, x}` on an even
     /// row (`2^-1 + 1`), each offset kept only when its tile lies on the board.
