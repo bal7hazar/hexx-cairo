@@ -1,0 +1,12 @@
+# The offset conversions of milestone L-M1 (plan §4.3, brief LIB-05 M1-T2): seeded hexes and
+# seeded offset coordinates for the four (mode, orientation) pairs, and the i32 values near the
+# bounds (tools/refgen/src/conversions.rs).
+module = "conversions"
+package = "hexx"
+
+seed_hex = "conversions::hex"
+seed_offset = "conversions::offset"
+points = 64
+domain_min = -40
+domain_max = 40
+panic_cap = 2     # #[should_panic] tests per function and (mode, orientation) near the bounds

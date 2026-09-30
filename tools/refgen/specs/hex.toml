@@ -1,12 +1,11 @@
-# One spec, one function (plan §4.3, brief LIB-04 scope 4): `Hex::distance_to` is not yet ported
-# (M1-T2 ports it); the golden file is generated and committed but declared in no `mod` tree, so
-# it stays out of the build until then (`tools/refgen/README.md`).
+# `impl Hex` of milestone L-M1 (plan §4.3, brief LIB-05 M1-T2): the seeded points, every ordered
+# pair of them, and the i32 values near the bounds (tools/refgen/src/hex.rs).
 module = "hex"
 package = "hexx"
 
-[[function]]
-name = "distance_to"
-seed = "hex::distance_to"
-samples = 48
+seed = "hex::points"
+points = 64
 domain_min = -40
 domain_max = 40
+chunks = 8        # the 64 x 64 ordered pairs, in this many tests
+panic_cap = 4     # #[should_panic] tests per function near the bounds

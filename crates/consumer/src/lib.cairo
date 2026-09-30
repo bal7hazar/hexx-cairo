@@ -6,7 +6,9 @@
 //! engine), so that the tracked class size follows the engine: a removed or dead-code-eliminated
 //! item would otherwise go on shrinking it unnoticed (AGENTS.md, principle 11). Split over three
 //! contracts: the 20 in one exceed the 81,920 CASM felts a class may hold. The extensions of
-//! milestone L-M1 add their own contracts (`HexxAssembly`: N-3; `HexxCut`: N-4; `HexxFlood`: N-8).
+//! milestone L-M1 add their own contracts (`HexxAssembly`: N-3; `HexxCut`: N-4; `HexxFlood`: N-8);
+//! `HexxMirror` holds the mirror items of L-M1 (`Hex`, `EdgeDirection`, the offset conversions,
+//! `HexOrientation`).
 
 /// The queries, the finders on unit costs and the constructors that call no generator.
 #[starknet::contract]
@@ -281,5 +283,177 @@ pub mod HexxFlood {
         position: u8,
     ) -> Option<u8> {
         Bfs::flood(grid, width, height, from, obstacles, depth).distance(position)
+    }
+}
+
+/// The mirror items of milestone L-M1 (`hexx::hex`, `hexx::direction::edge_direction`,
+/// `hexx::conversions`, `hexx::orientation`): one call site per public item, the 30 compass
+/// constants of `EdgeDirection` included, so that the tracked class size follows them.
+#[starknet::contract]
+pub mod HexxMirror {
+    use hexx::conversions::{HexConversionsTrait, OffsetHexMode};
+    use hexx::direction::edge_direction::{EdgeDirection, EdgeDirectionTrait};
+    use hexx::hex::{Hex, HexTrait};
+    use hexx::orientation::HexOrientation;
+
+    #[storage]
+    struct Storage {}
+
+    #[external(v0)]
+    fn zero(self: @ContractState) -> Hex {
+        HexTrait::ZERO
+    }
+
+    #[external(v0)]
+    fn neighbors_coords(self: @ContractState) -> Span<Hex> {
+        let neighbors = HexTrait::NEIGHBORS_COORDS;
+        neighbors.span()
+    }
+
+    #[external(v0)]
+    fn new(self: @ContractState, x: i32, y: i32) -> Hex {
+        HexTrait::new(x, y)
+    }
+
+    #[external(v0)]
+    fn x_y_z(self: @ContractState, hex: Hex) -> (i32, i32, i32) {
+        (hex.x(), hex.y(), hex.z())
+    }
+
+    #[external(v0)]
+    fn const_sub(self: @ContractState, hex: Hex, rhs: Hex) -> Hex {
+        hex.const_sub(rhs)
+    }
+
+    #[external(v0)]
+    fn length(self: @ContractState, hex: Hex) -> i32 {
+        hex.length()
+    }
+
+    #[external(v0)]
+    fn ulength(self: @ContractState, hex: Hex) -> u32 {
+        hex.ulength()
+    }
+
+    #[external(v0)]
+    fn hex_distance_to(self: @ContractState, hex: Hex, rhs: Hex) -> i32 {
+        hex.distance_to(rhs)
+    }
+
+    #[external(v0)]
+    fn unsigned_distance_to(self: @ContractState, hex: Hex, rhs: Hex) -> u32 {
+        hex.unsigned_distance_to(rhs)
+    }
+
+    #[external(v0)]
+    fn compass(self: @ContractState) -> Span<u8> {
+        let mut indices = array![];
+        indices.append(EdgeDirectionTrait::X_NEG_Y.index());
+        indices.append(EdgeDirectionTrait::FLAT_TOP_RIGHT.index());
+        indices.append(EdgeDirectionTrait::FLAT_NORTH_EAST.index());
+        indices.append(EdgeDirectionTrait::POINTY_TOP_RIGHT.index());
+        indices.append(EdgeDirectionTrait::POINTY_NORTH_EAST.index());
+        indices.append(EdgeDirectionTrait::NEG_Y.index());
+        indices.append(EdgeDirectionTrait::FLAT_TOP.index());
+        indices.append(EdgeDirectionTrait::FLAT_NORTH.index());
+        indices.append(EdgeDirectionTrait::POINTY_TOP_LEFT.index());
+        indices.append(EdgeDirectionTrait::POINTY_NORTH_WEST.index());
+        indices.append(EdgeDirectionTrait::NEG_X.index());
+        indices.append(EdgeDirectionTrait::FLAT_TOP_LEFT.index());
+        indices.append(EdgeDirectionTrait::FLAT_NORTH_WEST.index());
+        indices.append(EdgeDirectionTrait::POINTY_LEFT.index());
+        indices.append(EdgeDirectionTrait::POINTY_WEST.index());
+        indices.append(EdgeDirectionTrait::NEG_X_Y.index());
+        indices.append(EdgeDirectionTrait::FLAT_BOTTOM_LEFT.index());
+        indices.append(EdgeDirectionTrait::FLAT_SOUTH_WEST.index());
+        indices.append(EdgeDirectionTrait::POINTY_BOTTOM_LEFT.index());
+        indices.append(EdgeDirectionTrait::POINTY_SOUTH_WEST.index());
+        indices.append(EdgeDirectionTrait::Y.index());
+        indices.append(EdgeDirectionTrait::FLAT_BOTTOM.index());
+        indices.append(EdgeDirectionTrait::FLAT_SOUTH.index());
+        indices.append(EdgeDirectionTrait::POINTY_BOTTOM_RIGHT.index());
+        indices.append(EdgeDirectionTrait::POINTY_SOUTH_EAST.index());
+        indices.append(EdgeDirectionTrait::X.index());
+        indices.append(EdgeDirectionTrait::FLAT_BOTTOM_RIGHT.index());
+        indices.append(EdgeDirectionTrait::FLAT_SOUTH_EAST.index());
+        indices.append(EdgeDirectionTrait::POINTY_RIGHT.index());
+        indices.append(EdgeDirectionTrait::POINTY_EAST.index());
+        indices.span()
+    }
+
+    #[external(v0)]
+    fn all_directions(self: @ContractState) -> Span<EdgeDirection> {
+        let all = EdgeDirectionTrait::ALL_DIRECTIONS;
+        all.span()
+    }
+
+    #[external(v0)]
+    fn iter(self: @ContractState) -> Span<EdgeDirection> {
+        EdgeDirectionTrait::iter()
+    }
+
+    #[external(v0)]
+    fn direction_index(self: @ContractState, direction: EdgeDirection) -> u8 {
+        direction.index()
+    }
+
+    #[external(v0)]
+    fn into_hex(self: @ContractState, direction: EdgeDirection) -> Hex {
+        direction.into_hex()
+    }
+
+    #[external(v0)]
+    fn direction_into(self: @ContractState, direction: EdgeDirection) -> Hex {
+        direction.into()
+    }
+
+    #[external(v0)]
+    fn const_neg(self: @ContractState, direction: EdgeDirection) -> EdgeDirection {
+        direction.const_neg()
+    }
+
+    #[external(v0)]
+    fn clockwise(self: @ContractState, direction: EdgeDirection) -> EdgeDirection {
+        direction.clockwise()
+    }
+
+    #[external(v0)]
+    fn counter_clockwise(self: @ContractState, direction: EdgeDirection) -> EdgeDirection {
+        direction.counter_clockwise()
+    }
+
+    #[external(v0)]
+    fn rotate_cw(self: @ContractState, direction: EdgeDirection, offset: u8) -> EdgeDirection {
+        direction.rotate_cw(offset)
+    }
+
+    #[external(v0)]
+    fn rotate_ccw(self: @ContractState, direction: EdgeDirection, offset: u8) -> EdgeDirection {
+        direction.rotate_ccw(offset)
+    }
+
+    #[external(v0)]
+    fn to_offset_coordinates(
+        self: @ContractState, hex: Hex, mode: OffsetHexMode, orientation: HexOrientation,
+    ) -> (i32, i32) {
+        let [col, row] = hex.to_offset_coordinates(mode, orientation);
+        (col, row)
+    }
+
+    #[external(v0)]
+    fn from_offset_coordinates(
+        self: @ContractState, col: i32, row: i32, mode: OffsetHexMode, orientation: HexOrientation,
+    ) -> Hex {
+        HexConversionsTrait::from_offset_coordinates([col, row], mode, orientation)
+    }
+
+    #[external(v0)]
+    fn other_orientation(self: @ContractState, orientation: HexOrientation) -> HexOrientation {
+        !orientation
+    }
+
+    #[external(v0)]
+    fn default_orientation(self: @ContractState) -> HexOrientation {
+        Default::default()
     }
 }
