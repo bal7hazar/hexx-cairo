@@ -22,6 +22,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 GAS = ROOT / "gas"
 OUTPUT = ROOT / "docs" / "GAS.md"
+# Hand-written by the orchestrator: the figures accepted above their range of the plan's §7, each
+# with its reason (the project manager's rule of 2026-09-30); rendered verbatim after the table.
+ACCEPTED = GAS / "accepted.md"
 
 
 def toolchain() -> str:
@@ -83,6 +86,8 @@ def render(packages: dict[str, dict[str, tuple[int, int | None]]]) -> str:
     if total_tests == 0:
         lines.append("| _None yet_ | — | — | — |")
     lines += ["", f"{total_tests} measured test(s)."]
+    if ACCEPTED.exists():
+        lines += ["", ACCEPTED.read_text().rstrip("\n")]
     return "\n".join(lines) + "\n"
 
 

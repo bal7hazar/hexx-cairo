@@ -94,3 +94,46 @@ the renames change no result (the move proof and the equality tests); the placem
 ## Report
 
 `REPORT.md` as in [COMMON.md](COMMON.md) §7.
+
+## Decisions of the orchestrator on the stop (2026-09-30)
+
+By `[Opus 5.5]`, the successor orchestrator, on the escalations of the agent's first report (stop
+at commit `0ca5d42`). They amend this brief; a review or an audit reads them as part of it.
+
+1. **The gas stop condition.**
+   - Accepted as measured, not hot: `chunk_of` 3,020, `to_hex` 2,750. Their ranges assumed about
+     300 per operation, as the mirror's did (§14 "Accepted figures").
+   - **One bounded optimisation attempt each**, proved against the oracle over the whole stated
+     domain before it is kept, then accepted at what it measures: `distance_between` (7,220; the
+     game's hot path), `neighbor_direction` (9,640, of which two bounds checks against `height`
+     the sketch does not charge but the contract requires), and `from_hex` (3,840, which
+     `hex_to_index` 5,370 inherits). "One attempt" is the agent's own list (`bounded_int`
+     arithmetic, a single `DivRem` by `2W`, one `u16` bound, a `bounded_int` constrain), tried
+     once: no further search. A variant that is not cheaper, or that fails the oracle, is dropped.
+   - Every accepted figure (the six, at their final measurement) is written by the agent in §14
+     "Accepted figures" of the plan, on the branch: the reviewer reads the branch. The agent
+     does not edit `gas/accepted.md`: the orchestrator adds the six rows, with their reasons, on
+     the branch before the merge, and regenerates `docs/GAS.md` (the project manager's rule of
+     2026-09-30: a figure that moves the library's share of a worst tick or of a reveal by more
+     than 10 % goes to the project manager first). The agent's report says, for each of the six,
+     whether a benchmark of `bench_tick` or of the assembly calls it.
+   - The stop condition still holds for **every other** figure this task measures.
+   - The per-call figure is the raw `twice − once` of `bench_assembly`, the `assert!` comparison
+     included. No separate baseline.
+2. **The move proof.** The three extended files enter `EXTENDED` of `scripts/takeover_check.py`
+   (additions-only mode), with the three labels the agent proposed. The script is the
+   orchestrator's; this brief grants that change. The proof must print `0 problem(s)` after it.
+3. **Taken-over tests.** The tests of `layout` and `geometry` in `src/tests/bench_foundation.cairo`
+   and `src/tests/properties.cairo` stay there: D-167 applies to new tests and to tests a lot
+   moves; these files are proved byte for byte and are benchmarks and cross-module properties.
+   The move proof learns no removal mode.
+4. **`scripts/tests/test_takeover_check.py`**: the agent's edit is accepted and enters the
+   allowlist; it is the mechanical consequence of the three rewrites.
+5. **`Arc` at the root.** Re-exported beside `Direction` in `crates/hexx/src/lib.cairo` (one
+   `pub use` line, granted), so that the game reaches it as it reaches `Direction`.
+6. **Allowlist, added:** `docs/research/LIB-03-porting-plan.md` (§14 "Accepted figures" only),
+   `scripts/takeover_check.py` (`EXTENDED` only), `scripts/tests/test_takeover_check.py`,
+   `crates/hexx/src/lib.cairo` (the `Arc` re-export only).
+
+What would reverse 1: the game's tick measured over its budget with `distance_between` in it
+(ENG-02); then a task of its own optimises it.
