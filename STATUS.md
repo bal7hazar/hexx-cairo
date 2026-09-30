@@ -4,9 +4,9 @@
 
 | | |
 |---|---|
-| Phase | **Milestone L-M1: LIB-05.** N-3, N-4, N-8 and the mirror items merged. **M1-T3** (N-7, `distance_between`, the conversions, the renames) stopped on its gas stop condition; the orchestrator's decisions are in its brief; the agent resumes. Then M1-T6 (N-5), release candidate `0.1.0-rc.1` for the game's ENG-02. N-2 and N-1 wait for the game's study of hexagonal chunks (SPK-14, D-165) before their briefs |
+| Phase | **Milestone L-M1: LIB-05.** N-3, N-4, N-7, N-8, the mirror items and the board coordinates merged (M1-T3, #54). Next **M1-T6** (N-5, the line of sight), then release candidate `0.1.0-rc.1` for the game's ENG-02. N-2 and N-1 wait for the owner's decision on the chunk shape (SPK-14, D-165) before their briefs |
 | Procedures (Nexus, D-162) | Every pull request gets a Codex review (`nexus review`) before its merge; audits through `nexus audit`; implementers through `scripts/agent.sh`; `nexus accounts` and `nexus resources` before a launch. Accounts at 2026-09-30 ~22:00 UTC: `claude:b7r` 8 % of its week (reset 2026-10-03 06:00), `claude:main` 12 % |
-| Running agents | M1-T3, `[Opus 5.5]`, resumed |
+| Running agents | M1-T6, `[Opus 5.5]`, once its brief is merged |
 | Decisions pending | The owner, before the first publication: confirm the delegation of the decision to publish to the project manager (D-132) |
 
 ## Pause 2026-09-29 (ended 2026-09-30)
@@ -49,6 +49,7 @@ scripts/agent.sh M1-T4b claude claude-sonnet-5-5 resume "<follow-up>"
 | 2026-09-29 | local and CI, M1-T1c | 42 tests +0.22 to +0.62 % (four builds, four hashes); CI run 36568463132: `test_readme_open` +1.15 % and `HexxGenerators` 27,101 against 27,092 Sierra felts |
 | 2026-09-29 | CI, pull request #43, run 36609917335 | `HexxGenerators` 27,101 against 27,092; re-run once, green |
 | 2026-09-29 | local, M1-T4b | `HexxGenerators` 27,101 against 27,092; CI green |
+| 2026-09-30 | local (VPS), M1-T3 | `takeover_tests`: 40 rows of `Digger::dig` +0.2 to +1.9 %, twice; CI measured `main`'s figures exactly; `main`'s snapshot kept. `HexxGenerators` 27,092 (no class-size drift). Rule added to `COMMON.md` §4 |
 
 Diagnosis: the game's task SPK-13 on the owner's Mac ([reproduction](docs/reports/LIB-05-M1-T1c-REPORT.md)). An upstream issue is the owner's go.
 
@@ -63,6 +64,7 @@ Diagnosis: the game's task SPK-13 on the owner's Mac ([reproduction](docs/report
 
 | Date | What |
 |---|---|
+| 2026-09-30 | LIB-05 M1-T3, N-7 and the board coordinates: `Direction::{rotate, arc}`, `Arc`, the conversions with `EdgeDirection`, `distance_between` (on `bounded_int`, 4,220, down from 7,220), `chunk_of`, `to_hex`, `from_hex`, `index_to_hex`, `hex_to_index`, `neighbor_direction`, the three renames, by `[Opus 5.5]` (one stop on the gas condition, decided in its brief; five figures accepted above range in `gas/accepted.md`, none on the tick); audit (determinism) and Codex review by `[GPT-6-Sol]`: PASS, PASS. The brief named GPT-6-Astra for the audit; the orchestrator omitted `--model` and the project default ran. [report](docs/reports/LIB-05-M1-T3-REPORT.md) |
 | 2026-09-30 | LIB-05 M1-T2: the mirror items of L-M1 (`Hex`, `EdgeDirection`, offset coordinates, `HexOrientation`), parity by golden vectors from `hexx` 0.25.0, by `[Sonnet 5.5]`; two audit passes and two Codex reviews; [report](docs/reports/LIB-05-M1-T2-REPORT.md) |
 | 2026-09-30 | LIB-05 M1-T4b, N-4: `cut` as `grid & mask`, and the exhaustive coverage of `local`, by `[Sonnet 5.5]`; audit and Codex review by `[GPT-6-Sol]`: PASS, PASS; [report](docs/reports/LIB-05-M1-T4b-REPORT.md) |
 | 2026-09-29 | LIB-05 M1-T9b, N-8: the steps of the walkers and the benchmark of the tick, by `[Opus 5.5]`; two audit passes by `[GPT-6-Astra]`, two fix loops, final PASS; [report](docs/reports/LIB-05-M1-T9b-REPORT.md) with the orchestrator's decisions |
