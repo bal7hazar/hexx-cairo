@@ -522,3 +522,111 @@ fn test_assembly_revert_window_invalid_offset() {
     let chunks = Oracle::chunks(1);
     AssemblyTrait::window(chunks, chunks, @Origin { cx: 0, cy: 0, ox: 0, oy: 16 }, 0);
 }
+
+// Exhaustive coverage of `local` (audit of M1-T4a, finding 2)
+//
+// `local` decides each axis alone: `dx = x − (15·cx + ox)` is in `0..15` or not, `dy = y −
+// (15·cy + oy)` is in `0..16` or not, and the result is `Some(15·dy + dx)` iff both are. The
+// inputs `(cx, ox, x)` of the columns and `(cy, oy, y)` of the rows are independent, so the set of
+// `(cx, cy, ox, oy, x, y)` is their Cartesian product and two sweeps cover it:
+//
+// * every origin column (`cx` in `-1..=16`, `ox` in `0..15`: the origins of the tiles of a
+//   location) with every tile of a margin of 2 around its window and the tiles 0 and 255, on a
+//   row inside the window (`Some`) and on a row outside it (`None` whatever the column);
+// * the same for every origin row (`cy`, `oy`), with a column inside the window and one outside.
+//
+// The four in/out combinations of a column and a row are those two checks of each sweep, the
+// margins in 2D are `test_assembly_local` above, and the extremes of `i8` are their own test.
+
+#[generate_trait]
+pub impl LocalOracle of LocalOracleTrait {
+    /// The definition of `local` on global coordinates: the window starts at `(gx, gy)`.
+    fn expected(x: i16, y: i16, gx: i16, gy: i16) -> Option<u8> {
+        let (dx, dy) = (x - gx, y - gy);
+        if dx >= 0 && dx < 15 && dy >= 0 && dy < 16 {
+            Option::Some((dy * 15 + dx).try_into().unwrap())
+        } else {
+            Option::None
+        }
+    }
+
+    /// One origin column, every tile of its window's margin and the tiles 0 and 255, on a row
+    /// inside the window of the origin row `(0, 0)` and on a row outside it.
+    fn check_columns(cx: i8, ox: u8) {
+        let origin = Origin { cx, cy: 0, ox, oy: 0 };
+        let gx: i16 = 15 * Into::<i8, i16>::into(cx) + ox.into();
+        let mut x: i16 = gx - 2;
+        while x != gx + 17 {
+            Self::check_column(@origin, x, gx);
+            x += 1;
+        }
+        Self::check_column(@origin, 0, gx);
+        Self::check_column(@origin, 255, gx);
+    }
+
+    fn check_column(origin: @Origin, x: i16, gx: i16) {
+        if x >= 0 && x < 256 {
+            let column: u8 = x.try_into().unwrap();
+            assert!(origin.local(column, 5) == Self::expected(x, 5, gx, 0));
+            assert!(origin.local(column, 200).is_none());
+        }
+    }
+
+    /// One origin row, every tile of its window's margin and the tiles 0 and 255, on a column
+    /// inside the window of the origin column `(0, 0)` and on a column outside it.
+    fn check_rows(cy: i8, oy: u8) {
+        let origin = Origin { cx: 0, cy, ox: 0, oy };
+        let gy: i16 = 15 * Into::<i8, i16>::into(cy) + oy.into();
+        let mut y: i16 = gy - 2;
+        while y != gy + 18 {
+            Self::check_row(@origin, y, gy);
+            y += 1;
+        }
+        Self::check_row(@origin, 0, gy);
+        Self::check_row(@origin, 255, gy);
+    }
+
+    fn check_row(origin: @Origin, y: i16, gy: i16) {
+        if y >= 0 && y < 256 {
+            let row: u8 = y.try_into().unwrap();
+            assert!(origin.local(3, row) == Self::expected(3, y, 0, gy));
+            assert!(origin.local(100, row).is_none());
+        }
+    }
+
+    /// Every `cx` of `[from, to)` with every `ox`, and every `cy` with every `oy`.
+    fn check_origins(from: i8, to: i8) {
+        let mut c = from;
+        while c != to {
+            let mut o: u8 = 0;
+            while o != 15 {
+                Self::check_columns(c, o);
+                Self::check_rows(c, o);
+                o += 1;
+            }
+            c += 1;
+        }
+    }
+}
+
+/// Every origin of the tiles of a location, `-1..=16` in both axes, offsets `0..15`.
+#[test]
+#[available_gas(l2_gas: 195699389)]
+fn test_assembly_local_exhaustive() {
+    LocalOracle::check_origins(-1, 17);
+}
+
+/// The extremes of `i8` (its fields are public): nothing of a location is in such a window.
+#[test]
+#[available_gas(l2_gas: 2154569)]
+fn test_assembly_local_extreme_origins() {
+    let cs = array![-128_i8, -127, 126, 127];
+    for c in cs.span() {
+        for o in array![0_u8, 14].span() {
+            LocalOracle::check_columns(*c, *o);
+            LocalOracle::check_rows(*c, *o);
+            let origin = Origin { cx: *c, cy: *c, ox: *o, oy: *o };
+            assert!(origin.local(0, 0).is_none() && origin.local(255, 255).is_none());
+        }
+    }
+}
