@@ -31,17 +31,17 @@ implements. Never write in the game repository.
   **no pull request**. Commits: `f47a5a5` (the three renames; the move proof printed
   `29 pairs, 0 problem(s)`) and `0ca5d42` (N-7 and the board coordinates; all 101 `board::`
   tests pass). The report is in its worktree, and the end of `.claude/worktrees/logs/M1-T3.log`
-  summarises it. These six figures are above the upper bound of their §7 range:
+  summarises it. These six figures (`rotate` is in its range; `arc`, the `Direction`/`EdgeDirection` conversions and `index_to_hex` are below theirs) are above the upper bound of their §7 range:
 
   | Function | Measured | Range |
   |---|---|---|
+  | `neighbor_direction` (largest) | 9,640 | 4,294–5,368 |
   | `distance_between` (hot path) | 7,220 | 5,196–6,495 |
   | `hex_to_index` | 5,370 | 2,998–3,748 |
   | `from_hex` | 3,840 | 2,198–2,748 |
   | `chunk_of` | 3,020 | 2,196–2,745 |
   | `to_hex` | 2,750 | 1,998–2,498 |
-  | `neighbor_direction` | see its report | — |
-
+  
   Not done because of the stop: `scripts/check.sh`, CI, the `takeover_tests` re-run, the real
   gas budgets (the new tests carry a placeholder of 1,000,000,000), the snapshots, the generated
   documents, and the call sites in `crates/consumer`.
@@ -61,7 +61,7 @@ Pending:
 
 | For | Decision | Recommendation |
 |---|---|---|
-| You, now | M1-T3's figures (above), and its escalations 2 to 4 | (2) Add the three `EXTENDED` entries (`direction`, `layout`, `geometry.cairo`) to `scripts/takeover_check.py` yourself: it is orchestrator-owned, and additions-only mode is what those files need. (3) Leave the old layout and geometry tests in `bench_foundation.cairo` and `properties.cairo`, as D-167 applies to new tests. (4) Accept the edit of `scripts/tests/test_takeover_check.py`: a mechanical consequence of the renames you asked for. (1) Accept the five conversions as §14 did for the mirror, since they are not hot. For `distance_between` (hot, +11 %), ask the agent for one bounded optimisation attempt, then accept what it measures. Record every accepted figure in §14 on the branch: the Codex reviewer reads only the code and the brief |
+| You, now | M1-T3's figures (above), and its escalations 2 to 4 | (2) Add the three `EXTENDED` entries (`direction`, `layout`, `geometry.cairo`) to `scripts/takeover_check.py` yourself: it is orchestrator-owned, and additions-only mode is what those files need. (3) Leave the old layout and geometry tests in `bench_foundation.cairo` and `properties.cairo`, as D-167 applies to new tests. (4) Accept the edit of `scripts/tests/test_takeover_check.py`: a mechanical consequence of the renames you asked for. (1) Accept the four conversions as §14 did for the mirror, since they are not hot. For `neighbor_direction` (+80 %, of which two board-bounds checks the plan left out) and `distance_between` (hot, +11 %), ask the agent for one bounded optimisation attempt each, against the oracle, then accept what it measures. Record every accepted figure in §14 on the branch: the Codex reviewer reads only the code and the brief |
 | The owner, before the first publication | Confirm the delegation of the decision to publish to the project manager (D-132) | Ask when rc.1 is ready, with the `PENDING-publish` file |
 | The owner | An upstream compiler issue on the compile drift, if SPK-13 finds the cause | Wait for SPK-13 |
 
