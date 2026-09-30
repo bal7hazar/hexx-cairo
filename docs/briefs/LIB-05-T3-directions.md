@@ -111,7 +111,12 @@ at commit `0ca5d42`). They amend this brief; a review or an audit reads them as 
      arithmetic, a single `DivRem` by `2W`, one `u16` bound, a `bounded_int` constrain), tried
      once: no further search. A variant that is not cheaper, or that fails the oracle, is dropped.
    - Every accepted figure (the six, at their final measurement) is written by the agent in §14
-     "Accepted figures" of the plan, on the branch: the reviewer reads the branch.
+     "Accepted figures" of the plan, on the branch: the reviewer reads the branch. The agent
+     does not edit `gas/accepted.md`: the orchestrator adds the six rows, with their reasons, on
+     the branch before the merge, and regenerates `docs/GAS.md` (the project manager's rule of
+     2026-09-30: a figure that moves the library's share of a worst tick or of a reveal by more
+     than 10 % goes to the project manager first). The agent's report says, for each of the six,
+     whether a benchmark of `bench_tick` or of the assembly calls it.
    - The stop condition still holds for **every other** figure this task measures.
    - The per-call figure is the raw `twice − once` of `bench_assembly`, the `assert!` comparison
      included. No separate baseline.

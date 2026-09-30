@@ -1724,7 +1724,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 Written by the orchestrator, never generated. A measurement above the upper bound of its range in
 §7 of the plan is accepted here with its reason, and in §14 of the plan for the audits. The project
 manager's rule (2026-09-30, D-144's logic): an accepted figure that moves the library's share of a
-worst tick (1,066,089 cave, 1,113,746 serpentine, M1-T9b) or of a reveal by more than 10 % goes to
+worst tick (1,050,809 cave, 1,098,466 serpentine: the final figures of M1-T9b) or of a reveal by more than 10 % goes to
 the project manager before the merge; under that, the orchestrator decides.
 
 | Function | Measured | Range of §7 | Task | Reason |
