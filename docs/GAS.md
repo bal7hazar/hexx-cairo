@@ -908,6 +908,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::tests::test_assembly::test_assembly_revert_window_odd_origin` | 17,502 | 18,378 | 5.0 % |
 | `hexx::tests::test_assembly::test_assembly_void_chunks` | 620,302,322 | 651,317,439 | 5.0 % |
 | `hexx::tests::test_assembly::test_assembly_window_ring` | 73,164 | 76,823 | 5.0 % |
+| `hexx::tests::test_conversions::test_derived_serde_refuses_what_is_not_a_value` | 28,110 | 29,516 | 5.0 % |
 | `hexx::tests::test_conversions::test_offset_even_flat` | 9,343,000 | 9,810,150 | 5.0 % |
 | `hexx::tests::test_conversions::test_offset_even_pointy` | 9,645,760 | 10,128,048 | 5.0 % |
 | `hexx::tests::test_conversions::test_offset_extreme_rows_do_not_overflow` | 13,720 | 14,406 | 5.0 % |
@@ -932,6 +933,8 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::tests::test_edge_direction::test_edge_direction_compass_aliases` | 13,720 | 14,406 | 5.0 % |
 | `hexx::tests::test_edge_direction::test_edge_direction_into_hex_reads_the_neighbours` | 110,780 | 116,319 | 5.0 % |
 | `hexx::tests::test_edge_direction::test_edge_direction_rotations_are_repeated_steps` | 2,217,890 | 2,328,785 | 5.0 % |
+| `hexx::tests::test_edge_direction::test_edge_direction_serde_refuses_an_index_above_five` | 1,033,830 | 1,085,522 | 5.0 % |
+| `hexx::tests::test_edge_direction::test_edge_direction_serde_round_trip` | 51,180 | 53,739 | 5.0 % |
 | `hexx::tests::test_flood::test_flood_cave_15x16` | 31,307,599 | 32,872,349 | 5.0 % |
 | `hexx::tests::test_flood::test_flood_depths_serpentine` | 153,345,196 | 161,008,256 | 5.0 % |
 | `hexx::tests::test_flood::test_flood_depths_small` | 40,140,320 | 42,142,296 | 5.0 % |
@@ -1714,4 +1717,4 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 15,520 | 16,296 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 15,520 | 16,296 | 5.0 % |
 
-1707 measured test(s).
+1710 measured test(s).

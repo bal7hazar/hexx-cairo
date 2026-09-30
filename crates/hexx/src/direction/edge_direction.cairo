@@ -43,12 +43,30 @@ const SIX: NonZero<u8> = 6;
 /// #### Deviations
 ///
 /// Cairo has no tuple structs: the field is named `index`. It stays private so that `index()` is
-/// the only reader, as `pub(crate)` is in `hexx` (plan §3.2). `Serde`, `Debug` and `Hash` are
-/// derived as a matter of course (plan §2.3); `Debug` prints the field, not the pointy name as
-/// `hexx` does (L-M2).
-#[derive(Copy, Drop, Serde, PartialEq, Debug, Default, Hash)]
+/// the only reader, as `pub(crate)` is in `hexx` (plan §3.2). `Debug` and `Hash` are derived as a
+/// matter of course (plan §2.3); `Debug` prints the field, not the pointy name as `hexx` does
+/// (L-M2). `Serde` is written by hand: `deserialize` returns `None` for an index above 5, so that
+/// a value read from calldata is always one of the six directions (a derived `Serde` would
+/// accept any `u8`, and `rotate_cw` and `into_hex` would leave `0..=5`).
+#[derive(Copy, Drop, PartialEq, Debug, Default, Hash)]
 pub struct EdgeDirection {
     index: u8,
+}
+
+/// `Serde` of `EdgeDirection`: one felt, the index, as the derived impl writes it; reading refuses
+/// an index above 5. Private, like a derived impl (Cairo finds it all the same).
+impl EdgeDirectionSerde of Serde<EdgeDirection> {
+    fn serialize(self: @EdgeDirection, ref output: Array<felt252>) {
+        Serde::<u8>::serialize(self.index, ref output);
+    }
+
+    fn deserialize(ref serialized: Span<felt252>) -> Option<EdgeDirection> {
+        let index: u8 = Serde::<u8>::deserialize(ref serialized)?;
+        if index > 5 {
+            return None;
+        }
+        Some(EdgeDirection { index })
+    }
 }
 
 /// The items of `impl EdgeDirection` of milestone L-M1.

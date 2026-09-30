@@ -901,6 +901,7 @@ hexx::tests::test_assembly::test_assembly_revert_window_invalid_offset: 17502 18
 hexx::tests::test_assembly::test_assembly_revert_window_odd_origin: 17502 18378
 hexx::tests::test_assembly::test_assembly_void_chunks: 620302322 651317439
 hexx::tests::test_assembly::test_assembly_window_ring: 73164 76823
+hexx::tests::test_conversions::test_derived_serde_refuses_what_is_not_a_value: 28110 29516
 hexx::tests::test_conversions::test_offset_even_flat: 9343000 9810150
 hexx::tests::test_conversions::test_offset_even_pointy: 9645760 10128048
 hexx::tests::test_conversions::test_offset_extreme_rows_do_not_overflow: 13720 14406
@@ -925,6 +926,8 @@ hexx::tests::test_edge_direction::test_edge_direction_all_directions_and_iter: 4
 hexx::tests::test_edge_direction::test_edge_direction_compass_aliases: 13720 14406
 hexx::tests::test_edge_direction::test_edge_direction_into_hex_reads_the_neighbours: 110780 116319
 hexx::tests::test_edge_direction::test_edge_direction_rotations_are_repeated_steps: 2217890 2328785
+hexx::tests::test_edge_direction::test_edge_direction_serde_refuses_an_index_above_five: 1033830 1085522
+hexx::tests::test_edge_direction::test_edge_direction_serde_round_trip: 51180 53739
 hexx::tests::test_flood::test_flood_cave_15x16: 31307599 32872349
 hexx::tests::test_flood::test_flood_depths_serpentine: 153345196 161008256
 hexx::tests::test_flood::test_flood_depths_small: 40140320 42142296

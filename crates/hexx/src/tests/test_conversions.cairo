@@ -122,3 +122,30 @@ fn test_orientation_default_and_not() {
     assert(!HexOrientation::Pointy == HexOrientation::Flat, '!Pointy');
     assert(!!default == default, '!!');
 }
+
+// The other types of the lot have no gap of the kind `EdgeDirection` had: the derived `Serde` of an
+// enum refuses an unknown variant index, that of `Hex` holds two `i32`, every pair of which is a
+// valid coordinate, and `i32` itself refuses a felt out of range.
+
+#[test]
+#[available_gas(l2_gas: 29516)]
+fn test_derived_serde_refuses_what_is_not_a_value() {
+    let mut input = array![2].span();
+    let read: Option<OffsetHexMode> = Serde::deserialize(ref input);
+    assert(read.is_none(), 'OffsetHexMode index 2');
+    let mut input = array![0].span();
+    let read: Option<OffsetHexMode> = Serde::deserialize(ref input);
+    assert(read == Some(OffsetHexMode::Even), 'OffsetHexMode index 0');
+    let mut input = array![2].span();
+    let read: Option<HexOrientation> = Serde::deserialize(ref input);
+    assert(read.is_none(), 'HexOrientation index 2');
+    let mut input = array![1].span();
+    let read: Option<HexOrientation> = Serde::deserialize(ref input);
+    assert(read == Some(HexOrientation::Flat), 'HexOrientation index 1');
+    let mut input = array![4294967296, 0].span();
+    let read: Option<Hex> = Serde::deserialize(ref input);
+    assert(read.is_none(), 'Hex x out of i32');
+    let mut input = array![0, 2147483648].span();
+    let read: Option<Hex> = Serde::deserialize(ref input);
+    assert(read.is_none(), 'Hex y out of i32');
+}

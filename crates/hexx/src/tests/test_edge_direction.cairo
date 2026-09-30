@@ -120,3 +120,41 @@ fn test_edge_direction_rotations_are_repeated_steps() {
     assert(EdgeDirectionTrait::X_NEG_Y.rotate_cw(255) == EdgeDirectionTrait::NEG_X_Y, '5 + 255');
     assert(EdgeDirectionTrait::X_NEG_Y.rotate_ccw(255) == EdgeDirectionTrait::NEG_X_Y, '5 - 255');
 }
+
+// `Serde`: a value read from calldata is always one of the six directions.
+
+#[test]
+#[available_gas(l2_gas: 53739)]
+fn test_edge_direction_serde_round_trip() {
+    let mut i: u8 = 0;
+    while i < 6 {
+        let d = *EdgeDirectionTrait::iter().at(i.into());
+        let mut output: Array<felt252> = array![];
+        d.serialize(ref output);
+        assert(output.len() == 1 && *output.at(0) == i.into(), 'one felt, the index');
+        let mut input = output.span();
+        let back: EdgeDirection = Serde::deserialize(ref input).unwrap();
+        assert(back == d, 'round trip');
+        assert(input.len() == 0, 'consumed');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 1085522)]
+fn test_edge_direction_serde_refuses_an_index_above_five() {
+    // Every index of a `u8` above 5, then the felts that are no `u8` at all.
+    let mut refused: u16 = 6;
+    while refused <= 255 {
+        let mut input = array![refused.into()].span();
+        let read: Option<EdgeDirection> = Serde::deserialize(ref input);
+        assert(read.is_none(), 'an index above 5 is refused');
+        refused += 1;
+    }
+    let mut input = array![256].span();
+    let read: Option<EdgeDirection> = Serde::deserialize(ref input);
+    assert(read.is_none(), '256 is refused');
+    let mut input = array![-1].span();
+    let read: Option<EdgeDirection> = Serde::deserialize(ref input);
+    assert(read.is_none(), 'felt -1 is refused');
+}
