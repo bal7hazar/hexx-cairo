@@ -36,5 +36,20 @@ class Builds(unittest.TestCase):
         self.assertEqual(builds.get("HexxGenerators"), [B])
 
 
+class OneSecondBuild(unittest.TestCase):
+    def test_two_second_builds_of_one_contract_are_refused(self) -> None:
+        import tempfile
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as d:
+            f = Path(d) / "bytecode.builds"
+            f.write_text("X: 1 2 3 4\nX: 5 6 7 8\n")
+            saved, b.BUILDS, root = b.BUILDS, f, b.ROOT
+            b.ROOT = Path(d)
+            try:
+                with self.assertRaises(SystemExit):
+                    b.read_builds()
+            finally:
+                b.BUILDS, b.ROOT = saved, root
+
+
 if __name__ == "__main__":
     unittest.main()

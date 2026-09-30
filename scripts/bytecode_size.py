@@ -128,7 +128,10 @@ def read_builds() -> dict[str, list[dict[str, int]]]:
         values = list(map(int, vals.split()))
         if len(values) != len(METRICS):
             sys.exit(f"{BUILDS.relative_to(ROOT)}: {name}: {len(values)} values, expected {len(METRICS)}")
-        builds.setdefault(name.strip(), []).append(dict(zip(METRICS, values)))
+        if name.strip() in builds:
+            sys.exit(f"{BUILDS.relative_to(ROOT)}: {name.strip()}: more than one second build "
+                     "recorded (D-164 accepts two observed builds of a class, not three)")
+        builds[name.strip()] = [dict(zip(METRICS, values))]
     return builds
 
 
