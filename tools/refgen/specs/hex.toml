@@ -9,3 +9,47 @@ domain_min = -40
 domain_max = 40
 chunks = 8        # the 64 x 64 ordered pairs, in this many tests
 panic_cap = 4     # #[should_panic] tests per function near the bounds
+
+# budgets: ceil(1.05 * measured)
+
+# budgets: ceil(1.05 * measured)
+gas.golden_hex_bounds_const_sub = 23611235
+gas.golden_hex_bounds_distance_to = 10200824
+gas.golden_hex_bounds_length = 4228403
+gas.golden_hex_bounds_ulength = 5320119
+gas.golden_hex_bounds_unsigned_distance_to = 11974620
+gas.golden_hex_bounds_z = 4580184
+gas.golden_hex_const_sub_panics_0 = 16086
+gas.golden_hex_const_sub_panics_1 = 16086
+gas.golden_hex_const_sub_panics_2 = 16086
+gas.golden_hex_const_sub_panics_3 = 16086
+gas.golden_hex_constants = 26240
+gas.golden_hex_distance_to_panics_0 = 16086
+gas.golden_hex_distance_to_panics_1 = 16086
+gas.golden_hex_distance_to_panics_2 = 16086
+gas.golden_hex_distance_to_panics_3 = 16086
+gas.golden_hex_length_panics_0 = 16086
+gas.golden_hex_length_panics_1 = 16086
+gas.golden_hex_length_panics_2 = 16086
+gas.golden_hex_length_panics_3 = 16086
+gas.golden_hex_pairs_0 = 453895628
+gas.golden_hex_pairs_1 = 453895628
+gas.golden_hex_pairs_2 = 453895628
+gas.golden_hex_pairs_3 = 453895628
+gas.golden_hex_pairs_4 = 453895628
+gas.golden_hex_pairs_5 = 453895628
+gas.golden_hex_pairs_6 = 453895628
+gas.golden_hex_pairs_7 = 453895628
+gas.golden_hex_ulength_panics_0 = 16086
+gas.golden_hex_ulength_panics_1 = 16086
+gas.golden_hex_ulength_panics_2 = 16086
+gas.golden_hex_ulength_panics_3 = 16086
+gas.golden_hex_unary = 5819930
+gas.golden_hex_unsigned_distance_to_panics_0 = 16086
+gas.golden_hex_unsigned_distance_to_panics_1 = 16086
+gas.golden_hex_unsigned_distance_to_panics_2 = 16086
+gas.golden_hex_unsigned_distance_to_panics_3 = 16086
+gas.golden_hex_z_panics_0 = 16086
+gas.golden_hex_z_panics_1 = 16086
+gas.golden_hex_z_panics_2 = 16086
+gas.golden_hex_z_panics_3 = 16086

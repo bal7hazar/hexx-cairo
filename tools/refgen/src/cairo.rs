@@ -98,8 +98,9 @@ impl<'a> Emitter<'a> {
         ));
         out.push_str(&format!("// Do not edit by hand; edit tools/refgen/specs/{module}.toml instead.\n"));
         out.push_str("//\n");
-        out.push_str(&format!("// Oracle: hexx 0.25.0, {oracle} (pinned checkout sources/hexx,\n"));
-        out.push_str("// tag 0.25.0, commit b6b9afb1a6d413817509d00ce9ec6b9d52339a7c).\n");
+        out.push_str(&format!("// Oracle: hexx 0.25.0, {oracle}\n"));
+        out.push_str("// (pinned checkout sources/hexx, tag 0.25.0,\n");
+        out.push_str("// commit b6b9afb1a6d413817509d00ce9ec6b9d52339a7c).\n");
         out.push_str("//\n");
         out.push_str("// Budgets: `gas.<test>` keys of the spec, ceil(1.05 * measured).\n\n");
         out.push_str(uses);
@@ -134,11 +135,27 @@ impl<'a> Emitter<'a> {
     }
 }
 
-/// `array![...]` of tuples, one per line, typed `Array<(types)>`.
+/// `array![...]` of tuples typed `Array<(types)>`, packed as `scarb fmt` packs them (as many
+/// tuples per line as fit in 100 columns, each line ending with a comma), so that the generated
+/// file is stable under `scarb fmt --check`.
 pub fn cases_array(types: &str, rows: &[String]) -> String {
     let mut out = format!("    let cases: Array<({types})> = array![\n");
+    let mut line = String::new();
     for row in rows {
-        out.push_str(&format!("        ({row}),\n"));
+        let item = format!("({row})");
+        if line.is_empty() {
+            line = format!("        {item},");
+        } else if line.len() + 1 + item.len() + 1 <= 100 {
+            line.push_str(&format!(" {item},"));
+        } else {
+            out.push_str(&line);
+            out.push('\n');
+            line = format!("        {item},");
+        }
+    }
+    if !line.is_empty() {
+        out.push_str(&line);
+        out.push('\n');
     }
     out.push_str("    ];\n");
     out

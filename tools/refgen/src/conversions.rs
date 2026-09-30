@@ -43,7 +43,7 @@ pub fn emit(spec: &Spec) -> Result<String, String> {
 
     let mut e = Emitter::new(
         spec,
-        "`Hex::to_offset_coordinates` (src/conversions.rs:65),\n// `Hex::from_offset_coordinates` :142, `OffsetHexMode` :29, `HexOrientation`",
+        "`Hex::to_offset_coordinates` (src/conversions.rs:65),\n// `Hex::from_offset_coordinates` :142, `OffsetHexMode` :29, `HexOrientation`\n// (src/orientation.rs:124)",
         "use hexx::conversions::{HexConversionsTrait, OffsetHexMode};\nuse hexx::hex::{Hex, HexTrait};\nuse hexx::orientation::HexOrientation;\n",
     );
 
@@ -70,22 +70,24 @@ pub fn emit(spec: &Spec) -> Result<String, String> {
                     format!("{col}, {row}, {}, {}", h.x, h.y)
                 })
                 .collect();
+            let setup = format!(
+                "    let mode = {cm};\n    let orientation = {co};\n"
+            );
             let body = format!(
-                "{}    let mut i = 0;
+                "{setup}{}    let mut i = 0;
     while i < cases.len() {{
         let (x, y, col, row) = *cases.at(i);
         let h = HexTrait::new(x, y);
-        assert(h.to_offset_coordinates({cm}, {co}) == [col, row], 'to_offset');
-        assert(HexConversionsTrait::from_offset_coordinates([col, row], {cm}, {co}) == h, 'round trip');
+        assert(h.to_offset_coordinates(mode, orientation) == [col, row], 'to_offset');
+        let back = HexConversionsTrait::from_offset_coordinates([col, row], mode, orientation);
+        assert(back == h, 'round trip');
         i += 1;
     }}
 {}    let mut i = 0;
     while i < from_cases.len() {{
         let (col, row, x, y) = *from_cases.at(i);
-        assert(
-            HexConversionsTrait::from_offset_coordinates([col, row], {cm}, {co}) == HexTrait::new(x, y),
-            'from_offset',
-        );
+        let h = HexConversionsTrait::from_offset_coordinates([col, row], mode, orientation);
+        assert(h == HexTrait::new(x, y), 'from_offset');
         i += 1;
     }}
 ",
@@ -110,10 +112,11 @@ pub fn emit(spec: &Spec) -> Result<String, String> {
                 }
             }
             let body = format!(
-                "{}    let mut i = 0;
+                "{setup}{}    let mut i = 0;
     while i < cases.len() {{
         let (x, y, col, row) = *cases.at(i);
-        assert(HexTrait::new(x, y).to_offset_coordinates({cm}, {co}) == [col, row], 'to_offset');
+        let h = HexTrait::new(x, y);
+        assert(h.to_offset_coordinates(mode, orientation) == [col, row], 'to_offset');
         i += 1;
     }}
 ",
@@ -121,13 +124,11 @@ pub fn emit(spec: &Spec) -> Result<String, String> {
             );
             e.test(&format!("golden_offset_bounds_to_{pair}"), false, &body)?;
             let body = format!(
-                "{}    let mut i = 0;
+                "{setup}{}    let mut i = 0;
     while i < cases.len() {{
         let (col, row, x, y) = *cases.at(i);
-        assert(
-            HexConversionsTrait::from_offset_coordinates([col, row], {cm}, {co}) == HexTrait::new(x, y),
-            'from_offset',
-        );
+        let h = HexConversionsTrait::from_offset_coordinates([col, row], mode, orientation);
+        assert(h == HexTrait::new(x, y), 'from_offset');
         i += 1;
     }}
 ",
@@ -137,13 +138,13 @@ pub fn emit(spec: &Spec) -> Result<String, String> {
 
             for (n, (x, y)) in spread(&to_failing, panic_cap).into_iter().enumerate() {
                 let body = format!(
-                    "    let _ = HexTrait::new({x}, {y}).to_offset_coordinates({cm}, {co});\n"
+                    "{setup}    let _ = HexTrait::new({x}, {y}).to_offset_coordinates(mode, orientation);\n"
                 );
                 e.test(&format!("golden_offset_to_{pair}_panics_{n}"), true, &body)?;
             }
             for (n, (x, y)) in spread(&from_failing, panic_cap).into_iter().enumerate() {
                 let body = format!(
-                    "    let _ = HexConversionsTrait::from_offset_coordinates([{x}, {y}], {cm}, {co});\n"
+                    "{setup}    let offset = [{x}, {y}];\n    let _ = HexConversionsTrait::from_offset_coordinates(offset, mode, orientation);\n"
                 );
                 e.test(&format!("golden_offset_from_{pair}_panics_{n}"), true, &body)?;
             }

@@ -2,8 +2,10 @@
 // Do not edit by hand; edit tools/refgen/specs/conversions.toml instead.
 //
 // Oracle: hexx 0.25.0, `Hex::to_offset_coordinates` (src/conversions.rs:65),
-// `Hex::from_offset_coordinates` :142, `OffsetHexMode` :29, `HexOrientation` (pinned checkout
-// sources/hexx, tag 0.25.0, commit b6b9afb1a6d413817509d00ce9ec6b9d52339a7c).
+// `Hex::from_offset_coordinates` :142, `OffsetHexMode` :29, `HexOrientation`
+// (src/orientation.rs:124)
+// (pinned checkout sources/hexx, tag 0.25.0,
+// commit b6b9afb1a6d413817509d00ce9ec6b9d52339a7c).
 //
 // Budgets: `gas.<test>` keys of the spec, ceil(1.05 * measured).
 
@@ -13,8 +15,10 @@ use hexx::orientation::HexOrientation;
 
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 8747267)]
 fn golden_offset_even_pointy() {
+    let mode = OffsetHexMode::Even;
+    let orientation = HexOrientation::Pointy;
     let cases: Array<(i32, i32, i32, i32)> = array![
         (16, 4, 18, 4), (-3, -7, -6, -7), (34, 26, 47, 26), (26, 31, 42, 31), (-5, 24, 7, 24),
         (29, 23, 41, 23), (17, 13, 24, 13), (-3, 7, 1, 7), (17, 3, 19, 3), (-14, -3, -15, -3),
@@ -36,16 +40,9 @@ fn golden_offset_even_pointy() {
     while i < cases.len() {
         let (x, y, col, row) = *cases.at(i);
         let h = HexTrait::new(x, y);
-        assert(
-            h.to_offset_coordinates(OffsetHexMode::Even, HexOrientation::Pointy) == [col, row],
-            'to_offset',
-        );
-        assert(
-            HexConversionsTrait::from_offset_coordinates(
-                [col, row], OffsetHexMode::Even, HexOrientation::Pointy,
-            ) == h,
-            'round trip',
-        );
+        assert(h.to_offset_coordinates(mode, orientation) == [col, row], 'to_offset');
+        let back = HexConversionsTrait::from_offset_coordinates([col, row], mode, orientation);
+        assert(back == h, 'round trip');
         i += 1;
     }
     let from_cases: Array<(i32, i32, i32, i32)> = array![
@@ -68,19 +65,17 @@ fn golden_offset_even_pointy() {
     let mut i = 0;
     while i < from_cases.len() {
         let (col, row, x, y) = *from_cases.at(i);
-        assert(
-            HexConversionsTrait::from_offset_coordinates(
-                [col, row], OffsetHexMode::Even, HexOrientation::Pointy,
-            ) == HexTrait::new(x, y),
-            'from_offset',
-        );
+        let h = HexConversionsTrait::from_offset_coordinates([col, row], mode, orientation);
+        assert(h == HexTrait::new(x, y), 'from_offset');
         i += 1;
     }
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9828998)]
 fn golden_offset_bounds_to_even_pointy() {
+    let mode = OffsetHexMode::Even;
+    let orientation = HexOrientation::Pointy;
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483648, -1, -2147483648, -1), (-2147483648, 0, -2147483648, 0),
         (-2147483648, 1, -2147483647, 1), (-2147483648, 1073741823, -1610612736, 1073741823),
@@ -150,18 +145,17 @@ fn golden_offset_bounds_to_even_pointy() {
     let mut i = 0;
     while i < cases.len() {
         let (x, y, col, row) = *cases.at(i);
-        assert(
-            HexTrait::new(x, y)
-                .to_offset_coordinates(OffsetHexMode::Even, HexOrientation::Pointy) == [col, row],
-            'to_offset',
-        );
+        let h = HexTrait::new(x, y);
+        assert(h.to_offset_coordinates(mode, orientation) == [col, row], 'to_offset');
         i += 1;
     }
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9817332)]
 fn golden_offset_bounds_from_even_pointy() {
+    let mode = OffsetHexMode::Even;
+    let orientation = HexOrientation::Pointy;
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483648, -2147483648, -1073741824, -2147483648),
         (-2147483648, -2147483647, -1073741825, -2147483647),
@@ -230,53 +224,55 @@ fn golden_offset_bounds_from_even_pointy() {
     let mut i = 0;
     while i < cases.len() {
         let (col, row, x, y) = *cases.at(i);
-        assert(
-            HexConversionsTrait::from_offset_coordinates(
-                [col, row], OffsetHexMode::Even, HexOrientation::Pointy,
-            ) == HexTrait::new(x, y),
-            'from_offset',
-        );
+        let h = HexConversionsTrait::from_offset_coordinates([col, row], mode, orientation);
+        assert(h == HexTrait::new(x, y), 'from_offset');
         i += 1;
     }
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_offset_to_even_pointy_panics_0() {
-    let _ = HexTrait::new(-2147483648, -2147483648)
-        .to_offset_coordinates(OffsetHexMode::Even, HexOrientation::Pointy);
+    let mode = OffsetHexMode::Even;
+    let orientation = HexOrientation::Pointy;
+    let _ = HexTrait::new(-2147483648, -2147483648).to_offset_coordinates(mode, orientation);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_offset_to_even_pointy_panics_1() {
-    let _ = HexTrait::new(2147483647, 2147483647)
-        .to_offset_coordinates(OffsetHexMode::Even, HexOrientation::Pointy);
+    let mode = OffsetHexMode::Even;
+    let orientation = HexOrientation::Pointy;
+    let _ = HexTrait::new(2147483647, 2147483647).to_offset_coordinates(mode, orientation);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_offset_from_even_pointy_panics_0() {
-    let _ = HexConversionsTrait::from_offset_coordinates(
-        [-2147483648, 1], OffsetHexMode::Even, HexOrientation::Pointy,
-    );
+    let mode = OffsetHexMode::Even;
+    let orientation = HexOrientation::Pointy;
+    let offset = [-2147483648, 1];
+    let _ = HexConversionsTrait::from_offset_coordinates(offset, mode, orientation);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_offset_from_even_pointy_panics_1() {
-    let _ = HexConversionsTrait::from_offset_coordinates(
-        [2147483647, -1073741824], OffsetHexMode::Even, HexOrientation::Pointy,
-    );
+    let mode = OffsetHexMode::Even;
+    let orientation = HexOrientation::Pointy;
+    let offset = [2147483647, -1073741824];
+    let _ = HexConversionsTrait::from_offset_coordinates(offset, mode, orientation);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 8747267)]
 fn golden_offset_even_flat() {
+    let mode = OffsetHexMode::Even;
+    let orientation = HexOrientation::Flat;
     let cases: Array<(i32, i32, i32, i32)> = array![
         (16, 4, 16, 12), (-3, -7, -3, -8), (34, 26, 34, 43), (26, 31, 26, 44), (-5, 24, -5, 22),
         (29, 23, 29, 38), (17, 13, 17, 22), (-3, 7, -3, 6), (17, 3, 17, 12), (-14, -3, -14, -10),
@@ -297,16 +293,9 @@ fn golden_offset_even_flat() {
     while i < cases.len() {
         let (x, y, col, row) = *cases.at(i);
         let h = HexTrait::new(x, y);
-        assert(
-            h.to_offset_coordinates(OffsetHexMode::Even, HexOrientation::Flat) == [col, row],
-            'to_offset',
-        );
-        assert(
-            HexConversionsTrait::from_offset_coordinates(
-                [col, row], OffsetHexMode::Even, HexOrientation::Flat,
-            ) == h,
-            'round trip',
-        );
+        assert(h.to_offset_coordinates(mode, orientation) == [col, row], 'to_offset');
+        let back = HexConversionsTrait::from_offset_coordinates([col, row], mode, orientation);
+        assert(back == h, 'round trip');
         i += 1;
     }
     let from_cases: Array<(i32, i32, i32, i32)> = array![
@@ -329,19 +318,17 @@ fn golden_offset_even_flat() {
     let mut i = 0;
     while i < from_cases.len() {
         let (col, row, x, y) = *from_cases.at(i);
-        assert(
-            HexConversionsTrait::from_offset_coordinates(
-                [col, row], OffsetHexMode::Even, HexOrientation::Flat,
-            ) == HexTrait::new(x, y),
-            'from_offset',
-        );
+        let h = HexConversionsTrait::from_offset_coordinates([col, row], mode, orientation);
+        assert(h == HexTrait::new(x, y), 'from_offset');
         i += 1;
     }
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9828998)]
 fn golden_offset_bounds_to_even_flat() {
+    let mode = OffsetHexMode::Even;
+    let orientation = HexOrientation::Flat;
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483648, -1073741824, -2147483648, -2147483648),
         (-2147483648, -1, -2147483648, -1073741825), (-2147483648, 0, -2147483648, -1073741824),
@@ -412,18 +399,17 @@ fn golden_offset_bounds_to_even_flat() {
     let mut i = 0;
     while i < cases.len() {
         let (x, y, col, row) = *cases.at(i);
-        assert(
-            HexTrait::new(x, y)
-                .to_offset_coordinates(OffsetHexMode::Even, HexOrientation::Flat) == [col, row],
-            'to_offset',
-        );
+        let h = HexTrait::new(x, y);
+        assert(h.to_offset_coordinates(mode, orientation) == [col, row], 'to_offset');
         i += 1;
     }
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9817332)]
 fn golden_offset_bounds_from_even_flat() {
+    let mode = OffsetHexMode::Even;
+    let orientation = HexOrientation::Flat;
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483648, -2147483648, -2147483648, -1073741824),
         (-2147483648, -2147483647, -2147483648, -1073741823),
@@ -495,53 +481,55 @@ fn golden_offset_bounds_from_even_flat() {
     let mut i = 0;
     while i < cases.len() {
         let (col, row, x, y) = *cases.at(i);
-        assert(
-            HexConversionsTrait::from_offset_coordinates(
-                [col, row], OffsetHexMode::Even, HexOrientation::Flat,
-            ) == HexTrait::new(x, y),
-            'from_offset',
-        );
+        let h = HexConversionsTrait::from_offset_coordinates([col, row], mode, orientation);
+        assert(h == HexTrait::new(x, y), 'from_offset');
         i += 1;
     }
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_offset_to_even_flat_panics_0() {
-    let _ = HexTrait::new(-2147483648, -2147483648)
-        .to_offset_coordinates(OffsetHexMode::Even, HexOrientation::Flat);
+    let mode = OffsetHexMode::Even;
+    let orientation = HexOrientation::Flat;
+    let _ = HexTrait::new(-2147483648, -2147483648).to_offset_coordinates(mode, orientation);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_offset_to_even_flat_panics_1() {
-    let _ = HexTrait::new(2147483647, 2147483647)
-        .to_offset_coordinates(OffsetHexMode::Even, HexOrientation::Flat);
+    let mode = OffsetHexMode::Even;
+    let orientation = HexOrientation::Flat;
+    let _ = HexTrait::new(2147483647, 2147483647).to_offset_coordinates(mode, orientation);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_offset_from_even_flat_panics_0() {
-    let _ = HexConversionsTrait::from_offset_coordinates(
-        [-2147483648, 1073741824], OffsetHexMode::Even, HexOrientation::Flat,
-    );
+    let mode = OffsetHexMode::Even;
+    let orientation = HexOrientation::Flat;
+    let offset = [-2147483648, 1073741824];
+    let _ = HexConversionsTrait::from_offset_coordinates(offset, mode, orientation);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_offset_from_even_flat_panics_1() {
-    let _ = HexConversionsTrait::from_offset_coordinates(
-        [2147483647, -1073741825], OffsetHexMode::Even, HexOrientation::Flat,
-    );
+    let mode = OffsetHexMode::Even;
+    let orientation = HexOrientation::Flat;
+    let offset = [2147483647, -1073741825];
+    let _ = HexConversionsTrait::from_offset_coordinates(offset, mode, orientation);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 8754543)]
 fn golden_offset_odd_pointy() {
+    let mode = OffsetHexMode::Odd;
+    let orientation = HexOrientation::Pointy;
     let cases: Array<(i32, i32, i32, i32)> = array![
         (16, 4, 18, 4), (-3, -7, -7, -7), (34, 26, 47, 26), (26, 31, 41, 31), (-5, 24, 7, 24),
         (29, 23, 40, 23), (17, 13, 23, 13), (-3, 7, 0, 7), (17, 3, 18, 3), (-14, -3, -16, -3),
@@ -563,16 +551,9 @@ fn golden_offset_odd_pointy() {
     while i < cases.len() {
         let (x, y, col, row) = *cases.at(i);
         let h = HexTrait::new(x, y);
-        assert(
-            h.to_offset_coordinates(OffsetHexMode::Odd, HexOrientation::Pointy) == [col, row],
-            'to_offset',
-        );
-        assert(
-            HexConversionsTrait::from_offset_coordinates(
-                [col, row], OffsetHexMode::Odd, HexOrientation::Pointy,
-            ) == h,
-            'round trip',
-        );
+        assert(h.to_offset_coordinates(mode, orientation) == [col, row], 'to_offset');
+        let back = HexConversionsTrait::from_offset_coordinates([col, row], mode, orientation);
+        assert(back == h, 'round trip');
         i += 1;
     }
     let from_cases: Array<(i32, i32, i32, i32)> = array![
@@ -595,19 +576,17 @@ fn golden_offset_odd_pointy() {
     let mut i = 0;
     while i < from_cases.len() {
         let (col, row, x, y) = *from_cases.at(i);
-        assert(
-            HexConversionsTrait::from_offset_coordinates(
-                [col, row], OffsetHexMode::Odd, HexOrientation::Pointy,
-            ) == HexTrait::new(x, y),
-            'from_offset',
-        );
+        let h = HexConversionsTrait::from_offset_coordinates([col, row], mode, orientation);
+        assert(h == HexTrait::new(x, y), 'from_offset');
         i += 1;
     }
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9817332)]
 fn golden_offset_bounds_to_odd_pointy() {
+    let mode = OffsetHexMode::Odd;
+    let orientation = HexOrientation::Pointy;
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483648, 0, -2147483648, 0), (-2147483648, 1, -2147483648, 1),
         (-2147483648, 1073741823, -1610612737, 1073741823),
@@ -677,18 +656,17 @@ fn golden_offset_bounds_to_odd_pointy() {
     let mut i = 0;
     while i < cases.len() {
         let (x, y, col, row) = *cases.at(i);
-        assert(
-            HexTrait::new(x, y)
-                .to_offset_coordinates(OffsetHexMode::Odd, HexOrientation::Pointy) == [col, row],
-            'to_offset',
-        );
+        let h = HexTrait::new(x, y);
+        assert(h.to_offset_coordinates(mode, orientation) == [col, row], 'to_offset');
         i += 1;
     }
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9828998)]
 fn golden_offset_bounds_from_odd_pointy() {
+    let mode = OffsetHexMode::Odd;
+    let orientation = HexOrientation::Pointy;
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483648, -2147483648, -1073741824, -2147483648),
         (-2147483648, -2147483647, -1073741824, -2147483647),
@@ -756,53 +734,55 @@ fn golden_offset_bounds_from_odd_pointy() {
     let mut i = 0;
     while i < cases.len() {
         let (col, row, x, y) = *cases.at(i);
-        assert(
-            HexConversionsTrait::from_offset_coordinates(
-                [col, row], OffsetHexMode::Odd, HexOrientation::Pointy,
-            ) == HexTrait::new(x, y),
-            'from_offset',
-        );
+        let h = HexConversionsTrait::from_offset_coordinates([col, row], mode, orientation);
+        assert(h == HexTrait::new(x, y), 'from_offset');
         i += 1;
     }
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_offset_to_odd_pointy_panics_0() {
-    let _ = HexTrait::new(-2147483648, -2147483648)
-        .to_offset_coordinates(OffsetHexMode::Odd, HexOrientation::Pointy);
+    let mode = OffsetHexMode::Odd;
+    let orientation = HexOrientation::Pointy;
+    let _ = HexTrait::new(-2147483648, -2147483648).to_offset_coordinates(mode, orientation);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_offset_to_odd_pointy_panics_1() {
-    let _ = HexTrait::new(2147483647, 2147483647)
-        .to_offset_coordinates(OffsetHexMode::Odd, HexOrientation::Pointy);
+    let mode = OffsetHexMode::Odd;
+    let orientation = HexOrientation::Pointy;
+    let _ = HexTrait::new(2147483647, 2147483647).to_offset_coordinates(mode, orientation);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_offset_from_odd_pointy_panics_0() {
-    let _ = HexConversionsTrait::from_offset_coordinates(
-        [-2147483648, 1073741823], OffsetHexMode::Odd, HexOrientation::Pointy,
-    );
+    let mode = OffsetHexMode::Odd;
+    let orientation = HexOrientation::Pointy;
+    let offset = [-2147483648, 1073741823];
+    let _ = HexConversionsTrait::from_offset_coordinates(offset, mode, orientation);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_offset_from_odd_pointy_panics_1() {
-    let _ = HexConversionsTrait::from_offset_coordinates(
-        [2147483647, -1], OffsetHexMode::Odd, HexOrientation::Pointy,
-    );
+    let mode = OffsetHexMode::Odd;
+    let orientation = HexOrientation::Pointy;
+    let offset = [2147483647, -1];
+    let _ = HexConversionsTrait::from_offset_coordinates(offset, mode, orientation);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 8754543)]
 fn golden_offset_odd_flat() {
+    let mode = OffsetHexMode::Odd;
+    let orientation = HexOrientation::Flat;
     let cases: Array<(i32, i32, i32, i32)> = array![
         (16, 4, 16, 12), (-3, -7, -3, -9), (34, 26, 34, 43), (26, 31, 26, 44), (-5, 24, -5, 21),
         (29, 23, 29, 37), (17, 13, 17, 21), (-3, 7, -3, 5), (17, 3, 17, 11), (-14, -3, -14, -10),
@@ -823,16 +803,9 @@ fn golden_offset_odd_flat() {
     while i < cases.len() {
         let (x, y, col, row) = *cases.at(i);
         let h = HexTrait::new(x, y);
-        assert(
-            h.to_offset_coordinates(OffsetHexMode::Odd, HexOrientation::Flat) == [col, row],
-            'to_offset',
-        );
-        assert(
-            HexConversionsTrait::from_offset_coordinates(
-                [col, row], OffsetHexMode::Odd, HexOrientation::Flat,
-            ) == h,
-            'round trip',
-        );
+        assert(h.to_offset_coordinates(mode, orientation) == [col, row], 'to_offset');
+        let back = HexConversionsTrait::from_offset_coordinates([col, row], mode, orientation);
+        assert(back == h, 'round trip');
         i += 1;
     }
     let from_cases: Array<(i32, i32, i32, i32)> = array![
@@ -855,19 +828,17 @@ fn golden_offset_odd_flat() {
     let mut i = 0;
     while i < from_cases.len() {
         let (col, row, x, y) = *from_cases.at(i);
-        assert(
-            HexConversionsTrait::from_offset_coordinates(
-                [col, row], OffsetHexMode::Odd, HexOrientation::Flat,
-            ) == HexTrait::new(x, y),
-            'from_offset',
-        );
+        let h = HexConversionsTrait::from_offset_coordinates([col, row], mode, orientation);
+        assert(h == HexTrait::new(x, y), 'from_offset');
         i += 1;
     }
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9817332)]
 fn golden_offset_bounds_to_odd_flat() {
+    let mode = OffsetHexMode::Odd;
+    let orientation = HexOrientation::Flat;
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483648, -1073741824, -2147483648, -2147483648),
         (-2147483648, -1, -2147483648, -1073741825), (-2147483648, 0, -2147483648, -1073741824),
@@ -939,18 +910,17 @@ fn golden_offset_bounds_to_odd_flat() {
     let mut i = 0;
     while i < cases.len() {
         let (x, y, col, row) = *cases.at(i);
-        assert(
-            HexTrait::new(x, y)
-                .to_offset_coordinates(OffsetHexMode::Odd, HexOrientation::Flat) == [col, row],
-            'to_offset',
-        );
+        let h = HexTrait::new(x, y);
+        assert(h.to_offset_coordinates(mode, orientation) == [col, row], 'to_offset');
         i += 1;
     }
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9828998)]
 fn golden_offset_bounds_from_odd_flat() {
+    let mode = OffsetHexMode::Odd;
+    let orientation = HexOrientation::Flat;
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483648, -2147483648, -2147483648, -1073741824),
         (-2147483648, -2147483647, -2147483648, -1073741823),
@@ -1022,46 +992,46 @@ fn golden_offset_bounds_from_odd_flat() {
     let mut i = 0;
     while i < cases.len() {
         let (col, row, x, y) = *cases.at(i);
-        assert(
-            HexConversionsTrait::from_offset_coordinates(
-                [col, row], OffsetHexMode::Odd, HexOrientation::Flat,
-            ) == HexTrait::new(x, y),
-            'from_offset',
-        );
+        let h = HexConversionsTrait::from_offset_coordinates([col, row], mode, orientation);
+        assert(h == HexTrait::new(x, y), 'from_offset');
         i += 1;
     }
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_offset_to_odd_flat_panics_0() {
-    let _ = HexTrait::new(-2147483648, -2147483648)
-        .to_offset_coordinates(OffsetHexMode::Odd, HexOrientation::Flat);
+    let mode = OffsetHexMode::Odd;
+    let orientation = HexOrientation::Flat;
+    let _ = HexTrait::new(-2147483648, -2147483648).to_offset_coordinates(mode, orientation);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_offset_to_odd_flat_panics_1() {
-    let _ = HexTrait::new(2147483647, 2147483647)
-        .to_offset_coordinates(OffsetHexMode::Odd, HexOrientation::Flat);
+    let mode = OffsetHexMode::Odd;
+    let orientation = HexOrientation::Flat;
+    let _ = HexTrait::new(2147483647, 2147483647).to_offset_coordinates(mode, orientation);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_offset_from_odd_flat_panics_0() {
-    let _ = HexConversionsTrait::from_offset_coordinates(
-        [-2147483648, 1073741824], OffsetHexMode::Odd, HexOrientation::Flat,
-    );
+    let mode = OffsetHexMode::Odd;
+    let orientation = HexOrientation::Flat;
+    let offset = [-2147483648, 1073741824];
+    let _ = HexConversionsTrait::from_offset_coordinates(offset, mode, orientation);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_offset_from_odd_flat_panics_1() {
-    let _ = HexConversionsTrait::from_offset_coordinates(
-        [2147483647, -2147483647], OffsetHexMode::Odd, HexOrientation::Flat,
-    );
+    let mode = OffsetHexMode::Odd;
+    let orientation = HexOrientation::Flat;
+    let offset = [2147483647, -2147483647];
+    let _ = HexConversionsTrait::from_offset_coordinates(offset, mode, orientation);
 }

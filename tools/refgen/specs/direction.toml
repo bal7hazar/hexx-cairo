@@ -2,3 +2,16 @@
 # (tools/refgen/src/direction.rs): the 30 constants, the six directions, every u8 rotation count.
 module = "direction"
 package = "hexx"
+
+# budgets: ceil(1.05 * measured)
+
+# budgets: ceil(1.05 * measured)
+gas.golden_edge_direction_all = 30072
+gas.golden_edge_direction_constants = 14406
+gas.golden_edge_direction_rotations_0 = 43681061
+gas.golden_edge_direction_rotations_1 = 43705043
+gas.golden_edge_direction_rotations_2 = 43727355
+gas.golden_edge_direction_rotations_3 = 43749930
+gas.golden_edge_direction_rotations_4 = 43772243
+gas.golden_edge_direction_rotations_5 = 43794555
+gas.golden_edge_direction_table = 117296

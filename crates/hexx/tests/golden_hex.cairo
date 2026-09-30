@@ -3,7 +3,8 @@
 //
 // Oracle: hexx 0.25.0, `Hex` (src/hex/mod.rs:69), `new` :208, `x` :256, `y` :264, `z` :274,
 // `const_sub` :449, `length` :568, `ulength` :594, `distance_to` :615, `unsigned_distance_to` :625
-// (pinned checkout sources/hexx, tag 0.25.0, commit b6b9afb1a6d413817509d00ce9ec6b9d52339a7c).
+// (pinned checkout sources/hexx, tag 0.25.0,
+// commit b6b9afb1a6d413817509d00ce9ec6b9d52339a7c).
 //
 // Budgets: `gas.<test>` keys of the spec, ceil(1.05 * measured).
 
@@ -11,7 +12,7 @@ use hexx::hex::{Hex, HexTrait};
 
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 26240)]
 fn golden_hex_constants() {
     assert(HexTrait::ZERO == HexTrait::new(0, 0), 'ZERO');
     let neighbors = HexTrait::NEIGHBORS_COORDS;
@@ -26,7 +27,7 @@ fn golden_hex_constants() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 5819930)]
 fn golden_hex_unary() {
     let cases: Array<(i32, i32, i32, i32, u32)> = array![
         (31, 13, -44, 44, 44), (-22, -26, 48, 48, 48), (1, -18, 17, 18, 18), (11, 12, -23, 23, 23),
@@ -61,7 +62,7 @@ fn golden_hex_unary() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 453895628)]
 fn golden_hex_pairs_0() {
     let cases: Array<(i32, i32, i32, i32, i32, u32, i32, i32)> = array![
         (31, 13, 31, 13, 0, 0, 0, 0), (31, 13, -22, -26, 92, 92, 53, 39),
@@ -333,7 +334,7 @@ fn golden_hex_pairs_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 453895628)]
 fn golden_hex_pairs_1() {
     let cases: Array<(i32, i32, i32, i32, i32, u32, i32, i32)> = array![
         (27, 39, 31, 13, 26, 26, -4, 26), (27, 39, -22, -26, 114, 114, 49, 65),
@@ -606,7 +607,7 @@ fn golden_hex_pairs_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 453895628)]
 fn golden_hex_pairs_2() {
     let cases: Array<(i32, i32, i32, i32, i32, u32, i32, i32)> = array![
         (24, 1, 31, 13, 19, 19, -7, -12), (24, 1, -22, -26, 73, 73, 46, 27),
@@ -879,7 +880,7 @@ fn golden_hex_pairs_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 453895628)]
 fn golden_hex_pairs_3() {
     let cases: Array<(i32, i32, i32, i32, i32, u32, i32, i32)> = array![
         (-21, -18, 31, 13, 83, 83, -52, -31), (-21, -18, -22, -26, 9, 9, 1, 8),
@@ -1152,7 +1153,7 @@ fn golden_hex_pairs_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 453895628)]
 fn golden_hex_pairs_4() {
     let cases: Array<(i32, i32, i32, i32, i32, u32, i32, i32)> = array![
         (-13, -35, 31, 13, 92, 92, -44, -48), (-13, -35, -22, -26, 9, 9, 9, -9),
@@ -1425,7 +1426,7 @@ fn golden_hex_pairs_4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 453895628)]
 fn golden_hex_pairs_5() {
     let cases: Array<(i32, i32, i32, i32, i32, u32, i32, i32)> = array![
         (-26, 7, 31, 13, 63, 63, -57, -6), (-26, 7, -22, -26, 33, 33, -4, 33),
@@ -1698,7 +1699,7 @@ fn golden_hex_pairs_5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 453895628)]
 fn golden_hex_pairs_6() {
     let cases: Array<(i32, i32, i32, i32, i32, u32, i32, i32)> = array![
         (38, -1, 31, 13, 14, 14, 7, -14), (38, -1, -22, -26, 85, 85, 60, 25),
@@ -1968,7 +1969,7 @@ fn golden_hex_pairs_6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 453895628)]
 fn golden_hex_pairs_7() {
     let cases: Array<(i32, i32, i32, i32, i32, u32, i32, i32)> = array![
         (33, 8, 31, 13, 5, 5, 2, -5), (33, 8, -22, -26, 89, 89, 55, 34),
@@ -2240,7 +2241,7 @@ fn golden_hex_pairs_7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 4580184)]
 fn golden_hex_bounds_z() {
     let cases: Array<(i32, i32, i32)> = array![
         (-2147483647, 0, 2147483647), (-2147483647, 1, 2147483646),
@@ -2286,7 +2287,7 @@ fn golden_hex_bounds_z() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_z_panics_0() {
     let h = HexTrait::new(-2147483648, -2147483648);
@@ -2294,7 +2295,7 @@ fn golden_hex_z_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_z_panics_1() {
     let h = HexTrait::new(-2147483647, -2147483647);
@@ -2302,7 +2303,7 @@ fn golden_hex_z_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_z_panics_2() {
     let h = HexTrait::new(-1, -2147483647);
@@ -2310,7 +2311,7 @@ fn golden_hex_z_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_z_panics_3() {
     let h = HexTrait::new(2147483647, 2147483647);
@@ -2318,7 +2319,7 @@ fn golden_hex_z_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 4228403)]
 fn golden_hex_bounds_length() {
     let cases: Array<(i32, i32, i32)> = array![
         (-2147483647, 0, 2147483647), (-2147483647, 1, 2147483647),
@@ -2362,7 +2363,7 @@ fn golden_hex_bounds_length() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_length_panics_0() {
     let h = HexTrait::new(-2147483648, -2147483648);
@@ -2370,7 +2371,7 @@ fn golden_hex_length_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_length_panics_1() {
     let h = HexTrait::new(-2147483647, -1);
@@ -2378,7 +2379,7 @@ fn golden_hex_length_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_length_panics_2() {
     let h = HexTrait::new(1073741823, 2147483646);
@@ -2386,7 +2387,7 @@ fn golden_hex_length_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_length_panics_3() {
     let h = HexTrait::new(2147483647, 2147483647);
@@ -2394,7 +2395,7 @@ fn golden_hex_length_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 5320119)]
 fn golden_hex_bounds_ulength() {
     let cases: Array<(i32, i32, u32)> = array![
         (-2147483647, 0, 2147483647), (-2147483647, 1, 2147483647),
@@ -2440,7 +2441,7 @@ fn golden_hex_bounds_ulength() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_ulength_panics_0() {
     let h = HexTrait::new(-2147483648, -2147483648);
@@ -2448,7 +2449,7 @@ fn golden_hex_ulength_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_ulength_panics_1() {
     let h = HexTrait::new(-2147483647, -2147483647);
@@ -2456,7 +2457,7 @@ fn golden_hex_ulength_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_ulength_panics_2() {
     let h = HexTrait::new(-1, -2147483647);
@@ -2464,7 +2465,7 @@ fn golden_hex_ulength_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_ulength_panics_3() {
     let h = HexTrait::new(2147483647, 2147483647);
@@ -2472,7 +2473,7 @@ fn golden_hex_ulength_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 23611235)]
 fn golden_hex_bounds_const_sub() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (2147483647, 0, 2147483647, 0, 0, 0),
@@ -2582,7 +2583,7 @@ fn golden_hex_bounds_const_sub() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_const_sub_panics_0() {
     let a = HexTrait::new(2147483647, 0);
@@ -2591,7 +2592,7 @@ fn golden_hex_const_sub_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_const_sub_panics_1() {
     let a = HexTrait::new(2147483647, -2147483648);
@@ -2600,7 +2601,7 @@ fn golden_hex_const_sub_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_const_sub_panics_2() {
     let a = HexTrait::new(-1, 0);
@@ -2609,7 +2610,7 @@ fn golden_hex_const_sub_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_const_sub_panics_3() {
     let a = HexTrait::new(0, 0);
@@ -2618,7 +2619,7 @@ fn golden_hex_const_sub_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 10200824)]
 fn golden_hex_bounds_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (2147483647, 0, 2147483647, 0, 0), (2147483647, 0, 0, 2147483647, 2147483647),
@@ -2677,7 +2678,7 @@ fn golden_hex_bounds_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_distance_to_panics_0() {
     let a = HexTrait::new(2147483647, 0);
@@ -2686,7 +2687,7 @@ fn golden_hex_distance_to_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_distance_to_panics_1() {
     let a = HexTrait::new(2147483647, -2147483648);
@@ -2695,7 +2696,7 @@ fn golden_hex_distance_to_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_distance_to_panics_2() {
     let a = HexTrait::new(-2147483648, -2147483648);
@@ -2704,7 +2705,7 @@ fn golden_hex_distance_to_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_distance_to_panics_3() {
     let a = HexTrait::new(0, 0);
@@ -2713,7 +2714,7 @@ fn golden_hex_distance_to_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 11974620)]
 fn golden_hex_bounds_unsigned_distance_to() {
     let cases: Array<(i32, i32, i32, i32, u32)> = array![
         (2147483647, 0, 2147483647, 0, 0), (2147483647, 0, 0, 2147483647, 2147483647),
@@ -2777,7 +2778,7 @@ fn golden_hex_bounds_unsigned_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_unsigned_distance_to_panics_0() {
     let a = HexTrait::new(2147483647, 0);
@@ -2786,7 +2787,7 @@ fn golden_hex_unsigned_distance_to_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_unsigned_distance_to_panics_1() {
     let a = HexTrait::new(2147483647, -2147483648);
@@ -2795,7 +2796,7 @@ fn golden_hex_unsigned_distance_to_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_unsigned_distance_to_panics_2() {
     let a = HexTrait::new(-1, 0);
@@ -2804,7 +2805,7 @@ fn golden_hex_unsigned_distance_to_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn golden_hex_unsigned_distance_to_panics_3() {
     let a = HexTrait::new(0, 0);

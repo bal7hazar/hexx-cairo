@@ -8,7 +8,7 @@ use hexx::hex::{Hex, HexTrait};
 /// The five names of each index (plan §3.2, `src/direction/edge_direction.rs:79-190`): written
 /// here by hand from the table of the plan, independent of the generated vectors.
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 14406)]
 fn test_edge_direction_compass_aliases() {
     // Index 0.
     assert(EdgeDirectionTrait::X.index() == 0, 'X');
@@ -49,7 +49,7 @@ fn test_edge_direction_compass_aliases() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 47544)]
 fn test_edge_direction_all_directions_and_iter() {
     let all = EdgeDirectionTrait::ALL_DIRECTIONS;
     let all = all.span();
@@ -66,7 +66,7 @@ fn test_edge_direction_all_directions_and_iter() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 116319)]
 fn test_edge_direction_into_hex_reads_the_neighbours() {
     let neighbors = HexTrait::NEIGHBORS_COORDS;
     let neighbors = neighbors.span();
@@ -91,7 +91,7 @@ fn test_edge_direction_into_hex_reads_the_neighbours() {
 
 /// The oracle of the rotations: repeat the one-step rotation `offset` times.
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 2328785)]
 fn test_edge_direction_rotations_are_repeated_steps() {
     let mut i: u8 = 0;
     while i < 6 {

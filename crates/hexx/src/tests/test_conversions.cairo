@@ -46,25 +46,25 @@ fn check(mode: OffsetHexMode, orientation: HexOrientation) {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 10128048)]
 fn test_offset_even_pointy() {
     check(OffsetHexMode::Even, HexOrientation::Pointy);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9810150)]
 fn test_offset_even_flat() {
     check(OffsetHexMode::Even, HexOrientation::Flat);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 10128048)]
 fn test_offset_odd_pointy() {
     check(OffsetHexMode::Odd, HexOrientation::Pointy);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9810150)]
 fn test_offset_odd_flat() {
     check(OffsetHexMode::Odd, HexOrientation::Flat);
 }
@@ -72,7 +72,7 @@ fn test_offset_odd_flat() {
 /// Numerators of `i32::MAX` and `i32::MIN` never leave `i32`: `hexx`'s `midpoint` does not
 /// either, and the port does not form `v + 1`.
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 14406)]
 fn test_offset_extreme_rows_do_not_overflow() {
     let h = HexTrait::new(-1073741824, 2147483647);
     assert(
@@ -93,7 +93,7 @@ fn test_offset_extreme_rows_do_not_overflow() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn test_offset_panics_when_the_column_leaves_i32() {
     let _ = HexTrait::new(2147483647, 2)
@@ -101,7 +101,7 @@ fn test_offset_panics_when_the_column_leaves_i32() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16086)]
 #[should_panic]
 fn test_offset_from_panics_when_the_axial_coordinate_leaves_i32() {
     let _ = HexConversionsTrait::from_offset_coordinates(
@@ -110,7 +110,7 @@ fn test_offset_from_panics_when_the_axial_coordinate_leaves_i32() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 14406)]
 fn test_orientation_default_and_not() {
     let default: HexOrientation = Default::default();
     assert(default == HexOrientation::Flat, 'the default is Flat');
