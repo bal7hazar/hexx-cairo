@@ -72,13 +72,19 @@ jobs:
       - run: python3 scripts/takeover_check.py --source "$RUNNER_TEMP/origami/crates/hexmap"
 
   test:
-    name: Build and test ${{ matrix.package }}
+    # hexx runs in two partitions of snforge (`--partition INDEX/TOTAL`): its tests took 452 to
+    # 615 s in one job, too close to the 10-minute limit (orchestrator, 2026-09-30).
+    name: Build and test ${{ matrix.package }} ${{ matrix.partition }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
-        package: [hexx, takeover_tests, consumer]
+        include:
+          - { package: hexx, partition: "1/2" }
+          - { package: hexx, partition: "2/2" }
+          - { package: takeover_tests, partition: "1/1" }
+          - { package: consumer, partition: "1/1" }
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
@@ -92,7 +98,8 @@ jobs:
         run: scarb build -p "$PACKAGE"
       - env:
           PACKAGE: ${{ matrix.package }}
-        run: snforge test -p "$PACKAGE"
+          PARTITION: ${{ matrix.partition }}
+        run: snforge test -p "$PACKAGE" --partition "$PARTITION"
 
   package:
     name: Package crates/hexx (rehearsal, never scarb publish)

@@ -75,6 +75,14 @@ OWN_FILES: tuple[str, ...] = (
     # M1-T4b, N-4: the cut
     "src/board/cut.cairo",
     "src/tests/test_cut.cairo",
+    # M1-T2: the mirror items of L-M1
+    "src/tests/bench_mirror.cairo",
+    "src/tests/test_conversions.cairo",
+    "src/tests/test_edge_direction.cairo",
+    "src/tests/test_hex.cairo",
+    "tests/golden_conversions.cairo",
+    "tests/golden_direction.cairo",
+    "tests/golden_hex.cairo",
 )
 
 # Moved files that a task of L-M1 has EXTENDED: they are checked in additions-only mode. Every

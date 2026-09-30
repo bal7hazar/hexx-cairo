@@ -7,3 +7,12 @@ description = "Reference vector generator: hexx 0.25.0 is the oracle of the Cair
 
 [dependencies]
 hexx = { version = "=0.25.0", default-features = false, features = ["algorithms", "grid"] }
+
+# `hexx` panics on an `i32` overflow in a debug build and wraps in a release build. The vectors
+# near the bounds record where it panics (`cairo::probe`), so both profiles must panic: the
+# generated files do not depend on how `refgen` was built.
+[profile.dev]
+overflow-checks = true
+
+[profile.release]
+overflow-checks = true

@@ -112,6 +112,34 @@ def read_snapshot() -> dict[str, dict[str, int]]:
     return snap
 
 
+BUILDS = ROOT / "gas" / "bytecode.builds"
+
+
+def read_builds() -> dict[str, list[dict[str, int]]]:
+    """Second observed builds of a class (gas/bytecode.builds, decision D-164): exact values only."""
+    builds: dict[str, list[dict[str, int]]] = {}
+    if not BUILDS.exists():
+        return builds
+    for line in BUILDS.read_text().splitlines():
+        line = line.split("#", 1)[0].strip()
+        if not line:
+            continue
+        name, vals = line.split(":", 1)
+        values = list(map(int, vals.split()))
+        if len(values) != len(METRICS):
+            sys.exit(f"{BUILDS.relative_to(ROOT)}: {name}: {len(values)} values, expected {len(METRICS)}")
+        if name.strip() in builds:
+            sys.exit(f"{BUILDS.relative_to(ROOT)}: {name.strip()}: more than one second build "
+                     "recorded (D-164 accepts two observed builds of a class, not three)")
+        builds[name.strip()] = [dict(zip(METRICS, values))]
+    return builds
+
+
+def accepted(name: str, new, old, builds: dict[str, list[dict[str, int]]]) -> bool:
+    """The measurement equals the snapshot, or exactly one observed build recorded for it."""
+    return new == old or (new is not None and old is not None and new in builds.get(name, []))
+
+
 def write_snapshot(rows: dict[str, dict[str, int]]) -> None:
     SNAPSHOT.parent.mkdir(exist_ok=True)
     lines = [HEADER] + [f"{n}: " + " ".join(str(rows[n][m]) for m in METRICS) for n in sorted(rows)]
@@ -134,11 +162,14 @@ def main() -> int:
     if a.cmd == "snapshot":
         write_snapshot(rows)
     elif a.cmd == "check":
-        snap, bad = read_snapshot(), []
+        snap, builds, bad = read_snapshot(), read_builds(), []
         for name in sorted(set(rows) | set(snap)):
             new, old = rows.get(name), snap.get(name)
-            if new != old:
+            if not accepted(name, new, old, builds):
                 bad.append(f"{name}: {old} -> {new}")
+            elif new != old:
+                print(f"{name}: {new} is a recorded second build (gas/bytecode.builds, D-164)",
+                      file=sys.stderr)
         if bad:
             print("\n".join(bad), file=sys.stderr)
             sys.exit(f"bytecode size mismatch ({len(bad)}). Run `scripts/bytecode_size.py "

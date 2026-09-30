@@ -1362,6 +1362,23 @@ CAIRO_FREE_CONST_RE = re.compile(r"\bpub\s+const\s+([A-Za-z_]\w*)\s*:")
 # `origami_hexmap::map::HexMapImpl of HexMapTrait` uses, the take-over M1-T1 lands.
 GENERATE_TRAIT_RE = re.compile(r"#\[\s*(generate_trait)\s*\]\Z")
 
+# `pub impl Name of Trait<Args> { ... }` where `Trait` is a corelib trait (no `...Trait` suffix, no
+# `#[generate_trait]`): the Cairo form of a Rust `impl Trait for Type` item. Cairo trait -> the
+# Rust trait its inventory item is named after. `Into<A, B>` is the Cairo form of Rust's
+# `From<A> for B` (Cairo has no `From`); the others keep their name, the owner is the first
+# generic argument (the type the impl is on), as `impl Not for HexOrientation` is. The unary ones
+# carry no argument in their inventory name, the binary ones the (homogeneous) right operand.
+CAIRO_IMPL_HEAD_RE = re.compile(
+    r"\bpub\s+impl\s+[A-Za-z_]\w*\s+of\s+([A-Za-z_]\w*)\s*(?:<([^\{]*)>)?\s*\{")
+CAIRO_UNARY_TRAITS = ("Default", "Not", "Neg")
+CAIRO_BINARY_TRAITS = ("Add", "Sub", "Mul", "Div", "Rem", "AddAssign", "SubAssign", "MulAssign",
+                       "DivAssign", "RemAssign")
+
+# Cairo module path -> the owner of *every* declaration of that module file, with bare
+# (unscoped) member names: `conversions.rs` is `impl Hex` blocks, and the parity table groups it
+# under the owner `conversions` (`MODULE_OWNER`), so its Cairo counterpart module does too.
+CAIRO_MODULE_OWNER: dict[tuple[str, ...], str] = {("conversions",): "conversions"}
+
 
 def build_cairo_tree():
     """`(nodes, reachable, bridged, glob_targets)` of the Cairo source tree from
@@ -1382,18 +1399,33 @@ def scan_cairo_tree(
     nodes: dict[tuple[str, ...], ModuleNode], reachable: set[tuple[str, ...]],
     bridged: dict[tuple[str, ...], dict[str, str]], glob_targets: set[tuple[str, ...]],
     owner_of,
+    bare_owners: frozenset[str] = frozenset(),
 ) -> list[Item]:
     """Walk every node of a Cairo module tree, keeping a declaration only when `owner_of(path,
     name) -> str | None` returns an owner for it (`None` skips it) — the one traversal `parse_
     cairo` and `parse_extensions` share (fix loop 2 finding 14). A declaration's own `#[cfg(...)]`
     is evaluated (fix loop 3 finding P2-4); its item is named after its *exported* name, alias
-    included (fix loop 3 finding 16)."""
+    included (fix loop 3 finding 16). `bare_owners`: owners whose member names are not scoped by
+    their type (`CAIRO_MODULE_OWNER`'s: one owner for several traits and types of a module, as
+    `conversions` is on the Rust side). A `pub impl ... of Trait<...>` of a corelib trait becomes
+    an `impl` item; one whose owner is resolved and whose trait is not understood raises with
+    its file and line, it is never skipped."""
     items: set[Item] = set()
+    # The traits the scan knows: declared (`pub trait X`) or generated (`#[generate_trait]` on an
+    # impl of `X`) anywhere in the tree. A public impl of any other `...Trait` is classified like
+    # one of a corelib trait: by `CAIRO_*_TRAITS`, else it raises on a mirror owner.
+    known_traits: set[str] = set()
+    for known_node in nodes.values():
+        known_traits.update(m.group(1) for m in CAIRO_TRAIT_RE.finditer(known_node.text))
+        for m in CAIRO_IMPL_OF_RE.finditer(known_node.text):
+            if find_preceding_attr(known_node.text, m.start(), GENERATE_TRAIT_RE) is not None:
+                known_traits.add(m.group(1))
     for rank, (path, node) in itertools.product(export_ranks(bridged), nodes.items()):
         exported = (lambda name, path=path, rank=rank:
                     exported_name_at(rank, path, name, reachable, bridged, glob_targets))
         text, source = node.text, node.source
         cfg_ok = lambda pos, node=node: cfg_ok_at(node, pos)
+        pfx = lambda owner, type_name: owner != type_name and owner not in bare_owners
 
         for head_re, kind in ((CAIRO_STRUCT_HEAD_RE, "struct"), (CAIRO_ENUM_HEAD_RE, "enum")):
             for match in head_re.finditer(text):
@@ -1410,13 +1442,15 @@ def scan_cairo_tree(
                 end = closing_brace(text, body[1])
                 inner = text[body[1] + 1:end]
                 for field_m in re.finditer(r"\bpub\s+([a-z_]\w*)\s*:", inner):
-                    items.add(Item(owner, "field", scoped(owner != name, name, field_m.group(1)),
+                    items.add(Item(owner, "field", scoped(pfx(owner, name), name, field_m.group(1)),
                                     source))
                 if kind == "enum":
                     for variant_m in re.finditer(r"(?m)^\s*([A-Za-z_]\w*)\s*(?:[:,]|$)",
                                                   strip_leading_attrs(inner)):
                         items.add(Item(owner, "variant",
-                                       scoped(owner != name, name, variant_m.group(1)), source))
+                                       scoped(pfx(owner, name), name, variant_m.group(1)), source))
+                # A derived `Default` is an impl item, as on the Rust side (`derived_impl_items`).
+                items.update(derived_impl_items(text, match.start(), owner, name, source))
 
         for match, opening, end in blocks(text, CAIRO_TRAIT_RE):
             if not cfg_ok(match.start()):
@@ -1438,11 +1472,11 @@ def scan_cairo_tree(
             items.add(Item(owner, "trait", trait_name, source))
             body = text[opening + 1:end]
             for fn in re.finditer(r"\bfn\s+([A-Za-z_]\w*)\s*(?:<[^;{()]*>)?\s*\(", body):
-                items.add(Item(owner, "method", scoped(owner != type_name, type_name, fn.group(1)),
-                                source))
+                items.add(Item(owner, "method",
+                                scoped(pfx(owner, type_name), type_name, fn.group(1)), source))
             for const in re.finditer(r"\bconst\s+([A-Za-z_]\w*)\s*:", body):
                 items.add(Item(owner, "const",
-                                scoped(owner != type_name, type_name, const.group(1)), source))
+                                scoped(pfx(owner, type_name), type_name, const.group(1)), source))
 
         for match, opening, end in blocks(text, CAIRO_IMPL_OF_RE):
             if not cfg_ok(match.start()):
@@ -1465,8 +1499,38 @@ def scan_cairo_tree(
                 items.add(Item(owner, "trait", trait_name, source))
             body = text[opening + 1:end]
             for fn in re.finditer(r"\bfn\s+([A-Za-z_]\w*)\s*(?:<[^;{()]*>)?\s*\(", body):
-                items.add(Item(owner, "method", scoped(owner != type_name, type_name, fn.group(1)),
-                                source))
+                items.add(Item(owner, "method",
+                                scoped(pfx(owner, type_name), type_name, fn.group(1)), source))
+
+        for match in CAIRO_IMPL_HEAD_RE.finditer(text):
+            if not cfg_ok(match.start()):
+                continue
+            trait, args = match.group(1), match.group(2)
+            if trait in known_traits:
+                continue  # an impl of a trait the tree declares or generates: the block above
+            parts = [a.strip() for a in split_top_level(args)] if args else []
+            first = re.match(r"[A-Za-z_]\w*", parts[0]) if parts else None
+            name = first.group(0) if first else None
+            owner = owner_of(path, name) if name and exported(name) else None
+            if owner is None:
+                continue
+            where = node_location(node, match.start())
+            if trait == "Into" and len(parts) == 2:
+                built = build_impl_item(owner, f"From<{parts[0]}>", parts[1])
+            elif trait in CAIRO_UNARY_TRAITS and len(parts) == 1:
+                built = build_impl_item(owner, trait, name)
+            elif trait in CAIRO_BINARY_TRAITS and len(parts) == 1:
+                built = build_impl_item(owner, f"{trait}<{parts[0]}>", name)
+            elif owner not in OWNERS:
+                continue  # an extension module: its impls are not part of the inventory
+            else:
+                raise SystemExit(
+                    f"{where}: unsupported `pub impl ... of {trait}<{args or ''}>` on the mirror "
+                    f"owner {owner}: teach CAIRO_UNARY_TRAITS / CAIRO_BINARY_TRAITS or make it "
+                    "private")
+            if built is None:
+                raise SystemExit(f"{where}: cannot name the impl of {trait} for {name}")
+            items.add(Item(built.owner, built.kind, built.name, source))
 
         free_text = mask_impl_bodies(text)
         for match in CAIRO_FREE_FN_RE.finditer(free_text):
@@ -1493,10 +1557,12 @@ def parse_cairo() -> list[Item]:
     nodes, reachable, bridged, glob_targets = tree
 
     def owner_of(path: tuple[str, ...], name: str) -> str | None:
-        del path
+        if path in CAIRO_MODULE_OWNER:
+            return CAIRO_MODULE_OWNER[path]
         return name if name in OWNERS else None
 
-    return scan_cairo_tree(nodes, reachable, bridged, glob_targets, owner_of)
+    return scan_cairo_tree(nodes, reachable, bridged, glob_targets, owner_of,
+                           bare_owners=frozenset(CAIRO_MODULE_OWNER.values()))
 
 
 def unique_items(items: set[Item] | list[Item]) -> list[Item]:

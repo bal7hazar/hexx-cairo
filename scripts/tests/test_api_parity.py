@@ -1119,5 +1119,116 @@ class ReleaseReportIsComplete(unittest.TestCase):
         self.assertEqual(67, len(err.splitlines()))
 
 
+class CairoImplItemsAndConversionsOwner(FixtureTreeCase):
+    """M1-T2 follow-up 1: the Cairo side sees `impl` items (a derived `Default`, a corelib impl
+    such as `Not`, `Into<A, B>` as Rust's `From<A> for B`), and the module `conversions` is an
+    owner with bare member names. An impl it cannot name raises with file and line."""
+
+    def scan(self, files: dict[str, str], root_text: str = "pub mod orientation;\n"):
+        nodes = self.build(root_text, files, root_name="lib.cairo")
+        reachable = ap.compute_reachable_modules(nodes, cfg_exempt=frozenset())
+        bridged, globs, _used = ap.collect_use_statements(nodes, reachable)
+
+        def owner_of(path, name):
+            if path in ap.CAIRO_MODULE_OWNER:
+                return ap.CAIRO_MODULE_OWNER[path]
+            return name if name in ap.OWNERS else None
+
+        return ap.scan_cairo_tree(nodes, reachable, bridged, globs, owner_of,
+                                  bare_owners=frozenset(ap.CAIRO_MODULE_OWNER.values()))
+
+    ORIENTATION = (
+        "#[derive(Copy, Drop, Default)]\n"
+        "pub enum HexOrientation {\n    Pointy,\n    #[default]\n    Flat,\n}\n"
+        "pub impl HexOrientationNot of Not<HexOrientation> {\n"
+        "    fn not(a: HexOrientation) -> HexOrientation { a }\n}\n"
+    )
+
+    def test_derived_default_and_not_are_impl_items(self) -> None:
+        keys = {i.key for i in self.scan({"orientation.cairo": self.ORIENTATION})}
+        self.assertIn(("HexOrientation", "impl", "Default"), keys)
+        self.assertIn(("HexOrientation", "impl", "Not"), keys)
+        self.assertIn(("HexOrientation", "variant", "Flat"), keys)
+
+    def test_a_type_that_does_not_derive_default_has_no_default_item(self) -> None:
+        text = "#[derive(Copy, Drop)]\npub enum HexOrientation {\n    Pointy,\n    Flat,\n}\n"
+        keys = {i.key for i in self.scan({"orientation.cairo": text})}
+        self.assertNotIn(("HexOrientation", "impl", "Default"), keys)
+
+    def test_into_is_from_for_the_target(self) -> None:
+        text = ("pub struct EdgeDirection {\n    index: u8,\n}\n"
+                "pub impl EdgeDirectionIntoHex of Into<EdgeDirection, Hex> {\n"
+                "    fn into(self: EdgeDirection) -> Hex { Hex {} }\n}\n")
+        keys = {i.key for i in self.scan({"orientation.cairo": text})}
+        self.assertIn(("EdgeDirection", "impl", "From<EdgeDirection> for Hex"), keys)
+
+    def test_binary_operator_impl_carries_the_operand(self) -> None:
+        text = ("pub struct Hex {\n    pub x: i32,\n}\n"
+                "pub impl HexAdd of Add<Hex> {\n    fn add(lhs: Hex, rhs: Hex) -> Hex { lhs }\n}\n")
+        keys = {i.key for i in self.scan({"orientation.cairo": text})}
+        self.assertIn(("Hex", "impl", "Add<Hex>"), keys)
+
+    def test_an_impl_of_an_unknown_trait_on_a_mirror_owner_raises_with_file_and_line(self) -> None:
+        text = ("pub struct Hex {\n    pub x: i32,\n}\n"
+                "pub impl HexFoo of Foo<Hex> {\n    fn foo(a: Hex) -> Hex { a }\n}\n")
+        with self.assertRaises(SystemExit) as raised:
+            self.scan({"orientation.cairo": text})
+        self.assertIn("orientation.cairo:4", str(raised.exception))
+        self.assertIn("Foo", str(raised.exception))
+
+    def test_an_impl_on_a_foreign_type_is_not_a_mirror_item(self) -> None:
+        text = ("pub impl DirectionIntoU8 of Into<Direction, u8> {\n"
+                "    fn into(self: Direction) -> u8 { 0 }\n}\n")
+        self.assertEqual([], [i for i in self.scan({"orientation.cairo": text})
+                              if i.kind == "impl"])
+
+    def test_conversions_module_is_an_owner_with_bare_names(self) -> None:
+        text = ("pub enum OffsetHexMode {\n    Even,\n    Odd,\n}\n"
+                "#[generate_trait]\n"
+                "pub impl HexConversionsImpl of HexConversionsTrait {\n"
+                "    fn to_offset_coordinates(self: Hex) -> i32 { 0 }\n"
+                "    fn from_offset_coordinates(o: i32) -> Hex { Hex {} }\n}\n")
+        keys = {i.key for i in self.scan({"conversions.cairo": text},
+                                         root_text="pub mod conversions;\n")}
+        for key in (("conversions", "enum", "OffsetHexMode"), ("conversions", "variant", "Even"),
+                    ("conversions", "variant", "Odd"),
+                    ("conversions", "method", "to_offset_coordinates"),
+                    ("conversions", "method", "from_offset_coordinates")):
+            self.assertIn(key, keys)
+
+    def test_a_public_impl_of_an_undeclared_trait_on_a_mirror_owner_raises(self) -> None:
+        # The auditor's scenario (M1-T2 audit pass 1, finding 1): `...Trait` is not a licence to
+        # skip; nothing declares or generates `CustomTrait`.
+        text = ("#[derive(Copy, Drop)]\npub enum HexOrientation {\n    Pointy,\n    Flat,\n}\n"
+                "pub impl FooImpl of CustomTrait<HexOrientation> {\n"
+                "    fn foo(a: HexOrientation) -> HexOrientation { a }\n}\n")
+        with self.assertRaises(SystemExit) as raised:
+            self.scan({"orientation.cairo": text})
+        self.assertIn("orientation.cairo:6", str(raised.exception))
+        self.assertIn("CustomTrait", str(raised.exception))
+
+    def test_a_public_impl_of_a_declared_or_generated_trait_is_not_an_error(self) -> None:
+        text = ("pub struct Hex {\n    pub x: i32,\n}\n"
+                "pub trait DeclaredTrait<T> {\n    fn a(v: T) -> T;\n}\n"
+                "pub impl DeclaredImpl of DeclaredTrait<Hex> {\n    fn a(v: Hex) -> Hex { v }\n}\n"
+                "#[generate_trait]\n"
+                "pub impl HexImpl of HexTrait {\n    fn b(self: Hex) -> i32 { 0 }\n}\n"
+                "pub impl HexOther of HexTrait {\n    fn b(self: Hex) -> i32 { 1 }\n}\n")
+        keys = {i.key for i in self.scan({"orientation.cairo": text})}
+        self.assertIn(("Hex", "method", "b"), keys)
+
+
+class RealTreeMirrorOfL_M1(unittest.TestCase):
+    """The real `crates/hexx/src` against the committed inventory: after M1-T2 only `line_to`
+    of the canonical L-M1 list is missing."""
+
+    def test_only_line_to_is_missing(self) -> None:
+        hexx = ap.load_inventory(ap.OUTPUT)
+        statuses, _ = ap.classify(hexx, ap.parse_cairo())
+        missing = {i.key for i, (status, _) in statuses.items()
+                   if status == "missing" and i.key in ap._L_M1}
+        self.assertEqual({("Hex", "method", "line_to")}, missing)
+
+
 if __name__ == "__main__":
     unittest.main()
