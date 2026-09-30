@@ -5,31 +5,34 @@ use hexx::hex::HexTrait;
 
 // The oracle: the definition of the hexagonal distance, `max(|dx|, |dy|, |dx + dy|)`, on values
 // small enough that nothing overflows, written with no helper of the port.
-fn oracle_distance(dx: i32, dy: i32) -> u32 {
-    let ax: u32 = if dx < 0 {
-        (0 - dx).try_into().unwrap()
-    } else {
-        dx.try_into().unwrap()
-    };
-    let ay: u32 = if dy < 0 {
-        (0 - dy).try_into().unwrap()
-    } else {
-        dy.try_into().unwrap()
-    };
-    let sum = dx + dy;
-    let az: u32 = if sum < 0 {
-        (0 - sum).try_into().unwrap()
-    } else {
-        sum.try_into().unwrap()
-    };
-    let mut best = ax;
-    if ay > best {
-        best = ay;
+#[generate_trait]
+impl OracleImpl of OracleTrait {
+    fn distance(dx: i32, dy: i32) -> u32 {
+        let ax: u32 = if dx < 0 {
+            (0 - dx).try_into().unwrap()
+        } else {
+            dx.try_into().unwrap()
+        };
+        let ay: u32 = if dy < 0 {
+            (0 - dy).try_into().unwrap()
+        } else {
+            dy.try_into().unwrap()
+        };
+        let sum = dx + dy;
+        let az: u32 = if sum < 0 {
+            (0 - sum).try_into().unwrap()
+        } else {
+            sum.try_into().unwrap()
+        };
+        let mut best = ax;
+        if ay > best {
+            best = ay;
+        }
+        if az > best {
+            best = az;
+        }
+        best
     }
-    if az > best {
-        best = az;
-    }
-    best
 }
 
 #[test]
@@ -45,7 +48,7 @@ fn test_hex_distance_matches_the_oracle() {
                 while y2 <= 4 {
                     let a = HexTrait::new(x1, y1);
                     let b = HexTrait::new(x2, y2);
-                    let expected = oracle_distance(x1 - x2, y1 - y2);
+                    let expected = OracleTrait::distance(x1 - x2, y1 - y2);
                     assert(a.unsigned_distance_to(b) == expected, 'unsigned distance');
                     let signed: i32 = expected.try_into().unwrap();
                     assert(a.distance_to(b) == signed, 'distance');
@@ -73,7 +76,7 @@ fn test_hex_length_and_cubic_coordinate() {
             assert(h.x() + h.y() + h.z() == 0, 'cubic sum');
             let length: u32 = h.length().try_into().unwrap();
             assert(length == h.ulength(), 'length is ulength');
-            assert(h.ulength() == oracle_distance(x, y), 'length is the distance to zero');
+            assert(h.ulength() == OracleTrait::distance(x, y), 'length is the distance to zero');
             assert(h.distance_to(HexTrait::ZERO) == h.length(), 'distance to zero');
             y += 1;
         }

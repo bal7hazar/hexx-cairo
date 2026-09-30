@@ -1411,6 +1411,15 @@ def scan_cairo_tree(
     an `impl` item; one whose owner is resolved and whose trait is not understood raises with
     its file and line, it is never skipped."""
     items: set[Item] = set()
+    # The traits the scan knows: declared (`pub trait X`) or generated (`#[generate_trait]` on an
+    # impl of `X`) anywhere in the tree. A public impl of any other `...Trait` is classified like
+    # one of a corelib trait: by `CAIRO_*_TRAITS`, else it raises on a mirror owner.
+    known_traits: set[str] = set()
+    for known_node in nodes.values():
+        known_traits.update(m.group(1) for m in CAIRO_TRAIT_RE.finditer(known_node.text))
+        for m in CAIRO_IMPL_OF_RE.finditer(known_node.text):
+            if find_preceding_attr(known_node.text, m.start(), GENERATE_TRAIT_RE) is not None:
+                known_traits.add(m.group(1))
     for rank, (path, node) in itertools.product(export_ranks(bridged), nodes.items()):
         exported = (lambda name, path=path, rank=rank:
                     exported_name_at(rank, path, name, reachable, bridged, glob_targets))
@@ -1497,8 +1506,8 @@ def scan_cairo_tree(
             if not cfg_ok(match.start()):
                 continue
             trait, args = match.group(1), match.group(2)
-            if trait.endswith("Trait"):
-                continue  # an impl of a trait of the library: the block above
+            if trait in known_traits:
+                continue  # an impl of a trait the tree declares or generates: the block above
             parts = [a.strip() for a in split_top_level(args)] if args else []
             first = re.match(r"[A-Za-z_]\w*", parts[0]) if parts else None
             name = first.group(0) if first else None

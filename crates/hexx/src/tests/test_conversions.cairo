@@ -8,65 +8,69 @@ use hexx::orientation::HexOrientation;
 
 /// The oracle: `v & 1` as `hexx` writes it, for a small `v` (the bit of two's complement), with
 /// the divisions of the redblobgames formulas on numerators that are even.
-fn oracle_shove(v: i32, mode: OffsetHexMode) -> i32 {
-    let bit: i32 = if v % 2 == 0 {
-        0
-    } else {
-        1
-    };
-    match mode {
-        OffsetHexMode::Even => (v + bit) / 2,
-        OffsetHexMode::Odd => (v - bit) / 2,
-    }
-}
-
-fn oracle_to_offset(h: Hex, mode: OffsetHexMode, orientation: HexOrientation) -> [i32; 2] {
-    match orientation {
-        HexOrientation::Flat => [h.x, h.y + oracle_shove(h.x, mode)],
-        HexOrientation::Pointy => [h.x + oracle_shove(h.y, mode), h.y],
-    }
-}
-
-fn check(mode: OffsetHexMode, orientation: HexOrientation) {
-    let mut x: i32 = -9;
-    while x <= 9 {
-        let mut y: i32 = -9;
-        while y <= 9 {
-            let h = HexTrait::new(x, y);
-            let offset = h.to_offset_coordinates(mode, orientation);
-            assert(offset == oracle_to_offset(h, mode, orientation), 'to_offset');
-            assert(
-                HexConversionsTrait::from_offset_coordinates(offset, mode, orientation) == h,
-                'round trip',
-            );
-            y += 1;
+#[generate_trait]
+impl OffsetOracleImpl of OffsetOracleTrait {
+    fn shove(v: i32, mode: OffsetHexMode) -> i32 {
+        let bit: i32 = if v % 2 == 0 {
+            0
+        } else {
+            1
+        };
+        match mode {
+            OffsetHexMode::Even => (v + bit) / 2,
+            OffsetHexMode::Odd => (v - bit) / 2,
         }
-        x += 1;
+    }
+
+    fn to_offset(h: Hex, mode: OffsetHexMode, orientation: HexOrientation) -> [i32; 2] {
+        match orientation {
+            HexOrientation::Flat => [h.x, h.y + OffsetOracleTrait::shove(h.x, mode)],
+            HexOrientation::Pointy => [h.x + OffsetOracleTrait::shove(h.y, mode), h.y],
+        }
+    }
+
+    /// Checks `to_offset_coordinates` against the oracle and the round trip on a grid.
+    fn check(mode: OffsetHexMode, orientation: HexOrientation) {
+        let mut x: i32 = -9;
+        while x <= 9 {
+            let mut y: i32 = -9;
+            while y <= 9 {
+                let h = HexTrait::new(x, y);
+                let offset = h.to_offset_coordinates(mode, orientation);
+                assert(offset == OffsetOracleTrait::to_offset(h, mode, orientation), 'to_offset');
+                assert(
+                    HexConversionsTrait::from_offset_coordinates(offset, mode, orientation) == h,
+                    'round trip',
+                );
+                y += 1;
+            }
+            x += 1;
+        }
     }
 }
 
 #[test]
 #[available_gas(l2_gas: 10128048)]
 fn test_offset_even_pointy() {
-    check(OffsetHexMode::Even, HexOrientation::Pointy);
+    OffsetOracleTrait::check(OffsetHexMode::Even, HexOrientation::Pointy);
 }
 
 #[test]
 #[available_gas(l2_gas: 9810150)]
 fn test_offset_even_flat() {
-    check(OffsetHexMode::Even, HexOrientation::Flat);
+    OffsetOracleTrait::check(OffsetHexMode::Even, HexOrientation::Flat);
 }
 
 #[test]
 #[available_gas(l2_gas: 10128048)]
 fn test_offset_odd_pointy() {
-    check(OffsetHexMode::Odd, HexOrientation::Pointy);
+    OffsetOracleTrait::check(OffsetHexMode::Odd, HexOrientation::Pointy);
 }
 
 #[test]
 #[available_gas(l2_gas: 9810150)]
 fn test_offset_odd_flat() {
-    check(OffsetHexMode::Odd, HexOrientation::Flat);
+    OffsetOracleTrait::check(OffsetHexMode::Odd, HexOrientation::Flat);
 }
 
 /// Numerators of `i32::MAX` and `i32::MIN` never leave `i32`: `hexx`'s `midpoint` does not

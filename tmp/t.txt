@@ -1,0 +1,21 @@
+    def test_a_public_impl_of_an_undeclared_trait_on_a_mirror_owner_raises(self) -> None:
+        # The auditor's scenario (M1-T2 audit pass 1, finding 1): `...Trait` is not a licence to
+        # skip; nothing declares or generates `CustomTrait`.
+        text = ("#[derive(Copy, Drop)]\npub enum HexOrientation {\n    Pointy,\n    Flat,\n}\n"
+                "pub impl FooImpl of CustomTrait<HexOrientation> {\n"
+                "    fn foo(a: HexOrientation) -> HexOrientation { a }\n}\n")
+        with self.assertRaises(SystemExit) as raised:
+            self.scan({"orientation.cairo": text})
+        self.assertIn("orientation.cairo:6", str(raised.exception))
+        self.assertIn("CustomTrait", str(raised.exception))
+
+    def test_a_public_impl_of_a_declared_or_generated_trait_is_not_an_error(self) -> None:
+        text = ("pub struct Hex {\n    pub x: i32,\n}\n"
+                "pub trait DeclaredTrait<T> {\n    fn a(v: T) -> T;\n}\n"
+                "pub impl DeclaredImpl of DeclaredTrait<Hex> {\n    fn a(v: Hex) -> Hex { v }\n}\n"
+                "#[generate_trait]\n"
+                "pub impl HexImpl of HexTrait {\n    fn b(self: Hex) -> i32 { 0 }\n}\n"
+                "pub impl HexOther of HexTrait {\n    fn b(self: Hex) -> i32 { 1 }\n}\n")
+        keys = {i.key for i in self.scan({"orientation.cairo": text})}
+        self.assertIn(("Hex", "method", "b"), keys)
+
