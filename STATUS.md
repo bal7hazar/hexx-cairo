@@ -4,10 +4,12 @@
 
 | | |
 |---|---|
-| Phase | **PAUSED** since 2026-09-29, about 20:00 UTC, by the owner (the app's quota at 95 %, reset 2026-09-30 14:00 UTC). Resume only on the owner's or the project manager's message after the reset |
-| Running agents | None of the library |
+| Phase | **Milestone L-M1: LIB-05**, resumed on 2026-09-30 after the pause. N-3, N-4, N-8 merged; next **M1-T2** (the mirror items), then M1-T3 (N-7), M1-T6 (N-5), release candidate `0.1.0-rc.1` for the game's ENG-02 |
+| Procedures (Nexus, D-162) | Every pull request gets a Codex review (`nexus review`) before its merge; audits through `nexus audit`; implementers through `scripts/agent.sh`; `nexus accounts` and `nexus resources` before a launch. The sub-agents' account `claude:b7r` is at 94 % of its week until 2026-10-03 06:00 UTC: one implementer at a time, Sonnet where the task allows |
+| Running agents | None |
+| Decisions pending | The owner, in this session, before the first publication: confirm the delegation of the decision to publish to the project manager (D-132) |
 
-## Pause 2026-09-29
+## Pause 2026-09-29 (ended 2026-09-30)
 
 ### Open tasks
 
@@ -59,6 +61,7 @@ Diagnosis: the game's task SPK-13 on the owner's Mac ([reproduction](docs/report
 
 | Date | What |
 |---|---|
+| 2026-09-30 | LIB-05 M1-T4b, N-4: `cut` as `grid & mask`, and the exhaustive coverage of `local`, by `[Sonnet 5.5]`; audit and Codex review by `[GPT-6-Sol]`: PASS, PASS; [report](docs/reports/LIB-05-M1-T4b-REPORT.md) |
 | 2026-09-29 | LIB-05 M1-T9b, N-8: the steps of the walkers and the benchmark of the tick, by `[Opus 5.5]`; two audit passes by `[GPT-6-Astra]`, two fix loops, final PASS; [report](docs/reports/LIB-05-M1-T9b-REPORT.md) with the orchestrator's decisions |
 | 2026-09-29 | LIB-05 M1-T9a, N-8: the flood of the tick on the engine's layered flood, `depth` a parameter, by `[Opus 5.5]` (stopped once on the stop condition, `depth()` at 670 accepted); audit by `[GPT-6-Astra]`: PASS WITH FINDINGS (one on the move proof, fixed); [report](docs/reports/LIB-05-M1-T9a-REPORT.md) |
 | 2026-09-29 | LIB-05 M1-T4a, N-3: the window of 15 × 16 assembled from 2 or 4 chunks, void chunks as wall, measured at 64,234 (two layers and ring, 4 chunks), by `[Opus 5.5]`; audit by `[GPT-6-Astra]`: PASS WITH FINDINGS (the stop condition was bypassed, the rewrite accepted after review); [report](docs/reports/LIB-05-M1-T4a-REPORT.md) |
