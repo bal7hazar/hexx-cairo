@@ -1,15 +1,17 @@
 # Status
 
-**2026-09-28** — `[Fable 5.1]` Orchestrateur hexmap (lib)
+**2026-09-30** — `[Opus 5.5]` Orchestrator hexmap (lib), successor of `[Fable 5.1]` / `[Opus 5.5]` (handover `docs/handover/orchestrator-hexmap-2026-09-30.md`)
 
 | | |
 |---|---|
-| Phase | **Milestone L-M1: LIB-05.** N-3, N-4, N-8 and the mirror items merged; next **M1-T3** (N-7, `distance_between`, the renames), then M1-T6 (N-5), release candidate `0.1.0-rc.1` for the game's ENG-02. N-2 and N-1 wait for the game's study of hexagonal chunks (SPK-14, D-165) before their briefs |
-| Procedures (Nexus, D-162) | Every pull request gets a Codex review (`nexus review`) before its merge; audits through `nexus audit`; implementers through `scripts/agent.sh`; `nexus accounts` and `nexus resources` before a launch. The sub-agents' account `claude:b7r` is at 94 % of its week until 2026-10-03 06:00 UTC: one implementer at a time, Sonnet where the task allows |
-| Running agents | None |
-| Decisions pending | The owner, in this session, before the first publication: confirm the delegation of the decision to publish to the project manager (D-132) |
+| Phase | **Milestone L-M1: LIB-05.** N-3, N-4, N-8 and the mirror items merged. **M1-T3** (N-7, `distance_between`, the conversions, the renames) stopped on its gas stop condition; the orchestrator's decisions are in its brief; the agent resumes. Then M1-T6 (N-5), release candidate `0.1.0-rc.1` for the game's ENG-02. N-2 and N-1 wait for the game's study of hexagonal chunks (SPK-14, D-165) before their briefs |
+| Procedures (Nexus, D-162) | Every pull request gets a Codex review (`nexus review`) before its merge; audits through `nexus audit`; implementers through `scripts/agent.sh`; `nexus accounts` and `nexus resources` before a launch. Accounts at 2026-09-30 ~22:00 UTC: `claude:b7r` 8 % of its week (reset 2026-10-03 06:00), `claude:main` 12 % |
+| Running agents | M1-T3, `[Opus 5.5]`, resumed |
+| Decisions pending | The owner, before the first publication: confirm the delegation of the decision to publish to the project manager (D-132) |
 
 ## Pause 2026-09-29 (ended 2026-09-30)
+
+The pause is over; its open task M1-T4b is done (below). Kept for the record.
 
 ### Open tasks
 
