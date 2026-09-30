@@ -44,9 +44,17 @@ class Rewrites(unittest.TestCase):
         self.assertEqual(t.rewritten("src/x.cairo", "use origami_hexmap::mapping::X;"),
                          "use hexx::mapping::X;")
 
-    def test_british_helpers_keep_their_names(self) -> None:
+    def test_british_helpers_renamed_at_calls(self) -> None:
+        # M1-T3, plan §5.2: the three helpers, at their definitions and calls
         line = "let m = layout.neighbour_mask(i); layout.edge_neighbours(i); neighbour_in(i);"
-        self.assertEqual(t.rewritten("src/x.cairo", line), line)
+        self.assertEqual(t.rewritten("src/x.cairo", line),
+                         "let m = layout.neighbor_mask(i); layout.edge_neighbors(i); neighbor_in(i);")
+
+    def test_british_helpers_kept_in_prose_and_longer_names(self) -> None:
+        # Not a call: the prose of `GAS.md`, a bench and a variant whose names contain the helper
+        for line in ("| `neighbour_mask`: 1 lookup |", "`Layout::edge_neighbours`, `Layout::neighbour_in`",
+                     "fn bench_neighbour_mask() {", "Variants::neighbour_mask_lookups(17, n)"):
+            self.assertEqual(t.rewritten("src/x.cairo", line), line)
 
     def test_readme_u252_removed(self) -> None:
         source = (
@@ -66,8 +74,8 @@ class Rewrites(unittest.TestCase):
                          "/src/board/printer.cairo\n/GAS-origami-1.8.0.md\n/src/tests/\n")
 
     def test_no_other_rewrite(self) -> None:
-        # The complete list of the brief: four import rules.
-        self.assertEqual(len(t.REWRITES), 4)
+        # The complete list of the briefs: four import rules (M1-T1a), three renames (M1-T3).
+        self.assertEqual(len(t.REWRITES), 7)
 
 
 class Check(unittest.TestCase):

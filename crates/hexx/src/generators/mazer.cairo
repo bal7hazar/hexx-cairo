@@ -798,7 +798,7 @@ mod tests {
         while index != width * height {
             if Bits::get(grid_u256, index) {
                 tiles += 1;
-                let mask: u256 = layout.neighbour_mask(index).into();
+                let mask: u256 = layout.neighbor_mask(index).into();
                 degrees += Bits::popcount(mask & grid_u256).into();
             }
             index += 1;

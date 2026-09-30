@@ -92,6 +92,9 @@ OWN_FILES: tuple[str, ...] = (
 EXTENDED: dict[str, str] = {
     "src/finders/bfs.cairo": "M1-T9a (Bfs::flood)",
     "src/tests/fixtures.cairo": "M1-T9a (SERPENTINE_15X16)",
+    "src/board/direction.cairo": "M1-T3 (N-7)",
+    "src/board/geometry.cairo": "M1-T3 (§6.1, §3.5)",
+    "src/board/layout.cairo": "M1-T3 (neighbor_direction)",
 }
 
 
@@ -124,6 +127,11 @@ REWRITES: list[tuple[str, str]] = [
     (r"origami_hexmap::types::direction(?![A-Za-z0-9_])", "hexx::board::direction"),
     (r"origami_hexmap::map(?![A-Za-z0-9_])", "hexx::board::map"),
     (r"origami_hexmap::", "hexx::"),
+    # M1-T3, plan §5.2: the three British-spelt helpers of the layout, at their definitions and
+    # calls only (a name followed by `(`), so that the prose of `GAS.md` keeps the names of 1.8.0
+    (r"(?<![A-Za-z0-9_])edge_neighbours(?=\()", "edge_neighbors"),
+    (r"(?<![A-Za-z0-9_])neighbour_in(?=\()", "neighbor_in"),
+    (r"(?<![A-Za-z0-9_])neighbour_mask(?=\()", "neighbor_mask"),
 ]
 
 # What the removal of `u252` forces (plan §5.1, §5.4): per source file, in order. Each is listed

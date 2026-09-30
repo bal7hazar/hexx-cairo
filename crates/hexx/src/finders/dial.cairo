@@ -343,7 +343,7 @@ impl DialInternal of DialInternalTrait {
     /// # Returns
     /// * The neighbours in `unvisited` and whether `to` is a neighbour
     fn seeds(width: u8, height: u8, from: u8, to: u8, unvisited: felt252) -> (felt252, bool) {
-        let around: u256 = LayoutTrait::edge_neighbours(width, height, from).into();
+        let around: u256 = LayoutTrait::edge_neighbors(width, height, from).into();
         if Bits::get(around, to) {
             return (0, true);
         }
@@ -747,7 +747,7 @@ impl DialInternal of DialInternalTrait {
         // [Compute] First tile: an edge target has no exact neighbour mask, scan its neighbours
         let (mut position, mut bit, mut odd, mut time) = if ends.to_edge {
             let layer: u256 = Set::to_felt(*layers[time]).into();
-            let found = LayoutTrait::neighbour_in(width, height, ends.to, layer).unwrap();
+            let found = LayoutTrait::neighbor_in(width, height, ends.to, layer).unwrap();
             path.append(found);
             let (y, _) = DivRem::div_rem(found, width.try_into().unwrap());
             (found, Bits::pow(found), y % 2 == 1, time)

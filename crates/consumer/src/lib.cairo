@@ -8,7 +8,7 @@
 //! contracts: the 20 in one exceed the 81,920 CASM felts a class may hold. The extensions of
 //! milestone L-M1 add their own contracts (`HexxAssembly`: N-3; `HexxCut`: N-4; `HexxFlood`: N-8);
 //! `HexxMirror` holds the mirror items of L-M1 (`Hex`, `EdgeDirection`, the offset conversions,
-//! `HexOrientation`).
+//! `HexOrientation`); `HexxCoordinates` the directions and coordinates of the board (N-7, M1-T3).
 
 /// The queries, the finders on unit costs and the constructors that call no generator.
 #[starknet::contract]
@@ -455,5 +455,76 @@ pub mod HexxMirror {
     #[external(v0)]
     fn default_orientation(self: @ContractState) -> HexOrientation {
         Default::default()
+    }
+}
+
+/// N-7 and the coordinates of the board (M1-T3): `DirectionTrait::{rotate, arc}`, the conversions
+/// between `Direction` and `EdgeDirection`, `GeometryTrait::{distance_between, chunk_of, to_hex,
+/// from_hex, index_to_hex, hex_to_index}` and `LayoutTrait::neighbor_direction`.
+#[starknet::contract]
+pub mod HexxCoordinates {
+    use hexx::board::direction::DirectionTrait;
+    use hexx::board::geometry::GeometryTrait;
+    use hexx::board::layout::LayoutTrait;
+    use hexx::{Arc, Direction, EdgeDirection, Hex};
+
+    #[storage]
+    struct Storage {}
+
+    #[external(v0)]
+    fn rotate(self: @ContractState, direction: Direction, steps: u8) -> Direction {
+        direction.rotate(steps)
+    }
+
+    #[external(v0)]
+    fn arc(self: @ContractState, direction: Direction, facing: Direction) -> Arc {
+        direction.arc(facing)
+    }
+
+    #[external(v0)]
+    fn into_edge_direction(self: @ContractState, direction: Direction) -> EdgeDirection {
+        direction.into()
+    }
+
+    #[external(v0)]
+    fn into_direction(self: @ContractState, direction: EdgeDirection) -> Direction {
+        direction.into()
+    }
+
+    #[external(v0)]
+    fn distance_between(self: @ContractState, x1: u8, y1: u8, x2: u8, y2: u8) -> u16 {
+        GeometryTrait::distance_between(x1, y1, x2, y2)
+    }
+
+    #[external(v0)]
+    fn chunk_of(self: @ContractState, x: u8, y: u8) -> (u8, u8) {
+        GeometryTrait::chunk_of(x, y)
+    }
+
+    #[external(v0)]
+    fn to_hex(self: @ContractState, x: u8, y: u8) -> Hex {
+        GeometryTrait::to_hex(x, y)
+    }
+
+    #[external(v0)]
+    fn from_hex(self: @ContractState, hex: Hex) -> Option<(u8, u8)> {
+        GeometryTrait::from_hex(hex)
+    }
+
+    #[external(v0)]
+    fn index_to_hex(self: @ContractState, width: u8, position: u8) -> Hex {
+        GeometryTrait::index_to_hex(width, position)
+    }
+
+    #[external(v0)]
+    fn hex_to_index(self: @ContractState, width: u8, height: u8, hex: Hex) -> Option<u8> {
+        GeometryTrait::hex_to_index(width, height, hex)
+    }
+
+    #[external(v0)]
+    fn neighbor_direction(
+        self: @ContractState, width: u8, height: u8, from: u8, to: u8,
+    ) -> Option<Direction> {
+        LayoutTrait::neighbor_direction(width, height, from, to)
     }
 }

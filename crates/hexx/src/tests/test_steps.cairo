@@ -751,7 +751,7 @@ fn test_steps_tick_cave_ring() {
 #[available_gas(l2_gas: 108320096)]
 fn test_steps_ring_neighbourhoods() {
     // Every tile of both limb paths, both row parities, odd and even heights: the walker's
-    // neighbour bits are those of `LayoutTrait::edge_neighbours`, the taken-over reference
+    // neighbour bits are those of `LayoutTrait::edge_neighbors`, the taken-over reference
     let sizes: Array<(u8, u8)> = array![
         (3, 3), (7, 7), (11, 11), (8, 16), (15, 15), (15, 16), (17, 14), (19, 13),
     ];
@@ -764,7 +764,7 @@ fn test_steps_ring_neighbourhoods() {
             let (x, y) = LayoutTrait::coords(width, position);
             assert!(walker.x == x && walker.y == y && walker.odd == (y % 2 == 1));
             assert!(
-                walker.around == LayoutTrait::edge_neighbours(width, height, position),
+                walker.around == LayoutTrait::edge_neighbors(width, height, position),
                 "{} x {}: {}",
                 width,
                 height,

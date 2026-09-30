@@ -20,6 +20,8 @@ use hexx::board::direction::Direction;
 
 /// 1/2 in the field.
 const INV_2: felt252 = 0x400000000000008800000000000000000000000000000000000000000000001;
+/// 2, as a divisor.
+const TWO: NonZero<u8> = 2;
 /// The 6 directions, in `Direction` order.
 const DIRECTIONS: [Direction; 6] = [
     Direction::East, Direction::NorthEast, Direction::NorthWest, Direction::West,
@@ -231,7 +233,7 @@ pub impl LayoutImpl of LayoutTrait {
     /// * `position` - The tile
     /// # Returns
     /// * The bits of its neighbours
-    fn edge_neighbours(width: u8, height: u8, position: u8) -> felt252 {
+    fn edge_neighbors(width: u8, height: u8, position: u8) -> felt252 {
         let mut around: felt252 = 0;
         for direction in DIRECTIONS.span() {
             if let Option::Some(next) = Self::neighbor(width, height, position, *direction) {
@@ -250,7 +252,7 @@ pub impl LayoutImpl of LayoutTrait {
     /// * `set` - The set
     /// # Returns
     /// * The first neighbour in the set, `None` if there is none
-    fn neighbour_in(width: u8, height: u8, position: u8, set: u256) -> Option<u8> {
+    fn neighbor_in(width: u8, height: u8, position: u8, set: u256) -> Option<u8> {
         for direction in DIRECTIONS.span() {
             if let Option::Some(next) = Self::neighbor(width, height, position, *direction) {
                 if Bits::get(set, next) {
@@ -270,7 +272,7 @@ pub impl LayoutImpl of LayoutTrait {
     /// # Returns
     /// * The neighbour mask
     #[inline]
-    fn neighbour_mask(self: @Layout, position: u8) -> felt252 {
+    fn neighbor_mask(self: @Layout, position: u8) -> felt252 {
         let layout = *self;
         let (_, odd) = Self::parity(layout.width, position);
         let offsets = if odd {
@@ -383,6 +385,61 @@ pub impl LayoutImpl of LayoutTrait {
             },
         }
     }
+
+    /// Direction from a position to an adjacent one, through their coordinates: `Some(d)` if and
+    /// only if `neighbor(width, height, from, d) == Some(to)`.
+    /// # Arguments
+    /// * `width` - The width of the map, not zero
+    /// * `height` - The height of the map
+    /// * `from` - The position
+    /// * `to` - The other position
+    /// # Returns
+    /// * The direction, `None` when either position lies outside the board or the two are not
+    ///   neighbours (the last tile of a row and the first of the next are not)
+    ///
+    /// Mirrors nothing in `hexx`: an extension (plan §6.1).
+    fn neighbor_direction(width: u8, height: u8, from: u8, to: u8) -> Option<Direction> {
+        // [Check] Both positions in the board: a row below the height
+        let divisor: NonZero<u8> = width.try_into().unwrap();
+        let (y_from, x_from) = DivRem::div_rem(from, divisor);
+        let (y_to, x_to) = DivRem::div_rem(to, divisor);
+        if y_from >= height || y_to >= height {
+            return None;
+        }
+        // [Compute] Same row: East is x - 1, West is x + 1
+        if y_to == y_from {
+            return if x_to + 1 == x_from {
+                Some(Direction::East)
+            } else if x_to == x_from + 1 {
+                Some(Direction::West)
+            } else {
+                None
+            };
+        }
+        let north = y_to == y_from + 1;
+        if !north && y_from != y_to + 1 {
+            return None;
+        }
+        // [Compute] Row above or below: the East neighbour is x - 1 on an even row and x on an
+        // odd one, the West neighbour one more; with `t = x_to + 1 - odd`, East is `t == x`
+        let (_, odd) = DivRem::div_rem(y_from, TWO);
+        let t = x_to + 1 - odd;
+        if t == x_from {
+            Some(if north {
+                Direction::NorthEast
+            } else {
+                Direction::SouthEast
+            })
+        } else if t == x_from + 1 {
+            Some(if north {
+                Direction::NorthWest
+            } else {
+                Direction::SouthWest
+            })
+        } else {
+            None
+        }
+    }
 }
 
 #[generate_trait]
@@ -443,5 +500,182 @@ pub impl DilationImpl of DilationTrait {
         let (_, _, vertical) = Bits::bitwise(up, down);
         let (_, _, next) = Bits::bitwise(side, vertical);
         next
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    // Local imports
+
+    use super::{DIRECTIONS, Direction, LayoutTrait};
+
+    /// Pairs of a board per seeded test.
+    const PAIRS: u32 = 512;
+
+    // Oracles
+
+    #[generate_trait]
+    impl Oracle of OracleTrait {
+        /// `neighbor_direction` by its definition: the first direction whose `neighbor` is `to`,
+        /// `None` when there is none or when either position lies outside the board.
+        fn neighbor_direction(width: u8, height: u8, from: u8, to: u8) -> Option<Direction> {
+            let size: u16 = width.into() * height.into();
+            if from.into() >= size || to.into() >= size {
+                return None;
+            }
+            for direction in DIRECTIONS.span() {
+                if LayoutTrait::neighbor(width, height, from, *direction) == Some(to) {
+                    return Some(*direction);
+                }
+            }
+            None
+        }
+
+        /// The next state of a 64-bit linear congruential generator (Knuth's MMIX constants).
+        fn next(state: u64) -> u64 {
+            let product: u128 = state.into() * 6364136223846793005 + 1442695040888963407;
+            (product % 0x10000000000000000).try_into().unwrap()
+        }
+    }
+
+    // neighbor_direction
+
+    /// R-D2 and R-D4 on the window 15 × 16.
+    #[test]
+    #[available_gas(l2_gas: 14406)]
+    fn test_layout_neighbor_direction_regression() {
+        // R-D2: the last tile of row 0 and the first of row 1 are not neighbours
+        assert!(LayoutTrait::neighbor_direction(15, 16, 14, 15).is_none());
+        // R-D4
+        assert!(LayoutTrait::neighbor_direction(15, 16, 0, 1) == Some(Direction::West));
+        assert!(LayoutTrait::neighbor_direction(15, 16, 0, 14).is_none());
+        // Outside the board, and a tile is not its own neighbour
+        assert!(LayoutTrait::neighbor_direction(15, 16, 240, 225).is_none());
+        assert!(LayoutTrait::neighbor_direction(15, 16, 225, 240).is_none());
+        assert!(LayoutTrait::neighbor_direction(15, 16, 255, 254).is_none());
+        assert!(LayoutTrait::neighbor_direction(15, 16, 17, 17).is_none());
+    }
+
+    /// R-D3: every position and every direction of 15 × 16; `neighbor(from, d) = Some(to)`
+    /// gives `neighbor_direction(from, to) = Some(d)` (a boundary asserts nothing).
+    #[test]
+    #[available_gas(l2_gas: 28054730)]
+    fn test_layout_neighbor_direction_window() {
+        let mut from: u8 = 0;
+        while from != 240 {
+            for direction in DIRECTIONS.span() {
+                if let Some(to) = LayoutTrait::neighbor(15, 16, from, *direction) {
+                    assert!(LayoutTrait::neighbor_direction(15, 16, from, to) == Some(*direction));
+                }
+            }
+            from += 1;
+        }
+    }
+
+    /// Every pair of positions of a 7 × 7 and of an 8 × 5 (even width), `to` up to one row
+    /// beyond the board, against the definition.
+    #[test]
+    #[available_gas(l2_gas: 297619445)]
+    fn test_layout_neighbor_direction_pairs() {
+        let boards: [(u8, u8); 2] = [(7, 7), (8, 5)];
+        for (width, height) in boards.span() {
+            let (width, height) = (*width, *height);
+            let end = width * (height + 1);
+            let mut from: u8 = 0;
+            while from != end {
+                let mut to: u8 = 0;
+                while to != end {
+                    assert!(
+                        LayoutTrait::neighbor_direction(
+                            width, height, from, to,
+                        ) == Oracle::neighbor_direction(width, height, from, to),
+                        "{} x {}: {} -> {}",
+                        width,
+                        height,
+                        from,
+                        to,
+                    );
+                    to += 1;
+                }
+                from += 1;
+            }
+        }
+    }
+
+    /// 512 seeded pairs on each of 17 × 14, 19 × 13, and the wide boards 85 × 3, 127 × 2, 128
+    /// × 1 and 251 × 1 (every `u8` as a position, `2W` above 255), half of them within two rows
+    /// of each other, against the definition.
+    #[test]
+    #[available_gas(l2_gas: 223028883)]
+    fn test_layout_neighbor_direction_seeded() {
+        let boards: [(u8, u8); 6] = [(17, 14), (19, 13), (85, 3), (127, 2), (128, 1), (251, 1)];
+        let mut state: u64 = 'neighbor';
+        for (width, height) in boards.span() {
+            let (width, height) = (*width, *height);
+            let mut index: u32 = 0;
+            while index != PAIRS {
+                state = Oracle::next(state);
+                let from: u8 = ((state / 0x100000000) % 256).try_into().unwrap();
+                let to: u8 = if index % 2 == 0 {
+                    ((state / 0x10000000000) % 256).try_into().unwrap()
+                } else {
+                    // Within two rows: from - 2W - 2 + (0..4W+4), clamped to u8
+                    let span: u64 = 4 * width.into() + 5;
+                    let offset: u64 = (state / 0x10000000000) % span;
+                    let target: u64 = from.into() + offset;
+                    let back: u64 = 2 * width.into() + 2;
+                    if target < back {
+                        0
+                    } else if target - back > 255 {
+                        255
+                    } else {
+                        (target - back).try_into().unwrap()
+                    }
+                };
+                assert!(
+                    LayoutTrait::neighbor_direction(
+                        width, height, from, to,
+                    ) == Oracle::neighbor_direction(width, height, from, to),
+                );
+                index += 1;
+            }
+        }
+    }
+
+    // Benchmarks: the worst case, an odd row and a non-adjacent pair one row above (the
+    // longest branch); the difference between two calls and one, the method of `bench_assembly`.
+
+    #[derive(Copy, Drop)]
+    struct Bench {
+        /// `(x, y) = (5, 1)` to `(12, 2)`, then `(7, 1)` to `(0, 2)`, on 15 × 16.
+        pairs: [(u8, u8); 2],
+    }
+
+    #[generate_trait]
+    impl Inputs of InputsTrait {
+        /// The inputs, opaque to the compiler (`#[inline(never)]`, as in `bench_assembly`).
+        #[inline(never)]
+        fn get() -> Bench {
+            Bench { pairs: [(20, 42), (22, 30)] }
+        }
+    }
+
+    #[test]
+    #[inline(never)]
+    #[available_gas(l2_gas: 26124)]
+    fn bench_layout_neighbor_direction_once() {
+        let bench = Inputs::get();
+        let [(from, to), _] = bench.pairs;
+        assert!(LayoutTrait::neighbor_direction(15, 16, from, to).is_none());
+    }
+
+    #[test]
+    #[inline(never)]
+    #[available_gas(l2_gas: 36246)]
+    fn bench_layout_neighbor_direction_twice() {
+        let bench = Inputs::get();
+        let [(from, to), (other, next)] = bench.pairs;
+        assert!(LayoutTrait::neighbor_direction(15, 16, from, to).is_none());
+        assert!(LayoutTrait::neighbor_direction(15, 16, other, next).is_none());
     }
 }

@@ -8,7 +8,7 @@
 //! offset conversions and `HexOrientation` are here.
 
 pub mod board;
-pub use board::direction::Direction;
+pub use board::direction::{Arc, Direction};
 pub use board::map::{HexMap, HexMapTrait};
 
 pub mod conversions;

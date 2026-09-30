@@ -899,7 +899,7 @@ fn bench_neighbour_mask() {
     let mut n = REPS;
     while n != 0 {
         n -= 1;
-        acc += layout.neighbour_mask(n + 18);
+        acc += layout.neighbor_mask(n + 18);
     }
     assert!(acc != 0);
 }

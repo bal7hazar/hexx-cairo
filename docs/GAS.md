@@ -21,14 +21,58 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::bits::tests::test_bits_pow` | 19,450 | 20,423 | 5.0 % |
 | `hexx::board::bits::tests::test_bits_shifts` | 20,620 | 21,651 | 5.0 % |
 | `hexx::board::bits::tests::test_bits_to_felt` | 16,850 | 17,693 | 5.0 % |
+| `hexx::board::direction::tests::bench_direction_arc` | 768,306 | 806,722 | 5.0 % |
+| `hexx::board::direction::tests::bench_direction_arc_baseline` | 641,252 | 673,315 | 5.0 % |
+| `hexx::board::direction::tests::bench_direction_baseline` | 568,082 | 596,487 | 5.0 % |
+| `hexx::board::direction::tests::bench_direction_baseline_index` | 520,482 | 546,507 | 5.0 % |
+| `hexx::board::direction::tests::bench_direction_into_edge_direction` | 568,082 | 596,487 | 5.0 % |
+| `hexx::board::direction::tests::bench_direction_rotate` | 832,006 | 873,607 | 5.0 % |
+| `hexx::board::direction::tests::bench_edge_direction_baseline` | 520,482 | 546,507 | 5.0 % |
+| `hexx::board::direction::tests::bench_edge_direction_into_direction` | 615,682 | 646,467 | 5.0 % |
+| `hexx::board::direction::tests::test_direction_arc_game` | 247,000 | 259,350 | 5.0 % |
+| `hexx::board::direction::tests::test_direction_arc_oracle` | 462,970 | 486,119 | 5.0 % |
+| `hexx::board::direction::tests::test_direction_arc_regression` | 13,720 | 14,406 | 5.0 % |
+| `hexx::board::direction::tests::test_direction_into_edge_direction` | 67,100 | 70,455 | 5.0 % |
 | `hexx::board::direction::tests::test_direction_next_even_row` | 13,720 | 14,406 | 5.0 % |
 | `hexx::board::direction::tests::test_direction_next_odd_row` | 13,720 | 14,406 | 5.0 % |
 | `hexx::board::direction::tests::test_direction_next_opposite_round_trip` | 46,810 | 49,151 | 5.0 % |
 | `hexx::board::direction::tests::test_direction_opposite` | 55,610 | 58,391 | 5.0 % |
 | `hexx::board::direction::tests::test_direction_pop_front` | 13,720 | 14,406 | 5.0 % |
+| `hexx::board::direction::tests::test_direction_rotate_oracle` | 20,875,710 | 21,919,496 | 5.0 % |
+| `hexx::board::direction::tests::test_direction_rotate_regression` | 13,720 | 14,406 | 5.0 % |
 | `hexx::board::direction::tests::test_direction_round_trip` | 29,510 | 30,986 | 5.0 % |
+| `hexx::board::geometry::tests::bench_geometry_chunk_of_once` | 20,260 | 21,273 | 5.0 % |
+| `hexx::board::geometry::tests::bench_geometry_chunk_of_twice` | 23,280 | 24,444 | 5.0 % |
+| `hexx::board::geometry::tests::bench_geometry_distance_between_once` | 21,000 | 22,050 | 5.0 % |
+| `hexx::board::geometry::tests::bench_geometry_distance_between_twice` | 25,220 | 26,481 | 5.0 % |
+| `hexx::board::geometry::tests::bench_geometry_distance_once` | 22,380 | 23,499 | 5.0 % |
+| `hexx::board::geometry::tests::bench_geometry_distance_twice` | 27,420 | 28,791 | 5.0 % |
+| `hexx::board::geometry::tests::bench_geometry_from_hex_once` | 20,930 | 21,977 | 5.0 % |
+| `hexx::board::geometry::tests::bench_geometry_from_hex_twice` | 24,770 | 26,009 | 5.0 % |
+| `hexx::board::geometry::tests::bench_geometry_hex_to_index_once` | 22,610 | 23,741 | 5.0 % |
+| `hexx::board::geometry::tests::bench_geometry_hex_to_index_twice` | 27,980 | 29,379 | 5.0 % |
+| `hexx::board::geometry::tests::bench_geometry_index_to_hex_once` | 21,000 | 22,050 | 5.0 % |
+| `hexx::board::geometry::tests::bench_geometry_index_to_hex_twice` | 24,760 | 25,998 | 5.0 % |
+| `hexx::board::geometry::tests::bench_geometry_to_hex_once` | 19,990 | 20,990 | 5.0 % |
+| `hexx::board::geometry::tests::bench_geometry_to_hex_twice` | 22,740 | 23,877 | 5.0 % |
+| `hexx::board::geometry::tests::test_geometry_chunk_of` | 2,420,910 | 2,541,956 | 5.0 % |
+| `hexx::board::geometry::tests::test_geometry_distance_between_7x7` | 129,024,890 | 135,476,135 | 5.0 % |
+| `hexx::board::geometry::tests::test_geometry_distance_between_regression` | 13,720 | 14,406 | 5.0 % |
+| `hexx::board::geometry::tests::test_geometry_distance_between_rows` | 152,339,340 | 159,956,307 | 5.0 % |
+| `hexx::board::geometry::tests::test_geometry_distance_between_seeded` | 27,697,350 | 29,082,218 | 5.0 % |
 | `hexx::board::geometry::tests::test_geometry_distance_design_checks` | 13,720 | 14,406 | 5.0 % |
+| `hexx::board::geometry::tests::test_geometry_from_hex_outside` | 13,720 | 14,406 | 5.0 % |
+| `hexx::board::geometry::tests::test_geometry_from_hex_rows` | 8,874,960 | 9,318,708 | 5.0 % |
+| `hexx::board::geometry::tests::test_geometry_index_to_hex_directions` | 36,716,800 | 38,552,640 | 5.0 % |
+| `hexx::board::geometry::tests::test_geometry_index_to_hex_round_trip` | 59,655,960 | 62,638,758 | 5.0 % |
 | `hexx::board::geometry::tests::test_geometry_to_axial` | 13,720 | 14,406 | 5.0 % |
+| `hexx::board::geometry::tests::test_geometry_to_hex_from_hex` | 55,835,420 | 58,627,191 | 5.0 % |
+| `hexx::board::layout::tests::bench_layout_neighbor_direction_once` | 24,880 | 26,124 | 5.0 % |
+| `hexx::board::layout::tests::bench_layout_neighbor_direction_twice` | 34,520 | 36,246 | 5.0 % |
+| `hexx::board::layout::tests::test_layout_neighbor_direction_pairs` | 283,447,090 | 297,619,445 | 5.0 % |
+| `hexx::board::layout::tests::test_layout_neighbor_direction_regression` | 13,720 | 14,406 | 5.0 % |
+| `hexx::board::layout::tests::test_layout_neighbor_direction_seeded` | 212,408,460 | 223,028,883 | 5.0 % |
+| `hexx::board::layout::tests::test_layout_neighbor_direction_window` | 26,718,790 | 28,054,730 | 5.0 % |
 | `hexx::board::map::tests::test_map_compute_distribution` | 385,514 | 404,790 | 5.0 % |
 | `hexx::board::map::tests::test_map_distance_to_walls_block` | 62,430 | 65,552 | 5.0 % |
 | `hexx::board::map::tests::test_map_distance_unreachable` | 507,470 | 532,844 | 5.0 % |
@@ -1717,7 +1761,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 15,520 | 16,296 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 15,520 | 16,296 | 5.0 % |
 
-1710 measured test(s).
+1754 measured test(s).
 
 ## Figures accepted above their range
 
@@ -1737,3 +1781,8 @@ the project manager before the merge; under that, the orchestrator decides.
 | `to_offset_coordinates`, `from_offset_coordinates` | 7,183 | idem | M1-T2 | idem |
 | `EdgeDirection::const_neg` | 1,785 | idem | M1-T2 | idem |
 | `EdgeDirection::counter_clockwise` | 1,868 | idem | M1-T2 | idem |
+| `Geometry::chunk_of` | 3,020 | [2,196, 2,745] | M1-T3 | Called by no benchmark of the tick, the assembly, the finders, the generators, the facade or `cut` (the agent's grep, M1-T3 report); the sketch charged 300 per `u8` operation |
+| `Geometry::to_hex` | 2,750 | [1,998, 2,498] | M1-T3 | idem; one `DivRem` and a range-checked `try_into` |
+| `Geometry::from_hex` | 3,840 | [2,198, 2,748] | M1-T3 | idem; the one attempt (`bounded_int` constrain, 3,990) was dearer |
+| `Geometry::hex_to_index` | 5,370 | [2,998, 3,748] | M1-T3 | idem; inherits `from_hex`. The loop path of N-5's `line` calls it per step: M1-T6's ranges are derived from this figure |
+| `LayoutTrait::neighbor_direction` | 9,640 | [4,294, 5,368] | M1-T3 | idem; the two bounds checks against `H` the contract requires are not in the sketch; the one attempt (one `DivRem` by `2W`, 12,020) was dearer. N-5's `approach` calls it once |

@@ -350,7 +350,7 @@ fn test_flood_depths_small() {
 #[available_gas(l2_gas: 12341291)]
 fn test_flood_disconnected_source() {
     // Every neighbour of the source frozen: layer 0 only, at every depth
-    let obstacles = LayoutTrait::edge_neighbours(15, 16, SERPENTINE_15X16_FROM);
+    let obstacles = LayoutTrait::edge_neighbors(15, 16, SERPENTINE_15X16_FROM);
     for depth in array![0_u8, 1, 15, 255] {
         let flood = Oracle::check(
             SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, obstacles, depth,
@@ -358,7 +358,7 @@ fn test_flood_disconnected_source() {
         assert!(flood.depth() == 0);
     }
     // A walled-in source on the single limb, and a corner source with no interior neighbour
-    let obstacles = LayoutTrait::edge_neighbours(7, 7, UNREACHABLE_7X7_NEAR_FROM);
+    let obstacles = LayoutTrait::edge_neighbors(7, 7, UNREACHABLE_7X7_NEAR_FROM);
     let flood = Oracle::check(UNREACHABLE_7X7, 7, 7, UNREACHABLE_7X7_NEAR_FROM, obstacles, 255);
     assert!(flood.depth() == 0);
     let flood = Oracle::check(EMPTY_17X14 + 1, 17, 14, 0, 0, 255);

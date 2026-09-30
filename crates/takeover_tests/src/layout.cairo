@@ -1,7 +1,9 @@
 //! `helpers::layout` of 1.8.0 against `hexx::board::layout`: `Layout`, `Dilation`,
 //! `LayoutTrait::{new, board, even, interior, hexagon, with_interior, expand, expand_small,
 //! dilation, edge_neighbours, neighbour_in, neighbour_mask, index, coords, parity, neighbor}`,
-//! `DilationTrait::{dilate, expand_small}`.
+//! `DilationTrait::{dilate, expand_small}`. The three British-spelt helpers of 1.8.0 are
+//! `edge_neighbors`, `neighbor_in` and `neighbor_mask` in `hexx` (plan §5.2): the tests keep the
+//! names of 1.8.0 and call each side by its own.
 
 use hexx::board::layout::{
     Dilation as HDilation, DilationTrait as HD, Layout as HLayout, LayoutTrait as H,
@@ -185,7 +187,7 @@ fn test_dilation_expand_small() {
 fn test_layout_edge_neighbours() {
     for (width, height, position) in query_positions() {
         let lhs = O::edge_neighbours(width, height, position);
-        let rhs = H::edge_neighbours(width, height, position);
+        let rhs = H::edge_neighbors(width, height, position);
         assert(lhs == rhs, 'edge_neighbours');
     }
 }
@@ -200,10 +202,10 @@ fn test_layout_neighbour_in() {
         let board = two_pow(width.into() * height.into()) - 1;
         let set = word('set', index) & board;
         let lhs = O::neighbour_in(width, height, position, set);
-        let rhs = H::neighbour_in(width, height, position, set);
+        let rhs = H::neighbor_in(width, height, position, set);
         assert(lhs == rhs, 'neighbour_in');
         let lhs = O::neighbour_in(width, height, position, 0);
-        let rhs = H::neighbour_in(width, height, position, 0);
+        let rhs = H::neighbor_in(width, height, position, 0);
         assert(lhs == rhs, 'neighbour_in empty');
         index += 1;
     }
@@ -217,7 +219,7 @@ fn test_layout_neighbour_mask() {
         let (x, y) = (position % width, position / width);
         if x != 0 && y != 0 && x != width - 1 && y != height - 1 {
             let lhs = O::new(width, height).neighbour_mask(position);
-            let rhs = H::new(width, height).neighbour_mask(position);
+            let rhs = H::new(width, height).neighbor_mask(position);
             assert(lhs == rhs, 'neighbour_mask');
         }
     }
