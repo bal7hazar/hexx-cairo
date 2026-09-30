@@ -101,9 +101,10 @@ re-exports of §2.4 for the new items only), `crates/hexx/tests/golden_line.cair
 `tools/refgen/**`, `docs/deviations/line_ties.md` (new, generated), `scripts/takeover_check.py`
 (Scope 7 only), `crates/consumer/**`; `docs/API_PARITY.md`, `docs/EXTENSIONS.md`,
 `docs/DEVIATIONS.md`, `docs/GAS.md`, `gas/hexx.snap`, `gas/bytecode.size`; `REPORT.md`.
-`gas/takeover_tests.snap` is **not** in it: rewrite only the snapshot of `hexx`
-(`bench.py snapshot` then keep `main`'s `takeover_tests.snap`), since this machine's build
-measures `Digger::dig` differently from CI (D-154).
+`gas/takeover_tests.snap` is **not** in it: this task changes no function of the engine, so no row
+of `takeover_tests` should move; a row that moves on this machine is the D-154 drift (`COMMON.md`
+§4): keep `main`'s `takeover_tests.snap` and report it. A row that CI also measures moved is an
+escalation.
 
 ## Acceptance criteria
 
