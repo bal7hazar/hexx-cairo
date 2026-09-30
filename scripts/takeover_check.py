@@ -92,6 +92,9 @@ OWN_FILES: tuple[str, ...] = (
 EXTENDED: dict[str, str] = {
     "src/finders/bfs.cairo": "M1-T9a (Bfs::flood)",
     "src/tests/fixtures.cairo": "M1-T9a (SERPENTINE_15X16)",
+    "src/board/direction.cairo": "M1-T3 (N-7)",
+    "src/board/geometry.cairo": "M1-T3 (§6.1, §3.5)",
+    "src/board/layout.cairo": "M1-T3 (neighbor_direction)",
 }
 
 

@@ -542,7 +542,7 @@ mod tests {
 
     /// R-D2 and R-D4 on the window 15 × 16.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 14406)]
     fn test_layout_neighbor_direction_regression() {
         // R-D2: the last tile of row 0 and the first of row 1 are not neighbours
         assert!(LayoutTrait::neighbor_direction(15, 16, 14, 15).is_none());
@@ -559,7 +559,7 @@ mod tests {
     /// R-D3: every position and every direction of 15 × 16; `neighbor(from, d) = Some(to)`
     /// gives `neighbor_direction(from, to) = Some(d)` (a boundary asserts nothing).
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 28054730)]
     fn test_layout_neighbor_direction_window() {
         let mut from: u8 = 0;
         while from != 240 {
@@ -575,7 +575,7 @@ mod tests {
     /// Every pair of positions of a 7 × 7 and of an 8 × 5 (even width), `to` up to one row
     /// beyond the board, against the definition.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 297619445)]
     fn test_layout_neighbor_direction_pairs() {
         let boards: [(u8, u8); 2] = [(7, 7), (8, 5)];
         for (width, height) in boards.span() {
@@ -602,12 +602,13 @@ mod tests {
         }
     }
 
-    /// 512 seeded pairs on each of 17 × 14, 19 × 13 and 251 × 1 (every `u8` as a position), half
-    /// of them within two rows of each other, against the definition.
+    /// 512 seeded pairs on each of 17 × 14, 19 × 13, and the wide boards 85 × 3, 127 × 2, 128
+    /// × 1 and 251 × 1 (every `u8` as a position, `2W` above 255), half of them within two rows
+    /// of each other, against the definition.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 223028883)]
     fn test_layout_neighbor_direction_seeded() {
-        let boards: [(u8, u8); 3] = [(17, 14), (19, 13), (251, 1)];
+        let boards: [(u8, u8); 6] = [(17, 14), (19, 13), (85, 3), (127, 2), (128, 1), (251, 1)];
         let mut state: u64 = 'neighbor';
         for (width, height) in boards.span() {
             let (width, height) = (*width, *height);
@@ -661,7 +662,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 26124)]
     fn bench_layout_neighbor_direction_once() {
         let bench = Inputs::get();
         let [(from, to), _] = bench.pairs;
@@ -670,7 +671,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 36246)]
     fn bench_layout_neighbor_direction_twice() {
         let bench = Inputs::get();
         let [(from, to), (other, next)] = bench.pairs;

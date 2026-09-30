@@ -12,6 +12,14 @@
 //! `Direction` and `EdgeDirection` coincide. `to_axial` keeps its own frame (it does not negate
 //! `x`): its results are those of 1.8.0.
 
+// Core imports
+
+#[feature("bounded-int-utils")]
+use core::internal::bounded_int::{
+    AddHelper, BoundedInt, ConstrainHelper, DivRemHelper, SubHelper, UnitInt, add, constrain,
+    div_rem, sub, upcast,
+};
+
 // Internal imports
 
 use hexx::board::layout::LayoutTrait;
@@ -23,6 +31,67 @@ use hexx::hex::{Hex, HexTrait};
 const TWO: NonZero<u8> = 2;
 /// The side of a chunk, `assembly::CHUNK` (D-120), as a divisor.
 const CHUNK: NonZero<u8> = 15;
+
+// The ranges of `distance_between` (`bounded_int`: no overflow check; the compiler checks each
+// declared range against its operands)
+
+/// `⌊y / 2⌋` and `y mod 2`.
+impl Half of DivRemHelper<u8, UnitInt<2>> {
+    type DivT = BoundedInt<0, 127>;
+    type RemT = BoundedInt<0, 1>;
+}
+
+/// `x + ⌊y' / 2⌋`, one side of `dq`.
+impl Side of AddHelper<u8, BoundedInt<0, 127>> {
+    type Result = BoundedInt<0, 382>;
+}
+
+/// `dq`, the difference of both sides.
+impl DeltaQ of SubHelper<BoundedInt<0, 382>, BoundedInt<0, 382>> {
+    type Result = BoundedInt<-382, 382>;
+}
+
+/// `dr = y2 − y1`.
+impl DeltaR of SubHelper<u8, u8> {
+    type Result = BoundedInt<-255, 255>;
+}
+
+/// The sign of `dq`.
+impl SignQ of ConstrainHelper<BoundedInt<-382, 382>, 0> {
+    type LowT = BoundedInt<-382, -1>;
+    type HighT = BoundedInt<0, 382>;
+}
+
+/// The sign of `dr`.
+impl SignR of ConstrainHelper<BoundedInt<-255, 255>, 0> {
+    type LowT = BoundedInt<-255, -1>;
+    type HighT = BoundedInt<0, 255>;
+}
+
+/// `|dq|` of a negative `dq`.
+impl NegQ of SubHelper<UnitInt<0>, BoundedInt<-382, -1>> {
+    type Result = BoundedInt<1, 382>;
+}
+
+/// `|dr|` of a negative `dr`.
+impl NegR of SubHelper<UnitInt<0>, BoundedInt<-255, -1>> {
+    type Result = BoundedInt<1, 255>;
+}
+
+/// `dq + dr`, both non-negative.
+impl SumHigh of AddHelper<BoundedInt<0, 382>, BoundedInt<0, 255>> {
+    type Result = BoundedInt<0, 637>;
+}
+
+/// `dq + dr`, both negative.
+impl SumLow of AddHelper<BoundedInt<-382, -1>, BoundedInt<-255, -1>> {
+    type Result = BoundedInt<-637, -2>;
+}
+
+/// `|dq + dr|` of a negative sum.
+impl NegSum of SubHelper<UnitInt<0>, BoundedInt<-637, -2>> {
+    type Result = BoundedInt<2, 637>;
+}
 
 #[generate_trait]
 pub impl Geometry of GeometryTrait {
@@ -75,8 +144,8 @@ pub impl Geometry of GeometryTrait {
     }
 
     /// Grid distance between two tiles of a location, on their global coordinates (odd-r, no
-    /// board): the cube distance of `(q, r) = (x − ⌊y/2⌋, y)`, which equals `hex_distance` on any
-    /// board that holds both tiles.
+    /// board): the cube distance of `(q, r) = (x − ⌊y/2⌋, y)`, which equals `hex_distance` on
+    /// any board that holds both tiles.
     /// # Arguments
     /// * `x1` - The column of the first tile
     /// * `y1` - The row of the first tile
@@ -85,29 +154,42 @@ pub impl Geometry of GeometryTrait {
     /// # Returns
     /// * The number of steps between both tiles, at most 383 (`(0, 0)` to `(255, 255)`)
     ///
-    /// Mirrors nothing in `hexx`: an extension (plan §6.1), the formula of `distance` on `u16`.
+    /// Mirrors nothing in `hexx`: an extension (plan §6.1), the formula of `distance` on bounded
+    /// integers (no overflow check, 4,220 against 7,220 on `u16`, M1-T3).
     #[inline]
+    #[feature("bounded-int-utils")]
     fn distance_between(x1: u8, y1: u8, x2: u8, y2: u8) -> u16 {
-        // [Compute] dq = (x2 - y2/2) - (x1 - y1/2), without negative intermediates
-        let lhs: u16 = x2.into() + (y1 / 2).into();
-        let rhs: u16 = x1.into() + (y2 / 2).into();
-        let (dq, dq_negative) = if lhs >= rhs {
-            (lhs - rhs, false)
-        } else {
-            (rhs - lhs, true)
-        };
-        let (dr, dr_negative): (u16, bool) = if y2 >= y1 {
-            ((y2 - y1).into(), false)
-        } else {
-            ((y1 - y2).into(), true)
-        };
-        // [Return] Same signs: |dq| + |dr|, opposite signs: max(|dq|, |dr|)
-        if dq_negative == dr_negative {
-            dq + dr
-        } else if dq > dr {
-            dq
-        } else {
-            dr
+        // [Compute] dq = (x2 + y1/2) - (x1 + y2/2) and dr = y2 - y1, on bounded ranges
+        let (h1, _) = div_rem::<_, _, Half>(y1, 2);
+        let (h2, _) = div_rem::<_, _, Half>(y2, 2);
+        let dq = sub::<_, _, DeltaQ>(add::<_, _, Side>(x2, h1), add::<_, _, Side>(x1, h2));
+        let dr = sub::<_, _, DeltaR>(y2, y1);
+        // [Return] Same signs: |dq + dr|, opposite signs: max(|dq|, |dr|)
+        match constrain::<_, 0, SignQ>(dq) {
+            Ok(dq) => match constrain::<_, 0, SignR>(dr) {
+                Ok(dr) => upcast(sub::<_, _, NegSum>(0, add::<_, _, SumLow>(dq, dr))),
+                Err(dr) => {
+                    let dq: u16 = upcast(sub::<_, _, NegQ>(0, dq));
+                    let dr: u16 = upcast(dr);
+                    if dq > dr {
+                        dq
+                    } else {
+                        dr
+                    }
+                },
+            },
+            Err(dq) => match constrain::<_, 0, SignR>(dr) {
+                Ok(dr) => {
+                    let dq: u16 = upcast(dq);
+                    let dr: u16 = upcast(sub::<_, _, NegR>(0, dr));
+                    if dq > dr {
+                        dq
+                    } else {
+                        dr
+                    }
+                },
+                Err(dr) => upcast(add::<_, _, SumHigh>(dq, dr)),
+            },
         }
     }
 
@@ -347,7 +429,7 @@ mod tests {
 
     /// R-D1 (audit pass 1, finding 10; pass 3, finding 31).
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 14406)]
     fn test_geometry_distance_between_regression() {
         assert!(Geometry::distance_between(255, 0, 0, 255) == 382);
         assert!(Geometry::distance_between(0, 0, 255, 255) == 383);
@@ -361,7 +443,7 @@ mod tests {
     /// location are then the same odd-r grid): `distance` of the board, the cube distance and the
     /// `Hex` distance through `to_hex`.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 135476135)]
     fn test_geometry_distance_between_7x7() {
         let origins: [(u8, u8); 3] = [(0, 0), (120, 90), (248, 248)];
         for (ox, oy) in origins.span() {
@@ -385,7 +467,7 @@ mod tests {
     /// 512 seeded pairs of location coordinates, over the whole `u8` domain: the cube distance on
     /// `i32` and the `Hex` distance through `to_hex`; the distance is symmetric.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 29082218)]
     fn test_geometry_distance_between_seeded() {
         let mut state: u64 = 'pairs';
         let mut index: u32 = 0;
@@ -405,11 +487,34 @@ mod tests {
         }
     }
 
+    /// Every row `y1` of `u8` against the edge rows `y2` (0, 1, 127, 128, 254, 255), both ways,
+    /// with the extreme columns: every sign of `dq` and `dr` and every end of their ranges, against
+    /// the cube distance on `i32`.
+    #[test]
+    #[available_gas(l2_gas: 159956307)]
+    fn test_geometry_distance_between_rows() {
+        let edges: [u8; 6] = [0, 1, 127, 128, 254, 255];
+        let columns: [(u8, u8); 4] = [(0, 0), (0, 255), (255, 0), (128, 127)];
+        let mut v: u16 = 0;
+        while v != 256 {
+            let y1: u8 = v.try_into().unwrap();
+            for y2 in edges.span() {
+                for (x1, x2) in columns.span() {
+                    let (x1, y2, x2) = (*x1, *y2, *x2);
+                    let expected = Oracle::distance(x1, y1, x2, y2);
+                    assert!(Geometry::distance_between(x1, y1, x2, y2) == expected);
+                    assert!(Geometry::distance_between(x2, y2, x1, y1) == expected);
+                }
+            }
+            v += 1;
+        }
+    }
+
     // chunk_of
 
     /// Every column and every row of `u8`: `15 · c <= v < 15 · (c + 1)`.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 2541956)]
     fn test_geometry_chunk_of() {
         let mut v: u16 = 0;
         while v != 256 {
@@ -431,7 +536,7 @@ mod tests {
     /// Every row with the columns 0, 1, 127, 128, 254, 255, and every column with the rows 0, 1,
     /// 254, 255: `to_hex` equals the formula of §3.5 and `from_hex` inverts it.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 58627191)]
     fn test_geometry_to_hex_from_hex() {
         let edges: [u8; 6] = [0, 1, 127, 128, 254, 255];
         let mut v: u16 = 0;
@@ -453,7 +558,7 @@ mod tests {
 
     /// `from_hex` is `None` as soon as the column or the row leaves `0..=255`, and never panics.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 14406)]
     fn test_geometry_from_hex_outside() {
         let max: i32 = 0x7fffffff;
         let min: i32 = -0x7fffffff - 1;
@@ -477,12 +582,35 @@ mod tests {
         assert!(Geometry::from_hex(Hex { x: -128, y: 255 }) == Some((0, 255)));
     }
 
+    /// Every row of `u8`, each with the `Hex` columns at both ends of `0..=255` and just beyond
+    /// them, and at the ends of `i32`: `Some` exactly inside, `None` outside, never a panic.
+    #[test]
+    #[available_gas(l2_gas: 9318708)]
+    fn test_geometry_from_hex_rows() {
+        let max: i32 = 0x7fffffff;
+        let min: i32 = -0x7fffffff - 1;
+        let mut v: u16 = 0;
+        while v != 256 {
+            let y: u8 = v.try_into().unwrap();
+            let row: i32 = y.into();
+            // The Hex column of the tile column 0 is -ceil(y / 2)
+            let zero = Oracle::to_hex(0, y).x;
+            assert!(Geometry::from_hex(Hex { x: zero, y: row }) == Some((0, y)));
+            assert!(Geometry::from_hex(Hex { x: zero - 255, y: row }) == Some((255, y)));
+            assert!(Geometry::from_hex(Hex { x: zero + 1, y: row }).is_none());
+            assert!(Geometry::from_hex(Hex { x: zero - 256, y: row }).is_none());
+            assert!(Geometry::from_hex(Hex { x: max, y: row }).is_none());
+            assert!(Geometry::from_hex(Hex { x: min, y: row }).is_none());
+            v += 1;
+        }
+    }
+
     // index_to_hex, hex_to_index
 
     /// Every tile of the boards of the plan: the round trip, the formula of §3.5, and a `Hex`
     /// just beyond each side of the board is `None`.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 62638758)]
     fn test_geometry_index_to_hex_round_trip() {
         for (width, height) in BOARDS.span() {
             let (width, height) = (*width, *height);
@@ -517,7 +645,7 @@ mod tests {
     /// the `Hex` of the board neighbour in `Direction` `d` is the `Hex` of the tile plus the
     /// neighbour coordinates of `EdgeDirection` `d`.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 38552640)]
     fn test_geometry_index_to_hex_directions() {
         let boards: [(u8, u8); 2] = [(7, 7), (15, 16)];
         for (width, height) in boards.span() {
@@ -549,7 +677,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 22050)]
     fn bench_geometry_distance_between_once() {
         let bench = Inputs::get();
         let (x1, y1, x2, y2) = bench.first;
@@ -558,7 +686,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 26481)]
     fn bench_geometry_distance_between_twice() {
         let bench = Inputs::get();
         let (x1, y1, x2, y2) = bench.first;
@@ -571,7 +699,7 @@ mod tests {
     /// the brief's report): the same method, the far corners of 15 × 16.
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 23499)]
     fn bench_geometry_distance_once() {
         let bench = Inputs::get();
         let [first, _] = bench.positions;
@@ -580,7 +708,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 28791)]
     fn bench_geometry_distance_twice() {
         let bench = Inputs::get();
         let [first, second] = bench.positions;
@@ -590,7 +718,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 21273)]
     fn bench_geometry_chunk_of_once() {
         let bench = Inputs::get();
         let [(x, y), _] = bench.tiles;
@@ -599,7 +727,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 24444)]
     fn bench_geometry_chunk_of_twice() {
         let bench = Inputs::get();
         let [(x, y), (u, v)] = bench.tiles;
@@ -609,7 +737,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 20990)]
     fn bench_geometry_to_hex_once() {
         let bench = Inputs::get();
         let [(x, y), _] = bench.tiles;
@@ -619,7 +747,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 23877)]
     fn bench_geometry_to_hex_twice() {
         let bench = Inputs::get();
         let [(x, y), (u, v)] = bench.tiles;
@@ -630,7 +758,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 21977)]
     fn bench_geometry_from_hex_once() {
         let bench = Inputs::get();
         let [first, _] = bench.hexes;
@@ -639,7 +767,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 26009)]
     fn bench_geometry_from_hex_twice() {
         let bench = Inputs::get();
         let [first, second] = bench.hexes;
@@ -649,7 +777,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 22050)]
     fn bench_geometry_index_to_hex_once() {
         let bench = Inputs::get();
         let (width, _) = bench.board;
@@ -660,7 +788,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 25998)]
     fn bench_geometry_index_to_hex_twice() {
         let bench = Inputs::get();
         let (width, _) = bench.board;
@@ -672,7 +800,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 23741)]
     fn bench_geometry_hex_to_index_once() {
         let bench = Inputs::get();
         let (width, height) = bench.board;
@@ -682,7 +810,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 29379)]
     fn bench_geometry_hex_to_index_twice() {
         let bench = Inputs::get();
         let (width, height) = bench.board;
