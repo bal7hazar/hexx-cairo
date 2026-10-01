@@ -1,13 +1,13 @@
 # Status
 
-**2026-09-30** — `[Opus 5.5]` Orchestrator hexmap (lib), successor of `[Fable 5.1]` / `[Opus 5.5]` (handover `docs/handover/orchestrator-hexmap-2026-09-30.md`)
+**2026-10-01** — `[Opus 5.5]` Orchestrator hexmap (lib), successor of `[Fable 5.1]` / `[Opus 5.5]` (handover `docs/handover/orchestrator-hexmap-2026-09-30.md`)
 
 | | |
 |---|---|
-| Phase | **Milestone L-M1: LIB-05.** N-3, N-4, N-5, N-7, N-8, the mirror items and the board coordinates merged (M1-T6, #57). CI partitioned (LIB-04c, #58). Next **release candidate `0.1.0-rc.1`** for the game's ENG-02 (the owner's confirmation of D-132 first). N-2 and N-1 wait for the owner's decision on the chunk shape (SPK-14, D-165) before their briefs; then M1-T5 (N-6) |
-| Procedures (Nexus, D-162) | Every pull request gets a Codex review (`nexus review`) before its merge; audits through `nexus audit`; implementers through `scripts/agent.sh`; `nexus accounts` and `nexus resources` before a launch. Accounts at 2026-10-01 ~01:20 UTC: `claude:b7r` 11 % of its week (reset 2026-10-03 06:00), `claude:main` 15 % |
+| Phase | **Milestone L-M1: LIB-05.** **`hexx` 0.1.0-rc.1 published** on scarbs.xyz (2026-10-01, from `fe2b529`, tag `v0.1.0-rc.1`) for the game's ENG-02. **M1-T5** (N-6) done, pull request #65 green, **waiting for its audit** (Codex, quota until 2026-10-04 13:36) and its review. N-2 and N-1 wait for the owner's decision on the chunk shape (SPK-14). Then M1-N9 (N-9 on the published artifact), rc.2, M1-R |
+| Procedures (Nexus, D-162) | Every pull request gets a review (`nexus review`) before its merge. The owner's rule of 2026-10-01: while Codex has no budget, the review is made by Claude Opus 5.5 (`--model fable` when Opus wrote the work) once nexus #35 is deployed; until then code merges wait and documents merge under the exception. Audits do not fall back: they wait for Codex. Implementers through `scripts/agent.sh`; `nexus accounts` and `nexus resources` before a launch |
 | Running agents | None |
-| Decisions pending | The owner, before the first publication: confirm the delegation of the decision to publish to the project manager (D-132) |
+| Decisions pending | The owner: Codex's quota (every audit, and every code merge until nexus #35, wait for it until 2026-10-04 13:36) |
 
 ## Pause 2026-09-29 (ended 2026-09-30)
 
@@ -50,6 +50,8 @@ scripts/agent.sh M1-T4b claude claude-sonnet-5-5 resume "<follow-up>"
 | 2026-09-29 | CI, pull request #43, run 36609917335 | `HexxGenerators` 27,101 against 27,092; re-run once, green |
 | 2026-09-29 | local, M1-T4b | `HexxGenerators` 27,101 against 27,092; CI green |
 | 2026-09-30 | local (VPS), M1-T3 | `takeover_tests`: 40 rows of `Digger::dig` +0.2 to +1.9 %, twice; CI measured `main`'s figures exactly; `main`'s snapshot kept. `HexxGenerators` 27,092 (no class-size drift). Rule added to `COMMON.md` §4 |
+| 2026-10-01 | CI, pull request #61 (a workflow timeout), run 36809041479 | `takeover_tests`: the same 40 rows +0.22 to +1.94 %: the second build, first seen in CI |
+| 2026-10-01 | CI, pull request #70 (consumer check, no Cairo change), run 36836722836 | the same 40 rows, the same figures; the failed job re-run once. D-164 extended to the gas gate by the project manager: LIB-04d |
 
 Diagnosis: the game's task SPK-13 on the owner's Mac ([reproduction](docs/reports/LIB-05-M1-T1c-REPORT.md)). An upstream issue is the owner's go.
 
@@ -64,6 +66,9 @@ Diagnosis: the game's task SPK-13 on the owner's Mac ([reproduction](docs/report
 
 | Date | What |
 |---|---|
+| 2026-10-01 | **`hexx` 0.1.0-rc.1 published** on scarbs.xyz by the orchestrator, from `fe2b529`, after the owner's D-132 (release candidates delegated to the project manager) and the project manager's go (#67); registry checksum `sha256:9313e06b…1500`; tag and GitHub release `v0.1.0-rc.1`. [Record](docs/decisions/D-132-publish-hexx-0.1.0-rc.1.md) |
+| 2026-10-01 | `0.1.0-rc.1` cut (#60: version, CHANGELOG, five Codex review passes); release check fixed (#61 timeout, merged with a red check by the orchestrator's error, the D-154 drift; #62 reports outside the checkout, merged without a Codex review by the project manager's decision, Codex out of quota) and green on `fe2b529` (run `36813005979`); pending file #64; D-132 answered by the owner |
+| 2026-10-01 | LIB-05 M1-T5, N-6, by `[Opus 5.5]`: `HexagonTrait::{hexagon, hexagon_ring}`, table and loop paths, generated tables; pull request #65 green, **not merged** (audit and Codex review wait for Codex's quota). The agent crossed its stop (first loop 940,040 at 83 rows, above twice its bound) and rewrote instead of stopping: work kept, breach recorded in its brief; `COMMON.md` now says a stop holds from the first measurement |
 | 2026-10-01 | LIB-05 M1-T6, N-5: `HexTrait::line_to` (the integer line, the game's tie rule), `LineTrait::{line, line_of_sight, approach}` with a keyed table for width 15 at distance ≤ 6 and a loop elsewhere, the `refgen` line generator, golden vectors as digests, `docs/deviations/line_ties.md` (every difference with `hexx`, all at ties or `f32` rounding), by `[Opus 5.5]` (one stop on the table figure of `line`, 11,150, accepted with `approach` on a ring and `line_to` in `gas/accepted.md`; none on the tick); audit `[GPT-6-Astra]` PASS WITH FINDINGS (one minor, a free test helper, scoped by the orchestrator), Codex review `[GPT-6-Sol]` PASS. L-M1 lists no missing mirror item. [report](docs/reports/LIB-05-M1-T6-REPORT.md) |
 | 2026-10-01 | LIB-04c: `bench.py --partition` and `complete`, CI partitioned (tests 5, gas 4 + 2, two completeness jobs), every job under 6 minutes (was 9 m 4 s and a timeout on #57), by `[Sonnet 5.5]`; Codex review `[GPT-6-Sol]` two passes, PASS. [report](docs/reports/LIB-04c-REPORT.md) |
 | 2026-09-30 | LIB-05 M1-T3, N-7 and the board coordinates: `Direction::{rotate, arc}`, `Arc`, the conversions with `EdgeDirection`, `distance_between` (on `bounded_int`, 4,220, down from 7,220), `chunk_of`, `to_hex`, `from_hex`, `index_to_hex`, `hex_to_index`, `neighbor_direction`, the three renames, by `[Opus 5.5]` (one stop on the gas condition, decided in its brief; five figures accepted above range in `gas/accepted.md`, none on the tick); audit (determinism) and Codex review by `[GPT-6-Sol]`: PASS, PASS. The brief named GPT-6-Astra for the audit; the orchestrator omitted `--model` and the project default ran. [report](docs/reports/LIB-05-M1-T3-REPORT.md) |
