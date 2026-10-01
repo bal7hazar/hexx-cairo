@@ -72,8 +72,8 @@ jobs:
       - run: python3 scripts/takeover_check.py --source "$RUNNER_TEMP/origami/crates/hexmap"
 
   test:
-    # hexx runs in four partitions of snforge (`--partition INDEX/TOTAL`): its tests took 452 to
-    # 615 s in one job, 6 m 49 s in each of two, and 3 m 57 s to 6 m 14 s in each of three (LIB-04c: the
+    # hexx runs in five partitions of snforge (`--partition INDEX/TOTAL`): its tests took 452 to
+    # 615 s in one job, 6 m 49 s in each of two, and 3 m 57 s to 6 m 14 s in each of three and 5 m 34 s to 6 m 0 s in each of four (LIB-04c: the
     # partition is by hash, so the shares are uneven), and M1-T6 adds more.
     name: Build and test ${{ matrix.package }} ${{ matrix.partition }}
     runs-on: ubuntu-latest
@@ -82,10 +82,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { package: hexx, partition: "1/4" }
-          - { package: hexx, partition: "2/4" }
-          - { package: hexx, partition: "3/4" }
-          - { package: hexx, partition: "4/4" }
+          - { package: hexx, partition: "1/5" }
+          - { package: hexx, partition: "2/5" }
+          - { package: hexx, partition: "3/5" }
+          - { package: hexx, partition: "4/5" }
+          - { package: hexx, partition: "5/5" }
           - { package: takeover_tests, partition: "1/1" }
           - { package: consumer, partition: "1/1" }
     steps:
