@@ -1,0 +1,47 @@
+# Second observed builds of a test of takeover_tests, accepted by `scripts/bench.py check` beside the
+# measurement of gas/takeover_tests.snap (decision D-164 extended to the gas gate, the project
+# manager's decision of 2026-10-01: the compile of Scarb 2.19.4 is not reproducible, D-154). Each
+# line is exact: the snapshot's value or this one passes, any third value fails. Exact values only,
+# read from CI, never computed. A new line needs a decision of the project manager. Removed when the
+# game's SPK-13 explains the cause.
+# test: second measured value  # where observed
+takeover_tests::digger::test_digger_corridor_15x15: 91464618  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_corridor_15x16: 106145294  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_corridor_17x14: 95476656  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_corridor_19x13: 89071280  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_corridor_25x10: 112032690  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_corridor_3x3: 26957604  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_corridor_3x83: 248730902  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_corridor_7x7: 42068562  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_corridor_83x3: 311349408  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_maze_15x15: 142232356  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_maze_15x16: 171443470  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_maze_17x14: 144677032  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_maze_19x13: 123823214  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_maze_25x10: 152903274  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_maze_3x3: 26974884  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_maze_3x83: 270449898  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_maze_7x7: 50597116  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::digger::test_digger_maze_83x3: 315186156  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::gas::test_gas_open_with_corridor_long_hexx_once: 2305784  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::gas::test_gas_open_with_corridor_long_hexx_twice: 4340258  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::gas::test_gas_open_with_maze_long_hexx_once: 3579531  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::gas::test_gas_open_with_maze_long_hexx_twice: 6887752  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_corridor_15x15: 91490218  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_corridor_15x16: 106170894  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_corridor_17x14: 95502256  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_corridor_19x13: 89096880  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_corridor_25x10: 112058290  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_corridor_3x3: 26983204  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_corridor_3x83: 248756502  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_corridor_7x7: 42094162  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_corridor_83x3: 311375008  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_maze_15x15: 142257956  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_maze_15x16: 171469070  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_maze_17x14: 144702632  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_maze_19x13: 123848814  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_maze_25x10: 152928874  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_maze_3x3: 27000484  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_maze_3x83: 270475498  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_maze_7x7: 50622716  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
+takeover_tests::map::test_map_open_with_maze_83x3: 315211756  # CI runs 36809041479 (PR #61) and 36836722836 attempt 1 (PR #70), job Gas takeover_tests
