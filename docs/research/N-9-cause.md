@@ -1,7 +1,7 @@
 # N-9: the cause of `origami_hexmap` 1.8.0's defect
 
 Task M1-N9, 2026-10-01. Status: **cause found**. The artifact is not the cause: Scarb's resolver
-up to 2.13.1 counts a dependency's `kind: test` entries as constraints, and Scarb 2.19.4 does not
+on 2.13.1 (earlier versions not tested) counts a dependency's `kind: test` entries as constraints, and Scarb 2.19.4 does not
 ("Reproduction", run by the orchestrator on both versions). Still unknown: the first Scarb release
 that resolves correctly, in `(2.13.1, 2.19.4]` ("What remains unknown").
 
@@ -83,7 +83,7 @@ snforge_std = "=0.51.2"
 
 ## Conclusion
 
-- **The cause is Scarb's resolver up to 2.13.1**: it counts a registry dependency's `kind: test`
+- **The cause is Scarb's resolver on 2.13.1** (earlier versions not tested): it counts a registry dependency's `kind: test`
   entries as constraints of the consumer. The artifact and the index entry are not at fault: both
   packages, published the same way (`snforge_std` under `[dev-dependencies]`, `kind: test` in the
   index), fail on 2.13.1 and resolve on 2.19.4. Failure 1 of the game is reproduced without
@@ -91,7 +91,13 @@ snforge_std = "=0.51.2"
 - **N-9, reduced, holds for consumers on Scarb 2.19.4**, the game's toolchain since ADR-0007 and the
   library's (`.tool-versions`); it does not hold on Scarb 2.13.1. The first Scarb version that
   resolves correctly lies in `(2.13.1, 2.19.4]`; only those two are installed here, and a bisection
-  would need downloads (not done). No change of `hexx`'s manifest can fix a consumer's resolver.
+  would need downloads (not done).
+- **The manifest**: no line is missing for consumers on Scarb 2.19.4. On 2.13.1 the constraint
+  comes from the index's `kind: test` entry, which exists because `hexx` declares a
+  dev-dependency; publishing `hexx` with no dev-dependency (its tests moved to an unpublished
+  package) would remove that entry, and an entry with empty `deps` would then resolve on 2.13.1.
+  That is an inference, not tested; whether a consumer on Scarb 2.13 is worth that restructuring
+  is the owner's to decide.
 
 ## What remains unknown
 

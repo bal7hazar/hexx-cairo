@@ -2,8 +2,9 @@ name: Consumer check
 
 # Need N-9 (plan §2.1, docs/RELEASING.md): a consumer of the *published* hexx does not inherit its
 # test dependency. Builds tools/consumer_check/{plain,with_tests} against hexx from the registry.
-# Manual: one version given as input (default: the latest published). Scheduled and on a tag push
-# of v*: every version the registry index lists. Never publishes anything.
+# Manual: one version given as input (default: the latest published). Scheduled, on a tag push of
+# v*, and on a pull request that changes the check itself: every version the registry index lists.
+# Never publishes anything.
 on:
   workflow_dispatch:
     inputs:
@@ -15,6 +16,10 @@ on:
     - cron: "17 5 * * 1"
   push:
     tags: ["v*"]
+  pull_request:
+    paths:
+      - "tools/consumer_check/**"
+      - ".github/workflows/consumer_check.yml"
 
 permissions:
   contents: read
@@ -65,7 +70,8 @@ jobs:
       - env:
           HEXX_VERSION: ${{ matrix.version }}
         run: tools/consumer_check/run.sh "$HEXX_VERSION"
-      # What the registry's own index says about this version: it must list no regular dependency.
+      # What the registry's own index says about this version: `snforge_std` only as a test
+      # dependency (another regular dependency, such as `uint252` later, is not N-9's concern).
       - env:
           HEXX_VERSION: ${{ matrix.version }}
         run: |
@@ -74,5 +80,5 @@ jobs:
           import json, os, sys
           entry = next(e for e in json.load(sys.stdin) if e["v"] == os.environ["HEXX_VERSION"])
           print(json.dumps(entry["deps"]))
-          bad = [d for d in entry["deps"] if d.get("kind", "normal") != "test"]
-          sys.exit(f"regular dependencies in the index: {bad}" if bad else 0)'
+          bad = [d for d in entry["deps"] if d["name"] == "snforge_std" and d.get("kind", "normal") != "test"]
+          sys.exit(f"snforge_std as a regular dependency in the index: {bad}" if bad else 0)'
