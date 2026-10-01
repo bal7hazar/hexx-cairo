@@ -13,6 +13,7 @@ mod cairo;
 mod conversions;
 mod direction;
 mod hex;
+mod line;
 mod spec;
 
 use std::env;
@@ -89,13 +90,15 @@ fn run() -> Result<bool, String> {
         "gen" | "check" => {
             let mut clean = true;
             for spec in &specs {
-                let text = match spec.module.as_str() {
-                    "hex" => hex::emit(spec)?,
-                    "direction" => direction::emit(spec)?,
-                    "conversions" => conversions::emit(spec)?,
+                let outputs = match spec.module.as_str() {
+                    "hex" => vec![(target(&root, spec), hex::emit(spec)?)],
+                    "direction" => vec![(target(&root, spec), direction::emit(spec)?)],
+                    "conversions" => vec![(target(&root, spec), conversions::emit(spec)?)],
+                    // The golden file, the table region of `board/line.cairo` and the deviations
+                    "line" => line::emit(spec, &root)?,
                     other => return Err(format!("no generator registered for module {other:?}")),
                 };
-                let path = target(&root, spec);
+                for (path, text) in outputs {
                 let current = fs::read_to_string(&path).ok().map(|t| t.replace("\r\n", "\n"));
                 let up_to_date = current.as_deref() == Some(text.as_str());
                 let shown = path.strip_prefix(&root).unwrap_or(&path).display().to_string();
@@ -112,6 +115,7 @@ fn run() -> Result<bool, String> {
                 } else {
                     clean = false;
                     println!("STALE {shown}");
+                }
                 }
             }
             if !clean {

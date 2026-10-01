@@ -8,7 +8,8 @@
 //! contracts: the 20 in one exceed the 81,920 CASM felts a class may hold. The extensions of
 //! milestone L-M1 add their own contracts (`HexxAssembly`: N-3; `HexxCut`: N-4; `HexxFlood`: N-8);
 //! `HexxMirror` holds the mirror items of L-M1 (`Hex`, `EdgeDirection`, the offset conversions,
-//! `HexOrientation`); `HexxCoordinates` the directions and coordinates of the board (N-7, M1-T3).
+//! `HexOrientation`); `HexxCoordinates` the directions and coordinates of the board (N-7, M1-T3);
+//! `HexxLine` the line of sight (N-5, M1-T6) and the mirror's `line_to`.
 
 /// The queries, the finders on unit costs and the constructors that call no generator.
 #[starknet::contract]
@@ -526,5 +527,35 @@ pub mod HexxCoordinates {
         self: @ContractState, width: u8, height: u8, from: u8, to: u8,
     ) -> Option<Direction> {
         LayoutTrait::neighbor_direction(width, height, from, to)
+    }
+}
+
+/// The line of sight (N-5, M1-T6): `LineTrait` and the mirror's `HexTrait::line_to`.
+#[starknet::contract]
+pub mod HexxLine {
+    use hexx::board::line::LineTrait;
+    use hexx::{Direction, Hex, HexMap, HexTrait};
+
+    #[storage]
+    struct Storage {}
+
+    #[external(v0)]
+    fn line(self: @ContractState, map: HexMap, from: u8, to: u8) -> Option<felt252> {
+        map.line(from, to)
+    }
+
+    #[external(v0)]
+    fn line_of_sight(self: @ContractState, map: HexMap, from: u8, to: u8) -> bool {
+        map.line_of_sight(from, to)
+    }
+
+    #[external(v0)]
+    fn approach(self: @ContractState, map: HexMap, from: u8, to: u8) -> Option<Direction> {
+        map.approach(from, to)
+    }
+
+    #[external(v0)]
+    fn line_to(self: @ContractState, hex: Hex, other: Hex) -> Span<Hex> {
+        hex.line_to(other)
     }
 }

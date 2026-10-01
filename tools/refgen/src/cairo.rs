@@ -143,6 +143,20 @@ pub fn cases_array(types: &str, rows: &[String]) -> String {
     let mut line = String::new();
     for row in rows {
         let item = format!("({row})");
+        if 8 + item.len() + 1 > 100 {
+            // A tuple that does not fit on its own line: one element per line, as `scarb fmt`
+            if !line.is_empty() {
+                out.push_str(&line);
+                out.push('\n');
+                line.clear();
+            }
+            out.push_str("        (\n");
+            for element in row.split(", ") {
+                out.push_str(&format!("            {element},\n"));
+            }
+            out.push_str("        ),\n");
+            continue;
+        }
         if line.is_empty() {
             line = format!("        {item},");
         } else if line.len() + 1 + item.len() + 1 <= 100 {

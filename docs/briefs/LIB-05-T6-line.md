@@ -133,3 +133,33 @@ organisation lens.
 
 `REPORT.md` as in [COMMON.md](COMMON.md) §7, with the figures of the ranges table beside their
 measurements.
+
+## Decisions of the orchestrator on the stop (2026-10-01)
+
+By `[Opus 5.5]`, the orchestrator, on the escalations of the agent's first report (stop at commit
+`0662b9f`). They amend this brief; a review or an audit reads them as part of it.
+
+1. **`line`, table path, 11,150: accepted as measured**, no optimisation attempt. The lookup proper
+   (7,110, `Bits::pow` included) is at the sketch's sum; the rest is the bounds check the contract
+   requires (`'Asserter: position not inside'`, 1,940) and the call taking a `HexMap` by value
+   (about 2,100), neither in the sketch. `line_of_sight` on the same case, the game's hot form,
+   is inside its range (17,706). No benchmark of the tick or of the assembly calls N-5 (§7: "no
+   line call in the tick"), so the project manager's 10 % rule is not engaged.
+2. **`approach` on a ring target (86,046) and `line_to` at `N = 22` (169,230): accepted** as
+   measured, under twice their upper bound as the stop condition allows. The first is
+   `edge_neighbors` (six `neighbor` calls, measured far above the sketch's 3,696 each); the second
+   is the mirror, off the board's paths.
+3. The agent writes the three figures in §14 "Accepted figures" of the plan, on the branch; the
+   orchestrator adds their rows to `gas/accepted.md` before the merge.
+4. **Tests over the step limit.** The brief's exhaustive oracles stay exhaustive: symmetry on every
+   ordered pair of 15 × 16 and the ring `approach` on every pair of 15 × 16 are split into as many
+   tests as they need. The **board golden** against the Rust board model (an addition of the agent,
+   not required by Scope 4) is exhaustive on 7 × 7 and may use a fixed stride or a seeded sample on
+   15 × 16, 17 × 14, 83 × 3 and 3 × 83: the table-against-loop and symmetry tests already cover
+   15 × 16 exhaustively. R-N5-5 and R-N5-6 get their unit tests in `hex.cairo`'s module (Scope 5).
+5. **CI time.** The hexx test job runs in two partitions under a 10-minute timeout. Report the
+   duration of each partition on the pull request's CI; if one exceeds 8 minutes, say so under
+   *Escalations*: the orchestrator adds a partition (`.github/**` is not yours).
+6. The deviations of the report (one keyed table of tuples, the loop path walking the board, the
+   predecessor of `approach` found by its offset, golden vectors as digests, `line_ties.md` at
+   666 KB) are accepted: the sketch is not normative and each is proved against its oracle.
