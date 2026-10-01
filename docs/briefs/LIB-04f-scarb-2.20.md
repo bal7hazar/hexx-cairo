@@ -9,14 +9,13 @@ Inherits [COMMON.md](COMMON.md) and `AGENTS.md`. **Foreground only; your turn en
 `REPORT.md` is written.** You never publish, tag or release anything. You delete and kill only
 what you created, named exactly.
 
-**Starts when three conditions hold**, checked by the orchestrator before the launch: LIB-04e is
+**Starts when four conditions hold**, checked by the orchestrator before the launch: LIB-04e is
 merged; the game's SPK-13 has reported whether the compile drift (D-154) exists on Scarb 2.20.1;
-and M1-T8 is merged, so that its figures are measured once, on the new compiler.
-
-**First step: install the toolchain** with `asdf install scarb 2.20.1` and `asdf install
-starknet-foundry 0.64.0` (allowed by the `implement` profile; it adds a version without changing
-the machine's default, and the repository's `.tool-versions` selects it). Say so in the report. If
-the install is refused, stop and report.
+M1-T8 is merged, so that its figures are measured once, on the new compiler; and the Overseer has
+confirmed that Scarb 2.20.1 and starknet-foundry 0.64.0 are installed on the VPS. Installing a
+toolchain on a machine is the owner's act (the Overseer's reading, 2026-10-01, raised to the
+standard): the agent never installs one. Its first step is `asdf list scarb` and `asdf list
+starknet-foundry`; if either version is missing, it stops and reports.
 
 ## Goal
 
