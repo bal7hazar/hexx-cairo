@@ -108,7 +108,8 @@ struct Bounds {
 pub impl HexagonImpl of HexagonTrait {
     /// The tiles within a radius of a position, walls ignored.
     /// # Arguments
-    /// * `self` - The map, any dimensions of the engine
+    /// * `self` - The map, any dimensions of the engine (`W, H >= 3`, `W * H <= 251`); they are
+    ///   not checked: a map outside that domain is the caller's error, as in `LineTrait`
     /// * `position` - The centre, ring tiles included
     /// * `radius` - The radius, any
     /// # Returns
@@ -136,7 +137,8 @@ pub impl HexagonImpl of HexagonTrait {
 
     /// The tiles at exactly a radius of a position, walls ignored.
     /// # Arguments
-    /// * `self` - The map, any dimensions of the engine
+    /// * `self` - The map, any dimensions of the engine (`W, H >= 3`, `W * H <= 251`); they are
+    ///   not checked: a map outside that domain is the caller's error, as in `LineTrait`
     /// * `position` - The centre, ring tiles included
     /// * `radius` - The radius, any
     /// # Returns
@@ -999,56 +1001,59 @@ mod tests {
     }
 
     // The per-tile definition on 32 seeded positions of every other dimension class of the engine,
-    // radius 0..=9 and 255 (the whole board)
+    // radius 0..=9, both sides of `LOOP_RADIUS` (100, 101) and 255 (the whole board); the boards
+    // of 83 and 25 columns also at a mid radius, 20
 
     /// The radii of the seeded cases.
-    const SEEDED_RADII: [u8; 11] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 255];
+    const SEEDED_RADII: [u8; 13] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 100, 101, 255];
+    /// The same and a mid radius, for the widest boards.
+    const SEEDED_RADII_WIDE: [u8; 14] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 20, 100, 101, 255];
 
     #[test]
-    #[available_gas(l2_gas: 229810518)]
+    #[available_gas(l2_gas: 268645902)]
     fn test_hexagon_oracle_seeded_15x15() {
         Oracle::seeded(15, 15, 32, SEEDED_RADII.span(), 'h15x15');
     }
 
     #[test]
-    #[available_gas(l2_gas: 262391997)]
+    #[available_gas(l2_gas: 301139601)]
     fn test_hexagon_oracle_seeded_16x15() {
         Oracle::seeded(16, 15, 32, SEEDED_RADII.span(), 'h16x15');
     }
 
     #[test]
-    #[available_gas(l2_gas: 259612374)]
+    #[available_gas(l2_gas: 297540726)]
     fn test_hexagon_oracle_seeded_17x14() {
         Oracle::seeded(17, 14, 32, SEEDED_RADII.span(), 'h17x14');
     }
 
     #[test]
-    #[available_gas(l2_gas: 261176297)]
+    #[available_gas(l2_gas: 298277669)]
     fn test_hexagon_oracle_seeded_19x13() {
         Oracle::seeded(19, 13, 32, SEEDED_RADII.span(), 'h19x13');
     }
 
     #[test]
-    #[available_gas(l2_gas: 259856121)]
+    #[available_gas(l2_gas: 303094596)]
     fn test_hexagon_oracle_seeded_25x10() {
-        Oracle::seeded(25, 10, 32, SEEDED_RADII.span(), 'h25x10');
+        Oracle::seeded(25, 10, 32, SEEDED_RADII_WIDE.span(), 'h25x10');
     }
 
     #[test]
-    #[available_gas(l2_gas: 239110746)]
+    #[available_gas(l2_gas: 273610974)]
     fn test_hexagon_oracle_seeded_83x3() {
-        Oracle::seeded(83, 3, 32, SEEDED_RADII.span(), 'h83x3');
+        Oracle::seeded(83, 3, 32, SEEDED_RADII_WIDE.span(), 'h83x3');
     }
 
     #[test]
-    #[available_gas(l2_gas: 108881619)]
+    #[available_gas(l2_gas: 137777367)]
     fn test_hexagon_oracle_seeded_3x3() {
         Oracle::seeded(3, 3, 32, SEEDED_RADII.span(), 'h3x3');
     }
 
     /// The width 15 below 16 rows (the clip of the rows at the top on the table path).
     #[test]
-    #[available_gas(l2_gas: 514702982)]
+    #[available_gas(l2_gas: 615210158)]
     fn test_hexagon_oracle_seeded_15xh() {
         let mut height: u8 = 3;
         while height != 15 {
