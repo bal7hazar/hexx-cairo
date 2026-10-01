@@ -166,8 +166,8 @@ jobs:
         run: scripts/check.sh
 
       # A pre-release version (a hyphen in the part before any `+`, `0.1.0-rc.N`) carries only part
-      # of the milestone it maps to (plan §9.1: `0.1.0-rc.1` is the take-over alone; the full L-M1
-      # mirror is due only at the stable `0.1.0`, §9.2) — the gate is informational for it, not
+      # of the milestone it maps to (`docs/RELEASING.md`: `0.1.0-rc.1` lacks N-1, N-2 and N-6; the full L-M1
+      # is due only at the stable `0.1.0`, §9.2) — the gate is informational for it, not
       # enforced; any other version enforces it. Whether a version is a pre-release is decided by
       # `scripts/api_parity.py --is-prerelease` (unit-tested; `0.1.0+build-1` is stable), never by
       # a pattern here. `--report-only` is `scripts/api_parity.py`'s own, tested option, never a

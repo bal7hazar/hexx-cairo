@@ -3,14 +3,14 @@ version = 1
 
 [[package]]
 name = "consumer"
-version = "0.1.0-rc.0"
+version = "0.1.0-rc.1"
 dependencies = [
  "hexx",
 ]
 
 [[package]]
 name = "hexx"
-version = "0.1.0-rc.0"
+version = "0.1.0-rc.1"
 dependencies = [
  "snforge_std",
 ]
@@ -38,7 +38,7 @@ dependencies = [
 
 [[package]]
 name = "takeover_tests"
-version = "0.1.0-rc.0"
+version = "0.1.0-rc.1"
 dependencies = [
  "hexx",
  "origami_hexmap",
