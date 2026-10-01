@@ -72,8 +72,9 @@ jobs:
       - run: python3 scripts/takeover_check.py --source "$RUNNER_TEMP/origami/crates/hexmap"
 
   test:
-    # hexx runs in three partitions of snforge (`--partition INDEX/TOTAL`): its tests took 452 to
-    # 615 s in one job, then 6 m 49 s in each of two (LIB-04c), and M1-T6 adds more.
+    # hexx runs in four partitions of snforge (`--partition INDEX/TOTAL`): its tests took 452 to
+    # 615 s in one job, 6 m 49 s in each of two, and 3 m 57 s to 6 m 14 s in each of three (LIB-04c: the
+    # partition is by hash, so the shares are uneven), and M1-T6 adds more.
     name: Build and test ${{ matrix.package }} ${{ matrix.partition }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -81,9 +82,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { package: hexx, partition: "1/3" }
-          - { package: hexx, partition: "2/3" }
-          - { package: hexx, partition: "3/3" }
+          - { package: hexx, partition: "1/4" }
+          - { package: hexx, partition: "2/4" }
+          - { package: hexx, partition: "3/4" }
+          - { package: hexx, partition: "4/4" }
           - { package: takeover_tests, partition: "1/1" }
           - { package: consumer, partition: "1/1" }
     steps:
@@ -130,8 +132,8 @@ jobs:
   # gas/<package>.snap, so that the time of the gate does not grow with the sum of the packages.
   # `hexx` is two scopes, its tests without `#[ignore]` and its ignored tests (103, the printouts
   # and benchmarks): measured together they took 9 m 45 s of the 10 minutes (6 m 32 s without),
-  # measured apart each is far under. The regular scope is in three partitions (LIB-04c: one job
-  # took 9 m 4 s), each checked against its own snapshot rows; the job `Gas completeness` after
+  # measured apart each is far under. The regular scope is in four partitions and the ignored one
+  # in two (LIB-04c: the jobs took 9 m 4 s and 6 m 1 s), each checked against its own snapshot rows; the jobs `Gas completeness` after
   # them fails when a test was measured in no partition or in two, or a row is stale. Every test
   # is measured exactly once.
   gas:
@@ -142,10 +144,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - {package: hexx, scope: regular, partition: "1/3", tag: -p1of3, label: hexx 1/3}
-          - {package: hexx, scope: regular, partition: "2/3", tag: -p2of3, label: hexx 2/3}
-          - {package: hexx, scope: regular, partition: "3/3", tag: -p3of3, label: hexx 3/3}
-          - {package: hexx, scope: ignored, label: hexx (ignored tests)}
+          - {package: hexx, scope: regular, partition: "1/4", tag: -p1of4, label: hexx 1/4}
+          - {package: hexx, scope: regular, partition: "2/4", tag: -p2of4, label: hexx 2/4}
+          - {package: hexx, scope: regular, partition: "3/4", tag: -p3of4, label: hexx 3/4}
+          - {package: hexx, scope: regular, partition: "4/4", tag: -p4of4, label: hexx 4/4}
+          - {package: hexx, scope: ignored, partition: "1/2", tag: -p1of2, label: hexx ignored 1/2}
+          - {package: hexx, scope: ignored, partition: "2/2", tag: -p2of2, label: hexx ignored 2/2}
           - {package: takeover_tests, scope: all, label: takeover_tests}
           - {package: consumer, scope: all, label: consumer}
     steps:
@@ -202,12 +206,12 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
 
-  # After the partitions of `hexx` regular: every test of the scope measured in exactly one of
+  # After the partitions of `hexx` (each scope): every test of the scope measured in exactly one of
   # them, and no row of gas/hexx.snap that none measured (scripts/bench.py `complete`). It reads
   # the `partition-*.json` each partition job keeps in its artefact. It runs when a partition
   # failed too, so that the two reports do not hide each other.
   gas-complete:
-    name: Gas completeness hexx
+    name: Gas completeness hexx ${{ matrix.scope }}
     needs: gas
     if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
@@ -215,13 +219,24 @@ jobs:
     permissions:
       contents: read
       actions: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {scope: regular, total: 4}
+          - {scope: ignored, total: 2}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Download the partition reports
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --pattern "gas-hexx-regular-p*of3-${{ github.sha }}" --dir partition-reports
-      - run: python3 scripts/bench.py complete --package hexx --scope regular --total 3 --reports partition-reports
+          SCOPE: ${{ matrix.scope }}
+          TOTAL: ${{ matrix.total }}
+        run: gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --pattern "gas-hexx-$SCOPE-p*of$TOTAL-${{ github.sha }}" --dir partition-reports
+      - env:
+          SCOPE: ${{ matrix.scope }}
+          TOTAL: ${{ matrix.total }}
+        run: python3 scripts/bench.py complete --package hexx --scope "$SCOPE" --total "$TOTAL" --reports partition-reports
 
   golden:
     name: Golden vectors up to date (tools/refgen)
