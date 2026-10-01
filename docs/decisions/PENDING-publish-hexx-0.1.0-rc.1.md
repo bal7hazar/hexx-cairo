@@ -76,4 +76,23 @@ the exact sha, and a release candidate is informational on the milestone.
    (`SCARB_REGISTRY_AUTH_TOKEN`, checked present by name, its value never printed). The orchestrator
    publishes by hand from a clean checkout of `fe2b529`, as `docs/RELEASING.md` says.
 
-Question 2, the go on `0.1.0-rc.1`: **the project manager's**, pending.
+Question 2, the go on `0.1.0-rc.1`: **GO**, `[Fable 5.1]` project manager, 2026-10-01, under D-132
+as the owner narrowed it (release candidates delegated; stable versions the owner's).
+
+**It holds for `hexx` `0.1.0-rc.1` from commit `fe2b529de22db14ae29aa2072d75af10e50e4217` only.**
+The checklist of OPERATIONS §7, run by the project manager itself in a clean clone of this
+repository on 2026-10-01:
+
+| Check | Result |
+|---|---|
+| The commit on `main`, every check completed and green | `fe2b529` is an ancestor of `main`; its CI run: success; the release check dispatched on that sha (run 36813005979): success |
+| Audits and reviews closed without blocker or major | As the request states: every lot audited; every pull request since D-162 reviewed by Codex except #62 and #63 (documents and the release check, no code of the package), under the standard's exception |
+| Changelog and version agree | `CHANGELOG.md` has `[0.1.0-rc.1] — 2026-10-01`; the workspace `Scarb.toml` says `version = "0.1.0-rc.1"`, `crates/hexx` inherits it |
+| `scarb package` from a clean checkout | Packaged 35 files (573.12 KiB, 91.63 KiB compressed); **the same 35 names and sizes and the same packaged `Scarb.toml` as the release-check artifact** `hexx-release-check-0.1.0-rc.1`; sha256 of the archive built by the project manager: `9313e06b7b11282cb015f47af41fcd41a3162b627fb14b0734e35569f5ca1500` |
+| Name and version free on the registry | `https://scarbs.xyz/api/v1/index/he/xx/hexx.json`: 404, no `hexx` published |
+| No test dependency as a regular one | The packaged manifest has an empty `[dependencies]`; `snforge_std` under `[dev-dependencies]` only |
+| Numeric results | A first release: nothing to announce; the three renames against `origami_hexmap` are in the changelog |
+
+The orchestrator publishes from a clean checkout of `fe2b529`, confirms the version on the registry,
+then tags `v0.1.0-rc.1` and creates the release; the project manager reads the registry and records
+the publication in grimworld's `docs/decisions/`.
