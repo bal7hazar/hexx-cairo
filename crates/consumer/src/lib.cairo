@@ -9,7 +9,8 @@
 //! milestone L-M1 add their own contracts (`HexxAssembly`: N-3; `HexxCut`: N-4; `HexxFlood`: N-8);
 //! `HexxMirror` holds the mirror items of L-M1 (`Hex`, `EdgeDirection`, the offset conversions,
 //! `HexOrientation`); `HexxCoordinates` the directions and coordinates of the board (N-7, M1-T3);
-//! `HexxLine` the line of sight (N-5, M1-T6) and the mirror's `line_to`.
+//! `HexxLine` the line of sight (N-5, M1-T6) and the mirror's `line_to`; `HexxHexagon` range and
+//! ring as geometry (N-6, M1-T5).
 
 /// The queries, the finders on unit costs and the constructors that call no generator.
 #[starknet::contract]
@@ -557,5 +558,25 @@ pub mod HexxLine {
     #[external(v0)]
     fn line_to(self: @ContractState, hex: Hex, other: Hex) -> Span<Hex> {
         hex.line_to(other)
+    }
+}
+
+/// Range and ring as geometry (N-6, M1-T5): `HexagonTrait`.
+#[starknet::contract]
+pub mod HexxHexagon {
+    use hexx::HexMap;
+    use hexx::board::hexagon::HexagonTrait;
+
+    #[storage]
+    struct Storage {}
+
+    #[external(v0)]
+    fn hexagon(self: @ContractState, map: HexMap, position: u8, radius: u8) -> felt252 {
+        map.hexagon(position, radius)
+    }
+
+    #[external(v0)]
+    fn hexagon_ring(self: @ContractState, map: HexMap, position: u8, radius: u8) -> felt252 {
+        map.hexagon_ring(position, radius)
     }
 }
