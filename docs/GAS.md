@@ -69,10 +69,13 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::geometry::tests::test_geometry_to_hex_from_hex` | 55,835,420 | 58,627,191 | 5.0 % |
 | `hexx::board::layout::tests::bench_layout_neighbor_direction_once` | 24,880 | 26,124 | 5.0 % |
 | `hexx::board::layout::tests::bench_layout_neighbor_direction_twice` | 34,520 | 36,246 | 5.0 % |
+| `hexx::board::layout::tests::bench_layout_new_odd_once` | 26,570 | 27,899 | 5.0 % |
+| `hexx::board::layout::tests::bench_layout_new_odd_twice` | 37,190 | 39,050 | 5.0 % |
 | `hexx::board::layout::tests::test_layout_neighbor_direction_pairs` | 283,447,090 | 297,619,445 | 5.0 % |
 | `hexx::board::layout::tests::test_layout_neighbor_direction_regression` | 13,720 | 14,406 | 5.0 % |
 | `hexx::board::layout::tests::test_layout_neighbor_direction_seeded` | 212,408,460 | 223,028,883 | 5.0 % |
 | `hexx::board::layout::tests::test_layout_neighbor_direction_window` | 26,718,790 | 28,054,730 | 5.0 % |
+| `hexx::board::layout::tests::test_layout_new_odd` | 13,508,920 | 14,184,366 | 5.0 % |
 | `hexx::board::line::tests::bench_line_approach_interior_once` | 58,256 | 61,169 | 5.0 % |
 | `hexx::board::line::tests::bench_line_approach_interior_twice` | 96,702 | 101,538 | 5.0 % |
 | `hexx::board::line::tests::bench_line_approach_ring_once` | 107,006 | 112,357 | 5.0 % |
@@ -163,6 +166,34 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::rng::tests::test_rng_next_below_range` | 4,856,855 | 5,099,698 | 5.0 % |
 | `hexx::board::rng::tests::test_rng_permutations_table` | 31,286,100 | 32,850,405 | 5.0 % |
 | `hexx::board::rng::tests::test_rng_shuffle6` | 100,432 | 105,454 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_is_open_across_once` | 50,596 | 53,126 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_is_open_across_twice` | 82,692 | 86,827 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_openings_east_once` | 50,596 | 53,126 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_openings_east_twice` | 82,692 | 86,827 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_openings_north_once` | 34,032 | 35,734 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_openings_north_twice` | 49,564 | 52,043 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_openings_south_once` | 34,202 | 35,913 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_openings_south_twice` | 49,904 | 52,400 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_side_once` | 21,850 | 22,943 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_side_twice` | 25,690 | 26,975 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_d134_corners` | 3,501,270 | 3,676,334 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_15x15` | 228,194,492 | 239,604,217 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_15x16` | 243,458,783 | 255,631,723 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_16x15` | 238,723,082 | 250,659,237 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_17x14` | 250,846,093 | 263,388,398 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_19x13` | 245,066,952 | 257,320,300 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_25x10` | 273,685,102 | 287,369,358 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_3x3` | 117,595,202 | 123,474,963 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_3x83` | 496,985,295 | 521,834,560 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_7x7` | 155,902,700 | 163,697,835 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_83x3` | 529,612,451 | 556,093,074 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_products_exact` | 3,184,790 | 3,344,030 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_r_n2_1_south_overlap` | 31,662 | 33,246 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_r_n2_2_west_last_row` | 49,736 | 52,223 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_r_n2_3_east_even` | 52,876 | 55,520 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_r_n2_3b_east_odd` | 50,736 | 53,273 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_r_n2_4_north_odd` | 35,142 | 36,900 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_side` | 44,935,870 | 47,182,664 | 5.0 % |
 | `hexx::board::tables::tests::test_tables_bands` | 903,010 | 948,161 | 5.0 % |
 | `hexx::finders::bfs::tests::test_bfs_corners` | 225,456,445 | 236,729,268 | 5.0 % |
 | `hexx::finders::bfs::tests::test_bfs_digger_entrances` | 617,343,036 | 648,210,188 | 5.0 % |
@@ -1860,7 +1891,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 15,520 | 16,296 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 15,520 | 16,296 | 5.0 % |
 
-1853 measured test(s).
+1884 measured test(s).
 
 ## Figures accepted above their range
 
