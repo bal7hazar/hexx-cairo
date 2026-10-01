@@ -20,6 +20,7 @@ on:
     paths:
       - "tools/consumer_check/**"
       - ".github/workflows/consumer_check.yml"
+      - ".tool-versions"
 
 permissions:
   contents: read

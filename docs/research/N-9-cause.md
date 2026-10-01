@@ -58,7 +58,7 @@ section "Reproduction" below ran both 2.13.1 and 2.19.4.
 
 4. **The same holds for `hexx`**, tested by the deliverable of this task (`tools/consumer_check/`):
    against `hexx 0.1.0-rc.1`, `plain`'s lock has no `snforge_std`, and `with_tests`, pinned on
-   `snforge_std =0.60.0` (outside `^0.61.0`), builds and passes its test (see `REPORT.md`).
+   `snforge_std =0.60.0` (outside `^0.61.0`), builds and passes its test (the consumer check's run `36836722939` on pull request #70).
 
 ## Reproduction (the orchestrator, 2026-10-01)
 
@@ -97,7 +97,10 @@ snforge_std = "=0.51.2"
   dev-dependency; publishing `hexx` with no dev-dependency (its tests moved to an unpublished
   package) would remove that entry, and an entry with empty `deps` would then resolve on 2.13.1.
   That is an inference, not tested; whether a consumer on Scarb 2.13 is worth that restructuring
-  is the owner's to decide.
+  is the owner's to decide. It has no beneficiary today: `hexx` declares `cairo-version = "2.19.4"`
+  and does not compile on Cairo 2.13 (`BoundedInt` is not visible there,
+  `docs/briefs/LIB-03b-compiler-target.md`), so a consumer that can build it already resolves
+  correctly.
 
 ## What remains unknown
 

@@ -25,6 +25,7 @@ for pkg in plain with_tests; do
 done
 echo "== hexx $version: plain"
 (cd "$out/plain" && scarb build)
+test -f "$out/plain/Scarb.lock" || { echo "FAIL: plain has no Scarb.lock" >&2; exit 1; }
 if grep -q snforge_std "$out/plain/Scarb.lock"; then
   echo "FAIL: plain's Scarb.lock mentions snforge_std" >&2
   cat "$out/plain/Scarb.lock" >&2
