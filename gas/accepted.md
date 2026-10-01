@@ -24,5 +24,6 @@ the project manager before the merge; under that, the orchestrator decides.
 | `LineTrait::line`, table path | 11,150 | [7,399, 9,249] | M1-T6 | The lookup proper measures 7,110, at the sketch's sum; the rest is the bounds check the contract requires (1,940) and the call taking a `HexMap` by value (about 2,100), neither in the sketch. `line_of_sight` on the same case is in its range (17,706). No line call in the tick (§7) |
 | `LineTrait::approach`, ring target | 86,046 | [62,827, 78,534] | M1-T6 | `edge_neighbors`: six `neighbor` calls, each far above the sketch's 3,696; not in the tick |
 | `HexTrait::line_to`, `N = 22` | 169,230 | [68,310, 85,388] | M1-T6 | The mirror, off the board's paths; about 7,300 per element against the sketch's 2,970 |
+| `SeamTrait::side` | 3,840 | [3,032, 3,790] | M1-T7 | The sketch leaves out the `NonZero` conversion, two products and the `match` on `Side`; not on the tick |
 | `HexagonTrait::hexagon`, loop path, 16 rows | 128,670 | [72,064, 90,080] | M1-T5 | About 5,840 per row against the sketch's 4,504; the tick reads the sight on the table path (16,430) |
 | `HexagonTrait::hexagon`, loop path, 83 rows | 519,840 | [373,832, 467,290] | M1-T5 | idem; the domain-wide worst case (3 × 83, radius 255) |

@@ -124,10 +124,13 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::hexagon::tests::test_hexagon_variant` | 7,849,438 | 8,241,910 | 5.0 % |
 | `hexx::board::layout::tests::bench_layout_neighbor_direction_once` | 24,880 | 26,124 | 5.0 % |
 | `hexx::board::layout::tests::bench_layout_neighbor_direction_twice` | 34,520 | 36,246 | 5.0 % |
+| `hexx::board::layout::tests::bench_layout_new_odd_once` | 26,570 | 27,899 | 5.0 % |
+| `hexx::board::layout::tests::bench_layout_new_odd_twice` | 37,190 | 39,050 | 5.0 % |
 | `hexx::board::layout::tests::test_layout_neighbor_direction_pairs` | 283,447,090 | 297,619,445 | 5.0 % |
 | `hexx::board::layout::tests::test_layout_neighbor_direction_regression` | 13,720 | 14,406 | 5.0 % |
 | `hexx::board::layout::tests::test_layout_neighbor_direction_seeded` | 212,408,460 | 223,028,883 | 5.0 % |
 | `hexx::board::layout::tests::test_layout_neighbor_direction_window` | 26,718,790 | 28,054,730 | 5.0 % |
+| `hexx::board::layout::tests::test_layout_new_odd` | 13,508,920 | 14,184,366 | 5.0 % |
 | `hexx::board::line::tests::bench_line_approach_interior_once` | 58,256 | 61,169 | 5.0 % |
 | `hexx::board::line::tests::bench_line_approach_interior_twice` | 96,702 | 101,538 | 5.0 % |
 | `hexx::board::line::tests::bench_line_approach_ring_once` | 107,006 | 112,357 | 5.0 % |
@@ -218,6 +221,36 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::rng::tests::test_rng_next_below_range` | 4,856,855 | 5,099,698 | 5.0 % |
 | `hexx::board::rng::tests::test_rng_permutations_table` | 31,286,100 | 32,850,405 | 5.0 % |
 | `hexx::board::rng::tests::test_rng_shuffle6` | 100,432 | 105,454 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_is_open_across_once` | 50,596 | 53,126 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_is_open_across_twice` | 82,692 | 86,827 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_openings_east_chunk_odd_once` | 50,796 | 53,336 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_openings_east_chunk_odd_twice` | 83,092 | 87,247 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_openings_east_once` | 50,596 | 53,126 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_openings_east_twice` | 82,692 | 86,827 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_openings_north_once` | 34,032 | 35,734 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_openings_north_twice` | 49,564 | 52,043 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_openings_south_once` | 34,202 | 35,913 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_openings_south_twice` | 49,904 | 52,400 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_side_once` | 21,850 | 22,943 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_side_twice` | 25,690 | 26,975 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_d134_corners` | 3,501,270 | 3,676,334 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_15x15` | 297,943,496 | 312,840,671 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_15x16` | 304,987,985 | 320,237,385 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_16x15` | 307,640,975 | 323,023,024 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_17x14` | 303,250,907 | 318,413,453 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_19x13` | 310,056,567 | 325,559,396 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_25x10` | 325,844,183 | 342,136,393 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_3x3` | 180,087,183 | 189,091,543 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_3x83` | 562,495,693 | 590,620,478 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_7x7` | 219,098,597 | 230,053,527 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_83x3` | 583,095,383 | 612,250,153 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_products_exact` | 3,184,790 | 3,344,030 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_r_n2_1_south_overlap` | 31,662 | 33,246 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_r_n2_2_west_last_row` | 49,736 | 52,223 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_r_n2_3_east_even` | 52,876 | 55,520 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_r_n2_3b_east_odd` | 50,736 | 53,273 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_r_n2_4_north_odd` | 35,142 | 36,900 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_side` | 44,935,870 | 47,182,664 | 5.0 % |
 | `hexx::board::tables::tests::test_tables_bands` | 903,010 | 948,161 | 5.0 % |
 | `hexx::board::tables::tests::test_tables_rows_16` | 738,840 | 775,782 | 5.0 % |
 | `hexx::finders::bfs::tests::test_bfs_corners` | 225,456,445 | 236,729,268 | 5.0 % |
@@ -1916,7 +1949,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 15,520 | 16,296 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 15,520 | 16,296 | 5.0 % |
 
-1909 measured test(s).
+1942 measured test(s).
 
 ## Figures accepted above their range
 
@@ -1944,5 +1977,6 @@ the project manager before the merge; under that, the orchestrator decides.
 | `LineTrait::line`, table path | 11,150 | [7,399, 9,249] | M1-T6 | The lookup proper measures 7,110, at the sketch's sum; the rest is the bounds check the contract requires (1,940) and the call taking a `HexMap` by value (about 2,100), neither in the sketch. `line_of_sight` on the same case is in its range (17,706). No line call in the tick (§7) |
 | `LineTrait::approach`, ring target | 86,046 | [62,827, 78,534] | M1-T6 | `edge_neighbors`: six `neighbor` calls, each far above the sketch's 3,696; not in the tick |
 | `HexTrait::line_to`, `N = 22` | 169,230 | [68,310, 85,388] | M1-T6 | The mirror, off the board's paths; about 7,300 per element against the sketch's 2,970 |
+| `SeamTrait::side` | 3,840 | [3,032, 3,790] | M1-T7 | The sketch leaves out the `NonZero` conversion, two products and the `match` on `Side`; not on the tick |
 | `HexagonTrait::hexagon`, loop path, 16 rows | 128,670 | [72,064, 90,080] | M1-T5 | About 5,840 per row against the sketch's 4,504; the tick reads the sight on the table path (16,430) |
 | `HexagonTrait::hexagon`, loop path, 83 rows | 519,840 | [373,832, 467,290] | M1-T5 | idem; the domain-wide worst case (3 × 83, radius 255) |

@@ -108,3 +108,15 @@ overlap of contact sets; corners (D-134); `new_odd` against its definition; the 
 
 `REPORT.md` as in [COMMON.md](COMMON.md) §7, with the figures of the ranges table beside their
 measurements.
+
+## Decisions of the orchestrator at the close (2026-10-01)
+
+By `[Opus 5.5]`, on the agent's report (pull request #74, no stop). They amend this brief.
+
+1. **Accepted as measured**: `SeamTrait::side` 3,840 against [3,032, 3,790], under twice its bound;
+   the sketch's sum leaves out the `NonZero` conversion, two products and the `match` on `Side`. Not
+   on the tick. Written in §14 of the plan and in `gas/accepted.md` by the orchestrator.
+2. **`openings` does not call `new_odd`** (the brief's "the seams use it"): accepted. A whole layout
+   costs about 10,600 and the contract is unchanged; `new_odd` ships with its tests and a consumer
+   call site for N-1.
+3. No root re-export, as for the other extensions: accepted.

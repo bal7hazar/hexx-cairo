@@ -10,7 +10,7 @@
 //! `HexxMirror` holds the mirror items of L-M1 (`Hex`, `EdgeDirection`, the offset conversions,
 //! `HexOrientation`); `HexxCoordinates` the directions and coordinates of the board (N-7, M1-T3);
 //! `HexxLine` the line of sight (N-5, M1-T6) and the mirror's `line_to`; `HexxHexagon` range and
-//! ring as geometry (N-6, M1-T5).
+//! ring as geometry (N-6, M1-T5); `HexxSeams` the seams (N-2, M1-T7) and `LayoutTrait::new_odd`.
 
 /// The queries, the finders on unit costs and the constructors that call no generator.
 #[starknet::contract]
@@ -193,6 +193,55 @@ pub mod HexxCut {
     #[external(v0)]
     fn cut(self: @ContractState, map: HexMap, mask: felt252) -> HexMap {
         map.cut(mask)
+    }
+}
+
+/// N-2 (M1-T7): the sides and openings between chunks, and the layout of an odd chunk.
+#[starknet::contract]
+pub mod HexxSeams {
+    use hexx::board::layout::LayoutTrait;
+    use hexx::board::seams::{SeamTrait, Side};
+
+    #[storage]
+    struct Storage {}
+
+    #[external(v0)]
+    fn side(self: @ContractState, width: u8, height: u8, side: Side) -> felt252 {
+        SeamTrait::side(width, height, side)
+    }
+
+    #[external(v0)]
+    fn openings(
+        self: @ContractState,
+        width: u8,
+        height: u8,
+        near: felt252,
+        far: felt252,
+        side: Side,
+        odd: bool,
+    ) -> felt252 {
+        SeamTrait::openings(width, height, near, far, side, odd)
+    }
+
+    #[external(v0)]
+    fn is_open_across(
+        self: @ContractState,
+        width: u8,
+        height: u8,
+        near: felt252,
+        far: felt252,
+        side: Side,
+        odd: bool,
+    ) -> bool {
+        SeamTrait::is_open_across(width, height, near, far, side, odd)
+    }
+
+    #[external(v0)]
+    fn new_odd(
+        self: @ContractState, width: u8, height: u8,
+    ) -> (u256, felt252, felt252, felt252, felt252) {
+        let layout = LayoutTrait::new_odd(width, height);
+        (layout.even, layout.up_even, layout.up_odd, layout.down_even, layout.down_odd)
     }
 }
 

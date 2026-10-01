@@ -15,4 +15,5 @@ pub mod map;
 #[cfg(test)]
 pub mod printer;
 pub mod rng;
+pub mod seams;
 pub mod tables;
