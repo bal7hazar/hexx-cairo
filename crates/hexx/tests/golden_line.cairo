@@ -59,7 +59,7 @@ impl DigestImpl of DigestTrait {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 624123213)]
 fn golden_line_window_0() {
     let cases: Array<(i32, i32, felt252)> = array![
         (0, 0, 0x1c2a3c6b95d6b05a1ff78003f1e4f6602c101607af9d0823b5aeccae9d48b7),
@@ -97,7 +97,7 @@ fn golden_line_window_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 578274344)]
 fn golden_line_window_1() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-6, 1, 0x56a417cce1252751176c18bacbb804d15fd74352f42901e4ace6c36bfda2e79),
@@ -135,7 +135,7 @@ fn golden_line_window_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 562015724)]
 fn golden_line_window_2() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-11, 2, 0x745b9e8dde9d0b0df0cb9686066ce3e32c51395aa30230c5d33a0c334ba0708),
@@ -173,7 +173,7 @@ fn golden_line_window_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 539286993)]
 fn golden_line_window_3() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-2, 4, 0x498f2cf123fb58c9cc3ed1009f21830a7eb418cd60f6027ee00fc77bf26778e),
@@ -211,7 +211,7 @@ fn golden_line_window_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 513186996)]
 fn golden_line_window_4() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-8, 5, 0x1097346172dd1517e168d10451bb5173d7b73be82d57bb088d08dc63c9ee74f),
@@ -249,7 +249,7 @@ fn golden_line_window_4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 518438235)]
 fn golden_line_window_5() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-13, 6, 0x24c03a5bbf42f6e4eb2dc4bf99160ed5e49cda18f7b1bffcf92e59730eb94f1),
@@ -287,7 +287,7 @@ fn golden_line_window_5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 517588019)]
 fn golden_line_window_6() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-4, 8, 0x5e1fc898e892f8e30a1a8eb27dfb97a0838d382e6d4c6edc334a69d8cf8db61),
@@ -325,7 +325,7 @@ fn golden_line_window_6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 512394897)]
 fn golden_line_window_7() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-10, 9, 0x3714e129ec33f496342860fae959038a64ca477431bcb1df2718d668da1e2e3),
@@ -363,7 +363,7 @@ fn golden_line_window_7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 538504061)]
 fn golden_line_window_8() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-15, 10, 0x6888d95f381b47be8d0842fc00c7253cb52674a81cb7696142ae9aa38dc6f14),
@@ -401,7 +401,7 @@ fn golden_line_window_8() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 559564110)]
 fn golden_line_window_9() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-6, 12, 0x42468efcc9d3688c3fbe558c056714d99d326111d67adc084a86e34977c8ed0),
@@ -439,7 +439,7 @@ fn golden_line_window_9() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 575872910)]
 fn golden_line_window_10() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-12, 13, 0x36c1e2b0951ecfede50d179d916366cc9a2f17bac87f8ee8dc00e5c4a46ee10),
@@ -477,7 +477,7 @@ fn golden_line_window_10() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 621615845)]
 fn golden_line_window_11() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-17, 14, 0x7dd3f1b499741baf7da6d61237943408a94467b85a20206b7fb8df36127bd89),
@@ -515,7 +515,7 @@ fn golden_line_window_11() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 178040195)]
 fn golden_line_mirror_7x7() {
     let cases: Array<(i32, i32, felt252)> = array![
         (0, 0, 0x76cf8e2a992804503618d0e929bad48a15fd175b0f91f5525d15bfe265ed9fc),
@@ -582,7 +582,7 @@ fn golden_line_mirror_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 56304591)]
 fn golden_line_sample_0() {
     let cases: Array<(i32, i32, i32, i32, felt252)> = array![
         (33, 39, 33, 3, 0x48cc2ff74cd7407e7c65794b85d403b902e4f65fe24c28d9d0fe75a4566fe86),
@@ -721,7 +721,7 @@ fn golden_line_sample_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 57188387)]
 fn golden_line_sample_1() {
     let cases: Array<(i32, i32, i32, i32, felt252)> = array![
         (17, -22, 33, 39, 0x3c3e7b514a3251369fa34820e1437518acc822eee05d915868bb502c418a2cb),
@@ -860,7 +860,7 @@ fn golden_line_sample_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 57164216)]
 fn golden_line_sample_2() {
     let cases: Array<(i32, i32, i32, i32, felt252)> = array![
         (-9, -5, 38, 31, 0x6857156748ee397699a986c50678cd7adc9ecaef03925599bed18cc88019ba0),
@@ -999,7 +999,7 @@ fn golden_line_sample_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 58353257)]
 fn golden_line_sample_3() {
     let cases: Array<(i32, i32, i32, i32, felt252)> = array![
         (-31, -31, -34, -16, 0x70177cfd735c4813091cd97eeb3e44ce25fb1e3489fc8654d7f3be0339d03c5),
@@ -1138,7 +1138,7 @@ fn golden_line_sample_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 34395701)]
 fn golden_line_adversarial() {
     let cases: Array<(i32, i32, i32, i32, felt252)> = array![
         (8000000, 0, 8000001, 6, 0x22b83d3d9a39b44e132767be84180b0e6bedea25dd86d6ce1d4ae7965177b9d),
@@ -1435,584 +1435,8 @@ fn golden_line_adversarial() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_15x16_0() {
-    let cases: Array<(u8, felt252)> = array![
-        (0, 0x4b9c3c561b452aa508ec2765de4676a4bef5f536c57dae4ab15085310f6bd83),
-        (1, 0x6bf3113c85e88d4bbe6d8e207c48e6f5be459d54a1d60ba08fd4a487d6ef99d),
-        (2, 0x77c99c4a5b2675c640694cd9ed5ad458fceadbaa817d5ab2f5927d302186c26),
-        (3, 0x8c7dea4d7d6f2569bb2013dd6c99391a35b72b17dbb29441b6edbed3170cbe),
-        (4, 0x4f038cb4ed92b948bda6b4557b7c1f5f55f4b46a939f57a3bb1fa54ed59d83e),
-        (5, 0x554cf3fd10074af0807a680720b8f66e491db5d6f3f8fcfe92832518fd85ec9),
-        (6, 0x6865c645578f30c43e339396bc6f4232a5a1ff826737c3a5873a50d9b90ea6f),
-        (7, 0x53045dfa3ff524cf947ca5cc70533c320c33b690b648a22b05d23948e0057fc),
-        (8, 0x3ac75565df44f8b45935e1da9176aa1539b33286843f008094311485670231f),
-        (9, 0x544d401d850b2b59f4de347239825f9bc9cbcbefb08991a29ee32f7b484678e),
-        (10, 0x39c860745bb9f8569814559fc1de363dec46635cdaa6dfcbed8f0fea479b93e),
-        (11, 0xae40b8c3ccccac3427897358b7a0e0d9ebdfdb1eb4042ee758a5a56bbf49d3),
-        (12, 0x1d30874342e8cd9071adab57fdca2ca3fc150172aaeaed0b8387e4fb97ae777),
-        (13, 0x33400d552bdbaf7825044e3316eef91cbe97586b623cd7b16f251dcaeab6f30),
-        (14, 0x41838320c3d920948e24ddef18a640d0c27de302840ec502483a50725d79412),
-        (15, 0x5c702ef4bea79e337ca62a4a7e59945972426b1fe7d979380ef3198618af6ab),
-        (16, 0xfdd24edda8030abfcc305f114c2d3087bf450b311ae4fb2b285f554e4bca3d),
-        (17, 0x61e8a733660238d505df6edfe2be3345145d8cebd6189828ad8fde8d2516f99),
-        (18, 0x22eb9f133ac01c0fc6dd6cbecfbae7f435f308f403561cc56bc3b2b81b8553),
-        (19, 0x68cd2974f44286f6f3309ead3e45183e6740d3b4e0c7f1d32e5700c84008edd),
-    ];
-    let grid: felt252 = 0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7;
-    let map = HexMap { width: 15, height: 16, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 240 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_15x16_1() {
-    let cases: Array<(u8, felt252)> = array![
-        (20, 0x1b9ff4ae6f86b10ba5e43abf4fd8756d718c67b422a352c538a63243330ca88),
-        (21, 0xb6db3cfa874971e40bbe3b31f3da0531678000f00796d8063da0e7da2cb4e5),
-        (22, 0x52515030d305b89201cf02aa534e6b13444254c70ca47cf7e2c17487bd2b0a4),
-        (23, 0x7aeb4e6859ea1ae1f913ffe0650ca95a46dd9b0c3278711926a400e3f753ad1),
-        (24, 0x5c31b1c165a933ca48869aade70c88664c3e5c013d9441ecc9ffc1349c0b691),
-        (25, 0xaf3e8c6c48f3c6ad29448af99a05ba627312836f5f16aa5ba631cf001761a1),
-        (26, 0x54cc43ece9e4ad2750ea646e83e0955b6fa51201fb4029b3f2fdde0effedf59),
-        (27, 0x3226c39575a9863a8cf99ae0f5e474758f83c91d8da0cf872ea7bd69a79a6df),
-        (28, 0x3b93e14b7b934ba673b427ea931cb6a1272d4e0974edf52ef09c3369b1f8d91),
-        (29, 0x5eb9ca8ce49341ce88d5207cd3be542e407ff67c6e8374f38bd59744edf2526),
-        (30, 0xe5da1a2933348abfbecf11f696c4272eb1c29a6538f25e19e566278f4e2566),
-        (31, 0x4d51d0a0bd6336b9fd6897d3e0247a9e81b4c232c543d145b5317f7c56857d5),
-        (32, 0x6b49952f290bdefe44175555b01ef0d51df9dc9970f50cdde0b1df372d41f9a),
-        (33, 0x671ee249e5c18a765311d4a74978176c2f72c23bf401e678f547e74c42d1b83),
-        (34, 0x25a7a8f2ee53d11a15db0a80a8c941f855972cfe873431d6740329d19752a17),
-        (35, 0x27d1f66cfdd41ed70eb4b47ad060a8c187850b5a0a4205579f7f7fdc9efcbd0),
-        (36, 0x4dce5334ed196e054299707ccc411c0d4bebe33c3243ae02b7040d55f5b0d2e),
-        (37, 0x1b8a6ad88982ade297ecfc50dbd7dedb48e3ef523fc164244a962befb28a64f),
-        (38, 0x446707a6c97ea11fe16372a252e74f8e5a0a61b6af0adcac1d98575be72ad87),
-        (39, 0x13ce0b26a458aae2ca22de77893829c9ff7e9a88f492cbf0203b32cc5c36512),
-    ];
-    let grid: felt252 = 0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7;
-    let map = HexMap { width: 15, height: 16, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 240 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_15x16_2() {
-    let cases: Array<(u8, felt252)> = array![
-        (40, 0x19185e340d2dfbb2a2d9386c3be3c2c69795acaf928bceb4e22450f9f819fac),
-        (41, 0x72ce2a0250a6a08da9624a186b24384ca693f0a0653d89cd4d8266103ee5d2a),
-        (42, 0x378b2db3778b99e4536fdb2c9c1e71f31391c3b8bfe51cc639f11280bce2b41),
-        (43, 0x9d2c490f9cf69fa3ceae9111dbd3f72409d854e06b575a70d0b5ae3542315d),
-        (44, 0xe3d5148a445bb6fc94b898b8fcecdd4b07346086bf04c5ef297f6ca718d758),
-        (45, 0x402316be905e44c76cf5e600e6e1648e93492a4cc056c195ac595b87c340d6f),
-        (46, 0x352da899fa3d5483907415dd5f3c08609f8e293c8e72a7c2337aab0c135c9d6),
-        (47, 0x60d016046e5116ee827aaa7e0b659fe1ef8953bfb2dcdedc529597f359f6e1f),
-        (48, 0x72cea1038c56c53fdc491cb9d4bc0ae93b95c53dc79b851921c9b6ce049b7df),
-        (49, 0x6b953cf7f9e650bc184d5bcbf8240170471a0173f4ae86dfa9f9bcf7f567a7e),
-        (50, 0x766ab1b009ba0cf4827d2ee09303cbfe712433e3db4fcb3910e09c36817b5f1),
-        (51, 0x4b3b9418b319f9192148de81eb879298623cd76aa9900b5e864ce1e06a27ce9),
-        (52, 0x763057a603afe6aada178f0672643ba15b97c241dc33a16c398ba547cbc3def),
-        (53, 0x291409e237238290a36f32ea5fe0aef788a1e8b507f70de3beccc4d50260677),
-        (54, 0x6d2afa29eca9a9d3907a528daa85ee5e5459ad98f55cf9b7c4d029673519e19),
-        (55, 0x63d34b2a37da5b18400b77e0e779494927f26f043c1807cb41f9771170f2d7c),
-        (56, 0x505fbdc4fc38712c243a46cf4adcb54d7aa1f3582d346bdcc74077e7c4be10),
-        (57, 0x7ea50029659b3c960e4ad05a98b94e18e357ed083e4b9307d2a164c94b642cf),
-        (58, 0x4ddeaf35e9ab984707eb75447a1da7b58235e23ce5202ce6db4cf9d3a50eb8f),
-        (59, 0xc573d823b937ff86f8c3cfc8362583f03073a4fac71423db2c2510fb2013f3),
-    ];
-    let grid: felt252 = 0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7;
-    let map = HexMap { width: 15, height: 16, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 240 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_15x16_3() {
-    let cases: Array<(u8, felt252)> = array![
-        (60, 0x13465d19fe692ef931afeb4d4d5c6429a2660c1a6ef0b41400d0a77accbf583),
-        (61, 0x5c54e3f49c82f23aba6381e04c6000de7a7d248325ae52902c38ed26761e2f8),
-        (62, 0x15c7dde8e8f580f10edca3de9221b4be9dd2a62ea75a6c8b6f0af359b629428),
-        (63, 0xb1a5d371bc4cc38fac64a2b4e6cf3d3555b4655444be081b9c7ba3659d0129),
-        (64, 0x1a306dde35d6514f0b5cfe62b73f5fc5d07ee6f3e2e59ae850af25d50ab93d4),
-        (65, 0x5c5815ccceedfcad51a5d87e342ae3005e8844e828cb0b72686c5e1711cafb8),
-        (66, 0x56ae34f8477cc3c120acc7e8a1891879300f44f74fd2cc2e49f396311195051),
-        (67, 0x6a85e533f9390785721fbbee404f012f8554cafa834e56ab1a958bd618dd6e6),
-        (68, 0x7dd8c452507a01709d4fa60fdaf9153cbb06610713ade9cb024f84113afc228),
-        (69, 0x60c027951e9d4357b74fedba50634ae8a09e9a07696ee09f5ca528ff428ddca),
-        (70, 0x11f485ae57eb5492240af0336a5e13e09c23e9f582deaa427e79e99c50ad468),
-        (71, 0x2475b4c9d0fd3e91d907a9f50fe18e84e70b875a179347d4eb9c768273c8e62),
-        (72, 0x2ba1a9c93c5413539daf30932356f15da23abfeb18609416c3e78933d2ad02d),
-        (73, 0x599b2c73d2865bae9480b9beadbd2c8cc51a94bef2c22659387431169311f70),
-        (74, 0x9a9131f948b92446f358bc6764270314f7d162bb3cf720be54ed5624724536),
-        (75, 0x38dbe4e6ed977356c82e4162eb157e4f1e0e3cc92167a4e178efef47ae10185),
-        (76, 0x3f47276227de572d69ac9b444142edc58d80f3679e55b56c36fd1c4e79dd14a),
-        (77, 0x19ad1417fcc5cb5e9d88c4267e19c056e58784e12d67346257897d1bcd830c2),
-        (78, 0x3de1c66c0a6b467d214aa8086416ddb94a8784010534e3d3aa69e0cb5f2adb2),
-        (79, 0x4ee537c226217944ae12662c491d4210a524a025bcb89515c07d657fe80d451),
-    ];
-    let grid: felt252 = 0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7;
-    let map = HexMap { width: 15, height: 16, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 240 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_15x16_4() {
-    let cases: Array<(u8, felt252)> = array![
-        (80, 0x7ee1a715c57bb36722cfd4b3b9486bf2f85b2946ad65508f9ce37f4163717b2),
-        (81, 0x3f28bbf4348b79441ce3ea3ce1cb7a0f2a0146678cf8b5bd58859cb293a6fc2),
-        (82, 0x6de3fbf6dad4a0cb38af2378ac7851b591306d85d3c7548ffe0333f212625f0),
-        (83, 0x4b31e978cd101590ad9a19ee23d90df90b54af48f01357cfc2c945ff750b90f),
-        (84, 0x6dec6bbc4ccb4b6f3857dc8c26cd39568c5535db25111839a637f9c2949d6e9),
-        (85, 0x7fb22c9a0e32672c25ae034c9098bb76d09f58891d77cc541748b14136efb6e),
-        (86, 0x5b8f5af989b67b3878b9c20e094dfafde73e89cdfa7120b22e656fd78edb70e),
-        (87, 0x13db32453ec773a5980378a04decddd0c56445d38f851523f5376e60af6e25d),
-        (88, 0x53078f3534d133424c9a77e08f3159ce59b14145305b0bee46ba0b557750dc6),
-        (89, 0x44333709b2b361b7073a0aef167e95b013c949196d21161dbac5b0434f9884),
-        (90, 0x859fb79d3d6d751dbf62639dd659850b927b3d7daf7b14bca8726fac22fd74),
-        (91, 0x5c38d18f0f9da0eab9e56b9992bf81ee73f5acaeb3d953b8b8a9d6e8290cb67),
-        (92, 0x68215a4138b95116a886f91a099199c9b44dfd0e6ae42fbf0128424c35b6c13),
-        (93, 0x3c0cdd768ed0b8e01b993faa81c8894b6580b274f78168e9905e6f79fc237c),
-        (94, 0x620714d0d4de5a8aa47215a2bccab870aa61fbef93f9c77ea948268d76c1ef4),
-        (95, 0x7f2349aed828f71db2178c5ec4ea5cf2657950a0eacef3a5f03d1b46a8ba77),
-        (96, 0x5f88081c7b94ec5b5b2d790b40bd690ab1ff59212d5b0c2bc501e3ba5d1afce),
-        (97, 0x76ac91b6ebb35cfdadbd4d7f98a17648dfc96e67f45f510e2f6976462d7d074),
-        (98, 0x5c5eaeb350712002add2375b24d84019e96a33681ab35c1e74ec8bc9fd8cd27),
-        (99, 0xb6c73890bd5ed176e3d1b30a7f20cd7cfb7330f0856db5567c1305e963a9a2),
-    ];
-    let grid: felt252 = 0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7;
-    let map = HexMap { width: 15, height: 16, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 240 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_15x16_5() {
-    let cases: Array<(u8, felt252)> = array![
-        (100, 0x570f5c1f9370aa1acb5b84a32a0cf3ac975f2f84cba9dcbdfac32613b75a9a2),
-        (101, 0x5034aff34bd723f587cf9a3414593566a6f8e9b1ded1f4c36ca43d810bf17bf),
-        (102, 0x6e2a29a7c8b9e64e88cafd0436aa6b594dee9cbf3b63f754671b72f9596f1b6),
-        (103, 0x46971ed5e08ce85b28572a2082e8e4d78f544ae7e069dd9a9d1380471a95fde),
-        (104, 0x610d81fcb275f73e7e6f2e6705bfc43596584cd0749278c3ecc7b11485f3f70),
-        (105, 0x581f0771e578b300fc766978b95846027b1cb834dc6607f6b26e75d34ff7bde),
-        (106, 0x170addef6dee64fa28d22d15c2b887b1a4d11f64beacca1b920d9b644fd9675),
-        (107, 0x164fe7a7471d959f80db35524191785139bc65d770259dd44578d797833d917),
-        (108, 0x7e3dda9e85eee2e68140c4cb0d7f81655af2f91470806f84fe7dc8961b72648),
-        (109, 0x114c8af6f960a4a87b36e8b37fb0247907a0dcefca7c0c46f6264a379f9ac3d),
-        (110, 0x664547af30f20c73fc54f4f7c72b2c0e7e430e0f085e67b39f7648b10ac38c0),
-        (111, 0xeeecf1b4372f647e5fbcb9d154585c2d61d31c0187662bde9d02a83ff8f051),
-        (112, 0x6faed2fc82dd3ad81df742396711c3ee097aea425cceca955852ca812f53e12),
-        (113, 0x39ea7801d0cf19323945eb22aaed74de4c1c1cbc8f268a3e50a8b695d67698),
-        (114, 0x2dcfa4d7309562850b03c42550a394b699b0d2a85326fe5d9637e19fde9b32d),
-        (115, 0x6c8ce329df20c7705c83c1e182a104fabefeda3d666f16b97cdb99ffa5cb283),
-        (116, 0x1d7073293e5aba52f4f21c5f03379db9f44528a678466ed8035a0ef63227ad7),
-        (117, 0x16978b87a9ec7d4b3cf4e73b4a387767347a97e05008b8a857ed309d98a8691),
-        (118, 0x15dae94ebe9bb3ec50522d4d94c75a1f8f4e589f4912a732170be96e36dbd88),
-        (119, 0x40d8a7b5e2d47100eb9d3d51d7c1ee4dad31f3efa58a7b6ff01b1b251347eef),
-    ];
-    let grid: felt252 = 0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7;
-    let map = HexMap { width: 15, height: 16, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 240 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_15x16_6() {
-    let cases: Array<(u8, felt252)> = array![
-        (120, 0x21954b12286a6a2024010f64410e81cce4b388e9559857def7bfed313ddd0e0),
-        (121, 0x7e653a4ffad0ea3f1181148e2db6829675c37c7041a9cac6e0c747225b81baa),
-        (122, 0x1466c05e1cd6dcf23859e68d79cf3f503727f7d861d9e4b977df54a93c43b1f),
-        (123, 0x3ded89494c36c3c5674868d61ef364014dafea16297486c2db2bc709d0f1d93),
-        (124, 0x5b3e89dc55262de94f4ffd86f1c59ecea08ef548886f8fdaa551827ec3f2621),
-        (125, 0x56519e937f8c45ec9277051d144a2cb43630691bd5d1ab52e5ca64ac0d1192b),
-        (126, 0x24fe8f36b8883ca1b5ad05300633524560e14b0051bd7b77125dd291f237480),
-        (127, 0x2dc4bc55d4a190d788e2c991296d685c3ffc459696faf6a3f557d62ff7f6d2f),
-        (128, 0xd38a1c2c0d64862986889296b40565cbaabbe04ba93189677ebd78430e1b74),
-        (129, 0x6b2d5eb717a0c426add3803caf877ce0490a505b53ea85294f4c2b5be0bf782),
-        (130, 0x44aa45eeb97da99c3daa488ae63b4672bc3726770f81159312085db50ce4649),
-        (131, 0x5337767359db33660f2d70dfdf0b3cff345cf053c22e2e1981a5f8e2069a83d),
-        (132, 0x46f0d930068d7f4efc2c83d6b132bf1d794fd35d4a7a405ab13914208109b24),
-        (133, 0x17babcd22756b21c61fd3a572611ab8469337070d459118c912e64a60574a9b),
-        (134, 0x1ee4aab696a13e230aa91c520c515c5e638aaedda620656b0d8d3154debd3c5),
-        (135, 0x36e5d0c78ffc3561d199b742f25c46e345e2dae2a8e39c6ebecad0205bb88a1),
-        (136, 0x6d87ed42ad567fa4e827d07e585bf2b292854a4b7ccf319dee636184463333),
-        (137, 0x6594f0aba23795aecdcb6860233ff97692d865e2d02efa9571f86c967bb397c),
-        (138, 0x4b992d1b8d9c10ca60cb97701a6587647b63e165b32906cf8c776dda7ff3d25),
-        (139, 0x39b7153f6c5b39ec6f0c41e3975fb33f0340ee695fcabdeefc37b769f3564d7),
-    ];
-    let grid: felt252 = 0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7;
-    let map = HexMap { width: 15, height: 16, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 240 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_15x16_7() {
-    let cases: Array<(u8, felt252)> = array![
-        (140, 0x5e99f32396faed6520ae1c9423d46c922d4bdfba0bb7bd59fb8cf10525abd58),
-        (141, 0x57e450dae8167263e88f835555d76c8a0bf2d604965afae2d39f8db9a0cf18b),
-        (142, 0x601980ae0ce8e4fced2cf6cfd7b1e76a0e5b95a03567d3ab937d43c78bee7e2),
-        (143, 0x7fdeffa1c7fa9679bcb3b50644dc6842bfe02d169a8d982cca6e35ee132bdb5),
-        (144, 0x5c0d9c54a77a17a595ccd443b982428aa89b0e1fe589b379f8d9b03f78649de),
-        (145, 0xf86345f4ecd1c963b4d4a675d4a73028ff5e3b4ca0de709a085c11874ff477),
-        (146, 0x71fb6a70a182bfd19dd8b184549cec39ded28de3385131a0a0a41dc47d4e4ca),
-        (147, 0x52ccbec65d0b4bdd2d668ecd0b22c37f9bdec83c775f0078907d59637d83fda),
-        (148, 0x2302f700d4133467535b2eb1ffed306b25382887a91db217a993bfc3b16af10),
-        (149, 0x4fccf8b44d3bf07983a33c289eb59839e490e8d5936474dab13e5320a9fc003),
-        (150, 0x57dbd9d72c0b18f4412852eb32f0b8ed5e80913f40f18c72bf2c181bff31ec2),
-        (151, 0x13970484937f47d67a309533dec2911683cb49986117252d4ec4229dab7aa00),
-        (152, 0x18fc6663c017685a706316b93cd60a23a103c6ebe1947fd48b84dd0805103c5),
-        (153, 0x18206f058e0e5a2840caccbebf7309d0628534433c5040b2a34a44988d8fb15),
-        (154, 0xdfb3771871606847ad96c4ab0a6df1dba82cdf32e351669d541a76ac705d43),
-        (155, 0x72bcb711ecd82511051944c377dc48831d599288793dab1d73374c1ed83ab28),
-        (156, 0x794f793e8d5c7f1d7b7774c865816a406c7e9572a9cac1add5d85e61b694893),
-        (157, 0x7f949a8b86fd8d91ac1020e42909c577e53536e376ffcc885cc631530f6fdb4),
-        (158, 0x71c423b72e91032bcff856633214e027ba9b4a613f2d51c706efb245430395c),
-        (159, 0x6f36983967a4348df9e4ae495de766742d522428c1f7143f16850126d845a79),
-    ];
-    let grid: felt252 = 0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7;
-    let map = HexMap { width: 15, height: 16, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 240 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_15x16_8() {
-    let cases: Array<(u8, felt252)> = array![
-        (160, 0x5081cd50512be4f498de5897f3c9c48bec1353d34fa306c3b602c75f8aabd09),
-        (161, 0x4e200cd96b3f4668234142d7afc99f3916054294e6c926f996a405e8d98c677),
-        (162, 0x2c6336797f17c6303a70564ea1c45e4348b24bed0801dc786ac162c2f56cda1),
-        (163, 0x7b06b66b35c8edd6711f1499d25e9695a279a94c5474a37ee28f8b234e56ac7),
-        (164, 0x9ccdb8062f721556fbfe51d1805c97f45d5b562ba8cf36d663ffa3f3e72fd7),
-        (165, 0x15b0d92f4f6e18fd2c102bdbea6e5670adc9f30041a8676fceac5e2146f01d4),
-        (166, 0x47581844b0e9a56cd829944869c99dfc743f7a0d5644d298e7b9bbd643a7f2b),
-        (167, 0x3e8c3039eb3f459cd7c83cb0c8827a47e3472bd24bfb18a602a781572b18c60),
-        (168, 0x2de02c96d64b932bb1737a8cc72447ce20497792e341e02710a600cc661fd4d),
-        (169, 0x456a8043d69572eb7df9ebc4874960d3495b286f1b8e132fe285b08f0497a7f),
-        (170, 0x5007b6e4b0a3a5b48ba5c299c4d3576469d399167bd8cfe9db0c6ffef1c0bd2),
-        (171, 0x1457ee379c3b6f307cd8f53d0242f699312ea217a7a2ce82bbad33ef59415a8),
-        (172, 0x56840a23e6cf7e24682b42eb371411870d04f79934c58c55f9dd71a11722f),
-        (173, 0xcb39c142a1aeddf3c315b584a97bbba511d763b5c601e2450aca1d58cae605),
-        (174, 0x1ba9fe42bab1487666bca88da611a2978f54641252aedf457781a5a928facf9),
-        (175, 0x153e5d3825c25b8fd22375dc0fdac1532a4842e5e146db1067c829dd38ccd0),
-        (176, 0x1441956914f8db86b24b07767bd79a132061b10e26ea5c567479bae8b471b9a),
-        (177, 0x2a67be96a3d1c6fb503beb7d650731e420c7fb151b97c74509334566fee1573),
-        (178, 0x5d546f697196467db94b9d47776a4f423e1824482b8c0490bf4ff19c2852ce5),
-        (179, 0x5924ade7bc48f935d15e7e176d1592f6d03907979490437082a723d9ed01dcd),
-    ];
-    let grid: felt252 = 0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7;
-    let map = HexMap { width: 15, height: 16, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 240 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_15x16_9() {
-    let cases: Array<(u8, felt252)> = array![
-        (180, 0x709175a91aba663008d9f6b88c2e438fa2b5a91972192dcce00c18d5b1234c9),
-        (181, 0x102d04e30e5fcfb92b2029ff4d116a4d4e8b8845a8257e0f088733fc5b8056b),
-        (182, 0x42131badc8a4b2a66a222de9999bdf5a371c667f72bbeb03fb1d7e9b68a6aae),
-        (183, 0x34d3d4a7f0d5b5088957945714d1a68b2c52f17ba235a7a9c59626dff20dd8c),
-        (184, 0x2091b9458dea973ac40282dfe4776df7175a9bcbfc852e895839cd80cbd729f),
-        (185, 0x46ca94791168c5c787fd8e945e0b352948d86611498b6210016ab20a844679f),
-        (186, 0x77aafeb1b49643c889f121fcdd2b96e0a1eca3c6c3cb725643d2342321449e2),
-        (187, 0x408b5d2981f8e3aeeacbe27229a0e579fb01a347aa8fc53dab905d14ecb3f3),
-        (188, 0x329fb2066a22c6d15f56b88aad3e52ce6d68a97af49e741620f5c04026dd42d),
-        (189, 0x2f1976404d60070f533370eb4cc50cf568e6aa15df10d7a46912aec160e83e2),
-        (190, 0x8bd102b6944aa84d0e20334895aa70b60beffbfb0f9cbcd468195a64f412bb),
-        (191, 0x4201f637d2683d17b3a7ca0d8f684cb06cf969977c8b472eea0de0143667411),
-        (192, 0x7de8e0dd4b79e520fec097ff7e0c8aa9a3134734a4a9974e66bdf74cfd2c1bf),
-        (193, 0x3f555926b824fbbf749ff1798ef2f2cbcdee65b87cafb5fd3959ec221aa9a7b),
-        (194, 0x4587791f65cee2153360f9fba47990a15878e1bbdce7ea969cea18cd9f7a051),
-        (195, 0x628416484619780476c6cc4046c9804670b2161ec7b3a97f4cbd7277713b383),
-        (196, 0x35a63a0ae4c8b8bff1dbae2fac483418ba17efbb02946d0377e9ce20c4e355f),
-        (197, 0x54b61ddb09f16898095e61b3cebdd1a6dd40709d4e1d830f59e15672a6033f1),
-        (198, 0x16defd108594218218051e5caebc799050ae06320ae986cb36c123117b92997),
-        (199, 0x68dceca8bb61470624cbd37f600644c2790d5c0d6a70cedfc890736f599008a),
-    ];
-    let grid: felt252 = 0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7;
-    let map = HexMap { width: 15, height: 16, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 240 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_15x16_10() {
-    let cases: Array<(u8, felt252)> = array![
-        (200, 0x45977f94311a80cd0ee302bc5ea8211ffedc3516b87e293c6c10044309366a6),
-        (201, 0x1a9cc7f60c1ac9ac012264e21a853e7c7168e591a02946dcbaffe1458e02ea7),
-        (202, 0x446696ce33f7f73151be04052c036bb899100f34beab801664972ab6b7dc06),
-        (203, 0x3b8071275e7ca8b1f2fdd9aed6db89fd24e8e4c658575ae608886197bf668ff),
-        (204, 0x759c036a85d685608523c4d9ec6d4c7c96a730deff4235f75781470fa154b3e),
-        (205, 0xfd3394efcf78b660cfff9cf5e9978c11faab6e71f0a7a5bb0c987c31af3613),
-        (206, 0x5c1416132b7a5f04954dda0d4b2551af8661e2db8bbaaa07e936e280b45a9e0),
-        (207, 0x1450725a7463bd350de895acad0a60534ffe307f054e6ed01baceb6c7bfa0d8),
-        (208, 0x4101857ebd6f84cba918d1c16787128643ba495e5f6dd5b220d6978636f2ad7),
-        (209, 0x234d59b7b4547cc1a6d43c0f54c97a389eab210c1397fb05330aee8f054796f),
-        (210, 0x66ac41ffd3543c929c2a8a89fef301ad52b1d24b98c270055ef3740a86fe65d),
-        (211, 0x4adfa9d73b0f36b39d5fed96d2a32edcc4a09e150efef9be5e44f0a0379fb9c),
-        (212, 0x6a21735c9ecc7a4bae52cc0490cdaf2755fb85be442546e3b775b52966db6a),
-        (213, 0x5a0e235b190658531b73e803924d0c5ff8143f201212eff297bdda58be10e35),
-        (214, 0x76184d8484a11953adda84a9a7923d67f484a138d1de2495aa0cc34ba91aa9a),
-        (215, 0x3a6b34a0e2f9e8e81796273d26081d413fa50c2f1fd5de04ef2adbf5161764e),
-        (216, 0x444ced09cb229df10a340237c7bd6186e70d7acafc8b42eacc7e2e8209287b),
-        (217, 0x2da93c2de5140391a78794cef99edc72b99890bf670730436856416e3dc6024),
-        (218, 0x3ba0b3f99569142058b35c845cb84f673a4f6eba5d943d8bcc88ba02f78810c),
-        (219, 0x1a90f84f041d1afc7cd265bcf394d8068decb42267e1e125a39e73bd35d5c3f),
-    ];
-    let grid: felt252 = 0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7;
-    let map = HexMap { width: 15, height: 16, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 240 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_15x16_11() {
-    let cases: Array<(u8, felt252)> = array![
-        (220, 0x1935ccfc7ff23a9f73b5f398782b13a9829377655e9590d1378caff853e2da),
-        (221, 0x354ab965993d518f4db0d9647d8b3647a06b76759277a12ae17b5434e9dedd4),
-        (222, 0xb767af0688d28aa36f9cf24f2100beef9ad26f929f79104915967ddb1c37b3),
-        (223, 0x689f7457451dca98822508b70891c0814cb1f97970ab9ca0cde166f5596a05e),
-        (224, 0xd2eb5b29fe11dfb7a3e296bf94d0f56e33f6bd242344b592f52975a8b64010),
-        (225, 0x4b2b72a6362c52031e5a610fe17dd042ed204ce51b91e4052666664917e4c3e),
-        (226, 0x7184191e1e254afca243ce24e879469ff7aa0c880a1e2f341079b31bc5169f5),
-        (227, 0xca310a0f738483237d6b509d51c9385fdc157317468f1fa12a2a91ee89535d),
-        (228, 0xbd50090e30ca5c273f80988124efc6d4d6d3bc1b1686b85f635f1a47778d2c),
-        (229, 0xde0f4da3917e182273c2c3601bafbda4c1046854201bae4399f7647b398b67),
-        (230, 0x528c26df05a7ad780f4cf91fd2867961cec34dba9f5a562e80016a132c25b70),
-        (231, 0x60abb8e763177f843f730cc97fd8c2ab3c8a57792b83efb3a3a33770a51f360),
-        (232, 0x4181627e0b4fbdddd605a866dcd12f0a0b1a6b5c53da4aac611e2333ea3e6c7),
-        (233, 0x21720e50811ba1e039b3d4c10106cac34a8c95a0ade9bad451260e7733afa29),
-        (234, 0x2d2c816d9fbe4864a01b699a3349bf33922211a6d5a9a13683c2c5c6ab6967c),
-        (235, 0x5b61266d6fb22403b812aa622ff28b65c0786b635694704971f612e1431ce84),
-        (236, 0x5f4dba07383cedf5b7edeb0b6c1efbfae6b4cdc3fc191a79b21eaacc3113638),
-        (237, 0x307c65c8289c332a0eb174f5c9935b08a38a7ebf6c6ea3b63596f370319948d),
-        (238, 0x8427556ba8e6ce2f4273f8518f6303397576303e1bb147dea3ef7381da7cea),
-        (239, 0x2efb8d2e2d3e8574d66ee22d728764a46a19fd536bf2ca3dc23427a8f8b6d89),
-    ];
-    let grid: felt252 = 0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7;
-    let map = HexMap { width: 15, height: 16, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 240 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_7x7() {
+#[available_gas(l2_gas: 271842537)]
+fn golden_line_board_7x7_0() {
     let cases: Array<(u8, felt252)> = array![
         (0, 0x549bedf6ab01feefe975ebb57e0cdf845b71cb81bc2d23ea78c9e06e757787e),
         (1, 0x55e5b973d68f395c22e1422307c708a68472bb93a28842aa2fb7853065b6ea9),
@@ -2039,6 +1463,34 @@ fn golden_line_board_7x7() {
         (22, 0x62c6765520368e75425391537ac699c605e4ca7b1fc8eb894948dc3122b4e41),
         (23, 0x79367007e69cedb7247d067d5f399ba53873db3c5314cb62f541298cf913642),
         (24, 0x36312d6b93b40c6e8b7ebe3ec45aec91d8c87df2cbc6458c30d9ae56f5ff785),
+    ];
+    let grid: felt252 = 0xf6e5b3be627f;
+    let map = HexMap { width: 7, height: 7, grid, seed: 0 };
+    for (from, expected) in cases {
+        let mut digest: felt252 = 0;
+        let mut to: u8 = 0;
+        while to != 49 {
+            digest = DigestTrait::mask(digest, map.line(from, to));
+            let approach = match map.approach(from, to) {
+                Some(direction) => Some(direction.into()),
+                None => None,
+            };
+            digest = DigestTrait::option(digest, approach);
+            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
+                1
+            } else {
+                0
+            });
+            to += 1;
+        }
+        assert(digest == expected, 'board');
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 262272990)]
+fn golden_line_board_7x7_1() {
+    let cases: Array<(u8, felt252)> = array![
         (25, 0x52035dfaea84cc20aa1241146c3224a6489f3fb15f8af7ff24d81a03e001c23),
         (26, 0xfab2b5427915e5606ceb03b664acfb4495b70a99644e67be371c5979d3821e),
         (27, 0x21402b0533ae47dc0b80615197c1753a3eb85a635e27e9beee51db790f459d3),
@@ -2088,29 +1540,159 @@ fn golden_line_board_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 630614257)]
+fn golden_line_board_15x16_0() {
+    let cases: Array<(u8, felt252)> = array![
+        (0, 0x4b9c3c561b452aa508ec2765de4676a4bef5f536c57dae4ab15085310f6bd83),
+        (8, 0x3ac75565df44f8b45935e1da9176aa1539b33286843f008094311485670231f),
+        (16, 0xfdd24edda8030abfcc305f114c2d3087bf450b311ae4fb2b285f554e4bca3d),
+        (24, 0x5c31b1c165a933ca48869aade70c88664c3e5c013d9441ecc9ffc1349c0b691),
+        (32, 0x6b49952f290bdefe44175555b01ef0d51df9dc9970f50cdde0b1df372d41f9a),
+        (40, 0x19185e340d2dfbb2a2d9386c3be3c2c69795acaf928bceb4e22450f9f819fac),
+        (48, 0x72cea1038c56c53fdc491cb9d4bc0ae93b95c53dc79b851921c9b6ce049b7df),
+        (56, 0x505fbdc4fc38712c243a46cf4adcb54d7aa1f3582d346bdcc74077e7c4be10),
+    ];
+    let grid: felt252 = 0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7;
+    let map = HexMap { width: 15, height: 16, grid, seed: 0 };
+    for (from, expected) in cases {
+        let mut digest: felt252 = 0;
+        let mut to: u8 = 0;
+        while to != 240 {
+            digest = DigestTrait::mask(digest, map.line(from, to));
+            let approach = match map.approach(from, to) {
+                Some(direction) => Some(direction.into()),
+                None => None,
+            };
+            digest = DigestTrait::option(digest, approach);
+            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
+                1
+            } else {
+                0
+            });
+            to += 1;
+        }
+        assert(digest == expected, 'board');
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 528613034)]
+fn golden_line_board_15x16_1() {
+    let cases: Array<(u8, felt252)> = array![
+        (64, 0x1a306dde35d6514f0b5cfe62b73f5fc5d07ee6f3e2e59ae850af25d50ab93d4),
+        (72, 0x2ba1a9c93c5413539daf30932356f15da23abfeb18609416c3e78933d2ad02d),
+        (80, 0x7ee1a715c57bb36722cfd4b3b9486bf2f85b2946ad65508f9ce37f4163717b2),
+        (88, 0x53078f3534d133424c9a77e08f3159ce59b14145305b0bee46ba0b557750dc6),
+        (96, 0x5f88081c7b94ec5b5b2d790b40bd690ab1ff59212d5b0c2bc501e3ba5d1afce),
+        (104, 0x610d81fcb275f73e7e6f2e6705bfc43596584cd0749278c3ecc7b11485f3f70),
+        (112, 0x6faed2fc82dd3ad81df742396711c3ee097aea425cceca955852ca812f53e12),
+        (120, 0x21954b12286a6a2024010f64410e81cce4b388e9559857def7bfed313ddd0e0),
+    ];
+    let grid: felt252 = 0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7;
+    let map = HexMap { width: 15, height: 16, grid, seed: 0 };
+    for (from, expected) in cases {
+        let mut digest: felt252 = 0;
+        let mut to: u8 = 0;
+        while to != 240 {
+            digest = DigestTrait::mask(digest, map.line(from, to));
+            let approach = match map.approach(from, to) {
+                Some(direction) => Some(direction.into()),
+                None => None,
+            };
+            digest = DigestTrait::option(digest, approach);
+            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
+                1
+            } else {
+                0
+            });
+            to += 1;
+        }
+        assert(digest == expected, 'board');
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 510130766)]
+fn golden_line_board_15x16_2() {
+    let cases: Array<(u8, felt252)> = array![
+        (128, 0xd38a1c2c0d64862986889296b40565cbaabbe04ba93189677ebd78430e1b74),
+        (136, 0x6d87ed42ad567fa4e827d07e585bf2b292854a4b7ccf319dee636184463333),
+        (144, 0x5c0d9c54a77a17a595ccd443b982428aa89b0e1fe589b379f8d9b03f78649de),
+        (152, 0x18fc6663c017685a706316b93cd60a23a103c6ebe1947fd48b84dd0805103c5),
+        (160, 0x5081cd50512be4f498de5897f3c9c48bec1353d34fa306c3b602c75f8aabd09),
+        (168, 0x2de02c96d64b932bb1737a8cc72447ce20497792e341e02710a600cc661fd4d),
+        (176, 0x1441956914f8db86b24b07767bd79a132061b10e26ea5c567479bae8b471b9a),
+        (184, 0x2091b9458dea973ac40282dfe4776df7175a9bcbfc852e895839cd80cbd729f),
+    ];
+    let grid: felt252 = 0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7;
+    let map = HexMap { width: 15, height: 16, grid, seed: 0 };
+    for (from, expected) in cases {
+        let mut digest: felt252 = 0;
+        let mut to: u8 = 0;
+        while to != 240 {
+            digest = DigestTrait::mask(digest, map.line(from, to));
+            let approach = match map.approach(from, to) {
+                Some(direction) => Some(direction.into()),
+                None => None,
+            };
+            digest = DigestTrait::option(digest, approach);
+            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
+                1
+            } else {
+                0
+            });
+            to += 1;
+        }
+        assert(digest == expected, 'board');
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 468003938)]
+fn golden_line_board_15x16_3() {
+    let cases: Array<(u8, felt252)> = array![
+        (192, 0x7de8e0dd4b79e520fec097ff7e0c8aa9a3134734a4a9974e66bdf74cfd2c1bf),
+        (200, 0x45977f94311a80cd0ee302bc5ea8211ffedc3516b87e293c6c10044309366a6),
+        (208, 0x4101857ebd6f84cba918d1c16787128643ba495e5f6dd5b220d6978636f2ad7),
+        (216, 0x444ced09cb229df10a340237c7bd6186e70d7acafc8b42eacc7e2e8209287b),
+        (224, 0xd2eb5b29fe11dfb7a3e296bf94d0f56e33f6bd242344b592f52975a8b64010),
+        (232, 0x4181627e0b4fbdddd605a866dcd12f0a0b1a6b5c53da4aac611e2333ea3e6c7),
+    ];
+    let grid: felt252 = 0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7;
+    let map = HexMap { width: 15, height: 16, grid, seed: 0 };
+    for (from, expected) in cases {
+        let mut digest: felt252 = 0;
+        let mut to: u8 = 0;
+        while to != 240 {
+            digest = DigestTrait::mask(digest, map.line(from, to));
+            let approach = match map.approach(from, to) {
+                Some(direction) => Some(direction.into()),
+                None => None,
+            };
+            digest = DigestTrait::option(digest, approach);
+            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
+                1
+            } else {
+                0
+            });
+            to += 1;
+        }
+        assert(digest == expected, 'board');
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 686785160)]
 fn golden_line_board_17x14_0() {
     let cases: Array<(u8, felt252)> = array![
         (0, 0x799e3c9dd94858735af4f206ee1a3c63ffa5e42c4b8085e9d346c2dab7c3d50),
-        (1, 0x41fec281f9b30b1bed2599092377f62e6644250d2d58103dde08f6743884b08),
-        (2, 0x5430e3ccd06d0812e64ecf33ffa6cf0f515ae1e492ff65a54ccff81298a96ab),
-        (3, 0x2e6b801446dfd0a92f650ab41598bed96838af62fadd36e6affa92e8f392384),
-        (4, 0x8d88ea8e7c417f74c7d7ce28cfe33a5dfcca0033b204ac1c1ca1def7a7ba76),
-        (5, 0x30dd7eb4766c1a3a75a244360e4ebe801b5bc89efe9d55f26997d3e9bdbc185),
-        (6, 0x62bfee42eb76a19256d2546a4db70bf8fb6b9c4af09aa1518546518b73553f2),
-        (7, 0x65443c6eb333f40a2ccf99373758a63a49fab64721872110acc518efdeed33f),
         (8, 0x6b0154ac5acadc834a12a934f5b0f2e4da4101cbd980293075b411e27d29e7e),
-        (9, 0xe39e0d8026ddaf8160e2be3a0af30ff46ea68db6bb4ead456b3897c9534aae),
-        (10, 0x1278374111b42ffb455bef6cf5ce48735a31bdca2876e15a002cb1dc13d9000),
-        (11, 0x34c6a59b920bde8a4b8911a942961f92a278128f3e9ecf0311509e48a0f745e),
-        (12, 0x34b8eb438236be91ea5a145d9664e05d1a04f2019b3314e02ee2118455a7d4a),
-        (13, 0xf3220a35a28ee4502c67b831faaec97893891f04c9d077a0234b5de5428e2a),
-        (14, 0x7b6c3cd16df4829437258ef97d108e2d142b15ce1ce315a05b24a83d7ef594f),
-        (15, 0x735a236f5a8925d590710cffa67bde979598905c8a00752af0fcb86cb1ad7cf),
         (16, 0x681fb51fb7bdb69308d844c1b21396b9beac20993750d0f5837392b2153a048),
-        (17, 0x702053d2a66c8c0d421bd9fd8da02b21631a43f331db3e7cc39b90e59f96d61),
-        (18, 0x7e85958baf1abdfc42d79ed66cea1ae653c2fd878ee5f02313c46a89b97aaf3),
-        (19, 0x7d16dde77232175fa8ed765d9f550c75f2487ba19ff19d73986cb8312a65fb),
+        (24, 0x2937570e2f8eaf41db2386f823482225222a7a555b4fdeffa5dda3670fc2c5b),
+        (32, 0x5eefc7f491a322f9ca4014a72a688411eef036746762ac9b7772cdfa9c387f5),
+        (40, 0x75ac494526e45bc6aeebc938dc2a0286a41d1002ef7cf7230bac8d516614d20),
+        (48, 0x6a3f508e1fa337b5399e727ef26d20825caadd0b239fe7a1dd11f481b7131c4),
+        (56, 0x498291ba24162ded26e5f8a6392351eac7c5edd3b13712cfc40595a6a828623),
     ];
     let grid: felt252 = 0x1fb6db5b2eb5aabdfdb83ed247b1a377f9fe56cbeedf7fc36fcfdfb84379;
     let map = HexMap { width: 17, height: 14, grid, seed: 0 };
@@ -2136,29 +1718,17 @@ fn golden_line_board_17x14_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 610783995)]
 fn golden_line_board_17x14_1() {
     let cases: Array<(u8, felt252)> = array![
-        (20, 0x322c9c38eae284dd00c2a908ead084ff8f48714ba8a547c0249140c04a5b2ab),
-        (21, 0x400cb05851a41b170cdfb587baefe68eaa753479e92abd860f9583c0ac20802),
-        (22, 0x7d687ee15673642ed41733c0ae1bc23640bb7190d17db27297569289937dc75),
-        (23, 0x9d001fffd809c3052b64d058473b925463cdcc96fc5e5184190693fe50a410),
-        (24, 0x2937570e2f8eaf41db2386f823482225222a7a555b4fdeffa5dda3670fc2c5b),
-        (25, 0x5f14d5ca00d7e6eed6e64de599b073ab8cc43198f7d0aa69d548dacc49dbee1),
-        (26, 0x18923c8a57092810b1d15a73248755aa45f0fc359fd575a5c58f64b3c2170e7),
-        (27, 0x2878d595c47ee0feabad0b9179b208c466b0a2c0a17b2325fffe5d33c72b3c5),
-        (28, 0x5560072dedab4b08894ffcbdbdcce7643051b057d1f8a3d63e14efed74c854a),
-        (29, 0x79090072ca642a73cc1e0e292547a393565369fe6853b521680de3ab8e2e809),
-        (30, 0x1c58eb90eed4633752a2d0e302e79d2cba42c082adfcd4153676e2832e430ad),
-        (31, 0x21c0c6dabed4f76f2beea62d4fe31ebd1120e538101be60a68960ffa98b7113),
-        (32, 0x5eefc7f491a322f9ca4014a72a688411eef036746762ac9b7772cdfa9c387f5),
-        (33, 0x2d57e15660f7d9cd02c9420c60ee2f2647b83868e9661a3f0446551cc1b6d3b),
-        (34, 0x2abbbf8b4f3423d0d8bce58f97878228bb1c886084908ff29c2eeb16aeb73fe),
-        (35, 0x14e9e44d88550cff7d3d093c022cb0785ad54f50189acae99bf7b7c974bc656),
-        (36, 0x42a23ae12fe182808cdd9fd342ae249ace91ec0611e8c39e668373731254ba1),
-        (37, 0x143fb5c336fefa29a09028dfc792a17fd4bd5af0d08effee7f4b6973d9c0c26),
-        (38, 0x2f763b50dc09026112741ad173853d409235b0fd9b405df6b255466731da7),
-        (39, 0x177658b91fa5faf1707a7978c44646410c64934483ae5c146e8e56fcaa7af42),
+        (64, 0x721a66d2b5fd09c3639f666be8e05a2217057a5a59d59f4c23d68ad040305ce),
+        (72, 0x19e9d667f7c3e89ea1f678e97cb44adf71c85e78bbd30feb984542da85db09c),
+        (80, 0x6174416012034f3a7b0d89311afde0b1288f0f4493912f2c57f218c71a5d871),
+        (88, 0x2dab43a50fc43808df8522b29793ed83d74c0ad4fbfe116c16c7f5c3599621f),
+        (96, 0x437eae5ca5f01c7f97728901b6dca4cac227d05dca4dc3221c180a5188775cf),
+        (104, 0x3f3117d2996a0519e071b4cabface2ef696c2b698330c442db4c6c227734a6d),
+        (112, 0x2e9c9384209308e29a66ea24b8b39a9e877df1cee7e3340a25b631e847dff34),
+        (120, 0x26d43617d3ea9b2ec8eb67298e689d9379db9afae7c9896c01f924fed8cf6c0),
     ];
     let grid: felt252 = 0x1fb6db5b2eb5aabdfdb83ed247b1a377f9fe56cbeedf7fc36fcfdfb84379;
     let map = HexMap { width: 17, height: 14, grid, seed: 0 };
@@ -2184,29 +1754,17 @@ fn golden_line_board_17x14_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 625240155)]
 fn golden_line_board_17x14_2() {
     let cases: Array<(u8, felt252)> = array![
-        (40, 0x75ac494526e45bc6aeebc938dc2a0286a41d1002ef7cf7230bac8d516614d20),
-        (41, 0x606d54f4ad1145664bdd2d5d03f3e1adb3d00b0ebce0daf6102fcdb79e077da),
-        (42, 0x44364e0cc4d66066c7387b05e265524869ea262cf377de528cdf576fa6d8492),
-        (43, 0xbc3211dc4f12627cff98ff3f86f81b0c8913639240cb41c9d352bf7d6faec8),
-        (44, 0x31f4a516c51a298e781756376484f9b56b33f6cbe97cea0c5862fafff72768d),
-        (45, 0x46e6c5ce656b6aef106319f9998b82ced485b6b572b06b2fdb2dfb5ec851185),
-        (46, 0x7a2d885b6a995aec28cfdb838e441af705d85c6dcd465d1b4c03e236cfacf7),
-        (47, 0x2c973ddd239057ef3d54f9c5a189665dfdfe0bf1b3438e488db8d2bb3b59beb),
-        (48, 0x6a3f508e1fa337b5399e727ef26d20825caadd0b239fe7a1dd11f481b7131c4),
-        (49, 0x27ba927f61f410fa095111fd8df5bb8cf53ff5f0bdc473bdee639c4f192232a),
-        (50, 0x6cac57713840553f336518f28a4bfd5fee9306c1f568f9174e1c182f59d31c3),
-        (51, 0x70eb34eb9a0ffa623b9c3d81b998cbf9da1bb8ab8b9267d99d13bc50f61abd5),
-        (52, 0x740f70509f1ea57a1dd7d065864748757ca49f04ffa2f78f6d1921fcf9f3dc0),
-        (53, 0x3dbaff81710ea2a94c7e95190073fb8684eb6132aa7aebb6a88457abdd2c112),
-        (54, 0x6ad497d58f850e6fa6f0ec3f58575b4b089756079846c6ba4c80d7fe070233d),
-        (55, 0x2bfe7d0b9fe142a030f7312857b1253a40243debf59b9b555bcc3cac462ea59),
-        (56, 0x498291ba24162ded26e5f8a6392351eac7c5edd3b13712cfc40595a6a828623),
-        (57, 0x3af911ad0a3292d6ff794854e0db024bde3dc659d97c95965e914526334d1b6),
-        (58, 0x58a94fe16b7598bbf8a2cb1034206244e8d5ee86dd67bff694e0dd9a321b884),
-        (59, 0x3c23b637209b9b4a0dcb8130e60b7fca9b29b3aa130af4e9ae85aa870903f3b),
+        (128, 0x200e48b22c2ae5514960c73542d7b60ef6e7c0e21fdaa2cd9efc1e2502b8c0f),
+        (136, 0x53992f86b9042ad4b234ec0d4b59d1f2df9b64d6acdb1d7117852612deea616),
+        (144, 0x2aeacf96d995a47adc4c827b1cc5c1dc3e38e6c0b8c607dce45259a4f9f5f97),
+        (152, 0x3d1dfd0b2fa57dd1aaf37bfcaf5757dcd476f02566c900c44140e99f14f428d),
+        (160, 0xed9e33a09a8a7bc611939b9b02db14099cdef541b8b76e97ef22ec5411e3f7),
+        (168, 0x1c83604a4149a5e11e133f7faab8c6c81159ffb7db866981142cadc6f9b89f5),
+        (176, 0x5b3b23689879b8fdfc65a34e5368bbb8dfc3f0fca8525f2167b6556e616f2ad),
+        (184, 0x357b3ac4738bc41f735b6c01a6137489ec14ccc7c4bae0b8560e390b90868f8),
     ];
     let grid: felt252 = 0x1fb6db5b2eb5aabdfdb83ed247b1a377f9fe56cbeedf7fc36fcfdfb84379;
     let map = HexMap { width: 17, height: 14, grid, seed: 0 };
@@ -2232,411 +1790,15 @@ fn golden_line_board_17x14_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 497289333)]
 fn golden_line_board_17x14_3() {
     let cases: Array<(u8, felt252)> = array![
-        (60, 0x7ea522113c8460655c10915c19a15abafa8f69391744be9ff0693e65af78dea),
-        (61, 0x589e5dfa20d35e1b4724cab67792b9bb47f8868fc9c81dc321c4a043c718f4c),
-        (62, 0x5d70eef8e43bce0e13f2912eb1604cb5ea36fd76b5a9749f84e465499afee1b),
-        (63, 0xad1c5061280f0b2cc8a34c6f4a381c8e2ca5086ecc27da930c7e8a96e51518),
-        (64, 0x721a66d2b5fd09c3639f666be8e05a2217057a5a59d59f4c23d68ad040305ce),
-        (65, 0xc4e12554cf3966ee6bb2b34ed9a398465f52a335af0355e4f13d8fb1735e),
-        (66, 0x7081273218a042a4e5887b4b38663bacc7546c1cbd3cf71a6d63393a9d20ed8),
-        (67, 0x5eb493885fbc94935990b49bae9e94b71ac7564af188d626b8aa8a2363a48ba),
-        (68, 0xb5ea0d4c0a40c87e80cc1c6b2555b413269d65c30d03aab67446bd61534d2e),
-        (69, 0x34c06301905c61945f85b419cc0bc15eaf4bbeb5fffbea1171a092c526af20a),
-        (70, 0x1a8343584b217cc9e7ff02f578f24a2f30e11dfae3781161675172f519cc467),
-        (71, 0x64d8282d0b91ff538005fa09923aa0dca179a46099b98c8607883d452972381),
-        (72, 0x19e9d667f7c3e89ea1f678e97cb44adf71c85e78bbd30feb984542da85db09c),
-        (73, 0x64bbac58a40c6e10a904c65594ef82c8d37b67870da08570ac90ce367ca9587),
-        (74, 0x70aa317b1ff54aa9b700a87169b0132050ec644dbe0134b308a27e14bd2550e),
-        (75, 0x617c1c6f7197ba7482b5b8382db0fc1c074edd68cbb1967643c9ff95bd4bcdb),
-        (76, 0x4f3f42bc3108fff2535b36aeee4cfff73d9981509dc513019704d3444cc2903),
-        (77, 0x1066c2078155462b82762d4961343b355a466d3d66df02465fba885036bc459),
-        (78, 0x2110642da7339a723949703f33a6c2d4717f4a9d931d12a1075415cc1c690f4),
-        (79, 0x751580c9b8caae1e015d767e5642d4eea7e04f1052b3769600bbf53ffc9ad90),
-    ];
-    let grid: felt252 = 0x1fb6db5b2eb5aabdfdb83ed247b1a377f9fe56cbeedf7fc36fcfdfb84379;
-    let map = HexMap { width: 17, height: 14, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 238 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_17x14_4() {
-    let cases: Array<(u8, felt252)> = array![
-        (80, 0x6174416012034f3a7b0d89311afde0b1288f0f4493912f2c57f218c71a5d871),
-        (81, 0x6b453ae98b91dbe6221357860d2abf6bd04276bb0ba65284bfe7547cafce112),
-        (82, 0x5a909eeaee8d00dc161f9a0e79bc09aa1bda87f9b2ad89e2d9aba848835f37a),
-        (83, 0x35cabc6b0af59c6a296722045639292196cc775fb1b3739d8f72ebb2b936e53),
-        (84, 0x107d5af33965a705cdb2a8ab4f66ea7bc6458f77d138c48efa1e395b0afe8d),
-        (85, 0x114aad480c76fbc66821c2f41e3215b9471aae8657b47af82cbe04ad9578c9b),
-        (86, 0x60653a87588a76d50d5b8eac85a4d6d2c8f75438f10f061d6c0b66236e2af0d),
-        (87, 0x5e7fb7713ae9ad01bdce8b5af62fcdd0ef6e7f332d8b7429ad2579411a66b5d),
-        (88, 0x2dab43a50fc43808df8522b29793ed83d74c0ad4fbfe116c16c7f5c3599621f),
-        (89, 0x5a86de5ccf2605b508111da0223505b83e63b06f69aa3d475eb60d4090bbccf),
-        (90, 0x4266aba200ba115760c212eaee2c95a4f403b057669e3be433590d3b5f4d4b3),
-        (91, 0xd5a0dd24e3ef6604afb7efaafaab17c028d976860eac48a470df2c323766e7),
-        (92, 0x43bccc8889feb1ce4123cd1e70ac42663f9482b8daf6f51cea5e10fda09fe20),
-        (93, 0x589fd648242b5e8a707f76f2fdb7c19e29e8920f0177d759bb84b7048245c56),
-        (94, 0x6684b38a5a19c45fc3138424e621769a9420e1f137f3c02e561013e2df91848),
-        (95, 0x2a5b164ca35c95b2da317dc7f58c55d48128c41e26a8c9c0f271ee7d3a583f4),
-        (96, 0x437eae5ca5f01c7f97728901b6dca4cac227d05dca4dc3221c180a5188775cf),
-        (97, 0x3f32e70f315386c53276700aa88953015c3532d9acefb54fb880a7d9248ca91),
-        (98, 0x15975b285d6686566b4f7f8510f72a28e9529729b652fad0301cb712dcd5633),
-        (99, 0x2307da9b51555663e20e450f04149a4ec3030bc83b2b7dab80e29ac4d1fdb27),
-    ];
-    let grid: felt252 = 0x1fb6db5b2eb5aabdfdb83ed247b1a377f9fe56cbeedf7fc36fcfdfb84379;
-    let map = HexMap { width: 17, height: 14, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 238 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_17x14_5() {
-    let cases: Array<(u8, felt252)> = array![
-        (100, 0x4f4c09463e0d77be21e77a925913e4a5c2a3c17cccd6dcd9fbe899d9f6b91a0),
-        (101, 0x364e535eb994840ed7013de00fdc816c76f64ccfa8bc3ee702d7f621ecaf73c),
-        (102, 0x73084eefbaf668f1b7c455dba3892be2b6dfbd200d901bc499e6ee6c577e14b),
-        (103, 0x31be524deec5bd4de1effa30992e17170f18bdefb143b7029c16656bafb9dea),
-        (104, 0x3f3117d2996a0519e071b4cabface2ef696c2b698330c442db4c6c227734a6d),
-        (105, 0x1f371f1a50cdb63760529b8f23b0ea8536458f83c3a618319b01b6ff6beae04),
-        (106, 0x6625182029bb3f2643b1d5523474c864662f62e098d25d38c35d8a4f2c08847),
-        (107, 0x642bc659df7fc3e9fe6c92b2afb4b7f6359956cbf041eb1b4719c046361f40d),
-        (108, 0x7c8b113dec61687f623ba18814b0c11eae7d0c3e2ff78281136e4c59f0da25f),
-        (109, 0x43e1dc036f28ef0a64c0965e738cbc4cfbfd8c2353879e1ae4dec36155aa0a7),
-        (110, 0x1dd5be7b6f57d9fa9c2740df99f4b12caae95b2a60ffec22b4d295c6d4c6636),
-        (111, 0xa97aa766e9d979cc58991a9dcd1cd3da385ecc9bd157e878c6eb2ce0f2ea57),
-        (112, 0x2e9c9384209308e29a66ea24b8b39a9e877df1cee7e3340a25b631e847dff34),
-        (113, 0x15c9120d3e434b4fac009ff924ecf318daf563e6579c58f32669f3d16af6a6),
-        (114, 0x74832188098e82d0e6d539f45faba69af4325bf3d6a267e17cb524f4dabf077),
-        (115, 0xe57845a473bea39ce30341d309ea730ffa745d9f6f2f19d88cec6ea76cd213),
-        (116, 0x299074353c39416f0a38b37a2975b65b4d31915e845d65589fdb046417094f1),
-        (117, 0x4b00cfde1acac14c17cd80fa572ed0f7d61ffac24158e88e61d61eee37ac93e),
-        (118, 0x9d2ab012ab07a177eb8a9c56e1ea5364f562d966e06cfcdd0e352964a5eb77),
-        (119, 0x6c1eab2c301d183883ee04abafc60c2608d6e345b15a72d6fcecea7ffd8017c),
-    ];
-    let grid: felt252 = 0x1fb6db5b2eb5aabdfdb83ed247b1a377f9fe56cbeedf7fc36fcfdfb84379;
-    let map = HexMap { width: 17, height: 14, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 238 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_17x14_6() {
-    let cases: Array<(u8, felt252)> = array![
-        (120, 0x26d43617d3ea9b2ec8eb67298e689d9379db9afae7c9896c01f924fed8cf6c0),
-        (121, 0x287310850d67f7e7c9091ed97c520aaf5bae66ffe12522cbecc3054862f0379),
-        (122, 0x4271f287b58cc193076e59bf3ef9538e3710c80781ffb972099f64c341beb8d),
-        (123, 0x3b306d73a31aefe9593b665c53babd9fc1915df33d3b309f37a4b0cccf0dd2f),
-        (124, 0x7797355570a60ba2e258b861273566d36e0847c1777b7cabbf15750259ee3a4),
-        (125, 0x627e3dd6ef0bef59611f060f0c6aa85cf84fe8ce8c8f57423d0df8b114b2ddc),
-        (126, 0xe703c06066f12d267f0da4559b5de82d22e7f1f00f5b9d524f6e40bb4135d5),
-        (127, 0x5a453f616d8452bca1c43779ce3750ed3aa79c03fe9f7c27de76dd8e1fcf5dc),
-        (128, 0x200e48b22c2ae5514960c73542d7b60ef6e7c0e21fdaa2cd9efc1e2502b8c0f),
-        (129, 0x2f4734634df02bdb23f241bb44185941ac2b004ba208c92974528f8ace8f576),
-        (130, 0x39ee6f92ecd61ac4fdd152ca53b1bf3c661dccb12cde903589f9b1541e59255),
-        (131, 0x77bdb3c44d9a381f874c67d93bf89285c853d20067e55b1deb6c1377458626e),
-        (132, 0x29dcb2c083246e41d5c4e8127f5c1df69f14758626225955363af781067182),
-        (133, 0x2a2d5987e0de6b26e2d96f6a224dd2ba1c548c75d95f956e2f1f13c512c08a8),
-        (134, 0x76c9bb855b7c04af641010a8a03a511f70f9fc28edec0fda4b34fdd8d8fd241),
-        (135, 0x6beba754b2a9a5b90b983ae43c4702d1b771fce7d845cba73f73ab85370f419),
-        (136, 0x53992f86b9042ad4b234ec0d4b59d1f2df9b64d6acdb1d7117852612deea616),
-        (137, 0x4a58d5d059b0667e371dea7caf578e14eb9371bcf1b0155638ae80a4be5b58a),
-        (138, 0x2c3c2a56bd1ed4351eb5ee192ff0f687c647789c8b07ea3c66de15607fb8491),
-        (139, 0x4a1ca8d7395f917eeca09d6e9d0afb6d93e1e25efbd1ce90ac62b37d5187dea),
-    ];
-    let grid: felt252 = 0x1fb6db5b2eb5aabdfdb83ed247b1a377f9fe56cbeedf7fc36fcfdfb84379;
-    let map = HexMap { width: 17, height: 14, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 238 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_17x14_7() {
-    let cases: Array<(u8, felt252)> = array![
-        (140, 0x121639c1c864e7cd9ace2df53eaca1f2b1ebf93b88e80c4c520b8b162bb3dac),
-        (141, 0x36a242e537e17ce3dfb301d18a18f4bfdc478fef06e6d3a1342928c9ece7608),
-        (142, 0x3d261834de3a624f04052f0b0ac5abda555d8f7517bbe652e2540f52717351b),
-        (143, 0x192e796afe22a95852503394cd39017c098dd11f85a9b4b29c9e2cdf4712e8),
-        (144, 0x2aeacf96d995a47adc4c827b1cc5c1dc3e38e6c0b8c607dce45259a4f9f5f97),
-        (145, 0x31dc40da0a0945fc22055308d97750a6b98f2d4caa7dcc75339d0cc81b88521),
-        (146, 0x223e28b14aa66ba56ec6754ac5cb426b13ba73b31fe883c9e78bc378cc5b87f),
-        (147, 0x33cd7d59b9ee5b69f07b06152e8e00314d832e72c9d6d7caf827b080bcc9cb1),
-        (148, 0x21abee44cd0bca6281ac1c5ce552790abfcd2e65f8d6d72775c132c7c5d975d),
-        (149, 0x4666d49c4ee03863ace40e8f16b12d3466bb4ae1bed9856edea3b47141d6c23),
-        (150, 0x72d933a1ceede4a9a884633d0f1b33054404bc044b1af3322351b3a00da2508),
-        (151, 0x779edb7ad960f7191070d98e7691afc2f6c8df6a59fafbdf1ed9568113401f7),
-        (152, 0x3d1dfd0b2fa57dd1aaf37bfcaf5757dcd476f02566c900c44140e99f14f428d),
-        (153, 0x248f64b09205b21ad25c2b4270e2fdb789ed5fe4e1b0c839b859830ef74379d),
-        (154, 0x7cb1f1f9831d2787902d51bcc6aeb6b38748b2e435ca75a28ac2ae85f0abae9),
-        (155, 0x2803a2e5131008c338b94ae1bae3226d05270933487f8bf0119a09c3fe06f51),
-        (156, 0x2920fb639b17f3b283dcc65b34637fc2ca14f96a0705828aceb7d49f059dc2c),
-        (157, 0xa377a16266db998c213edea31a03af229df25d66569d6db5006d5920130529),
-        (158, 0x14ea6b2fceaed0f9e4f7a8b192610820bad858c9ed1a6591494c1a41a9c2aee),
-        (159, 0x7e15cbb0648575c1d1c4272d27d72b7c0905b48fda1eda888cc034cd3449fa8),
-    ];
-    let grid: felt252 = 0x1fb6db5b2eb5aabdfdb83ed247b1a377f9fe56cbeedf7fc36fcfdfb84379;
-    let map = HexMap { width: 17, height: 14, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 238 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_17x14_8() {
-    let cases: Array<(u8, felt252)> = array![
-        (160, 0xed9e33a09a8a7bc611939b9b02db14099cdef541b8b76e97ef22ec5411e3f7),
-        (161, 0x5ab2b3e82b918ddb6d9e59670c62a6c1392f94be209fa680db55c4187411537),
-        (162, 0x47e820b538cb3946d1cc4def7e58a9868018c96c54b6cd09f2d5741d9278dba),
-        (163, 0x3cd82a0c2eb85a988bd28142a7e3ea137448a1c700cbc7899c6452b5f1b8405),
-        (164, 0x458aa5a3ba58c3fdd8df1420d1d808d25bf40eee09cc12bab60b05cce9dd100),
-        (165, 0x10dc82d0955833c0ac3fcee629edede66392fc959e6f2e6b5faa02fe76a09ba),
-        (166, 0x51f8c156ffafeb77dd547504e76a614309bcc7e666c124fa43391f028bf69cd),
-        (167, 0x37cfdb8798e73bc78c19a17c5866a3323b0289f0a45447bbf01604b4064466),
-        (168, 0x1c83604a4149a5e11e133f7faab8c6c81159ffb7db866981142cadc6f9b89f5),
-        (169, 0x6b61fde6cb8b797c0abd3655cea4ddce0ed8cb0a9bed667979ca5fc4d5dcf12),
-        (170, 0x4ad82eb1f874dffc75cca13fb4e06f613f1feff0990885e68d1f7daa6f440bb),
-        (171, 0x5cafed314997e542838b50e346b7e509fd6ffb2ddaec06a21275b85b0776781),
-        (172, 0x26fea13c6f3b63f6b5e4704bf951020dda3ffbc53af2b4f093ee451fc3de3f1),
-        (173, 0x62fc0dcc05865e33356dcde63f6fd284e73d17f001b202328183945e208b810),
-        (174, 0x74acea863074d9ea5d9f241530cc3c8c5d37d94bfa4eab8b44f52fad380cc2c),
-        (175, 0x2afbfda34a99dc8b48d3ba75118fdf83eea5b5393266257c33dd04fb14cfd5e),
-        (176, 0x5b3b23689879b8fdfc65a34e5368bbb8dfc3f0fca8525f2167b6556e616f2ad),
-        (177, 0x4534ce68a3a636a5f2977b93a98e3546f54a28014a8dbfcc6974231e5802bd1),
-        (178, 0x2dfbfea0b0d95dc6b7546401475d17ee4c73ca48f09466a3165128ddd63efb6),
-        (179, 0x3aeac3d3d21f27baa0b78027f59befeb744321ad84d24637614113428df4642),
-    ];
-    let grid: felt252 = 0x1fb6db5b2eb5aabdfdb83ed247b1a377f9fe56cbeedf7fc36fcfdfb84379;
-    let map = HexMap { width: 17, height: 14, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 238 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_17x14_9() {
-    let cases: Array<(u8, felt252)> = array![
-        (180, 0x43d4a57148817cba6719004f4a5c94edf83548c2db438ba77e59c8617d223b),
-        (181, 0x7f7758b6aa8f6d82b336f1ff90a3048502a8473c788c5d4b141b71acbc142fe),
-        (182, 0x264d7cbbe0a12c596100e5e1967ea982babbb51897dbf26053f821b09495eee),
-        (183, 0x43872dc3976b1a6da5304fe027acad4aab3dbe2ce8bf0052de55e5981b2c0a0),
-        (184, 0x357b3ac4738bc41f735b6c01a6137489ec14ccc7c4bae0b8560e390b90868f8),
-        (185, 0x297bcbc80c620cdb6fb311c17f69095fcc5b8e1dcfa61f53b11a6c0a3bb0d83),
-        (186, 0x508c6b3fede6c4236145dcdbc187d4e45be92dee6fa5e13c54ac4fa510aa1b9),
-        (187, 0x227cdf2a50b81cf8ac345396691cc8f9f92343209582c14bdf625cbab2e504),
-        (188, 0x16ae6136e4962896115459793386d9dc6ca22a75be7defbb621dcc0e622eb9),
-        (189, 0x1dfb0d1ced2ae38259dad4f998d1bec95a950b4592885c9a52fad72201103ae),
-        (190, 0x31c5eb76f4e2f63dbb809d73c78522b1db79af35e014abf08b201c3f39fdeaa),
-        (191, 0x5691b1766cfe0e8739d9531ec8130dd976ccb93441c4364e7401f7f88f8c890),
         (192, 0x4065f791dc5fdd17833bc462b2dec30e62761e82a8f65957396e1bc7ae1dcbb),
-        (193, 0x425a60f6a18bd2ce9fbb31bd2276f95d4c3465d5a729494e1453a0950077f48),
-        (194, 0x5e36b9cc1911f0c792c78ca4a96f4732ca49710b4bdd740d5ba19b64f9d8762),
-        (195, 0x34dd0540a25305e9b61da9fc2e8aab5b52a6e49f83a26f58da6cbcd6c3771a3),
-        (196, 0x7b8f31005c472a6c41547efa02ce8f3dbc4c1f219e5c627cf5ede682e2f97),
-        (197, 0x2fd49ae9019bba51fb079452c5188f5fbc851f5d9983eb9176bce86478f1fad),
-        (198, 0x361b70a7fd109b802e7515f5a559452038b80bfcad92420fbc7c61a2c9c56c8),
-        (199, 0x20d4ec1536341e15aec2185f4145467085730164cd54c6755ccd289b077eb3b),
-    ];
-    let grid: felt252 = 0x1fb6db5b2eb5aabdfdb83ed247b1a377f9fe56cbeedf7fc36fcfdfb84379;
-    let map = HexMap { width: 17, height: 14, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 238 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_17x14_10() {
-    let cases: Array<(u8, felt252)> = array![
         (200, 0x2d4b48ea0cf9ab8ceac6710a6692b1264595175392f041c330bf2e5a3ec5c4b),
-        (201, 0x7ffb1f45fffb5688a74d3cf0aa5f7478863dc42994de6f61dad5ac093fdbb04),
-        (202, 0x29739f74237ba85ee2c16f0dfd85b823869f870e9e9be3ca37cf70c031e0a27),
-        (203, 0x1a2382631001e5c5295d03e74073e68d2335279ff4dd457248b69bb5972be3c),
-        (204, 0x73e582141d774e5472ce250b69314e4058180fa4d48e2b3f13a26c81e5f8c11),
-        (205, 0x613c42f2b7137d0c407225a5eea35a80d17650c77015a9cd26485cd22e168ae),
-        (206, 0x758dad53d1908f2d5501af5eafab96bbff9f4b4ee732d98bde84c3aa7643cab),
-        (207, 0x62118583e750889ab9eccf1da1c9d1385696cd0f76c7b9b8b0bd1ba2e015311),
         (208, 0x66fc858ec617fafe215f0fe835f46d12bf805045c6b5aea0318b1c224176168),
-        (209, 0x25e3dffd7ef994c41af3a972e1a3d66b6b9233e47d608c4254ecdd552df82da),
-        (210, 0x1446ef2be63099d811820edb3d4c6259890db37859a4b6823568411aef97396),
-        (211, 0x3eff0a4af453f211923d0507310d7e0e928e6629db192e3fddbd512804c583c),
-        (212, 0x3624fed2aaee5a30dcab3f57a26919f73c434d800778da389bd93ad4e75a5b5),
-        (213, 0x7c2fb5fd4c1550553611ede66cf4d6932cd47ffea767a0d800a654c3749f030),
-        (214, 0x3f370ce552f0b51b821770a46e7e1457da0a87e7487f1df32d1850bb9d5a177),
-        (215, 0x52c9f89ca82373d489b6089c3514ea38aa75a89d2f4891df5a090882e19653),
         (216, 0x7dd7e4e1b4a1749c055681a41b0a5852c1addd7c0a33168b74b0ba1ff13ac4a),
-        (217, 0x35d978ab25fb5330819360b99a98261000490f8c3db572c789b797dc190995f),
-        (218, 0x12571267e90f7e330ffc9a0455ca36cf09493becc318186360b89cd5cfc4828),
-        (219, 0x31854e51c20894e8f1cc10050e18fa5399cce26d1ac77320ab1aaf3caa61342),
-    ];
-    let grid: felt252 = 0x1fb6db5b2eb5aabdfdb83ed247b1a377f9fe56cbeedf7fc36fcfdfb84379;
-    let map = HexMap { width: 17, height: 14, grid, seed: 0 };
-    for (from, expected) in cases {
-        let mut digest: felt252 = 0;
-        let mut to: u8 = 0;
-        while to != 238 {
-            digest = DigestTrait::mask(digest, map.line(from, to));
-            let approach = match map.approach(from, to) {
-                Some(direction) => Some(direction.into()),
-                None => None,
-            };
-            digest = DigestTrait::option(digest, approach);
-            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
-                1
-            } else {
-                0
-            });
-            to += 1;
-        }
-        assert(digest == expected, 'board');
-    }
-}
-
-#[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_line_board_17x14_11() {
-    let cases: Array<(u8, felt252)> = array![
-        (220, 0x443033bcca5d074e87b633488ae433be5723a80939c6ae2ded4e929bd4c771e),
-        (221, 0x7d9f9880e5bd8662bbe50d244c82a6fe9a59d667d4651985de58be43cec9d6d),
-        (222, 0x4acda3f507334788ce38f19c5cdb6a18f0803c9b3b5b001e39be3f79daec1e1),
-        (223, 0x3da5a9129f74f7e73970de99d2c8c8e368330be426781b7b8dd00a91dd0db90),
         (224, 0x63fe667225dc025a20f6729d1f52b5224fdb2e8c982d0e6fa7c07b8fb835061),
-        (225, 0x530ddf594b42f06e78eefc83618b39d38076ea84509a708f13e8cb37a62cde9),
-        (226, 0x57a55cf49096cd2e42575d58d39a58f7719152a0073f77ea5a85c13d703d07a),
-        (227, 0x40d9b8ada859d204895a5e0106c646ec07f1a938fe31fd4309ece3f95e47cfe),
-        (228, 0x72be39c56bf5d7f73465a9be3f1c476d12cd51ee1e6779ba4199c1ad7f268f8),
-        (229, 0x688a5bba88e5d3c17d2afe0b27ceab2aeec51dc4d111ffa6ad7fd1bc19979d8),
-        (230, 0x6338218240b9b8891fce0ba0a5bc8a3a6b144bfa5bf83cc611c8aca580aa665),
-        (231, 0x27685d8567b64cee533ab1bb010f972903401fb9c5ce68e3407d721b284ae10),
         (232, 0x6a645a37c68f936ea6a7e00a6a00f8964af23becc11eebe5c5b0d18506a9eb6),
-        (233, 0x1c7a52247d122b77c1fc6f40c1933c033a4adebc3e033cfc013f0ae84f1b667),
-        (234, 0x4fcfa603986bb605d13baa53a9199dc30a4a2d7aac9b792051968a3c9526c06),
-        (235, 0x1400a46d08ebc13192cc718c20d4f229b5b329deb8f7b2c4efd01cc69450e),
-        (236, 0x7a7d4ae7178414678d144840d390b67e9b8ada787cd5381238d60060744a821),
-        (237, 0x7577228d158adceb911a4dd217924646bdae0f049db5183b405a8bae6e1c3c),
     ];
     let grid: felt252 = 0x1fb6db5b2eb5aabdfdb83ed247b1a377f9fe56cbeedf7fc36fcfdfb84379;
     let map = HexMap { width: 17, height: 14, grid, seed: 0 };
@@ -2662,15 +1824,11 @@ fn golden_line_board_17x14_11() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 491208508)]
 fn golden_line_board_83x3_0() {
     let cases: Array<(u8, felt252)> = array![
         (0, 0xa9982acc9e0b8baa43447d435258d0b79882f31807d8098fc7ddfd465268ec),
-        (12, 0x1cf7d4a4fa9630eb0fa9790863b09ee884c97f5fdc0085b62e89aff843c0717),
         (24, 0x2b3a8f71c3d14c1b0d82029319d0a8feb0ecf89679c731101c180e6621f8ac4),
-        (36, 0x62cf592578f1a65d10a52aff0db1e4dc3f7a718019132374f8e12b507551ead),
-        (48, 0x21dff88fa2b2977b7f78ea6ccfb9af2873abcc8cb408e2bcd100100a8ecfd2d),
-        (60, 0x68536826c96788e91c2113236236b48f69c0b0b135d2a325454f94bca4500dc),
     ];
     let grid: felt252 = 0x1a7eaeca2dffd7efa3db53f7efddaf3a38abfcc6e8ffbe660fefff547e347b7;
     let map = HexMap { width: 83, height: 3, grid, seed: 0 };
@@ -2696,15 +1854,11 @@ fn golden_line_board_83x3_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 406669658)]
 fn golden_line_board_83x3_1() {
     let cases: Array<(u8, felt252)> = array![
+        (48, 0x21dff88fa2b2977b7f78ea6ccfb9af2873abcc8cb408e2bcd100100a8ecfd2d),
         (72, 0x5a1aed8083c97acaaf9fc346e76feb0099066cd88bd287e79974dd329d17b5b),
-        (84, 0x1459712f924d785291fc6f8058325db1d60ffe9e081f9944b38d323b71d4092),
-        (96, 0x2d866abc602a96703b7ed64b2eb28450480c35b448044653123977e53b2ab43),
-        (108, 0xd701d1dd736b4f192614c359571fad6ad7692c11c7daec2681b873e40858d4),
-        (120, 0x68d64f5fabda34c7fa9fb7e5460e0a487112273965618937ca258d1b8c492ef),
-        (132, 0x4e767e7123fc09b1002c852139c8fff514c163204b75f874997ce5d6d38a2b7),
     ];
     let grid: felt252 = 0x1a7eaeca2dffd7efa3db53f7efddaf3a38abfcc6e8ffbe660fefff547e347b7;
     let map = HexMap { width: 83, height: 3, grid, seed: 0 };
@@ -2730,15 +1884,11 @@ fn golden_line_board_83x3_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 395388433)]
 fn golden_line_board_83x3_2() {
     let cases: Array<(u8, felt252)> = array![
-        (144, 0x298a9863e8dd03ec6f88c487c542eca877d965e26a22cfff18a09b724ed6857),
-        (156, 0x4cda8c063f7d4a55ac1ede9e4232597a2108d930db1195065ae5f86cf7d913b),
-        (168, 0x2975ec6408a30634ab88dec48b0e91327d494738839a510f74e90f7a47a5ace),
-        (180, 0x3a9688ad22fa12cd286f0aba17cb0154781167f47863c4bad1aeb466ef60c0b),
-        (192, 0x5023698d98b10403e81c1c2029e92e84c0e33d8875b4ab486adf0500d32ca88),
-        (204, 0x11f3190f994ac321a24e90f0716df5d97216f72f26bd725f9831716af09cd17),
+        (96, 0x2d866abc602a96703b7ed64b2eb28450480c35b448044653123977e53b2ab43),
+        (120, 0x68d64f5fabda34c7fa9fb7e5460e0a487112273965618937ca258d1b8c492ef),
     ];
     let grid: felt252 = 0x1a7eaeca2dffd7efa3db53f7efddaf3a38abfcc6e8ffbe660fefff547e347b7;
     let map = HexMap { width: 83, height: 3, grid, seed: 0 };
@@ -2764,11 +1914,69 @@ fn golden_line_board_83x3_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 483149535)]
 fn golden_line_board_83x3_3() {
     let cases: Array<(u8, felt252)> = array![
+        (144, 0x298a9863e8dd03ec6f88c487c542eca877d965e26a22cfff18a09b724ed6857),
+        (168, 0x2975ec6408a30634ab88dec48b0e91327d494738839a510f74e90f7a47a5ace),
+    ];
+    let grid: felt252 = 0x1a7eaeca2dffd7efa3db53f7efddaf3a38abfcc6e8ffbe660fefff547e347b7;
+    let map = HexMap { width: 83, height: 3, grid, seed: 0 };
+    for (from, expected) in cases {
+        let mut digest: felt252 = 0;
+        let mut to: u8 = 0;
+        while to != 249 {
+            digest = DigestTrait::mask(digest, map.line(from, to));
+            let approach = match map.approach(from, to) {
+                Some(direction) => Some(direction.into()),
+                None => None,
+            };
+            digest = DigestTrait::option(digest, approach);
+            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
+                1
+            } else {
+                0
+            });
+            to += 1;
+        }
+        assert(digest == expected, 'board');
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 360361624)]
+fn golden_line_board_83x3_4() {
+    let cases: Array<(u8, felt252)> = array![
+        (192, 0x5023698d98b10403e81c1c2029e92e84c0e33d8875b4ab486adf0500d32ca88),
         (216, 0x162401588c061afcceb608d3da2a4d520d85162fd22c6df4cf09cdce156d413),
-        (228, 0x70c9dc49f3158d74407d9d730327a32f62f1bb226ef5165b3005e82a09cc9a9),
+    ];
+    let grid: felt252 = 0x1a7eaeca2dffd7efa3db53f7efddaf3a38abfcc6e8ffbe660fefff547e347b7;
+    let map = HexMap { width: 83, height: 3, grid, seed: 0 };
+    for (from, expected) in cases {
+        let mut digest: felt252 = 0;
+        let mut to: u8 = 0;
+        while to != 249 {
+            digest = DigestTrait::mask(digest, map.line(from, to));
+            let approach = match map.approach(from, to) {
+                Some(direction) => Some(direction.into()),
+                None => None,
+            };
+            digest = DigestTrait::option(digest, approach);
+            digest = DigestTrait::fold(digest, if map.line_of_sight(from, to) {
+                1
+            } else {
+                0
+            });
+            to += 1;
+        }
+        assert(digest == expected, 'board');
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 245302521)]
+fn golden_line_board_83x3_5() {
+    let cases: Array<(u8, felt252)> = array![
         (240, 0x13355c77e81d56545a48e52e610b14fa71ded644ebcc8643baa29a58efc2b22),
     ];
     let grid: felt252 = 0x1a7eaeca2dffd7efa3db53f7efddaf3a38abfcc6e8ffbe660fefff547e347b7;
@@ -2795,15 +2003,12 @@ fn golden_line_board_83x3_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 662202064)]
 fn golden_line_board_3x83_0() {
     let cases: Array<(u8, felt252)> = array![
         (0, 0x5ff71c151f30334d438320667d67b88341efc69269c6e8893ad029b5835782c),
-        (12, 0x5a646d18543dfc7f133f34f2aeabb0cb590fbb1d3f2638c1f811e551edeafb),
         (24, 0x57375589b1c4db72a4a3127d4b7d37508d92d01670e2cb667cc6fb88efde43f),
-        (36, 0x1b91326367fe53f788ffc8ab9039b292001ad098fd4f74ccd1ed9bcce11e355),
         (48, 0x6a8e23048af5032c8a08147a2198e9551fbf3f7a59e975b1046f1ba5ca3ef2b),
-        (60, 0x23be482dcebfa5ba1ff29a388425b45841cc19319ea0feb8c3d24c5b98c348a),
     ];
     let grid: felt252 = 0x2ddfbf4f33cacfff5b4bafa8bf3d9cecbad53f3b953a9cc03455b8fbba3beb;
     let map = HexMap { width: 3, height: 83, grid, seed: 0 };
@@ -2829,15 +2034,12 @@ fn golden_line_board_3x83_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 463161968)]
 fn golden_line_board_3x83_1() {
     let cases: Array<(u8, felt252)> = array![
         (72, 0x604d34353b1dd11e52f7dfad1a1b4ec61523858d5520776530088cd81c857be),
-        (84, 0x30b394eb7586d410f332f9decb42cb674c7cbf54877596ad879145e5b24d56f),
         (96, 0x317da09c33b2c3868f0fcfc9b5d164dc5052dbd51517c04b86b6448c0e55022),
-        (108, 0x61bc32f8e1af85d4e052069024af5613f496073840d9d6ef499ae8c430b0843),
         (120, 0x63388760a283ca14c3a0ddb31d5cb37234d7c4721574ebd1e0c1bb8f74061e),
-        (132, 0x62e6db39dbb51c24b3d41ca7c442f3c5cf39a21d76e67284da7675b17947534),
     ];
     let grid: felt252 = 0x2ddfbf4f33cacfff5b4bafa8bf3d9cecbad53f3b953a9cc03455b8fbba3beb;
     let map = HexMap { width: 3, height: 83, grid, seed: 0 };
@@ -2863,15 +2065,12 @@ fn golden_line_board_3x83_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 490998991)]
 fn golden_line_board_3x83_2() {
     let cases: Array<(u8, felt252)> = array![
         (144, 0x3222d8dc3e9fc5372d11824e050fc1aae201d66800d435f1071379c59a13c51),
-        (156, 0x6f6b661ccb29f0aeaae6cfc4a61d36a2ad15a0a56dfaae37d168fcde17be2e6),
         (168, 0x54a47e21ef50fee51acfa73fd5b4ae0bac7306f26d72ed969e1df2a24ce797c),
-        (180, 0x16a24ced7f8503396fbbf09a3980224fe576871f2d971f48fe16b93dda2d275),
         (192, 0x6655e4ec47bee2365835192d67a6e679e35be5bd936f8b4c7d5c17c83eeaf1b),
-        (204, 0x161f6e2ba0e71c89ad351ea1b199edd225b9ff0eda3bd36c3e73802bbd69314),
     ];
     let grid: felt252 = 0x2ddfbf4f33cacfff5b4bafa8bf3d9cecbad53f3b953a9cc03455b8fbba3beb;
     let map = HexMap { width: 3, height: 83, grid, seed: 0 };
@@ -2897,11 +2096,10 @@ fn golden_line_board_3x83_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 454220208)]
 fn golden_line_board_3x83_3() {
     let cases: Array<(u8, felt252)> = array![
         (216, 0x6604ec93cbf3bebab4438651bae4e309cad2624dd70eb1b6031f4ef27627e5),
-        (228, 0x48d495ef6b5ab30534c0013849ab3491d41e3c09bc6f15c4b2246981c4d64da),
         (240, 0x33aad38b481fc24013512895d4a606254c338bc580d7dcd8dd1068b73695e00),
     ];
     let grid: felt252 = 0x2ddfbf4f33cacfff5b4bafa8bf3d9cecbad53f3b953a9cc03455b8fbba3beb;

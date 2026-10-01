@@ -13,6 +13,46 @@ sample_pairs = 512
 sample_chunks = 4
 window_chunks = 12
 long = 300         # the length of the long adversarial lines
-boards = "15x16/12, 7x7, 17x14/12, 83x3:12/4, 3x83:12/4"
+# 7 x 7 exhaustive; the larger boards from every 8th (24th) position to every position: the
+# table-against-loop and symmetry tests of line.cairo cover 15 x 16 exhaustively (brief, decision 4)
+boards = "7x7/2, 15x16:8/4, 17x14:8/4, 83x3:24/8, 3x83:24/4"
 
 # budgets: ceil(1.05 * measured)
+gas.golden_line_adversarial = 34395701
+gas.golden_line_board_15x16_0 = 630614257
+gas.golden_line_board_15x16_1 = 528613034
+gas.golden_line_board_15x16_2 = 510130766
+gas.golden_line_board_15x16_3 = 468003938
+gas.golden_line_board_17x14_0 = 686785160
+gas.golden_line_board_17x14_1 = 610783995
+gas.golden_line_board_17x14_2 = 625240155
+gas.golden_line_board_17x14_3 = 497289333
+gas.golden_line_board_3x83_0 = 662202064
+gas.golden_line_board_3x83_1 = 463161968
+gas.golden_line_board_3x83_2 = 490998991
+gas.golden_line_board_3x83_3 = 454220208
+gas.golden_line_board_7x7_0 = 271842537
+gas.golden_line_board_7x7_1 = 262272990
+gas.golden_line_board_83x3_0 = 491208508
+gas.golden_line_board_83x3_1 = 406669658
+gas.golden_line_board_83x3_2 = 395388433
+gas.golden_line_board_83x3_3 = 483149535
+gas.golden_line_board_83x3_4 = 360361624
+gas.golden_line_board_83x3_5 = 245302521
+gas.golden_line_mirror_7x7 = 178040195
+gas.golden_line_sample_0 = 56304591
+gas.golden_line_sample_1 = 57188387
+gas.golden_line_sample_2 = 57164216
+gas.golden_line_sample_3 = 58353257
+gas.golden_line_window_0 = 624123213
+gas.golden_line_window_1 = 578274344
+gas.golden_line_window_10 = 575872910
+gas.golden_line_window_11 = 621615845
+gas.golden_line_window_2 = 562015724
+gas.golden_line_window_3 = 539286993
+gas.golden_line_window_4 = 513186996
+gas.golden_line_window_5 = 518438235
+gas.golden_line_window_6 = 517588019
+gas.golden_line_window_7 = 512394897
+gas.golden_line_window_8 = 538504061
+gas.golden_line_window_9 = 559564110

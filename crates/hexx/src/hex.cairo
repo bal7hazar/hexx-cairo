@@ -353,3 +353,123 @@ impl HexMathImpl of HexMathTrait {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    // Local imports
+
+    use super::{Hex, HexTrait};
+
+    /// The line reversed.
+    fn reversed(line: Span<Hex>) -> Span<Hex> {
+        let mut back = array![];
+        let mut i = line.len();
+        while i != 0 {
+            i -= 1;
+            back.append(*line.at(i));
+        }
+        back.span()
+    }
+
+    /// R-N5-5 (audit pass 2, finding 25): no tie, `N = 7`; sample 2 is `(8_000_000, 2)` exactly,
+    /// where `hexx` returns `(8_000_001, 2)` (`docs/deviations/line_ties.md`).
+    #[test]
+    #[available_gas(l2_gas: 63378)]
+    fn test_hex_line_to_regression_r_n5_5() {
+        let line = HexTrait::new(8_000_000, 0).line_to(HexTrait::new(8_000_001, 6));
+        assert!(line.len() == 8);
+        assert!(*line.at(2) == HexTrait::new(8_000_000, 2));
+        assert!(*line.at(7) == HexTrait::new(8_000_001, 6));
+    }
+
+    /// R-N5-6 (audit pass 1, finding 8): beyond `2^24` the ends are exact, where `hexx` starts at
+    /// `(16_777_216, 0)`.
+    #[test]
+    #[available_gas(l2_gas: 29285)]
+    fn test_hex_line_to_regression_r_n5_6() {
+        let line = HexTrait::new(16_777_217, 0).line_to(HexTrait::new(16_777_218, 0));
+        assert!(line == array![HexTrait::new(16_777_217, 0), HexTrait::new(16_777_218, 0)].span());
+    }
+
+    /// The ends: one element for a coordinate with itself, `N + 1` elements, `self` first and
+    /// `other` last, and the extremes of `i32` where the difference stays in `i32`.
+    #[test]
+    #[available_gas(l2_gas: 228260)]
+    fn test_hex_line_to_ends() {
+        let a = HexTrait::new(-3, 7);
+        assert!(a.line_to(a) == array![a].span());
+        let max: i32 = 0x7fffffff;
+        let ends: [(Hex, Hex); 3] = [
+            (HexTrait::new(0, 0), HexTrait::new(5, 0)),
+            (HexTrait::new(max - 3, 0), HexTrait::new(max, -3)),
+            (HexTrait::new(-max, 1), HexTrait::new(-max + 2, -1)),
+        ];
+        for (a, b) in ends.span() {
+            let line = a.line_to(*b);
+            assert!(line.len() == a.unsigned_distance_to(*b) + 1);
+            assert!(*line.at(0) == *a);
+            assert!(*line.at(line.len() - 1) == *b);
+        }
+    }
+
+    /// The tie rule: `Δ = (3, 3)` has a tie at every odd step, resolved to the smaller `y`; on a
+    /// row, `Δ = (−1, 2)` ties at its midpoint to the larger `x` (R-N5-2 in the mirror frame).
+    #[test]
+    #[available_gas(l2_gas: 98721)]
+    fn test_hex_line_to_ties() {
+        let line = HexTrait::new(0, 0).line_to(HexTrait::new(3, 3));
+        let expected = array![
+            HexTrait::new(0, 0), HexTrait::new(1, 0), HexTrait::new(1, 1), HexTrait::new(2, 1),
+            HexTrait::new(2, 2), HexTrait::new(3, 2), HexTrait::new(3, 3),
+        ];
+        assert!(line == expected.span());
+        let line = HexTrait::new(-5, 3).line_to(HexTrait::new(-6, 5));
+        assert!(
+            line == array![HexTrait::new(-5, 3), HexTrait::new(-5, 4), HexTrait::new(-6, 5)].span(),
+        );
+    }
+
+    /// Symmetric and translation-invariant, on every pair of `[-3, 3]²`.
+    #[test]
+    #[available_gas(l2_gas: 559857627)]
+    fn test_hex_line_to_symmetry_translation() {
+        let shift = HexTrait::new(1_000_003, -999_997);
+        let mut ax: i32 = -3;
+        while ax != 4 {
+            let mut ay: i32 = -3;
+            while ay != 4 {
+                let a = HexTrait::new(ax, ay);
+                let mut bx: i32 = -3;
+                while bx != 4 {
+                    let mut by: i32 = -3;
+                    while by != 4 {
+                        let b = HexTrait::new(bx, by);
+                        let line = a.line_to(b);
+                        assert!(reversed(b.line_to(a)) == line);
+                        let moved = HexTrait::new(ax + shift.x, ay + shift.y)
+                            .line_to(HexTrait::new(bx + shift.x, by + shift.y));
+                        let mut i = 0;
+                        while i != line.len() {
+                            let h = *line.at(i);
+                            assert!(*moved.at(i) == HexTrait::new(h.x + shift.x, h.y + shift.y));
+                            i += 1;
+                        }
+                        by += 1;
+                    }
+                    bx += 1;
+                }
+                ay += 1;
+            }
+            ax += 1;
+        }
+    }
+
+    /// The panics of `unsigned_distance_to`: a difference that leaves `i32`.
+    #[test]
+    #[available_gas(l2_gas: 16086)]
+    #[should_panic]
+    fn test_hex_line_to_revert_overflow() {
+        let max: i32 = 0x7fffffff;
+        HexTrait::new(max, 0).line_to(HexTrait::new(-1, 0));
+    }
+}
