@@ -227,3 +227,20 @@ The scratch files I used (`work/budget.py`, `work/run1.txt`, `work/run2.txt`,
 
 - None on the contract. The `None` cases (R-N5-1), the ring targets of `approach`, table against
   loop, and symmetry are all tested exhaustively on 15 × 16 as the brief and decision 4 require.
+
+## Disposition by the orchestrator (2026-10-01)
+
+Added at the archiving; the report above is the implementer's, kept as written.
+
+- **The red check** (`test_only_line_to_is_missing`): fixed by the orchestrator on the branch,
+  `3eca0f3` (`test_no_item_of_l_m1_is_missing` expects an empty set; 105 tests of the parity
+  suite pass).
+- **`Gas hexx` over 8 minutes**: it then timed out at 10 min 17 s on run `36800739033`. LIB-04c
+  (#58) partitioned CI; `main` was merged into the branch (`5fbcc22`) and run `36803917110` passed
+  all 24 checks.
+- **Audit** `[GPT-6-Astra]`: PASS WITH FINDINGS, one minor (a free test helper in `hex.cairo`),
+  scoped by the orchestrator in `e74a865`, the gas of `hex::tests` unchanged. **Codex review**
+  `[GPT-6-Sol]` on `e74a865`: PASS.
+- **Accepted figures**: `line` table 11,150, `approach` on a ring 86,046, `line_to` at `N = 22`
+  169,230, in §14 of the plan and in `gas/accepted.md` (`951d3d4`).
+- **Merged** as pull request #57, `08ea9b0`, on 2026-10-01.
