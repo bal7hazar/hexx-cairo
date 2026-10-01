@@ -13,6 +13,7 @@ mod cairo;
 mod conversions;
 mod direction;
 mod hex;
+mod hexagon;
 mod line;
 mod spec;
 
@@ -96,6 +97,8 @@ fn run() -> Result<bool, String> {
                     "conversions" => vec![(target(&root, spec), conversions::emit(spec)?)],
                     // The golden file, the table region of `board/line.cairo` and the deviations
                     "line" => line::emit(spec, &root)?,
+                    // The tables of `board/hexagon.cairo` and the band `ROW_FROM_16` of `board/tables.cairo`
+                    "hexagon" => hexagon::emit(spec, &root)?,
                     other => return Err(format!("no generator registered for module {other:?}")),
                 };
                 for (path, text) in outputs {
