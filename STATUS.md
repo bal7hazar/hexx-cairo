@@ -50,6 +50,8 @@ scripts/agent.sh M1-T4b claude claude-sonnet-5-5 resume "<follow-up>"
 | 2026-09-29 | CI, pull request #43, run 36609917335 | `HexxGenerators` 27,101 against 27,092; re-run once, green |
 | 2026-09-29 | local, M1-T4b | `HexxGenerators` 27,101 against 27,092; CI green |
 | 2026-09-30 | local (VPS), M1-T3 | `takeover_tests`: 40 rows of `Digger::dig` +0.2 to +1.9 %, twice; CI measured `main`'s figures exactly; `main`'s snapshot kept. `HexxGenerators` 27,092 (no class-size drift). Rule added to `COMMON.md` §4 |
+| 2026-10-01 | CI, pull request #61 (a workflow timeout), run 36809041479 | `takeover_tests`: the same 40 rows +0.22 to +1.94 %: the second build, first seen in CI |
+| 2026-10-01 | CI, pull request #70 (consumer check, no Cairo change), run 36836722836 | the same 40 rows, the same figures; the failed job re-run once. D-164 extended to the gas gate by the project manager: LIB-04d |
 
 Diagnosis: the game's task SPK-13 on the owner's Mac ([reproduction](docs/reports/LIB-05-M1-T1c-REPORT.md)). An upstream issue is the owner's go.
 
