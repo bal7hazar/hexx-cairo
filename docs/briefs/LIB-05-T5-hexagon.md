@@ -107,3 +107,26 @@ regenerated; the placement of tests (D-167); the organisation lens.
 
 `REPORT.md` as in [COMMON.md](COMMON.md) §7, with the figures of the ranges table beside their
 measurements.
+
+## Decisions of the orchestrator at the close (2026-10-01)
+
+By `[Opus 5.5]`, the orchestrator, on the agent's report (pull request #65, head `07ae87d`). They
+amend this brief; a review or an audit reads them as part of it.
+
+1. **The stop condition was crossed and not reported as a stop.** The first loop path of `hexagon`
+   measured 940,040 at 83 rows, above twice its upper bound (934,580); the agent rewrote the loop
+   instead of stopping. The rule holds from the first measurement: a rewrite after a crossing is the
+   optimisation the stop forbids. The work is **kept**, since the rewrite is proven by every oracle
+   of Scope 3 and measures under twice the bound, and the breach is recorded here and in
+   `STATUS.md`.
+2. **Accepted as measured**, under twice their upper bound as the stop allows: `hexagon` on the loop
+   path, 128,670 at 16 rows ([72,064, 90,080]) and 519,840 at 83 rows ([373,832, 467,290]). About
+   5,840 per row against the sketch's 4,504: comparisons and `u16` additions measured at several
+   hundred each. The tick reads the sight on the table path (16,430, below its range), so neither
+   figure is on it. The orchestrator writes them in §14 of the plan and in `gas/accepted.md`.
+3. The deviations from the sketch (only `ROW_FROM_16`, the ring by the two ends of each row, no clip
+   when the shape fits, the radius of the loop capped at 100 since no board of the engine has a
+   distance above 85: both dimensions above 2 and at most `MAX_SIZE` tiles) are accepted: each is
+   proved against the oracles.
+4. `gas/hexx.snap`'s new rows were measured on the `board::` tests, then confirmed by CI's gas
+   jobs, which check every row: accepted.

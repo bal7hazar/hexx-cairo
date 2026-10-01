@@ -25,3 +25,5 @@ the project manager before the merge; under that, the orchestrator decides.
 | `LineTrait::approach`, ring target | 86,046 | [62,827, 78,534] | M1-T6 | `edge_neighbors`: six `neighbor` calls, each far above the sketch's 3,696; not in the tick |
 | `HexTrait::line_to`, `N = 22` | 169,230 | [68,310, 85,388] | M1-T6 | The mirror, off the board's paths; about 7,300 per element against the sketch's 2,970 |
 | `SeamTrait::side` | 3,840 | [3,032, 3,790] | M1-T7 | The sketch leaves out the `NonZero` conversion, two products and the `match` on `Side`; not on the tick |
+| `HexagonTrait::hexagon`, loop path, 16 rows | 128,670 | [72,064, 90,080] | M1-T5 | About 5,840 per row against the sketch's 4,504; the tick reads the sight on the table path (16,430) |
+| `HexagonTrait::hexagon`, loop path, 83 rows | 519,840 | [373,832, 467,290] | M1-T5 | idem; the domain-wide worst case (3 × 83, radius 255) |
