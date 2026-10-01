@@ -360,15 +360,18 @@ mod tests {
 
     use super::{Hex, HexTrait};
 
-    /// The line reversed.
-    fn reversed(line: Span<Hex>) -> Span<Hex> {
-        let mut back = array![];
-        let mut i = line.len();
-        while i != 0 {
-            i -= 1;
-            back.append(*line.at(i));
+    #[generate_trait]
+    impl Line of LineTrait {
+        /// The line reversed.
+        fn reversed(line: Span<Hex>) -> Span<Hex> {
+            let mut back = array![];
+            let mut i = line.len();
+            while i != 0 {
+                i -= 1;
+                back.append(*line.at(i));
+            }
+            back.span()
         }
-        back.span()
     }
 
     /// R-N5-5 (audit pass 2, finding 25): no tie, `N = 7`; sample 2 is `(8_000_000, 2)` exactly,
@@ -445,7 +448,7 @@ mod tests {
                     while by != 4 {
                         let b = HexTrait::new(bx, by);
                         let line = a.line_to(b);
-                        assert!(reversed(b.line_to(a)) == line);
+                        assert!(LineTrait::reversed(b.line_to(a)) == line);
                         let moved = HexTrait::new(ax + shift.x, ay + shift.y)
                             .line_to(HexTrait::new(bx + shift.x, by + shift.y));
                         let mut i = 0;
