@@ -1,7 +1,0 @@
-# Second observed builds of a class, accepted by `scripts/bytecode_size.py check` beside the one of
-# gas/bytecode.size (decision D-164 of the game, 2026-09-30: the compile of Scarb 2.19.4 is not
-# reproducible, D-154). Each line is exact, with the commit and the run that observed it; any
-# third value fails. Removed when the game's SPK-13 explains the cause. Never edited to make a
-# check pass: a new line needs a decision of the project manager.
-# contract: sierra_felts casm_felts sierra_bytes casm_bytes  # commit, run, where
-HexxGenerators: 27101 49375 1396211 997304  # 5a3cda3, CI run 36568463132 (Gas consumer); d76c289, CI run 36749625318 attempts 1 and 2; the local builds give the value of gas/bytecode.size
