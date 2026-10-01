@@ -4,9 +4,9 @@
 
 | | |
 |---|---|
-| Phase | **Milestone L-M1: LIB-05.** **`hexx` 0.1.0-rc.1 published** on scarbs.xyz (2026-10-01, from `fe2b529`, tag `v0.1.0-rc.1`) for the game's ENG-02. **M1-T5** (N-6) done, pull request #65 green, **waiting for its audit** (Codex, quota until 2026-10-04 13:36) and its review. N-2 and N-1 wait for the owner's decision on the chunk shape (SPK-14). Then M1-N9 (N-9 on the published artifact), rc.2, M1-R |
+| Phase | **Milestone L-M1: LIB-05.** `hexx` 0.1.0-rc.1 published (2026-10-01). N-9 proved on the published package for consumers on Scarb 2.19.4 (M1-N9, #70; the cause of 1.8.0's defect is Scarb 2.13.1's resolver). **M1-T5** (N-6, #65) and **M1-T7** (N-2, #74) done and reviewed, **waiting for their audits** (Codex, quota until 2026-10-04 13:36). **M1-T8** (N-1) briefed, starts once M1-T7 is merged. Then rc.2 for ENG-05, M1-R |
 | Procedures (Nexus, D-162) | Every pull request gets a review (`nexus review`) before its merge. The owner's rule of 2026-10-01: while Codex has no budget, the review is made by Claude Opus 5.5 (`--model fable` when Opus wrote the work) once nexus #35 is deployed; until then code merges wait and documents merge under the exception. Audits do not fall back: they wait for Codex. Implementers through `scripts/agent.sh`; `nexus accounts` and `nexus resources` before a launch |
-| Running agents | None |
+| Running agents | M1-T5, `[Opus 5.5]`, fix loop 1 (review notes) |
 | Decisions pending | The owner: Codex's quota (every audit, and every code merge until nexus #35, wait for it until 2026-10-04 13:36) |
 
 ## Pause 2026-09-29 (ended 2026-09-30)
@@ -66,6 +66,8 @@ Diagnosis: the game's task SPK-13 on the owner's Mac ([reproduction](docs/report
 
 | Date | What |
 |---|---|
+| 2026-10-01 | LIB-04d: the gas gate accepts the exact recorded second build of a row (D-164 extended to gas by the project manager), `gas/takeover_tests.builds` (40 rows), by `[Sonnet 5.5]`; review `[Opus 5.5]` (fallback): PASS. [pull request #76](https://github.com/bal7hazar/hexx-cairo/pull/76) |
+| 2026-10-01 | LIB-05 M1-N9: `tools/consumer_check/` and its workflow, green against 0.1.0-rc.1; the cause of 1.8.0's defect reproduced by the orchestrator (Scarb 2.13.1 against 2.19.4, `docs/research/N-9-cause.md`), by `[Sonnet 5.5]`; reviews `[Opus 5.5]` and `[Fable 5.1]` (fallback), three passes; its quality audit waits for Codex. Follow-up #72 (`docs/RELEASING.md`, plan §14) |
 | 2026-10-01 | **`hexx` 0.1.0-rc.1 published** on scarbs.xyz by the orchestrator, from `fe2b529`, after the owner's D-132 (release candidates delegated to the project manager) and the project manager's go (#67); registry checksum `sha256:9313e06b…1500`; tag and GitHub release `v0.1.0-rc.1`. [Record](docs/decisions/D-132-publish-hexx-0.1.0-rc.1.md) |
 | 2026-10-01 | `0.1.0-rc.1` cut (#60: version, CHANGELOG, five Codex review passes); release check fixed (#61 timeout, merged with a red check by the orchestrator's error, the D-154 drift; #62 reports outside the checkout, merged without a Codex review by the project manager's decision, Codex out of quota) and green on `fe2b529` (run `36813005979`); pending file #64; D-132 answered by the owner |
 | 2026-10-01 | LIB-05 M1-T5, N-6, by `[Opus 5.5]`: `HexagonTrait::{hexagon, hexagon_ring}`, table and loop paths, generated tables; pull request #65 green, **not merged** (audit and Codex review wait for Codex's quota). The agent crossed its stop (first loop 940,040 at 83 rows, above twice its bound) and rewrote instead of stopping: work kept, breach recorded in its brief; `COMMON.md` now says a stop holds from the first measurement |
