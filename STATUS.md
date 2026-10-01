@@ -4,10 +4,10 @@
 
 | | |
 |---|---|
-| Phase | **Milestone L-M1: LIB-05.** N-3, N-4, N-5, N-7, N-8, the mirror items and the board coordinates merged. **`0.1.0-rc.1`** cut at `fe2b529` (#60), release check green (run `36813005979`), **waiting for the project manager's go** (`docs/decisions/PENDING-publish-hexx-0.1.0-rc.1.md`). **M1-T5** (N-6) done, pull request #65 green, **waiting for its audit and Codex review** (Codex out of quota until 2026-10-04 13:36). N-2 and N-1 wait for the owner's decision on the chunk shape (SPK-14) |
-| Procedures (Nexus, D-162) | Every pull request gets a Codex review (`nexus review`) before its merge; audits through `nexus audit`; implementers through `scripts/agent.sh`; `nexus accounts` and `nexus resources` before a launch. Accounts at 2026-10-01 ~01:20 UTC: `claude:b7r` 11 % of its week (reset 2026-10-03 06:00), `claude:main` 15 % |
+| Phase | **Milestone L-M1: LIB-05.** **`hexx` 0.1.0-rc.1 published** on scarbs.xyz (2026-10-01, from `fe2b529`, tag `v0.1.0-rc.1`) for the game's ENG-02. **M1-T5** (N-6) done, pull request #65 green, **waiting for its audit** (Codex, quota until 2026-10-04 13:36) and its review. N-2 and N-1 wait for the owner's decision on the chunk shape (SPK-14). Then M1-N9 (N-9 on the published artifact), rc.2, M1-R |
+| Procedures (Nexus, D-162) | Every pull request gets a review (`nexus review`) before its merge. The owner's rule of 2026-10-01: while Codex has no budget, the review is made by Claude Opus 5.5 (`--model fable` when Opus wrote the work) once nexus #35 is deployed; until then code merges wait and documents merge under the exception. Audits do not fall back: they wait for Codex. Implementers through `scripts/agent.sh`; `nexus accounts` and `nexus resources` before a launch |
 | Running agents | None |
-| Decisions pending | The project manager: the go on `0.1.0-rc.1` (D-132 decided by the owner on 2026-10-01: release candidates delegated to the project manager, stable versions the owner's). The owner: Codex's quota (every merge of code waits for it until 2026-10-04 13:36) |
+| Decisions pending | The owner: Codex's quota (every audit, and every code merge until nexus #35, wait for it until 2026-10-04 13:36) |
 
 ## Pause 2026-09-29 (ended 2026-09-30)
 
@@ -64,6 +64,7 @@ Diagnosis: the game's task SPK-13 on the owner's Mac ([reproduction](docs/report
 
 | Date | What |
 |---|---|
+| 2026-10-01 | **`hexx` 0.1.0-rc.1 published** on scarbs.xyz by the orchestrator, from `fe2b529`, after the owner's D-132 (release candidates delegated to the project manager) and the project manager's go (#67); registry checksum `sha256:9313e06b…1500`; tag and GitHub release `v0.1.0-rc.1`. [Record](docs/decisions/D-132-publish-hexx-0.1.0-rc.1.md) |
 | 2026-10-01 | `0.1.0-rc.1` cut (#60: version, CHANGELOG, five Codex review passes); release check fixed (#61 timeout, merged with a red check by the orchestrator's error, the D-154 drift; #62 reports outside the checkout, merged without a Codex review by the project manager's decision, Codex out of quota) and green on `fe2b529` (run `36813005979`); pending file #64; D-132 answered by the owner |
 | 2026-10-01 | LIB-05 M1-T5, N-6, by `[Opus 5.5]`: `HexagonTrait::{hexagon, hexagon_ring}`, table and loop paths, generated tables; pull request #65 green, **not merged** (audit and Codex review wait for Codex's quota). The agent crossed its stop (first loop 940,040 at 83 rows, above twice its bound) and rewrote instead of stopping: work kept, breach recorded in its brief; `COMMON.md` now says a stop holds from the first measurement |
 | 2026-10-01 | LIB-05 M1-T6, N-5: `HexTrait::line_to` (the integer line, the game's tie rule), `LineTrait::{line, line_of_sight, approach}` with a keyed table for width 15 at distance ≤ 6 and a loop elsewhere, the `refgen` line generator, golden vectors as digests, `docs/deviations/line_ties.md` (every difference with `hexx`, all at ties or `f32` rounding), by `[Opus 5.5]` (one stop on the table figure of `line`, 11,150, accepted with `approach` on a ring and `line_to` in `gas/accepted.md`; none on the tick); audit `[GPT-6-Astra]` PASS WITH FINDINGS (one minor, a free test helper, scoped by the orchestrator), Codex review `[GPT-6-Sol]` PASS. L-M1 lists no missing mirror item. [report](docs/reports/LIB-05-M1-T6-REPORT.md) |
