@@ -102,6 +102,8 @@ EXTENDED: dict[str, str] = {
     "src/board/direction.cairo": "M1-T3 (N-7)",
     "src/board/geometry.cairo": "M1-T3 (§6.1, §3.5)",
     "src/board/layout.cairo": "M1-T3 (neighbor_direction)",
+    "src/generators/caver.cairo": "M1-T8, N-1",
+    "src/board/map.cairo": "M1-T8, N-1",
 }
 
 
