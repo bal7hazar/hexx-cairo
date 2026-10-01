@@ -135,7 +135,7 @@ jobs:
   # `hexx` is two scopes, its tests without `#[ignore]` and its ignored tests (103, the printouts
   # and benchmarks): measured together they took 9 m 45 s of the 10 minutes (6 m 32 s without),
   # measured apart each is far under. The regular scope is in six partitions and the ignored one
-  # in two (LIB-04c: the jobs took 9 m 4 s and 6 m 1 s; six since 2026-10-01, when four reached 7 m 25 s), each checked against its own snapshot rows; the jobs `Gas completeness` after
+  # in three (LIB-04c: the jobs took 9 m 4 s and 6 m 1 s; six since 2026-10-01, when four reached 7 m 25 s), each checked against its own snapshot rows; the jobs `Gas completeness` after
   # them fails when a test was measured in no partition or in two, or a row is stale. Every test
   # is measured exactly once.
   gas:
@@ -152,8 +152,9 @@ jobs:
           - {package: hexx, scope: regular, partition: "4/6", tag: -p4of6, label: hexx 4/6}
           - {package: hexx, scope: regular, partition: "5/6", tag: -p5of6, label: hexx 5/6}
           - {package: hexx, scope: regular, partition: "6/6", tag: -p6of6, label: hexx 6/6}
-          - {package: hexx, scope: ignored, partition: "1/2", tag: -p1of2, label: hexx ignored 1/2}
-          - {package: hexx, scope: ignored, partition: "2/2", tag: -p2of2, label: hexx ignored 2/2}
+          - {package: hexx, scope: ignored, partition: "1/3", tag: -p1of3, label: hexx ignored 1/3}
+          - {package: hexx, scope: ignored, partition: "2/3", tag: -p2of3, label: hexx ignored 2/3}
+          - {package: hexx, scope: ignored, partition: "3/3", tag: -p3of3, label: hexx ignored 3/3}
           - {package: takeover_tests, scope: all, label: takeover_tests}
           - {package: consumer, scope: all, label: consumer}
     steps:
@@ -228,7 +229,7 @@ jobs:
       matrix:
         include:
           - {scope: regular, total: 6}
-          - {scope: ignored, total: 2}
+          - {scope: ignored, total: 3}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Download the partition reports
