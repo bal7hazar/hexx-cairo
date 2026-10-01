@@ -83,6 +83,12 @@ pub impl LayoutImpl of LayoutTrait {
 
     /// The layout of a chunk whose local row 0 is a global odd row: `even` holds the globally
     /// even rows, that is the local odd rows `board − even`; every other field as in `new`.
+    ///
+    /// Only the methods that read `even` honour the flag: `expand`, `expand_small` and
+    /// `dilation` (hence the floods built on them) follow the global parity. `neighbor_mask`
+    /// reads the parity of the local row (`parity`), and `neighbor`, `edge_neighbors`,
+    /// `neighbor_in` and `neighbor_direction` take no layout and use the local row as well: on an
+    /// odd chunk they answer for an even one.
     /// # Arguments
     /// * `width` - The width of the map
     /// * `height` - The height of the map

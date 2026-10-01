@@ -168,6 +168,8 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::rng::tests::test_rng_shuffle6` | 100,432 | 105,454 | 5.0 % |
 | `hexx::board::seams::tests::bench_seams_is_open_across_once` | 50,596 | 53,126 | 5.0 % |
 | `hexx::board::seams::tests::bench_seams_is_open_across_twice` | 82,692 | 86,827 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_openings_east_chunk_odd_once` | 50,796 | 53,336 | 5.0 % |
+| `hexx::board::seams::tests::bench_seams_openings_east_chunk_odd_twice` | 83,092 | 87,247 | 5.0 % |
 | `hexx::board::seams::tests::bench_seams_openings_east_once` | 50,596 | 53,126 | 5.0 % |
 | `hexx::board::seams::tests::bench_seams_openings_east_twice` | 82,692 | 86,827 | 5.0 % |
 | `hexx::board::seams::tests::bench_seams_openings_north_once` | 34,032 | 35,734 | 5.0 % |
@@ -177,16 +179,16 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::seams::tests::bench_seams_side_once` | 21,850 | 22,943 | 5.0 % |
 | `hexx::board::seams::tests::bench_seams_side_twice` | 25,690 | 26,975 | 5.0 % |
 | `hexx::board::seams::tests::test_seams_d134_corners` | 3,501,270 | 3,676,334 | 5.0 % |
-| `hexx::board::seams::tests::test_seams_oracle_15x15` | 228,194,492 | 239,604,217 | 5.0 % |
-| `hexx::board::seams::tests::test_seams_oracle_15x16` | 243,458,783 | 255,631,723 | 5.0 % |
-| `hexx::board::seams::tests::test_seams_oracle_16x15` | 238,723,082 | 250,659,237 | 5.0 % |
-| `hexx::board::seams::tests::test_seams_oracle_17x14` | 250,846,093 | 263,388,398 | 5.0 % |
-| `hexx::board::seams::tests::test_seams_oracle_19x13` | 245,066,952 | 257,320,300 | 5.0 % |
-| `hexx::board::seams::tests::test_seams_oracle_25x10` | 273,685,102 | 287,369,358 | 5.0 % |
-| `hexx::board::seams::tests::test_seams_oracle_3x3` | 117,595,202 | 123,474,963 | 5.0 % |
-| `hexx::board::seams::tests::test_seams_oracle_3x83` | 496,985,295 | 521,834,560 | 5.0 % |
-| `hexx::board::seams::tests::test_seams_oracle_7x7` | 155,902,700 | 163,697,835 | 5.0 % |
-| `hexx::board::seams::tests::test_seams_oracle_83x3` | 529,612,451 | 556,093,074 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_15x15` | 297,943,496 | 312,840,671 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_15x16` | 304,987,985 | 320,237,385 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_16x15` | 307,640,975 | 323,023,024 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_17x14` | 303,250,907 | 318,413,453 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_19x13` | 310,056,567 | 325,559,396 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_25x10` | 325,844,183 | 342,136,393 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_3x3` | 180,087,183 | 189,091,543 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_3x83` | 562,495,693 | 590,620,478 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_7x7` | 219,098,597 | 230,053,527 | 5.0 % |
+| `hexx::board::seams::tests::test_seams_oracle_83x3` | 583,095,383 | 612,250,153 | 5.0 % |
 | `hexx::board::seams::tests::test_seams_products_exact` | 3,184,790 | 3,344,030 | 5.0 % |
 | `hexx::board::seams::tests::test_seams_r_n2_1_south_overlap` | 31,662 | 33,246 | 5.0 % |
 | `hexx::board::seams::tests::test_seams_r_n2_2_west_last_row` | 49,736 | 52,223 | 5.0 % |
@@ -1891,7 +1893,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 15,520 | 16,296 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 15,520 | 16,296 | 5.0 % |
 
-1884 measured test(s).
+1886 measured test(s).
 
 ## Figures accepted above their range
 

@@ -1,8 +1,11 @@
 //! N-2, seams (plan §6.3): the sides of a board and the openings between two neighbouring boards
 //! of the same dimensions, with the global parity of the rows.
 //!
-//! `far` lies next to `near` on the side opposite to `side`; `odd` states that `near`'s local row
-//! 0 is a global odd row (the parity flag of plan §3.3, a parameter, never a field of `HexMap`).
+//! `far` lies beyond `near`'s `side`, and `far`'s opposite side touches it: for `Side::East`,
+//! `far` lies to the East (lower `x`) and its column `W − 1` faces `near`'s column 0; for
+//! `Side::North`, `far` lies to the North and its row 0 faces `near`'s row `H − 1`. `odd` states
+//! that `near`'s local row 0 is a global odd row (the parity flag of plan §3.3, a parameter, never
+//! a field of `HexMap`).
 //! A tile of `near`'s side is open across the seam when it is open and one of its six neighbours,
 //! from the neighbour table with the global parity of its row, lies in `far` and is open there.
 //! The four corners of a chunk are wall (D-134), so no corner is an opening on the game's chunks;
@@ -394,22 +397,29 @@ mod tests {
             (product % 0x10000000000000000).try_into().unwrap()
         }
 
-        /// A seeded board: the AND of `rounds` draws of 256 bits, restricted to the board.
+        /// A seeded board: the AND of `rounds` draws of 256 bits, restricted to the board. Each
+        /// draw is eight words of 32 bits, each the high half of a new state: the low bits of a
+        /// power-of-two LCG have short periods, and taken whole they left tiles such as `(0, 0)`
+        /// closed in every board (review of M1-T7).
         fn board(width: u8, height: u8, ref state: u64, rounds: u32) -> felt252 {
             let mut value: u256 = LayoutTrait::board(width, height).into();
             let mut round: u32 = 0;
             while round != rounds {
-                let mut words: Array<u128> = array![];
-                let mut index: u32 = 0;
-                while index != 4 {
-                    state = Self::next(state);
-                    words.append(state.into());
-                    index += 1;
+                let mut limbs: Array<u128> = array![];
+                let mut limb: u32 = 0;
+                while limb != 2 {
+                    let mut word: u128 = 0;
+                    let mut index: u32 = 0;
+                    while index != 4 {
+                        state = Self::next(state);
+                        let high: u128 = (state / 0x100000000).into();
+                        word = word * 0x100000000 + high;
+                        index += 1;
+                    }
+                    limbs.append(word);
+                    limb += 1;
                 }
-                let draw = u256 {
-                    low: *words[0] + *words[1] * 0x10000000000000000,
-                    high: *words[2] + *words[3] * 0x10000000000000000,
-                };
+                let draw = u256 { low: *limbs[0], high: *limbs[1] };
                 value = Bits::and(value, draw);
                 round += 1;
             }
@@ -417,7 +427,8 @@ mod tests {
         }
 
         /// One dimension class against the oracle: every side, both parities, the four
-        /// full/empty combinations and 32 seeded pairs (densities 1/2, 1/4 and 1/8 in turn);
+        /// full/empty combinations and 32 seeded pairs (densities 1/2, 1/4 and 1/8 in turn), in
+        /// which every tile of every side is open at least once in `near` and once in `far`;
         /// `is_open_across` with it; and D-134: the same pairs with the four corners of both
         /// boards cleared give no corner.
         fn check(width: u8, height: u8, seed: u64) {
@@ -432,13 +443,24 @@ mod tests {
                     let mut pairs: Array<(felt252, felt252)> = array![
                         (board, board), (board, 0), (0, board), (0, 0),
                     ];
+                    let mut nears: u256 = 0;
+                    let mut fars: u256 = 0;
                     let mut index: u32 = 0;
                     while index != PAIRS {
                         let rounds = 1 + index % 3;
                         let near = Self::board(width, height, ref state, rounds);
                         let far = Self::board(width, height, ref state, rounds);
+                        nears = Bits::or(nears, near.into());
+                        fars = Bits::or(fars, far.into());
                         pairs.append((near, far));
                         index += 1;
+                    }
+                    // Coverage: every tile of the side, and of the side `far` presents, is open
+                    // in at least one seeded `near` and one seeded `far`
+                    for mask in SIDES.span() {
+                        let mask: u256 = SeamTrait::side(width, height, *mask).into();
+                        assert!(Bits::and(nears, mask) == mask, "{} x {}: near", width, height);
+                        assert!(Bits::and(fars, mask) == mask, "{} x {}: far", width, height);
                     }
                     for (near, far) in pairs.span() {
                         let (near, far) = (*near, *far);
@@ -594,61 +616,61 @@ mod tests {
     // Oracle (plan §6.3): one test per dimension class, under the step limit
 
     #[test]
-    #[available_gas(l2_gas: 239604217)]
+    #[available_gas(l2_gas: 312840671)]
     fn test_seams_oracle_15x15() {
         Oracle::check(15, 15, 'n2 15x15');
     }
 
     #[test]
-    #[available_gas(l2_gas: 255631723)]
+    #[available_gas(l2_gas: 320237385)]
     fn test_seams_oracle_15x16() {
         Oracle::check(15, 16, 'n2 15x16');
     }
 
     #[test]
-    #[available_gas(l2_gas: 250659237)]
+    #[available_gas(l2_gas: 323023024)]
     fn test_seams_oracle_16x15() {
         Oracle::check(16, 15, 'n2 16x15');
     }
 
     #[test]
-    #[available_gas(l2_gas: 263388398)]
+    #[available_gas(l2_gas: 318413453)]
     fn test_seams_oracle_17x14() {
         Oracle::check(17, 14, 'n2 17x14');
     }
 
     #[test]
-    #[available_gas(l2_gas: 257320300)]
+    #[available_gas(l2_gas: 325559396)]
     fn test_seams_oracle_19x13() {
         Oracle::check(19, 13, 'n2 19x13');
     }
 
     #[test]
-    #[available_gas(l2_gas: 287369358)]
+    #[available_gas(l2_gas: 342136393)]
     fn test_seams_oracle_25x10() {
         Oracle::check(25, 10, 'n2 25x10');
     }
 
     #[test]
-    #[available_gas(l2_gas: 556093074)]
+    #[available_gas(l2_gas: 612250153)]
     fn test_seams_oracle_83x3() {
         Oracle::check(83, 3, 'n2 83x3');
     }
 
     #[test]
-    #[available_gas(l2_gas: 521834560)]
+    #[available_gas(l2_gas: 590620478)]
     fn test_seams_oracle_3x83() {
         Oracle::check(3, 83, 'n2 3x83');
     }
 
     #[test]
-    #[available_gas(l2_gas: 163697835)]
+    #[available_gas(l2_gas: 230053527)]
     fn test_seams_oracle_7x7() {
         Oracle::check(7, 7, 'n2 7x7');
     }
 
     #[test]
-    #[available_gas(l2_gas: 123474963)]
+    #[available_gas(l2_gas: 189091543)]
     fn test_seams_oracle_3x3() {
         Oracle::check(3, 3, 'n2 3x3');
     }
@@ -672,6 +694,34 @@ mod tests {
             let board = LayoutTrait::board(15, 16);
             Bench { pairs: [(board, board), (board, board - 1)] }
         }
+
+        /// The same pairs on a chunk of 15 × 15.
+        #[inline(never)]
+        fn chunk() -> Bench {
+            let board = LayoutTrait::board(15, 15);
+            Bench { pairs: [(board, board), (board, board - 1)] }
+        }
+    }
+
+    /// `openings`, East, `odd = true`, on a chunk of 15 × 15: an odd height takes the longer
+    /// arms of `SeamInternal::contacts` (review of M1-T7).
+    #[test]
+    #[inline(never)]
+    #[available_gas(l2_gas: 53336)]
+    fn bench_seams_openings_east_chunk_odd_once() {
+        let bench = Inputs::chunk();
+        let [(near, far), _] = bench.pairs;
+        assert!(SeamTrait::openings(15, 15, near, far, Side::East, true) != 0);
+    }
+
+    #[test]
+    #[inline(never)]
+    #[available_gas(l2_gas: 87247)]
+    fn bench_seams_openings_east_chunk_odd_twice() {
+        let bench = Inputs::chunk();
+        let [(near, far), (other, next)] = bench.pairs;
+        assert!(SeamTrait::openings(15, 15, near, far, Side::East, true) != 0);
+        assert!(SeamTrait::openings(15, 15, other, next, Side::East, true) != 0);
     }
 
     /// `openings`, East, `odd = false` (three contacts on every even row), both fully open.
