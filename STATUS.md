@@ -4,9 +4,9 @@
 
 | | |
 |---|---|
-| Phase | **Milestone L-M1: LIB-05.** N-3, N-4, N-7, N-8, the mirror items and the board coordinates merged (M1-T3, #54). Next **M1-T6** (N-5, the line of sight), then release candidate `0.1.0-rc.1` for the game's ENG-02. N-2 and N-1 wait for the owner's decision on the chunk shape (SPK-14, D-165) before their briefs |
-| Procedures (Nexus, D-162) | Every pull request gets a Codex review (`nexus review`) before its merge; audits through `nexus audit`; implementers through `scripts/agent.sh`; `nexus accounts` and `nexus resources` before a launch. Accounts at 2026-09-30 ~22:00 UTC: `claude:b7r` 8 % of its week (reset 2026-10-03 06:00), `claude:main` 12 % |
-| Running agents | M1-T6, `[Opus 5.5]`, once its brief is merged |
+| Phase | **Milestone L-M1: LIB-05.** N-3, N-4, N-5, N-7, N-8, the mirror items and the board coordinates merged (M1-T6, #57). CI partitioned (LIB-04c, #58). Next **release candidate `0.1.0-rc.1`** for the game's ENG-02 (the owner's confirmation of D-132 first). N-2 and N-1 wait for the owner's decision on the chunk shape (SPK-14, D-165) before their briefs; then M1-T5 (N-6) |
+| Procedures (Nexus, D-162) | Every pull request gets a Codex review (`nexus review`) before its merge; audits through `nexus audit`; implementers through `scripts/agent.sh`; `nexus accounts` and `nexus resources` before a launch. Accounts at 2026-10-01 ~01:20 UTC: `claude:b7r` 11 % of its week (reset 2026-10-03 06:00), `claude:main` 15 % |
+| Running agents | None |
 | Decisions pending | The owner, before the first publication: confirm the delegation of the decision to publish to the project manager (D-132) |
 
 ## Pause 2026-09-29 (ended 2026-09-30)
@@ -64,6 +64,8 @@ Diagnosis: the game's task SPK-13 on the owner's Mac ([reproduction](docs/report
 
 | Date | What |
 |---|---|
+| 2026-10-01 | LIB-05 M1-T6, N-5: `HexTrait::line_to` (the integer line, the game's tie rule), `LineTrait::{line, line_of_sight, approach}` with a keyed table for width 15 at distance ≤ 6 and a loop elsewhere, the `refgen` line generator, golden vectors as digests, `docs/deviations/line_ties.md` (every difference with `hexx`, all at ties or `f32` rounding), by `[Opus 5.5]` (one stop on the table figure of `line`, 11,150, accepted with `approach` on a ring and `line_to` in `gas/accepted.md`; none on the tick); audit `[GPT-6-Astra]` PASS WITH FINDINGS (one minor, a free test helper, scoped by the orchestrator), Codex review `[GPT-6-Sol]` PASS. L-M1 lists no missing mirror item. [report](docs/reports/LIB-05-M1-T6-REPORT.md) |
+| 2026-10-01 | LIB-04c: `bench.py --partition` and `complete`, CI partitioned (tests 5, gas 4 + 2, two completeness jobs), every job under 6 minutes (was 9 m 4 s and a timeout on #57), by `[Sonnet 5.5]`; Codex review `[GPT-6-Sol]` two passes, PASS. [report](docs/reports/LIB-04c-REPORT.md) |
 | 2026-09-30 | LIB-05 M1-T3, N-7 and the board coordinates: `Direction::{rotate, arc}`, `Arc`, the conversions with `EdgeDirection`, `distance_between` (on `bounded_int`, 4,220, down from 7,220), `chunk_of`, `to_hex`, `from_hex`, `index_to_hex`, `hex_to_index`, `neighbor_direction`, the three renames, by `[Opus 5.5]` (one stop on the gas condition, decided in its brief; five figures accepted above range in `gas/accepted.md`, none on the tick); audit (determinism) and Codex review by `[GPT-6-Sol]`: PASS, PASS. The brief named GPT-6-Astra for the audit; the orchestrator omitted `--model` and the project default ran. [report](docs/reports/LIB-05-M1-T3-REPORT.md) |
 | 2026-09-30 | LIB-05 M1-T2: the mirror items of L-M1 (`Hex`, `EdgeDirection`, offset coordinates, `HexOrientation`), parity by golden vectors from `hexx` 0.25.0, by `[Sonnet 5.5]`; two audit passes and two Codex reviews; [report](docs/reports/LIB-05-M1-T2-REPORT.md) |
 | 2026-09-30 | LIB-05 M1-T4b, N-4: `cut` as `grid & mask`, and the exhaustive coverage of `local`, by `[Sonnet 5.5]`; audit and Codex review by `[GPT-6-Sol]`: PASS, PASS; [report](docs/reports/LIB-05-M1-T4b-REPORT.md) |
