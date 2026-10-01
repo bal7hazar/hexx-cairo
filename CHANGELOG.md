@@ -33,9 +33,11 @@ sample.
 
 ### Extensions
 
-- **The engine of `origami_hexmap` 1.8.0** (`board`, `finders`, `generators`): moved unchanged
-  (`scripts/takeover_check.py`) and proved equal to the published 1.8.0 by 630 tests
-  (`crates/takeover_tests`), panics included.
+- **The engine of `origami_hexmap` 1.8.0** (`board`, `finders`, `generators`): moved, its code
+  preserved byte for byte or up to `scarb fmt` except the three renames below, and five files
+  extended with additions only (`scripts/takeover_check.py`, `EXTENDED`); every public function
+  compared with the published 1.8.0 by `crates/takeover_tests`: 630 tests, of which 334 equality
+  tests, 204 panic tests, 88 gas tests and 4 provenance tests.
 - **N-3** `AssemblyTrait::{origin, local, assemble, window}`: the window of 15 × 16 assembled
   from 2 or 4 chunks of 15 × 15, a void chunk assembled as wall without a read.
 - **N-4** `CutTrait::cut`: `grid & mask`, the ring kept inside the mask.
@@ -60,7 +62,8 @@ window, 7 × 7, the seeded sample and the adversarial large-coordinate pairs) is
 
 ### Results changed
 
-Against `origami_hexmap` 1.8.0: none; every function taken over returns 1.8.0's result. Three
+Against `origami_hexmap` 1.8.0: none; every function taken over returns 1.8.0's result on the
+equality and panic tests of `crates/takeover_tests`. Three
 helpers are renamed, a change of name only: `edge_neighbours` → `edge_neighbors`,
 `neighbour_in` → `neighbor_in`, `neighbour_mask` → `neighbor_mask`. First pre-release of `hexx`:
 no earlier version to compare.
