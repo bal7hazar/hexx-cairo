@@ -185,17 +185,31 @@ jobs:
           VERSION: ${{ inputs.version }}
         run: |
           set -o pipefail
+          # The reports go to the runner's temporary directory, never into the checkout:
+          # `scarb package` refuses a tree with an untracked file (run 36809681077).
+          out="$RUNNER_TEMP/release-check"
+          mkdir -p "$out"
           prerelease=$(python3 scripts/api_parity.py --is-prerelease "$VERSION")
           status=0
           if [ "$prerelease" = "true" ]; then
             python3 scripts/api_parity.py --check-release "$MILESTONE" --report-only 2>&1 \
-              | tee milestone-report.txt || status=$?
+              | tee "$out/milestone-report.txt" || status=$?
           else
             python3 scripts/api_parity.py --check-release "$MILESTONE" 2>&1 \
-              | tee milestone-report.txt || status=$?
+              | tee "$out/milestone-report.txt" || status=$?
           fi
-          cat milestone-report.txt >> "$GITHUB_STEP_SUMMARY"
+          cat "$out/milestone-report.txt" >> "$GITHUB_STEP_SUMMARY"
           exit "$status"
+
+      # Names any file the gate left in the checkout before `scarb package` refuses it.
+      - name: Verify the checkout is clean
+        run: |
+          dirty=$(git status --porcelain)
+          if [ -n "$dirty" ]; then
+            echo "::error::the checkout is not clean after the gate; scarb package would refuse it:"
+            echo "$dirty"
+            exit 1
+          fi
 
       - name: Package crates/hexx
         run: scarb package -p hexx
@@ -204,14 +218,14 @@ jobs:
       # (never published from a workflow; a reviewer inspecting names and sizes does not need the
       # compressed bytes, and this workflow keeps no build artifact larger than it must).
       - name: List the packaged archive
-        run: tar --zstd -tvf target/package/hexx-*.tar.zst > archive-listing.txt
+        run: |
+          out="$RUNNER_TEMP/release-check"
+          tar --zstd -tvf target/package/hexx-*.tar.zst > "$out/archive-listing.txt"
+          tar --zstd -xOf target/package/hexx-*.tar.zst --wildcards '*/Scarb.toml' > "$out/Scarb.toml"
 
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: hexx-release-check-${{ inputs.version }}
-          path: |
-            target/package/hexx-*/Scarb.toml
-            archive-listing.txt
-            milestone-report.txt
+          path: ${{ runner.temp }}/release-check/
           if-no-files-found: error
           retention-days: 30
