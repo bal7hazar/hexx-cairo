@@ -8,6 +8,7 @@ pub mod cut;
 pub mod direction;
 pub mod geometry;
 pub mod layout;
+pub mod line;
 pub mod map;
 
 #[cfg(test)]

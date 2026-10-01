@@ -1,0 +1,18 @@
+# N-5, the integer line (plan §6.6, §4.3, brief LIB-05 M1-T6; tools/refgen/src/line.rs): the mirror's
+# `line_to` on every ordered pair of the window 15 x 16 and of a 7 x 7 in the mirror frame, on a
+# seeded sample of `[domain_min, domain_max]²` and on the adversarial large-coordinate pairs; the
+# board's `line`, `approach` and `line_of_sight` on every ordered pair of each board of `boards`
+# (`<width>x<height>/<tests>`); the table of the table path; docs/deviations/line_ties.md.
+module = "line"
+package = "hexx"
+
+seed = "line::pairs"
+domain_min = -40
+domain_max = 40
+sample_pairs = 512
+sample_chunks = 4
+window_chunks = 12
+long = 300         # the length of the long adversarial lines
+boards = "15x16/12, 7x7, 17x14/12, 83x3:12/4, 3x83:12/4"
+
+# budgets: ceil(1.05 * measured)
