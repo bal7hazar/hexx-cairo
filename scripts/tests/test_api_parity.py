@@ -1219,15 +1219,15 @@ class CairoImplItemsAndConversionsOwner(FixtureTreeCase):
 
 
 class RealTreeMirrorOfL_M1(unittest.TestCase):
-    """The real `crates/hexx/src` against the committed inventory: after M1-T2 only `line_to`
-    of the canonical L-M1 list is missing."""
+    """The real `crates/hexx/src` against the committed inventory: after M1-T6 no item of the
+    canonical L-M1 list is missing."""
 
-    def test_only_line_to_is_missing(self) -> None:
+    def test_no_item_of_l_m1_is_missing(self) -> None:
         hexx = ap.load_inventory(ap.OUTPUT)
         statuses, _ = ap.classify(hexx, ap.parse_cairo())
         missing = {i.key for i, (status, _) in statuses.items()
                    if status == "missing" and i.key in ap._L_M1}
-        self.assertEqual({("Hex", "method", "line_to")}, missing)
+        self.assertEqual(set(), missing)
 
 
 if __name__ == "__main__":
