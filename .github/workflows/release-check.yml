@@ -39,7 +39,10 @@ jobs:
   release-check:
     name: Release check of crates/hexx
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # The full local gate runs every test unpartitioned, then again for the gas gate: it outgrew
+    # 20 minutes with M1-T6's oracles (run 36807402272, cancelled after 19 m 55 s in that step).
+    # A manual, rare run; the 10-minute target is for the partitioned CI of pull requests.
+    timeout-minutes: 120
     steps:
       # `GITHUB_REF` is already a shell environment variable GitHub Actions itself sets (never a
       # `${{ }}` expression interpolated into this script), so reading it directly is already
