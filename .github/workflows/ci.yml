@@ -84,7 +84,9 @@ jobs:
     # partition is by hash, so the shares are uneven), and M1-T6 adds more.
     name: Build and test ${{ matrix.package }} ${{ matrix.partition }}
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # 20 minutes since LIB-04e (D-176): on one thread the compile of a partition more than doubles
+    # (execution is unchanged); 10 minutes was the track's target, one reproducible build is worth more.
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -148,7 +150,8 @@ jobs:
   gas:
     name: Gas ${{ matrix.label }}
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # 20 minutes since LIB-04e (D-176), as the `test` job: the pinned compile.
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
