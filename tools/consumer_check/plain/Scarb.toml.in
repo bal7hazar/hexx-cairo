@@ -1,0 +1,10 @@
+[package]
+name = "consumer_plain"
+version = "0.0.0"
+edition = "2024_07"
+cairo-version = "2.19.4"
+
+# No snforge_std anywhere: what `hexx` declares as a dev-dependency must not reach this package.
+# @HEXX_VERSION@ is rendered by run.sh from its argument (default: the latest published version).
+[dependencies]
+hexx = "=@HEXX_VERSION@"

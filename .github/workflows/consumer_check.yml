@@ -1,0 +1,84 @@
+name: Consumer check
+
+# Need N-9 (plan §2.1, docs/RELEASING.md): a consumer of the *published* hexx does not inherit its
+# test dependency. Builds tools/consumer_check/{plain,with_tests} against hexx from the registry.
+# Manual: one version given as input (default: the latest published). Scheduled, on a tag push of
+# v*, and on a pull request that changes the check itself: every version the registry index lists.
+# Never publishes anything.
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "hexx version to check (empty: the latest published)"
+        required: false
+        default: ""
+  schedule:
+    - cron: "17 5 * * 1"
+  push:
+    tags: ["v*"]
+  pull_request:
+    paths:
+      - "tools/consumer_check/**"
+      - ".github/workflows/consumer_check.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  versions:
+    name: Versions to check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      matrix: ${{ steps.list.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - id: list
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+        run: |
+          set -euo pipefail
+          if [ -n "$INPUT_VERSION" ]; then
+            versions="$INPUT_VERSION"
+          elif [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            versions="$(tools/consumer_check/versions.sh | tail -n 1)"
+          else
+            versions="$(tools/consumer_check/versions.sh)"
+          fi
+          test -n "$versions"
+          matrix="$(printf '%s\n' "$versions" | python3 -c 'import json,sys; print(json.dumps({"version": [l.strip() for l in sys.stdin if l.strip()]}))')"
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+          echo "$matrix"
+
+  check:
+    name: hexx ${{ matrix.version }}
+    needs: versions
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.versions.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # No version given: both actions read the toolchain from .tool-versions.
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
+      - uses: foundry-rs/setup-snfoundry@16e23ddd0e2845f38727c92f4b913a7b728cda9e # v6.0.0
+      - env:
+          HEXX_VERSION: ${{ matrix.version }}
+        run: tools/consumer_check/run.sh "$HEXX_VERSION"
+      # What the registry's own index says about this version: `snforge_std` only as a test
+      # dependency (another regular dependency, such as `uint252` later, is not N-9's concern).
+      - env:
+          HEXX_VERSION: ${{ matrix.version }}
+        run: |
+          set -euo pipefail
+          curl -fsS https://scarbs.xyz/api/v1/index/he/xx/hexx.json | HEXX_VERSION="$HEXX_VERSION" python3 -c '
+          import json, os, sys
+          entry = next(e for e in json.load(sys.stdin) if e["v"] == os.environ["HEXX_VERSION"])
+          print(json.dumps(entry["deps"]))
+          bad = [d for d in entry["deps"] if d["name"] == "snforge_std" and d.get("kind", "normal") != "test"]
+          sys.exit(f"snforge_std as a regular dependency in the index: {bad}" if bad else 0)'
