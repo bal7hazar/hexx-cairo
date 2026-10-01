@@ -72,8 +72,8 @@ jobs:
       - run: python3 scripts/takeover_check.py --source "$RUNNER_TEMP/origami/crates/hexmap"
 
   test:
-    # hexx runs in two partitions of snforge (`--partition INDEX/TOTAL`): its tests took 452 to
-    # 615 s in one job, too close to the 10-minute limit (orchestrator, 2026-09-30).
+    # hexx runs in three partitions of snforge (`--partition INDEX/TOTAL`): its tests took 452 to
+    # 615 s in one job, then 6 m 49 s in each of two (LIB-04c), and M1-T6 adds more.
     name: Build and test ${{ matrix.package }} ${{ matrix.partition }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -81,8 +81,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { package: hexx, partition: "1/2" }
-          - { package: hexx, partition: "2/2" }
+          - { package: hexx, partition: "1/3" }
+          - { package: hexx, partition: "2/3" }
+          - { package: hexx, partition: "3/3" }
           - { package: takeover_tests, partition: "1/1" }
           - { package: consumer, partition: "1/1" }
     steps:
@@ -127,9 +128,12 @@ jobs:
 
   # One job per package (M1-T1c): each measures its own package and checks it against its own
   # gas/<package>.snap, so that the time of the gate does not grow with the sum of the packages.
-  # `hexx` is two jobs, its tests without `#[ignore]` and its ignored tests (103, the printouts
+  # `hexx` is two scopes, its tests without `#[ignore]` and its ignored tests (103, the printouts
   # and benchmarks): measured together they took 9 m 45 s of the 10 minutes (6 m 32 s without),
-  # measured apart each is far under. Every test is measured in one of them.
+  # measured apart each is far under. The regular scope is in three partitions (LIB-04c: one job
+  # took 9 m 4 s), each checked against its own snapshot rows; the job `Gas completeness` after
+  # them fails when a test was measured in no partition or in two, or a row is stale. Every test
+  # is measured exactly once.
   gas:
     name: Gas ${{ matrix.label }}
     runs-on: ubuntu-latest
@@ -138,7 +142,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - {package: hexx, scope: regular, label: hexx}
+          - {package: hexx, scope: regular, partition: "1/3", tag: -p1of3, label: hexx 1/3}
+          - {package: hexx, scope: regular, partition: "2/3", tag: -p2of3, label: hexx 2/3}
+          - {package: hexx, scope: regular, partition: "3/3", tag: -p3of3, label: hexx 3/3}
           - {package: hexx, scope: ignored, label: hexx (ignored tests)}
           - {package: takeover_tests, scope: all, label: takeover_tests}
           - {package: consumer, scope: all, label: consumer}
@@ -159,18 +165,21 @@ jobs:
         env:
           PACKAGE: ${{ matrix.package }}
           SCOPE: ${{ matrix.scope }}
+          PARTITION: ${{ matrix.partition }}
         run: |
           set -o pipefail
-          python3 scripts/bench.py check --package "$PACKAGE" --scope "$SCOPE" | tee gas_report.md
+          python3 scripts/bench.py check --package "$PACKAGE" --scope "$SCOPE" ${PARTITION:+--partition "$PARTITION"} | tee gas_report.md
       # The tests of Digger, twice in the same job on the same compiled code: two measurements
       # that differ fail the job (the drift seen in two runs went through Digger::dig). It runs
       # even when the check failed, the second measurement being evidence. `consumer` has none,
-      # and the ignored tests of `hexx` are not Digger's.
+      # and the ignored tests of `hexx` are not Digger's. In a partition it runs the Digger tests
+      # of that share, so that each runs twice once over the partitions.
       - name: Double run of the Digger tests
         if: ${{ !cancelled() && matrix.package != 'consumer' && matrix.scope != 'ignored' }}
         env:
           PACKAGE: ${{ matrix.package }}
-        run: python3 scripts/bench.py repeat --package "$PACKAGE" --filter digger
+          PARTITION: ${{ matrix.partition }}
+        run: python3 scripts/bench.py repeat --package "$PACKAGE" --filter digger ${PARTITION:+--partition "$PARTITION"}
       # Fails on any class size change of crates/consumer not committed in gas/bytecode.size.
       - name: Check bytecode size
         if: ${{ matrix.package == 'consumer' }}
@@ -188,10 +197,31 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: always()
         with:
-          name: gas-${{ matrix.package }}-${{ matrix.scope }}-${{ github.sha }}
+          name: gas-${{ matrix.package }}-${{ matrix.scope }}${{ matrix.tag }}-${{ github.sha }}
           path: target/gas-artifacts/${{ matrix.package }}
           if-no-files-found: warn
           retention-days: 30
+
+  # After the partitions of `hexx` regular: every test of the scope measured in exactly one of
+  # them, and no row of gas/hexx.snap that none measured (scripts/bench.py `complete`). It reads
+  # the `partition-*.json` each partition job keeps in its artefact. It runs when a partition
+  # failed too, so that the two reports do not hide each other.
+  gas-complete:
+    name: Gas completeness hexx
+    needs: gas
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Download the partition reports
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --pattern "gas-hexx-regular-p*of3-${{ github.sha }}" --dir partition-reports
+      - run: python3 scripts/bench.py complete --package hexx --scope regular --total 3 --reports partition-reports
 
   golden:
     name: Golden vectors up to date (tools/refgen)
@@ -216,7 +246,7 @@ jobs:
   all-checks:
     name: All checks passed
     if: always()
-    needs: [links, scripts, fmt, takeover, test, package, gas, golden]
+    needs: [links, scripts, fmt, takeover, test, package, gas, gas-complete, golden]
     runs-on: ubuntu-latest
     steps:
       - env:
