@@ -19,8 +19,11 @@ candidates. Published only after the go of D-132 (`docs/RELEASING.md`).
 
 ### Parity
 
-67 items of `hexx` 0.25.0 ported, 10.0 % of its API (`docs/API_PARITY.md`); every mirror item of
-L-M1 is present: `Hex` and its distances, `HexTrait::line_to`, `EdgeDirection` and its rotations,
+67 items of `hexx` 0.25.0 ported and 2 renamed counterparts, 10.0 % of its 692 items
+(`docs/API_PARITY.md`: `(ported + renamed) / all`); 316 items are excluded (`dropped`), among
+them whole modules whose subject belongs to the client (`layout`, `storage`, `mesh`: world
+positions, `f32` and rendering), each with its reason in the table. Every mirror item of L-M1 is
+present: `Hex` and its distances, `HexTrait::line_to`, `EdgeDirection` and its rotations,
 the offset coordinates (`OffsetHexMode`, `to_offset_coordinates`, `from_offset_coordinates`),
 `HexOrientation`. Each is checked against golden vectors generated from the crate itself
 (`tools/refgen`).
@@ -40,8 +43,9 @@ the offset coordinates (`OffsetHexMode`, `to_offset_coordinates`, `from_offset_c
   hex_to_index}`; `LayoutTrait::neighbor_direction`.
 - **N-8** `Bfs::flood` with its `depth`, and `FloodTrait::{next_step, next_step_away, distance}`:
   one flood per tick gives every walker its next step.
-- Gas of every function in `docs/GAS.md`; the figures accepted above the plan's ranges, with
-  their reasons, at its end.
+- Gas: the measured budget of every test (1,853) in `docs/GAS.md`; at its end, the functions
+  whose measurement was accepted above the plan's range, with their reasons. Per-function
+  figures are in the task reports (`docs/reports/`).
 
 ### Deviations
 

@@ -95,8 +95,8 @@ which row it falls into — plan §9.1 lists the release candidates this predate
 
 | Version | Milestone | Content (plan §9.1) | Gate |
 |---|---|---|---|
-| `0.1.0-rc.1` | L-M1 | The take-over alone (M1-T1), with N-9 | Informational |
-| `0.1.0-rc.2` … | L-M1 | Each extension as it merges | Informational |
+| `0.1.0-rc.1` | L-M1 | The take-over (M1-T1), the mirror items of L-M1, N-3, N-4, N-5, N-7, N-8: the content agreed with the project manager for the game's ENG-02 (2026-09-29), which supersedes plan §9.1's "take-over alone" | Informational |
+| `0.1.0-rc.2` … | L-M1 | N-1 and N-2 (for the game's ENG-05), then N-6 | Informational |
 | `0.1.0` | L-M1 | L-M1 complete (plan §9.2: the mirror items of L-M1 are API from here) | Enforced |
 | `0.2.0-rc.N` | L-M2 | L-M2 work in progress | Informational |
 | `0.2.0` | L-M2 | L-M2 complete | Enforced |
