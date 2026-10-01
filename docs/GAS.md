@@ -67,6 +67,61 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::geometry::tests::test_geometry_index_to_hex_round_trip` | 59,655,960 | 62,638,758 | 5.0 % |
 | `hexx::board::geometry::tests::test_geometry_to_axial` | 13,720 | 14,406 | 5.0 % |
 | `hexx::board::geometry::tests::test_geometry_to_hex_from_hex` | 55,835,420 | 58,627,191 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_clip_once` | 48,556 | 50,984 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_clip_twice` | 78,492 | 82,417 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_loop_board_once` | 145,700 | 152,985 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_loop_board_twice` | 274,370 | 288,089 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_loop_board_wide_once` | 146,500 | 153,825 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_loop_board_wide_twice` | 274,370 | 288,089 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_loop_tall_once` | 537,200 | 564,060 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_loop_tall_twice` | 1,057,040 | 1,109,892 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_ring_clip_once` | 48,556 | 50,984 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_ring_clip_twice` | 78,492 | 82,417 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_ring_loop_board_once` | 150,980 | 158,529 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_ring_loop_board_twice` | 285,200 | 299,460 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_ring_loop_board_wide_once` | 152,050 | 159,653 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_ring_loop_board_wide_twice` | 285,200 | 299,460 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_ring_loop_tall_once` | 558,520 | 586,446 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_ring_loop_tall_twice` | 1,106,190 | 1,161,500 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_ring_sight_once` | 34,260 | 35,973 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_ring_sight_twice` | 50,690 | 53,225 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_sight_once` | 34,260 | 35,973 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_sight_twice` | 50,690 | 53,225 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_variant_once` | 20,180 | 21,189 | 5.0 % |
+| `hexx::board::hexagon::tests::bench_hexagon_variant_twice` | 22,420 | 23,541 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_flood_15x16_0` | 502,870,925 | 528,014,472 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_flood_15x16_1` | 504,729,985 | 529,966,485 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_flood_7x7` | 53,876,194 | 56,570,004 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_oracle_15x16_0` | 289,956,190 | 304,454,000 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_oracle_15x16_1` | 292,602,856 | 307,232,999 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_oracle_15x16_2` | 292,619,296 | 307,250,261 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_oracle_15x16_3` | 290,521,680 | 305,047,764 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_oracle_3x83_0` | 636,084,560 | 667,888,788 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_oracle_3x83_1` | 658,253,390 | 691,166,060 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_oracle_3x83_2` | 637,700,860 | 669,585,903 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_oracle_7x7` | 109,576,580 | 115,055,409 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_oracle_seeded_15x15` | 218,867,160 | 229,810,518 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_oracle_seeded_15xh` | 490,193,316 | 514,702,982 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_oracle_seeded_16x15` | 249,897,140 | 262,391,997 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_oracle_seeded_17x14` | 247,249,880 | 259,612,374 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_oracle_seeded_19x13` | 248,739,330 | 261,176,297 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_oracle_seeded_25x10` | 247,482,020 | 259,856,121 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_oracle_seeded_3x3` | 103,696,780 | 108,881,619 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_oracle_seeded_83x3` | 227,724,520 | 239,110,746 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_paths_0` | 157,408,466 | 165,278,890 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_paths_1` | 157,153,776 | 165,011,465 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_regression_r_n6_1` | 3,330,422 | 3,496,944 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_regression_r_n6_2` | 119,383 | 125,353 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_regression_r_n6_3` | 21,973 | 23,072 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_regression_r_n6_4` | 69,022 | 72,474 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_regression_r_n6_5_0` | 98,983,686 | 103,932,871 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_regression_r_n6_5_1` | 98,576,116 | 103,504,922 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_regression_r_n6_6` | 1,737,370 | 1,824,239 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_regression_r_n6_7` | 77,505 | 81,381 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_revert_outside` | 21,810 | 22,901 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_ring_revert_outside` | 21,810 | 22,901 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_tables` | 7,421,420 | 7,792,491 | 5.0 % |
+| `hexx::board::hexagon::tests::test_hexagon_variant` | 7,849,438 | 8,241,910 | 5.0 % |
 | `hexx::board::layout::tests::bench_layout_neighbor_direction_once` | 24,880 | 26,124 | 5.0 % |
 | `hexx::board::layout::tests::bench_layout_neighbor_direction_twice` | 34,520 | 36,246 | 5.0 % |
 | `hexx::board::layout::tests::test_layout_neighbor_direction_pairs` | 283,447,090 | 297,619,445 | 5.0 % |
@@ -164,6 +219,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::rng::tests::test_rng_permutations_table` | 31,286,100 | 32,850,405 | 5.0 % |
 | `hexx::board::rng::tests::test_rng_shuffle6` | 100,432 | 105,454 | 5.0 % |
 | `hexx::board::tables::tests::test_tables_bands` | 903,010 | 948,161 | 5.0 % |
+| `hexx::board::tables::tests::test_tables_rows_16` | 738,840 | 775,782 | 5.0 % |
 | `hexx::finders::bfs::tests::test_bfs_corners` | 225,456,445 | 236,729,268 | 5.0 % |
 | `hexx::finders::bfs::tests::test_bfs_digger_entrances` | 617,343,036 | 648,210,188 | 5.0 % |
 | `hexx::finders::bfs::tests::test_bfs_distance_revert_wall` | 22,976 | 24,125 | 5.0 % |
@@ -1860,7 +1916,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 15,520 | 16,296 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 15,520 | 16,296 | 5.0 % |
 
-1853 measured test(s).
+1909 measured test(s).
 
 ## Figures accepted above their range
 
