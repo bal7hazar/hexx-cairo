@@ -72,7 +72,7 @@ jobs:
       - run: python3 scripts/takeover_check.py --source "$RUNNER_TEMP/origami/crates/hexmap"
 
   test:
-    # hexx runs in five partitions of snforge (`--partition INDEX/TOTAL`): its tests took 452 to
+    # hexx runs in six partitions of snforge (`--partition INDEX/TOTAL`): its tests took 452 to
     # 615 s in one job, 6 m 49 s in each of two, and 3 m 57 s to 6 m 14 s in each of three and 5 m 34 s to 6 m 0 s in each of four (LIB-04c: the
     # partition is by hash, so the shares are uneven), and M1-T6 adds more.
     name: Build and test ${{ matrix.package }} ${{ matrix.partition }}
@@ -82,11 +82,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { package: hexx, partition: "1/5" }
-          - { package: hexx, partition: "2/5" }
-          - { package: hexx, partition: "3/5" }
-          - { package: hexx, partition: "4/5" }
-          - { package: hexx, partition: "5/5" }
+          - { package: hexx, partition: "1/6" }
+          - { package: hexx, partition: "2/6" }
+          - { package: hexx, partition: "3/6" }
+          - { package: hexx, partition: "4/6" }
+          - { package: hexx, partition: "5/6" }
+          - { package: hexx, partition: "6/6" }
           - { package: takeover_tests, partition: "1/1" }
           - { package: consumer, partition: "1/1" }
     steps:
@@ -133,8 +134,8 @@ jobs:
   # gas/<package>.snap, so that the time of the gate does not grow with the sum of the packages.
   # `hexx` is two scopes, its tests without `#[ignore]` and its ignored tests (103, the printouts
   # and benchmarks): measured together they took 9 m 45 s of the 10 minutes (6 m 32 s without),
-  # measured apart each is far under. The regular scope is in four partitions and the ignored one
-  # in two (LIB-04c: the jobs took 9 m 4 s and 6 m 1 s), each checked against its own snapshot rows; the jobs `Gas completeness` after
+  # measured apart each is far under. The regular scope is in six partitions and the ignored one
+  # in two (LIB-04c: the jobs took 9 m 4 s and 6 m 1 s; six since 2026-10-01, when four reached 7 m 25 s), each checked against its own snapshot rows; the jobs `Gas completeness` after
   # them fails when a test was measured in no partition or in two, or a row is stale. Every test
   # is measured exactly once.
   gas:
@@ -145,10 +146,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - {package: hexx, scope: regular, partition: "1/4", tag: -p1of4, label: hexx 1/4}
-          - {package: hexx, scope: regular, partition: "2/4", tag: -p2of4, label: hexx 2/4}
-          - {package: hexx, scope: regular, partition: "3/4", tag: -p3of4, label: hexx 3/4}
-          - {package: hexx, scope: regular, partition: "4/4", tag: -p4of4, label: hexx 4/4}
+          - {package: hexx, scope: regular, partition: "1/6", tag: -p1of6, label: hexx 1/6}
+          - {package: hexx, scope: regular, partition: "2/6", tag: -p2of6, label: hexx 2/6}
+          - {package: hexx, scope: regular, partition: "3/6", tag: -p3of6, label: hexx 3/6}
+          - {package: hexx, scope: regular, partition: "4/6", tag: -p4of6, label: hexx 4/6}
+          - {package: hexx, scope: regular, partition: "5/6", tag: -p5of6, label: hexx 5/6}
+          - {package: hexx, scope: regular, partition: "6/6", tag: -p6of6, label: hexx 6/6}
           - {package: hexx, scope: ignored, partition: "1/2", tag: -p1of2, label: hexx ignored 1/2}
           - {package: hexx, scope: ignored, partition: "2/2", tag: -p2of2, label: hexx ignored 2/2}
           - {package: takeover_tests, scope: all, label: takeover_tests}
@@ -224,7 +227,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - {scope: regular, total: 4}
+          - {scope: regular, total: 6}
           - {scope: ignored, total: 2}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
