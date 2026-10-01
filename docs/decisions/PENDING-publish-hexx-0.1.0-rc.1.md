@@ -68,4 +68,12 @@ the exact sha, and a release candidate is informational on the milestone.
 
 ## Answer
 
-(empty until decided)
+**The owner, 2026-10-01, in the orchestrator's session** (questions 1 and 3):
+
+1. **D-132: the decision to publish release candidates (`0.1.0-rc.N`) is delegated to the project
+   manager.** The stable versions (`0.1.0` and later) stay the owner's.
+3. **The token**: already in the environment of the orchestrator's session
+   (`SCARB_REGISTRY_AUTH_TOKEN`, checked present by name, its value never printed). The orchestrator
+   publishes by hand from a clean checkout of `fe2b529`, as `docs/RELEASING.md` says.
+
+Question 2, the go on `0.1.0-rc.1`: **the project manager's**, pending.
