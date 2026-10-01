@@ -1,13 +1,13 @@
 # Status
 
-**2026-10-01** — `[Opus 5.5]` Orchestrator hexmap (lib), successor of `[Fable 5.1]` / `[Opus 5.5]` (handover `docs/handover/orchestrator-hexmap-2026-09-30.md`)
+**2026-10-01, soft stop** — `[Opus 5.5]` Orchestrator — grimworld — LIB; handover `docs/handover/orchestrator-hexmap-2026-10-01.md`
 
 | | |
 |---|---|
-| Phase | **Milestone L-M1: LIB-05.** `hexx` 0.1.0-rc.1 published (2026-10-01). N-9 proved on the published package for consumers on Scarb 2.19.4 (M1-N9, #70; the cause of 1.8.0's defect is Scarb 2.13.1's resolver). **M1-T5** (N-6, #65) and **M1-T7** (N-2, #74) done and reviewed, **waiting for their audits** (Codex, quota until 2026-10-04 13:36). **M1-T8** (N-1) briefed, starts once M1-T7 is merged. Then rc.2 for ENG-05, M1-R |
+| Phase | **Milestone L-M1: LIB-05.** `hexx` 0.1.0-rc.1 published. N-1 to N-8 merged except **N-1 (M1-T8, running on `[Fable 5.1]`)**. **LIB-04e** (single-thread pin, #81) open: 6 of its 10 CI attempts green. **LIB-04f** (Scarb 2.20.1, pin kept) briefed. Next: rc.2 for ENG-05, then M1-R. **Soft stop of the owner (2026-10-01)**: nothing is started, resumed or merged until the successor |
 | Procedures (Nexus, D-162) | Every pull request gets a review (`nexus review`) before its merge. The owner's rule of 2026-10-01: while Codex has no budget, the review is made by Claude Opus 5.5 (`--model fable` when Opus wrote the work) once nexus #35 is deployed; until then code merges wait and documents merge under the exception. Audits do not fall back: they wait for Codex. Implementers through `scripts/agent.sh`; `nexus accounts` and `nexus resources` before a launch |
-| Running agents | M1-T5, `[Opus 5.5]`, fix loop 1 (review notes) |
-| Decisions pending | The owner: Codex's quota (every audit, and every code merge until nexus #35, wait for it until 2026-10-04 13:36) |
+| Running agents | M1-T8, `[Fable 5.1]`, until it ends (soft stop) |
+| Decisions pending | None for the owner on this track. D-177 (the owner): audits are the exception; **3 audits stopped** on 2026-10-01 (M1-T5, M1-T7, M1-N9) |
 
 ## Pause 2026-09-29 (ended 2026-09-30)
 
