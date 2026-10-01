@@ -87,8 +87,9 @@ finders or of the functions of M1-T3 to M1-T7; any change of the stream of `gene
 (additions only), `crates/hexx/src/lib.cairo` (root re-exports of the new items only, if any),
 `scripts/takeover_check.py` (Scope 5 only), `crates/consumer/**`; `docs/API_PARITY.md`,
 `docs/EXTENSIONS.md`, `docs/DEVIATIONS.md`, `docs/GAS.md`, `gas/hexx.snap`, `gas/bytecode.size`;
-`REPORT.md`. `gas/takeover_tests.snap` is not in it: a row that moves there means a taken-over
-function changed, which is out of scope: stop and report.
+`REPORT.md`. `gas/takeover_tests.snap` is not in it: a row that moves there, other than to the
+second build of D-154 (`gas/takeover_tests.builds` once LIB-04d is merged, `COMMON.md` §4), means a
+taken-over function changed, which is out of scope: stop and report.
 
 ## Acceptance criteria
 
