@@ -53,7 +53,10 @@ candidate `0.1.0-rc.2`, with N-2). Chunks stay 15 × 15 rectangles (D-165 closed
    to the fill; (4) the six planes on **interior destinations only**, against the scalar neighbour
    table, on every interior tile of 15 × 15 and 7 × 7, both parities, 256 seeded grids. R-N1-1 to
    R-N1-7 with their expected values. **The stream**: one test pins the grid of one seed per parity,
-   all sides fixed and none fixed; it is API from 0.1.0.
+   all sides fixed and none fixed; it is API from 0.1.0. **`new_odd`**, first used here: a test of
+   `expand` (and of any other method of `Layout` this task relies on) on a `new_odd` layout against
+   the scalar neighbours with the global parity, on every interior tile of 15 × 15 and 7 × 7 (the
+   review of M1-T7, note 3: no test runs them on such a layout yet).
 4. Budgets at `ceil(1.05 × measured)`, benchmarks on the worst cases of §6.2 (order 3 and order
    255, 15 × 15, all four sides fixed, `odd = true`; order 5 for the per-generation figure); a call
    site of each new public item in `crates/consumer`; the generated documents and `gas/hexx.snap`
