@@ -129,7 +129,7 @@ a consumer of the *published* package — the defect that hit `origami_hexmap` 1
 is demonstrated on the artifact the registry actually serves, not on `Scarb.toml`: the two
 consumer packages of `tools/consumer_check/` (task M1-N9, not LIB-04) resolve and build against
 `hexx = "<version>"` from the registry, and the registry's own index entry for that version lists
-no dependency other than `snforge_std` of kind `test`. This check runs after every publication,
+`snforge_std` only as a dependency of kind `test`. This check runs after every publication,
 against the published package (`.github/workflows/consumer_check.yml`), never against the
 manifest alone. The cause of 1.8.0's defect is the consumer's resolver, not the artifact: Scarb
 2.13.1 counts a dependency's `kind: test` entries as constraints, Scarb 2.19.4 does not, for
