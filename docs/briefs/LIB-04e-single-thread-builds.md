@@ -85,3 +85,18 @@ any publication.
 
 `REPORT.md` as in [COMMON.md](COMMON.md) §7, with the ten runs' values, the changed rows and the
 job times before and after.
+
+## Decision of the orchestrator on the slowdown (2026-10-01)
+
+By `[Opus 5.5]`, on the agent's measured split (pull request #81, run 36865348896): pinned, the
+Cairo compile and the test collection of a partition more than double (1 m 35 s → 3 m 12 s and
+1 m 51 s → 4 m 15 s); execution is unchanged (58 s); every partition recompiles the whole test
+target, so more partitions do not shorten a job.
+
+1. **The timeouts of the jobs that build, test or measure `hexx` and `takeover_tests` (`test`,
+   `gas`) go from 10 to 20 minutes**, and the pin stays on every measured or declared build. The
+   10-minute target was the track's own (LIB-04); one reproducible build is worth more. This amends
+   Scope 5's "do not raise a timeout" and widens the allowlist to those `timeout-minutes` lines.
+2. Compiling once and sharing `target/` with the partitions is a later optimisation, briefed only
+   if CI time becomes a bottleneck. What would reverse 1: that.
+3. Then Scope 6, the ten runs, as written.
