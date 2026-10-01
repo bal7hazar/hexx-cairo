@@ -49,7 +49,17 @@ usage:
                                             gas/<package>.snap, exit 1 on any difference; the
                                             differences (test, both figures) and the location of
                                             the evidence are printed with the violations too
-  scripts/bench.py repeat --package P [--filter F]
+  scripts/bench.py check --package P --scope S --partition I/T
+                                            one share of the package (snforge's `--partition`):
+                                            the rule and the snapshot are enforced on the tests
+                                            that share ran, and the names it measured are written
+                                            to `partition-<scope>-<I>of<T>.json` in its evidence
+  scripts/bench.py complete --package P --scope S --total T --reports DIR
+                                            after the T partitions: fails when a declared test was
+                                            measured in no partition or in two, when a partition
+                                            report is missing or repeated, or when the snapshot
+                                            has a row no partition measured
+  scripts/bench.py repeat --package P [--filter F] [--partition I/T]
                                             run the tests matching F (default `digger`) twice, in
                                             the same job; fail if the compiled files differ from
                                             those of the check run (said as such) or the two
@@ -75,6 +85,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import math
 import re
 import subprocess
@@ -317,12 +328,22 @@ SCOPES = ("all", "regular", "ignored")
 SCOPE_FLAGS = {"all": ["--include-ignored"], "regular": [], "ignored": ["--ignored"]}
 
 
+def parse_partition(text: str) -> tuple[int, int]:
+    """`INDEX/TOTAL` as snforge reads it (1-based)."""
+    m = re.fullmatch(r"(\d+)/(\d+)", text)
+    if not m or not 1 <= int(m.group(1)) <= int(m.group(2)):
+        raise argparse.ArgumentTypeError(f"{text!r}: expected INDEX/TOTAL with 1 <= INDEX <= TOTAL")
+    return int(m.group(1)), int(m.group(2))
+
+
 def run_snforge(package: str, label: str, test_filter: str | None = None,
-                scope: str = "regular") -> str:
+                scope: str = "regular", partition: tuple[int, int] | None = None) -> str:
     """One snforge run of a package. `scope`: the tests it runs (`all`: the `#[ignore]`d ones
     too; `ignored`: only those). The gate measures the ignored tests like the others (M1-T1c fix
     loop 1, finding 2)."""
     cmd = ["snforge", "test", "-p", package, "--detailed-resources", *SCOPE_FLAGS[scope]]
+    if partition:
+        cmd += ["--partition", f"{partition[0]}/{partition[1]}"]
     if test_filter:
         cmd.append(test_filter)
     print("$", " ".join(cmd), file=sys.stderr)
@@ -408,22 +429,30 @@ def in_scope(name: str, ignored: set[str], scope: str) -> bool:
     return scope == "all" or (name in ignored) == (scope == "ignored")
 
 
-def collect(only: str | None = None, label: str = "check", scope: str = "all"
-            ) -> tuple[dict[str, dict[str, dict]], dict[str, dict]]:
+def collect(only: str | None = None, label: str = "check", scope: str = "all",
+            partition: tuple[int, int] | None = None) -> tuple[dict[str, dict[str, dict]], dict[str, dict]]:
     """(rows, infos). rows: package -> {full_test_name: {"measured": int|None, "declared":
     int|None, "passed": bool|None, "ran": bool, "ignored": bool}} for the tests of `scope` (`all`,
     `regular`: those without `#[ignore]`, `ignored`); `measured` is None for a test snforge did
     not run and for a test it ran but printed no usable measurement for (`ran` is True: an error
     of `check`). infos: package -> {"collected": int|None, "declared": int (the tests snforge
     collects: all those of the package, but with `--ignored`, which collects only the ignored), "ignored_names": set, "all_names":
-    set}."""
+    set}. With a `partition` (snforge splits all the tests of the package, whatever the scope and
+    the filter, and `Collected` counts those of the share): `declared` is what the share ran or
+    ignored, in scope; `partition_seen` is the count `collected` must equal. That every declared
+    test is in some share is `completeness`'s check."""
     packages: dict[str, dict[str, dict]] = {}
     infos: dict[str, dict] = {}
     for package, package_dir in select_packages(only).items():
         ignored_names: set[str] = set()
         all_declared = declared_tests(package, package_dir, ignored_names)
         declared = {n: b for n, b in all_declared.items() if in_scope(n, ignored_names, scope)}
-        out = parse_output(run_snforge(package, label, scope=scope))
+        if partition:
+            out = parse_output(run_snforge(package, label, scope=scope, partition=partition))
+            seen = set(out.ran) | out.ignored
+            declared = {n: b for n, b in declared.items() if n in seen}
+        else:
+            out = parse_output(run_snforge(package, label, scope=scope))
         rows: dict[str, dict] = {}
         reported_ignored = out.ignored if scope != "regular" else out.ignored & set(declared)
         for full in sorted(set(declared) | set(out.ran) | reported_ignored):
@@ -440,6 +469,8 @@ def collect(only: str | None = None, label: str = "check", scope: str = "all"
         infos[package] = {"collected": out.collected,
                           "declared": len(ignored_names) if scope == "ignored" else len(all_declared),
                           "ignored_names": ignored_names, "all_names": set(all_declared)}
+        if partition:
+            infos[package]["declared"] = len(set(out.ran) | out.ignored)
     return packages, infos
 
 
@@ -550,13 +581,18 @@ def print_table(packages: dict[str, dict[str, dict]]) -> None:
 
 
 def snapshot_differences(packages: dict[str, dict[str, dict]], infos: dict[str, dict] | None = None,
-                         scope: str = "all") -> list[str]:
+                         scope: str = "all", partition: bool = False) -> list[str]:
     """The tests whose measurement or budget differs from gas/<package>.snap, with both figures.
     With a `scope` other than `all` only the rows of that scope are compared: the ignored tests
     for `ignored`, and for `regular` the others; a row of a test that no longer exists is compared
-    in both (`infos` gives the names of the sources)."""
+    in both (`infos` gives the names of the sources). With a `partition` only the rows of the
+    tests that share ran are compared: the rows of the others belong to the other shares, and a
+    row no share measured is `completeness`'s to report."""
     snap = read_snapshots(packages)
-    if scope != "all" and infos:
+    if partition:
+        ran = {name for rows in packages.values() for name in rows}
+        snap = {n: v for n, v in snap.items() if n in ran}
+    elif scope != "all" and infos:
         ignored = set().union(*(i["ignored_names"] for i in infos.values()))
         known = set().union(*(i["all_names"] for i in infos.values()))
         snap = {n: v for n, v in snap.items()
@@ -582,14 +618,17 @@ def snapshot_differences(packages: dict[str, dict[str, dict]], infos: dict[str, 
     return bad
 
 
-def repeat(package: str, test_filter: str) -> int:
+def repeat(package: str, test_filter: str, partition: tuple[int, int] | None = None) -> int:
     """Runs the tests matching `test_filter` twice, back to back, and fails if the compiled files
     of a run are not those of the check (or of the other repeat), if the two runs measure any of
     them differently, or if none matches. The hashes are compared first: two measurements are a
     comparison of the same code only when the hashes are equal, and a difference of hashes is the
-    evidence sought, said as such."""
-    first = parse_output(run_snforge(package, "repeat-1", test_filter)).measured
-    second = parse_output(run_snforge(package, "repeat-2", test_filter)).measured
+    evidence sought, said as such. With a `partition` only that share is run, so that over the
+    partitions of a package every matching test is run twice once; a share where none matches is
+    not an error (it is for a whole package)."""
+    extra = {"partition": partition} if partition else {}
+    first = parse_output(run_snforge(package, "repeat-1", test_filter, **extra)).measured
+    second = parse_output(run_snforge(package, "repeat-2", test_filter, **extra)).measured
     where = ARTIFACTS.relative_to(ROOT) / package
     status = 0
     reference_label, reference = "check", read_hashes(hashes_file(package, "check"))
@@ -609,8 +648,10 @@ def repeat(package: str, test_filter: str) -> int:
                 print(f"  {path}: {reference_label} {(reference or {}).get(path)}, "
                       f"{label} {(hashes or {}).get(path)}", file=sys.stderr)
     if not first:
-        print(f"repeat: no test of {package} matches {test_filter!r}", file=sys.stderr)
-        return 1
+        print(f"repeat: no test of {package} matches {test_filter!r}"
+              + (f" in partition {partition[0]}/{partition[1]}" if partition else ""),
+              file=sys.stderr)
+        return status if partition else 1
     differing = [name for name in sorted(set(first) | set(second))
                  if first.get(name) != second.get(name)]
     if differing:
@@ -627,9 +668,101 @@ def repeat(package: str, test_filter: str) -> int:
     return status
 
 
+PARTITION_REPORT_RE = re.compile(r"^partition-(\w+)-(\d+)of(\d+)\.json$")
+
+
+def partition_report_path(package: str, scope: str, partition: tuple[int, int]) -> Path:
+    return ARTIFACTS / package / f"partition-{scope}-{partition[0]}of{partition[1]}.json"
+
+
+def write_partition_reports(packages: dict[str, dict[str, dict]], scope: str,
+                            partition: tuple[int, int]) -> None:
+    """Keeps, with the evidence of the run, the names this share measured: `completeness` reads
+    them, one report per partition job."""
+    for package, rows in packages.items():
+        path = partition_report_path(package, scope, partition)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({
+            "package": package, "scope": scope, "partition": list(partition),
+            "measured": sorted(n for n, r in rows.items() if r["measured"] is not None),
+        }, indent=1) + "\n")
+
+
+def read_partition_reports(directory: Path) -> list[dict]:
+    """Every `partition-<scope>-<I>of<T>.json` under `directory` (the artefacts of the partition
+    jobs, each in its own subdirectory), with its `path`."""
+    reports = []
+    for path in sorted(directory.rglob("partition-*.json")):
+        if PARTITION_REPORT_RE.match(path.name):
+            reports.append({**json.loads(path.read_text()), "path": str(path)})
+    return reports
+
+
+def completeness(package: str, scope: str, total: int, reports: list[dict],
+                 declared: set[str], snapshot: set[str]) -> list[str]:
+    """The errors of a package measured in `total` partitions (empty: it was measured completely,
+    each test once). `reports`: what the partition jobs kept; `declared`: the tests of the scope
+    in the sources; `snapshot`: the names of the rows of gas/<package>.snap of the scope (those of
+    tests that no longer exist included). Fails when a partition has no report or two, when a test
+    declared was measured in no partition or in two, when a test was measured that the sources do
+    not declare, or when a row of the snapshot was measured by no partition."""
+    bad: list[str] = []
+    by_index: dict[int, list[dict]] = {}
+    for report in reports:
+        if (report["package"], report["scope"], report["partition"][1]) != (package, scope, total):
+            bad.append(f"{report['path']}: a report of {report['package']} {report['scope']} "
+                       f"{report['partition'][0]}/{report['partition'][1]}, not of {package} "
+                       f"{scope} in {total} partitions")
+            continue
+        by_index.setdefault(report["partition"][0], []).append(report)
+    for index in range(1, total + 1):
+        found = by_index.get(index, [])
+        if not found:
+            bad.append(f"partition {index}/{total} left no report")
+        elif len(found) > 1:
+            bad.append(f"partition {index}/{total} has {len(found)} reports")
+    counted: dict[str, list[int]] = {}
+    for index, found in sorted(by_index.items()):
+        for report in found:
+            for name in report["measured"]:
+                counted.setdefault(name, []).append(index)
+    for name in sorted(declared - set(counted)):
+        bad.append(f"{name}: declared, measured in no partition")
+    for name, indices in sorted(counted.items()):
+        if len(indices) > 1:
+            bad.append(f"{name}: measured {len(indices)} times, in partitions "
+                       f"{', '.join(f'{i}/{total}' for i in indices)}")
+        if name not in declared:
+            bad.append(f"{name}: measured but not declared in the sources")
+    for name in sorted(snapshot - set(counted)):
+        bad.append(f"{name}: a row of gas/{package}.snap that no partition measured (stale)")
+    return bad
+
+
+def complete(package: str, scope: str, total: int, directory: Path) -> int:
+    """`complete` of the command line: `completeness` over the reports under `directory`."""
+    packages = select_packages(package)
+    ignored: set[str] = set()
+    declared = declared_tests(package, packages[package], ignored)
+    in_this_scope = {n for n in declared if in_scope(n, ignored, scope)}
+    snapshot = {n for n in read_snapshots([package])
+                if in_scope(n, ignored, scope) or n not in declared}
+    bad = completeness(package, scope, total, read_partition_reports(directory),
+                       in_this_scope, snapshot)
+    if bad:
+        print(f"{package} ({scope}) is not measured completely in {total} partitions:",
+              file=sys.stderr)
+        for line in bad:
+            print(f"  {line}", file=sys.stderr)
+        return 1
+    print(f"{package} ({scope}): {len(in_this_scope)} tests, each measured once across "
+          f"{total} partitions, and the snapshot has no stale row", file=sys.stderr)
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("cmd", choices=["run", "snapshot", "check", "repeat"])
+    ap.add_argument("cmd", choices=["run", "snapshot", "check", "repeat", "complete"])
     ap.add_argument("--package", default=None,
                     help="measure this package only (default: every package of the workspace); "
                          "required by `repeat`")
@@ -639,17 +772,36 @@ def main() -> int:
                          "in two jobs, regular and ignored, for its time; `snapshot` needs all")
     ap.add_argument("--filter", default="digger",
                     help="repeat only: the snforge test filter (default: %(default)s)")
+    ap.add_argument("--partition", type=parse_partition, default=None, metavar="INDEX/TOTAL",
+                    help="run, check or repeat one share of the package (snforge's `--partition`, "
+                         "1-based); not with `snapshot`")
+    ap.add_argument("--total", type=int, default=None,
+                    help="complete only: the number of partitions of the package")
+    ap.add_argument("--reports", type=Path, default=None,
+                    help="complete only: the directory holding the partition reports")
     args = ap.parse_args()
 
     if args.cmd == "repeat":
         if args.package is None:
             sys.exit("repeat needs --package")
         select_packages(args.package)
-        return repeat(args.package, args.filter)
+        return repeat(args.package, args.filter, args.partition)
+
+    if args.cmd == "complete":
+        if args.package is None or args.total is None or args.reports is None:
+            sys.exit("complete needs --package, --total and --reports")
+        return complete(args.package, args.scope, args.total, args.reports)
+
+    if args.partition and args.cmd == "snapshot":
+        sys.exit("snapshot rewrites the whole snapshot of a package: no --partition")
+    if args.partition and args.package is None:
+        sys.exit("--partition needs --package")
 
     if args.cmd == "snapshot" and args.scope != "all":
         sys.exit("snapshot rewrites the whole snapshot of a package: --scope all")
-    packages, infos = collect(args.package, args.cmd, args.scope)
+    packages, infos = collect(args.package, args.cmd, args.scope, args.partition)
+    if args.partition:
+        write_partition_reports(packages, args.scope, args.partition)
     print_table(packages)
     errors, counts = reconcile(packages, infos)
     print("\nreconciliation (declared in the sources / collected by snforge / with a gas row / "
@@ -662,7 +814,7 @@ def main() -> int:
         return 0
     if args.cmd == "check":
         violations = errors + budget_violations(packages)
-        bad = snapshot_differences(packages, infos, args.scope)
+        bad = snapshot_differences(packages, infos, args.scope, bool(args.partition))
         where = ", ".join(str(ARTIFACTS.relative_to(ROOT) / package) for package in packages)
         if violations:
             print("\ngas budget violations:", file=sys.stderr)
