@@ -25,8 +25,9 @@ them whole modules whose subject belongs to the client (`layout`, `storage`, `me
 positions, `f32` and rendering), each with its reason in the table. Every mirror item of L-M1 is
 present: `Hex` and its distances, `HexTrait::line_to`, `EdgeDirection` and its rotations,
 the offset coordinates (`OffsetHexMode`, `to_offset_coordinates`, `from_offset_coordinates`),
-`HexOrientation`. Each is checked against golden vectors generated from the crate itself
-(`tools/refgen`), except `line_to` at its ties: there `refgen` encodes the game's integer rule,
+`HexOrientation`. They are checked against golden vectors generated from the crate itself
+(`tools/refgen`; `HexOrientation` through the conversions of both orientations, its `Default` and
+`Not` by Cairo tests), except `line_to` at its ties: there `refgen` encodes the game's integer rule,
 and the vectors give identity with `hexx` on every non-tie pair of the window and on the seeded
 sample.
 
