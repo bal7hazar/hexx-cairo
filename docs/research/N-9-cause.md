@@ -26,9 +26,8 @@ section "Reproduction" below ran both 2.13.1 and 2.19.4.
    ```
 
    Both list `snforge_std ^0.61.0` with `"kind": "test"`. Note: `docs/RELEASING.md` § "After
-   publication: need N-9" says the index entry "lists no `snforge_std` dependency"; the real entry
-   lists it as a `test` dependency. The wording is inaccurate (a proposal, not an edit: that file
-   is the orchestrator's).
+   publication: need N-9" said the index entry "lists no `snforge_std` dependency"; the real entry
+   lists it as a `test` dependency. Corrected by the orchestrator in pull request #72.
 
 2. **The published archive of `origami_hexmap` 1.8.0 declares it as a dev-dependency.**
    `curl -fsSL https://scarbs.xyz/api/v1/dl/origami_hexmap/1.8.0` → `Scarb.toml` of the archive:
@@ -58,7 +57,7 @@ section "Reproduction" below ran both 2.13.1 and 2.19.4.
 
 4. **The same holds for `hexx`**, tested by the deliverable of this task (`tools/consumer_check/`):
    against `hexx 0.1.0-rc.1`, `plain`'s lock has no `snforge_std`, and `with_tests`, pinned on
-   `snforge_std =0.60.0` (outside `^0.61.0`), builds and passes its test (the consumer check's run `36836722939` on pull request #70).
+   `snforge_std =0.60.0` (outside `^0.61.0`), builds and passes its test (the consumer check's run `36838966149` on pull request #72, which also requires `plain`'s lock to exist; first run `36836722939` on pull request #70).
 
 ## Reproduction (the orchestrator, 2026-10-01)
 
@@ -98,7 +97,8 @@ snforge_std = "=0.51.2"
   package) would remove that entry, and an entry with empty `deps` would then resolve on 2.13.1.
   That is an inference, not tested; whether a consumer on Scarb 2.13 is worth that restructuring
   is the owner's to decide. It has no beneficiary today: `hexx` declares `cairo-version = "2.19.4"`
-  and does not compile on Cairo 2.13 (`BoundedInt` is not visible there,
+  and, as `origami_hexmap` 1.8.0, would not compile on Cairo 2.13 (inferred: it uses `bounded_int`
+  in the same taken-over files, and `BoundedInt` is not visible there for 1.8.0,
   `docs/briefs/LIB-03b-compiler-target.md`), so a consumer that can build it already resolves
   correctly.
 
