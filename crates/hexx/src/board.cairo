@@ -7,6 +7,7 @@ pub mod bits;
 pub mod cut;
 pub mod direction;
 pub mod geometry;
+pub mod hexagon;
 pub mod layout;
 pub mod line;
 pub mod map;

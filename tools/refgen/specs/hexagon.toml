@@ -1,0 +1,7 @@
+# N-6, range and ring as geometry (plan §6.7, brief LIB-05 M1-T5; tools/refgen/src/hexagon.rs): the
+# tables HEXAGONS and HEXAGON_RINGS of board/hexagon.cairo, the per-position variant SIGHTS of its
+# test module, and the 16-row band ROW_FROM_16 of board/tables.cairo. Every shape is computed by
+# hexx 0.25.0's `Hex::range` / `Hex::ring` and by the per-tile definition, and must agree. No key
+# beyond `module` and `package`: the tables are fixed by the plan (width 15, radii 1..=7, sight 6).
+module = "hexagon"
+package = "hexx"

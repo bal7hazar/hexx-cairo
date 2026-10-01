@@ -295,7 +295,7 @@ fn table() -> Result<(Vec<Option<Entry>>, i64, i64), String> {
 
 /// Packs `items` as `scarb fmt` packs an array literal: as many per line as fit in 100 columns,
 /// each line ending with a comma.
-fn pack(indent: &str, items: &[String]) -> String {
+pub fn pack(indent: &str, items: &[String]) -> String {
     let mut out = String::new();
     let mut line = String::new();
     for item in items {
@@ -316,7 +316,7 @@ fn pack(indent: &str, items: &[String]) -> String {
     out
 }
 
-fn felt(value: (u128, u128)) -> String {
+pub fn felt(value: (u128, u128)) -> String {
     if value.0 == 0 {
         format!("{:#x}", value.1)
     } else {
