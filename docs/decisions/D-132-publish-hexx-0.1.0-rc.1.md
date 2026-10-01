@@ -1,4 +1,4 @@
-# PENDING — Publish `hexx` 0.1.0-rc.1?
+# D-132 — `hexx` 0.1.0-rc.1: published
 
 Opened by the orchestrator of track LIB (`[Opus 5.5]`) on 2026-10-01, under D-132 and
 [`docs/RELEASING.md`](../RELEASING.md). Nothing is published until the go is recorded here.
@@ -96,3 +96,21 @@ repository on 2026-10-01:
 The orchestrator publishes from a clean checkout of `fe2b529`, confirms the version on the registry,
 then tags `v0.1.0-rc.1` and creates the release; the project manager reads the registry and records
 the publication in grimworld's `docs/decisions/`.
+
+## Publication
+
+By the orchestrator (`[Opus 5.5]`), 2026-10-01, as `docs/RELEASING.md` says, after the go was merged
+(#67, `4372160`):
+
+- A clean clone checked out at `fe2b529de22db14ae29aa2072d75af10e50e4217`; `scarb package -p hexx`:
+  35 files, archive sha256 `9313e06b7b11282cb015f47af41fcd41a3162b627fb14b0734e35569f5ca1500`, the
+  same as the project manager's.
+- `scarb publish -p hexx`: `Published hexx v0.1.0-rc.1`.
+- The registry's index (`https://scarbs.xyz/api/v1/index/he/xx/hexx.json`) shows `0.1.0-rc.1`,
+  `cksum` `sha256:9313e06b7b11282cb015f47af41fcd41a3162b627fb14b0734e35569f5ca1500`, its one
+  dependency `snforge_std` `^0.61.0` of kind `test`.
+- Tag `v0.1.0-rc.1` on `fe2b529`; the GitHub release
+  [v0.1.0-rc.1](https://github.com/bal7hazar/hexx-cairo/releases/tag/v0.1.0-rc.1), marked a
+  pre-release.
+
+N-9's proof on the artifact the registry serves (task M1-N9) is not done yet.
