@@ -1,4 +1,4 @@
-# N-9: what is known about `origami_hexmap` 1.8.0's defect
+# N-9: the cause of `origami_hexmap` 1.8.0's defect
 
 Task M1-N9, 2026-10-01. Status: **partly answered**. The artifact is not the cause; the
 component that turned the test dependency into a constraint, and the Scarb version from which it
@@ -59,25 +59,44 @@ All on 2026-10-01, Scarb 2.19.4, from this repository's worktree.
    against `hexx 0.1.0-rc.1`, `plain`'s lock has no `snforge_std`, and `with_tests`, pinned on
    `snforge_std =0.60.0` (outside `^0.61.0`), builds and passes its test (see `REPORT.md`).
 
+## Reproduction (the orchestrator, 2026-10-01)
+
+Run by the orchestrator (`[Opus 5.5]`) with the two Scarb versions already installed on the VPS
+through asdf (`asdf list scarb`: 2.13.1, 2.19.4; nothing downloaded). One consumer per row, in a
+scratch directory, `scarb fetch`:
+
+```toml
+[dependencies]
+origami_hexmap = "=1.8.0"        # or: hexx = "=0.1.0-rc.1"
+
+[dev-dependencies]
+snforge_std = "=0.51.2"
+```
+
+| Scarb | Dependency | Result |
+|---|---|---|
+| 2.13.1 (`a76aed717 2025-10-30`) | `origami_hexmap =1.8.0` | `error: version solving failed: … origami_hexmap 1.8.0 depends on snforge_std >=0.61.0, <0.62.0 … c 0.1.0 depends on snforge_std >=0.51.2, <0.51.3, c 0.1.0 is forbidden.` |
+| 2.19.4 (`b45b74c03 2026-07-21`) | `origami_hexmap =1.8.0` | resolves; `Scarb.lock` holds `snforge_std` 0.51.2 only |
+| 2.13.1 | `hexx =0.1.0-rc.1` | `error: version solving failed: … hexx 0.1.0-rc.1 depends on snforge_std >=0.61.0, <0.62.0 … c 0.1.0 is forbidden.` |
+| 2.19.4 | `hexx =0.1.0-rc.1` | resolves; `Scarb.lock` holds `snforge_std` 0.51.2 only |
+
 ## Conclusion
 
-- The defect is **not in the published artifact's manifest**, and the index entry is the same as
-  `hexx`'s. With Scarb 2.19.4 the shape that failed on 2.13.1 resolves.
-- The lead of the brief (a Scarb version's resolution of a dependency's test dependencies) is
-  **consistent with the evidence but not proved**: it needs the failure itself reproduced.
+- **The cause is Scarb's resolver up to 2.13.1**: it counts a registry dependency's `kind: test`
+  entries as constraints of the consumer. The artifact and the index entry are not at fault: both
+  packages, published the same way (`snforge_std` under `[dev-dependencies]`, `kind: test` in the
+  index), fail on 2.13.1 and resolve on 2.19.4. Failure 1 of the game is reproduced without
+  `dojo_snf_test`: a consumer's own `snforge_std` outside `^0.61.0` is enough.
+- **N-9, reduced, holds for consumers on Scarb 2.19.4**, the game's toolchain since ADR-0007 and the
+  library's (`.tool-versions`); it does not hold on Scarb 2.13.1. The first Scarb version that
+  resolves correctly lies in `(2.13.1, 2.19.4]`; only those two are installed here, and a bisection
+  would need downloads (not done). No change of `hexx`'s manifest can fix a consumer's resolver.
 
-## What remains unknown, and why
+## What remains unknown
 
-- Reproduction on Scarb 2.13.1: the release archive was downloaded under `work/scarb-2.13.1/`
-  (git-ignored) but the permission profile refused to execute it ("This command requires
-  approval"). Not worked around. Needed: permission to run
-  `work/scarb-2.13.1/scarb-v2.13.1-x86_64-unknown-linux-gnu/bin/scarb build` in `work/n9/` (the
-  consumer of evidence 3, same `Scarb.toml`).
-- Which component (Scarb's resolver, or its handling of the registry index's `kind`) added the
-  constraint, and from which Scarb version it no longer does: undetermined. Once the 2.13.1 failure
-  is reproduced, bisecting the Scarb releases between 2.13.1 and 2.19.4 with the same `Scarb.toml`
-  answers it.
-- Whether the game's failure also involved `dojo_snf_test` 1.8.0's own manifest: not tested.
+- The first Scarb release with the corrected resolution, between 2.13.1 and 2.19.4.
+- Whether `dojo_snf_test` 1.8.0 added a constraint of its own in the game's original setup (not
+  needed to reproduce the failure).
 
 ## Manifest
 
