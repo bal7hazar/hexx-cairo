@@ -10,7 +10,7 @@ move. Versions before `0.1.0` are pre-releases (`0.1.0-rc.N`); nothing is publis
 
 ## [Unreleased]
 
-## [0.1.0-rc.1] — 2026-10-01, not yet published
+## [0.1.0-rc.1] — 2026-10-01
 
 The first release candidate of `hexx`, for the game's ENG-02: the engine of `origami_hexmap`
 1.8.0 taken over, the mirror items of milestone L-M1, and needs N-3, N-4, N-5, N-7 and N-8.
@@ -26,7 +26,9 @@ positions, `f32` and rendering), each with its reason in the table. Every mirror
 present: `Hex` and its distances, `HexTrait::line_to`, `EdgeDirection` and its rotations,
 the offset coordinates (`OffsetHexMode`, `to_offset_coordinates`, `from_offset_coordinates`),
 `HexOrientation`. Each is checked against golden vectors generated from the crate itself
-(`tools/refgen`).
+(`tools/refgen`), except `line_to` at its ties: there `refgen` encodes the game's integer rule,
+and the vectors give identity with `hexx` on every non-tie pair of the window and on the seeded
+sample.
 
 ### Extensions
 
@@ -51,8 +53,9 @@ the offset coordinates (`OffsetHexMode`, `to_offset_coordinates`, `from_offset_c
 
 59 documented deviations (`docs/DEVIATIONS.md`): `i32` overflow panics where `hexx` wraps,
 iterators returned as spans, and `line_to`'s integer tie rule, which differs from `hexx`'s `f32`
-line at ties and at large coordinates (every differing pair listed in
-`docs/deviations/line_ties.md`).
+line at ties and at large coordinates; every differing pair of the compared sets (the 15 × 16
+window, 7 × 7, the seeded sample and the adversarial large-coordinate pairs) is listed in
+`docs/deviations/line_ties.md`.
 
 ### Results changed
 
