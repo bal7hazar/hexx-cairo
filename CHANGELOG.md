@@ -10,6 +10,12 @@ move. Versions before `0.1.0` are pre-releases (`0.1.0-rc.N`); nothing is publis
 
 ## [Unreleased]
 
+Release check (`.github/workflows/release-check.yml`, no change to the package): its reports are
+written outside the checkout and the tree is checked clean before `scarb package` (run
+`36809681077` of `0.1.0-rc.1` had passed the full gate, then `scarb package` refused an untracked
+report). Codex review: none — Codex unavailable (quota), merged by the project manager's decision
+of 2026-10-01 under the standard's exception.
+
 ## [0.1.0-rc.1] — 2026-10-01
 
 The first release candidate of `hexx`, for the game's ENG-02: the engine of `origami_hexmap`
