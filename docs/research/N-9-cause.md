@@ -1,9 +1,9 @@
 # N-9: the cause of `origami_hexmap` 1.8.0's defect
 
-Task M1-N9, 2026-10-01. Status: **partly answered**. The artifact is not the cause; the
-component that turned the test dependency into a constraint, and the Scarb version from which it
-no longer does, are **not established**, because the reproduction on Scarb 2.13.1 could not be run
-(see "What remains unknown").
+Task M1-N9, 2026-10-01. Status: **cause found**. The artifact is not the cause: Scarb's resolver
+up to 2.13.1 counts a dependency's `kind: test` entries as constraints, and Scarb 2.19.4 does not
+("Reproduction", run by the orchestrator on both versions). Still unknown: the first Scarb release
+that resolves correctly, in `(2.13.1, 2.19.4]` ("What remains unknown").
 
 ## The failure reported
 
@@ -13,7 +13,8 @@ no longer does, are **not established**, because the reproduction on Scarb 2.13.
 
 ## Evidence
 
-All on 2026-10-01, Scarb 2.19.4, from this repository's worktree.
+Items 1 to 4, by the agent on 2026-10-01, on Scarb 2.19.4 from this repository's worktree; the
+section "Reproduction" below ran both 2.13.1 and 2.19.4.
 
 1. **The registry entry of `origami_hexmap` 1.8.0 and of `hexx` 0.1.0-rc.1 have the same form.**
 

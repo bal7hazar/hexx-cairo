@@ -10,6 +10,11 @@ version="${1:-}"
 if [ -z "$version" ]; then
   version="$("$here/versions.sh" | tail -n 1)"
 fi
+# The version reaches `rm -rf` and `sed` below: only a version string is accepted.
+if ! [[ "$version" =~ ^[0-9A-Za-z][0-9A-Za-z.+-]*$ ]]; then
+  echo "run.sh: not a version: '$version'" >&2
+  exit 2
+fi
 out="$root/work/consumer_check/$version"
 rm -rf "$out"
 mkdir -p "$out"
