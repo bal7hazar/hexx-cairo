@@ -9,7 +9,7 @@ description = "Unpublished Starknet contract fixture: class size of a consumer o
 
 [dependencies]
 hexx = { path = "../hexx" }
-starknet = "2.19.4"
+starknet = "2.20.0"
 
 [[target.starknet-contract]]
 sierra = true

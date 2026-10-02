@@ -133,19 +133,19 @@ pub impl Oracle of OracleTrait {
 // Contract against the oracle
 
 #[test]
-#[available_gas(l2_gas: 37090183)]
+#[available_gas(l2_gas: 37082297)]
 fn test_cut_oracle_7x7() {
     Oracle::check_size(7, 7);
 }
 
 #[test]
-#[available_gas(l2_gas: 176515061)]
+#[available_gas(l2_gas: 176507175)]
 fn test_cut_oracle_15x15() {
     Oracle::check_size(15, 15);
 }
 
 #[test]
-#[available_gas(l2_gas: 188425741)]
+#[available_gas(l2_gas: 188417855)]
 fn test_cut_oracle_15x16() {
     Oracle::check_size(15, 16);
 }
@@ -157,7 +157,7 @@ fn test_cut_oracle_15x16() {
 /// every tile is inside the mask, so the cut is the identity and the ring tile stays open (the
 /// plan's §6.5 gave `grid − 2^3`). A mask without bit 3 removes exactly that bit.
 #[test]
-#[available_gas(l2_gas: 1137094)]
+#[available_gas(l2_gas: 1129082)]
 fn test_cut_r_n4_1_open_edge_tile_stays_open() {
     let mut map = HexMapTrait::new_cave(7, 7, 3, SEED);
     map.open_with_corridor(3, 0);
@@ -179,7 +179,7 @@ fn test_cut_r_n4_1_open_edge_tile_stays_open() {
 /// R-N4-2: `cut(m, mask) == cut(m, mask & (2^(W·H) − 1))`, the bits of the mask at or above
 /// `W · H` are ignored (the mask itself is not).
 #[test]
-#[available_gas(l2_gas: 1282470)]
+#[available_gas(l2_gas: 1274585)]
 fn test_cut_r_n4_2_high_bits_ignored() {
     let sizes = array![(7_u8, 7_u8), (15, 15), (15, 16), (3, 3), (16, 15)];
     for size in sizes {
@@ -202,7 +202,7 @@ fn test_cut_r_n4_2_high_bits_ignored() {
 /// R-N4-3: 7 × 7 with the single floor tile `(3, 3)` (index 24): the mask `2^49` keeps no tile of
 /// the board, the grid is empty; so is every mask of high bits only.
 #[test]
-#[available_gas(l2_gas: 84181)]
+#[available_gas(l2_gas: 76065)]
 fn test_cut_r_n4_3_high_bits_only() {
     let map = HexMapTrait::new(Bits::pow(24), 7, 7, SEED);
     assert!(map.cut(Bits::pow(49)).grid == 0);
@@ -221,26 +221,26 @@ fn test_cut_r_n4_3_high_bits_only() {
 /// A cave cut by an outline that keeps the open edge tile 7: `distance_to` from that edge tile and
 /// from an interior tile agrees with the scalar breadth-first search on every walkable tile.
 #[test]
-#[available_gas(l2_gas: 33544604)]
+#[available_gas(l2_gas: 33536697)]
 fn test_cut_finders_from_edge_tile_30() {
     Oracle::check_finders(Oracle::cave(30), 7);
 }
 
 #[test]
-#[available_gas(l2_gas: 27533304)]
+#[available_gas(l2_gas: 27525398)]
 fn test_cut_finders_from_interior_tile_30() {
     let map = Oracle::cave(30);
     Oracle::check_finders(map, Oracle::interior_tile(map));
 }
 
 #[test]
-#[available_gas(l2_gas: 40124595)]
+#[available_gas(l2_gas: 40116689)]
 fn test_cut_finders_from_edge_tile_31() {
     Oracle::check_finders(Oracle::cave(31), 7);
 }
 
 #[test]
-#[available_gas(l2_gas: 33671351)]
+#[available_gas(l2_gas: 33663445)]
 fn test_cut_finders_from_interior_tile_31() {
     let map = Oracle::cave(31);
     Oracle::check_finders(map, Oracle::interior_tile(map));
@@ -262,7 +262,7 @@ impl Inputs of InputsTrait {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 28815)]
+#[available_gas(l2_gas: 20698)]
 fn bench_cut_once() {
     let (map, mask, _) = Inputs::get();
     assert!(map.cut(mask).grid != 0);
@@ -270,7 +270,7 @@ fn bench_cut_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 39443)]
+#[available_gas(l2_gas: 31326)]
 fn bench_cut_twice() {
     let (map, mask, other) = Inputs::get();
     assert!(map.cut(mask).grid != 0);

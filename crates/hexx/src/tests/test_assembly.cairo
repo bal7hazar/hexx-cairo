@@ -243,91 +243,91 @@ pub impl Oracle of OracleTrait {
 // Contract against the oracle: the 225 offsets, 4 and 2 chunks, both layers
 
 #[test]
-#[available_gas(l2_gas: 351725399)]
+#[available_gas(l2_gas: 351717513)]
 fn test_assembly_offsets_row_0() {
     Oracle::check_row(0);
 }
 
 #[test]
-#[available_gas(l2_gas: 351837560)]
+#[available_gas(l2_gas: 351829674)]
 fn test_assembly_offsets_row_1() {
     Oracle::check_row(1);
 }
 
 #[test]
-#[available_gas(l2_gas: 351748908)]
+#[available_gas(l2_gas: 351741023)]
 fn test_assembly_offsets_row_2() {
     Oracle::check_row(2);
 }
 
 #[test]
-#[available_gas(l2_gas: 351991353)]
+#[available_gas(l2_gas: 351983468)]
 fn test_assembly_offsets_row_3() {
     Oracle::check_row(3);
 }
 
 #[test]
-#[available_gas(l2_gas: 352043948)]
+#[available_gas(l2_gas: 352036062)]
 fn test_assembly_offsets_row_4() {
     Oracle::check_row(4);
 }
 
 #[test]
-#[available_gas(l2_gas: 352067804)]
+#[available_gas(l2_gas: 352059918)]
 fn test_assembly_offsets_row_5() {
     Oracle::check_row(5);
 }
 
 #[test]
-#[available_gas(l2_gas: 352668120)]
+#[available_gas(l2_gas: 352660235)]
 fn test_assembly_offsets_row_6() {
     Oracle::check_row(6);
 }
 
 #[test]
-#[available_gas(l2_gas: 351632022)]
+#[available_gas(l2_gas: 351624137)]
 fn test_assembly_offsets_row_7() {
     Oracle::check_row(7);
 }
 
 #[test]
-#[available_gas(l2_gas: 352277667)]
+#[available_gas(l2_gas: 352269782)]
 fn test_assembly_offsets_row_8() {
     Oracle::check_row(8);
 }
 
 #[test]
-#[available_gas(l2_gas: 351864366)]
+#[available_gas(l2_gas: 351856481)]
 fn test_assembly_offsets_row_9() {
     Oracle::check_row(9);
 }
 
 #[test]
-#[available_gas(l2_gas: 352120629)]
+#[available_gas(l2_gas: 352112744)]
 fn test_assembly_offsets_row_10() {
     Oracle::check_row(10);
 }
 
 #[test]
-#[available_gas(l2_gas: 352581558)]
+#[available_gas(l2_gas: 352573673)]
 fn test_assembly_offsets_row_11() {
     Oracle::check_row(11);
 }
 
 #[test]
-#[available_gas(l2_gas: 352761171)]
+#[available_gas(l2_gas: 352753286)]
 fn test_assembly_offsets_row_12() {
     Oracle::check_row(12);
 }
 
 #[test]
-#[available_gas(l2_gas: 352975098)]
+#[available_gas(l2_gas: 352967213)]
 fn test_assembly_offsets_row_13() {
     Oracle::check_row(13);
 }
 
 #[test]
-#[available_gas(l2_gas: 352753863)]
+#[available_gas(l2_gas: 352745978)]
 fn test_assembly_offsets_row_14() {
     Oracle::check_row(14);
 }
@@ -337,7 +337,7 @@ fn test_assembly_offsets_row_14() {
 /// Every subset of void chunks (1, 2 and 3 void among them, and all 4) at offsets of 4 chunks
 /// of both parities, and at an offset of 2 chunks.
 #[test]
-#[available_gas(l2_gas: 651317439)]
+#[available_gas(l2_gas: 651309553)]
 fn test_assembly_void_chunks() {
     let offsets = array![(7_u8, 7_u8, -1_i16, 5_i16), (3, 8, 2, 0), (0, 14, 0, 4)];
     for offset in offsets {
@@ -363,7 +363,7 @@ fn test_assembly_void_chunks() {
 
 /// Four void chunks: a window of wall, both layers.
 #[test]
-#[available_gas(l2_gas: 51499)]
+#[available_gas(l2_gas: 43382)]
 fn test_assembly_all_void() {
     let void = [Option::None, Option::None, Option::None, Option::None];
     let origin = AssemblyTrait::origin(0, 0);
@@ -376,7 +376,7 @@ fn test_assembly_all_void() {
 
 /// R-N3-1: `origin(0, 0)`, `(7, 8)`, `(7, 7)`, `(255, 255)`.
 #[test]
-#[available_gas(l2_gas: 14406)]
+#[available_gas(l2_gas: 6311)]
 fn test_assembly_r_n3_1_origin() {
     assert!(AssemblyTrait::origin(0, 0) == Origin { cx: -1, cy: -1, ox: 8, oy: 7 });
     assert!(AssemblyTrait::origin(7, 8) == Origin { cx: 0, cy: 0, ox: 0, oy: 0 });
@@ -386,7 +386,7 @@ fn test_assembly_r_n3_1_origin() {
 
 /// R-N3-2: `local` of the origin of `(0, 0)` and `(255, 255)`.
 #[test]
-#[available_gas(l2_gas: 14406)]
+#[available_gas(l2_gas: 6311)]
 fn test_assembly_r_n3_2_local() {
     let origin = AssemblyTrait::origin(0, 0);
     assert!(origin.local(0, 0) == Option::Some(127));
@@ -397,7 +397,7 @@ fn test_assembly_r_n3_2_local() {
 
 /// R-N3-3: `oy = 14` (the upper chunks give all their 15 rows) and `ox = 0` (two chunks).
 #[test]
-#[available_gas(l2_gas: 119215081)]
+#[available_gas(l2_gas: 119207070)]
 fn test_assembly_r_n3_3_edges() {
     Oracle::check_offset(0, 14, 'R-N3-3');
     Oracle::check_offset(7, 14, 'R-N3-3');
@@ -408,7 +408,7 @@ fn test_assembly_r_n3_3_edges() {
 
 /// R-N3-4: an absent chunk passed as 0 contributes wall, as a void one does.
 #[test]
-#[available_gas(l2_gas: 8099751)]
+#[available_gas(l2_gas: 8091634)]
 fn test_assembly_r_n3_4_zero_chunk() {
     let full = Oracle::full();
     let zero = AssemblyTrait::assemble([full, Option::Some(0), full, full], 7, 7, true);
@@ -422,7 +422,7 @@ fn test_assembly_r_n3_4_zero_chunk() {
 
 /// The ring of the window is wall on the terrain of four full chunks, and kept on the occupancy.
 #[test]
-#[available_gas(l2_gas: 76823)]
+#[available_gas(l2_gas: 68706)]
 fn test_assembly_window_ring() {
     let full = Oracle::full();
     let chunks = [full, full, full, full];
@@ -438,25 +438,25 @@ fn test_assembly_window_ring() {
 // Origins (AC-2, D-120)
 
 #[test]
-#[available_gas(l2_gas: 394823163)]
+#[available_gas(l2_gas: 394815068)]
 fn test_assembly_origins_0() {
     Oracle::check_origins(0, 64);
 }
 
 #[test]
-#[available_gas(l2_gas: 394823163)]
+#[available_gas(l2_gas: 394815068)]
 fn test_assembly_origins_1() {
     Oracle::check_origins(64, 128);
 }
 
 #[test]
-#[available_gas(l2_gas: 394823163)]
+#[available_gas(l2_gas: 394815068)]
 fn test_assembly_origins_2() {
     Oracle::check_origins(128, 192);
 }
 
 #[test]
-#[available_gas(l2_gas: 394823163)]
+#[available_gas(l2_gas: 394815068)]
 fn test_assembly_origins_3() {
     Oracle::check_origins(192, 256);
 }
@@ -464,7 +464,7 @@ fn test_assembly_origins_3() {
 /// `local` round trip on the windows of adventurers at the corners, the edges of chunks and the
 /// middle of the location.
 #[test]
-#[available_gas(l2_gas: 309961145)]
+#[available_gas(l2_gas: 309953049)]
 fn test_assembly_local() {
     let coordinates = array![0_u8, 7, 8, 15, 128, 247, 248, 255];
     for x in coordinates.span() {
@@ -477,7 +477,7 @@ fn test_assembly_local() {
 // Refusals
 
 #[test]
-#[available_gas(l2_gas: 18378)]
+#[available_gas(l2_gas: 10387)]
 #[should_panic(expected: 'Assembly: odd origin')]
 fn test_assembly_revert_odd_origin_even_row() {
     // oy = 1 on an even chunk row: the origin row 15·cy + 1 is odd
@@ -485,7 +485,7 @@ fn test_assembly_revert_odd_origin_even_row() {
 }
 
 #[test]
-#[available_gas(l2_gas: 18378)]
+#[available_gas(l2_gas: 10387)]
 #[should_panic(expected: 'Assembly: odd origin')]
 fn test_assembly_revert_odd_origin_odd_row() {
     // oy = 8 on an odd chunk row: 15·cy + 8 is odd
@@ -493,7 +493,7 @@ fn test_assembly_revert_odd_origin_odd_row() {
 }
 
 #[test]
-#[available_gas(l2_gas: 18378)]
+#[available_gas(l2_gas: 10387)]
 #[should_panic(expected: 'Assembly: odd origin')]
 fn test_assembly_revert_window_odd_origin() {
     // cy = -1, oy = 8: the origin row is -7
@@ -502,21 +502,21 @@ fn test_assembly_revert_window_odd_origin() {
 }
 
 #[test]
-#[available_gas(l2_gas: 18378)]
+#[available_gas(l2_gas: 10387)]
 #[should_panic(expected: 'Assembly: invalid offset')]
 fn test_assembly_revert_invalid_ox() {
     AssemblyTrait::assemble(Oracle::chunks(1), 15, 0, false);
 }
 
 #[test]
-#[available_gas(l2_gas: 18378)]
+#[available_gas(l2_gas: 10387)]
 #[should_panic(expected: 'Assembly: invalid offset')]
 fn test_assembly_revert_invalid_oy() {
     AssemblyTrait::assemble(Oracle::chunks(1), 0, 15, true);
 }
 
 #[test]
-#[available_gas(l2_gas: 18378)]
+#[available_gas(l2_gas: 10387)]
 #[should_panic(expected: 'Assembly: invalid offset')]
 fn test_assembly_revert_window_invalid_offset() {
     let chunks = Oracle::chunks(1);
@@ -611,14 +611,14 @@ pub impl LocalOracle of LocalOracleTrait {
 
 /// Every origin of the tiles of a location, `-1..=16` in both axes, offsets `0..15`.
 #[test]
-#[available_gas(l2_gas: 195699389)]
+#[available_gas(l2_gas: 195691293)]
 fn test_assembly_local_exhaustive() {
     LocalOracle::check_origins(-1, 17);
 }
 
 /// The extremes of `i8` (its fields are public): nothing of a location is in such a window.
 #[test]
-#[available_gas(l2_gas: 2154569)]
+#[available_gas(l2_gas: 2146473)]
 fn test_assembly_local_extreme_origins() {
     let cs = array![-128_i8, -127, 126, 127];
     for c in cs.span() {

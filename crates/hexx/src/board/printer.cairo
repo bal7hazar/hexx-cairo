@@ -112,7 +112,7 @@ mod tests {
     use super::HexPrinter;
 
     #[test]
-    #[available_gas(l2_gas: 851057)]
+    #[available_gas(l2_gas: 842940)]
     fn test_printer_render_shifts_even_rows() {
         // 5x3, interior (1..3, 1) open
         let grid: felt252 = 0b000000111000000;
@@ -121,7 +121,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 861898)]
+    #[available_gas(l2_gas: 853782)]
     fn test_printer_render_with_path() {
         // Path from 6 to 8 through 7, printed right to left
         let grid: felt252 = 0b000000111000000;

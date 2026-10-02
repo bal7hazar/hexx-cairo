@@ -336,7 +336,7 @@ pub fn and(lhs: u256, rhs: u256) -> u256 {
 // Microbenchmarks (17x14, per op = (test - loop) / 100)
 
 #[test]
-#[available_gas(l2_gas: 152271)]
+#[available_gas(l2_gas: 144050)]
 fn bench_dial_micro_loop() {
     let frontier: u256 = CAVE_17X14.into();
     let mut acc: felt252 = 0;
@@ -349,7 +349,7 @@ fn bench_dial_micro_loop() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2370921)]
+#[available_gas(l2_gas: 2362805)]
 fn bench_dial_micro_expand_corelib() {
     let layout = LayoutTrait::new(17, 14);
     let frontier: u256 = CAVE_17X14_COST_2.into();
@@ -364,7 +364,7 @@ fn bench_dial_micro_expand_corelib() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2343621)]
+#[available_gas(l2_gas: 2335505)]
 fn bench_dial_micro_expand_triple() {
     let layout = LayoutTrait::new(17, 14);
     let frontier: u256 = CAVE_17X14_COST_2.into();
@@ -379,7 +379,7 @@ fn bench_dial_micro_expand_triple() {
 }
 
 #[test]
-#[available_gas(l2_gas: 447332)]
+#[available_gas(l2_gas: 439215)]
 fn bench_dial_micro_and_triple() {
     let lhs: u256 = CAVE_17X14_COST_2.into();
     let rhs: u256 = CAVE_17X14.into();
@@ -393,7 +393,7 @@ fn bench_dial_micro_and_triple() {
 }
 
 #[test]
-#[available_gas(l2_gas: 332987)]
+#[available_gas(l2_gas: 324870)]
 fn bench_dial_micro_and_limb() {
     let lhs: u256 = CAVE_17X14_COST_2.into();
     let rhs: u256 = CAVE_17X14.into();
@@ -408,7 +408,7 @@ fn bench_dial_micro_and_limb() {
 }
 
 #[test]
-#[available_gas(l2_gas: 203837)]
+#[available_gas(l2_gas: 195615)]
 fn bench_dial_micro_limb_sub() {
     let lhs: u256 = CAVE_17X14.into();
     let rhs: u256 = CAVE_17X14_COST_2.into();
@@ -422,7 +422,7 @@ fn bench_dial_micro_limb_sub() {
 }
 
 #[test]
-#[available_gas(l2_gas: 339035)]
+#[available_gas(l2_gas: 330939)]
 fn bench_dial_micro_felt_to_u256() {
     let value: felt252 = CAVE_17X14;
     let mut acc: felt252 = 0;
@@ -1324,7 +1324,7 @@ pub fn dijkstra_heap(
 // Benchmarks: variants (CAVE 17x14 far pair, 2 classes, unless stated)
 
 #[test]
-#[available_gas(l2_gas: 1607967)]
+#[available_gas(l2_gas: 1599851)]
 fn bench_dial_variant_winner_17x14() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     let path = search_winner(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1332,7 +1332,7 @@ fn bench_dial_variant_winner_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2170257)]
+#[available_gas(l2_gas: 2162141)]
 fn bench_dial_variant_array_ring_17x14() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     let setup = setup(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1342,7 +1342,7 @@ fn bench_dial_variant_array_ring_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1586373)]
+#[available_gas(l2_gas: 1578257)]
 fn bench_dial_variant_fixed_ring_17x14() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     let setup = setup(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1352,7 +1352,7 @@ fn bench_dial_variant_fixed_ring_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1850165)]
+#[available_gas(l2_gas: 1842048)]
 fn bench_dial_variant_partition_17x14() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     let setup = setup(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1362,7 +1362,7 @@ fn bench_dial_variant_partition_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1660277)]
+#[available_gas(l2_gas: 1652161)]
 fn bench_dial_variant_corelib_17x14() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     let setup = setup(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1372,7 +1372,7 @@ fn bench_dial_variant_corelib_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1598847)]
+#[available_gas(l2_gas: 1590731)]
 fn bench_dial_variant_sparse_layers_17x14() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     let setup = setup(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1382,7 +1382,7 @@ fn bench_dial_variant_sparse_layers_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2259142)]
+#[available_gas(l2_gas: 2251025)]
 fn bench_dial_variant_bit_tests_17x14() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     let setup = setup(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1392,7 +1392,7 @@ fn bench_dial_variant_bit_tests_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1082699)]
+#[available_gas(l2_gas: 1074582)]
 fn bench_dial_variant_forward_only_17x14() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     let setup = setup(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1401,7 +1401,7 @@ fn bench_dial_variant_forward_only_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 85044)]
+#[available_gas(l2_gas: 76928)]
 fn bench_dial_variant_setup_17x14() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     let setup = setup(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1409,7 +1409,7 @@ fn bench_dial_variant_setup_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1131780)]
+#[available_gas(l2_gas: 1123663)]
 fn bench_dial_variant_unit_winner_17x14() {
     let costs = array![].span();
     let setup = setup(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1419,7 +1419,7 @@ fn bench_dial_variant_unit_winner_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1418440)]
+#[available_gas(l2_gas: 1410324)]
 fn bench_dial_variant_unit_buckets_17x14() {
     let costs = array![].span();
     let setup = setup(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1429,7 +1429,7 @@ fn bench_dial_variant_unit_buckets_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 492516)]
+#[available_gas(l2_gas: 484399)]
 fn bench_dial_variant_u256_7x7() {
     let costs = array![CAVE_7X7_COST_2, CAVE_7X7_COST_3].span();
     let path = search_winner(CAVE_7X7, 7, 7, CAVE_7X7_FAR_FROM, CAVE_7X7_FAR_TO, costs);
@@ -1437,7 +1437,7 @@ fn bench_dial_variant_u256_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 27197585)]
+#[available_gas(l2_gas: 27189573)]
 fn bench_dial_variant_dijkstra_heap_17x14() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     let path = dijkstra_heap(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1445,7 +1445,7 @@ fn bench_dial_variant_dijkstra_heap_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 39592030)]
+#[available_gas(l2_gas: 39584019)]
 fn bench_dial_variant_dijkstra_heap_empty_17x14() {
     let costs = array![EMPTY_17X14_COST_2, EMPTY_17X14_COST_3].span();
     let path = dijkstra_heap(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO, costs);
@@ -1453,7 +1453,7 @@ fn bench_dial_variant_dijkstra_heap_empty_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 14136578)]
+#[available_gas(l2_gas: 14128566)]
 fn bench_dial_variant_dijkstra_heap_maze_17x14() {
     let costs = array![MAZE_17X14_COST_2, MAZE_17X14_COST_3].span();
     let path = dijkstra_heap(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO, costs);
@@ -1461,7 +1461,7 @@ fn bench_dial_variant_dijkstra_heap_maze_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 4109942)]
+#[available_gas(l2_gas: 4101930)]
 fn bench_dial_variant_dijkstra_heap_7x7() {
     let costs = array![CAVE_7X7_COST_2, CAVE_7X7_COST_3].span();
     let path = dijkstra_heap(CAVE_7X7, 7, 7, CAVE_7X7_FAR_FROM, CAVE_7X7_FAR_TO, costs);
@@ -1469,7 +1469,7 @@ fn bench_dial_variant_dijkstra_heap_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2095991)]
+#[available_gas(l2_gas: 2087874)]
 fn bench_dial_variant_backtrack_twice_17x14() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     let setup = setup(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1480,7 +1480,7 @@ fn bench_dial_variant_backtrack_twice_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1590762)]
+#[available_gas(l2_gas: 1582646)]
 fn bench_dial_variant_backtrack_once_17x14() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     let setup = setup(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1490,7 +1490,7 @@ fn bench_dial_variant_backtrack_once_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1158948)]
+#[available_gas(l2_gas: 1150832)]
 fn bench_dial_micro_step_mask() {
     let layout = LayoutTrait::new(17, 14);
     let layer: u256 = CAVE_17X14.into();
@@ -1506,7 +1506,7 @@ fn bench_dial_micro_step_mask() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1265712)]
+#[available_gas(l2_gas: 1257596)]
 fn bench_dial_micro_step_mask_north_west() {
     // 100 lies on the odd row 5: its North-West neighbour is 100 + 17 + 1
     let layout = LayoutTrait::new(17, 14);
@@ -1523,7 +1523,7 @@ fn bench_dial_micro_step_mask_north_west() {
 }
 
 #[test]
-#[available_gas(l2_gas: 698127)]
+#[available_gas(l2_gas: 690010)]
 fn bench_dial_micro_cost() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     let classes = harness_classes(CAVE_17X14.into(), costs);
@@ -1537,7 +1537,7 @@ fn bench_dial_micro_cost() {
 }
 
 #[test]
-#[available_gas(l2_gas: 138695)]
+#[available_gas(l2_gas: 130599)]
 fn bench_dial_micro_span_at() {
     let layers = array![1_u256, 2, 3, 4, 5, 6, 7, 8, 9, 10].span();
     let mut acc: felt252 = 0;
@@ -1550,7 +1550,7 @@ fn bench_dial_micro_span_at() {
 }
 
 #[test]
-#[available_gas(l2_gas: 376730)]
+#[available_gas(l2_gas: 368739)]
 fn bench_dial_micro_lowest() {
     let hits: u128 = 0x1100;
     let mut acc: felt252 = 0;
@@ -1564,7 +1564,7 @@ fn bench_dial_micro_lowest() {
 }
 
 #[test]
-#[available_gas(l2_gas: 204519)]
+#[available_gas(l2_gas: 196298)]
 fn bench_dial_micro_felt_eq() {
     let bit = Bits::pow(100);
     let mut acc: felt252 = 0;
@@ -1582,35 +1582,35 @@ fn bench_dial_micro_felt_eq() {
 // Benchmarks: library
 
 #[test]
-#[available_gas(l2_gas: 14406)]
+#[available_gas(l2_gas: 6311)]
 fn bench_dial_baseline_17x14() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     assert!(CAVE_17X14 != 0 && costs.len() == 2);
 }
 
 #[test]
-#[available_gas(l2_gas: 1225723)]
+#[available_gas(l2_gas: 1217733)]
 fn bench_dial_empty_17x14() {
     let costs = array![EMPTY_17X14_COST_2, EMPTY_17X14_COST_3].span();
     Dial::search(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 1477082)]
+#[available_gas(l2_gas: 1469091)]
 fn bench_dial_cave_17x14() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     Dial::search(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 3483992)]
+#[available_gas(l2_gas: 3476001)]
 fn bench_dial_maze_17x14() {
     let costs = array![MAZE_17X14_COST_2, MAZE_17X14_COST_3].span();
     Dial::search(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 5279011)]
+#[available_gas(l2_gas: 5271020)]
 fn bench_dial_serpentine_17x14() {
     let costs = array![SERPENTINE_17X14_COST_2, SERPENTINE_17X14_COST_3].span();
     Dial::search(
@@ -1619,7 +1619,7 @@ fn bench_dial_serpentine_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 700266)]
+#[available_gas(l2_gas: 692276)]
 fn bench_dial_unreachable_17x14() {
     let costs = array![UNREACHABLE_17X14_COST_2, UNREACHABLE_17X14_COST_3].span();
     Dial::search(
@@ -1628,39 +1628,39 @@ fn bench_dial_unreachable_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 305169)]
+#[available_gas(l2_gas: 297179)]
 fn bench_dial_cave_7x7() {
     let costs = array![CAVE_7X7_COST_2, CAVE_7X7_COST_3].span();
     Dial::search(CAVE_7X7, 7, 7, CAVE_7X7_FAR_FROM, CAVE_7X7_FAR_TO, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 297607)]
+#[available_gas(l2_gas: 289617)]
 fn bench_dial_cave_17x14_near() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     Dial::search(CAVE_17X14, 17, 14, CAVE_17X14_NEAR_FROM, CAVE_17X14_NEAR_TO, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 784232)]
+#[available_gas(l2_gas: 776241)]
 fn bench_dial_empty_17x14_classes_0() {
     Dial::search(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO, array![].span());
 }
 
 #[test]
-#[available_gas(l2_gas: 964259)]
+#[available_gas(l2_gas: 956268)]
 fn bench_dial_cave_17x14_classes_0() {
     Dial::search(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, array![].span());
 }
 
 #[test]
-#[available_gas(l2_gas: 2062870)]
+#[available_gas(l2_gas: 2054880)]
 fn bench_dial_maze_17x14_classes_0() {
     Dial::search(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO, array![].span());
 }
 
 #[test]
-#[available_gas(l2_gas: 3388946)]
+#[available_gas(l2_gas: 3380955)]
 fn bench_dial_serpentine_17x14_classes_0() {
     Dial::search(
         SERPENTINE_17X14,
@@ -1673,118 +1673,118 @@ fn bench_dial_serpentine_17x14_classes_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 176052)]
+#[available_gas(l2_gas: 168061)]
 fn bench_dial_cave_7x7_classes_0() {
     Dial::search(CAVE_7X7, 7, 7, CAVE_7X7_FAR_FROM, CAVE_7X7_FAR_TO, array![].span());
 }
 
 #[test]
-#[available_gas(l2_gas: 1441424)]
+#[available_gas(l2_gas: 1433433)]
 fn bench_dial_cave_17x14_classes_1() {
     let costs = array![CAVE_17X14_COST_2 + CAVE_17X14_COST_3].span();
     Dial::search(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 1515428)]
+#[available_gas(l2_gas: 1507437)]
 fn bench_dial_cave_17x14_classes_3() {
     let costs = array![CAVE_17X14_CLASS_2, CAVE_17X14_COST_3, CAVE_17X14_CLASS_4].span();
     Dial::search(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 128213)]
+#[available_gas(l2_gas: 120222)]
 fn bench_dial_field_empty_17x14_budget_2() {
     let costs = array![EMPTY_17X14_COST_2, EMPTY_17X14_COST_3].span();
     Dial::field_of_movement(EMPTY_17X14, 17, 14, 110, 2, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 355683)]
+#[available_gas(l2_gas: 347692)]
 fn bench_dial_field_empty_17x14_budget_8() {
     let costs = array![EMPTY_17X14_COST_2, EMPTY_17X14_COST_3].span();
     Dial::field_of_movement(EMPTY_17X14, 17, 14, 110, 8, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 343240)]
+#[available_gas(l2_gas: 335250)]
 fn bench_dial_field_cave_17x14_budget_8() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     Dial::field_of_movement(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, 8, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 89556)]
+#[available_gas(l2_gas: 81566)]
 fn bench_dial_field_empty_17x14_classes_0_budget_2() {
     let costs = array![].span();
     Dial::field_of_movement(EMPTY_17X14, 17, 14, 110, 2, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 251819)]
+#[available_gas(l2_gas: 243828)]
 fn bench_dial_field_empty_17x14_classes_0_budget_8() {
     let costs = array![].span();
     Dial::field_of_movement(EMPTY_17X14, 17, 14, 110, 8, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 119269)]
+#[available_gas(l2_gas: 111278)]
 fn bench_dial_field_empty_17x14_classes_1_budget_2() {
     let costs = array![EMPTY_17X14_COST_2 + EMPTY_17X14_COST_3].span();
     Dial::field_of_movement(EMPTY_17X14, 17, 14, 110, 2, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 339141)]
+#[available_gas(l2_gas: 331151)]
 fn bench_dial_field_empty_17x14_classes_1_budget_8() {
     let costs = array![EMPTY_17X14_COST_2 + EMPTY_17X14_COST_3].span();
     Dial::field_of_movement(EMPTY_17X14, 17, 14, 110, 8, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 141378)]
+#[available_gas(l2_gas: 133387)]
 fn bench_dial_field_empty_17x14_classes_3_budget_2() {
     let costs = array![EMPTY_17X14_CLASS_2, EMPTY_17X14_COST_3, EMPTY_17X14_CLASS_4].span();
     Dial::field_of_movement(EMPTY_17X14, 17, 14, 110, 2, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 376445)]
+#[available_gas(l2_gas: 368455)]
 fn bench_dial_field_empty_17x14_classes_3_budget_8() {
     let costs = array![EMPTY_17X14_CLASS_2, EMPTY_17X14_COST_3, EMPTY_17X14_CLASS_4].span();
     Dial::field_of_movement(EMPTY_17X14, 17, 14, 110, 8, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 47331)]
+#[available_gas(l2_gas: 39341)]
 fn bench_dial_field_empty_7x7_classes_0_budget_1() {
     let costs = array![].span();
     Dial::field_of_movement(EMPTY_7X7, 7, 7, 8, 1, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 87593)]
+#[available_gas(l2_gas: 79602)]
 fn bench_dial_field_empty_7x7_classes_0_budget_4() {
     let costs = array![].span();
     Dial::field_of_movement(EMPTY_7X7, 7, 7, 8, 4, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 68676)]
+#[available_gas(l2_gas: 60685)]
 fn bench_dial_field_empty_7x7_classes_2_budget_1() {
     let costs = array![CAVE_7X7_COST_2, CAVE_7X7_COST_3].span();
     Dial::field_of_movement(EMPTY_7X7, 7, 7, 8, 1, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 131184)]
+#[available_gas(l2_gas: 123194)]
 fn bench_dial_field_empty_7x7_classes_2_budget_4() {
     let costs = array![CAVE_7X7_COST_2, CAVE_7X7_COST_3].span();
     Dial::field_of_movement(EMPTY_7X7, 7, 7, 8, 4, costs);
 }
 
 #[test]
-#[available_gas(l2_gas: 1587745)]
+#[available_gas(l2_gas: 1579629)]
 fn bench_dial_variant_unit_backtrack_twice_17x14() {
     let costs = array![].span();
     let setup = setup(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1795,7 +1795,7 @@ fn bench_dial_variant_unit_backtrack_twice_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1131885)]
+#[available_gas(l2_gas: 1123768)]
 fn bench_dial_variant_unit_backtrack_once_17x14() {
     let costs = array![].span();
     let setup = setup(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1805,7 +1805,7 @@ fn bench_dial_variant_unit_backtrack_once_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 3432960)]
+#[available_gas(l2_gas: 3424843)]
 fn bench_dial_variant_bit_tests_twice_17x14() {
     let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
     let setup = setup(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO, costs);
@@ -1822,7 +1822,7 @@ mod tests {
     use super::*;
 
     #[test]
-    #[available_gas(l2_gas: 729238919)]
+    #[available_gas(l2_gas: 729230803)]
     fn test_dial_unit_equals_bfs_17x14() {
         check_unit(EMPTY_17X14, 17, 14, EMPTY_17X14_NEAR_FROM, EMPTY_17X14_NEAR_TO, 3);
         check_unit(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO, 19);
@@ -1845,7 +1845,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 34228561)]
+    #[available_gas(l2_gas: 34220444)]
     fn test_dial_unit_equals_bfs_7x7() {
         check_unit(EMPTY_7X7, 7, 7, EMPTY_7X7_NEAR_FROM, EMPTY_7X7_NEAR_TO, 3);
         check_unit(EMPTY_7X7, 7, 7, EMPTY_7X7_FAR_FROM, EMPTY_7X7_FAR_TO, 6);
@@ -1866,37 +1866,37 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 364200058)]
+    #[available_gas(l2_gas: 364192278)]
     fn test_dial_oracle_empty_17x14() {
         check_fixture(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, 0, 11);
     }
 
     #[test]
-    #[available_gas(l2_gas: 268091240)]
+    #[available_gas(l2_gas: 268083459)]
     fn test_dial_oracle_cave_17x14() {
         check_fixture(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, 10, 11);
     }
 
     #[test]
-    #[available_gas(l2_gas: 292163760)]
+    #[available_gas(l2_gas: 292155980)]
     fn test_dial_oracle_maze_17x14() {
         check_fixture(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, 20, 7);
     }
 
     #[test]
-    #[available_gas(l2_gas: 300966434)]
+    #[available_gas(l2_gas: 300958654)]
     fn test_dial_oracle_serpentine_17x14() {
         check_fixture(SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM, 30, 11);
     }
 
     #[test]
-    #[available_gas(l2_gas: 189413632)]
+    #[available_gas(l2_gas: 189405852)]
     fn test_dial_oracle_unreachable_17x14() {
         check_fixture(UNREACHABLE_17X14, 17, 14, UNREACHABLE_17X14_FAR_FROM, 40, 11);
     }
 
     #[test]
-    #[available_gas(l2_gas: 313888540)]
+    #[available_gas(l2_gas: 313880759)]
     fn test_dial_oracle_fixtures_7x7() {
         let fixtures = array![
             (EMPTY_7X7, EMPTY_7X7_FAR_FROM), (CAVE_7X7, CAVE_7X7_FAR_FROM),
@@ -1929,7 +1929,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1057665494)]
+    #[available_gas(l2_gas: 1057657587)]
     fn test_dial_oracle_edges_17x14() {
         let edges = edges_17x14();
         let grid = with_edges(EMPTY_17X14, edges);
@@ -1948,7 +1948,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 347407413)]
+    #[available_gas(l2_gas: 347399506)]
     fn test_dial_oracle_edges_interior_start_17x14() {
         let grid = with_edges(CAVE_17X14, edges_17x14());
         let costs = random_costs(grid, 17, 14, 60, 3);
@@ -1956,7 +1956,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 412166699)]
+    #[available_gas(l2_gas: 412158793)]
     fn test_dial_oracle_edges_7x7() {
         // Corner 0, 3, pair 21 and 27 (x = 0 and x = 6), 45 (top)
         let edges = array![0, 3, 21, 27, 45].span();
@@ -1974,7 +1974,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 90679588)]
+    #[available_gas(l2_gas: 90671808)]
     fn test_dial_oracle_3x3() {
         // Single interior tile 4 and its open edge neighbours
         let grid: felt252 = 0x1ff - 1 - 0x100;
@@ -1991,7 +1991,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 203660364)]
+    #[available_gas(l2_gas: 203652584)]
     fn test_dial_oracle_caves_19x13() {
         let mut seed: felt252 = 0;
         while seed != 4 {
@@ -2008,7 +2008,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 245462406)]
+    #[available_gas(l2_gas: 245454626)]
     fn test_dial_oracle_caves_17x14() {
         let mut seed: felt252 = 10;
         while seed != 14 {
@@ -2026,7 +2026,7 @@ mod tests {
 
     /// Oracle check of the benchmark inputs, and their statistics (path length, cost).
     #[test]
-    #[available_gas(l2_gas: 605974357)]
+    #[available_gas(l2_gas: 605966346)]
     fn test_dial_bench_inputs() {
         let inputs = array![
             (
@@ -2132,7 +2132,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 478599547)]
+    #[available_gas(l2_gas: 478591536)]
     fn test_dial_variants_empty_17x14() {
         check_variants(
             EMPTY_17X14,
@@ -2144,7 +2144,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 531871072)]
+    #[available_gas(l2_gas: 531863061)]
     fn test_dial_variants_cave_17x14() {
         check_variants(
             CAVE_17X14,
@@ -2163,7 +2163,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 366942572)]
+    #[available_gas(l2_gas: 366934561)]
     fn test_dial_variants_maze_17x14() {
         check_variants(
             MAZE_17X14,

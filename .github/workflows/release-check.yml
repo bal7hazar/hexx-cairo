@@ -161,11 +161,7 @@ jobs:
           echo "milestone=$milestone" >> "$GITHUB_OUTPUT"
 
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
-        with:
-          scarb-version: "2.19.4"
       - uses: foundry-rs/setup-snfoundry@16e23ddd0e2845f38727c92f4b913a7b728cda9e # v6.0.0
-        with:
-          starknet-foundry-version: "0.61.0"
       # The golden-vector check (tools/refgen) is mandatory here, unlike a job with no Rust
       # toolchain: `scripts/check.sh` refuses to skip it silently once cargo is on PATH.
       - name: Install the Rust toolchain

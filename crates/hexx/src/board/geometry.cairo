@@ -399,7 +399,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 14406)]
+    #[available_gas(l2_gas: 6311)]
     fn test_geometry_to_axial() {
         // (x, y) = (3, 5) on width 7: q = 3 - 2 = 1
         let (q, r) = Geometry::to_axial(7, 5 * 7 + 3);
@@ -412,7 +412,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 14406)]
+    #[available_gas(l2_gas: 6311)]
     fn test_geometry_distance_design_checks() {
         // (x, 0) -> (x - 1, 1) is 1 step
         assert!(Geometry::distance(7, 3, 7 + 2) == 1);
@@ -429,7 +429,7 @@ mod tests {
 
     /// R-D1 (audit pass 1, finding 10; pass 3, finding 31).
     #[test]
-    #[available_gas(l2_gas: 14406)]
+    #[available_gas(l2_gas: 6311)]
     fn test_geometry_distance_between_regression() {
         assert!(Geometry::distance_between(255, 0, 0, 255) == 382);
         assert!(Geometry::distance_between(0, 0, 255, 255) == 383);
@@ -443,7 +443,7 @@ mod tests {
     /// location are then the same odd-r grid): `distance` of the board, the cube distance and the
     /// `Hex` distance through `to_hex`.
     #[test]
-    #[available_gas(l2_gas: 135476135)]
+    #[available_gas(l2_gas: 135468039)]
     fn test_geometry_distance_between_7x7() {
         let origins: [(u8, u8); 3] = [(0, 0), (120, 90), (248, 248)];
         for (ox, oy) in origins.span() {
@@ -467,7 +467,7 @@ mod tests {
     /// 512 seeded pairs of location coordinates, over the whole `u8` domain: the cube distance on
     /// `i32` and the `Hex` distance through `to_hex`; the distance is symmetric.
     #[test]
-    #[available_gas(l2_gas: 29082218)]
+    #[available_gas(l2_gas: 29074122)]
     fn test_geometry_distance_between_seeded() {
         let mut state: u64 = 'pairs';
         let mut index: u32 = 0;
@@ -491,7 +491,7 @@ mod tests {
     /// with the extreme columns: every sign of `dq` and `dr` and every end of their ranges, against
     /// the cube distance on `i32`.
     #[test]
-    #[available_gas(l2_gas: 159956307)]
+    #[available_gas(l2_gas: 159948212)]
     fn test_geometry_distance_between_rows() {
         let edges: [u8; 6] = [0, 1, 127, 128, 254, 255];
         let columns: [(u8, u8); 4] = [(0, 0), (0, 255), (255, 0), (128, 127)];
@@ -514,7 +514,7 @@ mod tests {
 
     /// Every column and every row of `u8`: `15 · c <= v < 15 · (c + 1)`.
     #[test]
-    #[available_gas(l2_gas: 2541956)]
+    #[available_gas(l2_gas: 2533860)]
     fn test_geometry_chunk_of() {
         let mut v: u16 = 0;
         while v != 256 {
@@ -536,7 +536,7 @@ mod tests {
     /// Every row with the columns 0, 1, 127, 128, 254, 255, and every column with the rows 0, 1,
     /// 254, 255: `to_hex` equals the formula of §3.5 and `from_hex` inverts it.
     #[test]
-    #[available_gas(l2_gas: 58627191)]
+    #[available_gas(l2_gas: 58619096)]
     fn test_geometry_to_hex_from_hex() {
         let edges: [u8; 6] = [0, 1, 127, 128, 254, 255];
         let mut v: u16 = 0;
@@ -558,7 +558,7 @@ mod tests {
 
     /// `from_hex` is `None` as soon as the column or the row leaves `0..=255`, and never panics.
     #[test]
-    #[available_gas(l2_gas: 14406)]
+    #[available_gas(l2_gas: 6311)]
     fn test_geometry_from_hex_outside() {
         let max: i32 = 0x7fffffff;
         let min: i32 = -0x7fffffff - 1;
@@ -585,7 +585,7 @@ mod tests {
     /// Every row of `u8`, each with the `Hex` columns at both ends of `0..=255` and just beyond
     /// them, and at the ends of `i32`: `Some` exactly inside, `None` outside, never a panic.
     #[test]
-    #[available_gas(l2_gas: 9318708)]
+    #[available_gas(l2_gas: 9310613)]
     fn test_geometry_from_hex_rows() {
         let max: i32 = 0x7fffffff;
         let min: i32 = -0x7fffffff - 1;
@@ -610,7 +610,7 @@ mod tests {
     /// Every tile of the boards of the plan: the round trip, the formula of §3.5, and a `Hex`
     /// just beyond each side of the board is `None`.
     #[test]
-    #[available_gas(l2_gas: 62638758)]
+    #[available_gas(l2_gas: 62630663)]
     fn test_geometry_index_to_hex_round_trip() {
         for (width, height) in BOARDS.span() {
             let (width, height) = (*width, *height);
@@ -645,7 +645,7 @@ mod tests {
     /// the `Hex` of the board neighbour in `Direction` `d` is the `Hex` of the tile plus the
     /// neighbour coordinates of `EdgeDirection` `d`.
     #[test]
-    #[available_gas(l2_gas: 38552640)]
+    #[available_gas(l2_gas: 38544419)]
     fn test_geometry_index_to_hex_directions() {
         let boards: [(u8, u8); 2] = [(7, 7), (15, 16)];
         for (width, height) in boards.span() {
@@ -677,7 +677,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 22050)]
+    #[available_gas(l2_gas: 13829)]
     fn bench_geometry_distance_between_once() {
         let bench = Inputs::get();
         let (x1, y1, x2, y2) = bench.first;
@@ -686,7 +686,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 26481)]
+    #[available_gas(l2_gas: 18260)]
     fn bench_geometry_distance_between_twice() {
         let bench = Inputs::get();
         let (x1, y1, x2, y2) = bench.first;
@@ -699,7 +699,7 @@ mod tests {
     /// the brief's report): the same method, the far corners of 15 × 16.
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 23499)]
+    #[available_gas(l2_gas: 15278)]
     fn bench_geometry_distance_once() {
         let bench = Inputs::get();
         let [first, _] = bench.positions;
@@ -708,7 +708,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 28791)]
+    #[available_gas(l2_gas: 20570)]
     fn bench_geometry_distance_twice() {
         let bench = Inputs::get();
         let [first, second] = bench.positions;
@@ -718,7 +718,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 21273)]
+    #[available_gas(l2_gas: 13052)]
     fn bench_geometry_chunk_of_once() {
         let bench = Inputs::get();
         let [(x, y), _] = bench.tiles;
@@ -727,7 +727,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 24444)]
+    #[available_gas(l2_gas: 16223)]
     fn bench_geometry_chunk_of_twice() {
         let bench = Inputs::get();
         let [(x, y), (u, v)] = bench.tiles;
@@ -737,7 +737,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 20990)]
+    #[available_gas(l2_gas: 12768)]
     fn bench_geometry_to_hex_once() {
         let bench = Inputs::get();
         let [(x, y), _] = bench.tiles;
@@ -747,7 +747,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 23877)]
+    #[available_gas(l2_gas: 15656)]
     fn bench_geometry_to_hex_twice() {
         let bench = Inputs::get();
         let [(x, y), (u, v)] = bench.tiles;
@@ -758,7 +758,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 21977)]
+    #[available_gas(l2_gas: 13755)]
     fn bench_geometry_from_hex_once() {
         let bench = Inputs::get();
         let [first, _] = bench.hexes;
@@ -767,7 +767,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 26009)]
+    #[available_gas(l2_gas: 17787)]
     fn bench_geometry_from_hex_twice() {
         let bench = Inputs::get();
         let [first, second] = bench.hexes;
@@ -777,7 +777,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 22050)]
+    #[available_gas(l2_gas: 13829)]
     fn bench_geometry_index_to_hex_once() {
         let bench = Inputs::get();
         let (width, _) = bench.board;
@@ -788,7 +788,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 25998)]
+    #[available_gas(l2_gas: 17777)]
     fn bench_geometry_index_to_hex_twice() {
         let bench = Inputs::get();
         let (width, _) = bench.board;
@@ -800,7 +800,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 23741)]
+    #[available_gas(l2_gas: 15519)]
     fn bench_geometry_hex_to_index_once() {
         let bench = Inputs::get();
         let (width, height) = bench.board;
@@ -810,7 +810,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 29379)]
+    #[available_gas(l2_gas: 21158)]
     fn bench_geometry_hex_to_index_twice() {
         let bench = Inputs::get();
         let (width, height) = bench.board;

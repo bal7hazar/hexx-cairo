@@ -684,7 +684,7 @@ fn divrem_generate(width: u8, height: u8, order: u8, seed: felt252) -> felt252 {
 // Equivalences
 
 #[test]
-#[available_gas(l2_gas: 31440705)]
+#[available_gas(l2_gas: 31432798)]
 fn test_bench_mazer_variants_same_maze() {
     let expected = Mazer::generate(17, 14, 0, SEED);
     assert!(generate::<BaseEngine>(17, 14, 0, SEED) == expected);
@@ -697,7 +697,7 @@ fn test_bench_mazer_variants_same_maze() {
 }
 
 #[test]
-#[available_gas(l2_gas: 172632419)]
+#[available_gas(l2_gas: 172624407)]
 fn test_bench_mazer_tiles() {
     // Carved tiles over the 8 seeds, to normalise the variants that change the draws
     let mut totals: Array<u32> = array![];
@@ -729,31 +729,31 @@ fn test_bench_mazer_tiles() {
 // Library
 
 #[test]
-#[available_gas(l2_gas: 3020000)]
+#[available_gas(l2_gas: 3037245)]
 fn bench_mazer_17x14_order_0() {
     assert!(Mazer::generate(17, 14, 0, SEED) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 1574680)]
+#[available_gas(l2_gas: 1566669)]
 fn bench_mazer_17x14_order_1() {
     assert!(Mazer::generate(17, 14, 1, SEED) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 541846)]
+#[available_gas(l2_gas: 533834)]
 fn bench_mazer_7x7_order_0() {
     assert!(Mazer::generate(7, 7, 0, SEED) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 3035238)]
+#[available_gas(l2_gas: 3027226)]
 fn bench_mazer_19x13_order_0() {
     assert!(Mazer::generate(19, 13, 0, SEED) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 24221538)]
+#[available_gas(l2_gas: 24213653)]
 fn bench_mazer_17x14_order_0_seeds() {
     let mut seed = SEEDS;
     while seed != 0 {
@@ -763,7 +763,7 @@ fn bench_mazer_17x14_order_0_seeds() {
 }
 
 #[test]
-#[available_gas(l2_gas: 14550005)]
+#[available_gas(l2_gas: 14542119)]
 fn bench_mazer_17x14_order_1_seeds() {
     let mut seed = SEEDS;
     while seed != 0 {
@@ -773,13 +773,13 @@ fn bench_mazer_17x14_order_1_seeds() {
 }
 
 #[test]
-#[available_gas(l2_gas: 326259)]
+#[available_gas(l2_gas: 318247)]
 fn bench_digger_corridor_17x14() {
     assert!(Digger::corridor(17, 14, 0, START, ROOM, SEED) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 3249410)]
+#[available_gas(l2_gas: 3241399)]
 fn bench_digger_maze_17x14() {
     assert!(Digger::maze(17, 14, 0, START, ROOM, SEED) != 0);
 }
@@ -787,37 +787,37 @@ fn bench_digger_maze_17x14() {
 // Variants, same maze as the library
 
 #[test]
-#[available_gas(l2_gas: 3158000)]
+#[available_gas(l2_gas: 3221037)]
 fn bench_mazer_variant_base_17x14() {
     assert!(generate::<BaseEngine>(17, 14, 0, SEED) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 1669737)]
+#[available_gas(l2_gas: 1661725)]
 fn bench_mazer_variant_base_17x14_order_1() {
     assert!(generate::<BaseEngine>(17, 14, 1, SEED) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 4771000)]
+#[available_gas(l2_gas: 4875522)]
 fn bench_mazer_variant_stack_17x14() {
     assert!(generate::<StackEngine>(17, 14, 0, SEED) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 10116000)]
+#[available_gas(l2_gas: 10238517)]
 fn bench_mazer_variant_bits_17x14() {
     assert!(bits_generate(17, 14, SEED) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 3218000)]
+#[available_gas(l2_gas: 3278357)]
 fn bench_mazer_variant_felt_17x14() {
     assert!(felt_generate(17, 14, 0, SEED) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 3549000)]
+#[available_gas(l2_gas: 3616352)]
 fn bench_mazer_variant_divrem_17x14() {
     assert!(divrem_generate(17, 14, 0, SEED) != 0);
 }
@@ -825,7 +825,7 @@ fn bench_mazer_variant_divrem_17x14() {
 // Variants of the direction order, 8 seeds
 
 #[test]
-#[available_gas(l2_gas: 25714565)]
+#[available_gas(l2_gas: 25706679)]
 fn bench_mazer_variant_base_17x14_seeds() {
     let mut seed = SEEDS;
     while seed != 0 {
@@ -835,7 +835,7 @@ fn bench_mazer_variant_base_17x14_seeds() {
 }
 
 #[test]
-#[available_gas(l2_gas: 24216198)]
+#[available_gas(l2_gas: 24208312)]
 fn bench_mazer_variant_rotation_17x14_seeds() {
     let mut seed = SEEDS;
     while seed != 0 {
@@ -845,7 +845,7 @@ fn bench_mazer_variant_rotation_17x14_seeds() {
 }
 
 #[test]
-#[available_gas(l2_gas: 27490311)]
+#[available_gas(l2_gas: 27482425)]
 fn bench_mazer_variant_lazy_17x14_seeds() {
     let mut seed = SEEDS;
     while seed != 0 {
@@ -855,7 +855,7 @@ fn bench_mazer_variant_lazy_17x14_seeds() {
 }
 
 #[test]
-#[available_gas(l2_gas: 76636184)]
+#[available_gas(l2_gas: 76628298)]
 fn bench_mazer_variant_shuffle_17x14_seeds() {
     let mut seed = SEEDS;
     while seed != 0 {

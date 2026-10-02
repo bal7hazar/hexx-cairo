@@ -830,7 +830,7 @@ mod tests {
     use super::{Bits, TWO_POW_128};
 
     #[test]
-    #[available_gas(l2_gas: 20423)]
+    #[available_gas(l2_gas: 12201)]
     fn test_bits_pow() {
         assert!(Bits::pow(0) == 1);
         assert!(Bits::pow(1) == 2);
@@ -841,7 +841,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1103771)]
+    #[available_gas(l2_gas: 1095675)]
     fn test_bits_inv() {
         let mut exp: u8 = 0;
         while exp != 252 {
@@ -851,7 +851,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 21651)]
+    #[available_gas(l2_gas: 13430)]
     fn test_bits_shifts() {
         assert!(Bits::shl(0b101, 3) == 0b101000);
         assert!(Bits::shr_exact(0b101000, 3) == 0b101);
@@ -859,14 +859,14 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 17693)]
+    #[available_gas(l2_gas: 9471)]
     fn test_bits_to_felt() {
         let value: felt252 = 0x7123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde;
         assert!(Bits::to_felt(value.into()) == value);
     }
 
     #[test]
-    #[available_gas(l2_gas: 5333107)]
+    #[available_gas(l2_gas: 5325116)]
     fn test_bits_get_set_unset() {
         let mut exp: u8 = 0;
         while exp != 251 {
@@ -880,7 +880,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 5647819)]
+    #[available_gas(l2_gas: 5639703)]
     fn test_bits_popcount() {
         assert!(Bits::popcount(0) == 0);
         assert!(Bits::popcount(1) == 1);
@@ -902,7 +902,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 33841)]
+    #[available_gas(l2_gas: 25724)]
     fn test_bits_bitwise() {
         let (and, xor, or) = Bits::bitwise(0b1100, 0b1010);
         assert!(and == 0b1000 && xor == 0b0110 && or == 0b1110);

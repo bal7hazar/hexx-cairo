@@ -63,7 +63,7 @@ impl Inputs of InputsTrait {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 61178)]
+#[available_gas(l2_gas: 53061)]
 fn bench_assembly_assemble_once() {
     let bench = Inputs::get();
     let Origin { cx: _, cy: _, ox, oy } = bench.origin;
@@ -72,7 +72,7 @@ fn bench_assembly_assemble_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 102583)]
+#[available_gas(l2_gas: 94467)]
 fn bench_assembly_assemble_twice() {
     let bench = Inputs::get();
     let Origin { cx: _, cy: _, ox, oy } = bench.origin;
@@ -84,7 +84,7 @@ fn bench_assembly_assemble_twice() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 87218)]
+#[available_gas(l2_gas: 79101)]
 fn bench_assembly_window_once() {
     let bench = Inputs::get();
     let (map, occupied) = AssemblyTrait::window(bench.terrain, bench.occupied, @bench.origin, 0);
@@ -93,7 +93,7 @@ fn bench_assembly_window_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 154663)]
+#[available_gas(l2_gas: 146547)]
 fn bench_assembly_window_twice() {
     let bench = Inputs::get();
     let (map, occupied) = AssemblyTrait::window(bench.terrain, bench.occupied, @bench.origin, 0);
@@ -106,7 +106,7 @@ fn bench_assembly_window_twice() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 87218)]
+#[available_gas(l2_gas: 79101)]
 fn bench_assembly_window_two_chunks_once() {
     let bench = Inputs::get();
     let (map, occupied) = AssemblyTrait::window(
@@ -117,7 +117,7 @@ fn bench_assembly_window_two_chunks_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 154663)]
+#[available_gas(l2_gas: 146547)]
 fn bench_assembly_window_two_chunks_twice() {
     let bench = Inputs::get();
     let (map, occupied) = AssemblyTrait::window(
@@ -134,7 +134,7 @@ fn bench_assembly_window_two_chunks_twice() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 22754)]
+#[available_gas(l2_gas: 14532)]
 fn bench_assembly_origin_once() {
     let bench = Inputs::get();
     let (x, y) = bench.first;
@@ -143,7 +143,7 @@ fn bench_assembly_origin_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 26565)]
+#[available_gas(l2_gas: 18344)]
 fn bench_assembly_origin_twice() {
     let bench = Inputs::get();
     let (x, y) = bench.first;
@@ -154,7 +154,7 @@ fn bench_assembly_origin_twice() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 22176)]
+#[available_gas(l2_gas: 13955)]
 fn bench_assembly_local_once() {
     let bench = Inputs::get();
     let (x, y) = bench.near;
@@ -163,7 +163,7 @@ fn bench_assembly_local_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 25410)]
+#[available_gas(l2_gas: 17189)]
 fn bench_assembly_local_twice() {
     let bench = Inputs::get();
     let (x, y) = bench.near;

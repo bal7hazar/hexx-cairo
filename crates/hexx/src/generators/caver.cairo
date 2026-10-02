@@ -658,7 +658,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 150924)]
+    #[available_gas(l2_gas: 142913)]
     fn test_caver_generate_17x14() {
         // 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
         //  0 0 1 1 1 0 0 1 0 0 0 0 0 0 1 0 0
@@ -679,7 +679,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 151029)]
+    #[available_gas(l2_gas: 143018)]
     fn test_caver_generate_19x13() {
         //  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
         // 0 0 1 1 0 0 1 1 1 1 1 0 0 0 0 1 0 0 0
@@ -699,7 +699,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 86748)]
+    #[available_gas(l2_gas: 78737)]
     fn test_caver_generate_7x7() {
         //  0 0 0 0 0 0 0
         // 0 0 0 0 0 0 0
@@ -713,7 +713,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 41301)]
+    #[available_gas(l2_gas: 33290)]
     fn test_caver_generate_order_zero() {
         // Initial fill, about half of the interior
         let grid = Caver::generate(17, 14, 0, SEED);
@@ -722,7 +722,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 7269279)]
+    #[available_gas(l2_gas: 7261267)]
     fn test_caver_generate_3x3() {
         // A single interior tile: never has a floor neighbour
         assert!(Caver::generate(3, 3, 0, 2) == 0x10);
@@ -731,76 +731,76 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 106008450)]
+    #[available_gas(l2_gas: 106000564)]
     fn test_caver_generate_invariants_7x7() {
         check_generate(7, 7);
     }
 
     #[test]
-    #[available_gas(l2_gas: 334987483)]
+    #[available_gas(l2_gas: 334979598)]
     fn test_caver_generate_invariants_11x11() {
         check_generate(11, 11);
     }
 
     #[test]
-    #[available_gas(l2_gas: 745183980)]
+    #[available_gas(l2_gas: 745176094)]
     fn test_caver_generate_invariants_17x14() {
         check_generate(17, 14);
     }
 
     #[test]
-    #[available_gas(l2_gas: 773867407)]
+    #[available_gas(l2_gas: 773859522)]
     fn test_caver_generate_invariants_19x13() {
         check_generate(19, 13);
     }
 
     #[test]
-    #[available_gas(l2_gas: 335551260)]
+    #[available_gas(l2_gas: 335543374)]
     fn test_caver_generate_invariants_83x3() {
         check_generate(83, 3);
     }
 
     #[test]
-    #[available_gas(l2_gas: 359003367)]
+    #[available_gas(l2_gas: 358995481)]
     fn test_caver_generate_invariants_3x83() {
         check_generate(3, 83);
     }
 
     #[test]
-    #[available_gas(l2_gas: 760764268)]
+    #[available_gas(l2_gas: 760756383)]
     fn test_caver_generate_invariants_25x10() {
         check_generate(25, 10);
     }
 
     #[test]
-    #[available_gas(l2_gas: 346261669)]
+    #[available_gas(l2_gas: 346253784)]
     fn test_caver_generate_invariants_16x8() {
         // 128 bits: largest board of the single-limb path
         check_generate(16, 8);
     }
 
     #[test]
-    #[available_gas(l2_gas: 285741)]
+    #[available_gas(l2_gas: 277730)]
     fn test_caver_generate_seeds_differ() {
         assert!(Caver::generate(17, 14, 3, 1) != Caver::generate(17, 14, 3, 2));
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_caver_generate_revert_too_small() {
         Caver::generate(2, 17, 3, SEED);
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_caver_generate_revert_too_large() {
         Caver::generate(16, 16, 3, SEED);
     }
 
     #[test]
-    #[available_gas(l2_gas: 593746)]
+    #[available_gas(l2_gas: 585630)]
     fn test_caver_keep_component_split() {
         // Left half (x = 1..7) of the board split by the wall column x = 8
         let mut expected: felt252 = 0;
@@ -818,7 +818,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 24913302)]
+    #[available_gas(l2_gas: 24905291)]
     fn test_caver_keep_component_closed() {
         // The component is a subset of the cave, closed under dilation, and holds the start
         let layout = LayoutTrait::new(17, 14);
@@ -843,7 +843,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 121527)]
+    #[available_gas(l2_gas: 113516)]
     fn test_caver_keep_component_single() {
         // 7x7 cave: one component of 4 tiles
         let cave = Caver::generate(7, 7, 3, SEED);
@@ -851,7 +851,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 44137)]
+    #[available_gas(l2_gas: 36147)]
     #[should_panic(expected: 'Caver: position not floor')]
     fn test_caver_keep_component_revert_wall() {
         Caver::keep_component(UNREACHABLE_17X14, 17, 14, 25);
@@ -1347,7 +1347,7 @@ mod tests {
     /// chunk; on an odd chunk, equal to the neighbours of the tile one row up on a board one row
     /// taller at each end, whose local parity is then the chunk's global one.
     #[test]
-    #[available_gas(l2_gas: 98221431)]
+    #[available_gas(l2_gas: 98213336)]
     fn test_caver_oracle_neighbor() {
         let boards: [(u8, u8); 4] = [(15, 15), (7, 7), (8, 6), (3, 3)];
         for (width, height) in boards.span() {
@@ -1382,7 +1382,7 @@ mod tests {
     /// The scalar automaton with the ring frozen and `odd = false` is the `reference` of
     /// `bench_caver`, the oracle of `generate`, generation after generation.
     #[test]
-    #[available_gas(l2_gas: 244075457)]
+    #[available_gas(l2_gas: 244067572)]
     fn test_caver_oracle_reference() {
         let boards: [(u8, u8); 4] = [(15, 15), (11, 11), (8, 6), (3, 3)];
         for (width, height) in boards.span() {
@@ -1410,7 +1410,7 @@ mod tests {
     /// The constants of `CaverInternal::margins` against their definitions, tile by tile, on
     /// the boards of the oracles and both parities.
     #[test]
-    #[available_gas(l2_gas: 34323324)]
+    #[available_gas(l2_gas: 34315229)]
     fn test_caver_margins_masks() {
         let boards: [(u8, u8); 15] = [
             (3, 3), (3, 4), (4, 3), (4, 4), (5, 5), (7, 7), (8, 6), (11, 11), (14, 15), (15, 14),
@@ -1463,7 +1463,7 @@ mod tests {
     // 10 million steps at most: the boards and the parities are split over several tests.
 
     #[test]
-    #[available_gas(l2_gas: 412090388)]
+    #[available_gas(l2_gas: 412082503)]
     fn test_caver_margins_oracle_small() {
         let boards: [(u8, u8); 4] = [(3, 3), (3, 4), (4, 3), (7, 7)];
         for (width, height) in boards.span() {
@@ -1472,7 +1472,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 411893303)]
+    #[available_gas(l2_gas: 411885418)]
     fn test_caver_margins_oracle_small_odd() {
         let boards: [(u8, u8); 4] = [(3, 3), (3, 4), (4, 3), (7, 7)];
         for (width, height) in boards.span() {
@@ -1481,13 +1481,13 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 917984450)]
+    #[available_gas(l2_gas: 917976564)]
     fn test_caver_margins_oracle_15x15() {
         Oracle::check_margins(15, 15, false, 64);
     }
 
     #[test]
-    #[available_gas(l2_gas: 917919770)]
+    #[available_gas(l2_gas: 917911884)]
     fn test_caver_margins_oracle_15x15_odd() {
         Oracle::check_margins(15, 15, true, 64);
     }
@@ -1497,7 +1497,7 @@ mod tests {
     /// + 1` is 251 for 25 x 9 and 50 x 4, 250 for 3 x 82 and 249 for 62 x 3), where the upward
     /// planes are the largest.
     #[test]
-    #[available_gas(l2_gas: 467898816)]
+    #[available_gas(l2_gas: 467890931)]
     fn test_caver_margins_oracle_others() {
         for (width, height) in OTHERS.span() {
             Oracle::check_margins(*width, *height, false, 2);
@@ -1505,7 +1505,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 467878278)]
+    #[available_gas(l2_gas: 467870393)]
     fn test_caver_margins_oracle_others_odd() {
         for (width, height) in OTHERS.span() {
             Oracle::check_margins(*width, *height, true, 2);
@@ -1513,7 +1513,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 363040686)]
+    #[available_gas(l2_gas: 363032801)]
     fn test_caver_smooth_oracle_small() {
         let boards: [(u8, u8); 4] = [(3, 3), (3, 4), (4, 3), (7, 7)];
         for (width, height) in boards.span() {
@@ -1522,7 +1522,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 362883606)]
+    #[available_gas(l2_gas: 362875721)]
     fn test_caver_smooth_oracle_small_odd() {
         let boards: [(u8, u8); 4] = [(3, 3), (3, 4), (4, 3), (7, 7)];
         for (width, height) in boards.span() {
@@ -1531,19 +1531,19 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 827389769)]
+    #[available_gas(l2_gas: 827381884)]
     fn test_caver_smooth_oracle_15x15() {
         Oracle::check_smooth(15, 15, false, 64);
     }
 
     #[test]
-    #[available_gas(l2_gas: 827360579)]
+    #[available_gas(l2_gas: 827352694)]
     fn test_caver_smooth_oracle_15x15_odd() {
         Oracle::check_smooth(15, 15, true, 64);
     }
 
     #[test]
-    #[available_gas(l2_gas: 516516937)]
+    #[available_gas(l2_gas: 516509052)]
     fn test_caver_smooth_oracle_others() {
         for (width, height) in OTHERS.span() {
             Oracle::check_smooth(*width, *height, false, 2);
@@ -1551,7 +1551,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 516482329)]
+    #[available_gas(l2_gas: 516474444)]
     fn test_caver_smooth_oracle_others_odd() {
         for (width, height) in OTHERS.span() {
             Oracle::check_smooth(*width, *height, true, 2);
@@ -1618,7 +1618,7 @@ mod tests {
     /// Beyond the generations of the game: 12 generations on 15 x 15, two seeds, both
     /// parities, both functions, every side given at random.
     #[test]
-    #[available_gas(l2_gas: 309281803)]
+    #[available_gas(l2_gas: 309273792)]
     fn test_caver_margins_oracle_deep() {
         let board = LayoutTrait::board(15, 15);
         let frozen = Oracle::ring(15, 15);
@@ -1652,7 +1652,7 @@ mod tests {
 
     /// R-N1-4: 15 x 15, order 3, 64 seeds.
     #[test]
-    #[available_gas(l2_gas: 20041594)]
+    #[available_gas(l2_gas: 20033709)]
     fn test_caver_r_n1_4_equals_generate() {
         let mut seed: felt252 = 0;
         while seed != 64 {
@@ -1667,7 +1667,7 @@ mod tests {
 
     /// R-N1-7: 15 x 15, order 255, the domain-wide worst case, 4 seeds.
     #[test]
-    #[available_gas(l2_gas: 81058782)]
+    #[available_gas(l2_gas: 81050897)]
     fn test_caver_r_n1_7_equals_generate_order_255() {
         let mut seed: felt252 = 0;
         while seed != 4 {
@@ -1684,7 +1684,7 @@ mod tests {
     /// with every bit of `fixed` set and `values` holding interior tiles and corners only (both
     /// masked): the ring is wall.
     #[test]
-    #[available_gas(l2_gas: 41995097)]
+    #[available_gas(l2_gas: 41987211)]
     fn test_caver_margins_equals_generate() {
         let boards: [(u8, u8); 10] = [
             (3, 3), (4, 4), (7, 7), (11, 11), (16, 7), (14, 15), (25, 9), (50, 4), (3, 82), (62, 3),
@@ -1717,19 +1717,19 @@ mod tests {
     // Oracle (4): the six planes on the interior destinations, 256 seeded grids
 
     #[test]
-    #[available_gas(l2_gas: 635356473)]
+    #[available_gas(l2_gas: 635348587)]
     fn test_caver_planes_15x15() {
         Oracle::check_planes(15, 15, false, 256);
     }
 
     #[test]
-    #[available_gas(l2_gas: 635356368)]
+    #[available_gas(l2_gas: 635348482)]
     fn test_caver_planes_15x15_odd() {
         Oracle::check_planes(15, 15, true, 256);
     }
 
     #[test]
-    #[available_gas(l2_gas: 264876575)]
+    #[available_gas(l2_gas: 264868689)]
     fn test_caver_planes_7x7() {
         Oracle::check_planes(7, 7, false, 256);
         Oracle::check_planes(7, 7, true, 256);
@@ -1737,7 +1737,7 @@ mod tests {
 
     /// The same on the other boards, the edge of the domain included, 8 seeded grids each.
     #[test]
-    #[available_gas(l2_gas: 393152926)]
+    #[available_gas(l2_gas: 393145041)]
     fn test_caver_planes_others() {
         for (width, height) in OTHERS.span() {
             Oracle::check_planes(*width, *height, false, 8);
@@ -1750,7 +1750,7 @@ mod tests {
     /// R-N1-1: 15 x 15, `odd = false`, `(10, 12)` and `(11, 12)` have one live neighbour each
     /// and die; the held ring tile `(0, 0)` stays.
     #[test]
-    #[available_gas(l2_gas: 100702)]
+    #[available_gas(l2_gas: 92585)]
     fn test_caver_r_n1_1_west_plane() {
         assert!(R_N1_1 == 1 + Bits::pow(190) + Bits::pow(191));
         assert!(Caver::smooth(R_N1_1, 15, 15, 1, RING_15X15, false) == 1);
@@ -1760,7 +1760,7 @@ mod tests {
     /// odd, so the tile is the southern neighbour of `(7, 7)` and `(8, 7)`, not of `(6, 7)`;
     /// the same when the tile is held, a frozen tile.
     #[test]
-    #[available_gas(l2_gas: 158040)]
+    #[available_gas(l2_gas: 150050)]
     fn test_caver_r_n1_2_odd_parity() {
         let tile = Bits::pow(6 * 15 + 7);
         for held in [0, tile].span() {
@@ -1774,7 +1774,7 @@ mod tests {
     /// the other southern plane would meet on `(0, 13)` and carry into `(1, 13)`; `(1, 12)` and
     /// `(1, 13)` have one live neighbour each and die, the held ring tile `(14, 11)` stays.
     #[test]
-    #[available_gas(l2_gas: 169136)]
+    #[available_gas(l2_gas: 161019)]
     fn test_caver_r_n1_3_no_carry() {
         let ring = Bits::pow(11 * 15 + 14);
         let grid = ring + Bits::pow(12 * 15 + 1) + Bits::pow(13 * 15 + 1);
@@ -1785,14 +1785,14 @@ mod tests {
 
     /// R-N1-5 (D-30): 17 x 14 gives `W * (H + 1) + 1 = 256` and is refused.
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Caver: dimensions too large')]
     fn test_caver_r_n1_5_revert_too_large() {
         Caver::generate_with_margins(17, 14, 3, SEED, 0, 0, false);
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Caver: dimensions too large')]
     fn test_caver_smooth_revert_too_large() {
         Caver::smooth(0, 17, 14, 3, 0, false);
@@ -1800,7 +1800,7 @@ mod tests {
 
     /// The first board beyond the domain next to 25 x 9: `25 * 11 + 1 = 276`.
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Caver: dimensions too large')]
     fn test_caver_margins_revert_25x10() {
         Caver::generate_with_margins(25, 10, 3, SEED, 0, 0, false);
@@ -1808,21 +1808,21 @@ mod tests {
 
     /// Dimensions whose product overflows a `u8`.
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Caver: dimensions too large')]
     fn test_caver_margins_revert_u8_overflow() {
         Caver::generate_with_margins(255, 255, 3, SEED, 0, 0, false);
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_caver_margins_revert_too_narrow() {
         Caver::generate_with_margins(2, 15, 3, SEED, 0, 0, false);
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_caver_smooth_revert_too_low() {
         Caver::smooth(0, 15, 2, 3, 0, true);
@@ -1831,7 +1831,7 @@ mod tests {
     /// R-N1-6: 15 x 15, `odd = false`, the single live ring tile `(1, 0)`: it stays, and on the
     /// interior it is the southern neighbour (`i - W`) of `(1, 1)` and nothing else.
     #[test]
-    #[available_gas(l2_gas: 172009)]
+    #[available_gas(l2_gas: 163893)]
     fn test_caver_r_n1_6_ring_source() {
         assert!(Caver::smooth(2, 15, 15, 1, RING_15X15, false) == 2);
         let planes = Oracle::planes(15, 15, 2, 0, false);
@@ -1841,7 +1841,7 @@ mod tests {
     /// D-134: a corner given open in `values`, or drawn open by the seed, is wall; the corners
     /// of `values` are cleared, not refused.
     #[test]
-    #[available_gas(l2_gas: 17722719)]
+    #[available_gas(l2_gas: 17714708)]
     fn test_caver_margins_d134_corners() {
         let corners = Oracle::corners(15, 15);
         let mut seed: felt252 = 0;
@@ -1865,7 +1865,7 @@ mod tests {
     /// fixed and every side fixed (to `PATTERN`), 15 x 15, order 3. Each pinned grid is also
     /// the scalar automaton's.
     #[test]
-    #[available_gas(l2_gas: 122522783)]
+    #[available_gas(l2_gas: 122514771)]
     fn test_caver_margins_stream() {
         let frozen = Oracle::ring(15, 15);
         // No side fixed, `odd = false`
@@ -1972,7 +1972,7 @@ mod tests {
     /// scalar neighbours with the global parity, on every interior tile of 15 x 15 and 7 x 7;
     /// the same on a `new` layout with `odd = false`.
     #[test]
-    #[available_gas(l2_gas: 52532592)]
+    #[available_gas(l2_gas: 52524602)]
     fn test_caver_layout_new_odd_expand() {
         let boards: [(u8, u8); 2] = [(15, 15), (7, 7)];
         for (width, height) in boards.span() {
@@ -2069,14 +2069,14 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 56006)]
+    #[available_gas(l2_gas: 47995)]
     fn bench_caver_generate_with_margins_15x15_order_0() {
         assert!(Inputs::run(0, false) != 0);
     }
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 119563)]
+    #[available_gas(l2_gas: 111551)]
     fn bench_caver_generate_with_margins_15x15_order_1() {
         assert!(Inputs::run(1, false) != 0);
     }
@@ -2084,14 +2084,14 @@ mod tests {
     /// The game's generation of a chunk.
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 202883)]
+    #[available_gas(l2_gas: 194871)]
     fn bench_caver_generate_with_margins_15x15_order_3() {
         assert!(Inputs::run(3, false) != 0);
     }
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 388944)]
+    #[available_gas(l2_gas: 380932)]
     fn bench_caver_generate_with_margins_15x15_order_3_twice() {
         assert!(Inputs::run(3, false) != 0);
         assert!(Inputs::run(3, true) != 0);
@@ -2099,7 +2099,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 286202)]
+    #[available_gas(l2_gas: 278191)]
     fn bench_caver_generate_with_margins_15x15_order_5() {
         assert!(Inputs::run(5, false) != 0);
     }
@@ -2107,7 +2107,7 @@ mod tests {
     /// The domain-wide worst case.
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 10701152)]
+    #[available_gas(l2_gas: 10693141)]
     fn bench_caver_generate_with_margins_15x15_order_255() {
         assert!(Inputs::run(255, false) != 0);
     }

@@ -54,7 +54,7 @@ fn felt(value: u256) -> felt252 {
 }
 
 #[test]
-#[available_gas(l2_gas: 14931)]
+#[available_gas(l2_gas: 6836)]
 fn test_bits_constants() {
     assert(o::TWO_POW_128 == h::TWO_POW_128, 'TWO_POW_128');
     assert(o::TWO_POW_32 == h::TWO_POW_32, 'TWO_POW_32');
@@ -66,7 +66,7 @@ fn test_bits_constants() {
 
 /// Every index of `POW` (252), `INV` (252) and `POW128` (128).
 #[test]
-#[available_gas(l2_gas: 2202459)]
+#[available_gas(l2_gas: 2194238)]
 fn test_bits_tables() {
     assert(o::POW.span().len() == h::POW.span().len(), 'POW length');
     assert(o::INV.span().len() == h::INV.span().len(), 'INV length');
@@ -84,7 +84,7 @@ fn test_bits_tables() {
 
 /// Every exponent, 0 to 251.
 #[test]
-#[available_gas(l2_gas: 1641056)]
+#[available_gas(l2_gas: 1632960)]
 fn test_bits_pow_inv() {
     let mut exp: u8 = 0;
     while exp != 252 {
@@ -96,7 +96,7 @@ fn test_bits_pow_inv() {
 
 /// Every pair of consecutive limbs, and every pair of the limb boundaries.
 #[test]
-#[available_gas(l2_gas: 9437684)]
+#[available_gas(l2_gas: 9429672)]
 fn test_bits_bitwise() {
     let limbs = limbs();
     let count = limbs.len();
@@ -116,7 +116,7 @@ fn test_bits_bitwise() {
 
 /// Every pair of consecutive values, and every pair of the boundaries.
 #[test]
-#[available_gas(l2_gas: 10385166)]
+#[available_gas(l2_gas: 10377155)]
 fn test_bits_and_or_xor() {
     let values = values();
     let count = values.len();
@@ -145,7 +145,7 @@ fn test_bits_and_or_xor() {
 /// Every value with a seeded shift `count`, reduced below `2^(251 - count)` so that the result
 /// stays below `2^251`; `shr_exact` on the shifted value (its `count` low bits are zero).
 #[test]
-#[available_gas(l2_gas: 111593171)]
+#[available_gas(l2_gas: 111585296)]
 fn test_bits_shl_shr_exact() {
     let mut index: u32 = 0;
     for value in values() {
@@ -160,7 +160,7 @@ fn test_bits_shl_shr_exact() {
 
 /// Every value.
 #[test]
-#[available_gas(l2_gas: 4865436)]
+#[available_gas(l2_gas: 4857571)]
 fn test_bits_to_felt() {
     for value in values() {
         assert(O::to_felt(value) == H::to_felt(value), 'to_felt');
@@ -184,21 +184,21 @@ fn check_get(first: u32, last: u32) {
 
 /// The first 128 seeded values at every index, 0 to 251.
 #[test]
-#[available_gas(l2_gas: 353544864)]
+#[available_gas(l2_gas: 353536989)]
 fn test_bits_get_0() {
     check_get(0, 128);
 }
 
 /// The last 128 seeded values and the 5 boundaries at every index, 0 to 251.
 #[test]
-#[available_gas(l2_gas: 367337307)]
+#[available_gas(l2_gas: 367329432)]
 fn test_bits_get_1() {
     check_get(128, VALUES + 5);
 }
 
 /// Every value with a seeded index at most 250, the bit cleared for `set` and set for `unset`.
 #[test]
-#[available_gas(l2_gas: 58752774)]
+#[available_gas(l2_gas: 58744888)]
 fn test_bits_set_unset() {
     let mut index: u32 = 0;
     for value in values() {
@@ -214,7 +214,7 @@ fn test_bits_set_unset() {
 
 /// Every value.
 #[test]
-#[available_gas(l2_gas: 215790543)]
+#[available_gas(l2_gas: 215782668)]
 fn test_bits_popcount() {
     for value in values() {
         assert(O::popcount(value) == H::popcount(value), 'popcount');
@@ -224,7 +224,7 @@ fn test_bits_popcount() {
 
 /// Every limb.
 #[test]
-#[available_gas(l2_gas: 22612271)]
+#[available_gas(l2_gas: 22604260)]
 fn test_bits_limb_functions() {
     for limb in limbs() {
         assert(O::popcount_small(limb) == H::popcount_small(limb), 'popcount_small');
@@ -237,7 +237,7 @@ fn test_bits_limb_functions() {
 /// `WideSet`: every value, paired with a seeded subset of itself (for `sub`) and with a one-hot
 /// target (for `hits`), in both limbs (for `limb`).
 #[test]
-#[available_gas(l2_gas: 65046089)]
+#[available_gas(l2_gas: 65038204)]
 fn test_bits_wide_set() {
     let mut index: u32 = 0;
     for value in values() {
@@ -259,7 +259,7 @@ fn test_bits_wide_set() {
 
 /// `SmallSet`: every limb, paired with a seeded subset of itself and with a one-hot target.
 #[test]
-#[available_gas(l2_gas: 106522999)]
+#[available_gas(l2_gas: 106514988)]
 fn test_bits_small_set() {
     let mut index: u32 = 0;
     for limb in limbs() {

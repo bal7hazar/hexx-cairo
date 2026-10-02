@@ -21,7 +21,7 @@ fn assert_rngs(lhs: @ORng, rhs: @HRng) {
 
 /// Every index of the table, 720.
 #[test]
-#[available_gas(l2_gas: 2896373)]
+#[available_gas(l2_gas: 2888277)]
 fn test_rng_permutations() {
     assert(o::PERMUTATIONS.span().len() == h::PERMUTATIONS.span().len(), 'length');
     let mut index: u32 = 0;
@@ -57,7 +57,7 @@ fn seeds() -> Array<felt252> {
 /// 256 seeded values and the boundaries 0, 1, `2^128 - 1`, `2^128`, `2^250`, `-1` (fix loop 1,
 /// finding 3).
 #[test]
-#[available_gas(l2_gas: 2998215)]
+#[available_gas(l2_gas: 2990098)]
 fn test_rng_new() {
     for seed in seeds() {
         assert_rngs(@O::new(seed), @H::new(seed));
@@ -67,7 +67,7 @@ fn test_rng_new() {
 /// 256 seeded pairs (tag `'mix'`), and every pair of the boundaries 0, 1, `2^128 - 1`, `2^128`,
 /// `2^250`, `-1` (36 pairs).
 #[test]
-#[available_gas(l2_gas: 5808168)]
+#[available_gas(l2_gas: 5800177)]
 fn test_rng_mix() {
     let mut index: u32 = 0;
     while index != 256 {
@@ -91,7 +91,7 @@ fn test_rng_mix() {
 /// `'bound'`), `draw6`, `draw_byte` and `next_below` (a seeded bound in `[1, 255]`), `shuffle6`
 /// and `refill`, the returned value and the generator compared after each.
 #[test]
-#[available_gas(l2_gas: 22946070)]
+#[available_gas(l2_gas: 22937954)]
 fn test_rng_pool_boundaries() {
     let pools: [u128; 5] = [
         0, 1, 0xffffffffffffffff, 0x10000000000000000, 0xffffffffffffffffffffffffffffffff,
@@ -133,7 +133,7 @@ fn test_rng_pool_boundaries() {
 /// 64 seeds, 32 draws each; bound `k` of a seed: 1, 2, 6, 251, `2^64`, `2^128 - 1`, then
 /// seeded bounds (tag `'bound'`).
 #[test]
-#[available_gas(l2_gas: 50850314)]
+#[available_gas(l2_gas: 50842323)]
 fn test_rng_draw() {
     let bounds: [u128; 6] = [1, 2, 6, 251, 0x10000000000000000, 0xffffffffffffffffffffffffffffffff];
     let mut index: u32 = 0;
@@ -163,7 +163,7 @@ fn test_rng_draw() {
 
 /// 64 seeds, 32 draws each.
 #[test]
-#[available_gas(l2_gas: 21058500)]
+#[available_gas(l2_gas: 21050510)]
 fn test_rng_draw6() {
     let mut index: u32 = 0;
     while index != SEEDS {
@@ -181,7 +181,7 @@ fn test_rng_draw6() {
 
 /// 64 seeds, 32 draws each, the bound running over 1 to 255 (`(8 * seed + draw) % 255 + 1`).
 #[test]
-#[available_gas(l2_gas: 44208465)]
+#[available_gas(l2_gas: 44200475)]
 fn test_rng_draw_byte_next_below() {
     let mut index: u32 = 0;
     while index != SEEDS {
@@ -204,7 +204,7 @@ fn test_rng_draw_byte_next_below() {
 
 /// 64 seeds, 32 shuffles each.
 #[test]
-#[available_gas(l2_gas: 29050999)]
+#[available_gas(l2_gas: 29043009)]
 fn test_rng_shuffle6() {
     let mut index: u32 = 0;
     while index != SEEDS {
@@ -224,7 +224,7 @@ fn test_rng_shuffle6() {
 /// `u128` domain of a pool: 0, 1, `2^128 - 1` (`2^128` and `2^250` are not `u128`), with 215 and
 /// 216 on both sides of the divisor.
 #[test]
-#[available_gas(l2_gas: 2719328)]
+#[available_gas(l2_gas: 2711348)]
 fn test_rng_split216() {
     let mut pools: Array<u128> = array![0, 1, 215, 216, 0xffffffffffffffffffffffffffffffff];
     let mut index: u32 = 0;
@@ -241,7 +241,7 @@ fn test_rng_split216() {
 
 /// 64 seeds, 8 refills each, the generator compared after each.
 #[test]
-#[available_gas(l2_gas: 5626155)]
+#[available_gas(l2_gas: 5618164)]
 fn test_rng_refill() {
     let mut index: u32 = 0;
     while index != SEEDS {

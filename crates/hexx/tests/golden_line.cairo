@@ -59,7 +59,7 @@ impl DigestImpl of DigestTrait {
 }
 
 #[test]
-#[available_gas(l2_gas: 624123213)]
+#[available_gas(l2_gas: 624114992)]
 fn golden_line_window_0() {
     let cases: Array<(i32, i32, felt252)> = array![
         (0, 0, 0x1c2a3c6b95d6b05a1ff78003f1e4f6602c101607af9d0823b5aeccae9d48b7),
@@ -97,7 +97,7 @@ fn golden_line_window_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 578274344)]
+#[available_gas(l2_gas: 578266122)]
 fn golden_line_window_1() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-6, 1, 0x56a417cce1252751176c18bacbb804d15fd74352f42901e4ace6c36bfda2e79),
@@ -135,7 +135,7 @@ fn golden_line_window_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 562015724)]
+#[available_gas(l2_gas: 562007502)]
 fn golden_line_window_2() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-11, 2, 0x745b9e8dde9d0b0df0cb9686066ce3e32c51395aa30230c5d33a0c334ba0708),
@@ -173,7 +173,7 @@ fn golden_line_window_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 539286993)]
+#[available_gas(l2_gas: 539278772)]
 fn golden_line_window_3() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-2, 4, 0x498f2cf123fb58c9cc3ed1009f21830a7eb418cd60f6027ee00fc77bf26778e),
@@ -211,7 +211,7 @@ fn golden_line_window_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 513186996)]
+#[available_gas(l2_gas: 513178775)]
 fn golden_line_window_4() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-8, 5, 0x1097346172dd1517e168d10451bb5173d7b73be82d57bb088d08dc63c9ee74f),
@@ -249,7 +249,7 @@ fn golden_line_window_4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 518438235)]
+#[available_gas(l2_gas: 518430014)]
 fn golden_line_window_5() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-13, 6, 0x24c03a5bbf42f6e4eb2dc4bf99160ed5e49cda18f7b1bffcf92e59730eb94f1),
@@ -287,7 +287,7 @@ fn golden_line_window_5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 517588019)]
+#[available_gas(l2_gas: 517579797)]
 fn golden_line_window_6() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-4, 8, 0x5e1fc898e892f8e30a1a8eb27dfb97a0838d382e6d4c6edc334a69d8cf8db61),
@@ -325,7 +325,7 @@ fn golden_line_window_6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 512394897)]
+#[available_gas(l2_gas: 512386676)]
 fn golden_line_window_7() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-10, 9, 0x3714e129ec33f496342860fae959038a64ca477431bcb1df2718d668da1e2e3),
@@ -363,7 +363,7 @@ fn golden_line_window_7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 538504061)]
+#[available_gas(l2_gas: 538495839)]
 fn golden_line_window_8() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-15, 10, 0x6888d95f381b47be8d0842fc00c7253cb52674a81cb7696142ae9aa38dc6f14),
@@ -401,7 +401,7 @@ fn golden_line_window_8() {
 }
 
 #[test]
-#[available_gas(l2_gas: 559564110)]
+#[available_gas(l2_gas: 559555889)]
 fn golden_line_window_9() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-6, 12, 0x42468efcc9d3688c3fbe558c056714d99d326111d67adc084a86e34977c8ed0),
@@ -439,7 +439,7 @@ fn golden_line_window_9() {
 }
 
 #[test]
-#[available_gas(l2_gas: 575872910)]
+#[available_gas(l2_gas: 575864688)]
 fn golden_line_window_10() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-12, 13, 0x36c1e2b0951ecfede50d179d916366cc9a2f17bac87f8ee8dc00e5c4a46ee10),
@@ -477,7 +477,7 @@ fn golden_line_window_10() {
 }
 
 #[test]
-#[available_gas(l2_gas: 621615845)]
+#[available_gas(l2_gas: 621607623)]
 fn golden_line_window_11() {
     let cases: Array<(i32, i32, felt252)> = array![
         (-17, 14, 0x7dd3f1b499741baf7da6d61237943408a94467b85a20206b7fb8df36127bd89),
@@ -515,7 +515,7 @@ fn golden_line_window_11() {
 }
 
 #[test]
-#[available_gas(l2_gas: 178040195)]
+#[available_gas(l2_gas: 178031973)]
 fn golden_line_mirror_7x7() {
     let cases: Array<(i32, i32, felt252)> = array![
         (0, 0, 0x76cf8e2a992804503618d0e929bad48a15fd175b0f91f5525d15bfe265ed9fc),
@@ -582,7 +582,7 @@ fn golden_line_mirror_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 56304591)]
+#[available_gas(l2_gas: 56296370)]
 fn golden_line_sample_0() {
     let cases: Array<(i32, i32, i32, i32, felt252)> = array![
         (33, 39, 33, 3, 0x48cc2ff74cd7407e7c65794b85d403b902e4f65fe24c28d9d0fe75a4566fe86),
@@ -721,7 +721,7 @@ fn golden_line_sample_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 57188387)]
+#[available_gas(l2_gas: 57180165)]
 fn golden_line_sample_1() {
     let cases: Array<(i32, i32, i32, i32, felt252)> = array![
         (17, -22, 33, 39, 0x3c3e7b514a3251369fa34820e1437518acc822eee05d915868bb502c418a2cb),
@@ -860,7 +860,7 @@ fn golden_line_sample_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 57164216)]
+#[available_gas(l2_gas: 57155994)]
 fn golden_line_sample_2() {
     let cases: Array<(i32, i32, i32, i32, felt252)> = array![
         (-9, -5, 38, 31, 0x6857156748ee397699a986c50678cd7adc9ecaef03925599bed18cc88019ba0),
@@ -999,7 +999,7 @@ fn golden_line_sample_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 58353257)]
+#[available_gas(l2_gas: 58345035)]
 fn golden_line_sample_3() {
     let cases: Array<(i32, i32, i32, i32, felt252)> = array![
         (-31, -31, -34, -16, 0x70177cfd735c4813091cd97eeb3e44ce25fb1e3489fc8654d7f3be0339d03c5),
@@ -1138,7 +1138,7 @@ fn golden_line_sample_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 34395701)]
+#[available_gas(l2_gas: 34387479)]
 fn golden_line_adversarial() {
     let cases: Array<(i32, i32, i32, i32, felt252)> = array![
         (8000000, 0, 8000001, 6, 0x22b83d3d9a39b44e132767be84180b0e6bedea25dd86d6ce1d4ae7965177b9d),
@@ -1435,7 +1435,7 @@ fn golden_line_adversarial() {
 }
 
 #[test]
-#[available_gas(l2_gas: 271842537)]
+#[available_gas(l2_gas: 271834421)]
 fn golden_line_board_7x7_0() {
     let cases: Array<(u8, felt252)> = array![
         (0, 0x549bedf6ab01feefe975ebb57e0cdf845b71cb81bc2d23ea78c9e06e757787e),
@@ -1488,7 +1488,7 @@ fn golden_line_board_7x7_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 262272990)]
+#[available_gas(l2_gas: 262264874)]
 fn golden_line_board_7x7_1() {
     let cases: Array<(u8, felt252)> = array![
         (25, 0x52035dfaea84cc20aa1241146c3224a6489f3fb15f8af7ff24d81a03e001c23),
@@ -1540,7 +1540,7 @@ fn golden_line_board_7x7_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 630614257)]
+#[available_gas(l2_gas: 630606140)]
 fn golden_line_board_15x16_0() {
     let cases: Array<(u8, felt252)> = array![
         (0, 0x4b9c3c561b452aa508ec2765de4676a4bef5f536c57dae4ab15085310f6bd83),
@@ -1576,7 +1576,7 @@ fn golden_line_board_15x16_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 528613034)]
+#[available_gas(l2_gas: 528604917)]
 fn golden_line_board_15x16_1() {
     let cases: Array<(u8, felt252)> = array![
         (64, 0x1a306dde35d6514f0b5cfe62b73f5fc5d07ee6f3e2e59ae850af25d50ab93d4),
@@ -1612,7 +1612,7 @@ fn golden_line_board_15x16_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 510130766)]
+#[available_gas(l2_gas: 510122649)]
 fn golden_line_board_15x16_2() {
     let cases: Array<(u8, felt252)> = array![
         (128, 0xd38a1c2c0d64862986889296b40565cbaabbe04ba93189677ebd78430e1b74),
@@ -1648,7 +1648,7 @@ fn golden_line_board_15x16_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 468003938)]
+#[available_gas(l2_gas: 467995822)]
 fn golden_line_board_15x16_3() {
     let cases: Array<(u8, felt252)> = array![
         (192, 0x7de8e0dd4b79e520fec097ff7e0c8aa9a3134734a4a9974e66bdf74cfd2c1bf),
@@ -1682,7 +1682,7 @@ fn golden_line_board_15x16_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 686785160)]
+#[available_gas(l2_gas: 686777043)]
 fn golden_line_board_17x14_0() {
     let cases: Array<(u8, felt252)> = array![
         (0, 0x799e3c9dd94858735af4f206ee1a3c63ffa5e42c4b8085e9d346c2dab7c3d50),
@@ -1718,7 +1718,7 @@ fn golden_line_board_17x14_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 610783995)]
+#[available_gas(l2_gas: 610775878)]
 fn golden_line_board_17x14_1() {
     let cases: Array<(u8, felt252)> = array![
         (64, 0x721a66d2b5fd09c3639f666be8e05a2217057a5a59d59f4c23d68ad040305ce),
@@ -1754,7 +1754,7 @@ fn golden_line_board_17x14_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 625240155)]
+#[available_gas(l2_gas: 625232039)]
 fn golden_line_board_17x14_2() {
     let cases: Array<(u8, felt252)> = array![
         (128, 0x200e48b22c2ae5514960c73542d7b60ef6e7c0e21fdaa2cd9efc1e2502b8c0f),
@@ -1790,7 +1790,7 @@ fn golden_line_board_17x14_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 497289333)]
+#[available_gas(l2_gas: 497281216)]
 fn golden_line_board_17x14_3() {
     let cases: Array<(u8, felt252)> = array![
         (192, 0x4065f791dc5fdd17833bc462b2dec30e62761e82a8f65957396e1bc7ae1dcbb),
@@ -1824,7 +1824,7 @@ fn golden_line_board_17x14_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 491208508)]
+#[available_gas(l2_gas: 491200517)]
 fn golden_line_board_83x3_0() {
     let cases: Array<(u8, felt252)> = array![
         (0, 0xa9982acc9e0b8baa43447d435258d0b79882f31807d8098fc7ddfd465268ec),
@@ -1854,7 +1854,7 @@ fn golden_line_board_83x3_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 406669658)]
+#[available_gas(l2_gas: 406661668)]
 fn golden_line_board_83x3_1() {
     let cases: Array<(u8, felt252)> = array![
         (48, 0x21dff88fa2b2977b7f78ea6ccfb9af2873abcc8cb408e2bcd100100a8ecfd2d),
@@ -1884,7 +1884,7 @@ fn golden_line_board_83x3_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 395388433)]
+#[available_gas(l2_gas: 395380443)]
 fn golden_line_board_83x3_2() {
     let cases: Array<(u8, felt252)> = array![
         (96, 0x2d866abc602a96703b7ed64b2eb28450480c35b448044653123977e53b2ab43),
@@ -1914,7 +1914,7 @@ fn golden_line_board_83x3_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 483149535)]
+#[available_gas(l2_gas: 483141545)]
 fn golden_line_board_83x3_3() {
     let cases: Array<(u8, felt252)> = array![
         (144, 0x298a9863e8dd03ec6f88c487c542eca877d965e26a22cfff18a09b724ed6857),
@@ -1944,7 +1944,7 @@ fn golden_line_board_83x3_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 360361624)]
+#[available_gas(l2_gas: 360353633)]
 fn golden_line_board_83x3_4() {
     let cases: Array<(u8, felt252)> = array![
         (192, 0x5023698d98b10403e81c1c2029e92e84c0e33d8875b4ab486adf0500d32ca88),
@@ -1974,7 +1974,7 @@ fn golden_line_board_83x3_4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 245302521)]
+#[available_gas(l2_gas: 245294530)]
 fn golden_line_board_83x3_5() {
     let cases: Array<(u8, felt252)> = array![
         (240, 0x13355c77e81d56545a48e52e610b14fa71ded644ebcc8643baa29a58efc2b22),
@@ -2003,7 +2003,7 @@ fn golden_line_board_83x3_5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 662202064)]
+#[available_gas(l2_gas: 662194074)]
 fn golden_line_board_3x83_0() {
     let cases: Array<(u8, felt252)> = array![
         (0, 0x5ff71c151f30334d438320667d67b88341efc69269c6e8893ad029b5835782c),
@@ -2034,7 +2034,7 @@ fn golden_line_board_3x83_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 463161968)]
+#[available_gas(l2_gas: 463153978)]
 fn golden_line_board_3x83_1() {
     let cases: Array<(u8, felt252)> = array![
         (72, 0x604d34353b1dd11e52f7dfad1a1b4ec61523858d5520776530088cd81c857be),
@@ -2065,7 +2065,7 @@ fn golden_line_board_3x83_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 490998991)]
+#[available_gas(l2_gas: 490991000)]
 fn golden_line_board_3x83_2() {
     let cases: Array<(u8, felt252)> = array![
         (144, 0x3222d8dc3e9fc5372d11824e050fc1aae201d66800d435f1071379c59a13c51),
@@ -2096,7 +2096,7 @@ fn golden_line_board_3x83_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 454220208)]
+#[available_gas(l2_gas: 454212218)]
 fn golden_line_board_3x83_3() {
     let cases: Array<(u8, felt252)> = array![
         (216, 0x6604ec93cbf3bebab4438651bae4e309cad2624dd70eb1b6031f4ef27627e5),

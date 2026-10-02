@@ -61,7 +61,7 @@ impl Inputs of InputsTrait {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 17052)]
+#[available_gas(l2_gas: 8831)]
 fn bench_flood_baseline() {
     let bench = Inputs::get();
     assert!(bench.from == 127);
@@ -71,7 +71,7 @@ fn bench_flood_baseline() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 53941)]
+#[available_gas(l2_gas: 45930)]
 fn bench_flood_serpentine_0() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.serpentine, 15, 16, bench.from, bench.frozen, bench.zero);
@@ -80,7 +80,7 @@ fn bench_flood_serpentine_0() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 280758)]
+#[available_gas(l2_gas: 272746)]
 fn bench_flood_serpentine_10() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.serpentine, 15, 16, bench.from, bench.frozen, bench.ten);
@@ -89,7 +89,7 @@ fn bench_flood_serpentine_10() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 400174)]
+#[available_gas(l2_gas: 392163)]
 fn bench_flood_serpentine_15() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.serpentine, 15, 16, bench.from, bench.frozen, bench.fifteen);
@@ -98,7 +98,7 @@ fn bench_flood_serpentine_15() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 519591)]
+#[available_gas(l2_gas: 511579)]
 fn bench_flood_serpentine_20() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.serpentine, 15, 16, bench.from, bench.frozen, bench.twenty);
@@ -107,7 +107,7 @@ fn bench_flood_serpentine_20() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 1097013)]
+#[available_gas(l2_gas: 1089002)]
 fn bench_flood_serpentine_unlimited() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.serpentine, 15, 16, bench.from, bench.frozen, bench.unlimited);
@@ -118,7 +118,7 @@ fn bench_flood_serpentine_unlimited() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 998991)]
+#[available_gas(l2_gas: 990980)]
 fn bench_flood_serpentine_8() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.serpentine, 15, 16, bench.from, bench.walkers, bench.unlimited);
@@ -129,7 +129,7 @@ fn bench_flood_serpentine_8() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 281356)]
+#[available_gas(l2_gas: 273345)]
 fn bench_flood_depth_once() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.serpentine, 15, 16, bench.from, bench.frozen, bench.ten);
@@ -138,7 +138,7 @@ fn bench_flood_depth_once() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 282060)]
+#[available_gas(l2_gas: 274048)]
 fn bench_flood_depth_twice() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.serpentine, 15, 16, bench.from, bench.frozen, bench.ten);
@@ -149,7 +149,7 @@ fn bench_flood_depth_twice() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 392709)]
+#[available_gas(l2_gas: 384697)]
 fn bench_flood_cave_15() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.cave, 15, 16, bench.cave_from, 0, bench.fifteen);
@@ -158,7 +158,7 @@ fn bench_flood_cave_15() {
 
 #[test]
 #[inline(never)]
-#[available_gas(l2_gas: 433430)]
+#[available_gas(l2_gas: 425418)]
 fn bench_flood_cave_unlimited() {
     let bench = Inputs::get();
     let flood = Bfs::flood(bench.cave, 15, 16, bench.cave_from, 0, bench.unlimited);
