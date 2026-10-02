@@ -115,5 +115,28 @@ class PrepushLockTest(unittest.TestCase):
                 "busy|prepush: build lock busy after 1 s: Cairo compile skipped, CI will compile")
 
 
+class PrepushGitEnvironmentTest(unittest.TestCase):
+    """A hook's git variables (GIT_DIR, GIT_WORK_TREE) never reach the script's children."""
+
+    @unittest.skipIf(shutil.which("flock") is None, "no flock(1) on this machine")
+    def test_git_variables_are_cleared_and_the_directory_untouched(self):
+        with tempfile.TemporaryDirectory() as d, tempfile.TemporaryDirectory() as git_dir:
+            bin_dir, seen = Path(d) / "bin", Path(d) / "seen"
+            bin_dir.mkdir()
+            # A flock(1) that records the git variables of the environment it is run in.
+            fake = bin_dir / "flock"
+            fake.write_text(f'#!/bin/sh\nenv | grep -E \'^GIT_(DIR|WORK_TREE)=\' > "{seen}"\nexit 0\n')
+            fake.chmod(0o755)
+            lock = Path(d) / "heavy.lock"
+            lock.touch()
+            env = dict(os.environ, GIT_DIR=git_dir, GIT_WORK_TREE=git_dir,
+                       HEAVY_BUILD_LOCK=str(lock), PATH=f"{bin_dir}:{os.environ['PATH']}")
+            out = subprocess.run([str(SCRIPT), "--lock"], env=env, text=True,
+                                 capture_output=True, check=True)
+            self.assertEqual(out.stdout.strip(), "ok")
+            self.assertEqual(seen.read_text(), "")
+            self.assertEqual(os.listdir(git_dir), [])
+
+
 if __name__ == "__main__":
     unittest.main()
