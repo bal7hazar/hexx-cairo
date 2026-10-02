@@ -29,6 +29,12 @@
 #   scripts/prepush.sh --lock        take the compile lock as a run would, print ok, busy or none
 #   scripts/prepush.sh --select      read changed paths on stdin, print the checks selected (tests)
 set -euo pipefail
+# A git hook runs with git's local environment (GIT_DIR, GIT_WORK_TREE, GIT_INDEX_FILE, ...): left
+# set, any git command of a child (a test fixture's `git init`) would act on the real repository.
+# Cleared before any git command and before the cd, so every git call here finds the repository
+# from the working directory.
+# shellcheck disable=SC2046 # the list is a fixed set of variable names
+unset $(git rev-parse --local-env-vars 2>/dev/null)
 cd "$(dirname "$0")/.."
 
 # D-176: one build, as scripts/check.sh and CI (see check.sh).
