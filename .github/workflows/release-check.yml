@@ -31,6 +31,13 @@ on:
 permissions:
   contents: read
 
+# D-176: the compiler places the `withdraw_gas` check of a call-graph cycle by salsa intern-id
+# order, which follows rayon's thread order; on one thread a build is one build (D-154). Set once
+# for the workflow, so that every build a gate measures or declares (the full gate and
+# `scarb package`) is that one build.
+env:
+  RAYON_NUM_THREADS: "1"
+
 concurrency:
   group: release-check
   cancel-in-progress: false

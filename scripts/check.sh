@@ -15,6 +15,11 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+# D-176: one build. The compiler places the `withdraw_gas` check of a call-graph cycle by salsa
+# intern-id order, which follows rayon's thread order (D-154); on one thread a build is one build,
+# so a local gate measures what CI measures (ci.yml and release-check.yml set the same variable).
+export RAYON_NUM_THREADS=1
+
 scarb fmt --check --workspace
 scarb build --workspace
 for dir in crates/*/; do
