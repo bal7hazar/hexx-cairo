@@ -57,7 +57,8 @@ Toolchain versions live in `.tool-versions` only (Scarb 2.19.4, starknet-foundry
 | Before asking for a review of a change that touches measured code (gas, class size) or pins | `scripts/check.sh`, the full gate |
 
 Never push red and never skip the hook (`--no-verify`): a push that fails `scripts/prepush.sh` would
-have failed CI. It does not replace `scripts/check.sh` (every test, gas budgets and snapshots) or CI.
+have failed CI. The hook checks the working tree of the current branch, not the refs being pushed:
+commit your fix before pushing. It does not replace `scripts/check.sh` (every test, gas budgets and snapshots) or CI.
 
 ## Principles (the game's `docs/CAIRO.md`, in full at `grimworld:docs/CAIRO.md`; in short)
 

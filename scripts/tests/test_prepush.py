@@ -55,6 +55,18 @@ class PrepushSelectionTest(unittest.TestCase):
     def test_refgen_selects_the_golden_vectors(self):
         self.assertEqual(select("tools/refgen/specs/hex.toml"), ["check golden-vectors"])
 
+    def test_board_line_source_selects_the_golden_vectors(self):
+        steps = select("crates/hexx/src/board/line.cairo")
+        self.assertIn("check golden-vectors", steps)
+        self.assertIn("check takeover", steps)
+        self.assertIn("check golden-vectors", select("docs/deviations/line_ties.md"))
+
+    def test_takeover_covers_the_files_beside_the_sources(self):
+        for path in ("crates/hexx/GAS-origami-1.8.0.md", "crates/hexx/.scarbignore"):
+            steps = select(path)
+            self.assertIn("check takeover", steps)
+            self.assertFalse([s for s in steps if s.startswith("build")], path)
+
     def test_other_package_builds_only_itself(self):
         self.assertEqual(select("crates/takeover_tests/src/lib.cairo"), ["build takeover_tests"])
 
