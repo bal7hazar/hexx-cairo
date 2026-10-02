@@ -14,7 +14,7 @@
 
 use hexx::{EdgeDirection, Hex};
 
-use crate::cairo::{bound_points, cases_array, probe, seeded_points, spread, Emitter};
+use crate::cairo::{bound_points, cases_array as packed_cases, probe, seeded_points, spread, Emitter};
 use crate::spec::Spec;
 
 /// `(x, y, z, length, ulength)`, `None` when `hexx` panics.
@@ -138,6 +138,18 @@ struct Inputs<I> {
     row: fn(I) -> String,
 }
 
+/// `cairo::cases_array`, with the header split after `=` when it exceeds 100 columns, as
+/// `scarb fmt` splits it (the table of `all_neighbors` has fourteen columns).
+fn cases_array(types: &str, rows: &[String]) -> String {
+    let text = packed_cases(types, rows);
+    let (first, rest) = text.split_once('\n').unwrap_or((&text, ""));
+    if first.len() <= 100 {
+        return text;
+    }
+    let head = first.strip_suffix(" array![").unwrap_or(first);
+    format!("{head}\n        array![\n{rest}")
+}
+
 /// `text`, every line indented by `spaces`.
 fn indented(text: &str, spaces: usize) -> String {
     text.lines().map(|l| format!("{}{l}\n", " ".repeat(spaces))).collect()
@@ -213,11 +225,25 @@ fn tables<I: Copy>(
         e.test(&format!("golden_hex_{prefix}_{}", fun.name), false, &body)?;
         if let Some(cap) = panics {
             for (n, input) in spread(&failing, cap).into_iter().enumerate() {
-                let body = format!(
-                    "    let ({}): ({}) = ({});\n{}    let _ = {};\n",
+                let line = format!(
+                    "    let ({}): ({}) = ({});",
                     layout.vars,
                     layout.types,
-                    (layout.row)(input),
+                    (layout.row)(input)
+                );
+                // `scarb fmt` breaks a binding that exceeds 100 columns after the `(`
+                let line = if line.len() > 100 {
+                    format!(
+                        "    let ({}): ({}) = (\n        {},\n    );",
+                        layout.vars,
+                        layout.types,
+                        (layout.row)(input)
+                    )
+                } else {
+                    line
+                };
+                let body = format!(
+                    "{line}\n{}    let _ = {};\n",
                     indented(layout.prelude, 4),
                     fun.call
                 );

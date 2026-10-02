@@ -10333,7 +10333,9 @@ fn golden_hex_bounds_pairs_const_add_panics_0() {
 #[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_const_add_panics_1() {
-    let (x1, y1, x2, y2): (i32, i32, i32, i32) = (2147483647, -2147483648, -2147483648, -2147483648);
+    let (x1, y1, x2, y2): (i32, i32, i32, i32) = (
+        2147483647, -2147483648, -2147483648, -2147483648,
+    );
     let a = HexTrait::new(x1, y1);
     let b = HexTrait::new(x2, y2);
     let _ = a.const_add(b);
@@ -10343,7 +10345,9 @@ fn golden_hex_bounds_pairs_const_add_panics_1() {
 #[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_const_add_panics_2() {
-    let (x1, y1, x2, y2): (i32, i32, i32, i32) = (-2147483648, -2147483648, -2147483648, 2147483647);
+    let (x1, y1, x2, y2): (i32, i32, i32, i32) = (
+        -2147483648, -2147483648, -2147483648, 2147483647,
+    );
     let a = HexTrait::new(x1, y1);
     let b = HexTrait::new(x2, y2);
     let _ = a.const_add(b);
@@ -12364,7 +12368,8 @@ fn golden_hex_bounds_direction_add_dir_panics_3() {
 #[test]
 #[available_gas(l2_gas: 12836303)]
 fn golden_hex_unary_all_neighbors() {
-    let cases: Array<(i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32)> = array![
+    let cases: Array<(i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32)> =
+        array![
         (31, 13, 32, 13, 31, 14, 30, 14, 30, 13, 31, 12, 32, 12),
         (-22, -26, -21, -26, -22, -25, -23, -25, -23, -26, -22, -27, -21, -27),
         (1, -18, 2, -18, 1, -17, 0, -17, 0, -18, 1, -19, 2, -19),
@@ -12446,7 +12451,8 @@ fn golden_hex_unary_all_neighbors() {
 #[test]
 #[available_gas(l2_gas: 20295996)]
 fn golden_hex_bounds_all_neighbors() {
-    let cases: Array<(i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32)> = array![
+    let cases: Array<(i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32)> =
+        array![
         (
             -2147483647,
             -2147483647,
