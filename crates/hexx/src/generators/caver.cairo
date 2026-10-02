@@ -212,19 +212,20 @@ pub impl Caver of CaverTrait {
     ) -> felt252 {
         // [Check] Dimensions
         CaverAssert::assert_margins(width, height);
-        // [Compute] Mask the grid to the board
         let margins = CaverInternal::margins(width, height, odd);
-        let grid = Bits::to_felt(Bits::and(grid.into(), margins.board.into()));
+        let board: u256 = margins.board.into();
         if order == 0 {
-            return grid;
+            return Bits::to_felt(Bits::and(grid.into(), board));
         }
         // [Compute] The free tiles: the interior minus the held tiles
         let interior: u256 = margins.interior.into();
         let held = Bits::and(held.into(), interior);
         let free = u256 { low: interior.low - held.low, high: interior.high - held.high };
-        // [Compute] Generations on the free tiles
-        let free_grid = Bits::and(grid.into(), free);
-        let frozen = grid - Bits::to_felt(free_grid);
+        // [Compute] Generations on the free tiles, the others stay as they are, on the board only
+        let grid: u256 = grid.into();
+        let free_grid = Bits::and(grid, free);
+        let kept = u256 { low: board.low - free.low, high: board.high - free.high };
+        let frozen = Bits::to_felt(Bits::and(grid, kept));
         CaverInternal::evolve_frozen(@margins, frozen, free, free_grid, order)
     }
 }
@@ -1580,14 +1581,36 @@ mod tests {
         assert!(Caver::smooth(clean + Bits::pow(230), 15, 15, 0, held, odd) == clean);
     }
 
+    /// Order 0 clears the bits at or above `W * H` as well.
+    fn check_smooth_stray_order_0(odd: bool) {
+        let clean = Bits::to_felt(Bits::and(PATTERN.into(), (Bits::pow(225) - 1).into()));
+        let mut stray: u8 = 225;
+        while stray != 251 {
+            assert!(Caver::smooth(clean + Bits::pow(stray), 15, 15, 0, R_N1_1, odd) == clean);
+            stray += 1;
+        }
+    }
+
     #[test]
-    #[available_gas(l2_gas: 5153715)]
+    #[available_gas(l2_gas: 554749)]
+    fn test_caver_smooth_stray_bits_order_0() {
+        check_smooth_stray_order_0(false);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 554749)]
+    fn test_caver_smooth_stray_bits_order_0_odd() {
+        check_smooth_stray_order_0(true);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 5108954)]
     fn test_caver_smooth_stray_bits() {
         check_smooth_stray(false);
     }
 
     #[test]
-    #[available_gas(l2_gas: 5147625)]
+    #[available_gas(l2_gas: 5102864)]
     fn test_caver_smooth_stray_bits_odd() {
         check_smooth_stray(true);
     }
