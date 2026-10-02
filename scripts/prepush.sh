@@ -84,16 +84,22 @@ select_steps() {
   done
 }
 
-# Sets COMPILE_LOCK: ok (held on fd 9 until exit), none (no lock file on this machine), busy.
+# Sets COMPILE_LOCK: ok (held on fd 9 until exit), none (no lock file or no flock(1) on this
+# machine, as on the Mac: no shim lock, full run), busy (timeout), error (lock file not openable).
 COMPILE_LOCK=
 take_compile_lock() {
   [ -z "$COMPILE_LOCK" ] || return 0
   local lock=${HEAVY_BUILD_LOCK:-$HOME/orchestrator/heavy-build.lock}
   local wait=${PREPUSH_LOCK_WAIT:-90}
-  if [ ! -e "$lock" ]; then
+  if [ ! -e "$lock" ] || ! command -v flock >/dev/null 2>&1; then
     COMPILE_LOCK=none
-  elif { exec 9>>"$lock"; } 2>/dev/null && flock -w "$wait" 9; then
+  elif ! { exec 9>>"$lock"; } 2>/dev/null; then
+    COMPILE_LOCK=error
+    echo "prepush: cannot open the build lock $lock: Cairo compile skipped, CI will compile" >&2
+  elif flock -w "$wait" 9; then
     COMPILE_LOCK=ok
+    # The shim never waits on the lock this script holds, even if its ancestor check misses.
+    export HEAVY_BUILD_LOCK_HELD=1
   else
     exec 9>&-
     COMPILE_LOCK=busy
@@ -137,7 +143,7 @@ while read -r kind target <&3; do
   [ -n "$kind" ] || continue
   if [ "$kind" = build ]; then
     take_compile_lock
-    [ "$COMPILE_LOCK" != busy ] || continue
+    case $COMPILE_LOCK in busy | error) continue ;; esac
     if [ "$target" = workspace ]; then
       scarb build --workspace </dev/null || fail "build (scarb build --workspace)"
     else
@@ -149,7 +155,7 @@ while read -r kind target <&3; do
     [ "${entry%%::*}" = "$target" ] || continue
     if [ "$target" = class-size ]; then
       take_compile_lock
-      [ "$COMPILE_LOCK" != busy ] || continue
+      case $COMPILE_LOCK in busy | error) continue ;; esac
     fi
     command=${entry#*::}
     command=${command%::*}

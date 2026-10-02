@@ -3,6 +3,7 @@ check a set of changed paths triggers."""
 import fcntl
 import os
 import subprocess
+import shutil
 import tempfile
 import unittest
 from pathlib import Path
@@ -75,20 +76,37 @@ class PrepushSelectionTest(unittest.TestCase):
 
 
 class PrepushLockTest(unittest.TestCase):
-    def lock(self, path: str, wait: str = "1") -> str:
+    def lock(self, path: str, wait: str = "1", env_path: str | None = None) -> str:
         env = dict(os.environ, HEAVY_BUILD_LOCK=path, PREPUSH_LOCK_WAIT=wait)
-        out = subprocess.run([str(SCRIPT), "--lock"], env=env, text=True, capture_output=True,
-                             check=True)
+        if env_path is not None:
+            env["PATH"] = env_path
+        out = subprocess.run(["/bin/bash", str(SCRIPT), "--lock"], env=env, text=True,
+                             capture_output=True, check=True)
         return out.stdout.strip() + "|" + out.stderr.strip()
 
     def test_no_lock_file_changes_nothing(self):
         with tempfile.TemporaryDirectory() as d:
             self.assertEqual(self.lock(os.path.join(d, "absent.lock")), "none|")
 
+    def test_no_flock_command_changes_nothing(self):
+        # A PATH with `dirname` only: no flock(1), as on macOS.
+        with tempfile.TemporaryDirectory() as d, tempfile.NamedTemporaryFile() as f:
+            os.symlink(shutil.which("dirname"), os.path.join(d, "dirname"))
+            self.assertEqual(self.lock(f.name, env_path=d), "none|")
+
+    @unittest.skipIf(shutil.which("flock") is None, "no flock(1) on this machine")
+    def test_unopenable_lock_is_its_own_error(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = self.lock(d)
+            self.assertTrue(out.startswith("error|prepush: cannot open the build lock "), out)
+            self.assertNotIn("busy", out)
+
+    @unittest.skipIf(shutil.which("flock") is None, "no flock(1) on this machine")
     def test_free_lock_is_taken(self):
         with tempfile.NamedTemporaryFile() as f:
             self.assertEqual(self.lock(f.name), "ok|")
 
+    @unittest.skipIf(shutil.which("flock") is None, "no flock(1) on this machine")
     def test_busy_lock_skips_the_compile_after_the_wait(self):
         with tempfile.NamedTemporaryFile() as f:
             fcntl.flock(f.fileno(), fcntl.LOCK_EX)
