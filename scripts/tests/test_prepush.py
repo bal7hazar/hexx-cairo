@@ -19,9 +19,10 @@ class PrepushSelectionTest(unittest.TestCase):
     def test_docs_only_selects_nothing(self):
         self.assertEqual(select("README.md", "docs/research/LIB-03-porting-plan.md"), [])
 
-    def test_hexx_source_builds_hexx_and_consumer_and_the_table_checks(self):
+    def test_hexx_source_builds_hexx_only_and_the_table_checks(self):
         steps = select("crates/hexx/src/hex.cairo")
-        self.assertEqual(steps[:2], ["build consumer", "build hexx"])
+        self.assertEqual(steps[0], "build hexx")
+        self.assertNotIn("build consumer", steps)
         for name in ("class-size", "api-parity", "extensions", "deviations", "takeover"):
             self.assertIn(f"check {name}", steps)
         self.assertNotIn("check gas-tables", steps)
@@ -35,8 +36,13 @@ class PrepushSelectionTest(unittest.TestCase):
     def test_gas_snapshot_selects_the_gas_table(self):
         self.assertEqual(select("gas/hexx.snap"), ["check gas-tables"])
 
-    def test_class_size_snapshot_selects_the_class_size(self):
-        self.assertEqual(select("gas/bytecode.size"), ["check class-size"])
+    def test_nothing_that_builds_runs_without_a_cairo_input(self):
+        for path in ("gas/bytecode.size", "gas/hexx.snap", "scripts/bytecode_size.py",
+                     "docs/GAS.md", "AGENTS.md", ".github/workflows/ci.yml",
+                     "tools/refgen/specs/hex.toml", "crates/hexx/tests/README.md"):
+            steps = select(path)
+            self.assertFalse([s for s in steps if s.startswith("build")], path)
+            self.assertNotIn("check class-size", steps, path)
 
     def test_refgen_selects_the_golden_vectors(self):
         self.assertEqual(select("tools/refgen/specs/hex.toml"), ["check golden-vectors"])

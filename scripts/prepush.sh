@@ -10,9 +10,10 @@
 #
 # Always: format, the unit tests of the scripts.
 # On the files changed against origin/main (the commits being pushed plus the working tree):
-#   - build: `scarb build` of each crates/<pkg> with a changed file (and of the consumer when hexx
-#     changed, it depends on it); the whole workspace when a manifest, Scarb.lock or the toolchain
-#     pin changed.
+#   - build: `scarb build` of each crates/<pkg> with a changed file; the whole workspace when the
+#     root manifest, Scarb.lock or .tool-versions changed. A change with no Cairo source, manifest,
+#     Scarb.lock or .tool-versions runs no `scarb build` at all (the class-size check, which builds,
+#     has only those inputs as its trigger; no build waits on the shared build lock for nothing).
 #   - each generated-artefact check, only when one of its inputs changed (table below).
 #
 #   scripts/prepush.sh               run the gate
@@ -27,7 +28,7 @@ export RAYON_NUM_THREADS=1
 # repository-relative path). One line per check: name::command::trigger.
 CHECKS=(
   "gas-tables::python3 scripts/gas_tables.py --check::^(gas/[^/]*\.snap|docs/GAS\.md|scripts/gas_tables\.py|\.tool-versions)$"
-  "class-size::python3 scripts/bytecode_size.py check::^(gas/bytecode\.size|scripts/bytecode_size\.py|crates/(consumer|hexx/src)/.*|Scarb\.(toml|lock)|crates/[^/]+/Scarb\.toml)$"
+  "class-size::python3 scripts/bytecode_size.py check::^(crates/(consumer|hexx)/src/.*\.cairo|Scarb\.(toml|lock)|crates/[^/]+/Scarb\.toml|\.tool-versions)$"
   "api-parity::python3 scripts/api_parity.py --check::^(docs/API_PARITY\.md|scripts/api_parity\.py|crates/hexx/src/.*\.cairo)$"
   "extensions::python3 scripts/api_parity.py --extensions --check::^(docs/EXTENSIONS\.md|scripts/api_parity\.py|crates/hexx/src/.*\.cairo)$"
   "deviations::python3 scripts/deviations.py --check::^(docs/DEVIATIONS\.md|scripts/deviations\.py|crates/hexx/src/.*\.cairo)$"
@@ -45,10 +46,7 @@ select_steps() {
     echo "build workspace"
   else
     local pkgs
-    pkgs=$(sed -nE 's#^crates/([^/]+)/.*#\1#p' <<<"$paths" | sort -u)
-    if grep -qx hexx <<<"$pkgs" && [ -d crates/consumer ]; then
-      pkgs=$(printf '%s\nconsumer\n' "$pkgs" | sort -u)
-    fi
+    pkgs=$(sed -nE 's#^crates/([^/]+)/(.*\.cairo|Scarb\.toml)$#\1#p' <<<"$paths" | sort -u)
     local pkg
     for pkg in $pkgs; do
       # A directory under crates/ that is gone (a deleted package) has nothing to build.
