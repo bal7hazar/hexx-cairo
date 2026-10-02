@@ -26,14 +26,21 @@ refuse() {
 heavy=0
 if [ "${1:-}" = --heavy ]; then heavy=1; shift; fi
 [ $# -ge 2 ] || refuse "missing command"
-# The subcommand must come right after the tool, so that no global option can hide it. The one
-# exception: Scarb 2.19 takes --manifest-path as a global option before its subcommand
-# (`scarb --manifest-path <path> build`), so that single option, with its value, may sit between.
+# The subcommand must come right after the tool, so that no global option can hide it: the
+# machine's scarb shim takes the heavy lock only when the subcommand is its first argument, so a
+# call with an option before it would run outside the lock. The one exception: Scarb 2.19 takes
+# --manifest-path as a global option, before its subcommand only (`scarb build --manifest-path`
+# is refused), so `scarb --manifest-path <path> build` is rewritten below into the equivalent
+# `SCARB_MANIFEST_PATH=<path> scarb build` (the option's own environment variable), which keeps
+# the subcommand first.
 sub=$2
+manifest_path=
 if [ "$1" = scarb ] && [ "$2" = --manifest-path ]; then
   [ $# -ge 4 ] || refuse "scarb --manifest-path needs a path and a subcommand"
   case "$3" in -*) refuse "scarb --manifest-path needs a path, not '$3'" ;; esac
+  manifest_path=$3
   sub=$4
+  set -- scarb "${@:4}"
 fi
 case "$1:$sub" in
   scarb:build | scarb:test | scarb:lint | scarb:fmt | scarb:check | scarb:metadata | scarb:execute) ;;
@@ -46,6 +53,7 @@ project_lock=${HEXMAP_BUILD_LOCK:-/tmp/hexmap-build.lock}
 heavy_lock=${HEAVY_BUILD_LOCK:-$HOME/orchestrator/heavy-build.lock}
 export RAYON_NUM_THREADS="${RAYON_NUM_THREADS:-4}" CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-4}"
 
+[ -z "$manifest_path" ] || export SCARB_MANIFEST_PATH="$manifest_path"
 cmd=("$@")
 # Called by something that already holds the heavy lock (a machine shim) without the project
 # lock: taking the project lock now would reverse the order and could deadlock, and skipping it
