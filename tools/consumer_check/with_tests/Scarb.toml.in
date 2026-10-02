@@ -10,6 +10,7 @@ hexx = "=@HEXX_VERSION@"
 # 0.63.0 is outside `^0.61.0` (what `hexx` 0.1.0-rc.1 and `origami_hexmap` 1.8.0 list as a test
 # dependency): had that requirement leaked into this package, the two would conflict. It is the
 # release just below the 0.64.0 of the toolchain (.tool-versions), the closest one outside the range.
+# snforge 0.64 warns that this version is below the recommended `^0.64.0`: expected.
 [dev-dependencies]
 snforge_std = "=0.63.0"
 assert_macros = "2.20.0"
