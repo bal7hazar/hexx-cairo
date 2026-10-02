@@ -10,8 +10,10 @@ Opened by the orchestrator of track LIB on 2026-10-02, under D-132 and
 |---|---|
 | Package | `hexx` |
 | Version | `0.1.0-rc.2` (a pre-release: the milestone gate is informational) |
-| Commit | `TBD`: the merge commit of the release PR, on `main` |
-| Release check | `TBD`: the run dispatched from `main` with that version and that sha, which must be **success**; its artifact `hexx-release-check-0.1.0-rc.2` |
+| Commit | `c60e05ad548907b313faaeae98eb9af0b6ea586f` (on `main`, merge of pull request #101) |
+| Release check | run `37075327908`, dispatched from `main` with version `0.1.0-rc.2`: **in progress** (queued when read; to be updated when it completes, and it must be **success**); its artifact `hexx-release-check-0.1.0-rc.2` |
+| Archive sha256 | `TBD`: not yet taken. The `scarb package -p hexx` from a clean clone of the commit was refused in the thread's session; to be generated on Linux (VPS or CI) |
+| Packed files | `TBD`: with the archive. It must include `LICENSE`, `LICENSE-hexx`, `LICENSE-origami`, `README.md` |
 | For | The game's ENG-05 |
 
 ## Content
@@ -40,8 +42,15 @@ openings, is_open_across}`, `LayoutTrait::new_odd`) and N-6 (`hexagon`, `hexagon
    for it; the N-9 consumer check after publication runs on 2.20.1.
 
 Audits so far: release audit at `29a8360` FAIL (finding F1, the notice of `origami_hexmap` was not
-in the package); fixed in the release-fix PR, which makes the new release commit. A release check
-and an audit at that commit are still to come.
+in the package); fixed in the release-fix PR, which makes the new release commit.
+
+- Release audit re-done at `646c451` (PR #101 head), PASS WITH FINDINGS (two notes, no blocker, no
+  major); it covers the release commit `c60e05a`, whose only difference from `646c451` is
+  `docs/briefs/LIB-04g-ci-path-filters.md` (merged in between, not packaged).
+- Review of #101: PASS WITH FINDINGS (notes).
+- `LICENSE-hexx` is byte-identical to `LICENSE` of hexx 0.25.0 (checked with `cmp` by the
+  orchestrator).
+- The release check at the release commit: run `37075327908`, in progress.
 
 ## Constraint on class hashes
 
