@@ -496,7 +496,7 @@ mod tests {
 
     /// R-N2-1: the contact sets overlap; an addition would clear tiles.
     #[test]
-    #[available_gas(l2_gas: 33246)]
+    #[available_gas(l2_gas: 25129)]
     fn test_seams_r_n2_1_south_overlap() {
         let board = LayoutTrait::board(15, 15);
         assert!(SeamTrait::openings(15, 15, board, board, Side::South, false) == 0x7fff);
@@ -505,7 +505,7 @@ mod tests {
     /// R-N2-2: West, the single tile `(0, 15)` of `far` opens `(14, 15)` only, through the
     /// straight contact; its lower diagonal would reach bit 254 without its mask.
     #[test]
-    #[available_gas(l2_gas: 52223)]
+    #[available_gas(l2_gas: 44107)]
     fn test_seams_r_n2_2_west_last_row() {
         let board = LayoutTrait::board(15, 16);
         let far = Bits::pow(225);
@@ -514,7 +514,7 @@ mod tests {
 
     /// R-N2-3: East, `odd = false`, `far`'s `(14, 5)` opens `(0, 4)`, `(0, 5)` and `(0, 6)`.
     #[test]
-    #[available_gas(l2_gas: 55520)]
+    #[available_gas(l2_gas: 47404)]
     fn test_seams_r_n2_3_east_even() {
         let board = LayoutTrait::board(15, 15);
         let expected = Bits::pow(60) + Bits::pow(75) + Bits::pow(90);
@@ -523,7 +523,7 @@ mod tests {
 
     /// R-N2-3b: the same with `odd = true` opens `(0, 5)` only.
     #[test]
-    #[available_gas(l2_gas: 53273)]
+    #[available_gas(l2_gas: 45157)]
     fn test_seams_r_n2_3b_east_odd() {
         let board = LayoutTrait::board(15, 15);
         assert!(
@@ -534,7 +534,7 @@ mod tests {
     /// R-N2-4: North, 15 × 16, `odd = true` (row 15 globally even): `far`'s `(7, 0)` opens
     /// `(7, 15)` and `(8, 15)`.
     #[test]
-    #[available_gas(l2_gas: 36900)]
+    #[available_gas(l2_gas: 28783)]
     fn test_seams_r_n2_4_north_odd() {
         let board = LayoutTrait::board(15, 16);
         let expected = Bits::pow(232) + Bits::pow(233);
@@ -544,7 +544,7 @@ mod tests {
     /// D-134 on full chunks: with the corners of both boards as wall, every side keeps its
     /// tiles but its two corners, on every dimension class and both parities.
     #[test]
-    #[available_gas(l2_gas: 3676334)]
+    #[available_gas(l2_gas: 3668343)]
     fn test_seams_d134_corners() {
         for (width, height) in CLASSES.span() {
             let (width, height) = (*width, *height);
@@ -565,7 +565,7 @@ mod tests {
     /// wrapped product is a felt with bits far above `W · H`). 15 × 16 West, whose lower diagonal
     /// is the one of R-N2-2, is among them. The bands of the horizontal seams are below `2^W`.
     #[test]
-    #[available_gas(l2_gas: 3344030)]
+    #[available_gas(l2_gas: 3336039)]
     fn test_seams_products_exact() {
         for (width, height) in CLASSES.span() {
             let (width, height) = (*width, *height);
@@ -601,7 +601,7 @@ mod tests {
 
     /// `side` against its definition on every dimension class.
     #[test]
-    #[available_gas(l2_gas: 47182664)]
+    #[available_gas(l2_gas: 47174568)]
     fn test_seams_side() {
         for (width, height) in CLASSES.span() {
             let (width, height) = (*width, *height);
@@ -616,61 +616,61 @@ mod tests {
     // Oracle (plan §6.3): one test per dimension class, under the step limit
 
     #[test]
-    #[available_gas(l2_gas: 312840671)]
+    #[available_gas(l2_gas: 312832681)]
     fn test_seams_oracle_15x15() {
         Oracle::check(15, 15, 'n2 15x15');
     }
 
     #[test]
-    #[available_gas(l2_gas: 320237385)]
+    #[available_gas(l2_gas: 320229394)]
     fn test_seams_oracle_15x16() {
         Oracle::check(15, 16, 'n2 15x16');
     }
 
     #[test]
-    #[available_gas(l2_gas: 323023024)]
+    #[available_gas(l2_gas: 323015034)]
     fn test_seams_oracle_16x15() {
         Oracle::check(16, 15, 'n2 16x15');
     }
 
     #[test]
-    #[available_gas(l2_gas: 318413453)]
+    #[available_gas(l2_gas: 318405462)]
     fn test_seams_oracle_17x14() {
         Oracle::check(17, 14, 'n2 17x14');
     }
 
     #[test]
-    #[available_gas(l2_gas: 325559396)]
+    #[available_gas(l2_gas: 325551405)]
     fn test_seams_oracle_19x13() {
         Oracle::check(19, 13, 'n2 19x13');
     }
 
     #[test]
-    #[available_gas(l2_gas: 342136393)]
+    #[available_gas(l2_gas: 342128402)]
     fn test_seams_oracle_25x10() {
         Oracle::check(25, 10, 'n2 25x10');
     }
 
     #[test]
-    #[available_gas(l2_gas: 612250153)]
+    #[available_gas(l2_gas: 612242162)]
     fn test_seams_oracle_83x3() {
         Oracle::check(83, 3, 'n2 83x3');
     }
 
     #[test]
-    #[available_gas(l2_gas: 590620478)]
+    #[available_gas(l2_gas: 590612488)]
     fn test_seams_oracle_3x83() {
         Oracle::check(3, 83, 'n2 3x83');
     }
 
     #[test]
-    #[available_gas(l2_gas: 230053527)]
+    #[available_gas(l2_gas: 230045537)]
     fn test_seams_oracle_7x7() {
         Oracle::check(7, 7, 'n2 7x7');
     }
 
     #[test]
-    #[available_gas(l2_gas: 189091543)]
+    #[available_gas(l2_gas: 189083552)]
     fn test_seams_oracle_3x3() {
         Oracle::check(3, 3, 'n2 3x3');
     }
@@ -707,7 +707,7 @@ mod tests {
     /// arms of `SeamInternal::contacts` (review of M1-T7).
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 53336)]
+    #[available_gas(l2_gas: 45220)]
     fn bench_seams_openings_east_chunk_odd_once() {
         let bench = Inputs::chunk();
         let [(near, far), _] = bench.pairs;
@@ -716,7 +716,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 87247)]
+    #[available_gas(l2_gas: 79131)]
     fn bench_seams_openings_east_chunk_odd_twice() {
         let bench = Inputs::chunk();
         let [(near, far), (other, next)] = bench.pairs;
@@ -727,7 +727,7 @@ mod tests {
     /// `openings`, East, `odd = false` (three contacts on every even row), both fully open.
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 53126)]
+    #[available_gas(l2_gas: 45010)]
     fn bench_seams_openings_east_once() {
         let bench = Inputs::get();
         let [(near, far), _] = bench.pairs;
@@ -736,7 +736,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 86827)]
+    #[available_gas(l2_gas: 78711)]
     fn bench_seams_openings_east_twice() {
         let bench = Inputs::get();
         let [(near, far), (other, next)] = bench.pairs;
@@ -747,7 +747,7 @@ mod tests {
     /// `openings`, South, `odd = true` (the horizontal seam of plan §7).
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 35913)]
+    #[available_gas(l2_gas: 27796)]
     fn bench_seams_openings_south_once() {
         let bench = Inputs::get();
         let [(near, far), _] = bench.pairs;
@@ -756,7 +756,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 52400)]
+    #[available_gas(l2_gas: 44283)]
     fn bench_seams_openings_south_twice() {
         let bench = Inputs::get();
         let [(near, far), (other, next)] = bench.pairs;
@@ -767,7 +767,7 @@ mod tests {
     /// `openings`, North, `odd = true` (the two-contact worst case of plan §6.3).
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 35734)]
+    #[available_gas(l2_gas: 27618)]
     fn bench_seams_openings_north_once() {
         let bench = Inputs::get();
         let [(near, far), _] = bench.pairs;
@@ -776,7 +776,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 52043)]
+    #[available_gas(l2_gas: 43926)]
     fn bench_seams_openings_north_twice() {
         let bench = Inputs::get();
         let [(near, far), (other, next)] = bench.pairs;
@@ -787,7 +787,7 @@ mod tests {
     /// `is_open_across`, as the East case of `openings`.
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 53126)]
+    #[available_gas(l2_gas: 45010)]
     fn bench_seams_is_open_across_once() {
         let bench = Inputs::get();
         let [(near, far), _] = bench.pairs;
@@ -796,7 +796,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 86827)]
+    #[available_gas(l2_gas: 78711)]
     fn bench_seams_is_open_across_twice() {
         let bench = Inputs::get();
         let [(near, far), (other, next)] = bench.pairs;
@@ -807,7 +807,7 @@ mod tests {
     /// `side`, West (two lookups, a division and two products, the dearest arm).
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 22943)]
+    #[available_gas(l2_gas: 14721)]
     fn bench_seams_side_once() {
         let bench = Inputs::get();
         let [(near, _), _] = bench.pairs;
@@ -816,7 +816,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 26975)]
+    #[available_gas(l2_gas: 18753)]
     fn bench_seams_side_twice() {
         let bench = Inputs::get();
         let [(near, _), (other, _)] = bench.pairs;

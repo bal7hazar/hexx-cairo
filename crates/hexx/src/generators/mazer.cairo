@@ -827,7 +827,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 8301578)]
+    #[available_gas(l2_gas: 8293566)]
     fn test_mazer_generate_17x14_order_0() {
         // 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
         //  0 0 1 1 1 0 1 1 1 0 0 1 1 0 1 1 0
@@ -850,7 +850,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 10721197)]
+    #[available_gas(l2_gas: 10713185)]
     fn test_mazer_generate_17x14_order_1() {
         // 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
         //  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -874,7 +874,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 2674553)]
+    #[available_gas(l2_gas: 2666542)]
     fn test_mazer_generate_7x7() {
         //  0 0 0 0 0 0 0
         // 0 1 1 0 1 1 0
@@ -899,7 +899,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 201960)]
+    #[available_gas(l2_gas: 193948)]
     fn test_mazer_generate_3x3() {
         //  0 0 0
         // 0 1 0
@@ -909,7 +909,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 9460021)]
+    #[available_gas(l2_gas: 9452009)]
     fn test_mazer_generate_19x13() {
         //  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
         // 0 1 1 1 1 0 0 0 0 1 0 0 1 0 0 0 0 0 0
@@ -931,7 +931,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 355459407)]
+    #[available_gas(l2_gas: 355451521)]
     fn test_mazer_generate_dimensions() {
         let mut seed: felt252 = 0;
         while seed != 8 {
@@ -1028,51 +1028,51 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 124058010)]
+    #[available_gas(l2_gas: 124050019)]
     fn test_mazer_masks_order_0_7x7() {
         check_masks(7, 7, 0);
     }
 
     #[test]
-    #[available_gas(l2_gas: 944362855)]
+    #[available_gas(l2_gas: 944354865)]
     fn test_mazer_masks_order_0_17x14() {
         check_masks(17, 14, 0);
     }
 
     #[test]
-    #[available_gas(l2_gas: 127690764)]
+    #[available_gas(l2_gas: 127682774)]
     fn test_mazer_masks_order_1_7x7() {
         check_masks(7, 7, 1);
     }
 
     #[test]
-    #[available_gas(l2_gas: 958367562)]
+    #[available_gas(l2_gas: 958359572)]
     fn test_mazer_masks_order_1_17x14() {
         check_masks(17, 14, 1);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1211952159)]
+    #[available_gas(l2_gas: 1211944169)]
     fn test_mazer_masks_order_1_19x13() {
         check_masks(19, 13, 1);
     }
 
     #[test]
-    #[available_gas(l2_gas: 12044652)]
+    #[available_gas(l2_gas: 12036641)]
     fn test_mazer_generate_deterministic() {
         assert!(Mazer::generate(17, 14, 0, SEED) == Mazer::generate(17, 14, 0, SEED));
         assert!(Mazer::generate(17, 14, 0, SEED) != Mazer::generate(17, 14, 0, SEED + 1));
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Mazer: order > 1 not supported')]
     fn test_mazer_generate_revert_order() {
         Mazer::generate(17, 14, 2, SEED);
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_mazer_generate_revert_dimension() {
         Mazer::generate(18, 14, 0, SEED);

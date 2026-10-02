@@ -7,7 +7,7 @@ use crate::common::{query_pairs, query_positions};
 
 /// Every position of a `7x7`, 512 seeded positions of a `17x14` and of a `15x16`.
 #[test]
-#[available_gas(l2_gas: 26867535)]
+#[available_gas(l2_gas: 26859555)]
 fn test_geometry_to_axial() {
     for (width, _height, position) in query_positions() {
         assert(O::to_axial(width, position) == H::to_axial(width, position), 'to_axial');
@@ -16,7 +16,7 @@ fn test_geometry_to_axial() {
 
 /// Every pair of a `7x7`, 512 seeded pairs of a `17x14` and of a `15x16`.
 #[test]
-#[available_gas(l2_gas: 112318181)]
+#[available_gas(l2_gas: 112310201)]
 fn test_geometry_distance() {
     for (width, _height, from, to) in query_pairs() {
         assert(O::distance(width, from, to) == H::distance(width, from, to), 'distance');

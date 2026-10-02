@@ -749,49 +749,49 @@ fn set_bit(value: u256, index: u8) -> u256 {
 // Library: search
 
 #[test]
-#[available_gas(l2_gas: 112650)]
+#[available_gas(l2_gas: 104533)]
 fn bench_bfs_search_empty_near_17x14() {
     let path = Bfs::search(EMPTY_17X14, 17, 14, EMPTY_17X14_NEAR_FROM, EMPTY_17X14_NEAR_TO);
     assert!(path.len() == EMPTY_17X14_NEAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 598535)]
+#[available_gas(l2_gas: 590419)]
 fn bench_bfs_search_empty_far_17x14() {
     let path = Bfs::search(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO);
     assert!(path.len() == EMPTY_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 117749)]
+#[available_gas(l2_gas: 109632)]
 fn bench_bfs_search_cave_near_17x14() {
     let path = Bfs::search(CAVE_17X14, 17, 14, CAVE_17X14_NEAR_FROM, CAVE_17X14_NEAR_TO);
     assert!(path.len() == CAVE_17X14_NEAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 741442)]
+#[available_gas(l2_gas: 733326)]
 fn bench_bfs_search_cave_far_17x14() {
     let path = Bfs::search(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO);
     assert!(path.len() == CAVE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 107956)]
+#[available_gas(l2_gas: 99840)]
 fn bench_bfs_search_maze_near_17x14() {
     let path = Bfs::search(MAZE_17X14, 17, 14, MAZE_17X14_NEAR_FROM, MAZE_17X14_NEAR_TO);
     assert!(path.len() == MAZE_17X14_NEAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 1595503)]
+#[available_gas(l2_gas: 1587386)]
 fn bench_bfs_search_maze_far_17x14() {
     let path = Bfs::search(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO);
     assert!(path.len() == MAZE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 107410)]
+#[available_gas(l2_gas: 99294)]
 fn bench_bfs_search_serpentine_near_17x14() {
     let path = Bfs::search(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_NEAR_FROM, SERPENTINE_17X14_NEAR_TO,
@@ -800,7 +800,7 @@ fn bench_bfs_search_serpentine_near_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2658695)]
+#[available_gas(l2_gas: 2650578)]
 fn bench_bfs_search_serpentine_far_17x14() {
     let path = Bfs::search(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM, SERPENTINE_17X14_FAR_TO,
@@ -809,7 +809,7 @@ fn bench_bfs_search_serpentine_far_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 279424)]
+#[available_gas(l2_gas: 271308)]
 fn bench_bfs_search_unreachable_near_17x14() {
     let path = Bfs::search(
         UNREACHABLE_17X14, 17, 14, UNREACHABLE_17X14_NEAR_FROM, UNREACHABLE_17X14_NEAR_TO,
@@ -818,7 +818,7 @@ fn bench_bfs_search_unreachable_near_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 276486)]
+#[available_gas(l2_gas: 268370)]
 fn bench_bfs_search_unreachable_far_17x14() {
     let path = Bfs::search(
         UNREACHABLE_17X14, 17, 14, UNREACHABLE_17X14_FAR_FROM, UNREACHABLE_17X14_FAR_TO,
@@ -827,63 +827,63 @@ fn bench_bfs_search_unreachable_far_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 86354)]
+#[available_gas(l2_gas: 78237)]
 fn bench_bfs_search_empty_near_7x7() {
     let path = Bfs::search(EMPTY_7X7, 7, 7, EMPTY_7X7_NEAR_FROM, EMPTY_7X7_NEAR_TO);
     assert!(path.len() == EMPTY_7X7_NEAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 138320)]
+#[available_gas(l2_gas: 130204)]
 fn bench_bfs_search_empty_far_7x7() {
     let path = Bfs::search(EMPTY_7X7, 7, 7, EMPTY_7X7_FAR_FROM, EMPTY_7X7_FAR_TO);
     assert!(path.len() == EMPTY_7X7_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 85598)]
+#[available_gas(l2_gas: 77481)]
 fn bench_bfs_search_cave_near_7x7() {
     let path = Bfs::search(CAVE_7X7, 7, 7, CAVE_7X7_NEAR_FROM, CAVE_7X7_NEAR_TO);
     assert!(path.len() == CAVE_7X7_NEAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 138320)]
+#[available_gas(l2_gas: 130204)]
 fn bench_bfs_search_cave_far_7x7() {
     let path = Bfs::search(CAVE_7X7, 7, 7, CAVE_7X7_FAR_FROM, CAVE_7X7_FAR_TO);
     assert!(path.len() == CAVE_7X7_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 82115)]
+#[available_gas(l2_gas: 73998)]
 fn bench_bfs_search_maze_near_7x7() {
     let path = Bfs::search(MAZE_7X7, 7, 7, MAZE_7X7_NEAR_FROM, MAZE_7X7_NEAR_TO);
     assert!(path.len() == MAZE_7X7_NEAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 251984)]
+#[available_gas(l2_gas: 243867)]
 fn bench_bfs_search_maze_far_7x7() {
     let path = Bfs::search(MAZE_7X7, 7, 7, MAZE_7X7_FAR_FROM, MAZE_7X7_FAR_TO);
     assert!(path.len() == MAZE_7X7_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 84380)]
+#[available_gas(l2_gas: 76263)]
 fn bench_bfs_search_serpentine_near_7x7() {
     let path = Bfs::search(SERPENTINE_7X7, 7, 7, SERPENTINE_7X7_NEAR_FROM, SERPENTINE_7X7_NEAR_TO);
     assert!(path.len() == SERPENTINE_7X7_NEAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 270133)]
+#[available_gas(l2_gas: 262016)]
 fn bench_bfs_search_serpentine_far_7x7() {
     let path = Bfs::search(SERPENTINE_7X7, 7, 7, SERPENTINE_7X7_FAR_FROM, SERPENTINE_7X7_FAR_TO);
     assert!(path.len() == SERPENTINE_7X7_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 71267)]
+#[available_gas(l2_gas: 63151)]
 fn bench_bfs_search_unreachable_near_7x7() {
     let path = Bfs::search(
         UNREACHABLE_7X7, 7, 7, UNREACHABLE_7X7_NEAR_FROM, UNREACHABLE_7X7_NEAR_TO,
@@ -892,7 +892,7 @@ fn bench_bfs_search_unreachable_near_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 94336)]
+#[available_gas(l2_gas: 86219)]
 fn bench_bfs_search_unreachable_far_7x7() {
     let path = Bfs::search(UNREACHABLE_7X7, 7, 7, UNREACHABLE_7X7_FAR_FROM, UNREACHABLE_7X7_FAR_TO);
     assert!(path.len() == UNREACHABLE_7X7_FAR_DISTANCE);
@@ -901,7 +901,7 @@ fn bench_bfs_search_unreachable_far_7x7() {
 // Library: distance
 
 #[test]
-#[available_gas(l2_gas: 427517)]
+#[available_gas(l2_gas: 419401)]
 fn bench_bfs_distance_empty_far_17x14() {
     let distance = Bfs::distance(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO);
     let expected: u32 = match distance {
@@ -912,7 +912,7 @@ fn bench_bfs_distance_empty_far_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 527040)]
+#[available_gas(l2_gas: 518923)]
 fn bench_bfs_distance_cave_far_17x14() {
     let distance = Bfs::distance(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO);
     let expected: u32 = match distance {
@@ -923,7 +923,7 @@ fn bench_bfs_distance_cave_far_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1111265)]
+#[available_gas(l2_gas: 1103148)]
 fn bench_bfs_distance_maze_far_17x14() {
     let distance = Bfs::distance(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO);
     let expected: u32 = match distance {
@@ -934,7 +934,7 @@ fn bench_bfs_distance_maze_far_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1862769)]
+#[available_gas(l2_gas: 1854652)]
 fn bench_bfs_distance_serpentine_far_17x14() {
     let distance = Bfs::distance(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM, SERPENTINE_17X14_FAR_TO,
@@ -947,7 +947,7 @@ fn bench_bfs_distance_serpentine_far_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 272874)]
+#[available_gas(l2_gas: 264758)]
 fn bench_bfs_distance_unreachable_far_17x14() {
     let distance = Bfs::distance(
         UNREACHABLE_17X14, 17, 14, UNREACHABLE_17X14_FAR_FROM, UNREACHABLE_17X14_FAR_TO,
@@ -960,7 +960,7 @@ fn bench_bfs_distance_unreachable_far_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 93370)]
+#[available_gas(l2_gas: 85253)]
 fn bench_bfs_distance_empty_far_7x7() {
     let distance = Bfs::distance(EMPTY_7X7, 7, 7, EMPTY_7X7_FAR_FROM, EMPTY_7X7_FAR_TO);
     let expected: u32 = match distance {
@@ -971,7 +971,7 @@ fn bench_bfs_distance_empty_far_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 93370)]
+#[available_gas(l2_gas: 85253)]
 fn bench_bfs_distance_cave_far_7x7() {
     let distance = Bfs::distance(CAVE_7X7, 7, 7, CAVE_7X7_FAR_FROM, CAVE_7X7_FAR_TO);
     let expected: u32 = match distance {
@@ -982,7 +982,7 @@ fn bench_bfs_distance_cave_far_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 162553)]
+#[available_gas(l2_gas: 154437)]
 fn bench_bfs_distance_maze_far_7x7() {
     let distance = Bfs::distance(MAZE_7X7, 7, 7, MAZE_7X7_FAR_FROM, MAZE_7X7_FAR_TO);
     let expected: u32 = match distance {
@@ -993,7 +993,7 @@ fn bench_bfs_distance_maze_far_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 176244)]
+#[available_gas(l2_gas: 168128)]
 fn bench_bfs_distance_serpentine_far_7x7() {
     let distance = Bfs::distance(
         SERPENTINE_7X7, 7, 7, SERPENTINE_7X7_FAR_FROM, SERPENTINE_7X7_FAR_TO,
@@ -1006,7 +1006,7 @@ fn bench_bfs_distance_serpentine_far_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 91984)]
+#[available_gas(l2_gas: 83867)]
 fn bench_bfs_distance_unreachable_far_7x7() {
     let distance = Bfs::distance(
         UNREACHABLE_7X7, 7, 7, UNREACHABLE_7X7_FAR_FROM, UNREACHABLE_7X7_FAR_TO,
@@ -1021,112 +1021,112 @@ fn bench_bfs_distance_unreachable_far_7x7() {
 // Library: reachable, and `Caver::keep_component` on the same inputs
 
 #[test]
-#[available_gas(l2_gas: 565078)]
+#[available_gas(l2_gas: 556961)]
 fn bench_bfs_reachable_cave_17x14() {
     let component = Bfs::reachable(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM);
     assert!(component != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 562558)]
+#[available_gas(l2_gas: 554441)]
 fn bench_bfs_keep_component_cave_17x14() {
     let component = Caver::keep_component(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM);
     assert!(component != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 1171184)]
+#[available_gas(l2_gas: 1163068)]
 fn bench_bfs_reachable_maze_17x14() {
     let component = Bfs::reachable(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM);
     assert!(component != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 1168664)]
+#[available_gas(l2_gas: 1160548)]
 fn bench_bfs_keep_component_maze_17x14() {
     let component = Caver::keep_component(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM);
     assert!(component != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 1935502)]
+#[available_gas(l2_gas: 1927386)]
 fn bench_bfs_reachable_serpentine_17x14() {
     let component = Bfs::reachable(SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM);
     assert!(component != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 1932982)]
+#[available_gas(l2_gas: 1924866)]
 fn bench_bfs_keep_component_serpentine_17x14() {
     let component = Caver::keep_component(SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM);
     assert!(component != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 280152)]
+#[available_gas(l2_gas: 272036)]
 fn bench_bfs_reachable_unreachable_17x14() {
     let component = Bfs::reachable(UNREACHABLE_17X14, 17, 14, UNREACHABLE_17X14_FAR_FROM);
     assert!(component != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 277632)]
+#[available_gas(l2_gas: 269516)]
 fn bench_bfs_keep_component_unreachable_17x14() {
     let component = Caver::keep_component(UNREACHABLE_17X14, 17, 14, UNREACHABLE_17X14_FAR_FROM);
     assert!(component != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 104426)]
+#[available_gas(l2_gas: 96310)]
 fn bench_bfs_reachable_cave_7x7() {
     let component = Bfs::reachable(CAVE_7X7, 7, 7, CAVE_7X7_FAR_FROM);
     assert!(component != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 102116)]
+#[available_gas(l2_gas: 94000)]
 fn bench_bfs_keep_component_cave_7x7() {
     let component = Caver::keep_component(CAVE_7X7, 7, 7, CAVE_7X7_FAR_FROM);
     assert!(component != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 175118)]
+#[available_gas(l2_gas: 167002)]
 fn bench_bfs_reachable_maze_7x7() {
     let component = Bfs::reachable(MAZE_7X7, 7, 7, MAZE_7X7_FAR_FROM);
     assert!(component != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 172808)]
+#[available_gas(l2_gas: 164692)]
 fn bench_bfs_keep_component_maze_7x7() {
     let component = Caver::keep_component(MAZE_7X7, 7, 7, MAZE_7X7_FAR_FROM);
     assert!(component != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 185217)]
+#[available_gas(l2_gas: 177101)]
 fn bench_bfs_reachable_serpentine_7x7() {
     let component = Bfs::reachable(SERPENTINE_7X7, 7, 7, SERPENTINE_7X7_FAR_FROM);
     assert!(component != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 182907)]
+#[available_gas(l2_gas: 174791)]
 fn bench_bfs_keep_component_serpentine_7x7() {
     let component = Caver::keep_component(SERPENTINE_7X7, 7, 7, SERPENTINE_7X7_FAR_FROM);
     assert!(component != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 84228)]
+#[available_gas(l2_gas: 76112)]
 fn bench_bfs_reachable_unreachable_7x7() {
     let component = Bfs::reachable(UNREACHABLE_7X7, 7, 7, UNREACHABLE_7X7_FAR_FROM);
     assert!(component != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 81918)]
+#[available_gas(l2_gas: 73802)]
 fn bench_bfs_keep_component_unreachable_7x7() {
     let component = Caver::keep_component(UNREACHABLE_7X7, 7, 7, UNREACHABLE_7X7_FAR_FROM);
     assert!(component != 0);
@@ -1135,84 +1135,84 @@ fn bench_bfs_keep_component_unreachable_7x7() {
 // Library: tiles within range
 
 #[test]
-#[available_gas(l2_gas: 96198)]
+#[available_gas(l2_gas: 88208)]
 fn bench_bfs_range_3_empty_17x14() {
     let ball = Bfs::tiles_within_range(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, 3);
     assert!(ball != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 167218)]
+#[available_gas(l2_gas: 159228)]
 fn bench_bfs_range_6_empty_17x14() {
     let ball = Bfs::tiles_within_range(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, 6);
     assert!(ball != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 88733)]
+#[available_gas(l2_gas: 80742)]
 fn bench_bfs_range_3_cave_17x14() {
     let ball = Bfs::tiles_within_range(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, 3);
     assert!(ball != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 153117)]
+#[available_gas(l2_gas: 145126)]
 fn bench_bfs_range_6_cave_17x14() {
     let ball = Bfs::tiles_within_range(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, 6);
     assert!(ball != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 95159)]
+#[available_gas(l2_gas: 87168)]
 fn bench_bfs_range_3_maze_17x14() {
     let ball = Bfs::tiles_within_range(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, 3);
     assert!(ball != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 157054)]
+#[available_gas(l2_gas: 149064)]
 fn bench_bfs_range_6_maze_17x14() {
     let ball = Bfs::tiles_within_range(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, 6);
     assert!(ball != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 65165)]
+#[available_gas(l2_gas: 57174)]
 fn bench_bfs_range_3_empty_7x7() {
     let ball = Bfs::tiles_within_range(EMPTY_7X7, 7, 7, EMPTY_7X7_FAR_FROM, 3);
     assert!(ball != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 97036)]
+#[available_gas(l2_gas: 89046)]
 fn bench_bfs_range_6_empty_7x7() {
     let ball = Bfs::tiles_within_range(EMPTY_7X7, 7, 7, EMPTY_7X7_FAR_FROM, 6);
     assert!(ball != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 65165)]
+#[available_gas(l2_gas: 57174)]
 fn bench_bfs_range_3_cave_7x7() {
     let ball = Bfs::tiles_within_range(CAVE_7X7, 7, 7, CAVE_7X7_FAR_FROM, 3);
     assert!(ball != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 97036)]
+#[available_gas(l2_gas: 89046)]
 fn bench_bfs_range_6_cave_7x7() {
     let ball = Bfs::tiles_within_range(CAVE_7X7, 7, 7, CAVE_7X7_FAR_FROM, 6);
     assert!(ball != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 65165)]
+#[available_gas(l2_gas: 57174)]
 fn bench_bfs_range_3_maze_7x7() {
     let ball = Bfs::tiles_within_range(MAZE_7X7, 7, 7, MAZE_7X7_FAR_FROM, 3);
     assert!(ball != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 97036)]
+#[available_gas(l2_gas: 89046)]
 fn bench_bfs_range_6_maze_7x7() {
     let ball = Bfs::tiles_within_range(MAZE_7X7, 7, 7, MAZE_7X7_FAR_FROM, 6);
     assert!(ball != 0);
@@ -1221,49 +1221,49 @@ fn bench_bfs_range_6_maze_7x7() {
 // Variants: layer storage (library: `bench_bfs_search_*`)
 
 #[test]
-#[available_gas(l2_gas: 701341)]
+#[available_gas(l2_gas: 693224)]
 fn bench_bfs_variant_felt_layers_empty_17x14() {
     let path = search_felt_layers(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO);
     assert!(path.len() == EMPTY_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 1014381)]
+#[available_gas(l2_gas: 1006265)]
 fn bench_bfs_variant_checkpoints_empty_17x14() {
     let path = search_checkpoints(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO);
     assert!(path.len() == EMPTY_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 859588)]
+#[available_gas(l2_gas: 851472)]
 fn bench_bfs_variant_felt_layers_cave_17x14() {
     let path = search_felt_layers(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO);
     assert!(path.len() == CAVE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 1282369)]
+#[available_gas(l2_gas: 1274252)]
 fn bench_bfs_variant_checkpoints_cave_17x14() {
     let path = search_checkpoints(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO);
     assert!(path.len() == CAVE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 1801607)]
+#[available_gas(l2_gas: 1793491)]
 fn bench_bfs_variant_felt_layers_maze_17x14() {
     let path = search_felt_layers(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO);
     assert!(path.len() == MAZE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 2778242)]
+#[available_gas(l2_gas: 2770125)]
 fn bench_bfs_variant_checkpoints_maze_17x14() {
     let path = search_checkpoints(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO);
     assert!(path.len() == MAZE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 2979134)]
+#[available_gas(l2_gas: 2971017)]
 fn bench_bfs_variant_felt_layers_serpentine_17x14() {
     let path = search_felt_layers(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM, SERPENTINE_17X14_FAR_TO,
@@ -1272,7 +1272,7 @@ fn bench_bfs_variant_felt_layers_serpentine_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 4658223)]
+#[available_gas(l2_gas: 4650106)]
 fn bench_bfs_variant_checkpoints_serpentine_17x14() {
     let path = search_checkpoints(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM, SERPENTINE_17X14_FAR_TO,
@@ -1281,14 +1281,14 @@ fn bench_bfs_variant_checkpoints_serpentine_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 4456050)]
+#[available_gas(l2_gas: 4447934)]
 fn bench_bfs_variant_recompute_empty_17x14() {
     let path = search_recompute(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO);
     assert!(path.len() == EMPTY_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 6745735)]
+#[available_gas(l2_gas: 6737618)]
 fn bench_bfs_variant_recompute_cave_17x14() {
     let path = search_recompute(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO);
     assert!(path.len() == CAVE_17X14_FAR_DISTANCE);
@@ -1297,91 +1297,91 @@ fn bench_bfs_variant_recompute_cave_17x14() {
 // Variants: backtracking step, plain loop
 
 #[test]
-#[available_gas(l2_gas: 685727)]
+#[available_gas(l2_gas: 677611)]
 fn bench_bfs_variant_back_harness_empty_17x14() {
     let path = search_back_harness(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO);
     assert!(path.len() == EMPTY_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 887518)]
+#[available_gas(l2_gas: 879402)]
 fn bench_bfs_variant_back_bits_empty_17x14() {
     let path = search_back_bits(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO);
     assert!(path.len() == EMPTY_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 687542)]
+#[available_gas(l2_gas: 679425)]
 fn bench_bfs_variant_back_straight_empty_17x14() {
     let path = search_back_straight(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO);
     assert!(path.len() == EMPTY_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 691328)]
+#[available_gas(l2_gas: 683211)]
 fn bench_bfs_variant_back_window_empty_17x14() {
     let path = search_back_window(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO);
     assert!(path.len() == EMPTY_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 847902)]
+#[available_gas(l2_gas: 839785)]
 fn bench_bfs_variant_back_harness_cave_17x14() {
     let path = search_back_harness(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO);
     assert!(path.len() == CAVE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 1037281)]
+#[available_gas(l2_gas: 1029164)]
 fn bench_bfs_variant_back_bits_cave_17x14() {
     let path = search_back_bits(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO);
     assert!(path.len() == CAVE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 913809)]
+#[available_gas(l2_gas: 905693)]
 fn bench_bfs_variant_back_straight_cave_17x14() {
     let path = search_back_straight(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO);
     assert!(path.len() == CAVE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 850836)]
+#[available_gas(l2_gas: 842720)]
 fn bench_bfs_variant_back_window_cave_17x14() {
     let path = search_back_window(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO);
     assert!(path.len() == CAVE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 1778266)]
+#[available_gas(l2_gas: 1770149)]
 fn bench_bfs_variant_back_harness_maze_17x14() {
     let path = search_back_harness(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO);
     assert!(path.len() == MAZE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 2320124)]
+#[available_gas(l2_gas: 2312007)]
 fn bench_bfs_variant_back_bits_maze_17x14() {
     let path = search_back_bits(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO);
     assert!(path.len() == MAZE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 2201133)]
+#[available_gas(l2_gas: 2193017)]
 fn bench_bfs_variant_back_straight_maze_17x14() {
     let path = search_back_straight(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO);
     assert!(path.len() == MAZE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 1767853)]
+#[available_gas(l2_gas: 1759736)]
 fn bench_bfs_variant_back_window_maze_17x14() {
     let path = search_back_window(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO);
     assert!(path.len() == MAZE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 2952128)]
+#[available_gas(l2_gas: 2944011)]
 fn bench_bfs_variant_back_harness_serpentine_17x14() {
     let path = search_back_harness(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM, SERPENTINE_17X14_FAR_TO,
@@ -1390,7 +1390,7 @@ fn bench_bfs_variant_back_harness_serpentine_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 3563530)]
+#[available_gas(l2_gas: 3555414)]
 fn bench_bfs_variant_back_bits_serpentine_17x14() {
     let path = search_back_bits(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM, SERPENTINE_17X14_FAR_TO,
@@ -1399,7 +1399,7 @@ fn bench_bfs_variant_back_bits_serpentine_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 3065314)]
+#[available_gas(l2_gas: 3057197)]
 fn bench_bfs_variant_back_straight_serpentine_17x14() {
     let path = search_back_straight(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM, SERPENTINE_17X14_FAR_TO,
@@ -1408,7 +1408,7 @@ fn bench_bfs_variant_back_straight_serpentine_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2907313)]
+#[available_gas(l2_gas: 2899196)]
 fn bench_bfs_variant_back_window_serpentine_17x14() {
     let path = search_back_window(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM, SERPENTINE_17X14_FAR_TO,
@@ -1419,7 +1419,7 @@ fn bench_bfs_variant_back_window_serpentine_17x14() {
 // Variants: target test and set operations, forward pass only, plain loop
 
 #[test]
-#[available_gas(l2_gas: 492862)]
+#[available_gas(l2_gas: 484746)]
 fn bench_bfs_variant_distance_harness_empty_17x14() {
     let distance: u32 = distance_harness(
         EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO,
@@ -1429,7 +1429,7 @@ fn bench_bfs_variant_distance_harness_empty_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 528365)]
+#[available_gas(l2_gas: 520248)]
 fn bench_bfs_variant_distance_no_gap_empty_17x14() {
     let distance: u32 = distance_no_gap(
         EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO,
@@ -1439,7 +1439,7 @@ fn bench_bfs_variant_distance_no_gap_empty_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 492873)]
+#[available_gas(l2_gas: 484756)]
 fn bench_bfs_variant_distance_harness_two_empty_17x14() {
     let distance: u32 = distance_harness_two(
         EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO,
@@ -1449,7 +1449,7 @@ fn bench_bfs_variant_distance_harness_two_empty_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 491199)]
+#[available_gas(l2_gas: 483082)]
 fn bench_bfs_variant_distance_every_two_empty_17x14() {
     let distance: u32 = distance_every_two(
         EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO,
@@ -1459,7 +1459,7 @@ fn bench_bfs_variant_distance_every_two_empty_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 493083)]
+#[available_gas(l2_gas: 484966)]
 fn bench_bfs_variant_distance_free_test_empty_17x14() {
     let distance: u32 = distance_free_test(
         EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO,
@@ -1469,7 +1469,7 @@ fn bench_bfs_variant_distance_free_test_empty_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 545047)]
+#[available_gas(l2_gas: 536931)]
 fn bench_bfs_variant_distance_corelib_empty_17x14() {
     let distance: u32 = distance_corelib(
         EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO,
@@ -1479,7 +1479,7 @@ fn bench_bfs_variant_distance_corelib_empty_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 646315)]
+#[available_gas(l2_gas: 638199)]
 fn bench_bfs_variant_distance_harness_cave_17x14() {
     let distance: u32 = distance_harness(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO)
         .into();
@@ -1487,7 +1487,7 @@ fn bench_bfs_variant_distance_harness_cave_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 636714)]
+#[available_gas(l2_gas: 628598)]
 fn bench_bfs_variant_distance_no_gap_cave_17x14() {
     let distance: u32 = distance_no_gap(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO)
         .into();
@@ -1495,7 +1495,7 @@ fn bench_bfs_variant_distance_no_gap_cave_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 614196)]
+#[available_gas(l2_gas: 606079)]
 fn bench_bfs_variant_distance_harness_two_cave_17x14() {
     let distance: u32 = distance_harness_two(
         CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO,
@@ -1505,7 +1505,7 @@ fn bench_bfs_variant_distance_harness_two_cave_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 618299)]
+#[available_gas(l2_gas: 610183)]
 fn bench_bfs_variant_distance_every_two_cave_17x14() {
     let distance: u32 = distance_every_two(
         CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO,
@@ -1515,7 +1515,7 @@ fn bench_bfs_variant_distance_every_two_cave_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 653151)]
+#[available_gas(l2_gas: 645034)]
 fn bench_bfs_variant_distance_free_test_cave_17x14() {
     let distance: u32 = distance_free_test(
         CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO,
@@ -1525,7 +1525,7 @@ fn bench_bfs_variant_distance_free_test_cave_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 721212)]
+#[available_gas(l2_gas: 713095)]
 fn bench_bfs_variant_distance_corelib_cave_17x14() {
     let distance: u32 = distance_corelib(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO)
         .into();
@@ -1533,7 +1533,7 @@ fn bench_bfs_variant_distance_corelib_cave_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1318049)]
+#[available_gas(l2_gas: 1309932)]
 fn bench_bfs_variant_distance_harness_maze_17x14() {
     let distance: u32 = distance_harness(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO)
         .into();
@@ -1541,7 +1541,7 @@ fn bench_bfs_variant_distance_harness_maze_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1342354)]
+#[available_gas(l2_gas: 1334238)]
 fn bench_bfs_variant_distance_no_gap_maze_17x14() {
     let distance: u32 = distance_no_gap(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO)
         .into();
@@ -1549,7 +1549,7 @@ fn bench_bfs_variant_distance_no_gap_maze_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1262399)]
+#[available_gas(l2_gas: 1254282)]
 fn bench_bfs_variant_distance_harness_two_maze_17x14() {
     let distance: u32 = distance_harness_two(
         MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO,
@@ -1559,7 +1559,7 @@ fn bench_bfs_variant_distance_harness_two_maze_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1230603)]
+#[available_gas(l2_gas: 1222486)]
 fn bench_bfs_variant_distance_every_two_maze_17x14() {
     let distance: u32 = distance_every_two(
         MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO,
@@ -1569,7 +1569,7 @@ fn bench_bfs_variant_distance_every_two_maze_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1330239)]
+#[available_gas(l2_gas: 1322123)]
 fn bench_bfs_variant_distance_free_test_maze_17x14() {
     let distance: u32 = distance_free_test(
         MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO,
@@ -1579,7 +1579,7 @@ fn bench_bfs_variant_distance_free_test_maze_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1480557)]
+#[available_gas(l2_gas: 1472441)]
 fn bench_bfs_variant_distance_corelib_maze_17x14() {
     let distance: u32 = distance_corelib(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO)
         .into();
@@ -1587,7 +1587,7 @@ fn bench_bfs_variant_distance_corelib_maze_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2223646)]
+#[available_gas(l2_gas: 2215530)]
 fn bench_bfs_variant_distance_harness_serpentine_17x14() {
     let distance: u32 = distance_harness(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM, SERPENTINE_17X14_FAR_TO,
@@ -1597,7 +1597,7 @@ fn bench_bfs_variant_distance_harness_serpentine_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2233735)]
+#[available_gas(l2_gas: 2225618)]
 fn bench_bfs_variant_distance_no_gap_serpentine_17x14() {
     let distance: u32 = distance_no_gap(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM, SERPENTINE_17X14_FAR_TO,
@@ -1607,7 +1607,7 @@ fn bench_bfs_variant_distance_no_gap_serpentine_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2106477)]
+#[available_gas(l2_gas: 2098360)]
 fn bench_bfs_variant_distance_harness_two_serpentine_17x14() {
     let distance: u32 = distance_harness_two(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM, SERPENTINE_17X14_FAR_TO,
@@ -1617,7 +1617,7 @@ fn bench_bfs_variant_distance_harness_two_serpentine_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2037945)]
+#[available_gas(l2_gas: 2029829)]
 fn bench_bfs_variant_distance_every_two_serpentine_17x14() {
     let distance: u32 = distance_every_two(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM, SERPENTINE_17X14_FAR_TO,
@@ -1627,7 +1627,7 @@ fn bench_bfs_variant_distance_every_two_serpentine_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2249067)]
+#[available_gas(l2_gas: 2240950)]
 fn bench_bfs_variant_distance_free_test_serpentine_17x14() {
     let distance: u32 = distance_free_test(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM, SERPENTINE_17X14_FAR_TO,
@@ -1637,7 +1637,7 @@ fn bench_bfs_variant_distance_free_test_serpentine_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2502295)]
+#[available_gas(l2_gas: 2494179)]
 fn bench_bfs_variant_distance_corelib_serpentine_17x14() {
     let distance: u32 = distance_corelib(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM, SERPENTINE_17X14_FAR_TO,
@@ -1649,7 +1649,7 @@ fn bench_bfs_variant_distance_corelib_serpentine_17x14() {
 // Variant: bidirectional (library: `bench_bfs_distance_*`)
 
 #[test]
-#[available_gas(l2_gas: 152626)]
+#[available_gas(l2_gas: 144510)]
 fn bench_bfs_variant_bidirectional_empty_near_17x14() {
     let distance: u32 =
         match distance_bidirectional(
@@ -1662,7 +1662,7 @@ fn bench_bfs_variant_bidirectional_empty_near_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 551366)]
+#[available_gas(l2_gas: 543249)]
 fn bench_bfs_variant_bidirectional_empty_far_17x14() {
     let distance: u32 =
         match distance_bidirectional(
@@ -1675,7 +1675,7 @@ fn bench_bfs_variant_bidirectional_empty_far_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 157666)]
+#[available_gas(l2_gas: 149550)]
 fn bench_bfs_variant_bidirectional_cave_near_17x14() {
     let distance: u32 =
         match distance_bidirectional(CAVE_17X14, 17, 14, CAVE_17X14_NEAR_FROM, CAVE_17X14_NEAR_TO) {
@@ -1686,7 +1686,7 @@ fn bench_bfs_variant_bidirectional_cave_near_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 646286)]
+#[available_gas(l2_gas: 638169)]
 fn bench_bfs_variant_bidirectional_cave_far_17x14() {
     let distance: u32 =
         match distance_bidirectional(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO) {
@@ -1697,7 +1697,7 @@ fn bench_bfs_variant_bidirectional_cave_far_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 145728)]
+#[available_gas(l2_gas: 137611)]
 fn bench_bfs_variant_bidirectional_maze_near_17x14() {
     let distance: u32 =
         match distance_bidirectional(MAZE_17X14, 17, 14, MAZE_17X14_NEAR_FROM, MAZE_17X14_NEAR_TO) {
@@ -1708,7 +1708,7 @@ fn bench_bfs_variant_bidirectional_maze_near_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1359759)]
+#[available_gas(l2_gas: 1351642)]
 fn bench_bfs_variant_bidirectional_maze_far_17x14() {
     let distance: u32 =
         match distance_bidirectional(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO) {
@@ -1719,7 +1719,7 @@ fn bench_bfs_variant_bidirectional_maze_far_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 146116)]
+#[available_gas(l2_gas: 138000)]
 fn bench_bfs_variant_bidirectional_serpentine_near_17x14() {
     let distance: u32 =
         match distance_bidirectional(
@@ -1732,7 +1732,7 @@ fn bench_bfs_variant_bidirectional_serpentine_near_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2253492)]
+#[available_gas(l2_gas: 2245375)]
 fn bench_bfs_variant_bidirectional_serpentine_far_17x14() {
     let distance: u32 =
         match distance_bidirectional(
@@ -1745,7 +1745,7 @@ fn bench_bfs_variant_bidirectional_serpentine_far_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 567236)]
+#[available_gas(l2_gas: 559119)]
 fn bench_bfs_variant_bidirectional_unreachable_near_17x14() {
     let distance: u32 =
         match distance_bidirectional(
@@ -1758,7 +1758,7 @@ fn bench_bfs_variant_bidirectional_unreachable_near_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 648409)]
+#[available_gas(l2_gas: 640293)]
 fn bench_bfs_variant_bidirectional_unreachable_far_17x14() {
     let distance: u32 =
         match distance_bidirectional(
@@ -1771,7 +1771,7 @@ fn bench_bfs_variant_bidirectional_unreachable_far_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 274867)]
+#[available_gas(l2_gas: 266751)]
 fn bench_bfs_distance_unreachable_near_17x14_library() {
     assert!(
         Bfs::distance(
@@ -1782,7 +1782,7 @@ fn bench_bfs_distance_unreachable_near_17x14_library() {
 }
 
 #[test]
-#[available_gas(l2_gas: 272559)]
+#[available_gas(l2_gas: 264443)]
 fn bench_bfs_distance_unreachable_far_17x14_library() {
     assert!(
         Bfs::distance(
@@ -1795,7 +1795,7 @@ fn bench_bfs_distance_unreachable_far_17x14_library() {
 // Variant: two-limb path on boards of at most 128 bits (library: single limb)
 
 #[test]
-#[available_gas(l2_gas: 203555)]
+#[available_gas(l2_gas: 195438)]
 fn bench_bfs_variant_wide_empty_far_7x7() {
     let (step, back, start, target, free) = setup(
         EMPTY_7X7, 7, 7, EMPTY_7X7_FAR_FROM, EMPTY_7X7_FAR_TO,
@@ -1805,7 +1805,7 @@ fn bench_bfs_variant_wide_empty_far_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 203555)]
+#[available_gas(l2_gas: 195438)]
 fn bench_bfs_variant_wide_cave_far_7x7() {
     let (step, back, start, target, free) = setup(
         CAVE_7X7, 7, 7, CAVE_7X7_FAR_FROM, CAVE_7X7_FAR_TO,
@@ -1815,7 +1815,7 @@ fn bench_bfs_variant_wide_cave_far_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 391974)]
+#[available_gas(l2_gas: 383857)]
 fn bench_bfs_variant_wide_maze_far_7x7() {
     let (step, back, start, target, free) = setup(
         MAZE_7X7, 7, 7, MAZE_7X7_FAR_FROM, MAZE_7X7_FAR_TO,
@@ -1825,7 +1825,7 @@ fn bench_bfs_variant_wide_maze_far_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 422910)]
+#[available_gas(l2_gas: 414794)]
 fn bench_bfs_variant_wide_serpentine_far_7x7() {
     let (step, back, start, target, free) = setup(
         SERPENTINE_7X7, 7, 7, SERPENTINE_7X7_FAR_FROM, SERPENTINE_7X7_FAR_TO,
@@ -1835,7 +1835,7 @@ fn bench_bfs_variant_wide_serpentine_far_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 150834)]
+#[available_gas(l2_gas: 142718)]
 fn bench_bfs_variant_wide_unreachable_far_7x7() {
     let (step, back, start, target, free) = setup(
         UNREACHABLE_7X7, 7, 7, UNREACHABLE_7X7_FAR_FROM, UNREACHABLE_7X7_FAR_TO,
@@ -1847,49 +1847,49 @@ fn bench_bfs_variant_wide_unreachable_far_7x7() {
 // Variant: scalar queue BFS, bitmap visited set (baseline to beat)
 
 #[test]
-#[available_gas(l2_gas: 3962580)]
+#[available_gas(l2_gas: 3954568)]
 fn bench_bfs_variant_scalar_empty_near_17x14() {
     let path = search_scalar(EMPTY_17X14, 17, 14, EMPTY_17X14_NEAR_FROM, EMPTY_17X14_NEAR_TO);
     assert!(path.len() == EMPTY_17X14_NEAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 18146210)]
+#[available_gas(l2_gas: 18138198)]
 fn bench_bfs_variant_scalar_empty_far_17x14() {
     let path = search_scalar(EMPTY_17X14, 17, 14, EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO);
     assert!(path.len() == EMPTY_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 2047171)]
+#[available_gas(l2_gas: 2039159)]
 fn bench_bfs_variant_scalar_cave_near_17x14() {
     let path = search_scalar(CAVE_17X14, 17, 14, CAVE_17X14_NEAR_FROM, CAVE_17X14_NEAR_TO);
     assert!(path.len() == CAVE_17X14_NEAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 13009475)]
+#[available_gas(l2_gas: 13001464)]
 fn bench_bfs_variant_scalar_cave_far_17x14() {
     let path = search_scalar(CAVE_17X14, 17, 14, CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO);
     assert!(path.len() == CAVE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 410722)]
+#[available_gas(l2_gas: 402710)]
 fn bench_bfs_variant_scalar_maze_near_17x14() {
     let path = search_scalar(MAZE_17X14, 17, 14, MAZE_17X14_NEAR_FROM, MAZE_17X14_NEAR_TO);
     assert!(path.len() == MAZE_17X14_NEAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 8217790)]
+#[available_gas(l2_gas: 8209778)]
 fn bench_bfs_variant_scalar_maze_far_17x14() {
     let path = search_scalar(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO);
     assert!(path.len() == MAZE_17X14_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 498036)]
+#[available_gas(l2_gas: 490025)]
 fn bench_bfs_variant_scalar_serpentine_near_17x14() {
     let path = search_scalar(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_NEAR_FROM, SERPENTINE_17X14_NEAR_TO,
@@ -1898,7 +1898,7 @@ fn bench_bfs_variant_scalar_serpentine_near_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 8620229)]
+#[available_gas(l2_gas: 8612217)]
 fn bench_bfs_variant_scalar_serpentine_far_17x14() {
     let path = search_scalar(
         SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM, SERPENTINE_17X14_FAR_TO,
@@ -1907,7 +1907,7 @@ fn bench_bfs_variant_scalar_serpentine_far_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 8393137)]
+#[available_gas(l2_gas: 8385125)]
 fn bench_bfs_variant_scalar_unreachable_near_17x14() {
     let path = search_scalar(
         UNREACHABLE_17X14, 17, 14, UNREACHABLE_17X14_NEAR_FROM, UNREACHABLE_17X14_NEAR_TO,
@@ -1916,7 +1916,7 @@ fn bench_bfs_variant_scalar_unreachable_near_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 8393735)]
+#[available_gas(l2_gas: 8385724)]
 fn bench_bfs_variant_scalar_unreachable_far_17x14() {
     let path = search_scalar(
         UNREACHABLE_17X14, 17, 14, UNREACHABLE_17X14_FAR_FROM, UNREACHABLE_17X14_FAR_TO,
@@ -1925,49 +1925,49 @@ fn bench_bfs_variant_scalar_unreachable_far_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1937305)]
+#[available_gas(l2_gas: 1929294)]
 fn bench_bfs_variant_scalar_empty_near_7x7() {
     let path = search_scalar(EMPTY_7X7, 7, 7, EMPTY_7X7_NEAR_FROM, EMPTY_7X7_NEAR_TO);
     assert!(path.len() == EMPTY_7X7_NEAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 2371156)]
+#[available_gas(l2_gas: 2363144)]
 fn bench_bfs_variant_scalar_empty_far_7x7() {
     let path = search_scalar(EMPTY_7X7, 7, 7, EMPTY_7X7_FAR_FROM, EMPTY_7X7_FAR_TO);
     assert!(path.len() == EMPTY_7X7_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 2004503)]
+#[available_gas(l2_gas: 1996491)]
 fn bench_bfs_variant_scalar_cave_near_7x7() {
     let path = search_scalar(CAVE_7X7, 7, 7, CAVE_7X7_NEAR_FROM, CAVE_7X7_NEAR_TO);
     assert!(path.len() == CAVE_7X7_NEAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 2171839)]
+#[available_gas(l2_gas: 2163828)]
 fn bench_bfs_variant_scalar_cave_far_7x7() {
     let path = search_scalar(CAVE_7X7, 7, 7, CAVE_7X7_FAR_FROM, CAVE_7X7_FAR_TO);
     assert!(path.len() == CAVE_7X7_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 583283)]
+#[available_gas(l2_gas: 575271)]
 fn bench_bfs_variant_scalar_maze_near_7x7() {
     let path = search_scalar(MAZE_7X7, 7, 7, MAZE_7X7_NEAR_FROM, MAZE_7X7_NEAR_TO);
     assert!(path.len() == MAZE_7X7_NEAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 1387307)]
+#[available_gas(l2_gas: 1379295)]
 fn bench_bfs_variant_scalar_maze_far_7x7() {
     let path = search_scalar(MAZE_7X7, 7, 7, MAZE_7X7_FAR_FROM, MAZE_7X7_FAR_TO);
     assert!(path.len() == MAZE_7X7_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 583451)]
+#[available_gas(l2_gas: 575439)]
 fn bench_bfs_variant_scalar_serpentine_near_7x7() {
     let path = search_scalar(
         SERPENTINE_7X7, 7, 7, SERPENTINE_7X7_NEAR_FROM, SERPENTINE_7X7_NEAR_TO,
@@ -1976,14 +1976,14 @@ fn bench_bfs_variant_scalar_serpentine_near_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1492043)]
+#[available_gas(l2_gas: 1484032)]
 fn bench_bfs_variant_scalar_serpentine_far_7x7() {
     let path = search_scalar(SERPENTINE_7X7, 7, 7, SERPENTINE_7X7_FAR_FROM, SERPENTINE_7X7_FAR_TO);
     assert!(path.len() == SERPENTINE_7X7_FAR_DISTANCE);
 }
 
 #[test]
-#[available_gas(l2_gas: 952856)]
+#[available_gas(l2_gas: 944844)]
 fn bench_bfs_variant_scalar_unreachable_near_7x7() {
     let path = search_scalar(
         UNREACHABLE_7X7, 7, 7, UNREACHABLE_7X7_NEAR_FROM, UNREACHABLE_7X7_NEAR_TO,
@@ -1992,7 +1992,7 @@ fn bench_bfs_variant_scalar_unreachable_near_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 952856)]
+#[available_gas(l2_gas: 944844)]
 fn bench_bfs_variant_scalar_unreachable_far_7x7() {
     let path = search_scalar(
         UNREACHABLE_7X7, 7, 7, UNREACHABLE_7X7_FAR_FROM, UNREACHABLE_7X7_FAR_TO,

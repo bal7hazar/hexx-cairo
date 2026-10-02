@@ -15,7 +15,7 @@ fn opened() -> HexMap {
 }
 
 #[test]
-#[available_gas(l2_gas: 5917407)]
+#[available_gas(l2_gas: 5909395)]
 fn test_readme_create() {
     let seed = SEED;
     let grid = HexMapTrait::new_cave(17, 14, 3, seed).grid;
@@ -40,7 +40,7 @@ fn test_readme_create() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2131885)]
+#[available_gas(l2_gas: 2123873)]
 fn test_readme_open() {
     let seed = SEED;
     let mut map = HexMapTrait::new_cave(17, 14, 3, seed);
@@ -57,7 +57,7 @@ fn test_readme_open() {
 }
 
 #[test]
-#[available_gas(l2_gas: 701683)]
+#[available_gas(l2_gas: 693671)]
 fn test_readme_place_objects() {
     let map = opened();
     let seed = SEED;
@@ -69,7 +69,7 @@ fn test_readme_place_objects() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2690682)]
+#[available_gas(l2_gas: 2682671)]
 fn test_readme_find_paths() {
     let map = opened();
     let swamps = map.range(113, 2);
@@ -90,7 +90,7 @@ fn test_readme_find_paths() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1388475)]
+#[available_gas(l2_gas: 1380464)]
 fn test_readme_query_areas() {
     let map = opened();
     let costs = array![map.range(113, 2)].span();
@@ -114,7 +114,7 @@ fn test_readme_query_areas() {
 }
 
 #[test]
-#[available_gas(l2_gas: 518849)]
+#[available_gas(l2_gas: 510837)]
 #[should_panic(expected: 'Bfs: position not walkable')]
 fn test_readme_endpoint_on_wall_panics() {
     let map = opened();
@@ -123,7 +123,7 @@ fn test_readme_endpoint_on_wall_panics() {
 }
 
 #[test]
-#[available_gas(l2_gas: 59988)]
+#[available_gas(l2_gas: 51872)]
 fn test_readme_migration() {
     // `Hex { col: 0, row: 0 }` of `origami_map::hex` on a 17x14 board
     let index = LayoutTrait::index(17, 0 + 1, 0 + 2);

@@ -85,7 +85,7 @@ mod tests {
 
     /// `ROW_FROM_16` against its definition, bit by bit.
     #[test]
-    #[available_gas(l2_gas: 775782)]
+    #[available_gas(l2_gas: 767687)]
     fn test_tables_rows_16() {
         let mut k: u32 = 0;
         while k != 17 {
@@ -106,7 +106,7 @@ mod tests {
 
     /// Every entry against its definition, bit by bit.
     #[test]
-    #[available_gas(l2_gas: 948161)]
+    #[available_gas(l2_gas: 940065)]
     fn test_tables_bands() {
         let mut k: u32 = 0;
         while k != 16 {

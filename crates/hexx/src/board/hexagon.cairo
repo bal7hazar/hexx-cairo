@@ -819,7 +819,7 @@ mod tests {
     /// R-N6-1: on 15 × 16, `hexagon((7, 14), 6)` is the per-tile definition, with no bit at
     /// `(1, 0)` or `(2, 0)` (a move before the clip would put some there).
     #[test]
-    #[available_gas(l2_gas: 3496944)]
+    #[available_gas(l2_gas: 3488932)]
     fn test_hexagon_regression_r_n6_1() {
         let map = Oracle::map(WIDTH, HEIGHT);
         let position = Oracle::at(WIDTH, 7, 14);
@@ -833,7 +833,7 @@ mod tests {
 
     /// R-N6-2: on 15 × 16, `hexagon((6, 8), 8)` contains `(14, 8)` (the loop path).
     #[test]
-    #[available_gas(l2_gas: 125353)]
+    #[available_gas(l2_gas: 117236)]
     fn test_hexagon_regression_r_n6_2() {
         let map = Oracle::map(WIDTH, HEIGHT);
         let hexagon: u256 = map.hexagon(Oracle::at(WIDTH, 6, 8), 8).into();
@@ -843,7 +843,7 @@ mod tests {
     /// R-N6-3: on 15 × 16, `hexagon((7, 8), 7)` contains `(7, 15)` (the canonical shape reaches
     /// the row 15).
     #[test]
-    #[available_gas(l2_gas: 23072)]
+    #[available_gas(l2_gas: 14956)]
     fn test_hexagon_regression_r_n6_3() {
         let map = Oracle::map(WIDTH, HEIGHT);
         let hexagon: u256 = map.hexagon(Oracle::at(WIDTH, 7, 8), 7).into();
@@ -852,7 +852,7 @@ mod tests {
 
     /// R-N6-4: the sights from `(7, 7)` and `(7, 8)` on 15 × 16 contain no ring tile.
     #[test]
-    #[available_gas(l2_gas: 72474)]
+    #[available_gas(l2_gas: 64357)]
     fn test_hexagon_regression_r_n6_4() {
         let map = Oracle::map(WIDTH, HEIGHT);
         let interior: u256 = LayoutTrait::interior(WIDTH, HEIGHT).into();
@@ -865,20 +865,20 @@ mod tests {
     /// R-N6-5: `hexagon_ring(p, r) = hexagon(p, r) − hexagon(p, r − 1)` for every position of
     /// 15 × 16 and every radius `1..=9`.
     #[test]
-    #[available_gas(l2_gas: 103932871)]
+    #[available_gas(l2_gas: 103924880)]
     fn test_hexagon_regression_r_n6_5_0() {
         Oracle::difference(0, 120);
     }
 
     #[test]
-    #[available_gas(l2_gas: 103504922)]
+    #[available_gas(l2_gas: 103496932)]
     fn test_hexagon_regression_r_n6_5_1() {
         Oracle::difference(120, 240);
     }
 
     /// R-N6-6: the radius 0 is `2^p` for both, every position of 15 × 16.
     #[test]
-    #[available_gas(l2_gas: 1824239)]
+    #[available_gas(l2_gas: 1816143)]
     fn test_hexagon_regression_r_n6_6() {
         let map = Oracle::map(WIDTH, HEIGHT);
         let mut position: u8 = 0;
@@ -892,7 +892,7 @@ mod tests {
     /// R-N6-7: on 7 × 7, `hexagon((1, 1), 1)` has 7 tiles, three of them on the ring; the flood
     /// of an empty board has the 4 interior ones, and the two are not equal.
     #[test]
-    #[available_gas(l2_gas: 81381)]
+    #[available_gas(l2_gas: 73264)]
     fn test_hexagon_regression_r_n6_7() {
         let map = Oracle::map(7, 7);
         let position = Oracle::at(7, 1, 1);
@@ -910,14 +910,14 @@ mod tests {
 
     /// A position outside the board panics.
     #[test]
-    #[available_gas(l2_gas: 22901)]
+    #[available_gas(l2_gas: 14679)]
     #[should_panic(expected: ('Asserter: position not inside',))]
     fn test_hexagon_revert_outside() {
         Oracle::map(WIDTH, HEIGHT).hexagon(240, 1);
     }
 
     #[test]
-    #[available_gas(l2_gas: 22901)]
+    #[available_gas(l2_gas: 14679)]
     #[should_panic(expected: ('Asserter: position not inside',))]
     fn test_hexagon_ring_revert_outside() {
         Oracle::map(WIDTH, HEIGHT).hexagon_ring(240, 0);
@@ -926,7 +926,7 @@ mod tests {
     // The tables against the per-tile definition at their canonical centres
 
     #[test]
-    #[available_gas(l2_gas: 7792491)]
+    #[available_gas(l2_gas: 7784501)]
     fn test_hexagon_tables() {
         let map = Oracle::map(WIDTH, HEIGHT);
         let mut odd: u32 = 0;
@@ -951,31 +951,31 @@ mod tests {
     // The per-tile definition on every position of 15 × 16 and 7 × 7, radius 0..=9
 
     #[test]
-    #[available_gas(l2_gas: 304454000)]
+    #[available_gas(l2_gas: 304446114)]
     fn test_hexagon_oracle_15x16_0() {
         Oracle::check(WIDTH, HEIGHT, 0, 60, RADII.span());
     }
 
     #[test]
-    #[available_gas(l2_gas: 307232999)]
+    #[available_gas(l2_gas: 307225114)]
     fn test_hexagon_oracle_15x16_1() {
         Oracle::check(WIDTH, HEIGHT, 60, 120, RADII.span());
     }
 
     #[test]
-    #[available_gas(l2_gas: 307250261)]
+    #[available_gas(l2_gas: 307242376)]
     fn test_hexagon_oracle_15x16_2() {
         Oracle::check(WIDTH, HEIGHT, 120, 180, RADII.span());
     }
 
     #[test]
-    #[available_gas(l2_gas: 305047764)]
+    #[available_gas(l2_gas: 305039879)]
     fn test_hexagon_oracle_15x16_3() {
         Oracle::check(WIDTH, HEIGHT, 180, 240, RADII.span());
     }
 
     #[test]
-    #[available_gas(l2_gas: 115055409)]
+    #[available_gas(l2_gas: 115047524)]
     fn test_hexagon_oracle_7x7() {
         Oracle::check(7, 7, 0, 49, RADII.span());
     }
@@ -983,19 +983,19 @@ mod tests {
     // The per-tile definition on every position of 3 × 83, radius 41 and 255
 
     #[test]
-    #[available_gas(l2_gas: 667888788)]
+    #[available_gas(l2_gas: 667880903)]
     fn test_hexagon_oracle_3x83_0() {
         Oracle::check(3, 83, 0, 83, [41, 255].span());
     }
 
     #[test]
-    #[available_gas(l2_gas: 691166060)]
+    #[available_gas(l2_gas: 691158174)]
     fn test_hexagon_oracle_3x83_1() {
         Oracle::check(3, 83, 83, 166, [41, 255].span());
     }
 
     #[test]
-    #[available_gas(l2_gas: 669585903)]
+    #[available_gas(l2_gas: 669578018)]
     fn test_hexagon_oracle_3x83_2() {
         Oracle::check(3, 83, 166, 249, [41, 255].span());
     }
@@ -1010,50 +1010,50 @@ mod tests {
     const SEEDED_RADII_WIDE: [u8; 14] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 20, 100, 101, 255];
 
     #[test]
-    #[available_gas(l2_gas: 268645902)]
+    #[available_gas(l2_gas: 268638017)]
     fn test_hexagon_oracle_seeded_15x15() {
         Oracle::seeded(15, 15, 32, SEEDED_RADII.span(), 'h15x15');
     }
 
     #[test]
-    #[available_gas(l2_gas: 301139601)]
+    #[available_gas(l2_gas: 301131716)]
     fn test_hexagon_oracle_seeded_16x15() {
         Oracle::seeded(16, 15, 32, SEEDED_RADII.span(), 'h16x15');
     }
 
     #[test]
-    #[available_gas(l2_gas: 297540726)]
+    #[available_gas(l2_gas: 297532841)]
     fn test_hexagon_oracle_seeded_17x14() {
         Oracle::seeded(17, 14, 32, SEEDED_RADII.span(), 'h17x14');
     }
 
     #[test]
-    #[available_gas(l2_gas: 298277669)]
+    #[available_gas(l2_gas: 298269783)]
     fn test_hexagon_oracle_seeded_19x13() {
         Oracle::seeded(19, 13, 32, SEEDED_RADII.span(), 'h19x13');
     }
 
     #[test]
-    #[available_gas(l2_gas: 303094596)]
+    #[available_gas(l2_gas: 303086711)]
     fn test_hexagon_oracle_seeded_25x10() {
         Oracle::seeded(25, 10, 32, SEEDED_RADII_WIDE.span(), 'h25x10');
     }
 
     #[test]
-    #[available_gas(l2_gas: 273610974)]
+    #[available_gas(l2_gas: 273603089)]
     fn test_hexagon_oracle_seeded_83x3() {
         Oracle::seeded(83, 3, 32, SEEDED_RADII_WIDE.span(), 'h83x3');
     }
 
     #[test]
-    #[available_gas(l2_gas: 137777367)]
+    #[available_gas(l2_gas: 137769482)]
     fn test_hexagon_oracle_seeded_3x3() {
         Oracle::seeded(3, 3, 32, SEEDED_RADII.span(), 'h3x3');
     }
 
     /// The width 15 below 16 rows (the clip of the rows at the top on the table path).
     #[test]
-    #[available_gas(l2_gas: 615210158)]
+    #[available_gas(l2_gas: 615202273)]
     fn test_hexagon_oracle_seeded_15xh() {
         let mut height: u8 = 3;
         while height != 15 {
@@ -1065,13 +1065,13 @@ mod tests {
     // The table path against the loop path, every position of 15 × 16, radius 1..=7
 
     #[test]
-    #[available_gas(l2_gas: 165278890)]
+    #[available_gas(l2_gas: 165270899)]
     fn test_hexagon_paths_0() {
         Oracle::paths(0, 120);
     }
 
     #[test]
-    #[available_gas(l2_gas: 165011465)]
+    #[available_gas(l2_gas: 165003475)]
     fn test_hexagon_paths_1() {
         Oracle::paths(120, 240);
     }
@@ -1080,26 +1080,26 @@ mod tests {
     // interior
 
     #[test]
-    #[available_gas(l2_gas: 528014472)]
+    #[available_gas(l2_gas: 528006586)]
     fn test_hexagon_flood_15x16_0() {
         Oracle::flood(WIDTH, HEIGHT, 0, 120);
     }
 
     #[test]
-    #[available_gas(l2_gas: 529966485)]
+    #[available_gas(l2_gas: 529958599)]
     fn test_hexagon_flood_15x16_1() {
         Oracle::flood(WIDTH, HEIGHT, 120, 240);
     }
 
     #[test]
-    #[available_gas(l2_gas: 56570004)]
+    #[available_gas(l2_gas: 56562119)]
     fn test_hexagon_flood_7x7() {
         Oracle::flood(7, 7, 0, 49);
     }
 
     /// The per-position variant equals `hexagon` at the radius 6 on every position of 15 × 16.
     #[test]
-    #[available_gas(l2_gas: 8241910)]
+    #[available_gas(l2_gas: 8233920)]
     fn test_hexagon_variant() {
         let map = Oracle::map(WIDTH, HEIGHT);
         let mut position: u8 = 0;
@@ -1148,7 +1148,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 35973)]
+    #[available_gas(l2_gas: 27857)]
     fn bench_hexagon_sight_once() {
         let [(position, radius), _] = Inputs::get().sight;
         assert!(Oracle::map(WIDTH, HEIGHT).hexagon(position, radius) != 0);
@@ -1156,7 +1156,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 53225)]
+    #[available_gas(l2_gas: 45108)]
     fn bench_hexagon_sight_twice() {
         let [(position, radius), (other, next)] = Inputs::get().sight;
         let map = Oracle::map(WIDTH, HEIGHT);
@@ -1166,7 +1166,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 35973)]
+    #[available_gas(l2_gas: 27857)]
     fn bench_hexagon_ring_sight_once() {
         let [(position, radius), _] = Inputs::get().sight;
         assert!(Oracle::map(WIDTH, HEIGHT).hexagon_ring(position, radius) != 0);
@@ -1174,7 +1174,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 53225)]
+    #[available_gas(l2_gas: 45108)]
     fn bench_hexagon_ring_sight_twice() {
         let [(position, radius), (other, next)] = Inputs::get().sight;
         let map = Oracle::map(WIDTH, HEIGHT);
@@ -1184,7 +1184,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 50984)]
+    #[available_gas(l2_gas: 42868)]
     fn bench_hexagon_clip_once() {
         let [(position, radius), _] = Inputs::get().clip;
         assert!(Oracle::map(WIDTH, HEIGHT).hexagon(position, radius) != 0);
@@ -1192,7 +1192,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 82417)]
+    #[available_gas(l2_gas: 74301)]
     fn bench_hexagon_clip_twice() {
         let [(position, radius), (other, next)] = Inputs::get().clip;
         let map = Oracle::map(WIDTH, HEIGHT);
@@ -1202,7 +1202,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 50984)]
+    #[available_gas(l2_gas: 42868)]
     fn bench_hexagon_ring_clip_once() {
         let [(position, radius), _] = Inputs::get().clip;
         assert!(Oracle::map(WIDTH, HEIGHT).hexagon_ring(position, radius) != 0);
@@ -1210,7 +1210,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 82417)]
+    #[available_gas(l2_gas: 74301)]
     fn bench_hexagon_ring_clip_twice() {
         let [(position, radius), (other, next)] = Inputs::get().clip;
         let map = Oracle::map(WIDTH, HEIGHT);
@@ -1220,7 +1220,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 152985)]
+    #[available_gas(l2_gas: 144869)]
     fn bench_hexagon_loop_board_once() {
         let [(position, radius), _] = Inputs::get().board;
         assert!(Oracle::map(WIDTH, HEIGHT).hexagon(position, radius) != 0);
@@ -1228,7 +1228,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 288089)]
+    #[available_gas(l2_gas: 279972)]
     fn bench_hexagon_loop_board_twice() {
         let [(position, radius), (other, next)] = Inputs::get().board;
         let map = Oracle::map(WIDTH, HEIGHT);
@@ -1238,7 +1238,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 158529)]
+    #[available_gas(l2_gas: 150413)]
     fn bench_hexagon_ring_loop_board_once() {
         let [(position, radius), _] = Inputs::get().board;
         assert!(Oracle::map(WIDTH, HEIGHT).hexagon_ring(position, radius) != 0);
@@ -1246,7 +1246,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 299460)]
+    #[available_gas(l2_gas: 291344)]
     fn bench_hexagon_ring_loop_board_twice() {
         let [(position, radius), (other, next)] = Inputs::get().board;
         let map = Oracle::map(WIDTH, HEIGHT);
@@ -1256,7 +1256,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 153825)]
+    #[available_gas(l2_gas: 145709)]
     fn bench_hexagon_loop_board_wide_once() {
         let [(position, radius), _] = Inputs::get().board_wide;
         assert!(Oracle::map(WIDTH, HEIGHT).hexagon(position, radius) != 0);
@@ -1264,7 +1264,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 288089)]
+    #[available_gas(l2_gas: 279972)]
     fn bench_hexagon_loop_board_wide_twice() {
         let [(position, radius), (other, next)] = Inputs::get().board_wide;
         let map = Oracle::map(WIDTH, HEIGHT);
@@ -1274,7 +1274,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 159653)]
+    #[available_gas(l2_gas: 151536)]
     fn bench_hexagon_ring_loop_board_wide_once() {
         let [(position, radius), _] = Inputs::get().board_wide;
         assert!(Oracle::map(WIDTH, HEIGHT).hexagon_ring(position, radius) != 0);
@@ -1282,7 +1282,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 299460)]
+    #[available_gas(l2_gas: 291344)]
     fn bench_hexagon_ring_loop_board_wide_twice() {
         let [(position, radius), (other, next)] = Inputs::get().board_wide;
         let map = Oracle::map(WIDTH, HEIGHT);
@@ -1292,7 +1292,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 564060)]
+    #[available_gas(l2_gas: 555839)]
     fn bench_hexagon_loop_tall_once() {
         let [(position, radius), _] = Inputs::get().tall;
         assert!(Oracle::map(3, 83).hexagon(position, radius) != 0);
@@ -1300,7 +1300,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1109892)]
+    #[available_gas(l2_gas: 1101671)]
     fn bench_hexagon_loop_tall_twice() {
         let [(position, radius), (other, next)] = Inputs::get().tall;
         let map = Oracle::map(3, 83);
@@ -1310,7 +1310,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 586446)]
+    #[available_gas(l2_gas: 578225)]
     fn bench_hexagon_ring_loop_tall_once() {
         let [(position, radius), _] = Inputs::get().tall_ring;
         assert!(Oracle::map(3, 83).hexagon_ring(position, radius) != 0);
@@ -1318,7 +1318,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1161500)]
+    #[available_gas(l2_gas: 1153278)]
     fn bench_hexagon_ring_loop_tall_twice() {
         let [(position, radius), (other, next)] = Inputs::get().tall_ring;
         let map = Oracle::map(3, 83);
@@ -1339,7 +1339,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 21189)]
+    #[available_gas(l2_gas: 12968)]
     fn bench_hexagon_variant_once() {
         let [(position, _), _] = Inputs::get().sight;
         assert!(Variant::sight(Oracle::map(WIDTH, HEIGHT), position) != 0);
@@ -1347,7 +1347,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 23541)]
+    #[available_gas(l2_gas: 15320)]
     fn bench_hexagon_variant_twice() {
         let [(position, _), (other, _)] = Inputs::get().sight;
         let map = Oracle::map(WIDTH, HEIGHT);

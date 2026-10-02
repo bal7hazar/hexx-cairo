@@ -15,7 +15,7 @@ use hexx::hex::{Hex, HexTrait};
 
 
 #[test]
-#[available_gas(l2_gas: 14406)]
+#[available_gas(l2_gas: 6311)]
 fn golden_edge_direction_constants() {
     assert(EdgeDirectionTrait::X_NEG_Y.index() == 5, 'X_NEG_Y');
     assert(EdgeDirectionTrait::FLAT_TOP_RIGHT.index() == 5, 'FLAT_TOP_RIGHT');
@@ -50,7 +50,7 @@ fn golden_edge_direction_constants() {
 }
 
 #[test]
-#[available_gas(l2_gas: 30072)]
+#[available_gas(l2_gas: 21851)]
 fn golden_edge_direction_all() {
     let all = EdgeDirectionTrait::ALL_DIRECTIONS;
     let all = all.span();
@@ -72,7 +72,7 @@ fn golden_edge_direction_all() {
 }
 
 #[test]
-#[available_gas(l2_gas: 117296)]
+#[available_gas(l2_gas: 109074)]
 fn golden_edge_direction_table() {
     let cases: Array<(u8, i32, i32, u8, u8, u8)> = array![
         (0, 1, 0, 3, 1, 5), (1, 0, 1, 4, 2, 0), (2, -1, 1, 5, 3, 1), (3, -1, 0, 0, 4, 2),
@@ -96,7 +96,7 @@ fn golden_edge_direction_table() {
 }
 
 #[test]
-#[available_gas(l2_gas: 43681061)]
+#[available_gas(l2_gas: 43672965)]
 fn golden_edge_direction_rotations_0() {
     let cases: Array<(u8, u8, u8)> = array![
         (0, 0, 0), (1, 1, 5), (2, 2, 4), (3, 3, 3), (4, 4, 2), (5, 5, 1), (6, 0, 0), (7, 1, 5),
@@ -148,7 +148,7 @@ fn golden_edge_direction_rotations_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 43705043)]
+#[available_gas(l2_gas: 43696947)]
 fn golden_edge_direction_rotations_1() {
     let cases: Array<(u8, u8, u8)> = array![
         (0, 1, 1), (1, 2, 0), (2, 3, 5), (3, 4, 4), (4, 5, 3), (5, 0, 2), (6, 1, 1), (7, 2, 0),
@@ -200,7 +200,7 @@ fn golden_edge_direction_rotations_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 43727355)]
+#[available_gas(l2_gas: 43719260)]
 fn golden_edge_direction_rotations_2() {
     let cases: Array<(u8, u8, u8)> = array![
         (0, 2, 2), (1, 3, 1), (2, 4, 0), (3, 5, 5), (4, 0, 4), (5, 1, 3), (6, 2, 2), (7, 3, 1),
@@ -252,7 +252,7 @@ fn golden_edge_direction_rotations_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 43749930)]
+#[available_gas(l2_gas: 43741835)]
 fn golden_edge_direction_rotations_3() {
     let cases: Array<(u8, u8, u8)> = array![
         (0, 3, 3), (1, 4, 2), (2, 5, 1), (3, 0, 0), (4, 1, 5), (5, 2, 4), (6, 3, 3), (7, 4, 2),
@@ -304,7 +304,7 @@ fn golden_edge_direction_rotations_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 43772243)]
+#[available_gas(l2_gas: 43764147)]
 fn golden_edge_direction_rotations_4() {
     let cases: Array<(u8, u8, u8)> = array![
         (0, 4, 4), (1, 5, 3), (2, 0, 2), (3, 1, 1), (4, 2, 0), (5, 3, 5), (6, 4, 4), (7, 5, 3),
@@ -356,7 +356,7 @@ fn golden_edge_direction_rotations_4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 43794555)]
+#[available_gas(l2_gas: 43786460)]
 fn golden_edge_direction_rotations_5() {
     let cases: Array<(u8, u8, u8)> = array![
         (0, 5, 5), (1, 0, 4), (2, 1, 3), (3, 2, 2), (4, 3, 1), (5, 4, 0), (6, 5, 5), (7, 0, 4),

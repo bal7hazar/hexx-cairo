@@ -179,7 +179,7 @@ def rewritten(rel: str, text: str) -> str:
     return text
 
 
-# The formatter of the pinned toolchain (`scarb fmt`, Scarb 2.19.4) with the configuration of
+# The formatter of the pinned toolchain (`scarb fmt`, Scarb 2.20.1) with the configuration of
 # `crates/hexx` (`[tool.fmt]` of its manifest and `[workspace.tool.fmt]`). It reorders the `use`
 # lines whose path changed with the rewrites (`sort-module-level-items`); both sides are
 # compared after it, as the brief requires.

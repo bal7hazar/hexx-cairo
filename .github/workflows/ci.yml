@@ -48,7 +48,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
         with:
-          scarb-version: "2.19.4"
+          scarb-version: "2.20.1"
       - run: scarb fmt --check --workspace
       - run: python3 -m unittest discover -s scripts/tests
       # docs/API_PARITY.md must match the embedded hexx 0.25.0 inventory (regenerate with
@@ -69,7 +69,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
         with:
-          scarb-version: "2.19.4"
+          scarb-version: "2.20.1"
       # Read-only checkout of the source at the commit of sources/VERSIONS.md, outside the repository.
       - name: Fetch dojoengine/origami at the pinned commit
         run: |
@@ -103,10 +103,10 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
         with:
-          scarb-version: "2.19.4"
+          scarb-version: "2.20.1"
       - uses: foundry-rs/setup-snfoundry@16e23ddd0e2845f38727c92f4b913a7b728cda9e # v6.0.0
         with:
-          starknet-foundry-version: "0.61.0"
+          starknet-foundry-version: "0.64.0"
       - env:
           PACKAGE: ${{ matrix.package }}
         run: scarb build -p "$PACKAGE"
@@ -123,7 +123,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
         with:
-          scarb-version: "2.19.4"
+          scarb-version: "2.20.1"
       # `scarb package` alone (never `scarb publish`, never a token): lets a reviewer download
       # and inspect exactly what a release would ship, on every pull request, without re-running
       # it themselves — fix loop 1 finding 11 (the audit could not reach the archive this task's
@@ -171,10 +171,10 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
         with:
-          scarb-version: "2.19.4"
+          scarb-version: "2.20.1"
       - uses: foundry-rs/setup-snfoundry@16e23ddd0e2845f38727c92f4b913a7b728cda9e # v6.0.0
         with:
-          starknet-foundry-version: "0.61.0"
+          starknet-foundry-version: "0.64.0"
       # Fails when a test has no #[available_gas], when its budget is above the ceiling of its
       # measurement (a fuzz test: its maximum), when a test ran with no parsable measurement, when
       # the counts declared / collected / with a row / ignored disagree, or when
@@ -266,7 +266,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
         with:
-          scarb-version: "2.19.4"
+          scarb-version: "2.20.1"
       - name: Build three times from clean and compare
         run: |
           set -euo pipefail
