@@ -23,6 +23,7 @@ Dependency free (Python 3 standard library only).
 """
 import argparse
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -53,9 +54,13 @@ LIMITS = {
 
 
 def build(cwd: Path, args: list[str]) -> None:
-    cmd = ["scarb", "--release", "build"] + args
-    print(f"$ {' '.join(cmd)}", file=sys.stderr)
-    p = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
+    # The subcommand stays the first argument of `scarb` (Scarb 2.19 and 2.20 refuse `build --release`):
+    # the machine's shim takes the build lock only then, so `scarb --release build` would run
+    # outside it. SCARB_PROFILE=release is `--release`.
+    cmd = ["scarb", "build"] + args
+    print(f"$ SCARB_PROFILE=release {' '.join(cmd)}", file=sys.stderr)
+    p = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True,
+                       env={**os.environ, "SCARB_PROFILE": "release"})
     if p.returncode != 0:
         out = (p.stdout + p.stderr).splitlines()
         sys.exit("scarb build failed:\n" + "\n".join(out[-60:]))
