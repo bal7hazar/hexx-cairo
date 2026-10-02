@@ -60,6 +60,18 @@ Never push red and never skip the hook (`--no-verify`): a push that fails `scrip
 have failed CI. The hook checks the working tree of the current branch, not the refs being pushed:
 commit your fix before pushing. It does not replace `scripts/check.sh` (every test, gas budgets and snapshots) or CI.
 
+On a pull request, each job of `.github/workflows/ci.yml` runs only when a path that concerns it
+changed (`scripts/ci_changes.py`, run by the job `changes`; a documents-only pull request runs no
+test). Groups: `links` (job `links`: any `*.md`), `shell` (`scripts`: `scripts/*.sh`, `.githooks/**`),
+`docs_checks` (`fmt`: Cairo sources, manifests, `.tool-versions`, `scripts/**`, the generated
+documents, `gas/**`), `takeover` (`crates/hexx/**`, `scripts/takeover_check.py`), `cairo` (`test`,
+`package`, `gas`, `gas-complete`, `determinism`: `crates/**`, manifests, `gas/**`, `scripts/bench.py`,
+`scripts/bytecode_size.py`), `golden` (`tools/refgen/**`, the golden tests and their sources). A change
+to `ci.yml` or to `scripts/ci_changes.py`, an empty list, and any push to `main` select everything.
+`all-checks` always runs and treats a skipped job as a pass. A new job, or a new input of a job, must
+be added to `scripts/ci_changes.py` (and its test) in the same change, or it is skipped when only that
+input changes.
+
 ## Principles (the game's `docs/CAIRO.md`, in full at `grimworld:docs/CAIRO.md`; in short)
 
 1. Test-driven: tests first, from the brief's acceptance criteria.
