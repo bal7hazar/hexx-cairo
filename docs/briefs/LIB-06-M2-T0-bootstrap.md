@@ -12,8 +12,10 @@ Inherits [COMMON.md](COMMON.md) and `AGENTS.md`. Run as a thread of the herdr pr
 goes where your thread brief says, with the contents of COMMON.md §7. You never publish, tag or
 release anything. You delete and kill only what you created, named exactly.
 
-**Starts after** `0.1.0` is released (plan §8, L-M2 "Depends on") and LIB-04f is merged (the
-toolchain of `.tool-versions` at your base is the one you use). **Runs alone**: every other task of
+**Starts after** LIB-04f (#86) is merged (the toolchain of `.tool-versions` at your base is the
+one you use), by the project manager's decision of 2026-10-02 that replaces plan §8's "0.1.0
+released" ([index](LIB-06-L-M2.md), *When L-M2 starts*): the rc.2 release commit is fixed before
+the first L-M2 merge, so your pull request is not merged before that commit is recorded. **Runs alone**: every other task of
 L-M2 starts after this one is merged.
 
 ## Goal

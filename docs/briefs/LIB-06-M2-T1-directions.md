@@ -57,7 +57,12 @@ task M2-T1 of plan §8, L-M2.
    (`F, +Drop<F>, +core::ops::Fn<F, (T,)>[Output: U]`; `Fn`, not `FnOnce`, since `Tie` calls it
    twice): plan §4.4 left "function pointer or closure" to LIB-04, which did not decide; this brief
    decides it (what would reverse it: a toolchain that refuses the bound — then escalate, do not
-   fall back silently). `PartialEq<T> for DirectionWay<T>` has no Cairo form (`PartialEq` is
+   fall back silently). **The closure's cost to consumers**: a closure in a library function puts a
+   closure type into every consumer class that uses it, so that class's hash depends on the build
+   path until upstream's fix (cairo#10359) ships in a Scarb. This is acceptable under the
+   build-root rule (class hashes from CI only). Say it in the doc comment of `map` and in its
+   `CHANGELOG.md` entry, naming `DirectionWay::map`, so that the game knows which of its classes
+   become path-dependent (those that call it). `PartialEq<T> for DirectionWay<T>` has no Cairo form (`PartialEq` is
    homogeneous): its body is `contains`, which the parity table maps to it since M2-T0.
 4. `direction/impls.cairo`: `Neg` for both types (`impls.rs:5, 13`), `mul_scalar(self, rhs: i32)
    -> Hex` for both (the counterparts of `Mul<i32>`, `:53-67`, calling `Hex::mul_scalar` of M2-T0).
@@ -100,14 +105,15 @@ that explain it. No item of L-M2 is on the tick's path. A failed golden vector o
 
 **Out**: `Hex::way_to`, `diagonal_way_to` and every other `Hex` item (M2-T2, M2-T3); `GridEdge`,
 `GridVertex` (M2-T7); the board's `Direction` and its conversions (unchanged); any change of an
-L-M1 item's results; `scripts/**`; `.github/**`; `CHANGELOG.md`; any publication.
+L-M1 item's results; `scripts/**`; `.github/**`; `CHANGELOG.md` beyond Scope 3's entry; any publication.
 
 **Allowlist**: `crates/hexx/src/direction.cairo`, `crates/hexx/src/direction/edge_direction.cairo`
 (Scope 2), new files `crates/hexx/src/direction/{vertex_direction,way,impls}.cairo`;
 `crates/hexx/src/lib.cairo` (the `direction` block, Scope 5); `crates/hexx/tests/golden_direction.cairo`;
 `tools/refgen/src/direction.rs`, `tools/refgen/specs/direction.toml`;
 `crates/consumer/src/mirror_directions.cairo`; `docs/API_PARITY.md`, `docs/EXTENSIONS.md`,
-`docs/DEVIATIONS.md`, `docs/GAS.md`, `gas/hexx.snap`, `gas/bytecode.size`.
+`docs/DEVIATIONS.md`, `docs/GAS.md`, `gas/hexx.snap`, `gas/bytecode.size`; `CHANGELOG.md` (the
+`[Unreleased]` entry of `map`'s closure, Scope 3, only).
 
 ## Interfaces
 

@@ -12,7 +12,7 @@ of the two script entries every later task would otherwise edit at the same line
 
 | Task | Brief | Files it owns in `crates/hexx/src` | Profile | Runs after |
 |---|---|---|---|---|
-| M2-T0 | [bootstrap](LIB-06-M2-T0-bootstrap.md) | `hex.cairo` (first), the scaffold | `impl-sonnet` | 0.1.0 released, LIB-04f |
+| M2-T0 | [bootstrap](LIB-06-M2-T0-bootstrap.md) | `hex.cairo` (first), the scaffold | `impl-sonnet` | LIB-04f (#86) merged; the rc.2 release commit fixed before the first L-M2 merge |
 | M2-T1 | [directions](LIB-06-M2-T1-directions.md) | `direction.cairo`, `direction/*` | `impl-sonnet` | M2-T0 |
 | M2-T2 | [hex](LIB-06-M2-T2-hex.md) | `hex.cairo` (then) | `impl-sonnet` | M2-T0, M2-T1 |
 | M2-T3 | [operators](LIB-06-M2-T3-operators.md) | `hex/{impls,swizzle,euclidean,convert}.cairo`, `conversions.cairo` | `impl-opus` | M2-T0, M2-T1 |
@@ -21,6 +21,13 @@ of the two script entries every later task would otherwise edit at the same line
 | M2-T6 | [shapes](LIB-06-M2-T6-shapes.md) | `shapes.cairo` | `impl-sonnet` | M2-T2 |
 | M2-T7 | [grid](LIB-06-M2-T7-grid.md) | `hex/grid/{edge,vertex}.cairo` | `impl-sonnet` | M2-T1 (scheduled with M2-T4) |
 | M2-R | — (orchestrator) | — | — | every task above |
+
+**When L-M2 starts** (the project manager's decision, option (b), 2026-10-02; it replaces the
+plan's "after 0.1.0 is released"): M2-T0 starts after LIB-04f (#86) merges. Before the first L-M2
+merge, the rc.2 release commit is fixed (its sha recorded in its PENDING request, tagged when
+published); 0.1.0 stable is cut from that same content; any fix 0.1.0 needs after L-M2 has merged
+goes on a release branch from that commit, never by holding `main`. What would reverse it: the owner
+wants 0.1.0 to carry an L-M2 item, or rc.2's checks find a defect that an L-M2 change would mask.
 
 **Parallel groups** (plan §8): `T0`; `T1`; `T2` with `T3`; then `T4`, `T5`, `T6`, `T7` together.
 At most four threads at once, in the last group.
