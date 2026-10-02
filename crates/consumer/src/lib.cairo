@@ -10,7 +10,8 @@
 //! `HexxMirror` holds the mirror items of L-M1 (`Hex`, `EdgeDirection`, the offset conversions,
 //! `HexOrientation`); `HexxCoordinates` the directions and coordinates of the board (N-7, M1-T3);
 //! `HexxLine` the line of sight (N-5, M1-T6) and the mirror's `line_to`; `HexxHexagon` range and
-//! ring as geometry (N-6, M1-T5); `HexxSeams` the seams (N-2, M1-T7) and `LayoutTrait::new_odd`.
+//! ring as geometry (N-6, M1-T5); `HexxSeams` the seams (N-2, M1-T7) and `LayoutTrait::new_odd`;
+//! `HexxMargins` the generation of a chunk given its margins and `smooth` (N-1, M1-T8).
 
 /// The queries, the finders on unit costs and the constructors that call no generator.
 #[starknet::contract]
@@ -627,5 +628,62 @@ pub mod HexxHexagon {
     #[external(v0)]
     fn hexagon_ring(self: @ContractState, map: HexMap, position: u8, radius: u8) -> felt252 {
         map.hexagon_ring(position, radius)
+    }
+}
+
+/// N-1 (M1-T8): the generation of a chunk given its margins, and `smooth`, on the facade and on
+/// the generator.
+#[starknet::contract]
+pub mod HexxMargins {
+    use hexx::generators::caver::Caver;
+    use hexx::{HexMap, HexMapTrait};
+
+    #[storage]
+    struct Storage {}
+
+    #[external(v0)]
+    fn new_cave_with_margins(
+        self: @ContractState,
+        width: u8,
+        height: u8,
+        order: u8,
+        seed: felt252,
+        fixed: felt252,
+        values: felt252,
+        odd: bool,
+    ) -> HexMap {
+        HexMapTrait::new_cave_with_margins(width, height, order, seed, fixed, values, odd)
+    }
+
+    #[external(v0)]
+    fn smooth(self: @ContractState, map: HexMap, order: u8, held: felt252, odd: bool) -> HexMap {
+        map.smooth(order, held, odd)
+    }
+
+    #[external(v0)]
+    fn generate_with_margins(
+        self: @ContractState,
+        width: u8,
+        height: u8,
+        order: u8,
+        seed: felt252,
+        fixed: felt252,
+        values: felt252,
+        odd: bool,
+    ) -> felt252 {
+        Caver::generate_with_margins(width, height, order, seed, fixed, values, odd)
+    }
+
+    #[external(v0)]
+    fn smooth_grid(
+        self: @ContractState,
+        grid: felt252,
+        width: u8,
+        height: u8,
+        order: u8,
+        held: felt252,
+        odd: bool,
+    ) -> felt252 {
+        Caver::smooth(grid, width, height, order, held, odd)
     }
 }

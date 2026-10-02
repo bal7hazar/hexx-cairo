@@ -114,10 +114,10 @@ class Check(unittest.TestCase):
         self.assertIn(f"{len(t.PAIRS) + 1} pairs, 0 problem(s)", out)
 
     def test_difference_is_printed_and_counted(self) -> None:
-        self.put(self.dst, "src/board/map.cairo", "use hexx::board::bits::Bits; // edited\n")
+        self.put(self.dst, "src/board/bits.cairo", "use hexx::board::bits::Bits; // edited\n")
         problems, out = self.run_check()
         self.assertEqual(problems, 1)
-        self.assertIn("src/map.cairo -> src/board/map.cairo: DIFFERENT", out)
+        self.assertIn("src/helpers/bits.cairo -> src/board/bits.cairo: DIFFERENT", out)
         self.assertIn("+use hexx::board::bits::Bits; // edited", out)
 
     def test_destination_without_source(self) -> None:
@@ -144,19 +144,19 @@ class Check(unittest.TestCase):
         self.assertEqual(problems, 0)
 
     def test_gas_budget_lines_are_ignored_on_both_sides_and_only_those(self) -> None:
-        self.put(self.src, "src/map.cairo",
+        self.put(self.src, "src/helpers/bits.cairo",
                  "#[test]\n#[available_gas(l2_gas: 5000)]\nfn a() {}\n\n#[test]\nfn b() {}\n")
-        self.put(self.dst, "src/board/map.cairo",
+        self.put(self.dst, "src/board/bits.cairo",
                  "#[test]\n    #[available_gas(l2_gas: 123)]\nfn a() {}\n\n#[test]\n"
                  "#[available_gas(l2_gas: 9)]\nfn b() {}\n")
         problems, out = self.run_check()
         self.assertEqual(problems, 0, out)
         # Any other line is still a difference, next to a budget line.
-        self.put(self.dst, "src/board/map.cairo",
+        self.put(self.dst, "src/board/bits.cairo",
                  "#[test]\n#[available_gas(l2_gas: 123)]\nfn a() {}\n\n#[test]\nfn b() {} // x\n")
         problems, out = self.run_check()
         self.assertEqual(problems, 1)
-        self.assertIn("src/map.cairo -> src/board/map.cairo: DIFFERENT", out)
+        self.assertIn("src/helpers/bits.cairo -> src/board/bits.cairo: DIFFERENT", out)
 
     def test_a_comment_or_an_attribute_sharing_the_line_is_not_a_budget_line(self) -> None:
         self.assertEqual(t.without_budgets("//! `#[available_gas(l2_gas: 5)]` budget\n"),
