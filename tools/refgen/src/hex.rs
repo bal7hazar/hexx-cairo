@@ -1,6 +1,9 @@
 //! `hex`: the items of `impl Hex` of milestone L-M1 (`src/hex/mod.rs`): `new`, `x`, `y`, `z`,
 //! `ZERO`, `NEIGHBORS_COORDS`, `const_sub`, `length`, `ulength`, `distance_to`,
-//! `unsigned_distance_to`.
+//! `unsigned_distance_to`; and the shared items of M2-T0: the constants, `hex`, `splat`,
+//! `new_cubic`, `from_array`, `to_array`, `to_cubic_array`, `const_neg`, `const_add`, `abs`, `min`,
+//! `max`, `dot`, `signum`, `range_count`, `ring_count`, `wedge_count`, `mul_scalar` (the `Mul<i32>`
+//! operator), `neighbor_coord`, `add_dir`, `neighbor`, `all_neighbors`.
 //!
 //! Inputs (plan §4.3): `points` seeded coordinates of `[domain_min, domain_max]²`; the unary
 //! functions on each, the binary functions on every ordered pair of them (`chunks` tests of
@@ -9,7 +12,7 @@
 //! cases where `hexx` returns, and a `#[should_panic]` test for the cases where it panics (at most
 //! `panic_cap` per function, evenly spread over the cases that panic).
 
-use hexx::Hex;
+use hexx::{EdgeDirection, Hex};
 
 use crate::cairo::{bound_points, cases_array, probe, seeded_points, spread, Emitter};
 use crate::spec::Spec;
@@ -113,6 +116,530 @@ const BOUND_PAIR_POINTS: [(i32, i32); 15] = [
     (0, 0),
 ];
 
+/// A function under test over the inputs `I`: its name, the Cairo types and variable names of its
+/// result in a table row, the Cairo expression of the call (`r` is bound to it), the assertion on
+/// `r` and the row's variables, and `hexx`'s result as literals (`None` when it panics).
+struct Fun<I> {
+    name: &'static str,
+    types: &'static str,
+    vars: &'static str,
+    call: &'static str,
+    check: &'static str,
+    eval: fn(I) -> Option<Vec<String>>,
+}
+
+/// How the inputs of a table are written: the row's types and variables, and the Cairo lines that
+/// build the inputs from them.
+struct Inputs<I> {
+    types: &'static str,
+    vars: &'static str,
+    prelude: &'static str,
+    /// The literals of one input.
+    row: fn(I) -> String,
+}
+
+/// `text`, every line indented by `spaces`.
+fn indented(text: &str, spaces: usize) -> String {
+    text.lines().map(|l| format!("{}{l}\n", " ".repeat(spaces))).collect()
+}
+
+fn hex_row(h: (i32, i32)) -> String {
+    format!("{}, {}", h.0, h.1)
+}
+
+fn pair_row(p: ((i32, i32), (i32, i32))) -> String {
+    format!("{}, {}, {}, {}", (p.0).0, (p.0).1, (p.1).0, (p.1).1)
+}
+
+fn scalar_row(p: ((i32, i32), i32)) -> String {
+    format!("{}, {}, {}", (p.0).0, (p.0).1, p.1)
+}
+
+fn direction_row(p: ((i32, i32), usize)) -> String {
+    format!("{}, {}, {}", (p.0).0, (p.0).1, p.1)
+}
+
+fn h(p: (i32, i32)) -> Hex {
+    Hex::new(p.0, p.1)
+}
+
+fn pair(h: Hex) -> Vec<String> {
+    vec![h.x.to_string(), h.y.to_string()]
+}
+
+fn one(v: impl ToString) -> Vec<String> {
+    vec![v.to_string()]
+}
+
+/// One table test per function over `inputs` (the cases where `hexx` returns), plus, when
+/// `panics` is set, up to `panic_cap` `#[should_panic]` tests per function (evenly spread over the
+/// inputs where `hexx` panics). Without `panics`, an input that panics is an error: the seeded
+/// domain never overflows. A function that never panics near the bounds has no such tests.
+fn tables<I: Copy>(
+    e: &mut Emitter,
+    prefix: &str,
+    inputs: &[I],
+    layout: &Inputs<I>,
+    funs: &[Fun<I>],
+    panics: Option<usize>,
+) -> Result<(), String> {
+    for fun in funs {
+        let mut rows = Vec::new();
+        let mut failing = Vec::new();
+        for &input in inputs {
+            match (fun.eval)(input) {
+                Some(values) => rows.push(format!("{}, {}", (layout.row)(input), values.join(", "))),
+                None if panics.is_some() => failing.push(input),
+                None => return Err(format!("hexx panics inside the seeded domain: {}", fun.name)),
+            }
+        }
+        let body = format!(
+            "{}    let mut i = 0;
+    while i < cases.len() {{
+        let ({}, {}) = *cases.at(i);
+{}        let r = {};
+        assert({}, '{}');
+        i += 1;
+    }}
+",
+            cases_array(&format!("{}, {}", layout.types, fun.types), &rows),
+            layout.vars,
+            fun.vars,
+            indented(layout.prelude, 8),
+            fun.call,
+            fun.check,
+            fun.name
+        );
+        e.test(&format!("golden_hex_{prefix}_{}", fun.name), false, &body)?;
+        if let Some(cap) = panics {
+            for (n, input) in spread(&failing, cap).into_iter().enumerate() {
+                let body = format!(
+                    "    let ({}): ({}) = ({});\n{}    let _ = {};\n",
+                    layout.vars,
+                    layout.types,
+                    (layout.row)(input),
+                    indented(layout.prelude, 4),
+                    fun.call
+                );
+                e.test(&format!("golden_hex_{prefix}_{}_panics_{n}", fun.name), true, &body)?;
+            }
+        }
+    }
+    Ok(())
+}
+
+const HEX_IN: Inputs<(i32, i32)> = Inputs {
+    types: "i32, i32",
+    vars: "x, y",
+    prelude: "let h = HexTrait::new(x, y);\n",
+    row: hex_row,
+};
+
+const PAIR_IN: Inputs<((i32, i32), (i32, i32))> = Inputs {
+    types: "i32, i32, i32, i32",
+    vars: "x1, y1, x2, y2",
+    prelude: "let a = HexTrait::new(x1, y1);\nlet b = HexTrait::new(x2, y2);\n",
+    row: pair_row,
+};
+
+const SCALAR_IN: Inputs<((i32, i32), i32)> = Inputs {
+    types: "i32, i32, i32",
+    vars: "x, y, k",
+    prelude: "let h = HexTrait::new(x, y);\n",
+    row: scalar_row,
+};
+
+const DIRECTION_IN: Inputs<((i32, i32), usize)> = Inputs {
+    types: "i32, i32, u8",
+    vars: "x, y, d",
+    prelude: "let all = EdgeDirectionTrait::ALL_DIRECTIONS;
+let direction = *all.span().at(d.into());
+let h = HexTrait::new(x, y);
+",
+    row: direction_row,
+};
+
+const UNARY_L_M2: [Fun<(i32, i32)>; 6] = [
+    Fun {
+        name: "to_array",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.to_array()",
+        check: "r == [ex, ey]",
+        eval: |p| probe(|| h(p).to_array()).map(|a| vec![a[0].to_string(), a[1].to_string()]),
+    },
+    Fun {
+        name: "to_cubic_array",
+        types: "i32, i32, i32",
+        vars: "ex, ey, ez",
+        call: "h.to_cubic_array()",
+        check: "r == [ex, ey, ez]",
+        eval: |p| {
+            probe(|| h(p).to_cubic_array())
+                .map(|a| vec![a[0].to_string(), a[1].to_string(), a[2].to_string()])
+        },
+    },
+    Fun {
+        name: "const_neg",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.const_neg()",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p).const_neg()).map(pair),
+    },
+    Fun {
+        name: "abs",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.abs()",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p).abs()).map(pair),
+    },
+    Fun {
+        name: "signum",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.signum()",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p).signum()).map(pair),
+    },
+    Fun {
+        name: "splat",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "HexTrait::splat(h.x)",
+        check: "r == HexTrait::new(ex, ey) && HexTrait::from_array([x, y]) == h",
+        eval: |p| probe(|| Hex::splat(p.0)).map(pair),
+    },
+];
+
+const BINARY_L_M2: [Fun<((i32, i32), (i32, i32))>; 4] = [
+    Fun {
+        name: "const_add",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "a.const_add(b)",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p.0).const_add(h(p.1))).map(pair),
+    },
+    Fun {
+        name: "min",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "a.min(b)",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p.0).min(h(p.1))).map(pair),
+    },
+    Fun {
+        name: "max",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "a.max(b)",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p.0).max(h(p.1))).map(pair),
+    },
+    Fun {
+        name: "dot",
+        types: "i32",
+        vars: "e",
+        call: "a.dot(b)",
+        check: "r == e",
+        eval: |p| probe(|| h(p.0).dot(h(p.1))).map(one),
+    },
+];
+
+const SCALAR_L_M2: [Fun<((i32, i32), i32)>; 1] = [Fun {
+    name: "mul_scalar",
+    types: "i32, i32",
+    vars: "ex, ey",
+    call: "h.mul_scalar(k)",
+    check: "r == HexTrait::new(ex, ey)",
+    // `impl Mul<i32> for Hex` (`src/hex/impls.rs:174`)
+    eval: |p| probe(|| h(p.0) * p.1).map(pair),
+}];
+
+const DIRECTION_L_M2: [Fun<((i32, i32), usize)>; 2] = [
+    Fun {
+        name: "neighbor",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.neighbor(direction)",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p.0).neighbor(EdgeDirection::ALL_DIRECTIONS[p.1])).map(pair),
+    },
+    Fun {
+        name: "add_dir",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.add_dir(direction)",
+        check: "r == HexTrait::new(ex, ey)",
+        // `pub(crate)` in `hexx`: its public form is the `Add<EdgeDirection>` operator
+        eval: |p| probe(|| h(p.0) + EdgeDirection::ALL_DIRECTIONS[p.1]).map(pair),
+    },
+];
+
+/// The pairs of the cubic triples near the bounds.
+fn cubic_triples() -> Vec<(i32, i32, i32)> {
+    let mut triples = Vec::new();
+    for &x in &crate::cairo::BOUND_VALUES {
+        for &y in &crate::cairo::BOUND_VALUES {
+            for &z in &crate::cairo::BOUND_VALUES {
+                triples.push((x, y, z));
+            }
+        }
+    }
+    triples
+}
+
+/// The largest `range` for which `f` does not panic (`f` is monotone: once it panics it does for
+/// every larger `range`), by bisection.
+fn last_ok(f: impl Fn(u32) -> Option<u64>) -> u32 {
+    let (mut lo, mut hi) = (0u32, u32::MAX);
+    if f(hi).is_some() {
+        return hi;
+    }
+    while lo + 1 < hi {
+        let mid = lo + (hi - lo) / 2;
+        if f(mid).is_some() {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    lo
+}
+
+/// `range_count`, `ring_count` and `wedge_count` of `range`, `None` when `hexx` panics, or when
+/// the result does not fit `u32` (`ring_count` returns a `usize`, and this port a `u32`).
+fn counts(name: &str, range: u32) -> Option<u64> {
+    match name {
+        "range_count" => probe(|| u64::from(Hex::range_count(range))),
+        "ring_count" => probe(|| Hex::ring_count(range) as u64).filter(|&v| v <= u64::from(u32::MAX)),
+        _ => probe(|| u64::from(Hex::wedge_count(range))),
+    }
+}
+
+fn count_tests(e: &mut Emitter) -> Result<(), String> {
+    for name in ["range_count", "ring_count", "wedge_count"] {
+        let edge = last_ok(|r| counts(name, r));
+        let mut ranges: Vec<u32> = (0..=64).collect();
+        ranges.extend([edge - 1, edge, edge.saturating_add(1), u32::MAX]);
+        ranges.sort_unstable();
+        ranges.dedup();
+        let (ok, failing): (Vec<u32>, Vec<u32>) =
+            ranges.into_iter().partition(|&r| counts(name, r).is_some());
+        let rows: Vec<String> =
+            ok.iter().map(|&r| format!("{r}, {}", counts(name, r).unwrap_or(0))).collect();
+        let body = format!(
+            "{}    let mut i = 0;
+    while i < cases.len() {{
+        let (range, expected) = *cases.at(i);
+        assert(HexTrait::{name}(range) == expected, '{name}');
+        i += 1;
+    }}
+",
+            cases_array("u32, u32", &rows)
+        );
+        e.test(&format!("golden_hex_{name}"), false, &body)?;
+        for (n, range) in failing.into_iter().take(2).enumerate() {
+            let body = format!("    let _ = HexTrait::{name}({range});\n");
+            e.test(&format!("golden_hex_{name}_panics_{n}"), true, &body)?;
+        }
+    }
+    Ok(())
+}
+
+/// The items of M2-T0.
+fn emit_l_m2(
+    e: &mut Emitter,
+    points: &[(i32, i32)],
+    chunks: usize,
+    panic_cap: usize,
+) -> Result<(), String> {
+    // The constants, from `hexx` itself.
+    let consts: [(&str, Hex); 7] = [
+        ("ORIGIN", Hex::ORIGIN),
+        ("ONE", Hex::ONE),
+        ("NEG_ONE", Hex::NEG_ONE),
+        ("X", Hex::X),
+        ("NEG_X", Hex::NEG_X),
+        ("Y", Hex::Y),
+        ("NEG_Y", Hex::NEG_Y),
+    ];
+    let arrays: [(&str, &[Hex]); 7] = [
+        ("INCR_X", &Hex::INCR_X),
+        ("INCR_Y", &Hex::INCR_Y),
+        ("INCR_Z", &Hex::INCR_Z),
+        ("DECR_X", &Hex::DECR_X),
+        ("DECR_Y", &Hex::DECR_Y),
+        ("DECR_Z", &Hex::DECR_Z),
+        ("DIAGONAL_COORDS", &Hex::DIAGONAL_COORDS),
+    ];
+    let mut body = String::new();
+    for (name, c) in consts {
+        body.push_str(&format!(
+            "    assert(HexTrait::{name} == HexTrait::new({}, {}), '{name}');\n",
+            c.x, c.y
+        ));
+    }
+    for (name, list) in arrays {
+        body.push_str(&format!("    let {} = HexTrait::{name};\n", name.to_lowercase()));
+        body.push_str(&format!("    let {0} = {0}.span();\n", name.to_lowercase()));
+        body.push_str(&format!(
+            "    assert({}.len() == {}, '{name} len');\n",
+            name.to_lowercase(),
+            list.len()
+        ));
+        for (i, c) in list.iter().enumerate() {
+            body.push_str(&format!(
+                "    assert(*{}.at({i}) == HexTrait::new({}, {}), '{name} {i}');\n",
+                name.to_lowercase(),
+                c.x,
+                c.y
+            ));
+        }
+    }
+    for d in 0..6 {
+        let c = Hex::neighbor_coord(EdgeDirection::ALL_DIRECTIONS[d]);
+        body.push_str(&format!(
+            "    let all = EdgeDirectionTrait::ALL_DIRECTIONS;
+    let direction = *all.span().at({d});
+    assert(HexTrait::neighbor_coord(direction) == HexTrait::new({}, {}), 'neighbor_coord {d}');\n",
+            c.x, c.y
+        ));
+    }
+    body.push_str(&format!(
+        "    assert(hex(3, -5) == HexTrait::new({}, {}), 'hex');\n",
+        hexx::hex(3, -5).x,
+        hexx::hex(3, -5).y
+    ));
+    e.test("golden_hex_constants_l_m2", false, &body)?;
+
+    // `new_cubic`: the valid triples of the seeded points, then the triples near the bounds.
+    let rows: Vec<String> = points.iter().map(|&(x, y)| {
+        let c = Hex::new_cubic(x, y, -x - y);
+        format!("{}, {}, {}", c.x, c.y, -x - y)
+    }).collect();
+    let body = format!(
+        "{}    let mut i = 0;
+    while i < cases.len() {{
+        let (x, y, z) = *cases.at(i);
+        assert(HexTrait::new_cubic(x, y, z) == HexTrait::new(x, y), 'new_cubic');
+        i += 1;
+    }}
+",
+        cases_array("i32, i32, i32", &rows)
+    );
+    e.test("golden_hex_new_cubic", false, &body)?;
+    let triples = cubic_triples();
+    let (valid, failing): (Vec<_>, Vec<_>) =
+        triples.iter().partition(|&&(x, y, z)| probe(|| Hex::new_cubic(x, y, z)).is_some());
+    let rows: Vec<String> = valid.iter().map(|(x, y, z)| format!("{x}, {y}, {z}")).collect();
+    let body = format!(
+        "{}    let mut i = 0;
+    while i < cases.len() {{
+        let (x, y, z) = *cases.at(i);
+        assert(HexTrait::new_cubic(x, y, z) == HexTrait::new(x, y), 'new_cubic');
+        i += 1;
+    }}
+",
+        cases_array("i32, i32, i32", &rows)
+    );
+    e.test("golden_hex_bounds_new_cubic", false, &body)?;
+    // The sum is not zero, and the sum itself leaves `i32`: both panic in `hexx`.
+    for (n, (x, y, z)) in spread(&failing, panic_cap).into_iter().enumerate() {
+        let body = format!("    let _ = HexTrait::new_cubic({x}, {y}, {z});\n");
+        e.test(&format!("golden_hex_new_cubic_panics_{n}"), true, &body)?;
+    }
+
+    // The unary items on the seeded points, then near the bounds.
+    tables(e, "unary", points, &HEX_IN, &UNARY_L_M2, None)?;
+    let bounds = bound_points();
+    tables(e, "bounds", &bounds, &HEX_IN, &UNARY_L_M2, Some(panic_cap))?;
+
+    // The binary items on every ordered pair of the seeded points, in `chunks` tests, then on the
+    // pairs near the bounds.
+    let per_chunk = points.len() / chunks;
+    for chunk in 0..chunks {
+        let pairs: Vec<_> = points[chunk * per_chunk..(chunk + 1) * per_chunk]
+            .iter()
+            .flat_map(|&a| points.iter().map(move |&b| (a, b)))
+            .collect();
+        tables(e, &format!("pairs_{chunk}"), &pairs, &PAIR_IN, &BINARY_L_M2, None)?;
+    }
+    let bound_pairs: Vec<_> = BOUND_PAIR_POINTS
+        .iter()
+        .flat_map(|&a| BOUND_PAIR_POINTS.iter().map(move |&b| (a, b)))
+        .collect();
+    tables(e, "bounds_pairs", &bound_pairs, &PAIR_IN, &BINARY_L_M2, Some(panic_cap))?;
+
+    // `mul_scalar`: every point by the abscissa of the points of a stride, then near the bounds.
+    let scalars: Vec<((i32, i32), i32)> = points
+        .iter()
+        .flat_map(|&p| points.iter().step_by(8).map(move |&q| (p, q.0)))
+        .collect();
+    tables(e, "scalar", &scalars, &SCALAR_IN, &SCALAR_L_M2, None)?;
+    let bound_scalars: Vec<((i32, i32), i32)> = BOUND_PAIR_POINTS
+        .iter()
+        .flat_map(|&p| crate::cairo::BOUND_VALUES.iter().map(move |&k| (p, k)))
+        .collect();
+    tables(e, "bounds_scalar", &bound_scalars, &SCALAR_IN, &SCALAR_L_M2, Some(panic_cap))?;
+
+    // The neighbours: the six directions of every point, then near the bounds.
+    let directions: Vec<((i32, i32), usize)> =
+        points.iter().flat_map(|&p| (0..6).map(move |d| (p, d))).collect();
+    tables(e, "direction", &directions, &DIRECTION_IN, &DIRECTION_L_M2, None)?;
+    let bound_directions: Vec<((i32, i32), usize)> =
+        bounds.iter().flat_map(|&p| (0..6).map(move |d| (p, d))).collect();
+    tables(e, "bounds_direction", &bound_directions, &DIRECTION_IN, &DIRECTION_L_M2, Some(panic_cap))?;
+
+    // `all_neighbors`: the six neighbours as one array, on the seeded points and near the bounds.
+    let all = |p: (i32, i32)| probe(|| h(p).all_neighbors());
+    for (prefix, inputs, cap) in [("unary", points.to_vec(), None), ("bounds", bounds.clone(), Some(panic_cap))] {
+        let mut rows = Vec::new();
+        let mut failing = Vec::new();
+        for &p in &inputs {
+            match all(p) {
+                Some(n) => rows.push(format!(
+                    "{}, {}, {}",
+                    p.0,
+                    p.1,
+                    n.iter().map(|c| format!("{}, {}", c.x, c.y)).collect::<Vec<_>>().join(", ")
+                )),
+                None if cap.is_some() => failing.push(p),
+                None => return Err("hexx panics inside the seeded domain: all_neighbors".into()),
+            }
+        }
+        let body = format!(
+            "{}    let mut i = 0;
+    while i < cases.len() {{
+        let (x, y, x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5) = *cases.at(i);
+        let r = HexTrait::new(x, y).all_neighbors();
+        let expected = [
+            HexTrait::new(x0, y0), HexTrait::new(x1, y1), HexTrait::new(x2, y2),
+            HexTrait::new(x3, y3), HexTrait::new(x4, y4), HexTrait::new(x5, y5),
+        ];
+        assert(r == expected, 'all_neighbors');
+        i += 1;
+    }}
+",
+            cases_array("i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32", &rows)
+        );
+        e.test(&format!("golden_hex_{prefix}_all_neighbors"), false, &body)?;
+        if let Some(cap) = cap {
+            for (n, p) in spread(&failing, cap).into_iter().enumerate() {
+                let body = format!(
+                    "    let _ = HexTrait::new({}, {}).all_neighbors();\n",
+                    p.0, p.1
+                );
+                e.test(&format!("golden_hex_{prefix}_all_neighbors_panics_{n}"), true, &body)?;
+            }
+        }
+    }
+
+    count_tests(e)
+}
+
 pub fn emit(spec: &Spec) -> Result<String, String> {
     let points = seeded_points(
         &spec.text("seed")?,
@@ -128,8 +655,8 @@ pub fn emit(spec: &Spec) -> Result<String, String> {
 
     let mut e = Emitter::new(
         spec,
-        "`Hex` (src/hex/mod.rs:69), `new` :208, `x` :256, `y` :264, `z` :274,\n// `const_sub` :449, `length` :568, `ulength` :594, `distance_to` :615, `unsigned_distance_to` :625",
-        "use hexx::hex::{Hex, HexTrait};\n",
+        "`Hex` (src/hex/mod.rs:69), `new` :208, `x` :256, `y` :264, `z` :274,\n// `const_sub` :449, `length` :568, `ulength` :594, `distance_to` :615, `unsigned_distance_to` :625;\n// and the items of M2-T0: the constants :95-186, `hex` :89, `splat` :225, `new_cubic` :247,\n// `from_array` :290, `to_array` :307, `to_cubic_array` :333, `const_neg` :421, `const_add` :435,\n// `abs` :498, `min` :511, `max` :525, `dot` :535, `signum` :546, `neighbor_coord` :633,\n// `add_dir` :645, `neighbor` :665, `all_neighbors` :760, `range_count` :1160, `ring_count`\n// (rings.rs:540), `wedge_count` (rings.rs:285), `Mul<i32>` (impls.rs:174)",
+        "use hexx::direction::edge_direction::EdgeDirectionTrait;\nuse hexx::hex::{Hex, HexTrait, hex};\n",
     );
 
     // Constants.
@@ -253,5 +780,6 @@ pub fn emit(spec: &Spec) -> Result<String, String> {
             e.test(&format!("golden_hex_{name}_panics_{n}"), true, &body)?;
         }
     }
+    emit_l_m2(&mut e, &points, spec.int("ops_chunks")? as usize, panic_cap)?;
     e.finish()
 }

@@ -11,7 +11,18 @@
 //! `HexOrientation`); `HexxCoordinates` the directions and coordinates of the board (N-7, M1-T3);
 //! `HexxLine` the line of sight (N-5, M1-T6) and the mirror's `line_to`; `HexxHexagon` range and
 //! ring as geometry (N-6, M1-T5); `HexxSeams` the seams (N-2, M1-T7) and `LayoutTrait::new_odd`;
-//! `HexxMargins` the generation of a chunk given its margins and `smooth` (N-1, M1-T8).
+//! `HexxMargins` the generation of a chunk given its margins and `smooth` (N-1, M1-T8). The
+//! mirror items of L-M2 are called from `mirror_*.cairo`, one file per task (LIB-06); M2-T0's own
+//! (the shared `Hex` items) are in `HexxMirror`.
+
+// The call sites of the tasks of L-M2 (LIB-06), one file per task: each task fills its own file.
+pub mod mirror_bounds;
+pub mod mirror_directions;
+pub mod mirror_grid;
+pub mod mirror_hex;
+pub mod mirror_ops;
+pub mod mirror_rings;
+pub mod mirror_shapes;
 
 /// The queries, the finders on unit costs and the constructors that call no generator.
 #[starknet::contract]
@@ -345,7 +356,7 @@ pub mod HexxFlood {
 pub mod HexxMirror {
     use hexx::conversions::{HexConversionsTrait, OffsetHexMode};
     use hexx::direction::edge_direction::{EdgeDirection, EdgeDirectionTrait};
-    use hexx::hex::{Hex, HexTrait};
+    use hexx::hex::{Hex, HexTrait, hex};
     use hexx::orientation::HexOrientation;
 
     #[storage]
@@ -395,6 +406,138 @@ pub mod HexxMirror {
     #[external(v0)]
     fn unsigned_distance_to(self: @ContractState, hex: Hex, rhs: Hex) -> u32 {
         hex.unsigned_distance_to(rhs)
+    }
+
+    /// M2-T0: the constants of `Hex`, in the order of the source.
+    #[external(v0)]
+    fn constants(self: @ContractState) -> Span<Hex> {
+        let mut all = array![
+            HexTrait::ORIGIN, HexTrait::ONE, HexTrait::NEG_ONE, HexTrait::X, HexTrait::NEG_X,
+            HexTrait::Y, HexTrait::NEG_Y,
+        ];
+        let incr_x = HexTrait::INCR_X;
+        let incr_y = HexTrait::INCR_Y;
+        let incr_z = HexTrait::INCR_Z;
+        let decr_x = HexTrait::DECR_X;
+        let decr_y = HexTrait::DECR_Y;
+        let decr_z = HexTrait::DECR_Z;
+        let diagonal = HexTrait::DIAGONAL_COORDS;
+        all.append_span(incr_x.span());
+        all.append_span(incr_y.span());
+        all.append_span(incr_z.span());
+        all.append_span(decr_x.span());
+        all.append_span(decr_y.span());
+        all.append_span(decr_z.span());
+        all.append_span(diagonal.span());
+        all.span()
+    }
+
+    #[external(v0)]
+    fn hex_of(self: @ContractState, x: i32, y: i32) -> Hex {
+        hex(x, y)
+    }
+
+    #[external(v0)]
+    fn splat(self: @ContractState, v: i32) -> Hex {
+        HexTrait::splat(v)
+    }
+
+    #[external(v0)]
+    fn new_cubic(self: @ContractState, x: i32, y: i32, z: i32) -> Hex {
+        HexTrait::new_cubic(x, y, z)
+    }
+
+    #[external(v0)]
+    fn from_array(self: @ContractState, x: i32, y: i32) -> Hex {
+        HexTrait::from_array([x, y])
+    }
+
+    #[external(v0)]
+    fn to_array(self: @ContractState, hex: Hex) -> (i32, i32) {
+        let [x, y] = hex.to_array();
+        (x, y)
+    }
+
+    #[external(v0)]
+    fn to_cubic_array(self: @ContractState, hex: Hex) -> (i32, i32, i32) {
+        let [x, y, z] = hex.to_cubic_array();
+        (x, y, z)
+    }
+
+    #[external(v0)]
+    fn hex_const_neg(self: @ContractState, hex: Hex) -> Hex {
+        hex.const_neg()
+    }
+
+    #[external(v0)]
+    fn const_add(self: @ContractState, hex: Hex, rhs: Hex) -> Hex {
+        hex.const_add(rhs)
+    }
+
+    #[external(v0)]
+    fn abs(self: @ContractState, hex: Hex) -> Hex {
+        hex.abs()
+    }
+
+    #[external(v0)]
+    fn min(self: @ContractState, hex: Hex, rhs: Hex) -> Hex {
+        hex.min(rhs)
+    }
+
+    #[external(v0)]
+    fn max(self: @ContractState, hex: Hex, rhs: Hex) -> Hex {
+        hex.max(rhs)
+    }
+
+    #[external(v0)]
+    fn dot(self: @ContractState, hex: Hex, rhs: Hex) -> i32 {
+        hex.dot(rhs)
+    }
+
+    #[external(v0)]
+    fn signum(self: @ContractState, hex: Hex) -> Hex {
+        hex.signum()
+    }
+
+    #[external(v0)]
+    fn range_count(self: @ContractState, range: u32) -> u32 {
+        HexTrait::range_count(range)
+    }
+
+    #[external(v0)]
+    fn ring_count(self: @ContractState, range: u32) -> u32 {
+        HexTrait::ring_count(range)
+    }
+
+    #[external(v0)]
+    fn wedge_count(self: @ContractState, range: u32) -> u32 {
+        HexTrait::wedge_count(range)
+    }
+
+    #[external(v0)]
+    fn mul_scalar(self: @ContractState, hex: Hex, rhs: i32) -> Hex {
+        hex.mul_scalar(rhs)
+    }
+
+    #[external(v0)]
+    fn neighbor_coord(self: @ContractState, direction: EdgeDirection) -> Hex {
+        HexTrait::neighbor_coord(direction)
+    }
+
+    #[external(v0)]
+    fn add_dir(self: @ContractState, hex: Hex, direction: EdgeDirection) -> Hex {
+        hex.add_dir(direction)
+    }
+
+    #[external(v0)]
+    fn neighbor_of(self: @ContractState, hex: Hex, direction: EdgeDirection) -> Hex {
+        hex.neighbor(direction)
+    }
+
+    #[external(v0)]
+    fn all_neighbors(self: @ContractState, hex: Hex) -> Span<Hex> {
+        let all = hex.all_neighbors();
+        all.span()
     }
 
     #[external(v0)]
