@@ -2011,7 +2011,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 Written by the orchestrator, never generated. A measurement above the upper bound of its range in
 §7 of the plan is accepted here with its reason, and in §14 of the plan for the audits. The project
 manager's rule (2026-09-30, D-144's logic): an accepted figure that moves the library's share of a
-worst tick (1,064,209 cave, 1,106,666 serpentine: `gas/hexx.snap` minus the baseline 30,250 of `bench_tick`, the last figures of M1-T9b) or of a reveal by more than 10 % goes to
+worst tick (1,064,309 cave, 1,106,766 serpentine on Scarb 2.20.1 / starknet-foundry 0.64.0: `gas/hexx.snap` minus the baseline 22,420 of `bench_tick`; 1,064,209 and 1,106,666 on Scarb 2.19.4 / 0.61.0, baseline 30,250, the last figures of M1-T9b) or of a reveal by more than 10 % goes to
 the project manager before the merge; under that, the orchestrator decides.
 
 | Function | Measured | Range of §7 | Task | Reason |
@@ -2035,3 +2035,24 @@ the project manager before the merge; under that, the orchestrator decides.
 | `SeamTrait::side` | 3,840 | [3,032, 3,790] | M1-T7 | The sketch leaves out the `NonZero` conversion, two products and the `match` on `Side`; not on the tick |
 | `HexagonTrait::hexagon`, loop path, 16 rows | 128,670 | [72,064, 90,080] | M1-T5 | About 5,840 per row against the sketch's 4,504; the tick reads the sight on the table path (16,430) |
 | `HexagonTrait::hexagon`, loop path, 83 rows | 519,840 | [373,832, 467,290] | M1-T5 | idem; the domain-wide worst case (3 × 83, radius 255) |
+
+### Figures on Scarb 2.20.1 and starknet-foundry 0.64.0 (LIB-04f, #86)
+
+Read from `gas/hexx.snap` and `gas/takeover_tests.snap` on `main` at `1527ac2`; nothing was
+re-measured and no gas pin was written. Every figure above is a marginal one (`twice − once` of a
+benchmark's method) and **none changed**: each equals its value on 2.19.4 / 0.61.0, e.g.
+`bench_geometry_chunk_of_twice − _once` is 3,020 before and after. Absolute figures of small tests
+fell by up to about 50 %, because the snforge 0.64 harness charges about 7.5–7.8k less per test
+(`bench_geometry_chunk_of_once` 20,260 → 12,430, `bench_tick_baseline` 30,250 → 22,420); the marginal
+costs of the code are unchanged.
+
+| Figure | Before (2.19.4) | After (2.20.1) |
+|---|---:|---:|
+| `bench_tick_baseline` | 30,250 | 22,420 |
+| `bench_tick_cave` | 1,094,459 | 1,086,729 |
+| `bench_tick_serpentine` | 1,136,916 | 1,129,186 |
+| Library share of the worst tick, cave (`bench_tick_cave` − baseline) | 1,064,209 | 1,064,309 |
+| Library share of the worst tick, serpentine | 1,106,666 | 1,106,766 |
+
+The two shares rose by 100 (under 0.01 %): the baseline fell by 7,830 and each tick by 7,730. That
+is not "equal or lower"; it is far below the 10 % rule above and is recorded here as measured.

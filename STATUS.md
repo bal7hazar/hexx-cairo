@@ -4,9 +4,9 @@
 
 | | |
 |---|---|
-| Phase | **Milestone L-M1: LIB-05.** `hexx` 0.1.0-rc.1 published. N-1 to N-8 merged (**N-1, M1-T8, in #84 as `ad03dbc`**); **LIB-04e** (single-thread pin, D-176) merged in #81 as `920ddee`. **LIB-04f** (Scarb 2.20.1, starknet-foundry 0.64.0; the pin kept per SPK-13) in progress. Next: LIB-04f, then rc.2 (`0.1.0-rc.2`) for ENG-05 per the order of the handover note, then M1-R |
+| Phase | **Milestone L-M1: LIB-05, and L-M2 (LIB-06) briefed.** `hexx` 0.1.0-rc.1 published. N-1 to N-8 merged; **LIB-04e** (single-thread pin, D-176) merged in #81 as `920ddee`; **LIB-04f** (Scarb 2.20.1, starknet-foundry 0.64.0) merged in #86 as `1527ac2`. Next: rc.2 (`0.1.0-rc.2`, requires Cairo ≥ 2.20.0) for ENG-05 per the order of the handover note, then M2-T0 and M1-R |
 | Procedures (herdr) | Implementers, reviews and audits are threads of the project `grimworld-lib` (profiles `impl-sonnet`, `impl-opus`, `review`, `review-opus`, `audit`); Nexus and `scripts/agent.sh` are not used. Every code pull request is reviewed on another model than the one that wrote it; audits are the D-177 exceptions (randomness, among them seeded generation). The owner merges; the project manager is told one line per ready pull request |
-| Running agents | LIB-04f (Scarb 2.20.1) |
+| Running agents | `smooth` mask follow-up (variant B, +3.92 % on order 1); rc.2 preparation; M2-T0 |
 | Decisions pending | None for the owner on this track |
 
 ## Pause 2026-09-29 (ended 2026-09-30)
@@ -66,6 +66,8 @@ Diagnosis: the game's task SPK-13 on the owner's Mac ([reproduction](docs/report
 
 | Date | What |
 |---|---|
+| 2026-10-02 (afternoon) | LIB-04f: Scarb 2.20.1 and starknet-foundry 0.64.0 merged in #86 as `1527ac2`, by `[Sonnet 5.5]`; two reviews, one minor finding fixed (the workflows read `.tool-versions`). Accepted figures re-read in `gas/accepted.md` and plan §14: marginal figures unchanged, small absolute figures down (snforge 0.64 harness about 7.5–7.8k less per test). E2201 on `extern fn bitwise` kept as a known warning (the file is under the strict take-over proof). rc.2 requires Cairo ≥ 2.20.0 |
+| 2026-10-02 (afternoon) | LIB-06: the briefs of milestone L-M2 merged in #87 as `38736b3` (M2-T0 to M2-T7, M2-R); tasks in `PLAN.md`. In progress: the `smooth` mask follow-up (variant B, +3.92 % on order 1), rc.2 preparation, M2-T0 |
 | 2026-10-02 | LIB-04e: single-thread pin (`RAYON_NUM_THREADS=1`, D-176), both `gas/*.builds` files dropped, a determinism job in CI, by `[Sonnet 5.5]`; ten CI runs identical. First review FAIL (the runs tested a stale base, before #65, #74 and #84); fixed by merging `main` and re-checking single-threaded with no row changed; second review PASS. Merged as `920ddee`, [pull request #81](https://github.com/bal7hazar/hexx-cairo/pull/81) |
 | 2026-10-02 | LIB-05 M1-T8, N-1: `Caver::generate_with_margins`, `smooth`, by `[Fable 5.1]`; review PASS WITH FINDINGS (notes, Sonnet); determinism audit PASS WITH FINDINGS (one note, Opus; D-177: seeded generation). Merged as `ad03dbc`, [pull request #84](https://github.com/bal7hazar/hexx-cairo/pull/84). Decision on plan §6.2 recorded in `PLAN.md` (a corner set in `values` is cleared) |
 | 2026-10-01 | LIB-04d: the gas gate accepts the exact recorded second build of a row (D-164 extended to gas by the project manager), `gas/takeover_tests.builds` (40 rows), by `[Sonnet 5.5]`; review `[Opus 5.5]` (fallback): PASS. [pull request #76](https://github.com/bal7hazar/hexx-cairo/pull/76) |
