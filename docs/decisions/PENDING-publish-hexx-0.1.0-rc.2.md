@@ -39,10 +39,12 @@ changed are filled from the merge commit when the release PR is opened.
 
 ## Constraint on class hashes
 
-A class hash is reproducible on one machine, not across machines: the same CASM can come with
-a different Sierra and class hash on two machines (programme finding, SPK-13). Nothing in this
-request or in the release claims that a class hash is reproducible across machines. Every pin
-(gas snapshots, class sizes, class hashes, checksums) is generated and checked on Linux only (the
+Class hashes and Sierra file hashes depend on the absolute build path, so they differ between a
+worktree and CI even on Linux (programme finding, SPK-13b); gas, Sierra felt counts and CASM do not.
+No check, pin or comparison in this request or in the release uses a class hash or a Sierra file
+hash: the figures compared are gas, Sierra felt counts and CASM. Class hash: not compared until the
+build-root rule (programme OPERATIONS). The package checksum of the registry (the sha256 of the
+`scarb package` archive) is a different thing and stays. Every pin is generated on Linux only (the
 VPS or CI), never on a Mac.
 
 ## Who approves
