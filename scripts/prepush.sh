@@ -27,12 +27,12 @@ export RAYON_NUM_THREADS=1
 # Which paths trigger which generated-artefact check (extended regular expressions on the
 # repository-relative path). One line per check: name::command::trigger.
 CHECKS=(
-  "gas-tables::python3 scripts/gas_tables.py --check::^(gas/[^/]*\.snap|docs/GAS\.md|scripts/gas_tables\.py|\.tool-versions)$"
+  "gas-tables::python3 scripts/gas_tables.py --check::^(gas/[^/]*\.(snap|md)|docs/GAS\.md|scripts/gas_tables\.py|\.tool-versions)$"
   "class-size::python3 scripts/bytecode_size.py check::^(crates/(consumer|hexx)/src/.*\.cairo|Scarb\.(toml|lock)|crates/[^/]+/Scarb\.toml|\.tool-versions)$"
   "api-parity::python3 scripts/api_parity.py --check::^(docs/API_PARITY\.md|scripts/api_parity\.py|crates/hexx/src/.*\.cairo)$"
   "extensions::python3 scripts/api_parity.py --extensions --check::^(docs/EXTENSIONS\.md|scripts/api_parity\.py|crates/hexx/src/.*\.cairo)$"
   "deviations::python3 scripts/deviations.py --check::^(docs/DEVIATIONS\.md|scripts/deviations\.py|crates/hexx/src/.*\.cairo)$"
-  "takeover::python3 scripts/takeover_check.py --skip-if-missing::^(scripts/takeover_check\.py|crates/hexx/(src|tests)/.*\.cairo)$"
+  "takeover::python3 scripts/takeover_check.py --skip-if-missing::^(scripts/takeover_check\.py|\.tool-versions|crates/hexx/(src|tests)/.*\.cairo)$"
   "golden-vectors::golden::^(tools/refgen/.*|crates/hexx/tests/golden_.*\.cairo)$"
 )
 # A change here builds the whole workspace.
@@ -40,15 +40,26 @@ WORKSPACE_TRIGGER='^(Scarb\.toml|Scarb\.lock|\.tool-versions)$'
 
 # stdin: changed paths. stdout: one line per selected step, `build <target>` or `check <name>`.
 select_steps() {
-  local paths
+  local paths manifest
   paths=$(cat)
   if grep -Eq "$WORKSPACE_TRIGGER" <<<"$paths"; then
     echo "build workspace"
   else
     local pkgs
     pkgs=$(sed -nE 's#^crates/([^/]+)/(.*\.cairo|Scarb\.toml)$#\1#p' <<<"$paths" | sort -u)
-    local pkg
+    # A touched package also builds every package whose manifest depends on it by path
+    # (`<pkg> = { path = "../<pkg>" ...`): a change under crates/hexx builds consumer and
+    # takeover_tests too. Dependents are read from the manifests, not listed.
+    local pkg dependent all=$pkgs
     for pkg in $pkgs; do
+      for manifest in crates/*/Scarb.toml; do
+        dependent=$(basename "$(dirname "$manifest")")
+        if grep -Eq "^$pkg *= *\{ *path *= *\"\.\./$pkg\"" "$manifest"; then
+          all=$(printf '%s\n%s\n' "$all" "$dependent")
+        fi
+      done
+    done
+    for pkg in $(sort -u <<<"$all"); do
       # A directory under crates/ that is gone (a deleted package) has nothing to build.
       [ -d "crates/$pkg" ] && echo "build $pkg"
     done
@@ -87,13 +98,16 @@ scarb fmt --check --workspace || fail "format (scarb fmt --check --workspace)"
 python3 -m unittest discover -s scripts/tests >/dev/null 2>&1 \
   || { python3 -m unittest discover -s scripts/tests 2>&1 | tail -n 30 >&2; fail "unit tests of the scripts"; }
 
-while read -r kind target; do
+# The steps are computed first (a failure of select_steps stops the script, set -e) and read on
+# fd 3, with stdin of every step from /dev/null, so no step can eat the list.
+steps=$(select_steps <<<"$changed")
+while read -r kind target <&3; do
   [ -n "$kind" ] || continue
   if [ "$kind" = build ]; then
     if [ "$target" = workspace ]; then
-      scarb build --workspace || fail "build (scarb build --workspace)"
+      scarb build --workspace </dev/null || fail "build (scarb build --workspace)"
     else
-      scarb build -p "$target" || fail "build (scarb build -p $target)"
+      scarb build -p "$target" </dev/null || fail "build (scarb build -p $target)"
     fi
     continue
   fi
@@ -103,16 +117,16 @@ while read -r kind target; do
     command=${command%::*}
     if [ "$command" = golden ]; then
       if command -v cargo >/dev/null 2>&1; then
-        cargo run --quiet --locked --manifest-path tools/refgen/Cargo.toml -- check \
+        cargo run --quiet --locked --manifest-path tools/refgen/Cargo.toml -- check </dev/null \
           || fail "golden vectors (tools/refgen)"
       else
         echo "prepush: cargo not found, golden vector check left to CI" >&2
       fi
     else
       # shellcheck disable=SC2086 # the command is a fixed word list from CHECKS
-      $command || fail "$target ($command)"
+      $command </dev/null || fail "$target ($command)"
     fi
   done
-done < <(select_steps <<<"$changed")
+done 3<<<"$steps"
 
 echo "prepush: all checks passed"

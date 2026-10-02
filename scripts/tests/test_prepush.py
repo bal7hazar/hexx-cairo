@@ -19,10 +19,9 @@ class PrepushSelectionTest(unittest.TestCase):
     def test_docs_only_selects_nothing(self):
         self.assertEqual(select("README.md", "docs/research/LIB-03-porting-plan.md"), [])
 
-    def test_hexx_source_builds_hexx_only_and_the_table_checks(self):
+    def test_hexx_source_builds_hexx_and_its_dependents_and_the_table_checks(self):
         steps = select("crates/hexx/src/hex.cairo")
-        self.assertEqual(steps[0], "build hexx")
-        self.assertNotIn("build consumer", steps)
+        self.assertEqual(steps[:3], ["build consumer", "build hexx", "build takeover_tests"])
         for name in ("class-size", "api-parity", "extensions", "deviations", "takeover"):
             self.assertIn(f"check {name}", steps)
         self.assertNotIn("check gas-tables", steps)
@@ -32,6 +31,15 @@ class PrepushSelectionTest(unittest.TestCase):
         steps = select("Scarb.lock")
         self.assertEqual(steps[0], "build workspace")
         self.assertIn("check class-size", steps)
+
+    def test_accepted_figures_select_the_gas_table(self):
+        self.assertEqual(select("gas/accepted.md"), ["check gas-tables"])
+
+    def test_tool_versions_selects_class_size_takeover_and_gas_table(self):
+        steps = select(".tool-versions")
+        self.assertEqual(steps[0], "build workspace")
+        for name in ("class-size", "takeover", "gas-tables"):
+            self.assertIn(f"check {name}", steps)
 
     def test_gas_snapshot_selects_the_gas_table(self):
         self.assertEqual(select("gas/hexx.snap"), ["check gas-tables"])
