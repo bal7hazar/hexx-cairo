@@ -10,7 +10,7 @@ on 2026-09-28 and **owned here from now on**. The game's needs stay in the game'
 | Scope | **`hexx` is the reference**: feature parity wherever it makes sense on-chain, **extended** with the features tied to Cairo and to the network (bitmap boards, generation, floods, assembly). The engine of `origami_hexmap` is taken over here |
 | `origami_hexmap` | **Decommissioned once the port is complete** |
 | `u252` | From the package `uint252` (scarbs.xyz, 0.1.0 published on 2026-09-28; repository `bal7hazar/types-cairo`), by published version |
-| Compiler | **Cairo 2.19** (Scarb 2.19.4, snforge 0.61), the compiler of the game since it dropped Dojo (its ADR-0007, 2026-09-28) and of the owner's other libraries. `BoundedInt` stays |
+| Compiler | **Cairo 2.20** (Scarb 2.20.1, snforge 0.64; Scarb 2.19.4, snforge 0.61 until LIB-04f), the compiler of the game since it dropped Dojo (its ADR-0007, 2026-09-28) and of the owner's other libraries. `BoundedInt` stays |
 | Meanwhile | The game's spikes use `origami_hexmap` 1.8.0 on Cairo 2.19; the game then consumes this library by published version |
 | Subject | `origami_hexmap` (`dojoengine/origami`, `crates/hexmap`) and the Rust crate [`hexx`](https://github.com/ManevilleF/hexx) |
 | Rules | The game's `OPERATIONS.md` and `docs/CAIRO.md` in full: test-driven, gas budget on every test, execution cost first, arithmetic then bitwise then loops, `u252`, oracles |
@@ -33,9 +33,9 @@ on 2026-09-28 and **owned here from now on**. The game's needs stay in the game'
 | LIB-04c | CI under 10 minutes again: `bench.py check --partition`, a completeness job, `hexx` tests and gas in three partitions (`Gas hexx` took 9 min 4 s on `main` at `295ff3d`, before M1-T6's oracles). Brief: [LIB-04c](docs/briefs/LIB-04c-ci-partitions.md) | M1-T6 (it runs after, on the one slot of the track) | Sonnet 5.5, implement | Codex review | **done** (2026-10-01, pull request #58): `hexx` tests in 5 partitions, regular gas in 4, ignored gas in 2, two completeness jobs; slowest job 5 m 43 s; Codex review two passes (one finding: the report archived) |
 | LIB-04d | The gas gate accepts the exact second observed build of a row (D-164 extended by the project manager, 2026-10-01): `gas/takeover_tests.builds`. Brief: [LIB-04d](docs/briefs/LIB-04d-gas-builds.md) | LIB-04c | Sonnet 5.5, implement | Codex review (or its fallback) | **done** (2026-10-01, pull request #76); review PASS (Opus, fallback) |
 | LIB-04e | One build: `RAYON_NUM_THREADS=1` on every measured or declared build (D-154's cause found by the game's SPK-13; the project manager's D-176 of 2026-10-01), both `.builds` files dropped, snapshots re-taken, a determinism check in CI. Brief: [LIB-04e](docs/briefs/LIB-04e-single-thread-builds.md) | LIB-04d | Sonnet 5.5, implement | review (Codex or its fallback) | done, merged in #81 (`920ddee`) |
-| LIB-04f | Migration to Scarb 2.20.1 and starknet-foundry 0.64.0 (the owner's rule D-180): pins, CI, release and consumer checks, every figure re-measured; rc.2 the first on the new compiler. Brief: [LIB-04f](docs/briefs/LIB-04f-scarb-2.20.md) | LIB-04e, M1-T8, SPK-13's result on 2.20.1, the Overseer's confirmation that the toolchain is installed on the VPS | Sonnet 5.5, implement | review only (D-177) | todo |
+| LIB-04f | Migration to Scarb 2.20.1 and starknet-foundry 0.64.0 (the owner's rule D-180): pins, CI, release and consumer checks, every figure re-measured; rc.2 the first on the new compiler. Brief: [LIB-04f](docs/briefs/LIB-04f-scarb-2.20.md) | LIB-04e, M1-T8, SPK-13's result on 2.20.1, the Overseer's confirmation that the toolchain is installed on the VPS | Sonnet 5.5, implement | review only (D-177) | done: #86, `1527ac2` |
 | LIB-05 | **Milestone L-M1**: the 11 tasks of §8 of the plan, test-driven, at minimal cost. After the take-over, **N-3 (assembly) and N-8 (flood and selection) first**, measured on their worst cases. **Released on scarbs.xyz only on the owner's go** | LIB-04 | Opus 5.5, Fable 5.1 for the hardest algorithms | GPT-6-Astra (determinism, cost) | in progress: tasks below |
-| LIB-06 | Milestones L-M2 and following, each ending with a release | LIB-05 | As above | As above | todo |
+| LIB-06 | Milestone L-M2 (0.2.0): the 8 tasks below; L-M3 and L-M4 briefed later | LIB-05 | As above | As above | in progress |
 | LIB-07 | **Final release**: parity reached or exclusions closed and documented; **`origami_hexmap` decommissioned** | LIB-06 | — | GPT-6-Astra | todo |
 
 ## LIB-05 — the tasks of milestone L-M1
@@ -64,6 +64,31 @@ it is reported.
 | M1-T8 | N-1: `generate_with_margins`, `smooth`; planes and masks; pinned streams; **the four corners of a chunk always wall (D-134)**. Brief: [M1-T8](docs/briefs/LIB-05-T8-margins.md); starts after M1-T7 is merged (`new_odd`) | §6.2, M1-T8 | M1-T3 | Fable 5.1 or Opus 5.5 | GPT-6-Astra | done, merged in #84 (`ad03dbc`). **Decision on §6.2** (orchestrator, 2026-10-02; §6.2 lives in `docs/research/LIB-03-porting-plan.md`): a corner set in `values` is cleared, like every bit of `values` outside `fixed` and the ring, as #84 implements and `test_caver_margins_d134_corners` pins; reversed if a consumer needs such a corner refused instead |
 | M1-N9 | N-9: consumer check against the published package; the cause of 1.8.0's defect. Brief: [M1-N9](docs/briefs/LIB-05-N9-consumer-check.md) | §8, M1-N9 | first release candidate | Sonnet 5.5 | GPT-6-Sol | **done** (2026-10-01, pull request #70; follow-up #72); reviews three passes (Opus, Fable); quality audit waits for Codex |
 | M1-R | Release 0.1.0 and its candidates: asked by a pending file, published by the orchestrator's session after a go (game's `OPERATIONS.md` §7). LIB-04b is merged | §9, M1-R | all | Orchestrator | — | todo |
+
+## LIB-06 — the tasks of milestone L-M2
+
+Briefs: [index](docs/briefs/LIB-06-L-M2.md). Release 0.2.0 closes the milestone (M2-R).
+
+| Task | Content | Plan | Runs after | Executor | Audit | Status |
+|---|---|---|---|---|---|---|
+| M2-T0 | Bootstrap: `Hex` constants, constructors, `const_add`/`const_neg`, `range_count`, `shift`, `ring_count`, `wedge_count`, `mul_scalar`, neighbours; the scaffold of L-M2 (module tree, `lib.cairo` blocks, `refgen` arms, consumer files, `OWN_FILES`, `CAIRO_MODULE_OWNER`, `Shl`/`lerp`/`PartialEq<T>` rows). Brief: [M2-T0](docs/briefs/LIB-06-M2-T0-bootstrap.md) | §8 L-M2, M2-T0 | LIB-04f; merge after the rc.2 release commit | Sonnet 5.5 (`impl-sonnet`) | none (D-177); review Opus | in progress |
+| M2-T1 | `VertexDirection`, `DirectionWay` (`map` takes a closure), `EdgeDirection::{diagonal_*, vertex_*, vertex_directions, Debug}`, `Neg` and `mul_scalar` of both directions. Brief: [M2-T1](docs/briefs/LIB-06-M2-T1-directions.md) | §8 L-M2, M2-T1 | M2-T0 | Sonnet 5.5 | none (D-177); review Opus | todo |
+| M2-T2 | The rest of `HexTrait`: diagonals, `way_to`, rotations, reflections, `rectiline_to`, `range`, `xrange`, `to_lower_res` (deviation below `2^24`), `to_local`, `wrap_in_range`, `Debug`. Brief: [M2-T2](docs/briefs/LIB-06-M2-T2-hex.md) | §8 L-M2, M2-T2 | M2-T0, M2-T1 | Sonnet 5.5 | none (D-177); review Opus | todo |
+| M2-T3 | Operators and their counterparts, `div_scalar` exact (deviations listed off-chain), swizzles, squared Euclidean, `u64` packing, tuple/array `Into`, doubled and hexmod conversions, `DoubledHexMode`; §14 #43 applied. Brief: [M2-T3](docs/briefs/LIB-06-M2-T3-operators.md) | §8 L-M2, M2-T3; §14 #43 | M2-T0, M2-T1 (beside M2-T2) | Opus 5.5 (`impl-opus`) | none (D-177); review Sonnet | todo |
+| M2-T4 | Rings, ring edges, wedges, spirals, cached forms, `circular_range_squared`. Brief: [M2-T4](docs/briefs/LIB-06-M2-T4-rings.md) | §8 L-M2, M2-T4 | M2-T1, M2-T2, M2-T3 | Sonnet 5.5 | none (D-177); review Opus | todo |
+| M2-T5 | `HexBounds`, `HexSpanExt`. Brief: [M2-T5](docs/briefs/LIB-06-M2-T5-bounds.md) | §8 L-M2, M2-T5 | M2-T1, M2-T2, M2-T3 | Sonnet 5.5 | none (D-177); review Opus | todo |
+| M2-T6 | `shapes`: six structs, `coords`, six free functions (D-143 reason written). Brief: [M2-T6](docs/briefs/LIB-06-M2-T6-shapes.md) | §8 L-M2, M2-T6 | M2-T2 | Sonnet 5.5 | none (D-177); review Opus | todo |
+| M2-T7 | `GridEdge`, `GridVertex`, `Hex::all_edges`, `all_vertices`. Brief: [M2-T7](docs/briefs/LIB-06-M2-T7-grid.md) | §8 L-M2, M2-T7 | M2-T1 (scheduled with M2-T4 to M2-T6) | Sonnet 5.5 | none (D-177); review Opus | todo |
+| M2-R | Release 0.2.0: `--check-release L-M2` passes, changelog (`Results changed` empty), one parity audit of the published interface (D-177), then publication after the owner's go. Index: [LIB-06 L-M2](docs/briefs/LIB-06-L-M2.md) | §8 L-M2 exit, §9 | all of L-M2 | Orchestrator | parity audit (D-177: published interface) | todo |
+
+Decisions of the milestone:
+
+- M2-T0 may edit `scripts/api_parity.py` and `scripts/takeover_check.py`, as its brief lists.
+- `DirectionWay::map` takes a closure; consumer class hashes become build-path dependent until cairo#10359, said in its doc and in the `CHANGELOG`.
+- `hex()` and the shapes stay free functions (D-143), the reason written next to each.
+- L-M2 gas: ranges from the L-M1 measurements; the track stops at 2× the upper bound of a range.
+- Moving the old mirror tests is deferred until after M2-T7.
+- L-M2 starts after LIB-04f; the rc.2 release commit is fixed before the first L-M2 merge, 0.1.0 is cut from that content, and a later 0.1.0 fix goes on a release branch from it (project manager, option b, 2026-10-02).
 
 ## Milestone L-M1 — what the game needs first
 
