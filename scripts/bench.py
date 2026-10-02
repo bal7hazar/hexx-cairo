@@ -77,7 +77,9 @@ and passed on the next run). Every snforge run of a package keeps, under
 per run (`check`, `repeat-1`, `repeat-2`; none overwrites another): `snforge-<run>.txt` (the raw
 output) and `artifacts-<run>.sha256` (SHA-256 of the compiled files of `target/dev/` that snforge
 executes: `<package>_*.json`); and `versions.txt` (scarb, which prints the Cairo and Sierra
-versions, snforge, and the Sierra-to-CASM compiler when it answers).
+versions, snforge, and the Sierra-to-CASM compiler when it answers). `run`, `check` and `snapshot`
+empty that directory first: in CI, setup-scarb's target cache (`cache-targets`) restores the
+`target/` another gas job saved, its evidence and partition report included (t-0018).
 A mismatch with the snapshot prints where they are. The exemption for the tests taken over from
 `origami_hexmap` (a baseline file) is gone: every test obeys the rule.
 """
@@ -88,6 +90,7 @@ import hashlib
 import json
 import math
 import re
+import shutil
 import subprocess
 import sys
 import tomllib
@@ -322,6 +325,14 @@ def write_evidence(package: str, out: str, label: str) -> Path:
     (directory / "versions.txt").write_text("".join(
         f"## {name}\n{tool_version(cmd)}\n\n" for name, cmd in versions.items()))
     return directory
+
+
+def clear_evidence(packages: Iterable[str]) -> None:
+    """Empties `target/gas-artifacts/<package>/` before a run measures the package, so that a job
+    uploads only its own evidence and partition report: a `target/` restored from a cache (CI's
+    setup-scarb, `cache-targets`) holds those of the job that saved it."""
+    for package in packages:
+        shutil.rmtree(ARTIFACTS / package, ignore_errors=True)
 
 
 SCOPES = ("all", "regular", "ignored")
@@ -799,6 +810,7 @@ def main() -> int:
 
     if args.cmd == "snapshot" and args.scope != "all":
         sys.exit("snapshot rewrites the whole snapshot of a package: --scope all")
+    clear_evidence(select_packages(args.package))
     packages, infos = collect(args.package, args.cmd, args.scope, args.partition)
     if args.partition:
         write_partition_reports(packages, args.scope, args.partition)
