@@ -51,8 +51,6 @@ impl DivRemLowByte of DivRemHelper<u128, UnitInt<0x100>> {
 /// AND, XOR and OR of two limbs in a single application of the bitwise builtin. The corelib
 /// declares the same libfunc but keeps it private, and its `&`, `^`, `|` each pay a full
 /// application (owner decision: the local declaration is allowed, see `GAS.md`).
-// New lint of Cairo 2.20 (E2201): the extern is intended, see above.
-#[allow(extern_outside_corelib)]
 extern fn bitwise(lhs: u128, rhs: u128) -> (u128, u128, u128) implicits(Bitwise) nopanic;
 
 #[generate_trait]
