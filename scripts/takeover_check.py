@@ -206,7 +206,7 @@ def scarb_fmt(files: dict[str, str]) -> dict[str, str]:
         path = FMT_DIR / "src" / rel
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text)
-    # SCARB_OFFLINE is `--offline`: Scarb 2.19 takes that option before the subcommand only, and
+    # SCARB_OFFLINE is `--offline`: Scarb 2.19 and 2.20 take that option before the subcommand only, and
     # no `scarb` call of the scripts may have an option first (the shim's lock, test_lock_gap.py).
     subprocess.run(["scarb", "fmt"], cwd=FMT_DIR, check=True, stdout=subprocess.DEVNULL,
                    env={**os.environ, "SCARB_OFFLINE": "true"})

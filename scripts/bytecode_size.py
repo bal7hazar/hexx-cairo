@@ -54,7 +54,7 @@ LIMITS = {
 
 
 def build(cwd: Path, args: list[str]) -> None:
-    # The subcommand stays the first argument of `scarb` (Scarb 2.19 refuses `build --release`):
+    # The subcommand stays the first argument of `scarb` (Scarb 2.19 and 2.20 refuse `build --release`):
     # the machine's shim takes the build lock only then, so `scarb --release build` would run
     # outside it. SCARB_PROFILE=release is `--release`.
     cmd = ["scarb", "build"] + args

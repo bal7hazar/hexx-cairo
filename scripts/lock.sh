@@ -28,7 +28,7 @@ if [ "${1:-}" = --heavy ]; then heavy=1; shift; fi
 [ $# -ge 2 ] || refuse "missing command"
 # The subcommand must come right after the tool, so that no global option can hide it: the
 # machine's scarb shim takes the heavy lock only when the subcommand is its first argument, so a
-# call with an option before it would run outside the lock. The one exception: Scarb 2.19 takes
+# call with an option before it would run outside the lock. The one exception: Scarb 2.19 and 2.20 take
 # --manifest-path as a global option, before its subcommand only (`scarb build --manifest-path`
 # is refused), so `scarb --manifest-path <path> build` is rewritten below into the equivalent
 # `SCARB_MANIFEST_PATH=<path> scarb build` (the option's own environment variable), which keeps
