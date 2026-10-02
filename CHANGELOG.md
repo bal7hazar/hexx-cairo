@@ -10,15 +10,42 @@ move. Versions before `0.1.0` are pre-releases (`0.1.0-rc.N`); nothing is publis
 
 ## [Unreleased]
 
-Toolchain (LIB-04f, D-180): the next release candidate, `0.1.0-rc.2`, is built with Scarb 2.20.1 and
-starknet-foundry 0.64.0 (Cairo 2.20.0); `0.1.0-rc.1` stays as published, built on Scarb 2.19.4. Gas
-snapshots, budgets and class sizes are re-measured on the new toolchain (`docs/GAS.md`).
+## [0.1.0-rc.2] — unreleased
 
-Release check (`.github/workflows/release-check.yml`, no change to the package): its reports are
-written outside the checkout and the tree is checked clean before `scarb package` (run
-`36809681077` of `0.1.0-rc.1` had passed the full gate, then `scarb package` refused an untracked
-report). Codex review: none — Codex unavailable (quota), merged by the project manager's decision
-of 2026-10-01 under the standard's exception.
+The second release candidate of `hexx`, the first built on Scarb 2.20.1. It adds needs N-1, N-2
+and N-6, which `0.1.0-rc.1` lacked. Published only after the go of D-132 (`docs/RELEASING.md`).
+
+### Added
+
+- **N-1** `HexMapTrait::new_cave_with_margins` (`generate_with_margins`) and `HexMapTrait::smooth`:
+  the cave automaton with frozen tiles; the ring of a chunk holds the tiles copied from its
+  neighbours and never evolves, `smooth` also holds chosen tiles; rows have the global parity of
+  the chunk, the four corners are wall.
+- **N-2** sides and openings: `Seam::{side, openings, is_open_across}` for the seams between
+  chunks, and `Layout::new_odd`, a layout whose rows have the odd global parity.
+- **N-6** `HexagonTrait::{hexagon, hexagon_ring}`, `Layout::hexagon` and `HexMapTrait::new_hexagon`:
+  hexagonal boards and their rings.
+
+### Changed
+
+- Built with Scarb 2.20.1 and starknet-foundry 0.64.0 (Cairo 2.20.0; LIB-04f, D-180); gas
+  snapshots, budgets and class sizes are re-measured on the new toolchain (`docs/GAS.md`).
+  `0.1.0-rc.1` stays as published, built on Scarb 2.19.4.
+- Builds run the compiler on a single thread (`RAYON_NUM_THREADS=1`, LIB-04e, D-176). A class hash
+  is reproducible on one machine, not across machines.
+- Release check (`.github/workflows/release-check.yml`, no change to the package): its reports are
+  written outside the checkout and the tree is checked clean before `scarb package` (run
+  `36809681077` of `0.1.0-rc.1` had passed the full gate, then `scarb package` refused an
+  untracked report).
+
+### Fixed
+
+- `smooth` masks its grid to the board (#TBD)
+
+### Parity, Extensions, Deviations, Results changed
+
+To complete when the release PR is opened: the figures of `docs/API_PARITY.md`,
+`docs/EXTENSIONS.md` and `docs/DEVIATIONS.md` on the merge commit.
 
 ## [0.1.0-rc.1] — 2026-10-01
 
