@@ -28,8 +28,8 @@ openings, is_open_across}`, `Layout::new_odd`) and N-6 (`hexagon`, `hexagon_ring
    success. A run on another sha, or cancelled, is not evidence.
 2. **One audit of the release** (D-177: this release is a published interface, which the reviews of
    its pull requests do not replace); no blocker or major finding open.
-3. `CHANGELOG.md` has `[0.1.0-rc.2]` with its date, and the workspace `Scarb.toml` says
-   `version = "0.1.0-rc.2"`; `crates/hexx` inherits it.
+3. `CHANGELOG.md` has `[0.1.0-rc.2]`; it is dated after publication (`docs/RELEASING.md`
+   step 5). The workspace `Scarb.toml` says `version = "0.1.0-rc.2"`; `crates/hexx` inherits it.
 4. `scarb package -p hexx` from a clean checkout of the sha packages the same file names and sizes
    and the same packaged `Scarb.toml` as the release-check artifact; its archive sha256 is
    recorded.

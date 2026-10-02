@@ -13,18 +13,7 @@ move. Versions before `0.1.0` are pre-releases (`0.1.0-rc.N`); nothing is publis
 ## [0.1.0-rc.2] — unreleased
 
 The second release candidate of `hexx`, the first built on Scarb 2.20.1. It adds needs N-1, N-2
-and N-6, which `0.1.0-rc.1` lacked. Published only after the go of D-132 (`docs/RELEASING.md`).
-
-### Added
-
-- **N-1** `HexMapTrait::new_cave_with_margins` (`generate_with_margins`) and `HexMapTrait::smooth`:
-  the cave automaton with frozen tiles; the ring of a chunk holds the tiles copied from its
-  neighbours and never evolves, `smooth` also holds chosen tiles; rows have the global parity of
-  the chunk, the four corners are wall.
-- **N-2** sides and openings: `Seam::{side, openings, is_open_across}` for the seams between
-  chunks, and `Layout::new_odd`, a layout whose rows have the odd global parity.
-- **N-6** `HexagonTrait::{hexagon, hexagon_ring}`, `Layout::hexagon` and `HexMapTrait::new_hexagon`:
-  hexagonal boards and their rings.
+and N-6 (`hexagon`, `hexagon_ring`), which `0.1.0-rc.1` lacked. Published only after the go of D-132 (`docs/RELEASING.md`).
 
 ### Changed
 
@@ -38,7 +27,8 @@ and N-6, which `0.1.0-rc.1` lacked. Published only after the go of D-132 (`docs/
 - Release check (`.github/workflows/release-check.yml`, no change to the package): its reports are
   written outside the checkout and the tree is checked clean before `scarb package` (run
   `36809681077` of `0.1.0-rc.1` had passed the full gate, then `scarb package` refused an
-  untracked report).
+  untracked report). Merged without a review: Codex unavailable (quota), by the project manager's
+  decision of 2026-10-01 under the standard's exception.
 - Tooling, no change to the package: a consumer check against the published `hexx` (N-9), CI
   partitions and per-job gas reports, a pre-push hook (`scripts/prepush.sh`), and CI runs
   cancelled only for a pull request's superseded runs.
@@ -60,8 +50,17 @@ of its 692 items (`python3 scripts/api_parity.py --check`, `docs/API_PARITY.md`)
 ### Extensions
 
 240 extension items listed in `docs/EXTENSIONS.md` (`python3 scripts/api_parity.py --extensions`),
-19 more than the 221 of `0.1.0-rc.1`: the needs N-1 (`board/caver`, `board/map`), N-2
-(`board/seams`, `board/layout`) and N-6 (`board/hexagon`), listed under Added.
+19 more than the 221 of `0.1.0-rc.1`. New functions, with their need:
+
+- **N-1** `HexMapTrait::new_cave_with_margins` (`generate_with_margins`) and `HexMapTrait::smooth`
+  (`generators/caver`): the cave automaton with frozen tiles; the ring of a chunk holds the tiles
+  copied from its neighbours and never evolves, `smooth` also holds chosen tiles; rows have the
+  global parity of the chunk, the four corners are wall.
+- **N-2** `SeamTrait::{side, openings, is_open_across}` for the seams between chunks
+  (`board/seams`), and `LayoutTrait::new_odd`, a layout whose rows have the odd global parity.
+- **N-6** `HexagonTrait::{hexagon, hexagon_ring}` (`board/hexagon`): the tiles within a radius of
+  a tile, and those at exactly that radius. `Layout::hexagon` and `HexMapTrait::new_hexagon` were
+  already in `0.1.0-rc.1`.
 
 ### Deviations
 
