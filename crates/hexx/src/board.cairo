@@ -7,6 +7,7 @@ pub mod bits;
 pub mod cut;
 pub mod direction;
 pub mod geometry;
+pub mod hexagon;
 pub mod layout;
 pub mod line;
 pub mod map;
@@ -14,4 +15,5 @@ pub mod map;
 #[cfg(test)]
 pub mod printer;
 pub mod rng;
+pub mod seams;
 pub mod tables;

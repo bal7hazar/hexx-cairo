@@ -81,6 +81,36 @@ pub impl LayoutImpl of LayoutTrait {
         }
     }
 
+    /// The layout of a chunk whose local row 0 is a global odd row: `even` holds the globally
+    /// even rows, that is the local odd rows `board − even`; every other field as in `new`.
+    ///
+    /// Only the methods that read `even` honour the flag: `expand`, `expand_small` and
+    /// `dilation` (hence the floods built on them) follow the global parity. `neighbor_mask`
+    /// reads the parity of the local row (`parity`), and `neighbor`, `edge_neighbors`,
+    /// `neighbor_in` and `neighbor_direction` take no layout and use the local row as well: on an
+    /// odd chunk they answer for an even one.
+    /// # Arguments
+    /// * `width` - The width of the map
+    /// * `height` - The height of the map
+    /// # Returns
+    /// * The layout
+    ///
+    /// Mirrors nothing in `hexx`: an extension (plan §6.2, the parity flag of N-1 and N-2).
+    #[inline]
+    fn new_odd(width: u8, height: u8) -> Layout {
+        let up_odd = Bits::pow(width);
+        let down_odd = Bits::inv(width);
+        Layout {
+            width,
+            height,
+            even: (Self::board(width, height) - Self::even(width, height)).into(),
+            up_even: up_odd * INV_2,
+            up_odd,
+            down_even: down_odd * INV_2,
+            down_odd,
+        }
+    }
+
     /// Bits of the whole board, `2^(W*H) - 1`.
     /// # Arguments
     /// * `width` - The width of the map
@@ -507,6 +537,7 @@ pub impl DilationImpl of DilationTrait {
 mod tests {
     // Local imports
 
+    use hexx::board::bits::Bits;
     use super::{DIRECTIONS, Direction, LayoutTrait};
 
     /// Pairs of a board per seeded test.
@@ -658,6 +689,64 @@ mod tests {
         fn get() -> Bench {
             Bench { pairs: [(20, 42), (22, 30)] }
         }
+
+        /// The dimensions of the benchmarks of `new_odd`: 15 × 16, then 16 × 15.
+        #[inline(never)]
+        fn dimensions() -> [(u8, u8); 2] {
+            [(15, 16), (16, 15)]
+        }
+    }
+
+    // new_odd
+
+    /// `new_odd` against its definition on every dimension class of the seams and the wide
+    /// boards: `even` holds exactly the local odd rows (the globally even rows of a chunk whose
+    /// row 0 is globally odd), every other field equals `new`'s.
+    #[test]
+    #[available_gas(l2_gas: 14184366)]
+    fn test_layout_new_odd() {
+        let boards: [(u8, u8); 12] = [
+            (15, 15), (15, 16), (16, 15), (17, 14), (19, 13), (25, 10), (83, 3), (3, 83), (7, 7),
+            (3, 3), (5, 50), (10, 25),
+        ];
+        for (width, height) in boards.span() {
+            let (width, height) = (*width, *height);
+            let odd = LayoutTrait::new_odd(width, height);
+            let even = LayoutTrait::new(width, height);
+            assert!(odd.width == width && odd.height == height);
+            assert!(odd.up_even == even.up_even && odd.up_odd == even.up_odd);
+            assert!(odd.down_even == even.down_even && odd.down_odd == even.down_odd);
+            let mut expected: felt252 = 0;
+            let mut position: u8 = 0;
+            while position != width * height {
+                if (position / width) % 2 == 1 {
+                    expected += Bits::pow(position);
+                }
+                position += 1;
+            }
+            assert!(odd.even == expected.into());
+            let board: u256 = LayoutTrait::board(width, height).into();
+            assert!(odd.even + even.even == board);
+        }
+    }
+
+    // Benchmarks of `new_odd`: any dimensions cost the same; 15 × 16
+
+    #[test]
+    #[inline(never)]
+    #[available_gas(l2_gas: 27899)]
+    fn bench_layout_new_odd_once() {
+        let [(width, height), _] = Inputs::dimensions();
+        assert!(LayoutTrait::new_odd(width, height).even != 0);
+    }
+
+    #[test]
+    #[inline(never)]
+    #[available_gas(l2_gas: 39050)]
+    fn bench_layout_new_odd_twice() {
+        let [(width, height), (other, next)] = Inputs::dimensions();
+        assert!(LayoutTrait::new_odd(width, height).even != 0);
+        assert!(LayoutTrait::new_odd(other, next).even != 0);
     }
 
     #[test]

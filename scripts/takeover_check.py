@@ -86,6 +86,10 @@ OWN_FILES: tuple[str, ...] = (
     # M1-T6, N-5: the line
     "src/board/line.cairo",
     "tests/golden_line.cairo",
+    # M1-T7, N-2
+    "src/board/seams.cairo",
+    # M1-T5, N-6
+    "src/board/hexagon.cairo",
 )
 
 # Moved files that a task of L-M1 has EXTENDED: they are checked in additions-only mode. Every
