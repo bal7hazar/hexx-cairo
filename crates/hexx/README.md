@@ -8,13 +8,31 @@ workspace: see the repository root for the plan, the decisions and the status.
 
 ## Status
 
-**Not published.** This package holds the board engine of `origami_hexmap` 1.8.0, moved
-unchanged into the module tree of the plan (`board`, `finders`, `generators`; task LIB-05
-M1-T1a); the mirror of `hexx` itself and the extensions land with the next tasks of L-M1.
+Published as release candidates (`0.1.0-rc.N`); the stable `0.1.0` is not out yet. The package holds
+the mirror of `hexx` 0.25.0 (the items listed in
+[`docs/API_PARITY.md`](https://github.com/bal7hazar/hexx-cairo/blob/main/docs/API_PARITY.md)), the
+extensions of milestone L-M1 (`docs/EXTENSIONS.md`) and the board engine of `origami_hexmap` 1.8.0
+(`board`, `finders`, `generators`).
 
-The board engine is taken over from `origami_hexmap` 1.8.0 (`dojoengine/origami`, commit
-`04ab30c`, MIT): its notice is [`LICENSE-origami`](../../LICENSE-origami). The record of its gas
-measurements is [`GAS-origami-1.8.0.md`](GAS-origami-1.8.0.md).
+```toml
+[dependencies]
+hexx = "0.1.0-rc.2"
+```
+
+Requires Cairo >= 2.20.0 (Scarb 2.20.1).
+
+Ported to Cairo from bevy hexx 0.25.0 (Apache-2.0); the code is a rewrite, not a copy.
+
+Two origins, each with its notice shipped in this package:
+
+- the port of [`hexx`](https://github.com/ManevilleF/hexx) 0.25.0 (Apache-2.0; its `Cargo.toml`
+  names Felix de Maneville as author): [`LICENSE-hexx`](LICENSE-hexx), a copy of the `LICENSE` of
+  the crate (it has no NOTICE file);
+- the board engine taken over from `origami_hexmap` 1.8.0 (`dojoengine/origami`, commit
+  `04ab30c`, MIT, Copyright (c) 2023 Dojo): [`LICENSE-origami`](LICENSE-origami).
+
+The record of the gas measurements of the engine is
+[`GAS-origami-1.8.0.md`](https://github.com/bal7hazar/hexx-cairo/blob/main/crates/hexx/GAS-origami-1.8.0.md).
 
 No `starknet` dependency, no Dojo dependency: this package is pure Cairo. `snforge_std` is a
 dev-dependency only.
@@ -41,4 +59,6 @@ was emptied and removed by task M1-T1c.)
 
 ## License
 
-MIT (workspace root [`LICENSE`](../../LICENSE)).
+MIT (workspace root [`LICENSE`](https://github.com/bal7hazar/hexx-cairo/blob/main/LICENSE)); the
+notices of the two origins are [`LICENSE-hexx`](LICENSE-hexx) (Apache-2.0) and
+[`LICENSE-origami`](LICENSE-origami) (MIT).
