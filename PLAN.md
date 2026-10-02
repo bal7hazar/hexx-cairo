@@ -90,6 +90,12 @@ Decisions of the milestone:
 - Moving the old mirror tests is deferred until after M2-T7.
 - L-M2 starts after LIB-04f; the rc.2 release commit is fixed before the first L-M2 merge, 0.1.0 is cut from that content, and a later 0.1.0 fix goes on a release branch from it (project manager, option b, 2026-10-02).
 
+## Deferred (orchestrator)
+
+- 2026-10-02 — #91 (VPS build-lock gap): the Python guard of `scripts/tests/test_lock_gap.py` checks a `scarb` call only when "scarb" is the first element of its list or tuple; a `scarb` later in a list (`["env", "scarb", "--release", "build"]`) or in a helper's positional arguments (`run("scarb", "--release", "build")`), and an f-string with a formatted option (`f"scarb {opt} build"`), are not caught. No current file has these forms. Deferred after three fix loops (review t-0033, minor); what would bring it back: a script that calls scarb through `env` or a helper.
+- 2026-10-02 — CI: `software-mansion/setup-scarb` restores `target/` (`cache-targets` default true) into the gas jobs, so a gas job builds on another job's compiled files; #89 removed the leaked reports, the shared build stays. To decide: `cache-targets: false` on the gas jobs (cost: build time).
+- 2026-10-02 — `scripts/profiles/implement.txt` mentions `scarb` calls with a global option before the subcommand (line ~132): to check against the VPS lock rule (options before the subcommand bypass the shim's lock).
+
 ## Milestone L-M1 — what the game needs first
 
 | Need | # | For | Source (game repository) |
