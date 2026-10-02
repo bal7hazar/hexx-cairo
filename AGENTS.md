@@ -47,7 +47,7 @@ over the whole stated domain before keeping any optimisation, and may replace it
 | Golden vectors from `hexx` 0.25.0 | `cd tools/refgen && cargo run -- gen <module>` / `-- check` |
 | Heavy commands (build, test) | Through the build lock, `scripts/lock.sh scarb build`, `scripts/lock.sh snforge test <filter>` (`COMMON.md` §3) |
 
-Toolchain versions live in `.tool-versions` only (Scarb 2.19.4, starknet-foundry 0.61.0).
+Toolchain versions live in `.tool-versions` only (Scarb 2.20.1, starknet-foundry 0.64.0).
 
 ## Principles (the game's `docs/CAIRO.md`, in full at `grimworld:docs/CAIRO.md`; in short)
 
