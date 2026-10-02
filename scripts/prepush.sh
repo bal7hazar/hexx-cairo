@@ -16,7 +16,17 @@
 #     has only those inputs as its trigger; no build waits on the shared build lock for nothing).
 #   - each generated-artefact check, only when one of its inputs changed (table below).
 #
+# The Cairo compile steps (the package builds and the class-size check) wait at most
+# PREPUSH_LOCK_WAIT seconds (default 90) for the build lock of the VPS, $HEAVY_BUILD_LOCK
+# (default ~/orchestrator/heavy-build.lock), the lock the `scarb` shim of the machine takes for
+# `scarb build`. The shim has no wait limit, so the lock is taken here with `flock -w` on the same
+# file and kept open for the compile steps: the shim then sees an ancestor holding it and runs at
+# once (never bypassed, never edited). Lock busy after the wait: the compile steps are skipped with
+# one line and CI compiles. No lock file (the Mac): nothing changes. Format and the unit tests of
+# the scripts always run (`scarb fmt` does not take the lock).
+#
 #   scripts/prepush.sh               run the gate
+#   scripts/prepush.sh --lock        take the compile lock as a run would, print ok, busy or none
 #   scripts/prepush.sh --select      read changed paths on stdin, print the checks selected (tests)
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -74,8 +84,30 @@ select_steps() {
   done
 }
 
+# Sets COMPILE_LOCK: ok (held on fd 9 until exit), none (no lock file on this machine), busy.
+COMPILE_LOCK=
+take_compile_lock() {
+  [ -z "$COMPILE_LOCK" ] || return 0
+  local lock=${HEAVY_BUILD_LOCK:-$HOME/orchestrator/heavy-build.lock}
+  local wait=${PREPUSH_LOCK_WAIT:-90}
+  if [ ! -e "$lock" ]; then
+    COMPILE_LOCK=none
+  elif { exec 9>>"$lock"; } 2>/dev/null && flock -w "$wait" 9; then
+    COMPILE_LOCK=ok
+  else
+    exec 9>&-
+    COMPILE_LOCK=busy
+    echo "prepush: build lock busy after $wait s: Cairo compile skipped, CI will compile" >&2
+  fi
+}
+
 if [ "${1:-}" = "--select" ]; then
   select_steps
+  exit 0
+fi
+if [ "${1:-}" = "--lock" ]; then
+  take_compile_lock
+  echo "$COMPILE_LOCK"
   exit 0
 fi
 
@@ -104,6 +136,8 @@ steps=$(select_steps <<<"$changed")
 while read -r kind target <&3; do
   [ -n "$kind" ] || continue
   if [ "$kind" = build ]; then
+    take_compile_lock
+    [ "$COMPILE_LOCK" != busy ] || continue
     if [ "$target" = workspace ]; then
       scarb build --workspace </dev/null || fail "build (scarb build --workspace)"
     else
@@ -113,6 +147,10 @@ while read -r kind target <&3; do
   fi
   for entry in "${CHECKS[@]}"; do
     [ "${entry%%::*}" = "$target" ] || continue
+    if [ "$target" = class-size ]; then
+      take_compile_lock
+      [ "$COMPILE_LOCK" != busy ] || continue
+    fi
     command=${entry#*::}
     command=${command%::*}
     if [ "$command" = golden ]; then

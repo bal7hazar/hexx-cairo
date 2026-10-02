@@ -1,6 +1,9 @@
 """The path selection of scripts/prepush.sh (`--select`): which build and which generated-artefact
 check a set of changed paths triggers."""
+import fcntl
+import os
 import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -69,6 +72,29 @@ class PrepushSelectionTest(unittest.TestCase):
 
     def test_other_package_builds_only_itself(self):
         self.assertEqual(select("crates/takeover_tests/src/lib.cairo"), ["build takeover_tests"])
+
+
+class PrepushLockTest(unittest.TestCase):
+    def lock(self, path: str, wait: str = "1") -> str:
+        env = dict(os.environ, HEAVY_BUILD_LOCK=path, PREPUSH_LOCK_WAIT=wait)
+        out = subprocess.run([str(SCRIPT), "--lock"], env=env, text=True, capture_output=True,
+                             check=True)
+        return out.stdout.strip() + "|" + out.stderr.strip()
+
+    def test_no_lock_file_changes_nothing(self):
+        with tempfile.TemporaryDirectory() as d:
+            self.assertEqual(self.lock(os.path.join(d, "absent.lock")), "none|")
+
+    def test_free_lock_is_taken(self):
+        with tempfile.NamedTemporaryFile() as f:
+            self.assertEqual(self.lock(f.name), "ok|")
+
+    def test_busy_lock_skips_the_compile_after_the_wait(self):
+        with tempfile.NamedTemporaryFile() as f:
+            fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+            self.assertEqual(
+                self.lock(f.name),
+                "busy|prepush: build lock busy after 1 s: Cairo compile skipped, CI will compile")
 
 
 if __name__ == "__main__":
