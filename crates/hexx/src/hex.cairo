@@ -32,9 +32,9 @@ pub mod errors {
 ///
 /// Mirrors `hexx::hex` (`src/hex/mod.rs:89`), the free function `hex(x, y)`.
 ///
-/// A free function, on purpose (D-143): `hexx` has it at this path as a free function and the
-/// port keeps the name where the crate has it (plan §4.4, "imported from its module, as the house
-/// does for `vec3`"); `HexTrait::new` is the scoped form.
+/// A free function, on purpose (D-143): `hexx` has `hex(x, y)` as a free function (`hexx::hex`,
+/// re-exported at its root); the port keeps the free function and the name, and `HexTrait::new` is
+/// the scoped form (plan §4.4, "imported from its module, as the house does for `vec3`").
 ///
 /// #### Panics
 ///
@@ -42,7 +42,8 @@ pub mod errors {
 ///
 /// #### Deviations
 ///
-/// None.
+/// The path is `hexx::hex::hex`, not `hexx::hex` as in hexx 0.25.0: the root cannot re-export it,
+/// because Cairo refuses `pub use hex::hex` beside `pub mod hex` (E2118).
 #[inline]
 pub fn hex(x: i32, y: i32) -> Hex {
     Hex { x, y }

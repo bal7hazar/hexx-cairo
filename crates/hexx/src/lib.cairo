@@ -24,7 +24,7 @@ pub mod finders;
 pub mod generators;
 
 // The free function `hex` is `hexx::hex::hex`: the root cannot re-export it, a module and a
-// function cannot share the name `hex` there (plan §2.4; escalated in the report of M2-T0).
+// function cannot share the name `hex` there (E2118, plan §2.4); see the deviation of `hex`.
 pub mod hex;
 pub use hex::{Hex, HexTrait};
 
