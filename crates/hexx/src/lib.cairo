@@ -3,8 +3,10 @@
 //! `bal7hazar/hexx-cairo`).
 //!
 //! The board engine (`board`, `finders`, `generators`) is taken over from `origami_hexmap`
-//! 1.8.0 (`dojoengine/origami`, commit `04ab30c`, MIT), see `LICENSE-origami`. The mirror of
-//! `hexx` itself lands with the tasks of milestone L-M1 and L-M2: `Hex`, `EdgeDirection`, the
+//! 1.8.0 (`dojoengine/origami`, commit `04ab30c`, MIT), see `LICENSE-origami`; the notice of
+//! `hexx` 0.25.0 (Apache-2.0) is `LICENSE-hexx`. Both are shipped in this package, next to
+//! `Scarb.toml`. The mirror of `hexx`
+//! itself lands with the tasks of milestone L-M1 and L-M2: `Hex`, `EdgeDirection`, the
 //! offset conversions and `HexOrientation` are here.
 
 pub mod board;

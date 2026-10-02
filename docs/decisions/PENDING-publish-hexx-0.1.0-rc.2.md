@@ -17,8 +17,8 @@ Opened by the orchestrator of track LIB on 2026-10-02, under D-132 and
 ## Content
 
 The first release candidate built on Scarb 2.20.1 and starknet-foundry 0.64.0 (Cairo 2.20.0), and
-the needs that `0.1.0-rc.1` lacked: N-1 (`new_cave_with_margins`, `smooth`), N-2 (`Seam::{side,
-openings, is_open_across}`, `Layout::new_odd`) and N-6 (`hexagon`, `hexagon_ring`). See the
+the needs that `0.1.0-rc.1` lacked: N-1 (`new_cave_with_margins`, `smooth`), N-2 (`SeamTrait::{side,
+openings, is_open_across}`, `LayoutTrait::new_odd`) and N-6 (`hexagon`, `hexagon_ring`). See the
 [CHANGELOG](../../CHANGELOG.md) section `[0.1.0-rc.2]`. Parity (unchanged, 10.0 %), extensions (240), deviations
 (59) and the results changed (none) are in that section.
 
@@ -36,6 +36,12 @@ openings, is_open_across}`, `Layout::new_odd`) and N-6 (`hexagon`, `hexagon_ring
 5. Name and version free on the registry (`https://scarbs.xyz/api/v1/index/he/xx/hexx.json` does
    not list `0.1.0-rc.2`); no test dependency as a regular one.
 6. **Numeric results**: every change against `0.1.0-rc.1` is in the CHANGELOG's *Results changed*.
+7. **The consumer's toolchain**: the consumer (the game, ENG-05) is on Scarb >= 2.20.1, or waits
+   for it; the N-9 consumer check after publication runs on 2.20.1.
+
+Audits so far: release audit at `29a8360` FAIL (finding F1, the notice of `origami_hexmap` was not
+in the package); fixed in the release-fix PR, which makes the new release commit. A release check
+and an audit at that commit are still to come.
 
 ## Constraint on class hashes
 
@@ -66,7 +72,7 @@ By hand, as `docs/RELEASING.md` says, after the go is merged:
 
 ## Decisions needed
 
-The go of the project manager on `0.1.0-rc.2` from the commit above, yes or no, once checks 1 to 6
+The go of the project manager on `0.1.0-rc.2` from the commit above, yes or no, once checks 1 to 7
 are met.
 
 ## Answer

@@ -13,7 +13,8 @@ move. Versions before `0.1.0` are pre-releases (`0.1.0-rc.N`); nothing is publis
 ## [0.1.0-rc.2] — unreleased
 
 The second release candidate of `hexx`, the first built on Scarb 2.20.1. It adds needs N-1, N-2
-and N-6 (`hexagon`, `hexagon_ring`), which `0.1.0-rc.1` lacked. Published only after the go of D-132 (`docs/RELEASING.md`).
+and N-6 (`hexagon`, `hexagon_ring`), which `0.1.0-rc.1` lacked. Published only after the go of
+D-132 (`docs/RELEASING.md`).
 
 ### Changed
 
@@ -35,7 +36,8 @@ and N-6 (`hexagon`, `hexagon_ring`), which `0.1.0-rc.1` lacked. Published only a
 
 ### Fixed
 
-- `Caver::smooth` (and `HexMap::smooth`) ignores the bits of `grid` at or above `W * H` and clears
+- rc.1's archive lacks the origami_hexmap and hexx licence notices; rc.2 corrects it.
+- `Caver::smooth` (and `HexMapTrait::smooth`) ignores the bits of `grid` at or above `W * H` and clears
   them in the result, as its contract states (#95, a fix of N-1): a stray bit used to be returned
   and, for some positions on 15 x 15, change in-board tiles. Cost on
   `bench_map_smooth_15x15_order_1`: 94826 to 98842 (+4.2 %). `smooth` is new in this candidate, so
@@ -50,17 +52,21 @@ of its 692 items (`python3 scripts/api_parity.py --check`, `docs/API_PARITY.md`)
 ### Extensions
 
 240 extension items listed in `docs/EXTENSIONS.md` (`python3 scripts/api_parity.py --extensions`),
-19 more than the 221 of `0.1.0-rc.1`. New functions, with their need:
+19 more than the 221 of `0.1.0-rc.1`. New public items, with their need:
 
-- **N-1** `HexMapTrait::new_cave_with_margins` (`generate_with_margins`) and `HexMapTrait::smooth`
-  (`generators/caver`): the cave automaton with frozen tiles; the ring of a chunk holds the tiles
-  copied from its neighbours and never evolves, `smooth` also holds chosen tiles; rows have the
-  global parity of the chunk, the four corners are wall.
-- **N-2** `SeamTrait::{side, openings, is_open_across}` for the seams between chunks
-  (`board/seams`), and `LayoutTrait::new_odd`, a layout whose rows have the odd global parity.
-- **N-6** `HexagonTrait::{hexagon, hexagon_ring}` (`board/hexagon`): the tiles within a radius of
-  a tile, and those at exactly that radius. `Layout::hexagon` and `HexMapTrait::new_hexagon` were
-  already in `0.1.0-rc.1`.
+- **N-1** `hexx::board::map::HexMapTrait::{new_cave_with_margins, smooth}` and
+  `hexx::generators::caver::CaverTrait::{generate_with_margins, smooth}`: the cave automaton with
+  frozen tiles; the ring of a chunk holds the tiles copied from its neighbours and never evolves,
+  `smooth` also holds chosen tiles; rows have the global parity of the chunk, the four corners are
+  wall. `hexx::generators::caver::errors::CAVER_DIMENSIONS_TOO_LARGE` is the new panic of the
+  caver. `HexMapTrait::smooth` is in `board/map`, not in `generators/caver`.
+- **N-2** `hexx::board::seams::{Side (East, West, North, South), SeamTrait::{side, openings,
+  is_open_across}}` for the seams between chunks, `hexx::board::layout::LayoutTrait::new_odd`, a
+  layout whose rows have the odd global parity, and the table
+  `hexx::board::tables::ROW_FROM_16`.
+- **N-6** `hexx::board::hexagon::HexagonTrait::{hexagon, hexagon_ring}`: the tiles within a radius
+  of a tile, and those at exactly that radius. `Layout::hexagon` and `HexMapTrait::new_hexagon`
+  were already in `0.1.0-rc.1`.
 
 ### Deviations
 
