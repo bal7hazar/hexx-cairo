@@ -78,15 +78,38 @@ class FakeScarb(unittest.TestCase):
 
 
 class NoOptionBeforeSubcommand(unittest.TestCase):
+    """Every scarb call of the scripts and tools, Python or shell, keeps the subcommand first."""
+
+    # Any form: `["scarb", "-x"`, `"scarb -x ..."`, `scarb -x` in a shell line.
+    BAD = re.compile(r"""["']scarb["']\s*,\s*["']-|\bscarb +-""")
+    # The only calls allowed to carry an option first: `scarb --version` builds nothing and takes
+    # no lock; lock.sh's own refusal messages name the option it rewrites.
+    EXACT = '["scarb", "--version"]'
+
+    def files(self) -> list[Path]:
+        root = SCRIPTS.parent
+        found = [p for p in SCRIPTS.glob("*") if p.suffix in (".py", ".sh")]
+        found += [p for p in (root / "tools").rglob("*") if p.suffix in (".py", ".sh")
+                  and "target" not in p.relative_to(root).parts]
+        return sorted(found)
+
     def test_no_script_calls_scarb_with_an_option_first(self) -> None:
-        bad = re.compile(r'\["scarb",\s*"-')
-        allowed = {"scripts/bench.py"}  # `scarb --version` builds nothing, takes no lock
-        for path in sorted((SCRIPTS).glob("*.py")) + sorted((SCRIPTS.parent / "tools").rglob("*.py")):
+        self.assertGreater(len(self.files()), 5)
+        for path in self.files():
             rel = path.relative_to(SCRIPTS.parent).as_posix()
-            if rel in allowed:
-                continue
             for n, line in enumerate(path.read_text().splitlines(), 1):
-                self.assertIsNone(bad.search(line), f"{rel}:{n}: {line.strip()}")
+                if line.lstrip().startswith("#") or self.EXACT in line:
+                    continue
+                if rel == "scripts/lock.sh" and line.lstrip().startswith(("[ ", "case ")) and "refuse " in line:
+                    continue
+                self.assertIsNone(self.BAD.search(line), f"{rel}:{n}: {line.strip()}")
+
+    def test_the_guard_catches_the_forms(self) -> None:
+        for line in ('["scarb", "--release", "build"]', "scarb --offline fmt", '"scarb -q build"',
+                     "  scarb --manifest-path x build"):
+            self.assertIsNotNone(self.BAD.search(line), line)
+        for line in ('["scarb", "build"]', "scarb build --release", "scarb_dir -x"):
+            self.assertIsNone(self.BAD.search(line), line)
 
 
 if __name__ == "__main__":
