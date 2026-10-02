@@ -1,0 +1,1 @@
+//! The call sites of `HexBounds` and the span extension (`hexx::bounds`, `hexx::hex::iter`), written by M2-T5 (LIB-06): one per public item, so that the tracked class size follows them. Empty until then.
