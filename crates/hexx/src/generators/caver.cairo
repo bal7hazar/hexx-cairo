@@ -1592,25 +1592,25 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 554749)]
+    #[available_gas(l2_gas: 546759)]
     fn test_caver_smooth_stray_bits_order_0() {
         check_smooth_stray_order_0(false);
     }
 
     #[test]
-    #[available_gas(l2_gas: 554749)]
+    #[available_gas(l2_gas: 546759)]
     fn test_caver_smooth_stray_bits_order_0_odd() {
         check_smooth_stray_order_0(true);
     }
 
     #[test]
-    #[available_gas(l2_gas: 5108954)]
+    #[available_gas(l2_gas: 5100963)]
     fn test_caver_smooth_stray_bits() {
         check_smooth_stray(false);
     }
 
     #[test]
-    #[available_gas(l2_gas: 5102864)]
+    #[available_gas(l2_gas: 5094873)]
     fn test_caver_smooth_stray_bits_odd() {
         check_smooth_stray(true);
     }

@@ -10,6 +10,10 @@ move. Versions before `0.1.0` are pre-releases (`0.1.0-rc.N`); nothing is publis
 
 ## [Unreleased]
 
+### Fixed
+
+- `Caver::smooth` (and `HexMap::smooth`) ignores the bits of `grid` at or above `W * H` and clears them in the result, as its contract states; a stray bit used to be returned and, for some positions on 15 x 15, change in-board tiles (cost on `bench_map_smooth_15x15_order_1`: 94826 to 98842, +4.2 %).
+
 Toolchain (LIB-04f, D-180): the next release candidate, `0.1.0-rc.2`, is built with Scarb 2.20.1 and
 starknet-foundry 0.64.0 (Cairo 2.20.0); `0.1.0-rc.1` stays as published, built on Scarb 2.19.4. Gas
 snapshots, budgets and class sizes are re-measured on the new toolchain (`docs/GAS.md`).
