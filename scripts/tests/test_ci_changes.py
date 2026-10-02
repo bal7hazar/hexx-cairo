@@ -34,7 +34,14 @@ class CiChangesTest(unittest.TestCase):
     def test_gas_snapshot_selects_docs_checks_and_cairo(self):
         self.assertEqual(selected("gas/hexx.snap"), {"docs_checks", "cairo"})
 
-    def test_refgen_spec_selects_golden_and_docs_checks(self):
+    def test_license_files_select_links(self):
+        self.assertEqual(selected("LICENSE"), {"links"})
+        self.assertEqual(selected("LICENSE-origami"), {"links"})
+
+    def test_gitignore_selects_cairo(self):
+        self.assertEqual(selected(".gitignore"), {"cairo"})
+
+    def test_refgen_selects_golden_only(self):
         self.assertEqual(selected("tools/refgen/src/specs/hex.rs"), {"golden"})
         self.assertIn("docs_checks", selected("crates/hexx/src/board/line.cairo"))
         self.assertIn("golden", selected("crates/hexx/src/board/line.cairo"))

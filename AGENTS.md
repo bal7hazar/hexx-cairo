@@ -62,10 +62,10 @@ commit your fix before pushing. It does not replace `scripts/check.sh` (every te
 
 On a pull request, each job of `.github/workflows/ci.yml` runs only when a path that concerns it
 changed (`scripts/ci_changes.py`, run by the job `changes`; a documents-only pull request runs no
-test). Groups: `links` (job `links`: any `*.md`), `shell` (`scripts`: `scripts/*.sh`, `.githooks/**`),
+test). Groups: `links` (job `links`: any `*.md`, `LICENSE*`), `shell` (`scripts`: `scripts/*.sh`, `.githooks/**`),
 `docs_checks` (`fmt`: Cairo sources, manifests, `.tool-versions`, `scripts/**`, the generated
 documents, `gas/**`), `takeover` (`crates/hexx/**`, `scripts/takeover_check.py`), `cairo` (`test`,
-`package`, `gas`, `gas-complete`, `determinism`: `crates/**`, manifests, `gas/**`, `scripts/bench.py`,
+`package`, `gas`, `gas-complete`, `determinism`: `crates/**`, manifests, `.gitignore`, `gas/**`, `scripts/bench.py`,
 `scripts/bytecode_size.py`), `golden` (`tools/refgen/**`, the golden tests and their sources). A change
 to `ci.yml` or to `scripts/ci_changes.py`, an empty list, and any push to `main` select everything.
 `all-checks` always runs and treats a skipped job as a pass. A new job, or a new input of a job, must

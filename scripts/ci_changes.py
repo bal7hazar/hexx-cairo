@@ -22,8 +22,9 @@ import sys
 
 # group -> extended regular expression on the repository-relative path (fullmatch).
 GROUPS: dict[str, str] = {
-    # job `links`: any Markdown file (lychee has no configuration file of its own).
-    "links": r".*\.md",
+    # job `links`: any Markdown file (lychee has no configuration file of its own) and the
+    # LICENSE files the Markdown files link to.
+    "links": r".*\.md|LICENSE.*",
     # job `scripts` (shellcheck scripts/*.sh).
     "shell": r"(scripts/[^/]*\.sh|\.githooks/.*)",
     # job `fmt`: scarb fmt, the unit tests of the scripts, the generated documents and their inputs.
@@ -35,7 +36,7 @@ GROUPS: dict[str, str] = {
     "takeover": r"(crates/hexx/.*|scripts/takeover_check\.py|\.tool-versions)",
     # jobs `test`, `package`, `gas`, `gas-complete`, `determinism`.
     "cairo": (
-        r"(crates/.*|Scarb\.(toml|lock)|\.tool-versions|gas/.*"
+        r"(crates/.*|Scarb\.(toml|lock)|\.tool-versions|\.gitignore|gas/.*"
         r"|scripts/(bench|bytecode_size)\.py)"
     ),
     # job `golden`.

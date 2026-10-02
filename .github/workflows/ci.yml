@@ -43,6 +43,7 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
+          set -o pipefail
           if [ "$EVENT" = "pull_request" ]; then
             # Fail open: a diff that cannot be computed gives an empty list, which selects every group.
             { git diff --name-only "$BASE_SHA...$HEAD_SHA" || true; } | python3 scripts/ci_changes.py | tee -a "$GITHUB_OUTPUT"
@@ -53,7 +54,7 @@ jobs:
   links:
     name: Markdown links
     needs: changes
-    if: needs.changes.outputs.links == 'true'
+    if: needs.changes.outputs.links != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -67,7 +68,7 @@ jobs:
   scripts:
     name: Shell scripts
     needs: changes
-    if: needs.changes.outputs.shell == 'true'
+    if: needs.changes.outputs.shell != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -77,7 +78,7 @@ jobs:
   fmt:
     name: Format and parity/deviations/gas docs
     needs: changes
-    if: needs.changes.outputs.docs_checks == 'true'
+    if: needs.changes.outputs.docs_checks != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -103,7 +104,7 @@ jobs:
   takeover:
     name: Take-over of origami_hexmap is a move
     needs: changes
-    if: needs.changes.outputs.takeover == 'true'
+    if: needs.changes.outputs.takeover != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -128,7 +129,7 @@ jobs:
     # partition is by hash, so the shares are uneven), and M1-T6 adds more.
     name: Build and test ${{ matrix.package }} ${{ matrix.partition }}
     needs: changes
-    if: needs.changes.outputs.cairo == 'true'
+    if: needs.changes.outputs.cairo != 'false'
     runs-on: ubuntu-latest
     # 20 minutes since LIB-04e (D-176): on one thread the compile of a partition more than doubles
     # (execution is unchanged); 10 minutes was the track's target, one reproducible build is worth more.
@@ -170,7 +171,7 @@ jobs:
   package:
     name: Package crates/hexx (rehearsal, never scarb publish)
     needs: changes
-    if: needs.changes.outputs.cairo == 'true'
+    if: needs.changes.outputs.cairo != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -207,7 +208,7 @@ jobs:
   gas:
     name: Gas ${{ matrix.label }}
     needs: changes
-    if: needs.changes.outputs.cairo == 'true'
+    if: needs.changes.outputs.cairo != 'false'
     runs-on: ubuntu-latest
     # 20 minutes since LIB-04e (D-176), as the `test` job: the pinned compile.
     timeout-minutes: 20
@@ -293,7 +294,7 @@ jobs:
   gas-complete:
     name: Gas completeness hexx ${{ matrix.scope }}
     needs: [changes, gas]
-    if: ${{ !cancelled() && needs.changes.outputs.cairo == 'true' }}
+    if: ${{ !cancelled() && needs.changes.outputs.cairo != 'false' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -326,7 +327,7 @@ jobs:
   determinism:
     name: Three clean builds of consumer give one class
     needs: changes
-    if: needs.changes.outputs.cairo == 'true'
+    if: needs.changes.outputs.cairo != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -357,7 +358,7 @@ jobs:
   golden:
     name: Golden vectors up to date (tools/refgen)
     needs: changes
-    if: needs.changes.outputs.golden == 'true'
+    if: needs.changes.outputs.golden != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -387,7 +388,14 @@ jobs:
           HAS_FAILURE: ${{ contains(needs.*.result, 'failure') }}
           HAS_CANCELLED: ${{ contains(needs.*.result, 'cancelled') }}
           CHANGES: ${{ needs.changes.result }}
+          GROUPS_OUT: ${{ join(needs.changes.outputs.*, ' ') }}
         run: |
+          # Every output of `changes` must be `true` or `false`: a missing one means the script
+          # did not run, and no job may be skipped on that silence.
+          for g in $GROUPS_OUT; do
+            if [ "$g" != "true" ] && [ "$g" != "false" ]; then exit 1; fi
+          done
+          if [ -z "$GROUPS_OUT" ] || [ "$(echo "$GROUPS_OUT" | wc -w)" != "6" ]; then exit 1; fi
           if [ "$HAS_FAILURE" = "true" ] || [ "$HAS_CANCELLED" = "true" ] || [ "$CHANGES" != "success" ]; then
             exit 1
           fi
