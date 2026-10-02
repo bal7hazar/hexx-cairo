@@ -219,5 +219,44 @@ class CompleteCommand(Scratch):
         self.assertIn("p::gone", out)
 
 
+class OnlyItsOwnEvidence(Scratch):
+    """A gas job uploads `target/gas-artifacts/<package>/`; in CI setup-scarb restores `target/`
+    from the cache another gas job saved, with that job's evidence and partition report
+    (t-0018: `gas-hexx-regular-p2of6-.../partition-ignored-3of3.json`). `check` empties the
+    directory of the package it measures before measuring."""
+
+    def test_a_restored_report_of_another_job_is_gone_before_the_check_measures(self) -> None:
+        art = self.dir / "art"
+        (art / "p").mkdir(parents=True)
+        (art / "p" / "partition-ignored-3of3.json").write_text("{}\n")
+        (art / "p" / "snforge-check.txt").write_text("another job\n")
+        (art / "other").mkdir()
+        (art / "other" / "versions.txt").write_text("kept\n")
+        seen = []
+
+        def collect(*args, **kwargs):
+            seen.append(sorted(art.rglob("*")))
+            raise SystemExit(0)
+
+        argv = ["bench.py", "check", "--package", "p", "--scope", "regular", "--partition", "2/6"]
+        with mock.patch.object(bench, "ARTIFACTS", art), \
+                mock.patch.object(bench, "select_packages", lambda only: {"p": self.dir}), \
+                mock.patch.object(bench, "collect", collect), mock.patch.object(sys, "argv", argv), \
+                self.assertRaises(SystemExit):
+            bench.main()
+        self.assertEqual(seen, [[art / "other", art / "other" / "versions.txt"]])
+
+    def test_repeat_keeps_the_evidence_of_the_check(self) -> None:
+        art = self.dir / "art"
+        (art / "hexx").mkdir(parents=True)
+        (art / "hexx" / "artifacts-check.sha256").write_text("h  target/dev/hexx_x.json\n")
+        argv = ["bench.py", "repeat", "--package", "hexx"]
+        with mock.patch.object(bench, "ARTIFACTS", art), \
+                mock.patch.object(bench, "select_packages", lambda only: {"hexx": self.dir}), \
+                mock.patch.object(bench, "repeat", lambda *a: 0), mock.patch.object(sys, "argv", argv):
+            self.assertEqual(bench.main(), 0)
+        self.assertTrue((art / "hexx" / "artifacts-check.sha256").is_file())
+
+
 if __name__ == "__main__":
     unittest.main()
