@@ -1,13 +1,13 @@
 # Status
 
-**2026-10-01, soft stop** — `[Opus 5.5]` Orchestrator — grimworld — LIB; handover `docs/handover/orchestrator-hexmap-2026-10-01.md`
+**2026-10-02** — orchestrator `grimworld-lib` (herdr; the track moved from Nexus to herdr on 2026-10-01); predecessor's handover `docs/handover/orchestrator-hexmap-2026-10-01.md`
 
 | | |
 |---|---|
-| Phase | **Milestone L-M1: LIB-05.** `hexx` 0.1.0-rc.1 published. N-1 to N-8 merged except **N-1 (M1-T8, running on `[Fable 5.1]`)**. **LIB-04e** (single-thread pin, #81) open: 6 of its 10 CI attempts green. **LIB-04f** (Scarb 2.20.1, pin kept) briefed. Next: rc.2 for ENG-05, then M1-R. **Soft stop of the owner (2026-10-01)**: nothing is started, resumed or merged until the successor |
-| Procedures (Nexus, D-162) | Every pull request gets a review (`nexus review`) before its merge. The owner's rule of 2026-10-01: while Codex has no budget, the review is made by Claude Opus 5.5 (`--model fable` when Opus wrote the work) once nexus #35 is deployed; until then code merges wait and documents merge under the exception. Audits do not fall back: they wait for Codex. Implementers through `scripts/agent.sh`; `nexus accounts` and `nexus resources` before a launch |
-| Running agents | M1-T8, `[Fable 5.1]`, until it ends (soft stop) |
-| Decisions pending | None for the owner on this track. D-177 (the owner): audits are the exception; **3 audits stopped** on 2026-10-01 (M1-T5, M1-T7, M1-N9) |
+| Phase | **Milestone L-M1: LIB-05.** `hexx` 0.1.0-rc.1 published. N-1 to N-8 merged (**N-1, M1-T8, in #84 as `ad03dbc`**); **LIB-04e** (single-thread pin, D-176) merged in #81 as `920ddee`. **LIB-04f** (Scarb 2.20.1, starknet-foundry 0.64.0; the pin kept per SPK-13) in progress. Next: LIB-04f, then rc.2 (`0.1.0-rc.2`) for ENG-05 per the order of the handover note, then M1-R |
+| Procedures (herdr) | Implementers, reviews and audits are threads of the project `grimworld-lib` (profiles `impl-sonnet`, `impl-opus`, `review`, `review-opus`, `audit`); Nexus and `scripts/agent.sh` are not used. Every code pull request is reviewed on another model than the one that wrote it; audits are the D-177 exceptions (randomness, among them seeded generation). The owner merges; the project manager is told one line per ready pull request |
+| Running agents | LIB-04f (Scarb 2.20.1) |
+| Decisions pending | None for the owner on this track |
 
 ## Pause 2026-09-29 (ended 2026-09-30)
 
@@ -66,6 +66,8 @@ Diagnosis: the game's task SPK-13 on the owner's Mac ([reproduction](docs/report
 
 | Date | What |
 |---|---|
+| 2026-10-02 | LIB-04e: single-thread pin (`RAYON_NUM_THREADS=1`, D-176), both `gas/*.builds` files dropped, a determinism job in CI, by `[Sonnet 5.5]`; ten CI runs identical. First review FAIL (the runs tested a stale base, before #65, #74 and #84); fixed by merging `main` and re-checking single-threaded with no row changed; second review PASS. Merged as `920ddee`, [pull request #81](https://github.com/bal7hazar/hexx-cairo/pull/81) |
+| 2026-10-02 | LIB-05 M1-T8, N-1: `Caver::generate_with_margins`, `smooth`, by `[Fable 5.1]`; review PASS WITH FINDINGS (notes, Sonnet); determinism audit PASS WITH FINDINGS (one note, Opus; D-177: seeded generation). Merged as `ad03dbc`, [pull request #84](https://github.com/bal7hazar/hexx-cairo/pull/84). Decision on plan §6.2 recorded in `PLAN.md` (a corner set in `values` is cleared) |
 | 2026-10-01 | LIB-04d: the gas gate accepts the exact recorded second build of a row (D-164 extended to gas by the project manager), `gas/takeover_tests.builds` (40 rows), by `[Sonnet 5.5]`; review `[Opus 5.5]` (fallback): PASS. [pull request #76](https://github.com/bal7hazar/hexx-cairo/pull/76) |
 | 2026-10-01 | LIB-05 M1-N9: `tools/consumer_check/` and its workflow, green against 0.1.0-rc.1; the cause of 1.8.0's defect reproduced by the orchestrator (Scarb 2.13.1 against 2.19.4, `docs/research/N-9-cause.md`), by `[Sonnet 5.5]`; reviews `[Opus 5.5]` and `[Fable 5.1]` (fallback), three passes; its quality audit waits for Codex. Follow-up #72 (`docs/RELEASING.md`, plan §14) |
 | 2026-10-01 | **`hexx` 0.1.0-rc.1 published** on scarbs.xyz by the orchestrator, from `fe2b529`, after the owner's D-132 (release candidates delegated to the project manager) and the project manager's go (#67); registry checksum `sha256:9313e06b…1500`; tag and GitHub release `v0.1.0-rc.1`. [Record](docs/decisions/D-132-publish-hexx-0.1.0-rc.1.md) |
@@ -90,6 +92,10 @@ Diagnosis: the game's task SPK-13 on the owner's Mac ([reproduction](docs/report
 | 2026-09-28 | LIB-03: plan written by `[Fable 5.1]`; five audit passes by `[GPT-6-Astra]`, four fix loops (the fourth authorised by the project manager); merged with four open findings; [report](docs/reports/LIB-03-REPORT.md) archived |
 | 2026-09-28 | Gate L-G1 decided by the owner; launcher of the game adopted; brief of LIB-03 |
 | 2026-09-28 | LIB-02: [analysis of `hexx` and `origami_hexmap`](docs/research/LIB-02-hexx-analysis.md) by `[Opus 5.5]` (pull request #2); audit by `[GPT-6-Sol]` in two passes, 4 then 2 findings, all fixed by the resumed agent in two fix loops; [report](docs/reports/LIB-02-REPORT.md) archived |
+
+## Deferred follow-up
+
+From the notes of #84's review and audit: `Caver::smooth` does not mask `grid` to the board; stray bits at or above `W*H` are returned and can change in-board tiles. To mask it (one AND) after LIB-04f.
 
 ## What the orchestrator had recommended at L-G1 (not followed)
 
