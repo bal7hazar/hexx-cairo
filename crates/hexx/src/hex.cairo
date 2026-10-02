@@ -377,7 +377,7 @@ mod tests {
     /// R-N5-5 (audit pass 2, finding 25): no tie, `N = 7`; sample 2 is `(8_000_000, 2)` exactly,
     /// where `hexx` returns `(8_000_001, 2)` (`docs/deviations/line_ties.md`).
     #[test]
-    #[available_gas(l2_gas: 63378)]
+    #[available_gas(l2_gas: 55157)]
     fn test_hex_line_to_regression_r_n5_5() {
         let line = HexTrait::new(8_000_000, 0).line_to(HexTrait::new(8_000_001, 6));
         assert!(line.len() == 8);
@@ -388,7 +388,7 @@ mod tests {
     /// R-N5-6 (audit pass 1, finding 8): beyond `2^24` the ends are exact, where `hexx` starts at
     /// `(16_777_216, 0)`.
     #[test]
-    #[available_gas(l2_gas: 29285)]
+    #[available_gas(l2_gas: 21063)]
     fn test_hex_line_to_regression_r_n5_6() {
         let line = HexTrait::new(16_777_217, 0).line_to(HexTrait::new(16_777_218, 0));
         assert!(line == array![HexTrait::new(16_777_217, 0), HexTrait::new(16_777_218, 0)].span());
@@ -397,7 +397,7 @@ mod tests {
     /// The ends: one element for a coordinate with itself, `N + 1` elements, `self` first and
     /// `other` last, and the extremes of `i32` where the difference stays in `i32`.
     #[test]
-    #[available_gas(l2_gas: 228260)]
+    #[available_gas(l2_gas: 220038)]
     fn test_hex_line_to_ends() {
         let a = HexTrait::new(-3, 7);
         assert!(a.line_to(a) == array![a].span());
@@ -418,7 +418,7 @@ mod tests {
     /// The tie rule: `Δ = (3, 3)` has a tie at every odd step, resolved to the smaller `y`; on a
     /// row, `Δ = (−1, 2)` ties at its midpoint to the larger `x` (R-N5-2 in the mirror frame).
     #[test]
-    #[available_gas(l2_gas: 98721)]
+    #[available_gas(l2_gas: 90500)]
     fn test_hex_line_to_ties() {
         let line = HexTrait::new(0, 0).line_to(HexTrait::new(3, 3));
         let expected = array![
@@ -434,7 +434,7 @@ mod tests {
 
     /// Symmetric and translation-invariant, on every pair of `[-3, 3]²`.
     #[test]
-    #[available_gas(l2_gas: 559857627)]
+    #[available_gas(l2_gas: 559849532)]
     fn test_hex_line_to_symmetry_translation() {
         let shift = HexTrait::new(1_000_003, -999_997);
         let mut ax: i32 = -3;
@@ -469,7 +469,7 @@ mod tests {
 
     /// The panics of `unsigned_distance_to`: a difference that leaves `i32`.
     #[test]
-    #[available_gas(l2_gas: 16086)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_hex_line_to_revert_overflow() {
         let max: i32 = 0x7fffffff;

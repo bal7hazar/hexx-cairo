@@ -11,7 +11,7 @@ use crate::common::{
 };
 
 #[test]
-#[available_gas(l2_gas: 14931)]
+#[available_gas(l2_gas: 6836)]
 fn test_direction_constants() {
     assert(o::DIRECTION_COUNT == h::DIRECTION_COUNT, 'count');
     let (lhs, rhs): (u32, u32) = (o::DIRECTION_SIZE.into(), h::DIRECTION_SIZE.into());
@@ -20,7 +20,7 @@ fn test_direction_constants() {
 
 /// Every direction.
 #[test]
-#[available_gas(l2_gas: 40772)]
+#[available_gas(l2_gas: 32676)]
 fn test_direction_opposite() {
     let mut index: u8 = 0;
     while index != 6 {
@@ -33,7 +33,7 @@ fn test_direction_opposite() {
 
 /// Every direction.
 #[test]
-#[available_gas(l2_gas: 35942)]
+#[available_gas(l2_gas: 27846)]
 fn test_direction_into_u8() {
     let mut index: u8 = 0;
     while index != 6 {
@@ -46,7 +46,7 @@ fn test_direction_into_u8() {
 
 /// Every `u8`.
 #[test]
-#[available_gas(l2_gas: 1330623)]
+#[available_gas(l2_gas: 1322528)]
 fn test_direction_try_into() {
     let mut value: u16 = 0;
     while value != 256 {
@@ -65,7 +65,7 @@ fn test_direction_try_into() {
 /// Every position of the queries (`common::query_positions`) in every direction whose
 /// neighbour lies in the board (the domain of `next`), with the parity of its row.
 #[test]
-#[available_gas(l2_gas: 104418204)]
+#[available_gas(l2_gas: 104410224)]
 fn test_direction_next() {
     for (width, height, position) in query_positions() {
         let odd = (position / width) % 2 == 1;
@@ -85,7 +85,7 @@ fn test_direction_next() {
 /// The 720 packed permutations of 1.8.0, 6 pops each, then 256 seeded `u32` (tag
 /// `'directions'`) and the boundaries 0 and `2^32 - 1`, 8 pops each.
 #[test]
-#[available_gas(l2_gas: 53472996)]
+#[available_gas(l2_gas: 53464879)]
 fn test_direction_pop_front() {
     let mut inputs: Array<(u32, u32)> = array![];
     for permutation in PERMUTATIONS.span() {

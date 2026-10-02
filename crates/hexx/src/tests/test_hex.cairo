@@ -36,7 +36,7 @@ impl OracleImpl of OracleTrait {
 }
 
 #[test]
-#[available_gas(l2_gas: 356270796)]
+#[available_gas(l2_gas: 356262701)]
 fn test_hex_distance_matches_the_oracle() {
     let mut x1: i32 = -4;
     while x1 <= 4 {
@@ -64,7 +64,7 @@ fn test_hex_distance_matches_the_oracle() {
 }
 
 #[test]
-#[available_gas(l2_gas: 26540997)]
+#[available_gas(l2_gas: 26532902)]
 fn test_hex_length_and_cubic_coordinate() {
     let mut x: i32 = -10;
     while x <= 10 {
@@ -85,7 +85,7 @@ fn test_hex_length_and_cubic_coordinate() {
 }
 
 #[test]
-#[available_gas(l2_gas: 14406)]
+#[available_gas(l2_gas: 6311)]
 fn test_hex_const_sub() {
     let a = HexTrait::new(7, -3);
     let b = HexTrait::new(-2, 5);
@@ -96,7 +96,7 @@ fn test_hex_const_sub() {
 }
 
 #[test]
-#[available_gas(l2_gas: 133791)]
+#[available_gas(l2_gas: 125696)]
 fn test_hex_neighbors_coords_are_the_six_unit_steps() {
     let neighbors = HexTrait::NEIGHBORS_COORDS;
     let neighbors = neighbors.span();
@@ -117,35 +117,35 @@ fn test_hex_neighbors_coords_are_the_six_unit_steps() {
 // documented cases.
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn test_hex_z_panics_on_negating_min() {
     let _ = HexTrait::new(-2147483648, 0).z();
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn test_hex_z_panics_when_the_sum_leaves_i32() {
     let _ = HexTrait::new(0, -2147483648).z();
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn test_hex_const_sub_panics_on_overflow() {
     let _ = HexTrait::new(2147483647, 0).const_sub(HexTrait::new(-1, 0));
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn test_hex_length_panics_on_min() {
     let _ = HexTrait::new(0, -2147483648).length();
 }
 
 #[test]
-#[available_gas(l2_gas: 14406)]
+#[available_gas(l2_gas: 6311)]
 fn test_hex_ulength_is_exact_on_min_components() {
     // `y = i32::MIN` with `x = 1` gives `z = i32::MAX`: `|y| = 2^31` has no `i32`, but `ulength`
     // holds it in a `u32`, as `i32::unsigned_abs` does in `hexx`.

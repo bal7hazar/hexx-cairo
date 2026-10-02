@@ -45,70 +45,70 @@ fn check_keep_component(width: u8, height: u8, first: u32, last: u32) {
 }
 
 #[test]
-#[available_gas(l2_gas: 14406)]
+#[available_gas(l2_gas: 6311)]
 fn test_caver_errors() {
     assert(o::errors::CAVER_POSITION_NOT_FLOOR == h::errors::CAVER_POSITION_NOT_FLOOR, 'errors');
 }
 
 /// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `3x3`.
 #[test]
-#[available_gas(l2_gas: 48456822)]
+#[available_gas(l2_gas: 48448937)]
 fn test_caver_generate_3x3() {
     check_generate(3, 3, 0, 64);
 }
 
 /// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `7x7`.
 #[test]
-#[available_gas(l2_gas: 48456822)]
+#[available_gas(l2_gas: 48448937)]
 fn test_caver_generate_7x7() {
     check_generate(7, 7, 0, 64);
 }
 
 /// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `15x15`.
 #[test]
-#[available_gas(l2_gas: 89596662)]
+#[available_gas(l2_gas: 89588777)]
 fn test_caver_generate_15x15() {
     check_generate(15, 15, 0, 64);
 }
 
 /// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `15x16`.
 #[test]
-#[available_gas(l2_gas: 89529462)]
+#[available_gas(l2_gas: 89521577)]
 fn test_caver_generate_15x16() {
     check_generate(15, 16, 0, 64);
 }
 
 /// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `17x14`.
 #[test]
-#[available_gas(l2_gas: 89529462)]
+#[available_gas(l2_gas: 89521577)]
 fn test_caver_generate_17x14() {
     check_generate(17, 14, 0, 64);
 }
 
 /// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `19x13`.
 #[test]
-#[available_gas(l2_gas: 89596662)]
+#[available_gas(l2_gas: 89588777)]
 fn test_caver_generate_19x13() {
     check_generate(19, 13, 0, 64);
 }
 
 /// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `25x10`.
 #[test]
-#[available_gas(l2_gas: 89529462)]
+#[available_gas(l2_gas: 89521577)]
 fn test_caver_generate_25x10() {
     check_generate(25, 10, 0, 64);
 }
 
 /// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `83x3`.
 #[test]
-#[available_gas(l2_gas: 84762336)]
+#[available_gas(l2_gas: 84754451)]
 fn test_caver_generate_83x3() {
     check_generate(83, 3, 0, 64);
 }
 
 /// `Caver::generate`, orders 0 to 5. Seeds 0 to 63 on `3x83`.
 #[test]
-#[available_gas(l2_gas: 86512581)]
+#[available_gas(l2_gas: 86504696)]
 fn test_caver_generate_3x83() {
     check_generate(3, 83, 0, 64);
 }
@@ -116,7 +116,7 @@ fn test_caver_generate_3x83() {
 /// `Caver::keep_component` on `common::input_grid` from a seeded floor tile. Seeds 0 to 63 on
 /// `3x3`.
 #[test]
-#[available_gas(l2_gas: 10681753)]
+#[available_gas(l2_gas: 10673868)]
 fn test_caver_keep_component_3x3() {
     check_keep_component(3, 3, 0, 64);
 }
@@ -124,7 +124,7 @@ fn test_caver_keep_component_3x3() {
 /// `Caver::keep_component` on `common::input_grid` from a seeded floor tile. Seeds 0 to 63 on
 /// `7x7`.
 #[test]
-#[available_gas(l2_gas: 44384700)]
+#[available_gas(l2_gas: 44376814)]
 fn test_caver_keep_component_7x7() {
     check_keep_component(7, 7, 0, 64);
 }
@@ -132,7 +132,7 @@ fn test_caver_keep_component_7x7() {
 /// `Caver::keep_component` on `common::input_grid` from a seeded floor tile. Seeds 0 to 63 on
 /// `15x15`.
 #[test]
-#[available_gas(l2_gas: 213146760)]
+#[available_gas(l2_gas: 213138875)]
 fn test_caver_keep_component_15x15() {
     check_keep_component(15, 15, 0, 64);
 }
@@ -140,7 +140,7 @@ fn test_caver_keep_component_15x15() {
 /// `Caver::keep_component` on `common::input_grid` from a seeded floor tile. Seeds 0 to 63 on
 /// `15x16`.
 #[test]
-#[available_gas(l2_gas: 227980587)]
+#[available_gas(l2_gas: 227972701)]
 fn test_caver_keep_component_15x16() {
     check_keep_component(15, 16, 0, 64);
 }
@@ -148,7 +148,7 @@ fn test_caver_keep_component_15x16() {
 /// `Caver::keep_component` on `common::input_grid` from a seeded floor tile. Seeds 0 to 63 on
 /// `17x14`.
 #[test]
-#[available_gas(l2_gas: 229208379)]
+#[available_gas(l2_gas: 229200494)]
 fn test_caver_keep_component_17x14() {
     check_keep_component(17, 14, 0, 64);
 }
@@ -156,7 +156,7 @@ fn test_caver_keep_component_17x14() {
 /// `Caver::keep_component` on `common::input_grid` from a seeded floor tile. Seeds 0 to 63 on
 /// `19x13`.
 #[test]
-#[available_gas(l2_gas: 236213045)]
+#[available_gas(l2_gas: 236205159)]
 fn test_caver_keep_component_19x13() {
     check_keep_component(19, 13, 0, 64);
 }
@@ -164,7 +164,7 @@ fn test_caver_keep_component_19x13() {
 /// `Caver::keep_component` on `common::input_grid` from a seeded floor tile. Seeds 0 to 63 on
 /// `25x10`.
 #[test]
-#[available_gas(l2_gas: 233886629)]
+#[available_gas(l2_gas: 233878743)]
 fn test_caver_keep_component_25x10() {
     check_keep_component(25, 10, 0, 64);
 }
@@ -172,7 +172,7 @@ fn test_caver_keep_component_25x10() {
 /// `Caver::keep_component` on `common::input_grid` from a seeded floor tile. Seeds 0 to 63 on
 /// `83x3`.
 #[test]
-#[available_gas(l2_gas: 121147127)]
+#[available_gas(l2_gas: 121139242)]
 fn test_caver_keep_component_83x3() {
     check_keep_component(83, 3, 0, 64);
 }
@@ -180,7 +180,7 @@ fn test_caver_keep_component_83x3() {
 /// `Caver::keep_component` on `common::input_grid` from a seeded floor tile. Seeds 0 to 63 on
 /// `3x83`.
 #[test]
-#[available_gas(l2_gas: 126436246)]
+#[available_gas(l2_gas: 126428361)]
 fn test_caver_keep_component_3x83() {
     check_keep_component(3, 83, 0, 64);
 }
@@ -188,42 +188,42 @@ fn test_caver_keep_component_3x83() {
 // Panics: one test per side, same input, same message.
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_caver_generate_revert_dimension_origami() {
     let _ = O::generate(2, 7, 3, 'seed');
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_caver_generate_revert_dimension_hexx() {
     let _ = H::generate(2, 7, 3, 'seed');
 }
 
 #[test]
-#[available_gas(l2_gas: 45912)]
+#[available_gas(l2_gas: 37921)]
 #[should_panic(expected: 'Caver: position not floor')]
 fn test_caver_keep_component_revert_wall_origami() {
     let _ = O::keep_component(EMPTY_7X7, 7, 7, 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 45912)]
+#[available_gas(l2_gas: 37921)]
 #[should_panic(expected: 'Caver: position not floor')]
 fn test_caver_keep_component_revert_wall_hexx() {
     let _ = H::keep_component(EMPTY_7X7, 7, 7, 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 20017)]
+#[available_gas(l2_gas: 11900)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_caver_keep_component_revert_dimension_origami() {
     let _ = O::keep_component(EMPTY_7X7, 2, 7, 8);
 }
 
 #[test]
-#[available_gas(l2_gas: 20017)]
+#[available_gas(l2_gas: 11900)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_caver_keep_component_revert_dimension_hexx() {
     let _ = H::keep_component(EMPTY_7X7, 2, 7, 8);

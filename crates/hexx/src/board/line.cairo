@@ -815,7 +815,7 @@ mod tests {
 
     /// R-N5-1: on a 7 × 7, the tied midpoint of `(0, 0) → (0, 2)` is `(−1, 1)`, off the board.
     #[test]
-    #[available_gas(l2_gas: 84788)]
+    #[available_gas(l2_gas: 76671)]
     fn test_line_regression_r_n5_1() {
         let map = Oracle::map(7, 7, LayoutTrait::interior(7, 7));
         let (from, to) = (Oracle::at(7, 0, 0), Oracle::at(7, 0, 2));
@@ -827,7 +827,7 @@ mod tests {
 
     /// R-N5-2: on a 7 × 7, `(3, 3) → (3, 5)` has the single tile `(3, 4)`, index 31 (not 39).
     #[test]
-    #[available_gas(l2_gas: 38094)]
+    #[available_gas(l2_gas: 29873)]
     fn test_line_regression_r_n5_2() {
         let map = Oracle::map(7, 7, 0);
         let (from, to) = (Oracle::at(7, 3, 3), Oracle::at(7, 3, 5));
@@ -838,7 +838,7 @@ mod tests {
     /// R-N5-3: on 15 × 16, `(0, 0) → (14, 15)` has 21 tiles between its ends and
     /// `(1, 14) → (13, 1)` has 18.
     #[test]
-    #[available_gas(l2_gas: 348733)]
+    #[available_gas(l2_gas: 340616)]
     fn test_line_regression_r_n5_3() {
         let map = Oracle::map(WIDTH, HEIGHT, 0);
         let line: u256 = map
@@ -856,7 +856,7 @@ mod tests {
     /// R-N5-4: on 15 × 16, the predecessor of the ring target `(10, 15)` from `(7, 9)` is
     /// `(10, 14)`, its `SouthEast` neighbour (`i − W` on the odd row 15).
     #[test]
-    #[available_gas(l2_gas: 108538)]
+    #[available_gas(l2_gas: 100421)]
     fn test_line_regression_r_n5_4() {
         let map = Oracle::map(WIDTH, HEIGHT, 0);
         let (from, to) = (Oracle::at(WIDTH, 7, 9), Oracle::at(WIDTH, 10, 15));
@@ -868,7 +868,7 @@ mod tests {
     /// The ends: a tile with itself and two neighbours have nothing between them; `approach` is
     /// `None` on a tile with itself, and the direction of `from` seen from `to` on neighbours.
     #[test]
-    #[available_gas(l2_gas: 273251173)]
+    #[available_gas(l2_gas: 273243183)]
     fn test_line_ends() {
         let boards: [(u8, u8); 3] = [(7, 7), (15, 16), (17, 14)];
         for (width, height) in boards.span() {
@@ -893,28 +893,28 @@ mod tests {
 
     /// A position outside the board panics, on either end, in each function.
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_line_revert_from_outside() {
         Oracle::map(WIDTH, HEIGHT, 0).line(240, 0);
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_line_revert_to_outside() {
         Oracle::map(7, 7, 0).line(0, 49);
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_line_of_sight_revert_outside() {
         Oracle::map(WIDTH, HEIGHT, 0).line_of_sight(0, 255);
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_line_approach_revert_outside() {
         Oracle::map(WIDTH, HEIGHT, 0).approach(250, 0);
@@ -997,25 +997,25 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 496058000)]
+    #[available_gas(l2_gas: 496049904)]
     fn test_line_table_0() {
         Check::table(0, 60);
     }
 
     #[test]
-    #[available_gas(l2_gas: 601198038)]
+    #[available_gas(l2_gas: 601189943)]
     fn test_line_table_1() {
         Check::table(60, 120);
     }
 
     #[test]
-    #[available_gas(l2_gas: 601225538)]
+    #[available_gas(l2_gas: 601217442)]
     fn test_line_table_2() {
         Check::table(120, 180);
     }
 
     #[test]
-    #[available_gas(l2_gas: 496913823)]
+    #[available_gas(l2_gas: 496905728)]
     fn test_line_table_3() {
         Check::table(180, 240);
     }
@@ -1023,55 +1023,55 @@ mod tests {
     // Symmetry, every ordered pair of 7 × 7 and of 15 × 16
 
     #[test]
-    #[available_gas(l2_gas: 128898725)]
+    #[available_gas(l2_gas: 128890629)]
     fn test_line_symmetry_7x7() {
         Check::symmetry(7, 7, 0, 49);
     }
 
     #[test]
-    #[available_gas(l2_gas: 771460337)]
+    #[available_gas(l2_gas: 771452241)]
     fn test_line_symmetry_15x16_0() {
         Check::symmetry(WIDTH, HEIGHT, 0, 16);
     }
 
     #[test]
-    #[available_gas(l2_gas: 724859289)]
+    #[available_gas(l2_gas: 724851194)]
     fn test_line_symmetry_15x16_1() {
         Check::symmetry(WIDTH, HEIGHT, 16, 33);
     }
 
     #[test]
-    #[available_gas(l2_gas: 650815095)]
+    #[available_gas(l2_gas: 650807000)]
     fn test_line_symmetry_15x16_2() {
         Check::symmetry(WIDTH, HEIGHT, 33, 51);
     }
 
     #[test]
-    #[available_gas(l2_gas: 614150954)]
+    #[available_gas(l2_gas: 614142858)]
     fn test_line_symmetry_15x16_3() {
         Check::symmetry(WIDTH, HEIGHT, 51, 71);
     }
 
     #[test]
-    #[available_gas(l2_gas: 589044351)]
+    #[available_gas(l2_gas: 589036256)]
     fn test_line_symmetry_15x16_4() {
         Check::symmetry(WIDTH, HEIGHT, 71, 93);
     }
 
     #[test]
-    #[available_gas(l2_gas: 515237604)]
+    #[available_gas(l2_gas: 515229509)]
     fn test_line_symmetry_15x16_5() {
         Check::symmetry(WIDTH, HEIGHT, 93, 120);
     }
 
     #[test]
-    #[available_gas(l2_gas: 449043000)]
+    #[available_gas(l2_gas: 449034905)]
     fn test_line_symmetry_15x16_6() {
         Check::symmetry(WIDTH, HEIGHT, 120, 155);
     }
 
     #[test]
-    #[available_gas(l2_gas: 360515117)]
+    #[available_gas(l2_gas: 360507021)]
     fn test_line_symmetry_15x16_7() {
         Check::symmetry(WIDTH, HEIGHT, 155, 239);
     }
@@ -1080,7 +1080,7 @@ mod tests {
     // longest boards and of 19 × 13
 
     #[test]
-    #[available_gas(l2_gas: 350702940)]
+    #[available_gas(l2_gas: 350694845)]
     fn test_line_oracle_7x7() {
         let map = Oracle::map(7, 7, 0);
         let mut from: u8 = 0;
@@ -1095,7 +1095,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 196134761)]
+    #[available_gas(l2_gas: 196126665)]
     fn test_line_oracle_seeded() {
         let boards: [(u8, u8, u32); 4] = [(15, 16, 256), (83, 3, 64), (3, 83, 64), (19, 13, 128)];
         let mut state: u64 = 'line';
@@ -1117,25 +1117,25 @@ mod tests {
     // `line_of_sight` against the per-tile scalar walk
 
     #[test]
-    #[available_gas(l2_gas: 381285098)]
+    #[available_gas(l2_gas: 381276981)]
     fn test_line_of_sight_7x7_interior() {
         Check::sight_7x7(LayoutTrait::interior(7, 7));
     }
 
     #[test]
-    #[available_gas(l2_gas: 351436425)]
+    #[available_gas(l2_gas: 351428435)]
     fn test_line_of_sight_7x7_seeded() {
         Check::sight_7x7(0x1b5ed3a96f7b5);
     }
 
     #[test]
-    #[available_gas(l2_gas: 328977468)]
+    #[available_gas(l2_gas: 328969478)]
     fn test_line_of_sight_7x7_walls() {
         Check::sight_7x7(0);
     }
 
     #[test]
-    #[available_gas(l2_gas: 136722712)]
+    #[available_gas(l2_gas: 136714721)]
     fn test_line_of_sight_seeded() {
         let grids: [felt252; 2] = [
             0x5dd3f0fde6ffdc6f7eef1e26adb45cd635e61877e53defbfc1fd2efafee7, OPEN_15X16,
@@ -1159,68 +1159,68 @@ mod tests {
     // `to` on the ring
 
     #[test]
-    #[available_gas(l2_gas: 732560252)]
+    #[available_gas(l2_gas: 732552261)]
     fn test_line_approach_ring_0() {
         Check::approach(0, 6);
     }
 
     #[test]
-    #[available_gas(l2_gas: 674594939)]
+    #[available_gas(l2_gas: 674586948)]
     fn test_line_approach_ring_1() {
         Check::approach(6, 12);
     }
 
     #[test]
-    #[available_gas(l2_gas: 757874649)]
+    #[available_gas(l2_gas: 757866659)]
     fn test_line_approach_ring_2() {
         Check::approach(12, 18);
     }
 
     #[test]
-    #[available_gas(l2_gas: 712295878)]
+    #[available_gas(l2_gas: 712287887)]
     fn test_line_approach_ring_3() {
         Check::approach(18, 24);
     }
 
     #[test]
-    #[available_gas(l2_gas: 685103641)]
+    #[available_gas(l2_gas: 685095651)]
     fn test_line_approach_ring_4() {
         Check::approach(24, 30);
     }
 
     #[test]
-    #[available_gas(l2_gas: 688882600)]
+    #[available_gas(l2_gas: 688874609)]
     fn test_line_approach_ring_5() {
         Check::approach(30, 36);
     }
 
     #[test]
-    #[available_gas(l2_gas: 737770602)]
+    #[available_gas(l2_gas: 737762611)]
     fn test_line_approach_ring_6() {
         Check::approach(36, 42);
     }
 
     #[test]
-    #[available_gas(l2_gas: 741381438)]
+    #[available_gas(l2_gas: 741373448)]
     fn test_line_approach_ring_7() {
         Check::approach(42, 48);
     }
 
     #[test]
-    #[available_gas(l2_gas: 679234994)]
+    #[available_gas(l2_gas: 679227003)]
     fn test_line_approach_ring_8() {
         Check::approach(48, 54);
     }
 
     #[test]
-    #[available_gas(l2_gas: 512476401)]
+    #[available_gas(l2_gas: 512468410)]
     fn test_line_approach_ring_9() {
         Check::approach(54, 58);
     }
 
     /// `approach` on seeded pairs of 15 × 16 and 17 × 14, interior targets mostly.
     #[test]
-    #[available_gas(l2_gas: 216737605)]
+    #[available_gas(l2_gas: 216729614)]
     fn test_line_approach_seeded() {
         let boards: [(u8, u8); 2] = [(15, 16), (17, 14)];
         let mut state: u64 = 'approach';
@@ -1281,7 +1281,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 29495)]
+    #[available_gas(l2_gas: 21273)]
     fn bench_line_table_once() {
         let bench = Inputs::get();
         let [(from, to), _] = bench.table;
@@ -1290,7 +1290,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 41202)]
+    #[available_gas(l2_gas: 32981)]
     fn bench_line_table_twice() {
         let bench = Inputs::get();
         let [(from, to), (other, next)] = bench.table;
@@ -1301,7 +1301,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 38300)]
+    #[available_gas(l2_gas: 30184)]
     fn bench_line_of_sight_table_once() {
         let bench = Inputs::get();
         let [(from, to), _] = bench.table;
@@ -1310,7 +1310,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 56892)]
+    #[available_gas(l2_gas: 48775)]
     fn bench_line_of_sight_table_twice() {
         let bench = Inputs::get();
         let [(from, to), (other, next)] = bench.table;
@@ -1321,7 +1321,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 235421)]
+    #[available_gas(l2_gas: 227199)]
     fn bench_line_loop_board_once() {
         let bench = Inputs::get();
         let [(from, to), _] = bench.board;
@@ -1330,7 +1330,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 448434)]
+    #[available_gas(l2_gas: 440213)]
     fn bench_line_loop_board_twice() {
         let bench = Inputs::get();
         let [(from, to), (other, next)] = bench.board;
@@ -1341,7 +1341,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 210830)]
+    #[available_gas(l2_gas: 202608)]
     fn bench_line_loop_interior_once() {
         let bench = Inputs::get();
         let [(from, to), _] = bench.interior;
@@ -1350,7 +1350,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 401499)]
+    #[available_gas(l2_gas: 393278)]
     fn bench_line_loop_interior_twice() {
         let bench = Inputs::get();
         let [(from, to), (other, next)] = bench.interior;
@@ -1361,7 +1361,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 741647)]
+    #[available_gas(l2_gas: 733425)]
     fn bench_line_loop_wide_once() {
         let bench = Inputs::get();
         let [(from, to), _] = bench.wide;
@@ -1370,7 +1370,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 1440758)]
+    #[available_gas(l2_gas: 1432536)]
     fn bench_line_loop_wide_twice() {
         let bench = Inputs::get();
         let [(from, to), (other, next)] = bench.wide;
@@ -1381,7 +1381,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 61169)]
+    #[available_gas(l2_gas: 53053)]
     fn bench_line_approach_interior_once() {
         let bench = Inputs::get();
         let [(from, to), _] = bench.table;
@@ -1390,7 +1390,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 101538)]
+    #[available_gas(l2_gas: 93421)]
     fn bench_line_approach_interior_twice() {
         let bench = Inputs::get();
         let [(from, to), (other, next)] = bench.table;
@@ -1401,7 +1401,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 112357)]
+    #[available_gas(l2_gas: 104240)]
     fn bench_line_approach_ring_once() {
         let bench = Inputs::get();
         let [(from, to), _] = bench.ring;
@@ -1410,7 +1410,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 202705)]
+    #[available_gas(l2_gas: 194589)]
     fn bench_line_approach_ring_twice() {
         let bench = Inputs::get();
         let [(from, to), (other, next)] = bench.ring;
@@ -1421,7 +1421,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 195689)]
+    #[available_gas(l2_gas: 187467)]
     fn bench_line_to_once() {
         let bench = Inputs::get();
         let [(a, b), _] = bench.hexes;
@@ -1430,7 +1430,7 @@ mod tests {
 
     #[test]
     #[inline(never)]
-    #[available_gas(l2_gas: 373380)]
+    #[available_gas(l2_gas: 365159)]
     fn bench_line_to_twice() {
         let bench = Inputs::get();
         let [(a, b), (c, d)] = bench.hexes;

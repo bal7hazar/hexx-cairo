@@ -15,7 +15,7 @@ use hexx::orientation::HexOrientation;
 
 
 #[test]
-#[available_gas(l2_gas: 8747267)]
+#[available_gas(l2_gas: 8739171)]
 fn golden_offset_even_pointy() {
     let mode = OffsetHexMode::Even;
     let orientation = HexOrientation::Pointy;
@@ -72,7 +72,7 @@ fn golden_offset_even_pointy() {
 }
 
 #[test]
-#[available_gas(l2_gas: 9828998)]
+#[available_gas(l2_gas: 9820902)]
 fn golden_offset_bounds_to_even_pointy() {
     let mode = OffsetHexMode::Even;
     let orientation = HexOrientation::Pointy;
@@ -152,7 +152,7 @@ fn golden_offset_bounds_to_even_pointy() {
 }
 
 #[test]
-#[available_gas(l2_gas: 9817332)]
+#[available_gas(l2_gas: 9809237)]
 fn golden_offset_bounds_from_even_pointy() {
     let mode = OffsetHexMode::Even;
     let orientation = HexOrientation::Pointy;
@@ -231,7 +231,7 @@ fn golden_offset_bounds_from_even_pointy() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_offset_to_even_pointy_panics_0() {
     let mode = OffsetHexMode::Even;
@@ -240,7 +240,7 @@ fn golden_offset_to_even_pointy_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_offset_to_even_pointy_panics_1() {
     let mode = OffsetHexMode::Even;
@@ -249,7 +249,7 @@ fn golden_offset_to_even_pointy_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_offset_from_even_pointy_panics_0() {
     let mode = OffsetHexMode::Even;
@@ -259,7 +259,7 @@ fn golden_offset_from_even_pointy_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_offset_from_even_pointy_panics_1() {
     let mode = OffsetHexMode::Even;
@@ -269,7 +269,7 @@ fn golden_offset_from_even_pointy_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 8747267)]
+#[available_gas(l2_gas: 8739171)]
 fn golden_offset_even_flat() {
     let mode = OffsetHexMode::Even;
     let orientation = HexOrientation::Flat;
@@ -325,7 +325,7 @@ fn golden_offset_even_flat() {
 }
 
 #[test]
-#[available_gas(l2_gas: 9828998)]
+#[available_gas(l2_gas: 9820902)]
 fn golden_offset_bounds_to_even_flat() {
     let mode = OffsetHexMode::Even;
     let orientation = HexOrientation::Flat;
@@ -406,7 +406,7 @@ fn golden_offset_bounds_to_even_flat() {
 }
 
 #[test]
-#[available_gas(l2_gas: 9817332)]
+#[available_gas(l2_gas: 9809237)]
 fn golden_offset_bounds_from_even_flat() {
     let mode = OffsetHexMode::Even;
     let orientation = HexOrientation::Flat;
@@ -488,7 +488,7 @@ fn golden_offset_bounds_from_even_flat() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_offset_to_even_flat_panics_0() {
     let mode = OffsetHexMode::Even;
@@ -497,7 +497,7 @@ fn golden_offset_to_even_flat_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_offset_to_even_flat_panics_1() {
     let mode = OffsetHexMode::Even;
@@ -506,7 +506,7 @@ fn golden_offset_to_even_flat_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_offset_from_even_flat_panics_0() {
     let mode = OffsetHexMode::Even;
@@ -516,7 +516,7 @@ fn golden_offset_from_even_flat_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_offset_from_even_flat_panics_1() {
     let mode = OffsetHexMode::Even;
@@ -526,7 +526,7 @@ fn golden_offset_from_even_flat_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 8754543)]
+#[available_gas(l2_gas: 8746448)]
 fn golden_offset_odd_pointy() {
     let mode = OffsetHexMode::Odd;
     let orientation = HexOrientation::Pointy;
@@ -583,7 +583,7 @@ fn golden_offset_odd_pointy() {
 }
 
 #[test]
-#[available_gas(l2_gas: 9817332)]
+#[available_gas(l2_gas: 9809237)]
 fn golden_offset_bounds_to_odd_pointy() {
     let mode = OffsetHexMode::Odd;
     let orientation = HexOrientation::Pointy;
@@ -663,7 +663,7 @@ fn golden_offset_bounds_to_odd_pointy() {
 }
 
 #[test]
-#[available_gas(l2_gas: 9828998)]
+#[available_gas(l2_gas: 9820902)]
 fn golden_offset_bounds_from_odd_pointy() {
     let mode = OffsetHexMode::Odd;
     let orientation = HexOrientation::Pointy;
@@ -741,7 +741,7 @@ fn golden_offset_bounds_from_odd_pointy() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_offset_to_odd_pointy_panics_0() {
     let mode = OffsetHexMode::Odd;
@@ -750,7 +750,7 @@ fn golden_offset_to_odd_pointy_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_offset_to_odd_pointy_panics_1() {
     let mode = OffsetHexMode::Odd;
@@ -759,7 +759,7 @@ fn golden_offset_to_odd_pointy_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_offset_from_odd_pointy_panics_0() {
     let mode = OffsetHexMode::Odd;
@@ -769,7 +769,7 @@ fn golden_offset_from_odd_pointy_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_offset_from_odd_pointy_panics_1() {
     let mode = OffsetHexMode::Odd;
@@ -779,7 +779,7 @@ fn golden_offset_from_odd_pointy_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 8754543)]
+#[available_gas(l2_gas: 8746448)]
 fn golden_offset_odd_flat() {
     let mode = OffsetHexMode::Odd;
     let orientation = HexOrientation::Flat;
@@ -835,7 +835,7 @@ fn golden_offset_odd_flat() {
 }
 
 #[test]
-#[available_gas(l2_gas: 9817332)]
+#[available_gas(l2_gas: 9809237)]
 fn golden_offset_bounds_to_odd_flat() {
     let mode = OffsetHexMode::Odd;
     let orientation = HexOrientation::Flat;
@@ -917,7 +917,7 @@ fn golden_offset_bounds_to_odd_flat() {
 }
 
 #[test]
-#[available_gas(l2_gas: 9828998)]
+#[available_gas(l2_gas: 9820902)]
 fn golden_offset_bounds_from_odd_flat() {
     let mode = OffsetHexMode::Odd;
     let orientation = HexOrientation::Flat;
@@ -999,7 +999,7 @@ fn golden_offset_bounds_from_odd_flat() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_offset_to_odd_flat_panics_0() {
     let mode = OffsetHexMode::Odd;
@@ -1008,7 +1008,7 @@ fn golden_offset_to_odd_flat_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_offset_to_odd_flat_panics_1() {
     let mode = OffsetHexMode::Odd;
@@ -1017,7 +1017,7 @@ fn golden_offset_to_odd_flat_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_offset_from_odd_flat_panics_0() {
     let mode = OffsetHexMode::Odd;
@@ -1027,7 +1027,7 @@ fn golden_offset_from_odd_flat_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16086)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_offset_from_odd_flat_panics_1() {
     let mode = OffsetHexMode::Odd;

@@ -439,6 +439,52 @@ pub impl HexMapImpl of HexMapTrait {
     fn is_walkable(self: HexMap, position: u8) -> bool {
         is_inside(self.width, self.height, position) && Bits::get(self.grid.into(), position)
     }
+
+    /// Create a map with a cave given its margins (plan §6.2, N-1): the ring tiles of `fixed`
+    /// take their value from `values` (the sides that face an already generated neighbour), the
+    /// other tiles are drawn from the seed, and the automaton runs on the interior with the ring
+    /// frozen and the global parity of the rows. The four corners are always wall (D-134).
+    /// # Arguments
+    /// * `width` - The width of the map
+    /// * `height` - The height of the map
+    /// * `order` - The number of generations of the automaton, 3 is a good default
+    /// * `seed` - The seed of the map
+    /// * `fixed` - The ring tiles whose value is given, masked to the ring
+    /// * `values` - Their values, masked to `fixed`
+    /// * `odd` - Whether local row 0 is a global odd row
+    /// # Returns
+    /// * The generated map
+    /// # Panics
+    /// * If `W < 3`, `H < 3` or `W * (H + 1) + 1 > 251`
+    ///
+    /// Mirrors nothing in `hexx`: an extension (plan §6.2, N-1).
+    #[inline]
+    fn new_cave_with_margins(
+        width: u8, height: u8, order: u8, seed: felt252, fixed: felt252, values: felt252, odd: bool,
+    ) -> HexMap {
+        let grid = Caver::generate_with_margins(width, height, order, seed, fixed, values, odd);
+        HexMap { width, height, grid, seed }
+    }
+
+    /// Run `order` generations of the cave automaton on the map (plan §6.2, N-1): the ring and
+    /// the tiles of `held` keep their value (D-28), the rows have their global parity.
+    /// # Arguments
+    /// * `self` - The map
+    /// * `order` - The number of generations
+    /// * `held` - The tiles that keep their value, any tiles; the ring is always held
+    /// * `odd` - Whether local row 0 is a global odd row
+    /// # Returns
+    /// * The smoothed map, same dimensions and seed
+    /// # Panics
+    /// * If `W < 3`, `H < 3` or `W * (H + 1) + 1 > 251`
+    ///
+    /// Mirrors nothing in `hexx`: an extension (plan §6.2, N-1).
+    #[inline]
+    fn smooth(self: HexMap, order: u8, held: felt252, odd: bool) -> HexMap {
+        let (width, height) = (self.width, self.height);
+        let grid = Caver::smooth(self.grid, width, height, order, held, odd);
+        HexMap { width, height, grid, seed: self.seed }
+    }
 }
 
 #[cfg(test)]
@@ -484,7 +530,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 14406)]
+    #[available_gas(l2_gas: 6311)]
     fn test_map_new() {
         let map = HexMapTrait::new(CAVE_17X14, 17, 14, SEED);
         assert!(map.width == 17);
@@ -494,7 +540,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 27962)]
+    #[available_gas(l2_gas: 19740)]
     fn test_map_new_empty() {
         assert!(HexMapTrait::new_empty(17, 14, SEED).grid == EMPTY_17X14);
         assert!(HexMapTrait::new_empty(7, 7, SEED).grid == EMPTY_7X7);
@@ -502,7 +548,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 11070087)]
+    #[available_gas(l2_gas: 11062076)]
     fn test_map_new_generators() {
         assert!(HexMapTrait::new_maze(17, 14, 0, SEED).grid == Mazer::generate(17, 14, 0, SEED));
         assert!(HexMapTrait::new_maze(19, 13, 1, SEED).grid == Mazer::generate(19, 13, 1, SEED));
@@ -513,7 +559,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 446476)]
+    #[available_gas(l2_gas: 438360)]
     fn test_map_new_hexagon() {
         //  0 0 0 0 0 0 0
         // 0 0 1 1 1 0 0
@@ -533,7 +579,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 196819)]
+    #[available_gas(l2_gas: 188807)]
     fn test_map_open() {
         let mut map = cave();
         map.open_with_corridor(8, 0);
@@ -544,7 +590,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 719756)]
+    #[available_gas(l2_gas: 711639)]
     fn test_map_keep_component() {
         let mut map = HexMapTrait::new(UNREACHABLE_17X14, 17, 14, SEED);
         map.keep_component(UNREACHABLE_17X14_FAR_FROM);
@@ -558,7 +604,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 404790)]
+    #[available_gas(l2_gas: 396779)]
     fn test_map_compute_distribution() {
         let objects = cave().compute_distribution(10, SEED);
         assert!(objects == Spreader::generate(CAVE_17X14, 17, 14, 10, SEED));
@@ -566,7 +612,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 6803782)]
+    #[available_gas(l2_gas: 6795666)]
     fn test_map_finders() {
         let map = cave();
         let (from, to) = (CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO);
@@ -585,7 +631,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 532844)]
+    #[available_gas(l2_gas: 524727)]
     fn test_map_distance_unreachable() {
         let map = HexMapTrait::new(UNREACHABLE_17X14, 17, 14, SEED);
         let distance = map.distance_to(UNREACHABLE_17X14_FAR_FROM, UNREACHABLE_17X14_FAR_TO);
@@ -594,7 +640,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 155516569)]
+    #[available_gas(l2_gas: 155508453)]
     fn test_map_ring_fused() {
         // No open edge tile, both limbs and single limb
         check_rings(cave(), CAVE_17X14_FAR_FROM, 30);
@@ -604,7 +650,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 89907412)]
+    #[available_gas(l2_gas: 89899400)]
     fn test_map_ring_open_edge() {
         // Open edge tiles: one flood from the interior, two `range` calls from the entrance
         let mut map = cave();
@@ -618,7 +664,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 239333)]
+    #[available_gas(l2_gas: 231217)]
     fn test_map_ring_values() {
         //  0 0 0 0 0 0 0
         // 0 0 1 1 1 0 0
@@ -636,7 +682,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 14406)]
+    #[available_gas(l2_gas: 6311)]
     fn test_map_neighbor() {
         let map = cave();
         assert!(map.neighbor(0, Direction::East).is_none());
@@ -651,7 +697,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 34264)]
+    #[available_gas(l2_gas: 26148)]
     fn test_map_is_walkable() {
         let map = cave();
         assert!(map.is_walkable(CAVE_17X14_FAR_FROM));
@@ -661,7 +707,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 51839)]
+    #[available_gas(l2_gas: 43617)]
     fn test_map_neighbor_outside() {
         // Audit A4: position 9 is outside a 3x3 board (0..=8), `LayoutTrait::neighbor` alone
         // returns `Some(10)` West
@@ -682,7 +728,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 27719)]
+    #[available_gas(l2_gas: 19603)]
     fn test_map_is_walkable_outside() {
         // Audit A4: an unchecked grid with bit 9 set on a 3x3 board
         let map = HexMapTrait::new(0x200, 3, 3, 0);
@@ -697,7 +743,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 65552)]
+    #[available_gas(l2_gas: 57435)]
     fn test_map_distance_to_walls_block() {
         // Audit A4: 5x3, walkable 6 and 8, wall 7 between them: no path, walls are not crossed
         let map = HexMapTrait::new(0x140, 5, 3, 0);
@@ -708,21 +754,21 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 18879)]
+    #[available_gas(l2_gas: 10658)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_map_hex_distance_revert_from_outside() {
         HexMapTrait::new_empty(3, 3, 0).hex_distance(9, 0);
     }
 
     #[test]
-    #[available_gas(l2_gas: 18879)]
+    #[available_gas(l2_gas: 10658)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_map_hex_distance_revert_to_outside() {
         HexMapTrait::new_empty(3, 3, 0).hex_distance(4, 9);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1565682)]
+    #[available_gas(l2_gas: 1557670)]
     fn test_map_scenario_17x14() {
         // Cave, component of 113, corridor from 8, 10 objects, path from 8 to 202:
         // 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -751,7 +797,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 495052)]
+    #[available_gas(l2_gas: 487041)]
     fn test_map_scenario_7x7() {
         //  0 0 0 0 0 0 0
         // 0 0 0 1 1 0 0
@@ -771,21 +817,21 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_map_new_empty_revert_invalid_dimension() {
         HexMapTrait::new_empty(16, 16, SEED);
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_map_new_hexagon_revert_radius() {
         HexMapTrait::new_hexagon(7, SEED);
     }
 
     #[test]
-    #[available_gas(l2_gas: 77882)]
+    #[available_gas(l2_gas: 69892)]
     #[should_panic(expected: 'Bfs: position not walkable')]
     fn test_map_keep_component_revert_wall() {
         let mut map = cave();
@@ -793,21 +839,21 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 141896)]
+    #[available_gas(l2_gas: 133906)]
     #[should_panic(expected: 'Bfs: position not walkable')]
     fn test_map_ring_revert_wall() {
         cave().ring(0, 2);
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_map_ring_revert_outside() {
         cave().ring(238, 2);
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Dial: too many costs')]
     fn test_map_search_path_weighted_revert_costs() {
         let costs = array![0, 0, 0, 0].span();
@@ -815,10 +861,207 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 19089)]
+    #[available_gas(l2_gas: 10868)]
     #[should_panic(expected: 'Asserter: position is a corner')]
     fn test_map_open_with_corridor_revert_corner() {
         let mut map = cave();
         map.open_with_corridor(0, 0);
+    }
+
+    // N-1 (plan §6.2): `new_cave_with_margins` and `smooth`. The oracles of the automaton are in
+    // `generators::caver`; here, the facade and the regression cases stated on `smooth`.
+
+    /// The ring of 15 x 15.
+    const RING_15X15: felt252 = 0x1fffe000c00180030006000c00180030006000c00180030006000ffff;
+    /// The values of the sides in `test_caver_margins_stream`: two tiles in three open.
+    const PATTERN: felt252 = 0x6db6db6db6db6db6db6db6db6db6db6db6db6db6db6db6db6db6db6db6db6db;
+    /// A chunk with open side tiles, as pinned by `test_caver_margins_stream`:
+    /// `generate_with_margins(15, 15, 3, 'CAVE', ring, PATTERN, true)`.
+    const CHUNK_15X15: felt252 = 0xdb69fff81ff47fec67dc8f9c1f7ffefffdff79fe73f9e7f05fe0b6da;
+    /// The ring of 15 x 15 and 20 interior tiles.
+    const HELD_15X15: felt252 = 0x1fffe100c0118003940f000d25180030006842c80189030806880ffff;
+
+    #[test]
+    #[available_gas(l2_gas: 965783)]
+    fn test_map_new_cave_with_margins() {
+        for odd in [false, true].span() {
+            let map = HexMapTrait::new_cave_with_margins(
+                15, 15, 3, SEED, RING_15X15, CHUNK_15X15, *odd,
+            );
+            let grid = Caver::generate_with_margins(15, 15, 3, SEED, RING_15X15, CHUNK_15X15, *odd);
+            assert!(map.grid == grid);
+            assert!(map.width == 15 && map.height == 15 && map.seed == SEED);
+            // The given sides are those of the chunk, whose corners are wall (D-134)
+            let ring: u256 = RING_15X15.into();
+            assert!(Bits::and(map.grid.into(), ring) == Bits::and(CHUNK_15X15.into(), ring));
+            assert!(!map.is_walkable(0) && !map.is_walkable(14));
+            assert!(!map.is_walkable(210) && !map.is_walkable(224));
+        }
+        // The pinned stream, through the facade
+        let map = HexMapTrait::new_cave_with_margins(15, 15, 3, 'CAVE', RING_15X15, PATTERN, true);
+        assert!(map.grid == CHUNK_15X15);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1045068)]
+    fn test_map_smooth() {
+        let map = HexMapTrait::new(CHUNK_15X15, 15, 15, SEED);
+        for odd in [false, true].span() {
+            let smoothed = map.smooth(3, HELD_15X15, *odd);
+            assert!(smoothed.grid == Caver::smooth(CHUNK_15X15, 15, 15, 3, HELD_15X15, *odd));
+            assert!(smoothed.width == 15 && smoothed.height == 15 && smoothed.seed == SEED);
+            // The ring and the held tiles keep their value
+            let held: u256 = HELD_15X15.into();
+            assert!(Bits::and(smoothed.grid.into(), held) == Bits::and(CHUNK_15X15.into(), held));
+        }
+        // No generation: the map itself
+        assert!(map.smooth(0, 0, true).grid == CHUNK_15X15);
+        // The parity of the rows matters
+        assert!(map.smooth(3, 0, true).grid != map.smooth(3, 0, false).grid);
+    }
+
+    /// R-N1-1: 15 x 15, `odd = false`, live tiles `(0, 0)`, `(10, 12)`, `(11, 12)`, the ring
+    /// held, one generation: the two interior tiles have one live neighbour each and die.
+    #[test]
+    #[available_gas(l2_gas: 92155)]
+    fn test_map_smooth_r_n1_1() {
+        let grid = 1 + Bits::pow(12 * 15 + 10) + Bits::pow(12 * 15 + 11);
+        let map = HexMapTrait::new(grid, 15, 15, SEED);
+        assert!(map.smooth(1, RING_15X15, false).grid == 1);
+    }
+
+    /// R-N1-3: 15 x 15, `odd = false`, live tiles `(14, 11)`, `(1, 12)`, `(1, 13)`, the ring
+    /// held, one generation: no carry invents a neighbour of `(1, 13)`, both interior tiles die.
+    #[test]
+    #[available_gas(l2_gas: 94160)]
+    fn test_map_smooth_r_n1_3() {
+        let ring = Bits::pow(11 * 15 + 14);
+        let grid = ring + Bits::pow(12 * 15 + 1) + Bits::pow(13 * 15 + 1);
+        let map = HexMapTrait::new(grid, 15, 15, SEED);
+        assert!(map.smooth(1, RING_15X15, false).grid == ring);
+    }
+
+    /// R-N1-6: 15 x 15, `odd = false`, the single live ring tile `(1, 0)`, the ring held, one
+    /// generation: the grid is unchanged.
+    #[test]
+    #[available_gas(l2_gas: 83681)]
+    fn test_map_smooth_r_n1_6() {
+        let map = HexMapTrait::new(2, 15, 15, SEED);
+        assert!(map.smooth(1, RING_15X15, false).grid == 2);
+    }
+
+    /// R-N1-5 (D-30): 17 x 14 is refused, by both functions.
+    #[test]
+    #[available_gas(l2_gas: 8201)]
+    #[should_panic(expected: 'Caver: dimensions too large')]
+    fn test_map_new_cave_with_margins_revert_too_large() {
+        HexMapTrait::new_cave_with_margins(17, 14, 3, SEED, 0, 0, false);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 8201)]
+    #[should_panic(expected: 'Caver: dimensions too large')]
+    fn test_map_smooth_revert_too_large() {
+        cave().smooth(3, 0, false);
+    }
+
+    // Benchmarks of `smooth` (plan §6.2, "Worst case"): 15 x 15, `held` the ring and 20 interior
+    // tiles, `odd = true`, a chunk with open side tiles so that every plane has bits in both
+    // limbs. A generation performs the same operations whatever the tiles. `(order 5 - order 1)
+    // / 4` is a generation, `twice - once` a call; `new_cave_with_margins` on the inputs of
+    // `bench_caver_generate_with_margins_15x15_order_3` gives the overhead of the facade.
+
+    #[derive(Copy, Drop)]
+    struct Bench {
+        maps: [HexMap; 2],
+        held: felt252,
+        fixed: felt252,
+        odd: bool,
+    }
+
+    #[generate_trait]
+    impl Inputs of InputsTrait {
+        /// The inputs, opaque to the compiler (`#[inline(never)]`, as in `bench_assembly`).
+        #[inline(never)]
+        fn get() -> Bench {
+            Bench {
+                maps: [
+                    HexMap { width: 15, height: 15, grid: CHUNK_15X15, seed: 'CAVE' },
+                    HexMap { width: 15, height: 15, grid: CHUNK_15X15 - 0x200, seed: 'CAVER' },
+                ],
+                held: HELD_15X15,
+                fixed: RING_15X15,
+                odd: true,
+            }
+        }
+
+        /// A generation count, opaque as well.
+        #[inline(never)]
+        fn order(order: u8) -> u8 {
+            order
+        }
+
+        /// `smooth` on the inputs, on one of the two maps.
+        #[inline(never)]
+        fn smooth(order: u8, second: bool) -> felt252 {
+            let bench = Self::get();
+            let [map, other] = bench.maps;
+            let map = if second {
+                other
+            } else {
+                map
+            };
+            map.smooth(Self::order(order), bench.held, bench.odd).grid
+        }
+    }
+
+    #[test]
+    #[inline(never)]
+    #[available_gas(l2_gas: 99568)]
+    fn bench_map_smooth_15x15_order_1() {
+        assert!(Inputs::smooth(1, false) != 0);
+    }
+
+    /// The game-sized fixture.
+    #[test]
+    #[inline(never)]
+    #[available_gas(l2_gas: 182887)]
+    fn bench_map_smooth_15x15_order_3() {
+        assert!(Inputs::smooth(3, false) != 0);
+    }
+
+    #[test]
+    #[inline(never)]
+    #[available_gas(l2_gas: 357584)]
+    fn bench_map_smooth_15x15_order_3_twice() {
+        assert!(Inputs::smooth(3, false) != 0);
+        assert!(Inputs::smooth(3, true) != 0);
+    }
+
+    #[test]
+    #[inline(never)]
+    #[available_gas(l2_gas: 266207)]
+    fn bench_map_smooth_15x15_order_5() {
+        assert!(Inputs::smooth(5, false) != 0);
+    }
+
+    /// The domain-wide worst case.
+    #[test]
+    #[inline(never)]
+    #[available_gas(l2_gas: 10681157)]
+    fn bench_map_smooth_15x15_order_255() {
+        assert!(Inputs::smooth(255, false) != 0);
+    }
+
+    #[test]
+    #[inline(never)]
+    #[available_gas(l2_gas: 193926)]
+    fn bench_map_new_cave_with_margins_15x15_order_3() {
+        let bench = Inputs::get();
+        let [map, _] = bench.maps;
+        let map = HexMapTrait::new_cave_with_margins(
+            map.width, map.height, Inputs::order(3), map.seed, bench.fixed, bench.fixed, bench.odd,
+        );
+        assert!(map.grid != 0);
     }
 }

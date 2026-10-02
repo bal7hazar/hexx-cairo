@@ -284,7 +284,7 @@ mod tests {
     use super::{PERMUTATIONS, Rng, RngTrait};
 
     #[test]
-    #[available_gas(l2_gas: 5099698)]
+    #[available_gas(l2_gas: 5091718)]
     fn test_rng_next_below_range() {
         let mut rng = RngTrait::new('seed');
         let mut hits: (u32, u32, u32, u32, u32, u32) = (0, 0, 0, 0, 0, 0);
@@ -312,7 +312,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 969062)]
+    #[available_gas(l2_gas: 961072)]
     fn test_rng_deterministic() {
         let mut lhs: Rng = RngTrait::new('seed');
         let mut rhs: Rng = RngTrait::new('seed');
@@ -324,7 +324,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 23841)]
+    #[available_gas(l2_gas: 15724)]
     fn test_rng_mix() {
         assert!(RngTrait::mix(1, 2) == RngTrait::mix(1, 2));
         assert!(RngTrait::mix(1, 2) != RngTrait::mix(2, 1));
@@ -332,7 +332,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 32850405)]
+    #[available_gas(l2_gas: 32842289)]
     fn test_rng_permutations_table() {
         // Every entry is a permutation of 0..6, checked through a presence mask
         let mut table = PERMUTATIONS.span();
@@ -362,7 +362,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 105454)]
+    #[available_gas(l2_gas: 97338)]
     fn test_rng_shuffle6() {
         let mut rng = RngTrait::new('seed');
         let first = rng.shuffle6();

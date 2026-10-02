@@ -56,7 +56,7 @@ fn frontiers(width: u8, height: u8) -> Array<u256> {
 
 /// Every valid dimension (675).
 #[test]
-#[available_gas(l2_gas: 17943954)]
+#[available_gas(l2_gas: 17935859)]
 fn test_layout_new() {
     for (width, height) in valid_dimensions() {
         assert_layouts(O::new(width, height), H::new(width, height));
@@ -65,7 +65,7 @@ fn test_layout_new() {
 
 /// Every valid dimension.
 #[test]
-#[available_gas(l2_gas: 6325725)]
+#[available_gas(l2_gas: 6317630)]
 fn test_layout_board() {
     for (width, height) in valid_dimensions() {
         assert(O::board(width, height) == H::board(width, height), 'board');
@@ -74,7 +74,7 @@ fn test_layout_board() {
 
 /// Every valid dimension.
 #[test]
-#[available_gas(l2_gas: 11189178)]
+#[available_gas(l2_gas: 11181083)]
 fn test_layout_even() {
     for (width, height) in valid_dimensions() {
         assert(O::even(width, height) == H::even(width, height), 'even');
@@ -83,7 +83,7 @@ fn test_layout_even() {
 
 /// Every valid dimension.
 #[test]
-#[available_gas(l2_gas: 9926175)]
+#[available_gas(l2_gas: 9918080)]
 fn test_layout_interior() {
     for (width, height) in valid_dimensions() {
         assert(O::interior(width, height) == H::interior(width, height), 'interior');
@@ -92,7 +92,7 @@ fn test_layout_interior() {
 
 /// Every valid dimension.
 #[test]
-#[available_gas(l2_gas: 18405156)]
+#[available_gas(l2_gas: 18397061)]
 fn test_layout_with_interior() {
     for (width, height) in valid_dimensions() {
         let (lhs, left) = O::with_interior(width, height);
@@ -104,7 +104,7 @@ fn test_layout_with_interior() {
 
 /// Every valid dimension.
 #[test]
-#[available_gas(l2_gas: 16951704)]
+#[available_gas(l2_gas: 16943609)]
 fn test_layout_dilation() {
     for (width, height) in valid_dimensions() {
         assert_dilations(O::new(width, height).dilation(), H::new(width, height).dilation());
@@ -113,7 +113,7 @@ fn test_layout_dilation() {
 
 /// Every radius the facade accepts, 0 to 6.
 #[test]
-#[available_gas(l2_gas: 1129023)]
+#[available_gas(l2_gas: 1120928)]
 fn test_layout_hexagon() {
     let mut radius: u8 = 0;
     while radius != 7 {
@@ -124,7 +124,7 @@ fn test_layout_hexagon() {
 
 /// The 9 dimensions of the generators, 34 frontiers each.
 #[test]
-#[available_gas(l2_gas: 16522910)]
+#[available_gas(l2_gas: 16515024)]
 fn test_layout_expand() {
     for (width, height) in DIMENSIONS.span() {
         let (width, height) = (*width, *height);
@@ -137,7 +137,7 @@ fn test_layout_expand() {
 
 /// The 9 dimensions of the generators, 34 frontiers each.
 #[test]
-#[available_gas(l2_gas: 16470053)]
+#[available_gas(l2_gas: 16462167)]
 fn test_dilation_dilate() {
     for (width, height) in DIMENSIONS.span() {
         let (width, height) = (*width, *height);
@@ -153,7 +153,7 @@ fn test_dilation_dilate() {
 
 /// 8 boards of at most 128 tiles, 34 frontiers each.
 #[test]
-#[available_gas(l2_gas: 8893971)]
+#[available_gas(l2_gas: 8886085)]
 fn test_layout_expand_small() {
     for (width, height) in SMALL.span() {
         let (width, height) = (*width, *height);
@@ -168,7 +168,7 @@ fn test_layout_expand_small() {
 
 /// 8 boards of at most 128 tiles, 34 frontiers each.
 #[test]
-#[available_gas(l2_gas: 8656608)]
+#[available_gas(l2_gas: 8648722)]
 fn test_dilation_expand_small() {
     for (width, height) in SMALL.span() {
         let (width, height) = (*width, *height);
@@ -183,7 +183,7 @@ fn test_dilation_expand_small() {
 
 /// Every position of the queries (`common::query_positions`).
 #[test]
-#[available_gas(l2_gas: 158118186)]
+#[available_gas(l2_gas: 158110206)]
 fn test_layout_edge_neighbours() {
     for (width, height, position) in query_positions() {
         let lhs = O::edge_neighbours(width, height, position);
@@ -195,7 +195,7 @@ fn test_layout_edge_neighbours() {
 /// Every position of the queries, each with a seeded set of the board's tiles (tag `'set'`)
 /// and with the empty set.
 #[test]
-#[available_gas(l2_gas: 515092320)]
+#[available_gas(l2_gas: 515084309)]
 fn test_layout_neighbour_in() {
     let mut index: u32 = 0;
     for (width, height, position) in query_positions() {
@@ -213,7 +213,7 @@ fn test_layout_neighbour_in() {
 
 /// Every interior position of the queries (the domain of `neighbour_mask`).
 #[test]
-#[available_gas(l2_gas: 46833663)]
+#[available_gas(l2_gas: 46825683)]
 fn test_layout_neighbour_mask() {
     for (width, height, position) in query_positions() {
         let (x, y) = (position % width, position / width);
@@ -227,7 +227,7 @@ fn test_layout_neighbour_mask() {
 
 /// The coordinates of every position of the queries.
 #[test]
-#[available_gas(l2_gas: 24253707)]
+#[available_gas(l2_gas: 24245727)]
 fn test_layout_index() {
     for (width, _height, position) in query_positions() {
         let (x, y) = (position % width, position / width);
@@ -237,7 +237,7 @@ fn test_layout_index() {
 
 /// Every position of the queries.
 #[test]
-#[available_gas(l2_gas: 22924260)]
+#[available_gas(l2_gas: 22916280)]
 fn test_layout_coords() {
     for (width, _height, position) in query_positions() {
         assert(O::coords(width, position) == H::coords(width, position), 'coords');
@@ -246,7 +246,7 @@ fn test_layout_coords() {
 
 /// Every position of the queries.
 #[test]
-#[available_gas(l2_gas: 27057669)]
+#[available_gas(l2_gas: 27049689)]
 fn test_layout_parity() {
     for (width, _height, position) in query_positions() {
         assert(O::parity(width, position) == H::parity(width, position), 'parity');
@@ -255,7 +255,7 @@ fn test_layout_parity() {
 
 /// Every position of the queries in every direction.
 #[test]
-#[available_gas(l2_gas: 137625273)]
+#[available_gas(l2_gas: 137617293)]
 fn test_layout_neighbor() {
     for (width, height, position) in query_positions() {
         let mut index: u8 = 0;

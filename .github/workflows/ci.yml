@@ -8,6 +8,13 @@ on:
 permissions:
   contents: read
 
+# D-176: the compiler places the `withdraw_gas` check of a call-graph cycle by salsa intern-id
+# order, which follows rayon's thread order; on one thread a build is one build (D-154). Set once
+# for the workflow, so that every build a gate measures or declares (test, package, gas, class
+# size, determinism) is that one build.
+env:
+  RAYON_NUM_THREADS: "1"
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -40,8 +47,6 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
-        with:
-          scarb-version: "2.19.4"
       - run: scarb fmt --check --workspace
       - run: python3 -m unittest discover -s scripts/tests
       # docs/API_PARITY.md must match the embedded hexx 0.25.0 inventory (regenerate with
@@ -61,8 +66,6 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
-        with:
-          scarb-version: "2.19.4"
       # Read-only checkout of the source at the commit of sources/VERSIONS.md, outside the repository.
       - name: Fetch dojoengine/origami at the pinned commit
         run: |
@@ -77,7 +80,9 @@ jobs:
     # partition is by hash, so the shares are uneven), and M1-T6 adds more.
     name: Build and test ${{ matrix.package }} ${{ matrix.partition }}
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # 20 minutes since LIB-04e (D-176): on one thread the compile of a partition more than doubles
+    # (execution is unchanged); 10 minutes was the track's target, one reproducible build is worth more.
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -93,11 +98,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
-        with:
-          scarb-version: "2.19.4"
       - uses: foundry-rs/setup-snfoundry@16e23ddd0e2845f38727c92f4b913a7b728cda9e # v6.0.0
-        with:
-          starknet-foundry-version: "0.61.0"
       - env:
           PACKAGE: ${{ matrix.package }}
         run: scarb build -p "$PACKAGE"
@@ -113,8 +114,6 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
-        with:
-          scarb-version: "2.19.4"
       # `scarb package` alone (never `scarb publish`, never a token): lets a reviewer download
       # and inspect exactly what a release would ship, on every pull request, without re-running
       # it themselves — fix loop 1 finding 11 (the audit could not reach the archive this task's
@@ -141,7 +140,8 @@ jobs:
   gas:
     name: Gas ${{ matrix.label }}
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # 20 minutes since LIB-04e (D-176), as the `test` job: the pinned compile.
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -160,11 +160,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
-        with:
-          scarb-version: "2.19.4"
       - uses: foundry-rs/setup-snfoundry@16e23ddd0e2845f38727c92f4b913a7b728cda9e # v6.0.0
-        with:
-          starknet-foundry-version: "0.61.0"
       # Fails when a test has no #[available_gas], when its budget is above the ceiling of its
       # measurement (a fuzz test: its maximum), when a test ran with no parsable measurement, when
       # the counts declared / collected / with a row / ignored disagree, or when
@@ -243,6 +239,35 @@ jobs:
           TOTAL: ${{ matrix.total }}
         run: python3 scripts/bench.py complete --package hexx --scope "$SCOPE" --total "$TOTAL" --reports partition-reports
 
+  # D-176: the proof that a clean build is one build. `crates/consumer` is built three times from
+  # clean (`scarb clean` between, release profile as the class-size check, RAYON_NUM_THREADS=1 from
+  # the workflow's `env:`); the job fails when the SHA-256 of a contract's Sierra class file or of
+  # its CASM class file (the class hash is a function of the Sierra class) or the table of sizes
+  # differs between two builds.
+  determinism:
+    name: Three clean builds of consumer give one class
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
+      - name: Build three times from clean and compare
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/determinism"
+          for i in 1 2 3; do
+            scarb clean
+            scarb --release build -p consumer
+            (cd target/release && sha256sum consumer_*.contract_class.json consumer_*.compiled_contract_class.json) > "$RUNNER_TEMP/determinism/hashes-$i.txt"
+            python3 scripts/bytecode_size.py table > "$RUNNER_TEMP/determinism/sizes-$i.md" 2>/dev/null
+          done
+          cat "$RUNNER_TEMP/determinism/hashes-1.txt"
+          for i in 2 3; do
+            diff "$RUNNER_TEMP/determinism/hashes-1.txt" "$RUNNER_TEMP/determinism/hashes-$i.txt"
+            diff "$RUNNER_TEMP/determinism/sizes-1.md" "$RUNNER_TEMP/determinism/sizes-$i.md"
+          done
+          echo "three clean builds, one class" | tee -a "$GITHUB_STEP_SUMMARY"
+
   golden:
     name: Golden vectors up to date (tools/refgen)
     runs-on: ubuntu-latest
@@ -266,7 +291,7 @@ jobs:
   all-checks:
     name: All checks passed
     if: always()
-    needs: [links, scripts, fmt, takeover, test, package, gas, gas-complete, golden]
+    needs: [links, scripts, fmt, takeover, test, package, gas, gas-complete, determinism, golden]
     runs-on: ubuntu-latest
     steps:
       - env:

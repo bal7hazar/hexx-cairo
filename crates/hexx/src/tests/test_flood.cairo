@@ -192,7 +192,7 @@ pub impl Oracle of OracleTrait {
 // The pinned corridor `SERPENTINE_15X16` (plan §6.9)
 
 #[test]
-#[available_gas(l2_gas: 17387591)]
+#[available_gas(l2_gas: 17382309)]
 fn test_flood_serpentine_hand_distances() {
     // The distances by hand of the plan, no obstacle: the deepest tile is (1, 2), at 46
     let flood = Oracle::check(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, 0, 255);
@@ -212,7 +212,7 @@ fn test_flood_serpentine_hand_distances() {
 }
 
 #[test]
-#[available_gas(l2_gas: 14557490)]
+#[available_gas(l2_gas: 14549794)]
 fn test_flood_r_n8_1() {
     // (1, 2) frozen, depth 182: 82 tiles reached, (2, 2) at 45, (1, 2) in no layer
     let flood = Oracle::check(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, 0x80000000, 182);
@@ -223,7 +223,7 @@ fn test_flood_r_n8_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 12223063)]
+#[available_gas(l2_gas: 12215367)]
 fn test_flood_r_n8_2() {
     // The same at depth 15: truncated, neither (2, 2) nor (1, 2) in a layer
     let flood = Oracle::check(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, 0x80000000, 15);
@@ -233,7 +233,7 @@ fn test_flood_r_n8_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 91029190)]
+#[available_gas(l2_gas: 91023383)]
 fn test_flood_r_n8_3() {
     // (1, 2) and (3, 2) frozen: (2, 2) cut off at every depth, 80 tiles, (4, 2) the deepest at 43
     let obstacles: felt252 = 0x280000000;
@@ -251,7 +251,7 @@ fn test_flood_r_n8_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16047810)]
+#[available_gas(l2_gas: 16041373)]
 fn test_flood_r_n8_4() {
     // The eight walkers frozen: the east branch cut at (5, 2), the west one at (5, 12)
     let flood = Oracle::check(
@@ -270,7 +270,7 @@ fn test_flood_r_n8_4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 13793571)]
+#[available_gas(l2_gas: 13785875)]
 fn test_flood_r_n8_5() {
     // A ring tile, even open, is in no layer; its in-board neighbour (1, 8) is in layer 6
     let grid = SERPENTINE_15X16 + Bits::pow(Oracle::at(0, 8));
@@ -280,7 +280,7 @@ fn test_flood_r_n8_5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 13436796)]
+#[available_gas(l2_gas: 13429099)]
 fn test_flood_r_n8_6() {
     // The flood of R-N8-1 around (4, 8): (5, 8) at 2, (4, 8) at 3, (3, 8) at 4
     let flood = Oracle::check(SERPENTINE_15X16, 15, 16, SERPENTINE_15X16_FROM, 0x80000000, 182);
@@ -290,7 +290,7 @@ fn test_flood_r_n8_6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 679491)]
+#[available_gas(l2_gas: 671795)]
 fn test_flood_r_n8_7_interior_source() {
     // 7 × 7, (1, 3) and the open edge tile (0, 3): from (1, 3), the edge tile is in no layer
     let grid: felt252 = 0x600000;
@@ -301,7 +301,7 @@ fn test_flood_r_n8_7_interior_source() {
 }
 
 #[test]
-#[available_gas(l2_gas: 877321)]
+#[available_gas(l2_gas: 869624)]
 fn test_flood_r_n8_7_edge_source() {
     // From the open edge tile (0, 3): layer 0 is the source, layer 1 its interior neighbour
     let grid: felt252 = 0x600000;
@@ -314,7 +314,7 @@ fn test_flood_r_n8_7_edge_source() {
 // `depth` at its boundaries
 
 #[test]
-#[available_gas(l2_gas: 161008256)]
+#[available_gas(l2_gas: 161004445)]
 fn test_flood_depths_serpentine() {
     // 0, 1, the game's 15, around the reach (45 with (1, 2) frozen) and beyond it
     for depth in array![0_u8, 1, 2, 3, 4, 5, 15, 44, 45, 46, 47, 182, 255] {
@@ -335,7 +335,7 @@ fn test_flood_depths_serpentine() {
 }
 
 #[test]
-#[available_gas(l2_gas: 42142296)]
+#[available_gas(l2_gas: 42139451)]
 fn test_flood_depths_small() {
     // The single-limb path: 0, 1, 15, and around the reach of the deepest fixtures (13 and 14)
     for depth in array![0_u8, 1, 2, 12, 13, 14, 15, 255] {
@@ -347,7 +347,7 @@ fn test_flood_depths_small() {
 // A disconnected source
 
 #[test]
-#[available_gas(l2_gas: 12341291)]
+#[available_gas(l2_gas: 12335169)]
 fn test_flood_disconnected_source() {
     // Every neighbour of the source frozen: layer 0 only, at every depth
     let obstacles = LayoutTrait::edge_neighbors(15, 16, SERPENTINE_15X16_FROM);
@@ -368,7 +368,7 @@ fn test_flood_disconnected_source() {
 // Open edge sources (D-32)
 
 #[test]
-#[available_gas(l2_gas: 219573806)]
+#[available_gas(l2_gas: 219569889)]
 fn test_flood_edge_sources() {
     // Two limbs: an entrance on each side of an empty board and on a cave
     let edges: Array<u8> = array![85, 16, 8, 229];
@@ -391,7 +391,7 @@ fn test_flood_edge_sources() {
 // Obstacles
 
 #[test]
-#[available_gas(l2_gas: 14752860)]
+#[available_gas(l2_gas: 14745373)]
 fn test_flood_obstacles_off_the_interior() {
     // Obstacles on the ring and beyond the board change nothing
     let ring: felt252 = LayoutTrait::board(15, 16) - LayoutTrait::interior(15, 16);
@@ -404,7 +404,7 @@ fn test_flood_obstacles_off_the_interior() {
 // The fixtures, both limb paths
 
 #[test]
-#[available_gas(l2_gas: 854882102)]
+#[available_gas(l2_gas: 854892990)]
 fn test_flood_fixtures_17x14() {
     let depths = array![0_u8, 1, 15, 255];
     let fixtures: Array<(felt252, u8, u8)> = array![
@@ -424,37 +424,37 @@ fn test_flood_fixtures_17x14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 290167050)]
+#[available_gas(l2_gas: 290190665)]
 fn test_flood_sweep_empty_7x7() {
     Oracle::sweep(EMPTY_7X7, 7, 7, 1, array![1_u8, 255].span());
 }
 
 #[test]
-#[available_gas(l2_gas: 247569419)]
+#[available_gas(l2_gas: 247590514)]
 fn test_flood_sweep_cave_7x7() {
     Oracle::sweep(CAVE_7X7, 7, 7, 1, array![1_u8, 255].span());
 }
 
 #[test]
-#[available_gas(l2_gas: 128710868)]
+#[available_gas(l2_gas: 128723143)]
 fn test_flood_sweep_maze_7x7() {
     Oracle::sweep(MAZE_7X7, 7, 7, 1, array![3_u8, 255].span());
 }
 
 #[test]
-#[available_gas(l2_gas: 130378718)]
+#[available_gas(l2_gas: 130396032)]
 fn test_flood_sweep_unreachable_7x7() {
     Oracle::sweep(UNREACHABLE_7X7, 7, 7, 1, array![1_u8, 255].span());
 }
 
 #[test]
-#[available_gas(l2_gas: 227638810)]
+#[available_gas(l2_gas: 227639744)]
 fn test_flood_sweep_serpentine_15x16() {
     Oracle::sweep(SERPENTINE_15X16, 15, 16, 11, array![15_u8, 255].span());
 }
 
 #[test]
-#[available_gas(l2_gas: 32872349)]
+#[available_gas(l2_gas: 32865073)]
 fn test_flood_cave_15x16() {
     assert!(Caver::generate(15, 16, 3, CAVE_15X16_SEED) == CAVE_15X16);
     // From the adventurer's tile: 16 layers, truncated at 15 by the game's cap
@@ -465,13 +465,13 @@ fn test_flood_cave_15x16() {
 }
 
 #[test]
-#[available_gas(l2_gas: 551926401)]
+#[available_gas(l2_gas: 551929856)]
 fn test_flood_sweep_cave_15x16() {
     Oracle::sweep(CAVE_15X16, 15, 16, 13, array![15_u8, 255].span());
 }
 
 #[test]
-#[available_gas(l2_gas: 259490845)]
+#[available_gas(l2_gas: 259503099)]
 fn test_flood_sweep_random_caves_11x11() {
     // The single limb, 121 bits
     Oracle::sweep(Caver::generate(11, 11, 3, 1), 11, 11, 5, array![4_u8, 255].span());
@@ -479,14 +479,14 @@ fn test_flood_sweep_random_caves_11x11() {
 }
 
 #[test]
-#[available_gas(l2_gas: 242964431)]
+#[available_gas(l2_gas: 242961565)]
 fn test_flood_sweep_random_caves_19x13() {
     // Two limbs, 247 bits: the largest board of the engine
     Oracle::sweep(Caver::generate(19, 13, 3, 1), 19, 13, 29, array![4_u8, 255].span());
 }
 
 #[test]
-#[available_gas(l2_gas: 978164)]
+#[available_gas(l2_gas: 970362)]
 fn test_flood_deterministic() {
     let first = Bfs::flood(CAVE_15X16, 15, 16, CAVE_15X16_FROM, SCATTER, 255);
     let second = Bfs::flood(CAVE_15X16, 15, 16, CAVE_15X16_FROM, SCATTER, 255);
@@ -496,14 +496,14 @@ fn test_flood_deterministic() {
 // Panics
 
 #[test]
-#[available_gas(l2_gas: 22663)]
+#[available_gas(l2_gas: 14777)]
 #[should_panic(expected: 'Bfs: position not walkable')]
 fn test_flood_revert_wall() {
     Bfs::flood(SERPENTINE_15X16, 15, 16, Oracle::at(7, 7), 0, 15);
 }
 
 #[test]
-#[available_gas(l2_gas: 27118)]
+#[available_gas(l2_gas: 19232)]
 #[should_panic(expected: 'Bfs: position not walkable')]
 fn test_flood_revert_obstacle() {
     Bfs::flood(
@@ -512,14 +512,14 @@ fn test_flood_revert_obstacle() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: position not inside')]
 fn test_flood_revert_outside() {
     Bfs::flood(SERPENTINE_15X16, 15, 16, 240, 0, 15);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_flood_revert_dimension() {
     Bfs::flood(SERPENTINE_15X16, 16, 16, SERPENTINE_15X16_FROM, 0, 15);

@@ -125,7 +125,7 @@ const EXPECTED_NEIGHBOR: Option<u8> = Some(208);
 const EXPECTED_IS_WALKABLE: bool = true;
 
 #[test]
-#[available_gas(l2_gas: 283910)]
+#[available_gas(l2_gas: 275814)]
 fn test_gas_new_origami_once() {
     let (grid, width, height, seed) = board();
     let result = O::new(grid, width, height, seed);
@@ -133,7 +133,7 @@ fn test_gas_new_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 284120)]
+#[available_gas(l2_gas: 276024)]
 fn test_gas_new_origami_twice() {
     let (grid, width, height, seed) = board();
     let result = O::new(grid, width, height, seed);
@@ -143,7 +143,7 @@ fn test_gas_new_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 283910)]
+#[available_gas(l2_gas: 275814)]
 fn test_gas_new_hexx_once() {
     let (grid, width, height, seed) = board();
     let result = H::new(grid, width, height, seed);
@@ -151,7 +151,7 @@ fn test_gas_new_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 284120)]
+#[available_gas(l2_gas: 276024)]
 fn test_gas_new_hexx_twice() {
     let (grid, width, height, seed) = board();
     let result = H::new(grid, width, height, seed);
@@ -161,7 +161,7 @@ fn test_gas_new_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 291869)]
+#[available_gas(l2_gas: 283647)]
 fn test_gas_new_empty_origami_once() {
     let (_grid, width, height, seed) = board();
     let result = O::new_empty(width, height, seed);
@@ -169,7 +169,7 @@ fn test_gas_new_empty_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 298757)]
+#[available_gas(l2_gas: 290535)]
 fn test_gas_new_empty_origami_twice() {
     let (_grid, width, height, seed) = board();
     let result = O::new_empty(width, height, seed);
@@ -179,7 +179,7 @@ fn test_gas_new_empty_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 291869)]
+#[available_gas(l2_gas: 283647)]
 fn test_gas_new_empty_hexx_once() {
     let (_grid, width, height, seed) = board();
     let result = H::new_empty(width, height, seed);
@@ -187,7 +187,7 @@ fn test_gas_new_empty_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 298757)]
+#[available_gas(l2_gas: 290535)]
 fn test_gas_new_empty_hexx_twice() {
     let (_grid, width, height, seed) = board();
     let result = H::new_empty(width, height, seed);
@@ -197,7 +197,7 @@ fn test_gas_new_empty_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 3356402)]
+#[available_gas(l2_gas: 3348517)]
 fn test_gas_new_maze_origami_once() {
     let (_grid, width, height, seed) = board();
     let result = O::new_maze(width, height, byte(0), seed);
@@ -205,7 +205,7 @@ fn test_gas_new_maze_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 6430595)]
+#[available_gas(l2_gas: 6422584)]
 fn test_gas_new_maze_origami_twice() {
     let (_grid, width, height, seed) = board();
     let result = O::new_maze(width, height, byte(0), seed);
@@ -215,7 +215,7 @@ fn test_gas_new_maze_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 3356402)]
+#[available_gas(l2_gas: 3348517)]
 fn test_gas_new_maze_hexx_once() {
     let (_grid, width, height, seed) = board();
     let result = H::new_maze(width, height, byte(0), seed);
@@ -223,7 +223,7 @@ fn test_gas_new_maze_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 6430595)]
+#[available_gas(l2_gas: 6422584)]
 fn test_gas_new_maze_hexx_twice() {
     let (_grid, width, height, seed) = board();
     let result = H::new_maze(width, height, byte(0), seed);
@@ -233,7 +233,7 @@ fn test_gas_new_maze_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 424607)]
+#[available_gas(l2_gas: 416721)]
 fn test_gas_new_cave_origami_once() {
     let (_grid, width, height, seed) = board();
     let result = O::new_cave(width, height, byte(3), seed);
@@ -241,7 +241,7 @@ fn test_gas_new_cave_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 566900)]
+#[available_gas(l2_gas: 558888)]
 fn test_gas_new_cave_origami_twice() {
     let (_grid, width, height, seed) = board();
     let result = O::new_cave(width, height, byte(3), seed);
@@ -251,7 +251,7 @@ fn test_gas_new_cave_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 424607)]
+#[available_gas(l2_gas: 416721)]
 fn test_gas_new_cave_hexx_once() {
     let (_grid, width, height, seed) = board();
     let result = H::new_cave(width, height, byte(3), seed);
@@ -259,7 +259,7 @@ fn test_gas_new_cave_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 566900)]
+#[available_gas(l2_gas: 558888)]
 fn test_gas_new_cave_hexx_twice() {
     let (_grid, width, height, seed) = board();
     let result = H::new_cave(width, height, byte(3), seed);
@@ -269,7 +269,7 @@ fn test_gas_new_cave_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2763555)]
+#[available_gas(l2_gas: 2755670)]
 fn test_gas_new_random_walk_origami_once() {
     let (_grid, width, height, seed) = board();
     let result = O::new_random_walk(width, height, steps(500), seed);
@@ -277,7 +277,7 @@ fn test_gas_new_random_walk_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 5244587)]
+#[available_gas(l2_gas: 5236575)]
 fn test_gas_new_random_walk_origami_twice() {
     let (_grid, width, height, seed) = board();
     let result = O::new_random_walk(width, height, steps(500), seed);
@@ -287,7 +287,7 @@ fn test_gas_new_random_walk_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2763555)]
+#[available_gas(l2_gas: 2755670)]
 fn test_gas_new_random_walk_hexx_once() {
     let (_grid, width, height, seed) = board();
     let result = H::new_random_walk(width, height, steps(500), seed);
@@ -295,7 +295,7 @@ fn test_gas_new_random_walk_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 5244587)]
+#[available_gas(l2_gas: 5236575)]
 fn test_gas_new_random_walk_hexx_twice() {
     let (_grid, width, height, seed) = board();
     let result = H::new_random_walk(width, height, steps(500), seed);
@@ -305,7 +305,7 @@ fn test_gas_new_random_walk_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 433472)]
+#[available_gas(l2_gas: 425250)]
 fn test_gas_new_hexagon_origami_once() {
     let (_grid, _width, _height, seed) = board();
     let result = O::new_hexagon(byte(6), seed);
@@ -313,7 +313,7 @@ fn test_gas_new_hexagon_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 582278)]
+#[available_gas(l2_gas: 574056)]
 fn test_gas_new_hexagon_origami_twice() {
     let (_grid, _width, _height, seed) = board();
     let result = O::new_hexagon(byte(6), seed);
@@ -323,7 +323,7 @@ fn test_gas_new_hexagon_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 433472)]
+#[available_gas(l2_gas: 425250)]
 fn test_gas_new_hexagon_hexx_once() {
     let (_grid, _width, _height, seed) = board();
     let result = H::new_hexagon(byte(6), seed);
@@ -331,7 +331,7 @@ fn test_gas_new_hexagon_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 582278)]
+#[available_gas(l2_gas: 574056)]
 fn test_gas_new_hexagon_hexx_twice() {
     let (_grid, _width, _height, seed) = board();
     let result = H::new_hexagon(byte(6), seed);
@@ -341,7 +341,7 @@ fn test_gas_new_hexagon_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 358783)]
+#[available_gas(l2_gas: 350772)]
 fn test_gas_open_with_corridor_origami_once() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -351,7 +351,7 @@ fn test_gas_open_with_corridor_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 432691)]
+#[available_gas(l2_gas: 424679)]
 fn test_gas_open_with_corridor_origami_twice() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -364,7 +364,7 @@ fn test_gas_open_with_corridor_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 358783)]
+#[available_gas(l2_gas: 350772)]
 fn test_gas_open_with_corridor_hexx_once() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -374,7 +374,7 @@ fn test_gas_open_with_corridor_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 432691)]
+#[available_gas(l2_gas: 424679)]
 fn test_gas_open_with_corridor_hexx_twice() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -387,7 +387,7 @@ fn test_gas_open_with_corridor_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 358783)]
+#[available_gas(l2_gas: 350772)]
 fn test_gas_open_with_maze_origami_once() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -397,7 +397,7 @@ fn test_gas_open_with_maze_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 432691)]
+#[available_gas(l2_gas: 424679)]
 fn test_gas_open_with_maze_origami_twice() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -410,7 +410,7 @@ fn test_gas_open_with_maze_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 358783)]
+#[available_gas(l2_gas: 350772)]
 fn test_gas_open_with_maze_hexx_once() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -420,7 +420,7 @@ fn test_gas_open_with_maze_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 432691)]
+#[available_gas(l2_gas: 424679)]
 fn test_gas_open_with_maze_hexx_twice() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -433,7 +433,7 @@ fn test_gas_open_with_maze_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2380964)]
+#[available_gas(l2_gas: 2372952)]
 fn test_gas_open_with_corridor_long_origami_once() {
     let (grid, width, height, seed) = lone();
     let map = O::new(grid, width, height, seed);
@@ -443,7 +443,7 @@ fn test_gas_open_with_corridor_long_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 4477051)]
+#[available_gas(l2_gas: 4469040)]
 fn test_gas_open_with_corridor_long_origami_twice() {
     let (grid, width, height, seed) = lone();
     let map = O::new(grid, width, height, seed);
@@ -456,7 +456,7 @@ fn test_gas_open_with_corridor_long_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2380964)]
+#[available_gas(l2_gas: 2372952)]
 fn test_gas_open_with_corridor_long_hexx_once() {
     let (grid, width, height, seed) = lone();
     let map = H::new(grid, width, height, seed);
@@ -466,7 +466,7 @@ fn test_gas_open_with_corridor_long_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 4477051)]
+#[available_gas(l2_gas: 4469040)]
 fn test_gas_open_with_corridor_long_hexx_twice() {
     let (grid, width, height, seed) = lone();
     let map = H::new(grid, width, height, seed);
@@ -479,7 +479,7 @@ fn test_gas_open_with_corridor_long_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 3689786)]
+#[available_gas(l2_gas: 3681774)]
 fn test_gas_open_with_maze_long_origami_once() {
     let (grid, width, height, seed) = lone();
     let map = O::new(grid, width, height, seed);
@@ -489,7 +489,7 @@ fn test_gas_open_with_maze_long_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 7094695)]
+#[available_gas(l2_gas: 7086684)]
 fn test_gas_open_with_maze_long_origami_twice() {
     let (grid, width, height, seed) = lone();
     let map = O::new(grid, width, height, seed);
@@ -502,7 +502,7 @@ fn test_gas_open_with_maze_long_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 3689786)]
+#[available_gas(l2_gas: 3681774)]
 fn test_gas_open_with_maze_long_hexx_once() {
     let (grid, width, height, seed) = lone();
     let map = H::new(grid, width, height, seed);
@@ -512,7 +512,7 @@ fn test_gas_open_with_maze_long_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 7094695)]
+#[available_gas(l2_gas: 7086684)]
 fn test_gas_open_with_maze_long_hexx_twice() {
     let (grid, width, height, seed) = lone();
     let map = H::new(grid, width, height, seed);
@@ -525,7 +525,7 @@ fn test_gas_open_with_maze_long_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 764952)]
+#[available_gas(l2_gas: 756961)]
 fn test_gas_keep_component_origami_once() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -535,7 +535,7 @@ fn test_gas_keep_component_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1247484)]
+#[available_gas(l2_gas: 1239368)]
 fn test_gas_keep_component_origami_twice() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -548,7 +548,7 @@ fn test_gas_keep_component_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 764952)]
+#[available_gas(l2_gas: 756961)]
 fn test_gas_keep_component_hexx_once() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -558,7 +558,7 @@ fn test_gas_keep_component_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1247484)]
+#[available_gas(l2_gas: 1239368)]
 fn test_gas_keep_component_hexx_twice() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -571,7 +571,7 @@ fn test_gas_keep_component_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 425994)]
+#[available_gas(l2_gas: 418108)]
 fn test_gas_compute_distribution_origami_once() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -580,7 +580,7 @@ fn test_gas_compute_distribution_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 569569)]
+#[available_gas(l2_gas: 561557)]
 fn test_gas_compute_distribution_origami_twice() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -591,7 +591,7 @@ fn test_gas_compute_distribution_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 425994)]
+#[available_gas(l2_gas: 418108)]
 fn test_gas_compute_distribution_hexx_once() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -600,7 +600,7 @@ fn test_gas_compute_distribution_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 569569)]
+#[available_gas(l2_gas: 561557)]
 fn test_gas_compute_distribution_hexx_twice() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -611,7 +611,7 @@ fn test_gas_compute_distribution_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1103976)]
+#[available_gas(l2_gas: 1095859)]
 fn test_gas_search_path_origami_once() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -620,7 +620,7 @@ fn test_gas_search_path_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1922760)]
+#[available_gas(l2_gas: 1914644)]
 fn test_gas_search_path_origami_twice() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -631,7 +631,7 @@ fn test_gas_search_path_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1103976)]
+#[available_gas(l2_gas: 1095859)]
 fn test_gas_search_path_hexx_once() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -640,7 +640,7 @@ fn test_gas_search_path_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1922760)]
+#[available_gas(l2_gas: 1914644)]
 fn test_gas_search_path_hexx_twice() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -651,7 +651,7 @@ fn test_gas_search_path_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1912144)]
+#[available_gas(l2_gas: 1904027)]
 fn test_gas_search_path_weighted_origami_once() {
     let (grid, width, height, seed) = board();
     let costs = classes();
@@ -661,7 +661,7 @@ fn test_gas_search_path_weighted_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 3538362)]
+#[available_gas(l2_gas: 3530245)]
 fn test_gas_search_path_weighted_origami_twice() {
     let (grid, width, height, seed) = board();
     let costs = classes();
@@ -673,7 +673,7 @@ fn test_gas_search_path_weighted_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1912144)]
+#[available_gas(l2_gas: 1904027)]
 fn test_gas_search_path_weighted_hexx_once() {
     let (grid, width, height, seed) = board();
     let costs = classes();
@@ -683,7 +683,7 @@ fn test_gas_search_path_weighted_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 3538362)]
+#[available_gas(l2_gas: 3530245)]
 fn test_gas_search_path_weighted_hexx_twice() {
     let (grid, width, height, seed) = board();
     let costs = classes();
@@ -695,7 +695,7 @@ fn test_gas_search_path_weighted_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 577489)]
+#[available_gas(l2_gas: 569498)]
 fn test_gas_field_of_movement_origami_once() {
     let (grid, width, height, seed) = board();
     let costs = classes();
@@ -705,7 +705,7 @@ fn test_gas_field_of_movement_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 871824)]
+#[available_gas(l2_gas: 863707)]
 fn test_gas_field_of_movement_origami_twice() {
     let (grid, width, height, seed) = board();
     let costs = classes();
@@ -717,7 +717,7 @@ fn test_gas_field_of_movement_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 577489)]
+#[available_gas(l2_gas: 569498)]
 fn test_gas_field_of_movement_hexx_once() {
     let (grid, width, height, seed) = board();
     let costs = classes();
@@ -727,7 +727,7 @@ fn test_gas_field_of_movement_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 871824)]
+#[available_gas(l2_gas: 863707)]
 fn test_gas_field_of_movement_hexx_twice() {
     let (grid, width, height, seed) = board();
     let costs = classes();
@@ -739,7 +739,7 @@ fn test_gas_field_of_movement_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 834270)]
+#[available_gas(l2_gas: 826153)]
 fn test_gas_distance_to_origami_once() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -748,7 +748,7 @@ fn test_gas_distance_to_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1383768)]
+#[available_gas(l2_gas: 1375652)]
 fn test_gas_distance_to_origami_twice() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -759,7 +759,7 @@ fn test_gas_distance_to_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 834270)]
+#[available_gas(l2_gas: 826153)]
 fn test_gas_distance_to_hexx_once() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -768,7 +768,7 @@ fn test_gas_distance_to_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1383768)]
+#[available_gas(l2_gas: 1375652)]
 fn test_gas_distance_to_hexx_twice() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -779,7 +779,7 @@ fn test_gas_distance_to_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 296720)]
+#[available_gas(l2_gas: 288498)]
 fn test_gas_hex_distance_origami_once() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -788,7 +788,7 @@ fn test_gas_hex_distance_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 308774)]
+#[available_gas(l2_gas: 300552)]
 fn test_gas_hex_distance_origami_twice() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -799,7 +799,7 @@ fn test_gas_hex_distance_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 296720)]
+#[available_gas(l2_gas: 288498)]
 fn test_gas_hex_distance_hexx_once() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -808,7 +808,7 @@ fn test_gas_hex_distance_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 308774)]
+#[available_gas(l2_gas: 300552)]
 fn test_gas_hex_distance_hexx_twice() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -819,7 +819,7 @@ fn test_gas_hex_distance_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 764952)]
+#[available_gas(l2_gas: 756961)]
 fn test_gas_reachable_origami_once() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -828,7 +828,7 @@ fn test_gas_reachable_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1247484)]
+#[available_gas(l2_gas: 1239368)]
 fn test_gas_reachable_origami_twice() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -839,7 +839,7 @@ fn test_gas_reachable_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 764952)]
+#[available_gas(l2_gas: 756961)]
 fn test_gas_reachable_hexx_once() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -848,7 +848,7 @@ fn test_gas_reachable_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1247484)]
+#[available_gas(l2_gas: 1239368)]
 fn test_gas_reachable_hexx_twice() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -859,7 +859,7 @@ fn test_gas_reachable_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 406784)]
+#[available_gas(l2_gas: 398794)]
 fn test_gas_range_origami_once() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -868,7 +868,7 @@ fn test_gas_range_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 531149)]
+#[available_gas(l2_gas: 523033)]
 fn test_gas_range_origami_twice() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -879,7 +879,7 @@ fn test_gas_range_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 406784)]
+#[available_gas(l2_gas: 398794)]
 fn test_gas_range_hexx_once() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -888,7 +888,7 @@ fn test_gas_range_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 531149)]
+#[available_gas(l2_gas: 523033)]
 fn test_gas_range_hexx_twice() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -899,7 +899,7 @@ fn test_gas_range_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 404453)]
+#[available_gas(l2_gas: 396463)]
 fn test_gas_ring_origami_once() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -908,7 +908,7 @@ fn test_gas_ring_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 526592)]
+#[available_gas(l2_gas: 518476)]
 fn test_gas_ring_origami_twice() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -919,7 +919,7 @@ fn test_gas_ring_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 404453)]
+#[available_gas(l2_gas: 396463)]
 fn test_gas_ring_hexx_once() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -928,7 +928,7 @@ fn test_gas_ring_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 526592)]
+#[available_gas(l2_gas: 518476)]
 fn test_gas_ring_hexx_twice() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -939,7 +939,7 @@ fn test_gas_ring_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 292709)]
+#[available_gas(l2_gas: 284487)]
 fn test_gas_neighbor_origami_once() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -948,7 +948,7 @@ fn test_gas_neighbor_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 300752)]
+#[available_gas(l2_gas: 292530)]
 fn test_gas_neighbor_origami_twice() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -959,7 +959,7 @@ fn test_gas_neighbor_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 292709)]
+#[available_gas(l2_gas: 284487)]
 fn test_gas_neighbor_hexx_once() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -968,7 +968,7 @@ fn test_gas_neighbor_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 300752)]
+#[available_gas(l2_gas: 292530)]
 fn test_gas_neighbor_hexx_twice() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -979,7 +979,7 @@ fn test_gas_neighbor_hexx_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 292954)]
+#[available_gas(l2_gas: 284837)]
 fn test_gas_is_walkable_origami_once() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -988,7 +988,7 @@ fn test_gas_is_walkable_origami_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 300926)]
+#[available_gas(l2_gas: 292810)]
 fn test_gas_is_walkable_origami_twice() {
     let (grid, width, height, seed) = board();
     let map = O::new(grid, width, height, seed);
@@ -999,7 +999,7 @@ fn test_gas_is_walkable_origami_twice() {
 }
 
 #[test]
-#[available_gas(l2_gas: 292954)]
+#[available_gas(l2_gas: 284837)]
 fn test_gas_is_walkable_hexx_once() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);
@@ -1008,7 +1008,7 @@ fn test_gas_is_walkable_hexx_once() {
 }
 
 #[test]
-#[available_gas(l2_gas: 300926)]
+#[available_gas(l2_gas: 292810)]
 fn test_gas_is_walkable_hexx_twice() {
     let (grid, width, height, seed) = board();
     let map = H::new(grid, width, height, seed);

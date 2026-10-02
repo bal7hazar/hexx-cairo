@@ -30,63 +30,63 @@ fn check_generate(width: u8, height: u8, first: u32, last: u32) {
 
 /// `Walker::generate`, every step count of `STEPS`. Seeds 0 to 63 on `3x3`.
 #[test]
-#[available_gas(l2_gas: 318735520)]
+#[available_gas(l2_gas: 318727635)]
 fn test_walker_generate_3x3() {
     check_generate(3, 3, 0, 64);
 }
 
 /// `Walker::generate`, every step count of `STEPS`. Seeds 0 to 63 on `7x7`.
 #[test]
-#[available_gas(l2_gas: 316474156)]
+#[available_gas(l2_gas: 316466271)]
 fn test_walker_generate_7x7() {
     check_generate(7, 7, 0, 64);
 }
 
 /// `Walker::generate`, every step count of `STEPS`. Seeds 0 to 63 on `15x15`.
 #[test]
-#[available_gas(l2_gas: 324293212)]
+#[available_gas(l2_gas: 324285327)]
 fn test_walker_generate_15x15() {
     check_generate(15, 15, 0, 64);
 }
 
 /// `Walker::generate`, every step count of `STEPS`. Seeds 0 to 63 on `15x16`.
 #[test]
-#[available_gas(l2_gas: 324007276)]
+#[available_gas(l2_gas: 323999391)]
 fn test_walker_generate_15x16() {
     check_generate(15, 16, 0, 64);
 }
 
 /// `Walker::generate`, every step count of `STEPS`. Seeds 0 to 63 on `17x14`.
 #[test]
-#[available_gas(l2_gas: 324365683)]
+#[available_gas(l2_gas: 324357798)]
 fn test_walker_generate_17x14() {
     check_generate(17, 14, 0, 64);
 }
 
 /// `Walker::generate`, every step count of `STEPS`. Seeds 0 to 63 on `19x13`.
 #[test]
-#[available_gas(l2_gas: 324549811)]
+#[available_gas(l2_gas: 324541926)]
 fn test_walker_generate_19x13() {
     check_generate(19, 13, 0, 64);
 }
 
 /// `Walker::generate`, every step count of `STEPS`. Seeds 0 to 63 on `25x10`.
 #[test]
-#[available_gas(l2_gas: 324663883)]
+#[available_gas(l2_gas: 324655998)]
 fn test_walker_generate_25x10() {
     check_generate(25, 10, 0, 64);
 }
 
 /// `Walker::generate`, every step count of `STEPS`. Seeds 0 to 63 on `83x3`.
 #[test]
-#[available_gas(l2_gas: 320032438)]
+#[available_gas(l2_gas: 320024553)]
 fn test_walker_generate_83x3() {
     check_generate(83, 3, 0, 64);
 }
 
 /// `Walker::generate`, every step count of `STEPS`. Seeds 0 to 63 on `3x83`.
 #[test]
-#[available_gas(l2_gas: 325968844)]
+#[available_gas(l2_gas: 325960959)]
 fn test_walker_generate_3x83() {
     check_generate(3, 83, 0, 64);
 }
@@ -94,14 +94,14 @@ fn test_walker_generate_3x83() {
 // Panics: one test per side, same input, same message.
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_walker_generate_revert_dimension_origami() {
     let _ = O::generate(16, 16, 100, 'seed');
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_walker_generate_revert_dimension_hexx() {
     let _ = H::generate(16, 16, 100, 'seed');

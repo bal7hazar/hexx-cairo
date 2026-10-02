@@ -19,11 +19,6 @@ of net cost deltas): this package's tests are not written in `X__base` / `X__op`
 form does not apply here (see the LIB-04 report for which of the two forms derives from the
 other).
 
-`gas/<package>.builds`, when present, records for a test the exact second measurement of the
-compile drift of Scarb 2.19.4 (D-154; D-164 extended to the gas gate, 2026-10-01): `check` accepts
-the snapshot's value or that exact value (reported as `SECOND BUILD`), any third value is
-`CHANGED`. `snapshot` never writes a `.builds` file.
-
 `gas/*.snap` is the single source of truth: `scripts/gas_tables.py` renders `docs/GAS.md` from it,
 a pure function of committed data (no snforge run).
 
@@ -82,7 +77,9 @@ and passed on the next run). Every snforge run of a package keeps, under
 per run (`check`, `repeat-1`, `repeat-2`; none overwrites another): `snforge-<run>.txt` (the raw
 output) and `artifacts-<run>.sha256` (SHA-256 of the compiled files of `target/dev/` that snforge
 executes: `<package>_*.json`); and `versions.txt` (scarb, which prints the Cairo and Sierra
-versions, snforge, and the Sierra-to-CASM compiler when it answers).
+versions, snforge, and the Sierra-to-CASM compiler when it answers). `run`, `check` and `snapshot`
+empty that directory first: in CI, setup-scarb's target cache (`cache-targets`) restores the
+`target/` another gas job saved, its evidence and partition report included (t-0018).
 A mismatch with the snapshot prints where they are. The exemption for the tests taken over from
 `origami_hexmap` (a baseline file) is gone: every test obeys the rule.
 """
@@ -93,6 +90,7 @@ import hashlib
 import json
 import math
 import re
+import shutil
 import subprocess
 import sys
 import tomllib
@@ -329,6 +327,14 @@ def write_evidence(package: str, out: str, label: str) -> Path:
     return directory
 
 
+def clear_evidence(packages: Iterable[str]) -> None:
+    """Empties `target/gas-artifacts/<package>/` before a run measures the package, so that a job
+    uploads only its own evidence and partition report: a `target/` restored from a cache (CI's
+    setup-scarb, `cache-targets`) holds those of the job that saved it."""
+    for package in packages:
+        shutil.rmtree(ARTIFACTS / package, ignore_errors=True)
+
+
 SCOPES = ("all", "regular", "ignored")
 SCOPE_FLAGS = {"all": ["--include-ignored"], "regular": [], "ignored": ["--ignored"]}
 
@@ -554,37 +560,6 @@ def read_snapshots(only: Iterable[str] | None = None) -> dict[str, dict[str, int
     return snap
 
 
-def read_builds(only: Iterable[str] | None = None) -> dict[str, int]:
-    """The second observed builds of gas/<package>.builds (of the packages named, when given),
-    D-164 extended to the gas gate: `<test path>: <exact measured value>  # where observed`. A
-    malformed or duplicated line, a value equal to the snapshot's, or a test absent from the
-    snapshot of its package ends the run: the file is never edited to make a check pass."""
-    builds: dict[str, int] = {}
-    for path in sorted(GAS.glob("*.builds")):
-        if only is not None and path.stem not in only:
-            continue
-        where = path.relative_to(ROOT) if path.is_relative_to(ROOT) else path
-        snap = read_snapshots([path.stem])
-        for number, raw in enumerate(path.read_text().splitlines(), 1):
-            line = raw.split("#", 1)[0].strip()
-            if not line:
-                continue
-            name, sep, value = line.rpartition(":")
-            name, value = name.strip(), value.strip()
-            if not sep or not name or not value.isdigit():
-                sys.exit(f"{where}:{number}: malformed line {raw!r}, expected "
-                         "`<test path>: <measured value>  # where observed`")
-            if name in builds:
-                sys.exit(f"{where}:{number}: {name}: more than one second build recorded "
-                         "(D-164 accepts two observed builds of a test, not three)")
-            if name not in snap:
-                sys.exit(f"{where}:{number}: {name}: not a row of gas/{path.stem}.snap")
-            if int(value) == snap[name]["measured"]:
-                sys.exit(f"{where}:{number}: {name}: the recorded value is the snapshot's own")
-            builds[name] = int(value)
-    return builds
-
-
 def write_snapshots(packages: dict[str, dict[str, dict]]) -> None:
     """(Re)writes gas/<package>.snap of the packages measured, and of no other."""
     GAS.mkdir(exist_ok=True)
@@ -617,18 +592,14 @@ def print_table(packages: dict[str, dict[str, dict]]) -> None:
 
 
 def snapshot_differences(packages: dict[str, dict[str, dict]], infos: dict[str, dict] | None = None,
-                         scope: str = "all", partition: bool = False,
-                         second: list[str] | None = None) -> list[str]:
+                         scope: str = "all", partition: bool = False) -> list[str]:
     """The tests whose measurement or budget differs from gas/<package>.snap, with both figures.
     With a `scope` other than `all` only the rows of that scope are compared: the ignored tests
     for `ignored`, and for `regular` the others; a row of a test that no longer exists is compared
     in both (`infos` gives the names of the sources). With a `partition` only the rows of the
     tests that share ran are compared: the rows of the others belong to the other shares, and a
-    row no share measured is `completeness`'s to report. A test whose measurement is exactly its
-    recorded second build (gas/<package>.builds, D-164 extended) with the snapshot's budget is not
-    a difference: it is appended to `second` as `SECOND BUILD ...` when a list is given."""
+    row no share measured is `completeness`'s to report."""
     snap = read_snapshots(packages)
-    builds = read_builds(packages)
     if partition:
         ran = {name for rows in packages.values() for name in rows}
         snap = {n: v for n, v in snap.items() if n in ran}
@@ -650,11 +621,6 @@ def snapshot_differences(packages: dict[str, dict[str, dict]], infos: dict[str, 
         elif new is None:
             bad.append(f"REMOVED {name}: snapshot has measured {old['measured']}, budget "
                        f"{old['declared']}")
-        elif new != old and builds.get(name) == new["measured"] and new["declared"] == old["declared"]:
-            if second is not None:
-                second.append(f"SECOND BUILD {name}: snapshot measured {old['measured']}; now "
-                              f"measured {new['measured']}, the recorded second build "
-                              f"(gas/{name.split('::')[0]}.builds, D-164)")
         elif new != old:
             delta = 100 * (new["measured"] / old["measured"] - 1) if old["measured"] else 0.0
             bad.append(f"CHANGED {name}: snapshot measured {old['measured']}, budget "
@@ -844,6 +810,7 @@ def main() -> int:
 
     if args.cmd == "snapshot" and args.scope != "all":
         sys.exit("snapshot rewrites the whole snapshot of a package: --scope all")
+    clear_evidence(select_packages(args.package))
     packages, infos = collect(args.package, args.cmd, args.scope, args.partition)
     if args.partition:
         write_partition_reports(packages, args.scope, args.partition)
@@ -859,10 +826,7 @@ def main() -> int:
         return 0
     if args.cmd == "check":
         violations = errors + budget_violations(packages)
-        second: list[str] = []
-        bad = snapshot_differences(packages, infos, args.scope, bool(args.partition), second)
-        if second:
-            print("\n" + "\n".join(second), file=sys.stderr)
+        bad = snapshot_differences(packages, infos, args.scope, bool(args.partition))
         where = ", ".join(str(ARTIFACTS.relative_to(ROOT) / package) for package in packages)
         if violations:
             print("\ngas budget violations:", file=sys.stderr)

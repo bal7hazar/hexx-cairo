@@ -441,7 +441,7 @@ mod tests {
 
     /// The 12 boards of adjacent edge tiles are exactly their listed tiles.
     #[test]
-    #[available_gas(l2_gas: 19335320)]
+    #[available_gas(l2_gas: 19327098)]
     fn test_edge_boards_provenance() {
         let expected: [felt252; 12] = [
             rebuild(0, [].span(), [1, 2, 3, 14, 21, 34, 41, 45, 46, 5].span()),
@@ -467,7 +467,7 @@ mod tests {
     /// The 9 boards written by hand are the interior mask of 1.8.0 (or a fixture of 1.8.0) with
     /// the documented walls and entrances.
     #[test]
-    #[available_gas(l2_gas: 8698820)]
+    #[available_gas(l2_gas: 8690598)]
     fn test_entrance_boards_provenance_hand() {
         let expected: [felt252; 9] = [
             rebuild(EMPTY_7X7, [].span(), [1, 43].span()),
@@ -498,7 +498,7 @@ mod tests {
     /// The 6 generated boards with several entrances are what `origami_hexmap` 1.8.0 builds from
     /// `generate_entrances`.
     #[test]
-    #[available_gas(l2_gas: 13981642)]
+    #[available_gas(l2_gas: 13973756)]
     fn test_entrance_boards_provenance_generated() {
         let mut index: u32 = 0;
         while index != 6 {
@@ -514,7 +514,7 @@ mod tests {
     /// The generated boards are what `origami_hexmap` 1.8.0 builds from their recipes.
     /// 32 boards, one generation each.
     #[test]
-    #[available_gas(l2_gas: 75836047)]
+    #[available_gas(l2_gas: 75828161)]
     fn test_boards_provenance() {
         let mut index: u32 = 0;
         for board in BOARDS.span() {
