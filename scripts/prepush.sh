@@ -59,10 +59,10 @@ select_steps() {
         fi
       done
     done
-    for pkg in $(sort -u <<<"$all"); do
+    while read -r pkg; do
       # A directory under crates/ that is gone (a deleted package) has nothing to build.
-      [ -d "crates/$pkg" ] && echo "build $pkg"
-    done
+      if [ -n "$pkg" ] && [ -d "crates/$pkg" ]; then echo "build $pkg"; fi
+    done < <(sort -u <<<"$all")
   fi
   local entry name trigger
   for entry in "${CHECKS[@]}"; do
