@@ -20,8 +20,41 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  # LIB-04g: which jobs the pull request needs (scripts/ci_changes.py). Any other event than a pull
+  # request (a push to main) selects every group without computing anything.
+  changes:
+    name: Changed paths
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      links: ${{ steps.groups.outputs.links }}
+      shell: ${{ steps.groups.outputs.shell }}
+      docs_checks: ${{ steps.groups.outputs.docs_checks }}
+      takeover: ${{ steps.groups.outputs.takeover }}
+      cairo: ${{ steps.groups.outputs.cairo }}
+      golden: ${{ steps.groups.outputs.golden }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - id: groups
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -o pipefail
+          if [ "$EVENT" = "pull_request" ]; then
+            # Fail open: a diff that cannot be computed gives an empty list, which selects every group.
+            { git diff --name-only "$BASE_SHA...$HEAD_SHA" || true; } | python3 scripts/ci_changes.py | tee -a "$GITHUB_OUTPUT"
+          else
+            python3 scripts/ci_changes.py --all | tee -a "$GITHUB_OUTPUT"
+          fi
+
   links:
     name: Markdown links
+    needs: changes
+    if: needs.changes.outputs.links != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -34,6 +67,8 @@ jobs:
 
   scripts:
     name: Shell scripts
+    needs: changes
+    if: needs.changes.outputs.shell != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -42,6 +77,8 @@ jobs:
 
   fmt:
     name: Format and parity/deviations/gas docs
+    needs: changes
+    if: needs.changes.outputs.docs_checks != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -66,6 +103,8 @@ jobs:
 
   takeover:
     name: Take-over of origami_hexmap is a move
+    needs: changes
+    if: needs.changes.outputs.takeover != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -89,6 +128,8 @@ jobs:
     # 615 s in one job, 6 m 49 s in each of two, and 3 m 57 s to 6 m 14 s in each of three and 5 m 34 s to 6 m 0 s in each of four (LIB-04c: the
     # partition is by hash, so the shares are uneven), and M1-T6 adds more.
     name: Build and test ${{ matrix.package }} ${{ matrix.partition }}
+    needs: changes
+    if: needs.changes.outputs.cairo != 'false'
     runs-on: ubuntu-latest
     # 20 minutes since LIB-04e (D-176): on one thread the compile of a partition more than doubles
     # (execution is unchanged); 10 minutes was the track's target, one reproducible build is worth more.
@@ -129,6 +170,8 @@ jobs:
 
   package:
     name: Package crates/hexx (rehearsal, never scarb publish)
+    needs: changes
+    if: needs.changes.outputs.cairo != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -164,6 +207,8 @@ jobs:
   # is measured exactly once.
   gas:
     name: Gas ${{ matrix.label }}
+    needs: changes
+    if: needs.changes.outputs.cairo != 'false'
     runs-on: ubuntu-latest
     # 20 minutes since LIB-04e (D-176), as the `test` job: the pinned compile.
     timeout-minutes: 20
@@ -248,8 +293,8 @@ jobs:
   # failed too, so that the two reports do not hide each other.
   gas-complete:
     name: Gas completeness hexx ${{ matrix.scope }}
-    needs: gas
-    if: ${{ !cancelled() }}
+    needs: [changes, gas]
+    if: ${{ !cancelled() && needs.changes.outputs.cairo != 'false' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -281,6 +326,8 @@ jobs:
   # differs between two builds.
   determinism:
     name: Three clean builds of consumer give one class
+    needs: changes
+    if: needs.changes.outputs.cairo != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -310,6 +357,8 @@ jobs:
 
   golden:
     name: Golden vectors up to date (tools/refgen)
+    needs: changes
+    if: needs.changes.outputs.golden != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -331,13 +380,22 @@ jobs:
   all-checks:
     name: All checks passed
     if: always()
-    needs: [links, scripts, fmt, takeover, test, package, gas, gas-complete, determinism, golden]
+    needs: [changes, links, scripts, fmt, takeover, test, package, gas, gas-complete, determinism, golden]
     runs-on: ubuntu-latest
     steps:
+      # A skipped job passes (its files did not change); `changes` itself must have succeeded.
       - env:
           HAS_FAILURE: ${{ contains(needs.*.result, 'failure') }}
           HAS_CANCELLED: ${{ contains(needs.*.result, 'cancelled') }}
+          CHANGES: ${{ needs.changes.result }}
+          GROUPS_OUT: ${{ join(needs.changes.outputs.*, ' ') }}
         run: |
-          if [ "$HAS_FAILURE" = "true" ] || [ "$HAS_CANCELLED" = "true" ]; then
+          # Every output of `changes` must be `true` or `false`: a missing one means the script
+          # did not run, and no job may be skipped on that silence.
+          for g in $GROUPS_OUT; do
+            if [ "$g" != "true" ] && [ "$g" != "false" ]; then exit 1; fi
+          done
+          if [ -z "$GROUPS_OUT" ] || [ "$(echo "$GROUPS_OUT" | wc -w)" != "6" ]; then exit 1; fi
+          if [ "$HAS_FAILURE" = "true" ] || [ "$HAS_CANCELLED" = "true" ] || [ "$CHANGES" != "success" ]; then
             exit 1
           fi
