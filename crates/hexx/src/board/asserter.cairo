@@ -102,7 +102,7 @@ mod tests {
     use super::Asserter;
 
     #[test]
-    #[available_gas(l2_gas: 14406)]
+    #[available_gas(l2_gas: 6311)]
     fn test_asserter_valid_dimensions() {
         Asserter::assert_valid_dimension(3, 3);
         Asserter::assert_valid_dimension(17, 14);
@@ -111,7 +111,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_asserter_revert_too_large() {
         // 252 bits: one too many
@@ -119,7 +119,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_asserter_revert_u8_overflow() {
         // 16 * 16 = 256 overflows u8, the dimension error must still be raised
@@ -127,14 +127,14 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: invalid dimension')]
     fn test_asserter_revert_too_small() {
         Asserter::assert_valid_dimension(2, 20);
     }
 
     #[test]
-    #[available_gas(l2_gas: 16107)]
+    #[available_gas(l2_gas: 7886)]
     fn test_asserter_edges_and_corners() {
         assert!(Asserter::is_edge(7, 7, 0, 3));
         assert!(Asserter::is_edge(7, 7, 3, 6));
@@ -148,21 +148,21 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: position not an edge')]
     fn test_asserter_revert_not_edge() {
         Asserter::assert_on_edge(7, 7, 24);
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: position is a corner')]
     fn test_asserter_revert_corner() {
         Asserter::assert_not_corner(7, 7, 6);
     }
 
     #[test]
-    #[available_gas(l2_gas: 16296)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_asserter_revert_outside() {
         Asserter::assert_inside(7, 7, 49);

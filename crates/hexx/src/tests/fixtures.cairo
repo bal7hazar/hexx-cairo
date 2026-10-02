@@ -320,7 +320,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 92620255)]
+    #[available_gas(l2_gas: 92612264)]
     fn test_fixture_empty_17x14() {
         let pairs = array![
             (EMPTY_17X14_NEAR_FROM, EMPTY_17X14_NEAR_TO, EMPTY_17X14_NEAR_DISTANCE),
@@ -330,7 +330,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 106959856)]
+    #[available_gas(l2_gas: 106951865)]
     fn test_fixture_cave_17x14() {
         let pairs = array![
             (CAVE_17X14_NEAR_FROM, CAVE_17X14_NEAR_TO, CAVE_17X14_NEAR_DISTANCE),
@@ -340,7 +340,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 178651112)]
+    #[available_gas(l2_gas: 178643122)]
     fn test_fixture_maze_17x14() {
         let pairs = array![
             (MAZE_17X14_NEAR_FROM, MAZE_17X14_NEAR_TO, MAZE_17X14_NEAR_DISTANCE),
@@ -350,7 +350,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 277896668)]
+    #[available_gas(l2_gas: 277888678)]
     fn test_fixture_serpentine_17x14() {
         let pairs = array![
             (SERPENTINE_17X14_NEAR_FROM, SERPENTINE_17X14_NEAR_TO, SERPENTINE_17X14_NEAR_DISTANCE),
@@ -360,7 +360,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 55140872)]
+    #[available_gas(l2_gas: 55132882)]
     fn test_fixture_unreachable_17x14() {
         let pairs = array![
             (
@@ -374,7 +374,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 9486704)]
+    #[available_gas(l2_gas: 9478714)]
     fn test_fixture_empty_7x7() {
         let pairs = array![
             (EMPTY_7X7_NEAR_FROM, EMPTY_7X7_NEAR_TO, EMPTY_7X7_NEAR_DISTANCE),
@@ -384,7 +384,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 8384253)]
+    #[available_gas(l2_gas: 8376262)]
     fn test_fixture_cave_7x7() {
         let pairs = array![
             (CAVE_7X7_NEAR_FROM, CAVE_7X7_NEAR_TO, CAVE_7X7_NEAR_DISTANCE),
@@ -394,7 +394,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 11255942)]
+    #[available_gas(l2_gas: 11247951)]
     fn test_fixture_maze_7x7() {
         let pairs = array![
             (MAZE_7X7_NEAR_FROM, MAZE_7X7_NEAR_TO, MAZE_7X7_NEAR_DISTANCE),
@@ -404,7 +404,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 12556640)]
+    #[available_gas(l2_gas: 12548649)]
     fn test_fixture_serpentine_7x7() {
         let pairs = array![
             (SERPENTINE_7X7_NEAR_FROM, SERPENTINE_7X7_NEAR_TO, SERPENTINE_7X7_NEAR_DISTANCE),
@@ -414,7 +414,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 4912417)]
+    #[available_gas(l2_gas: 4904427)]
     fn test_fixture_unreachable_7x7() {
         let pairs = array![
             (UNREACHABLE_7X7_NEAR_FROM, UNREACHABLE_7X7_NEAR_TO, UNREACHABLE_7X7_NEAR_DISTANCE),

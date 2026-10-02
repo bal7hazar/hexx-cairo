@@ -6,12 +6,12 @@ package = "hexx"
 # budgets: ceil(1.05 * measured)
 
 # budgets: ceil(1.05 * measured)
-gas.golden_edge_direction_all = 30072
-gas.golden_edge_direction_constants = 14406
-gas.golden_edge_direction_rotations_0 = 43681061
-gas.golden_edge_direction_rotations_1 = 43705043
-gas.golden_edge_direction_rotations_2 = 43727355
-gas.golden_edge_direction_rotations_3 = 43749930
-gas.golden_edge_direction_rotations_4 = 43772243
-gas.golden_edge_direction_rotations_5 = 43794555
-gas.golden_edge_direction_table = 117296
+gas.golden_edge_direction_all = 21851
+gas.golden_edge_direction_constants = 6311
+gas.golden_edge_direction_rotations_0 = 43672965
+gas.golden_edge_direction_rotations_1 = 43696947
+gas.golden_edge_direction_rotations_2 = 43719260
+gas.golden_edge_direction_rotations_3 = 43741835
+gas.golden_edge_direction_rotations_4 = 43764147
+gas.golden_edge_direction_rotations_5 = 43786460
+gas.golden_edge_direction_table = 109074

@@ -13,7 +13,7 @@ use origami_hexmap::helpers::asserter::Asserter as O;
 use crate::common::{DIMENSIONS, query_positions, sides, valid_dimensions};
 
 #[test]
-#[available_gas(l2_gas: 14406)]
+#[available_gas(l2_gas: 6311)]
 fn test_asserter_constants() {
     assert(o::MAX_SIZE == h::MAX_SIZE, 'MAX_SIZE');
     assert(
@@ -31,7 +31,7 @@ fn test_asserter_constants() {
 
 /// The coordinates of every position of the queries (`common::query_positions`).
 #[test]
-#[available_gas(l2_gas: 28333818)]
+#[available_gas(l2_gas: 28325838)]
 fn test_asserter_is_edge_is_corner() {
     for (width, height, position) in query_positions() {
         let (x, y) = (position % width, position / width);
@@ -42,7 +42,7 @@ fn test_asserter_is_edge_is_corner() {
 
 /// Every valid dimension (`W, H >= 3`, `W * H <= 251`, 675 pairs): both accept.
 #[test]
-#[available_gas(l2_gas: 7020300)]
+#[available_gas(l2_gas: 7012205)]
 fn test_asserter_assert_valid_dimension() {
     for (width, height) in valid_dimensions() {
         O::assert_valid_dimension(width, height);
@@ -52,7 +52,7 @@ fn test_asserter_assert_valid_dimension() {
 
 /// Every side tile of the 9 dimensions of the generators: both accept.
 #[test]
-#[available_gas(l2_gas: 12981707)]
+#[available_gas(l2_gas: 12973611)]
 fn test_asserter_assert_on_edge() {
     for (width, height) in DIMENSIONS.span() {
         let (width, height) = (*width, *height);
@@ -65,7 +65,7 @@ fn test_asserter_assert_on_edge() {
 
 /// Every position of the queries that is not a corner: both accept.
 #[test]
-#[available_gas(l2_gas: 27155067)]
+#[available_gas(l2_gas: 27147087)]
 fn test_asserter_assert_not_corner() {
     for (width, height, position) in query_positions() {
         let (x, y) = (position % width, position / width);
@@ -78,7 +78,7 @@ fn test_asserter_assert_not_corner() {
 
 /// Every position of the queries: both accept.
 #[test]
-#[available_gas(l2_gas: 21977874)]
+#[available_gas(l2_gas: 21969894)]
 fn test_asserter_assert_inside() {
     for (width, height, position) in query_positions() {
         O::assert_inside(width, height, position);
@@ -89,84 +89,84 @@ fn test_asserter_assert_inside() {
 // Panics: one test per side, same input, same message.
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_asserter_width_too_small_origami() {
     O::assert_valid_dimension(2, 50);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_asserter_width_too_small_hexx() {
     H::assert_valid_dimension(2, 50);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_asserter_height_too_small_origami() {
     O::assert_valid_dimension(50, 2);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_asserter_height_too_small_hexx() {
     H::assert_valid_dimension(50, 2);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_asserter_too_large_origami() {
     O::assert_valid_dimension(12, 21);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_asserter_too_large_hexx() {
     H::assert_valid_dimension(12, 21);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: position not an edge')]
 fn test_asserter_not_edge_origami() {
     O::assert_on_edge(7, 7, 24);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: position not an edge')]
 fn test_asserter_not_edge_hexx() {
     H::assert_on_edge(7, 7, 24);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: position is a corner')]
 fn test_asserter_corner_origami() {
     O::assert_not_corner(7, 7, 48);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: position is a corner')]
 fn test_asserter_corner_hexx() {
     H::assert_not_corner(7, 7, 48);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: position not inside')]
 fn test_asserter_not_inside_origami() {
     O::assert_inside(7, 7, 49);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: position not inside')]
 fn test_asserter_not_inside_hexx() {
     H::assert_inside(7, 7, 49);

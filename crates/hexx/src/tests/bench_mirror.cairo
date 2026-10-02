@@ -14,7 +14,7 @@ const REPS: u8 = 100;
 
 /// The loop and the accumulator alone.
 #[test]
-#[available_gas(l2_gas: 149195)]
+#[available_gas(l2_gas: 141099)]
 fn bench_mirror_baseline_loop() {
     let mut acc: felt252 = 0;
     let mut n = REPS;
@@ -27,7 +27,7 @@ fn bench_mirror_baseline_loop() {
 
 /// The loop, the accumulator and the two operands `(-n, -n)` and `(n, n)`.
 #[test]
-#[available_gas(l2_gas: 476690)]
+#[available_gas(l2_gas: 468594)]
 fn bench_mirror_baseline_operands() {
     let mut acc: i32 = 0;
     let mut n = REPS;
@@ -43,7 +43,7 @@ fn bench_mirror_baseline_operands() {
 // Hex
 
 #[test]
-#[available_gas(l2_gas: 389372)]
+#[available_gas(l2_gas: 381276)]
 fn bench_hex_new() {
     let mut acc: i32 = 0;
     let mut n = REPS;
@@ -56,7 +56,7 @@ fn bench_hex_new() {
 }
 
 #[test]
-#[available_gas(l2_gas: 476690)]
+#[available_gas(l2_gas: 468594)]
 fn bench_hex_x_y() {
     let mut acc: i32 = 0;
     let mut n = REPS;
@@ -70,7 +70,7 @@ fn bench_hex_x_y() {
 }
 
 #[test]
-#[available_gas(l2_gas: 692906)]
+#[available_gas(l2_gas: 684810)]
 fn bench_hex_z() {
     let mut acc: i32 = 0;
     let mut n = REPS;
@@ -84,7 +84,7 @@ fn bench_hex_z() {
 }
 
 #[test]
-#[available_gas(l2_gas: 784382)]
+#[available_gas(l2_gas: 776286)]
 fn bench_hex_const_sub() {
     let mut acc: i32 = 0;
     let mut n = REPS;
@@ -98,7 +98,7 @@ fn bench_hex_const_sub() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2000597)]
+#[available_gas(l2_gas: 1992501)]
 fn bench_hex_length() {
     let mut acc: i32 = 0;
     let mut n = REPS;
@@ -112,7 +112,7 @@ fn bench_hex_length() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2488175)]
+#[available_gas(l2_gas: 2480079)]
 fn bench_hex_ulength() {
     let mut acc: u32 = 0;
     let mut n = REPS;
@@ -126,7 +126,7 @@ fn bench_hex_ulength() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2308289)]
+#[available_gas(l2_gas: 2300193)]
 fn bench_hex_distance_to() {
     let mut acc: i32 = 0;
     let mut n = REPS;
@@ -140,7 +140,7 @@ fn bench_hex_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 2795657)]
+#[available_gas(l2_gas: 2787561)]
 fn bench_hex_unsigned_distance_to() {
     let mut acc: u32 = 0;
     let mut n = REPS;
@@ -160,7 +160,7 @@ fn bench_hex_unsigned_distance_to() {
 // directions: 102 calls per test; per call = (test - baseline) / 102.
 
 #[test]
-#[available_gas(l2_gas: 546507)]
+#[available_gas(l2_gas: 538390)]
 fn bench_mirror_baseline_direction() {
     let mut acc: u8 = 0;
     let mut rep: u8 = 0;
@@ -177,7 +177,7 @@ fn bench_mirror_baseline_direction() {
 }
 
 #[test]
-#[available_gas(l2_gas: 529721)]
+#[available_gas(l2_gas: 521605)]
 fn bench_mirror_baseline_into_hex() {
     let mut acc: u8 = 0;
     let mut rep: u8 = 0;
@@ -194,7 +194,7 @@ fn bench_mirror_baseline_into_hex() {
 }
 
 #[test]
-#[available_gas(l2_gas: 677918)]
+#[available_gas(l2_gas: 669802)]
 fn bench_edge_direction_into_hex() {
     let mut acc: u8 = 0;
     let mut rep: u8 = 0;
@@ -211,7 +211,7 @@ fn bench_edge_direction_into_hex() {
 }
 
 #[test]
-#[available_gas(l2_gas: 737680)]
+#[available_gas(l2_gas: 729564)]
 fn bench_edge_direction_const_neg() {
     let mut acc: u8 = 0;
     let mut rep: u8 = 0;
@@ -228,7 +228,7 @@ fn bench_edge_direction_const_neg() {
 }
 
 #[test]
-#[available_gas(l2_gas: 699838)]
+#[available_gas(l2_gas: 691722)]
 fn bench_edge_direction_clockwise() {
     let mut acc: u8 = 0;
     let mut rep: u8 = 0;
@@ -245,7 +245,7 @@ fn bench_edge_direction_clockwise() {
 }
 
 #[test]
-#[available_gas(l2_gas: 746605)]
+#[available_gas(l2_gas: 738489)]
 fn bench_edge_direction_counter_clockwise() {
     let mut acc: u8 = 0;
     let mut rep: u8 = 0;
@@ -262,7 +262,7 @@ fn bench_edge_direction_counter_clockwise() {
 }
 
 #[test]
-#[available_gas(l2_gas: 723667)]
+#[available_gas(l2_gas: 715550)]
 fn bench_edge_direction_rotate_cw() {
     let mut acc: u8 = 0;
     let mut rep: u8 = 0;
@@ -279,7 +279,7 @@ fn bench_edge_direction_rotate_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 779254)]
+#[available_gas(l2_gas: 771137)]
 fn bench_edge_direction_rotate_ccw() {
     let mut acc: u8 = 0;
     let mut rep: u8 = 0;
@@ -296,7 +296,7 @@ fn bench_edge_direction_rotate_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 546945)]
+#[available_gas(l2_gas: 538829)]
 fn bench_edge_direction_iter() {
     let mut acc: u8 = 0;
     let mut n = REPS;
@@ -310,7 +310,7 @@ fn bench_edge_direction_iter() {
 // Offset conversions and orientation
 
 #[test]
-#[available_gas(l2_gas: 1985109)]
+#[available_gas(l2_gas: 1977014)]
 fn bench_hex_to_offset_coordinates() {
     let mut acc: i32 = 0;
     let mut n = REPS;
@@ -326,7 +326,7 @@ fn bench_hex_to_offset_coordinates() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1985109)]
+#[available_gas(l2_gas: 1977014)]
 fn bench_hex_from_offset_coordinates() {
     let mut acc: i32 = 0;
     let mut n = REPS;
@@ -344,7 +344,7 @@ fn bench_hex_from_offset_coordinates() {
 }
 
 #[test]
-#[available_gas(l2_gas: 159695)]
+#[available_gas(l2_gas: 151599)]
 fn bench_orientation_not() {
     let mut acc: u8 = 0;
     let mut n = REPS;

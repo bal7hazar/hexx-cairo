@@ -57,7 +57,7 @@ fn check_generate_boards(first: u32, last: u32) {
 }
 
 #[test]
-#[available_gas(l2_gas: 14406)]
+#[available_gas(l2_gas: 6311)]
 fn test_spreader_errors() {
     assert(o::errors::SPREADER_NOT_ENOUGH_PLACE == h::errors::SPREADER_NOT_ENOUGH_PLACE, 'place');
     assert(o::errors::SPREADER_INVALID_GRID == h::errors::SPREADER_INVALID_GRID, 'grid');
@@ -66,7 +66,7 @@ fn test_spreader_errors() {
 /// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `3x3`.
 #[test]
-#[available_gas(l2_gas: 18113175)]
+#[available_gas(l2_gas: 18105289)]
 fn test_spreader_generate_3x3() {
     check_generate(3, 3, 0, 64);
 }
@@ -74,7 +74,7 @@ fn test_spreader_generate_3x3() {
 /// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `7x7`.
 #[test]
-#[available_gas(l2_gas: 53107736)]
+#[available_gas(l2_gas: 53099851)]
 fn test_spreader_generate_7x7() {
     check_generate(7, 7, 0, 64);
 }
@@ -82,7 +82,7 @@ fn test_spreader_generate_7x7() {
 /// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `15x15`.
 #[test]
-#[available_gas(l2_gas: 206183337)]
+#[available_gas(l2_gas: 206175451)]
 fn test_spreader_generate_15x15() {
     check_generate(15, 15, 0, 64);
 }
@@ -90,7 +90,7 @@ fn test_spreader_generate_15x15() {
 /// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `15x16`.
 #[test]
-#[available_gas(l2_gas: 218971740)]
+#[available_gas(l2_gas: 218963855)]
 fn test_spreader_generate_15x16() {
     check_generate(15, 16, 0, 64);
 }
@@ -98,7 +98,7 @@ fn test_spreader_generate_15x16() {
 /// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `17x14`.
 #[test]
-#[available_gas(l2_gas: 218462135)]
+#[available_gas(l2_gas: 218454250)]
 fn test_spreader_generate_17x14() {
     check_generate(17, 14, 0, 64);
 }
@@ -106,7 +106,7 @@ fn test_spreader_generate_17x14() {
 /// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `19x13`.
 #[test]
-#[available_gas(l2_gas: 223700787)]
+#[available_gas(l2_gas: 223692901)]
 fn test_spreader_generate_19x13() {
     check_generate(19, 13, 0, 64);
 }
@@ -114,7 +114,7 @@ fn test_spreader_generate_19x13() {
 /// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `25x10`.
 #[test]
-#[available_gas(l2_gas: 222766856)]
+#[available_gas(l2_gas: 222758970)]
 fn test_spreader_generate_25x10() {
     check_generate(25, 10, 0, 64);
 }
@@ -122,7 +122,7 @@ fn test_spreader_generate_25x10() {
 /// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `83x3`.
 #[test]
-#[available_gas(l2_gas: 121069501)]
+#[available_gas(l2_gas: 121061615)]
 fn test_spreader_generate_83x3() {
     check_generate(83, 3, 0, 64);
 }
@@ -130,7 +130,7 @@ fn test_spreader_generate_83x3() {
 /// `Spreader::generate` on `common::input_grid`, a seeded count and the full count. Seeds 0 to 63
 /// on `3x83`.
 #[test]
-#[available_gas(l2_gas: 125130367)]
+#[available_gas(l2_gas: 125122482)]
 fn test_spreader_generate_3x83() {
     check_generate(3, 83, 0, 64);
 }
@@ -138,7 +138,7 @@ fn test_spreader_generate_3x83() {
 /// `Spreader::generate`, 8 seeded counts per board, entrances included. Boards 0 to 9 of
 /// `fixtures::boards` (the fixtures of 1.8.0).
 #[test]
-#[available_gas(l2_gas: 39466745)]
+#[available_gas(l2_gas: 39458860)]
 fn test_spreader_generate_fixtures() {
     check_generate_boards(0, 10);
 }
@@ -146,7 +146,7 @@ fn test_spreader_generate_fixtures() {
 /// `Spreader::generate`, 8 seeded counts per board, entrances included. Boards 10 to 41 of
 /// `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 154812330)]
+#[available_gas(l2_gas: 154804445)]
 fn test_spreader_generate_boards() {
     check_generate_boards(10, 42);
 }
@@ -159,7 +159,7 @@ const FULL_128: felt252 = 0xffffffffffffffffffffffffffffffff;
 /// 128 tiles, the interior, and 8 caves of order 3; on each mask the count 0, the full count and
 /// 8 seeded counts (tag `'count128'`).
 #[test]
-#[available_gas(l2_gas: 72876981)]
+#[available_gas(l2_gas: 72869095)]
 fn test_spreader_generate_128_tiles() {
     let mut input: u32 = 0;
     for (width, height) in [(16_u8, 8_u8), (8, 16)].span() {
@@ -192,35 +192,35 @@ fn test_spreader_generate_128_tiles() {
 // Panics: one test per side, same input, same message.
 
 #[test]
-#[available_gas(l2_gas: 67653)]
+#[available_gas(l2_gas: 59642)]
 #[should_panic(expected: 'Spreader: not enough place')]
 fn test_spreader_generate_revert_not_enough_place_origami() {
     let _ = O::generate(EMPTY_7X7, 7, 7, 26, 'seed');
 }
 
 #[test]
-#[available_gas(l2_gas: 67653)]
+#[available_gas(l2_gas: 59642)]
 #[should_panic(expected: 'Spreader: not enough place')]
 fn test_spreader_generate_revert_not_enough_place_hexx() {
     let _ = H::generate(EMPTY_7X7, 7, 7, 26, 'seed');
 }
 
 #[test]
-#[available_gas(l2_gas: 21578)]
+#[available_gas(l2_gas: 13566)]
 #[should_panic(expected: 'Spreader: invalid grid')]
 fn test_spreader_generate_revert_invalid_grid_small_origami() {
     let _ = O::generate(EMPTY_7X7 + 0x2000000000000, 7, 7, 1, 'seed');
 }
 
 #[test]
-#[available_gas(l2_gas: 21578)]
+#[available_gas(l2_gas: 13566)]
 #[should_panic(expected: 'Spreader: invalid grid')]
 fn test_spreader_generate_revert_invalid_grid_small_hexx() {
     let _ = H::generate(EMPTY_7X7 + 0x2000000000000, 7, 7, 1, 'seed');
 }
 
 #[test]
-#[available_gas(l2_gas: 77963)]
+#[available_gas(l2_gas: 69951)]
 #[should_panic(expected: 'Spreader: invalid grid')]
 fn test_spreader_generate_revert_invalid_grid_wide_origami() {
     let _ = O::generate(
@@ -233,7 +233,7 @@ fn test_spreader_generate_revert_invalid_grid_wide_origami() {
 }
 
 #[test]
-#[available_gas(l2_gas: 77963)]
+#[available_gas(l2_gas: 69951)]
 #[should_panic(expected: 'Spreader: invalid grid')]
 fn test_spreader_generate_revert_invalid_grid_wide_hexx() {
     let _ = H::generate(
@@ -246,14 +246,14 @@ fn test_spreader_generate_revert_invalid_grid_wide_hexx() {
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_spreader_generate_revert_dimension_origami() {
     let _ = O::generate(EMPTY_7X7, 2, 7, 1, 'seed');
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_spreader_generate_revert_dimension_hexx() {
     let _ = H::generate(EMPTY_7X7, 2, 7, 1, 'seed');
@@ -262,7 +262,7 @@ fn test_spreader_generate_revert_dimension_hexx() {
 /// A grid with bit 128 set on a board of at most 128 tiles: rejected through its high limb (fix
 /// loop 1, finding 4).
 #[test]
-#[available_gas(l2_gas: 20633)]
+#[available_gas(l2_gas: 12621)]
 #[should_panic(expected: 'Spreader: invalid grid')]
 fn test_spreader_generate_revert_small_bit_128_origami() {
     let _ = O::generate(EMPTY_7X7 + 0x100000000000000000000000000000000, 7, 7, 1, 'seed');
@@ -271,7 +271,7 @@ fn test_spreader_generate_revert_small_bit_128_origami() {
 /// A grid with bit 128 set on a board of at most 128 tiles: rejected through its high limb (fix
 /// loop 1, finding 4).
 #[test]
-#[available_gas(l2_gas: 20633)]
+#[available_gas(l2_gas: 12621)]
 #[should_panic(expected: 'Spreader: invalid grid')]
 fn test_spreader_generate_revert_small_bit_128_hexx() {
     let _ = H::generate(EMPTY_7X7 + 0x100000000000000000000000000000000, 7, 7, 1, 'seed');
@@ -280,7 +280,7 @@ fn test_spreader_generate_revert_small_bit_128_hexx() {
 /// A grid with bit 128 set on a board of at most 128 tiles: rejected through its high limb (fix
 /// loop 1, finding 4).
 #[test]
-#[available_gas(l2_gas: 66603)]
+#[available_gas(l2_gas: 58592)]
 #[should_panic(expected: 'Spreader: invalid grid')]
 fn test_spreader_generate_revert_128_tiles_bit_128_origami() {
     let _ = O::generate(FULL_128 + 0x100000000000000000000000000000000, 16, 8, 1, 'seed');
@@ -289,7 +289,7 @@ fn test_spreader_generate_revert_128_tiles_bit_128_origami() {
 /// A grid with bit 128 set on a board of at most 128 tiles: rejected through its high limb (fix
 /// loop 1, finding 4).
 #[test]
-#[available_gas(l2_gas: 66603)]
+#[available_gas(l2_gas: 58592)]
 #[should_panic(expected: 'Spreader: invalid grid')]
 fn test_spreader_generate_revert_128_tiles_bit_128_hexx() {
     let _ = H::generate(FULL_128 + 0x100000000000000000000000000000000, 16, 8, 1, 'seed');

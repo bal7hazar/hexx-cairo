@@ -484,7 +484,7 @@ fn check_components(grid: felt252, width: u8, height: u8, from: u8) {
 }
 
 #[test]
-#[available_gas(l2_gas: 61469725)]
+#[available_gas(l2_gas: 61461714)]
 fn test_bench_caver_components() {
     check_components(CAVE_17X14, 17, 14, 127);
     check_components(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM);
@@ -504,14 +504,14 @@ fn test_bench_caver_components() {
 }
 
 #[test]
-#[available_gas(l2_gas: 745864632)]
+#[available_gas(l2_gas: 745856746)]
 fn test_bench_caver_variants_17x14() {
     check_variants(17, 14, 1);
     check_variants(17, 14, 2);
 }
 
 #[test]
-#[available_gas(l2_gas: 227913013)]
+#[available_gas(l2_gas: 227905128)]
 fn test_bench_caver_variants_small() {
     check_variants(3, 3, 1);
     check_variants(7, 7, 1);
@@ -519,7 +519,7 @@ fn test_bench_caver_variants_small() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1116176236)]
+#[available_gas(l2_gas: 1116168224)]
 fn test_bench_caver_variants_extremes() {
     check_variants(19, 13, 1);
     check_variants(83, 3, 1);
@@ -531,55 +531,55 @@ fn test_bench_caver_variants_extremes() {
 // Benchmarks: library
 
 #[test]
-#[available_gas(l2_gas: 28515)]
+#[available_gas(l2_gas: 20504)]
 fn bench_caver_generate_17x14_order_0() {
     assert!(Caver::generate(17, 14, 0, SEED) == FILL_17X14);
 }
 
 #[test]
-#[available_gas(l2_gas: 76353)]
+#[available_gas(l2_gas: 68342)]
 fn bench_caver_generate_17x14_order_1() {
     assert!(Caver::generate(17, 14, 1, SEED) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 150924)]
+#[available_gas(l2_gas: 142913)]
 fn bench_caver_generate_17x14_order_3() {
     assert!(Caver::generate(17, 14, 3, SEED) == CAVE_17X14);
 }
 
 #[test]
-#[available_gas(l2_gas: 226335)]
+#[available_gas(l2_gas: 218324)]
 fn bench_caver_generate_17x14_order_5() {
     assert!(Caver::generate(17, 14, 5, SEED) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 151449)]
+#[available_gas(l2_gas: 143438)]
 fn bench_caver_generate_19x13_order_3() {
     assert!(Caver::generate(19, 13, 3, SEED) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 28515)]
+#[available_gas(l2_gas: 20504)]
 fn bench_caver_generate_7x7_order_0() {
     assert!(Caver::generate(7, 7, 0, SEED) == FILL_7X7);
 }
 
 #[test]
-#[available_gas(l2_gas: 53505)]
+#[available_gas(l2_gas: 45494)]
 fn bench_caver_generate_7x7_order_1() {
     assert!(Caver::generate(7, 7, 1, SEED) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 87168)]
+#[available_gas(l2_gas: 79157)]
 fn bench_caver_generate_7x7_order_3() {
     assert!(Caver::generate(7, 7, 3, SEED) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 298370)]
+#[available_gas(l2_gas: 290253)]
 fn bench_caver_keep_component_17x14() {
     // 7 * 17 + 8: centre of the board, floor in CAVE_17X14
     assert!(Caver::keep_component(CAVE_17X14, 17, 14, 127) != 0);
@@ -603,50 +603,50 @@ pub fn keep_component_dilation(grid: felt252, width: u8, height: u8, from: u8) -
 }
 
 #[test]
-#[available_gas(l2_gas: 315171)]
+#[available_gas(l2_gas: 307054)]
 fn bench_caver_variant_keep_component_dilation_17x14() {
     assert!(keep_component_dilation(CAVE_17X14, 17, 14, 127) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 432976)]
+#[available_gas(l2_gas: 424965)]
 fn bench_caver_generate_connected_17x14() {
     let cave = Caver::generate(17, 14, 3, SEED);
     assert!(Caver::keep_component(cave, 17, 14, 127) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 395678)]
+#[available_gas(l2_gas: 387562)]
 fn bench_caver_keep_component_runs_17x14() {
     assert!(keep_component_runs(CAVE_17X14, 17, 14, 127) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 399658)]
+#[available_gas(l2_gas: 391541)]
 fn bench_caver_keep_component_runs_first_17x14() {
     assert!(keep_component_runs_first(CAVE_17X14, 17, 14, 127) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 1168664)]
+#[available_gas(l2_gas: 1160548)]
 fn bench_caver_keep_component_maze_17x14() {
     assert!(Caver::keep_component(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 1517767)]
+#[available_gas(l2_gas: 1509651)]
 fn bench_caver_keep_component_runs_maze_17x14() {
     assert!(keep_component_runs(MAZE_17X14, 17, 14, MAZE_17X14_FAR_FROM) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 1932982)]
+#[available_gas(l2_gas: 1924866)]
 fn bench_caver_keep_component_serpentine_17x14() {
     assert!(Caver::keep_component(SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 1580122)]
+#[available_gas(l2_gas: 1572006)]
 fn bench_caver_keep_component_runs_serpentine_17x14() {
     assert!(keep_component_runs(SERPENTINE_17X14, 17, 14, SERPENTINE_17X14_FAR_FROM) != 0);
 }
@@ -654,79 +654,79 @@ fn bench_caver_keep_component_runs_serpentine_17x14() {
 // Benchmarks: variants, 3 generations from the same fill (harness baseline: order 0)
 
 #[test]
-#[available_gas(l2_gas: 35427)]
+#[available_gas(l2_gas: 27206)]
 fn bench_caver_variant_baseline_17x14() {
     assert!(evolve::<StepTwoOfFour>(17, 14, 0, FILL_17X14) == FILL_17X14);
 }
 
 #[test]
-#[available_gas(l2_gas: 160115)]
+#[available_gas(l2_gas: 151998)]
 fn bench_caver_variant_two_of_four_17x14() {
     assert!(evolve::<StepTwoOfFour>(17, 14, 3, FILL_17X14) == CAVE_17X14);
 }
 
 #[test]
-#[available_gas(l2_gas: 166728)]
+#[available_gas(l2_gas: 158611)]
 fn bench_caver_variant_b4s3_17x14() {
     assert!(evolve::<StepB4S3>(17, 14, 3, FILL_17X14) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 164838)]
+#[available_gas(l2_gas: 156721)]
 fn bench_caver_variant_b3s3_17x14() {
     assert!(evolve::<StepB3S3>(17, 14, 3, FILL_17X14) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 157595)]
+#[available_gas(l2_gas: 149478)]
 fn bench_caver_variant_library_17x14() {
     assert!(evolve::<StepLibrary>(17, 14, 3, FILL_17X14) == CAVE_17X14);
 }
 
 #[test]
-#[available_gas(l2_gas: 162509)]
+#[available_gas(l2_gas: 154392)]
 fn bench_caver_variant_east_add_17x14() {
     assert!(evolve::<StepEastAdd>(17, 14, 3, FILL_17X14) == CAVE_17X14);
 }
 
 #[test]
-#[available_gas(l2_gas: 160115)]
+#[available_gas(l2_gas: 151998)]
 fn bench_caver_variant_folded_17x14() {
     assert!(evolve::<StepFolded>(17, 14, 3, FILL_17X14) == CAVE_17X14);
 }
 
 #[test]
-#[available_gas(l2_gas: 158855)]
+#[available_gas(l2_gas: 150738)]
 fn bench_caver_variant_split_planes_17x14() {
     assert!(evolve::<StepSplitPlanes>(17, 14, 3, FILL_17X14) == CAVE_17X14);
 }
 
 #[test]
-#[available_gas(l2_gas: 193738)]
+#[available_gas(l2_gas: 185622)]
 fn bench_caver_variant_u256_ops_17x14() {
     assert!(evolve::<StepU256Ops>(17, 14, 3, FILL_17X14) == CAVE_17X14);
 }
 
 #[test]
-#[available_gas(l2_gas: 214093)]
+#[available_gas(l2_gas: 205977)]
 fn bench_caver_variant_design_17x14() {
     assert!(evolve::<StepDesign>(17, 14, 3, FILL_17X14) == CAVE_17X14);
 }
 
 #[test]
-#[available_gas(l2_gas: 170567)]
+#[available_gas(l2_gas: 162450)]
 fn bench_caver_variant_pairs_17x14() {
     assert!(evolve::<StepPairs>(17, 14, 3, FILL_17X14) == CAVE_17X14);
 }
 
 #[test]
-#[available_gas(l2_gas: 34703)]
+#[available_gas(l2_gas: 26481)]
 fn bench_caver_variant_baseline_7x7() {
     assert!(evolve::<StepTwoOfFour>(7, 7, 0, FILL_7X7) == FILL_7X7);
 }
 
 #[test]
-#[available_gas(l2_gas: 159810)]
+#[available_gas(l2_gas: 151694)]
 fn bench_caver_variant_library_u256_7x7() {
     assert!(evolve::<StepTwoOfFour>(7, 7, 3, FILL_7X7) != 0);
 }
@@ -734,19 +734,19 @@ fn bench_caver_variant_library_u256_7x7() {
 // Benchmarks: initial fills
 
 #[test]
-#[available_gas(l2_gas: 33572)]
+#[available_gas(l2_gas: 25561)]
 fn bench_caver_fill_sparse_17x14() {
     assert!(fill_sparse(17, 14, SEED) != 0);
 }
 
 #[test]
-#[available_gas(l2_gas: 29502)]
+#[available_gas(l2_gas: 21491)]
 fn bench_caver_fill_half_17x14() {
     assert!(fill_half(17, 14, SEED) == FILL_17X14);
 }
 
 #[test]
-#[available_gas(l2_gas: 33572)]
+#[available_gas(l2_gas: 25561)]
 fn bench_caver_fill_dense_17x14() {
     assert!(fill_dense(17, 14, SEED) != 0);
 }
@@ -840,7 +840,7 @@ fn print_stats(rule: u8, order: u8) {
 }
 
 #[test]
-#[available_gas(l2_gas: 778261641)]
+#[available_gas(l2_gas: 778253755)]
 #[ignore] // Printouts for the report: `snforge test test_bench_caver_print_stats --include-ignored`
 fn test_bench_caver_print_stats() {
     let mut rule = 0;
@@ -853,7 +853,7 @@ fn test_bench_caver_print_stats() {
 }
 
 #[test]
-#[available_gas(l2_gas: 590937421)]
+#[available_gas(l2_gas: 590930795)]
 #[ignore] // Printouts for the report: `snforge test test_bench_caver_print_rules --include-ignored`
 fn test_bench_caver_print_rules() {
     print_rule(0, 1);
@@ -862,7 +862,7 @@ fn test_bench_caver_print_rules() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1182233792)]
+#[available_gas(l2_gas: 1182225906)]
 #[ignore] // Printouts for the report: `snforge test test_bench_caver_print_fills --include-ignored`
 fn test_bench_caver_print_fills() {
     let mut rule = 0;

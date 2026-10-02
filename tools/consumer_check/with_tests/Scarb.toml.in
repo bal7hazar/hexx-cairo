@@ -2,17 +2,18 @@
 name = "consumer_with_tests"
 version = "0.0.0"
 edition = "2024_07"
-cairo-version = "2.19.4"
+cairo-version = "2.20.0"
 
 [dependencies]
 hexx = "=@HEXX_VERSION@"
 
-# 0.60.0 is outside `^0.61.0` (what `hexx` 0.1.0-rc.1 and `origami_hexmap` 1.8.0 list as a test
+# 0.63.0 is outside `^0.61.0` (what `hexx` 0.1.0-rc.1 and `origami_hexmap` 1.8.0 list as a test
 # dependency): had that requirement leaked into this package, the two would conflict. It is the
-# release just below the 0.61.0 of the toolchain (.tool-versions), the closest one outside the range.
+# release just below the 0.64.0 of the toolchain (.tool-versions), the closest one outside the range.
+# snforge 0.64 warns that this version is below the recommended `^0.64.0`: expected.
 [dev-dependencies]
-snforge_std = "=0.60.0"
-assert_macros = "2.19.4"
+snforge_std = "=0.63.0"
+assert_macros = "2.20.0"
 
 [tool.scarb]
 allow-prebuilt-plugins = ["snforge_std"]

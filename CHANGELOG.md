@@ -10,6 +10,10 @@ move. Versions before `0.1.0` are pre-releases (`0.1.0-rc.N`); nothing is publis
 
 ## [Unreleased]
 
+Toolchain (LIB-04f, D-180): the next release candidate, `0.1.0-rc.2`, is built with Scarb 2.20.1 and
+starknet-foundry 0.64.0 (Cairo 2.20.0); `0.1.0-rc.1` stays as published, built on Scarb 2.19.4. Gas
+snapshots, budgets and class sizes are re-measured on the new toolchain (`docs/GAS.md`).
+
 Release check (`.github/workflows/release-check.yml`, no change to the package): its reports are
 written outside the checkout and the tree is checked clean before `scarb package` (run
 `36809681077` of `0.1.0-rc.1` had passed the full gate, then `scarb package` refused an untracked

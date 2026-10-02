@@ -331,7 +331,7 @@ mod tests {
     /// Every direction and every `steps` of `u8` against the definition, the mirror's `rotate_cw`
     /// and `rotate(3) == opposite`.
     #[test]
-    #[available_gas(l2_gas: 21919496)]
+    #[available_gas(l2_gas: 21911400)]
     fn test_direction_rotate_oracle() {
         for direction in ALL.span() {
             let direction = *direction;
@@ -353,7 +353,7 @@ mod tests {
 
     /// R-N7-1 (audit pass 1, finding 10): 255 mod 6 = 3, no panic.
     #[test]
-    #[available_gas(l2_gas: 14406)]
+    #[available_gas(l2_gas: 6311)]
     fn test_direction_rotate_regression() {
         assert!(Direction::SouthEast.rotate(255) == Direction::NorthWest);
         assert!(Direction::SouthEast.rotate(255) == Direction::SouthEast.rotate(3));
@@ -370,7 +370,7 @@ mod tests {
 
     /// The 36 pairs against the angle between the directions.
     #[test]
-    #[available_gas(l2_gas: 486119)]
+    #[available_gas(l2_gas: 478023)]
     fn test_direction_arc_oracle() {
         for direction in ALL.span() {
             for facing in ALL.span() {
@@ -382,7 +382,7 @@ mod tests {
     /// The arcs of the game (`design/04-combat.md`): front `d`, front-side `d ± 1`, rear-side
     /// `d ± 2`, back `d + 3`, for every facing `d`.
     #[test]
-    #[available_gas(l2_gas: 259350)]
+    #[available_gas(l2_gas: 251255)]
     fn test_direction_arc_game() {
         for facing in ALL.span() {
             let facing = *facing;
@@ -398,7 +398,7 @@ mod tests {
 
     /// R-N7-2: the difference wraps to 5 for `(SouthEast, East)`.
     #[test]
-    #[available_gas(l2_gas: 14406)]
+    #[available_gas(l2_gas: 6311)]
     fn test_direction_arc_regression() {
         assert!(Direction::East.arc(Direction::West) == Arc::Back);
         assert!(Direction::East.arc(Direction::NorthEast) == Arc::FrontSide);
@@ -409,7 +409,7 @@ mod tests {
 
     /// The index is preserved both ways, and both round trips are the identity.
     #[test]
-    #[available_gas(l2_gas: 70455)]
+    #[available_gas(l2_gas: 62360)]
     fn test_direction_into_edge_direction() {
         for direction in ALL.span() {
             let direction = *direction;
@@ -439,7 +439,7 @@ mod tests {
 
     /// The loop, the accumulator and the index of each direction.
     #[test]
-    #[available_gas(l2_gas: 596487)]
+    #[available_gas(l2_gas: 588370)]
     fn bench_direction_baseline() {
         let mut acc: u8 = 0;
         let mut rep: u8 = 0;
@@ -458,7 +458,7 @@ mod tests {
     /// from the directions: the difference between both is the cost of `Into<Direction, u8>`,
     /// one `match`, and the baseline of the conversions with `EdgeDirection`.
     #[test]
-    #[available_gas(l2_gas: 546507)]
+    #[available_gas(l2_gas: 538390)]
     fn bench_direction_baseline_index() {
         let indices: [u8; 6] = [0, 1, 2, 3, 4, 5];
         let mut acc: u8 = 0;
@@ -475,7 +475,7 @@ mod tests {
 
     /// `steps` from 255 down to 239: the reduction modulo 6 always runs, the sum wraps.
     #[test]
-    #[available_gas(l2_gas: 873607)]
+    #[available_gas(l2_gas: 865490)]
     fn bench_direction_rotate() {
         let mut acc: u8 = 0;
         let mut rep: u8 = 0;
@@ -492,7 +492,7 @@ mod tests {
 
     /// The facing turns with the repetition: every pair of directions is met.
     #[test]
-    #[available_gas(l2_gas: 806722)]
+    #[available_gas(l2_gas: 798605)]
     fn bench_direction_arc() {
         let mut acc: u8 = 0;
         let mut rep: u8 = 0;
@@ -515,7 +515,7 @@ mod tests {
 
     /// The baseline of `arc`: the same loop and the same facing, the arc replaced by the index.
     #[test]
-    #[available_gas(l2_gas: 673315)]
+    #[available_gas(l2_gas: 665199)]
     fn bench_direction_arc_baseline() {
         let mut acc: u8 = 0;
         let mut rep: u8 = 0;
@@ -533,7 +533,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 596487)]
+    #[available_gas(l2_gas: 588370)]
     fn bench_direction_into_edge_direction() {
         let mut acc: u8 = 0;
         let mut rep: u8 = 0;
@@ -550,7 +550,7 @@ mod tests {
 
     /// The baseline is `EdgeDirection`'s own: the loop over `iter` and the index.
     #[test]
-    #[available_gas(l2_gas: 646467)]
+    #[available_gas(l2_gas: 638350)]
     fn bench_edge_direction_into_direction() {
         let mut acc: u8 = 0;
         let mut rep: u8 = 0;
@@ -568,7 +568,7 @@ mod tests {
 
     /// The baseline of `bench_edge_direction_into_direction`.
     #[test]
-    #[available_gas(l2_gas: 546507)]
+    #[available_gas(l2_gas: 538390)]
     fn bench_edge_direction_baseline() {
         let mut acc: u8 = 0;
         let mut rep: u8 = 0;
@@ -583,7 +583,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 58391)]
+    #[available_gas(l2_gas: 50295)]
     fn test_direction_opposite() {
         let mut index: u8 = 0;
         while index != 6 {
@@ -597,7 +597,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 30986)]
+    #[available_gas(l2_gas: 22890)]
     fn test_direction_round_trip() {
         let mut index: u8 = 0;
         while index != 6 {
@@ -611,7 +611,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 14406)]
+    #[available_gas(l2_gas: 6311)]
     fn test_direction_next_even_row() {
         // (3, 2) = 17
         let position = 2 * WIDTH + 3;
@@ -624,7 +624,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 14406)]
+    #[available_gas(l2_gas: 6311)]
     fn test_direction_next_odd_row() {
         // (3, 3) = 24
         let position = 3 * WIDTH + 3;
@@ -637,7 +637,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 49151)]
+    #[available_gas(l2_gas: 41055)]
     fn test_direction_next_opposite_round_trip() {
         let mut index: u8 = 0;
         while index != 6 {
@@ -652,7 +652,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 14406)]
+    #[available_gas(l2_gas: 6311)]
     fn test_direction_pop_front() {
         let mut directions: u32 = 0x501234;
         assert!(DirectionTrait::pop_front(ref directions) == Direction::SouthWest);

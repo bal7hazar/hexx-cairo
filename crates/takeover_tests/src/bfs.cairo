@@ -80,14 +80,14 @@ fn check_tiles_within_range(first: u32, last: u32) {
 }
 
 #[test]
-#[available_gas(l2_gas: 14406)]
+#[available_gas(l2_gas: 6311)]
 fn test_bfs_errors() {
     assert(o::errors::BFS_POSITION_NOT_WALKABLE == h::errors::BFS_POSITION_NOT_WALKABLE, 'errors');
 }
 
 /// `Bfs::search` and `Bfs::distance` on the 20 endpoints of the fixtures of 1.8.0.
 #[test]
-#[available_gas(l2_gas: 29508843)]
+#[available_gas(l2_gas: 29500853)]
 fn test_bfs_fixture_endpoints() {
     for (grid, width, from, to) in ENDPOINTS.span() {
         let (grid, width, from, to) = (*grid, *width, *from, *to);
@@ -108,7 +108,7 @@ fn test_bfs_fixture_endpoints() {
 /// `Bfs::search` on `common::endpoints`. Boards 0 to 9 of `fixtures::boards` (the fixtures of
 /// 1.8.0).
 #[test]
-#[available_gas(l2_gas: 108025525)]
+#[available_gas(l2_gas: 108017640)]
 fn test_bfs_search_fixtures() {
     check_search(0, 10);
 }
@@ -116,7 +116,7 @@ fn test_bfs_search_fixtures() {
 /// `Bfs::search` on `common::endpoints`. Boards 10 to 20 of `fixtures::boards` (the generated
 /// boards).
 #[test]
-#[available_gas(l2_gas: 182301790)]
+#[available_gas(l2_gas: 182293905)]
 fn test_bfs_search_boards_0() {
     check_search(10, 21);
 }
@@ -124,7 +124,7 @@ fn test_bfs_search_boards_0() {
 /// `Bfs::search` on `common::endpoints`. Boards 21 to 30 of `fixtures::boards` (the generated
 /// boards).
 #[test]
-#[available_gas(l2_gas: 130176703)]
+#[available_gas(l2_gas: 130168818)]
 fn test_bfs_search_boards_1() {
     check_search(21, 31);
 }
@@ -132,7 +132,7 @@ fn test_bfs_search_boards_1() {
 /// `Bfs::search` on `common::endpoints`. Boards 31 to 41 of `fixtures::boards` (the generated
 /// boards).
 #[test]
-#[available_gas(l2_gas: 104106226)]
+#[available_gas(l2_gas: 104098340)]
 fn test_bfs_search_boards_2() {
     check_search(31, 42);
 }
@@ -140,7 +140,7 @@ fn test_bfs_search_boards_2() {
 /// `Bfs::distance` on `common::endpoints`. Boards 0 to 9 of `fixtures::boards` (the fixtures of
 /// 1.8.0).
 #[test]
-#[available_gas(l2_gas: 87439322)]
+#[available_gas(l2_gas: 87431436)]
 fn test_bfs_distance_fixtures() {
     check_distance(0, 10);
 }
@@ -148,7 +148,7 @@ fn test_bfs_distance_fixtures() {
 /// `Bfs::distance` on `common::endpoints`. Boards 10 to 41 of `fixtures::boards` (the generated
 /// boards).
 #[test]
-#[available_gas(l2_gas: 339916164)]
+#[available_gas(l2_gas: 339908279)]
 fn test_bfs_distance_boards() {
     check_distance(10, 42);
 }
@@ -156,7 +156,7 @@ fn test_bfs_distance_boards() {
 /// `Bfs::reachable` from `common::sources`. Boards 0 to 9 of `fixtures::boards` (the fixtures of
 /// 1.8.0).
 #[test]
-#[available_gas(l2_gas: 80611682)]
+#[available_gas(l2_gas: 80603796)]
 fn test_bfs_reachable_fixtures() {
     check_reachable(0, 10);
 }
@@ -164,7 +164,7 @@ fn test_bfs_reachable_fixtures() {
 /// `Bfs::reachable` from `common::sources`. Boards 10 to 41 of `fixtures::boards` (the generated
 /// boards).
 #[test]
-#[available_gas(l2_gas: 335182557)]
+#[available_gas(l2_gas: 335174671)]
 fn test_bfs_reachable_boards() {
     check_reachable(10, 42);
 }
@@ -172,7 +172,7 @@ fn test_bfs_reachable_boards() {
 /// `Bfs::tiles_within_range` from `common::sources`, every radius of `common::RADII`. Boards 0 to 9
 /// of `fixtures::boards` (the fixtures of 1.8.0).
 #[test]
-#[available_gas(l2_gas: 174250241)]
+#[available_gas(l2_gas: 174242355)]
 fn test_bfs_tiles_within_range_fixtures() {
     check_tiles_within_range(0, 10);
 }
@@ -180,7 +180,7 @@ fn test_bfs_tiles_within_range_fixtures() {
 /// `Bfs::tiles_within_range` from `common::sources`, every radius of `common::RADII`. Boards 10 to
 /// 25 of `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 428550503)]
+#[available_gas(l2_gas: 428542618)]
 fn test_bfs_tiles_within_range_boards_0() {
     check_tiles_within_range(10, 26);
 }
@@ -188,7 +188,7 @@ fn test_bfs_tiles_within_range_boards_0() {
 /// `Bfs::tiles_within_range` from `common::sources`, every radius of `common::RADII`. Boards 26 to
 /// 41 of `fixtures::boards` (the generated boards).
 #[test]
-#[available_gas(l2_gas: 358403000)]
+#[available_gas(l2_gas: 358395114)]
 fn test_bfs_tiles_within_range_boards_1() {
     check_tiles_within_range(26, 42);
 }
@@ -197,7 +197,7 @@ fn test_bfs_tiles_within_range_boards_1() {
 /// adjacent edge tiles 1 and 2, the flood from 1 reaches 2 directly (through the neighbours of
 /// the edge centre, no interior tile involved): `Bfs::reachable(6, 15, 16, 1) == 6`.
 #[test]
-#[available_gas(l2_gas: 243953)]
+#[available_gas(l2_gas: 235973)]
 fn test_bfs_reachable_audit_witness() {
     let lhs = O::reachable(6, 15, 16, 1);
     assert(lhs == 6, 'value of 1.8.0');
@@ -288,7 +288,7 @@ fn check_floods_entrances(first: u32, last: u32) {
 /// `[43, 36, 29, 22, 15, 8]` (target included, start excluded, read from a run), so a finder that
 /// returned early on two edge endpoints fails here.
 #[test]
-#[available_gas(l2_gas: 1074434)]
+#[available_gas(l2_gas: 1066317)]
 fn test_bfs_audit_scenario() {
     let lhs = O::search(ENTRANCES_7X7_AUDIT, 7, 7, 1, 43);
     let rhs = H::search(ENTRANCES_7X7_AUDIT, 7, 7, 1, 43);
@@ -304,7 +304,7 @@ fn test_bfs_audit_scenario() {
 /// the 9 hand-made entrance boards (both limb paths, the 15x16 twice); some distinct entrances
 /// are joined by a path and some are not (disconnected components).
 #[test]
-#[available_gas(l2_gas: 280239467)]
+#[available_gas(l2_gas: 280231455)]
 fn test_bfs_search_entrances_hand() {
     let (joined, apart) = check_search_entrances(0, 9);
     assert(joined != 0, 'no joined entrances');
@@ -313,7 +313,7 @@ fn test_bfs_search_entrances_hand() {
 
 /// The same on the 6 generated entrance boards.
 #[test]
-#[available_gas(l2_gas: 216730475)]
+#[available_gas(l2_gas: 216722464)]
 fn test_bfs_search_entrances_generated() {
     let (joined, _) = check_search_entrances(9, 15);
     assert(joined != 0, 'no joined entrances');
@@ -321,14 +321,14 @@ fn test_bfs_search_entrances_generated() {
 
 /// `Bfs::distance` on the same pairs, the 9 hand-made entrance boards.
 #[test]
-#[available_gas(l2_gas: 212161505)]
+#[available_gas(l2_gas: 212153620)]
 fn test_bfs_distance_entrances_hand() {
     check_distance_entrances(0, 9);
 }
 
 /// `Bfs::distance` on the same pairs, the 6 generated entrance boards.
 #[test]
-#[available_gas(l2_gas: 158745437)]
+#[available_gas(l2_gas: 158737551)]
 fn test_bfs_distance_entrances_generated() {
     check_distance_entrances(9, 15);
 }
@@ -336,14 +336,14 @@ fn test_bfs_distance_entrances_generated() {
 /// `Bfs::reachable` and `Bfs::tiles_within_range` from every entrance and 6 seeded sources, the 9
 /// hand-made entrance boards.
 #[test]
-#[available_gas(l2_gas: 355799067)]
+#[available_gas(l2_gas: 355791182)]
 fn test_bfs_floods_entrances_hand() {
     check_floods_entrances(0, 9);
 }
 
 /// The same on the 6 generated entrance boards.
 #[test]
-#[available_gas(l2_gas: 313193576)]
+#[available_gas(l2_gas: 313185691)]
 fn test_bfs_floods_entrances_generated() {
     check_floods_entrances(9, 15);
 }
@@ -351,7 +351,7 @@ fn test_bfs_floods_entrances_generated() {
 /// `Bfs::search` and `Bfs::distance` on identical endpoints (the early return), a seeded tile
 /// and every entrance of the 42 boards and of the 15 entrance boards.
 #[test]
-#[available_gas(l2_gas: 238676038)]
+#[available_gas(l2_gas: 238668027)]
 fn test_bfs_identical_endpoints() {
     let mut all = boards();
     for board in entrance_boards() {
@@ -417,7 +417,7 @@ fn check_paths_edges(first: u32, last: u32) {
 /// `Bfs::reachable`, `Bfs::tiles_within_range` from every open tile of `EDGES_7X7` and
 /// `EDGES_POCKET_7X7` (single-limb path).
 #[test]
-#[available_gas(l2_gas: 53882892)]
+#[available_gas(l2_gas: 53874902)]
 fn test_bfs_floods_edges_7x7() {
     check_floods_edges(0, 2);
 }
@@ -425,7 +425,7 @@ fn test_bfs_floods_edges_7x7() {
 /// `Bfs::reachable`, `Bfs::tiles_within_range` from every open tile of `EDGES_16X8` and
 /// `EDGES_POCKET_16X8` (single-limb path).
 #[test]
-#[available_gas(l2_gas: 55410222)]
+#[available_gas(l2_gas: 55402232)]
 fn test_bfs_floods_edges_16x8() {
     check_floods_edges(2, 4);
 }
@@ -433,7 +433,7 @@ fn test_bfs_floods_edges_16x8() {
 /// `Bfs::reachable`, `Bfs::tiles_within_range` from every open tile of `EDGES_8X16` and
 /// `EDGES_POCKET_8X16` (single-limb path).
 #[test]
-#[available_gas(l2_gas: 55576542)]
+#[available_gas(l2_gas: 55568552)]
 fn test_bfs_floods_edges_8x16() {
     check_floods_edges(4, 6);
 }
@@ -441,7 +441,7 @@ fn test_bfs_floods_edges_8x16() {
 /// `Bfs::reachable`, `Bfs::tiles_within_range` from every open tile of `EDGES_15X16` and
 /// `EDGES_POCKET_15X16` (two-limb path).
 #[test]
-#[available_gas(l2_gas: 65826645)]
+#[available_gas(l2_gas: 65818654)]
 fn test_bfs_floods_edges_15x16() {
     check_floods_edges(6, 8);
 }
@@ -449,7 +449,7 @@ fn test_bfs_floods_edges_15x16() {
 /// `Bfs::reachable`, `Bfs::tiles_within_range` from every open tile of `EDGES_17X14` and
 /// `EDGES_POCKET_17X14` (two-limb path).
 #[test]
-#[available_gas(l2_gas: 65738445)]
+#[available_gas(l2_gas: 65730454)]
 fn test_bfs_floods_edges_17x14() {
     check_floods_edges(8, 10);
 }
@@ -457,7 +457,7 @@ fn test_bfs_floods_edges_17x14() {
 /// `Bfs::reachable`, `Bfs::tiles_within_range` from every open tile of `EDGES_19X13` and
 /// `EDGES_POCKET_19X13` (two-limb path).
 #[test]
-#[available_gas(l2_gas: 65811525)]
+#[available_gas(l2_gas: 65803534)]
 fn test_bfs_floods_edges_19x13() {
     check_floods_edges(10, 12);
 }
@@ -465,7 +465,7 @@ fn test_bfs_floods_edges_19x13() {
 /// `Bfs::search`, `Bfs::distance` between every pair of open tiles of `EDGES_7X7` and
 /// `EDGES_POCKET_7X7` (single-limb path).
 #[test]
-#[available_gas(l2_gas: 183343724)]
+#[available_gas(l2_gas: 183335733)]
 fn test_bfs_paths_edges_7x7() {
     check_paths_edges(0, 2);
 }
@@ -473,7 +473,7 @@ fn test_bfs_paths_edges_7x7() {
 /// `Bfs::search`, `Bfs::distance` between every pair of open tiles of `EDGES_16X8` and
 /// `EDGES_POCKET_16X8` (single-limb path).
 #[test]
-#[available_gas(l2_gas: 185086050)]
+#[available_gas(l2_gas: 185078059)]
 fn test_bfs_paths_edges_16x8() {
     check_paths_edges(2, 4);
 }
@@ -481,7 +481,7 @@ fn test_bfs_paths_edges_16x8() {
 /// `Bfs::search`, `Bfs::distance` between every pair of open tiles of `EDGES_8X16` and
 /// `EDGES_POCKET_8X16` (single-limb path).
 #[test]
-#[available_gas(l2_gas: 185266482)]
+#[available_gas(l2_gas: 185258491)]
 fn test_bfs_paths_edges_8x16() {
     check_paths_edges(4, 6);
 }
@@ -489,7 +489,7 @@ fn test_bfs_paths_edges_8x16() {
 /// `Bfs::search`, `Bfs::distance` between every pair of open tiles of `EDGES_15X16` and
 /// `EDGES_POCKET_15X16` (two-limb path).
 #[test]
-#[available_gas(l2_gas: 195678000)]
+#[available_gas(l2_gas: 195670010)]
 fn test_bfs_paths_edges_15x16() {
     check_paths_edges(6, 8);
 }
@@ -497,7 +497,7 @@ fn test_bfs_paths_edges_15x16() {
 /// `Bfs::search`, `Bfs::distance` between every pair of open tiles of `EDGES_17X14` and
 /// `EDGES_POCKET_17X14` (two-limb path).
 #[test]
-#[available_gas(l2_gas: 195589800)]
+#[available_gas(l2_gas: 195581810)]
 fn test_bfs_paths_edges_17x14() {
     check_paths_edges(8, 10);
 }
@@ -505,7 +505,7 @@ fn test_bfs_paths_edges_17x14() {
 /// `Bfs::search`, `Bfs::distance` between every pair of open tiles of `EDGES_19X13` and
 /// `EDGES_POCKET_19X13` (two-limb path).
 #[test]
-#[available_gas(l2_gas: 195446958)]
+#[available_gas(l2_gas: 195438968)]
 fn test_bfs_paths_edges_19x13() {
     check_paths_edges(10, 12);
 }
@@ -513,168 +513,168 @@ fn test_bfs_paths_edges_19x13() {
 // Panics: one test per side, same input, same message.
 
 #[test]
-#[available_gas(l2_gas: 22043)]
+#[available_gas(l2_gas: 14053)]
 #[should_panic(expected: 'Bfs: position not walkable')]
 fn test_bfs_search_revert_from_wall_origami() {
     let _ = O::search(UNREACHABLE_7X7, 7, 7, 17, 40);
 }
 
 #[test]
-#[available_gas(l2_gas: 22043)]
+#[available_gas(l2_gas: 14053)]
 #[should_panic(expected: 'Bfs: position not walkable')]
 fn test_bfs_search_revert_from_wall_hexx() {
     let _ = H::search(UNREACHABLE_7X7, 7, 7, 17, 40);
 }
 
 #[test]
-#[available_gas(l2_gas: 24031)]
+#[available_gas(l2_gas: 16040)]
 #[should_panic(expected: 'Bfs: position not walkable')]
 fn test_bfs_search_revert_to_wall_origami() {
     let _ = O::search(UNREACHABLE_7X7, 7, 7, 8, 17);
 }
 
 #[test]
-#[available_gas(l2_gas: 24031)]
+#[available_gas(l2_gas: 16040)]
 #[should_panic(expected: 'Bfs: position not walkable')]
 fn test_bfs_search_revert_to_wall_hexx() {
     let _ = H::search(UNREACHABLE_7X7, 7, 7, 8, 17);
 }
 
 #[test]
-#[available_gas(l2_gas: 21518)]
+#[available_gas(l2_gas: 13528)]
 #[should_panic(expected: 'Bfs: position not walkable')]
 fn test_bfs_search_revert_edge_wall_origami() {
     let _ = O::search(UNREACHABLE_7X7, 7, 7, 0, 40);
 }
 
 #[test]
-#[available_gas(l2_gas: 21518)]
+#[available_gas(l2_gas: 13528)]
 #[should_panic(expected: 'Bfs: position not walkable')]
 fn test_bfs_search_revert_edge_wall_hexx() {
     let _ = H::search(UNREACHABLE_7X7, 7, 7, 0, 40);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: position not inside')]
 fn test_bfs_search_revert_outside_origami() {
     let _ = O::search(UNREACHABLE_7X7, 7, 7, 8, 49);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: position not inside')]
 fn test_bfs_search_revert_outside_hexx() {
     let _ = H::search(UNREACHABLE_7X7, 7, 7, 8, 49);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_bfs_search_revert_dimension_origami() {
     let _ = O::search(UNREACHABLE_7X7, 2, 7, 8, 9);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_bfs_search_revert_dimension_hexx() {
     let _ = H::search(UNREACHABLE_7X7, 2, 7, 8, 9);
 }
 
 #[test]
-#[available_gas(l2_gas: 21760)]
+#[available_gas(l2_gas: 13769)]
 #[should_panic(expected: 'Bfs: position not walkable')]
 fn test_bfs_distance_revert_wall_origami() {
     let _ = O::distance(UNREACHABLE_7X7, 7, 7, 17, 40);
 }
 
 #[test]
-#[available_gas(l2_gas: 21760)]
+#[available_gas(l2_gas: 13769)]
 #[should_panic(expected: 'Bfs: position not walkable')]
 fn test_bfs_distance_revert_wall_hexx() {
     let _ = H::distance(UNREACHABLE_7X7, 7, 7, 17, 40);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: position not inside')]
 fn test_bfs_distance_revert_outside_origami() {
     let _ = O::distance(UNREACHABLE_7X7, 7, 7, 49, 40);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: position not inside')]
 fn test_bfs_distance_revert_outside_hexx() {
     let _ = H::distance(UNREACHABLE_7X7, 7, 7, 49, 40);
 }
 
 #[test]
-#[available_gas(l2_gas: 61623)]
+#[available_gas(l2_gas: 53632)]
 #[should_panic(expected: 'Bfs: position not walkable')]
 fn test_bfs_reachable_revert_wall_origami() {
     let _ = O::reachable(UNREACHABLE_7X7, 7, 7, 17);
 }
 
 #[test]
-#[available_gas(l2_gas: 61623)]
+#[available_gas(l2_gas: 53632)]
 #[should_panic(expected: 'Bfs: position not walkable')]
 fn test_bfs_reachable_revert_wall_hexx() {
     let _ = H::reachable(UNREACHABLE_7X7, 7, 7, 17);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: position not inside')]
 fn test_bfs_reachable_revert_outside_origami() {
     let _ = O::reachable(UNREACHABLE_7X7, 7, 7, 49);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: position not inside')]
 fn test_bfs_reachable_revert_outside_hexx() {
     let _ = H::reachable(UNREACHABLE_7X7, 7, 7, 49);
 }
 
 #[test]
-#[available_gas(l2_gas: 63408)]
+#[available_gas(l2_gas: 55417)]
 #[should_panic(expected: 'Bfs: position not walkable')]
 fn test_bfs_tiles_within_range_revert_wall_origami() {
     let _ = O::tiles_within_range(UNREACHABLE_7X7, 7, 7, 17, 2);
 }
 
 #[test]
-#[available_gas(l2_gas: 63408)]
+#[available_gas(l2_gas: 55417)]
 #[should_panic(expected: 'Bfs: position not walkable')]
 fn test_bfs_tiles_within_range_revert_wall_hexx() {
     let _ = H::tiles_within_range(UNREACHABLE_7X7, 7, 7, 17, 2);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: position not inside')]
 fn test_bfs_tiles_within_range_revert_outside_origami() {
     let _ = O::tiles_within_range(UNREACHABLE_7X7, 7, 7, 49, 2);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: position not inside')]
 fn test_bfs_tiles_within_range_revert_outside_hexx() {
     let _ = H::tiles_within_range(UNREACHABLE_7X7, 7, 7, 49, 2);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_bfs_tiles_within_range_revert_dimension_origami() {
     let _ = O::tiles_within_range(UNREACHABLE_7X7, 7, 36, 8, 2);
 }
 
 #[test]
-#[available_gas(l2_gas: 16296)]
+#[available_gas(l2_gas: 8201)]
 #[should_panic(expected: 'Asserter: invalid dimension')]
 fn test_bfs_tiles_within_range_revert_dimension_hexx() {
     let _ = H::tiles_within_range(UNREACHABLE_7X7, 7, 36, 8, 2);
