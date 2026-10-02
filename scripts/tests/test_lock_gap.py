@@ -6,6 +6,7 @@ argument of `scarb`; a call like `scarb --release build` would run outside the l
 
 from __future__ import annotations
 
+import ast
 import os
 import re
 import subprocess
@@ -77,39 +78,82 @@ class FakeScarb(unittest.TestCase):
         self.assertEqual(captured["env"]["SCARB_PROFILE"], "release")
 
 
+def option_first_calls(source: str) -> list[int]:
+    """Lines of the Python `source` where a scarb argument list has an option right after "scarb".
+
+    A list literal, or a `+` of lists (`["scarb"] + ["--offline", "fmt"]`), whose first element is
+    the string "scarb" and whose second starts with "-"; also a string "scarb -...". The exact
+    `["scarb", "--version"]` is exempt: it builds nothing and takes no lock.
+    """
+
+    def flat(node: ast.AST) -> list[ast.AST]:
+        if isinstance(node, ast.List):
+            return list(node.elts)
+        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+            return flat(node.left) + flat(node.right)
+        return []
+
+    def text(node: ast.AST) -> str | None:
+        return node.value if isinstance(node, ast.Constant) and isinstance(node.value, str) else None
+
+    lines = []
+    for node in ast.walk(ast.parse(source)):
+        if isinstance(node, (ast.List, ast.BinOp)):
+            elts = flat(node)
+            if len(elts) >= 2 and text(elts[0]) == "scarb" and (text(elts[1]) or "").startswith("-"):
+                if [text(e) for e in elts] != ["scarb", "--version"]:
+                    lines.append(node.lineno)
+        elif text(node) is not None and re.match(r"scarb +-", text(node)):
+            lines.append(node.lineno)
+    return lines
+
+
 class NoOptionBeforeSubcommand(unittest.TestCase):
     """Every scarb call of the scripts and tools, Python or shell, keeps the subcommand first."""
 
-    # Any form: `["scarb", "-x"`, `"scarb -x ..."`, `scarb -x` in a shell line.
-    BAD = re.compile(r"""["']scarb["']\s*,\s*["']-|\bscarb +-""")
-    # The only calls allowed to carry an option first: `scarb --version` builds nothing and takes
-    # no lock; lock.sh's own refusal messages name the option it rewrites.
-    EXACT = '["scarb", "--version"]'
+    SHELL = re.compile(r"\bscarb +-")
+    # lock.sh's two refusal messages name the option it rewrites, verbatim.
+    LOCK_SH_REFUSALS = (
+        '  [ $# -ge 4 ] || refuse "scarb --manifest-path needs a path and a subcommand"',
+        """  case "$3" in -*) refuse "scarb --manifest-path needs a path, not '$3'" ;; esac""",
+    )
 
-    def files(self) -> list[Path]:
+    def files(self, suffix: str) -> list[Path]:
         root = SCRIPTS.parent
-        found = [p for p in SCRIPTS.glob("*") if p.suffix in (".py", ".sh")]
-        found += [p for p in (root / "tools").rglob("*") if p.suffix in (".py", ".sh")
-                  and "target" not in p.relative_to(root).parts]
+        found = [p for p in SCRIPTS.glob("*") if p.suffix == suffix]
+        found += [p for p in (root / "tools").rglob("*")
+                  if p.suffix == suffix and "target" not in p.relative_to(root).parts]
         return sorted(found)
 
-    def test_no_script_calls_scarb_with_an_option_first(self) -> None:
-        self.assertGreater(len(self.files()), 5)
-        for path in self.files():
+    def test_no_python_script_calls_scarb_with_an_option_first(self) -> None:
+        self.assertGreater(len(self.files(".py")), 3)
+        for path in self.files(".py"):
+            rel = path.relative_to(SCRIPTS.parent).as_posix()
+            self.assertEqual(option_first_calls(path.read_text()), [], rel)
+
+    def test_no_shell_script_calls_scarb_with_an_option_first(self) -> None:
+        self.assertGreater(len(self.files(".sh")), 2)
+        for path in self.files(".sh"):
             rel = path.relative_to(SCRIPTS.parent).as_posix()
             for n, line in enumerate(path.read_text().splitlines(), 1):
-                if line.lstrip().startswith("#") or self.EXACT in line:
+                if line.lstrip().startswith("#"):
                     continue
-                if rel == "scripts/lock.sh" and line.lstrip().startswith(("[ ", "case ")) and "refuse " in line:
+                if rel == "scripts/lock.sh" and line in self.LOCK_SH_REFUSALS:
                     continue
-                self.assertIsNone(self.BAD.search(line), f"{rel}:{n}: {line.strip()}")
+                self.assertIsNone(self.SHELL.search(line), f"{rel}:{n}: {line.strip()}")
 
     def test_the_guard_catches_the_forms(self) -> None:
-        for line in ('["scarb", "--release", "build"]', "scarb --offline fmt", '"scarb -q build"',
-                     "  scarb --manifest-path x build"):
-            self.assertIsNotNone(self.BAD.search(line), line)
-        for line in ('["scarb", "build"]', "scarb build --release", "scarb_dir -x"):
-            self.assertIsNone(self.BAD.search(line), line)
+        for src in ('x = ["scarb", "--release", "build"]', 'x = ["scarb"] + ["--offline", "fmt"]',
+                    'x = [\n    "scarb",\n    "--release",\n    "build",\n]',
+                    'x = ["scarb"] + ["-q"] + ["build"]', 'x = "scarb -q build"'):
+            self.assertNotEqual(option_first_calls(src), [], src)
+        for src in ('x = ["scarb", "build"]', 'x = ["scarb", "build"] + ["--release"]',
+                    'x = ["scarb", "--version"]', 'x = ["scarb"] + args', 'x = ["scarb_dir", "-x"]'):
+            self.assertEqual(option_first_calls(src), [], src)
+        for line in ("scarb --offline fmt", "  scarb --manifest-path x build"):
+            self.assertIsNotNone(self.SHELL.search(line), line)
+        for line in ("scarb build --release", "scarb_dir -x"):
+            self.assertIsNone(self.SHELL.search(line), line)
 
 
 if __name__ == "__main__":
