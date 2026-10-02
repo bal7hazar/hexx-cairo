@@ -10,19 +10,68 @@ move. Versions before `0.1.0` are pre-releases (`0.1.0-rc.N`); nothing is publis
 
 ## [Unreleased]
 
+## [0.1.0-rc.2] — unreleased
+
+The second release candidate of `hexx`, the first built on Scarb 2.20.1. It adds needs N-1, N-2
+and N-6 (`hexagon`, `hexagon_ring`), which `0.1.0-rc.1` lacked. Published only after the go of D-132 (`docs/RELEASING.md`).
+
+### Changed
+
+- Built with Scarb 2.20.1 and starknet-foundry 0.64.0 (Cairo 2.20.0; LIB-04f, D-180); gas
+  snapshots, budgets and class sizes are re-measured on the new toolchain (`docs/GAS.md`).
+  `0.1.0-rc.1` stays as published, built on Scarb 2.19.4.
+- Requires Cairo >= 2.20.0 (Scarb 2.20.1); consumers on 2.19.x cannot resolve this version.
+- Builds run the compiler on a single thread (`RAYON_NUM_THREADS=1`, LIB-04e, D-176). Gas, Sierra
+  felt counts and CASM are the compared figures; class hash: not compared until the build-root rule
+  (programme OPERATIONS).
+- Release check (`.github/workflows/release-check.yml`, no change to the package): its reports are
+  written outside the checkout and the tree is checked clean before `scarb package` (run
+  `36809681077` of `0.1.0-rc.1` had passed the full gate, then `scarb package` refused an
+  untracked report). Merged without a review: Codex unavailable (quota), by the project manager's
+  decision of 2026-10-01 under the standard's exception.
+- Tooling, no change to the package: a consumer check against the published `hexx` (N-9), CI
+  partitions and per-job gas reports, a pre-push hook (`scripts/prepush.sh`), and CI runs
+  cancelled only for a pull request's superseded runs.
+
 ### Fixed
 
-- `Caver::smooth` (and `HexMap::smooth`) ignores the bits of `grid` at or above `W * H` and clears them in the result, as its contract states; a stray bit used to be returned and, for some positions on 15 x 15, change in-board tiles (cost on `bench_map_smooth_15x15_order_1`: 94826 to 98842, +4.2 %).
+- `Caver::smooth` (and `HexMap::smooth`) ignores the bits of `grid` at or above `W * H` and clears
+  them in the result, as its contract states (#95, a fix of N-1): a stray bit used to be returned
+  and, for some positions on 15 x 15, change in-board tiles. Cost on
+  `bench_map_smooth_15x15_order_1`: 94826 to 98842 (+4.2 %). `smooth` is new in this candidate, so
+  no published result changes.
 
-Toolchain (LIB-04f, D-180): the next release candidate, `0.1.0-rc.2`, is built with Scarb 2.20.1 and
-starknet-foundry 0.64.0 (Cairo 2.20.0); `0.1.0-rc.1` stays as published, built on Scarb 2.19.4. Gas
-snapshots, budgets and class sizes are re-measured on the new toolchain (`docs/GAS.md`).
+### Parity
 
-Release check (`.github/workflows/release-check.yml`, no change to the package): its reports are
-written outside the checkout and the tree is checked clean before `scarb package` (run
-`36809681077` of `0.1.0-rc.1` had passed the full gate, then `scarb package` refused an untracked
-report). Codex review: none — Codex unavailable (quota), merged by the project manager's decision
-of 2026-10-01 under the standard's exception.
+Unchanged since `0.1.0-rc.1`: 67 items of `hexx` 0.25.0 ported and 2 renamed counterparts, 10.0 %
+of its 692 items (`python3 scripts/api_parity.py --check`, `docs/API_PARITY.md`); 316 items are
+`dropped`. N-1, N-2 and N-6 are extensions: they mirror nothing in `hexx`.
+
+### Extensions
+
+240 extension items listed in `docs/EXTENSIONS.md` (`python3 scripts/api_parity.py --extensions`),
+19 more than the 221 of `0.1.0-rc.1`. New functions, with their need:
+
+- **N-1** `HexMapTrait::new_cave_with_margins` (`generate_with_margins`) and `HexMapTrait::smooth`
+  (`generators/caver`): the cave automaton with frozen tiles; the ring of a chunk holds the tiles
+  copied from its neighbours and never evolves, `smooth` also holds chosen tiles; rows have the
+  global parity of the chunk, the four corners are wall.
+- **N-2** `SeamTrait::{side, openings, is_open_across}` for the seams between chunks
+  (`board/seams`), and `LayoutTrait::new_odd`, a layout whose rows have the odd global parity.
+- **N-6** `HexagonTrait::{hexagon, hexagon_ring}` (`board/hexagon`): the tiles within a radius of
+  a tile, and those at exactly that radius. `Layout::hexagon` and `HexMapTrait::new_hexagon` were
+  already in `0.1.0-rc.1`.
+
+### Deviations
+
+59 documented deviations (`python3 scripts/deviations.py --check`, `docs/DEVIATIONS.md`), the
+same as `0.1.0-rc.1`; the new items are extensions and add none.
+
+### Results changed
+
+None. Every function of `0.1.0-rc.1` returns the same result for the same input: the changes to
+files of `0.1.0-rc.1` are additions (N-1, N-2, N-6) and re-measured gas budgets on Cairo 2.20.0
+(lower or equal gas, no change of value). Gas figures differ from `0.1.0-rc.1`'s (`docs/GAS.md`).
 
 ## [0.1.0-rc.1] — 2026-10-01
 
