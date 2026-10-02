@@ -1218,6 +1218,101 @@ class CairoImplItemsAndConversionsOwner(FixtureTreeCase):
         self.assertIn(("Hex", "method", "b"), keys)
 
 
+class CairoModuleOwnersOfL_M2(FixtureTreeCase):
+    """M2-T0: the Cairo modules of L-M2 attribute every public declaration to their owner, so a
+    trait whose name minus `Trait` is not an owner (`HexRingsTrait`) and a free function (`hex`,
+    `shapes::*`) count for it."""
+
+    scan = CairoImplItemsAndConversionsOwner.scan
+
+    def scan_module(self, path: tuple[str, ...], text: str):
+        """The items of one module file `path` of a fixture tree that declares exactly it."""
+        files = {"/".join(path) + ".cairo": text}
+        parents = [path[:i] for i in range(1, len(path))]
+        root = "".join(f"pub mod {p[0]};\n" for p in parents[:1]) or f"pub mod {path[0]};\n"
+        for depth, parent in enumerate(parents):
+            files["/".join(parent) + ".cairo"] = f"pub mod {path[depth + 1]};\n"
+        return self.scan(files, root_text=root)
+
+    def test_every_l_m2_module_has_its_owner(self) -> None:
+        expected = {
+            ("hex",): "Hex", ("hex", "impls"): "Hex", ("hex", "rings"): "Hex",
+            ("hex", "swizzle"): "Hex", ("hex", "euclidean"): "Hex", ("hex", "convert"): "Hex",
+            ("hex", "iter"): "HexSpanExt", ("hex", "grid", "edge"): "GridEdge",
+            ("hex", "grid", "vertex"): "GridVertex", ("bounds",): "HexBounds",
+            ("shapes",): "shapes",
+        }
+        for path, owner in expected.items():
+            self.assertEqual(owner, ap.CAIRO_MODULE_OWNER[path], path)
+            self.assertIn(owner, ap.OWNERS)
+
+    def test_a_trait_of_hex_rings_counts_for_hex(self) -> None:
+        text = ("#[generate_trait]\npub impl HexRingsImpl of HexRingsTrait {\n"
+                "    fn ring_count(range: u32) -> u32 { range }\n}\n")
+        keys = {i.key for i in self.scan_module(("hex", "rings"), text)}
+        self.assertIn(("Hex", "trait", "HexRingsTrait"), keys)
+        self.assertIn(("Hex", "method", "ring_count"), keys)
+
+    def test_the_free_function_hex_counts_for_hex(self) -> None:
+        text = "pub fn hex(x: i32, y: i32) -> Hex {\n    Hex { x, y }\n}\n"
+        keys = {i.key for i in self.scan_module(("hex",), text)}
+        self.assertIn(("Hex", "method", "hex"), keys)
+
+    def test_hex_iter_counts_for_hex_span_ext(self) -> None:
+        text = ("#[generate_trait]\npub impl HexSpanExtImpl of HexSpanExtTrait {\n"
+                "    fn center(self: Span<Hex>) -> Hex { Hex {} }\n}\n")
+        keys = {i.key for i in self.scan_module(("hex", "iter"), text)}
+        self.assertIn(("HexSpanExt", "method", "center"), keys)
+
+    def test_grid_edge_and_vertex_count_for_their_owners(self) -> None:
+        text = ("#[generate_trait]\npub impl EdgeImpl of EdgeTrait {\n"
+                "    fn origin(self: GridEdge) -> Hex { Hex {} }\n}\n")
+        keys = {i.key for i in self.scan_module(("hex", "grid", "edge"), text)}
+        self.assertIn(("GridEdge", "method", "origin"), keys)
+        keys = {i.key for i in self.scan_module(("hex", "grid", "vertex"), text)}
+        self.assertIn(("GridVertex", "method", "origin"), keys)
+
+    def test_bounds_and_shapes_count_for_their_owners(self) -> None:
+        text = ("#[generate_trait]\npub impl BoundsImpl of BoundsTrait {\n"
+                "    fn center(self: HexBounds) -> Hex { Hex {} }\n}\n")
+        keys = {i.key for i in self.scan_module(("bounds",), text)}
+        self.assertIn(("HexBounds", "method", "center"), keys)
+        text = "pub fn hexagon(center: Hex, radius: u32) -> u32 {\n    radius\n}\n"
+        keys = {i.key for i in self.scan_module(("shapes",), text)}
+        self.assertIn(("shapes", "method", "hexagon"), keys)
+
+
+class RulesOfL_M2(unittest.TestCase):
+    """M2-T0: the three rows the generated table moves with a rule (plan §4.4)."""
+
+    def status(self, item: "ap.Item", cairo: list["ap.Item"] | None = None):
+        statuses, _ = ap.classify([item], cairo or [])
+        return statuses[item]
+
+    def test_hex_shl_is_dropped_like_the_other_shifts(self) -> None:
+        status, reason = self.status(ap.Item("Hex", "impl", "Shl", "src/hex/impls.rs"))
+        self.assertEqual("dropped", status)
+        self.assertIn("no shifts", reason)
+
+    def test_hex_shl_with_a_parameter_is_still_dropped_by_its_own_rule(self) -> None:
+        status, reason = self.status(ap.Item("Hex", "impl", "Shl<u8>", "src/hex/impls.rs"))
+        self.assertEqual("dropped", status)
+        self.assertIn("no shifts", reason)
+
+    def test_hex_lerp_is_dropped_for_its_f32_parameter(self) -> None:
+        status, reason = self.status(ap.Item("Hex", "method", "lerp", "src/hex/mod.rs"))
+        self.assertEqual("dropped", status)
+        self.assertIn("f32", reason)
+
+    def test_direction_way_partial_eq_is_renamed_once_contains_exists(self) -> None:
+        item = ap.Item("DirectionWay", "impl", "PartialEq<T>", "src/direction/way.rs")
+        self.assertEqual("missing", self.status(item)[0])
+        contains = ap.Item("DirectionWay", "method", "contains", "crates/hexx/src/direction/way.cairo")
+        status, reason = self.status(item, [contains])
+        self.assertEqual("renamed", status)
+        self.assertIn("nothing to add", reason)
+
+
 class RealTreeMirrorOfL_M1(unittest.TestCase):
     """The real `crates/hexx/src` against the committed inventory: after M1-T6 no item of the
     canonical L-M1 list is missing."""
