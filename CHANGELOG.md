@@ -39,15 +39,40 @@ and N-6, which `0.1.0-rc.1` lacked. Published only after the go of D-132 (`docs/
   written outside the checkout and the tree is checked clean before `scarb package` (run
   `36809681077` of `0.1.0-rc.1` had passed the full gate, then `scarb package` refused an
   untracked report).
+- Tooling, no change to the package: a consumer check against the published `hexx` (N-9), CI
+  partitions and per-job gas reports, a pre-push hook (`scripts/prepush.sh`), and CI runs
+  cancelled only for a pull request's superseded runs.
 
 ### Fixed
 
-- `smooth` masks its grid to the board (#TBD)
+- `Caver::smooth` (and `HexMap::smooth`) ignores the bits of `grid` at or above `W * H` and clears
+  them in the result, as its contract states (#95, a fix of N-1): a stray bit used to be returned
+  and, for some positions on 15 x 15, change in-board tiles. Cost on
+  `bench_map_smooth_15x15_order_1`: 94826 to 98842 (+4.2 %). `smooth` is new in this candidate, so
+  no published result changes.
 
-### Parity, Extensions, Deviations, Results changed
+### Parity
 
-To complete when the release PR is opened: the figures of `docs/API_PARITY.md`,
-`docs/EXTENSIONS.md` and `docs/DEVIATIONS.md` on the merge commit.
+Unchanged since `0.1.0-rc.1`: 67 items of `hexx` 0.25.0 ported and 2 renamed counterparts, 10.0 %
+of its 692 items (`python3 scripts/api_parity.py --check`, `docs/API_PARITY.md`); 316 items are
+`dropped`. N-1, N-2 and N-6 are extensions: they mirror nothing in `hexx`.
+
+### Extensions
+
+240 extension items listed in `docs/EXTENSIONS.md` (`python3 scripts/api_parity.py --extensions`),
+19 more than the 221 of `0.1.0-rc.1`: the needs N-1 (`board/caver`, `board/map`), N-2
+(`board/seams`, `board/layout`) and N-6 (`board/hexagon`), listed under Added.
+
+### Deviations
+
+59 documented deviations (`python3 scripts/deviations.py --check`, `docs/DEVIATIONS.md`), the
+same as `0.1.0-rc.1`; the new items are extensions and add none.
+
+### Results changed
+
+None. Every function of `0.1.0-rc.1` returns the same result for the same input: the changes to
+files of `0.1.0-rc.1` are additions (N-1, N-2, N-6) and re-measured gas budgets on Cairo 2.20.0
+(lower or equal gas, no change of value). Gas figures differ from `0.1.0-rc.1`'s (`docs/GAS.md`).
 
 ## [0.1.0-rc.1] — 2026-10-01
 

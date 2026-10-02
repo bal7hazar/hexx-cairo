@@ -194,14 +194,14 @@ pub impl Caver of CaverTrait {
     /// Run `order` generations of the automaton on an existing grid (plan §6.2, N-1): the ring
     /// and the tiles of `held` keep their value (D-28), each row has its global parity.
     /// # Arguments
-    /// * `grid` - The grid, without bits at or above `W * H`
+    /// * `grid` - The grid; the bits at or above `W * H` are ignored
     /// * `width` - The width of the map
     /// * `height` - The height of the map
     /// * `order` - The number of generations
     /// * `held` - The tiles that keep their value, any tiles; the ring is always held
     /// * `odd` - Whether local row 0 is a global odd row
     /// # Returns
-    /// * The grid after `order` generations
+    /// * The grid after `order` generations, without bits at or above `W * H`
     /// # Panics
     /// * `'Asserter: invalid dimension'` when `W < 3` or `H < 3`
     /// * `'Caver: dimensions too large'` when `W * (H + 1) + 1 > 251`
@@ -212,17 +212,20 @@ pub impl Caver of CaverTrait {
     ) -> felt252 {
         // [Check] Dimensions
         CaverAssert::assert_margins(width, height);
+        let margins = CaverInternal::margins(width, height, odd);
+        let board: u256 = margins.board.into();
         if order == 0 {
-            return grid;
+            return Bits::to_felt(Bits::and(grid.into(), board));
         }
         // [Compute] The free tiles: the interior minus the held tiles
-        let margins = CaverInternal::margins(width, height, odd);
         let interior: u256 = margins.interior.into();
         let held = Bits::and(held.into(), interior);
         let free = u256 { low: interior.low - held.low, high: interior.high - held.high };
-        // [Compute] Generations on the free tiles
-        let free_grid = Bits::and(grid.into(), free);
-        let frozen = grid - Bits::to_felt(free_grid);
+        // [Compute] Generations on the free tiles, the others stay as they are, on the board only
+        let grid: u256 = grid.into();
+        let free_grid = Bits::and(grid, free);
+        let kept = u256 { low: board.low - free.low, high: board.high - free.high };
+        let frozen = Bits::to_felt(Bits::and(grid, kept));
         CaverInternal::evolve_frozen(@margins, frozen, free, free_grid, order)
     }
 }
@@ -1553,6 +1556,63 @@ mod tests {
         for (width, height) in OTHERS.span() {
             Oracle::check_smooth(*width, *height, true, 2);
         }
+    }
+
+    /// `smooth` ignores the bits at or above `W * H`: a stray bit at each of 225..=251 gives the
+    /// result of the clean grid, and the result has no bit at or above `W * H`.
+    fn check_smooth_stray(odd: bool) {
+        let board = Bits::pow(225) - 1;
+        let clean = Bits::to_felt(Bits::and(PATTERN.into(), board.into()));
+        let held = R_N1_1;
+        let expected = Caver::smooth(clean, 15, 15, 3, held, odd);
+        assert!(Bits::to_felt(Bits::and(expected.into(), (board).into())) == expected);
+        let mut stray: u8 = 225;
+        while stray != 251 {
+            let dirty = clean + Bits::pow(stray);
+            assert!(Caver::smooth(dirty, 15, 15, 3, held, odd) == expected, "stray {}", stray);
+            stray += 1;
+        }
+        // 2^251 plus a grid with bits above 192 is not below the field prime: the clean grid
+        // of this last case stays under it
+        let low = Bits::to_felt(Bits::and(PATTERN.into(), (Bits::pow(192) - 1).into()));
+        let expected = Caver::smooth(low, 15, 15, 3, held, odd);
+        assert!(Caver::smooth(low + Bits::pow(251), 15, 15, 3, held, odd) == expected, "stray 251");
+        // Order 0 returns the masked grid
+        assert!(Caver::smooth(clean + Bits::pow(230), 15, 15, 0, held, odd) == clean);
+    }
+
+    /// Order 0 clears the bits at or above `W * H` as well.
+    fn check_smooth_stray_order_0(odd: bool) {
+        let clean = Bits::to_felt(Bits::and(PATTERN.into(), (Bits::pow(225) - 1).into()));
+        let mut stray: u8 = 225;
+        while stray != 251 {
+            assert!(Caver::smooth(clean + Bits::pow(stray), 15, 15, 0, R_N1_1, odd) == clean);
+            stray += 1;
+        }
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 546759)]
+    fn test_caver_smooth_stray_bits_order_0() {
+        check_smooth_stray_order_0(false);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 546759)]
+    fn test_caver_smooth_stray_bits_order_0_odd() {
+        check_smooth_stray_order_0(true);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 5100963)]
+    fn test_caver_smooth_stray_bits() {
+        check_smooth_stray(false);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 5094873)]
+    fn test_caver_smooth_stray_bits_odd() {
+        check_smooth_stray(true);
     }
 
     /// Beyond the generations of the game: 12 generations on 15 x 15, two seeds, both

@@ -47,7 +47,18 @@ over the whole stated domain before keeping any optimisation, and may replace it
 | Golden vectors from `hexx` 0.25.0 | `cd tools/refgen && cargo run -- gen <module>` / `-- check` |
 | Heavy commands (build, test) | Through the build lock, `scripts/lock.sh scarb build`, `scripts/lock.sh snforge test <filter>` (`COMMON.md` §3) |
 
-Toolchain versions live in `.tool-versions` only (Scarb 2.19.4, starknet-foundry 0.61.0).
+Toolchain versions live in `.tool-versions` only (Scarb 2.20.1, starknet-foundry 0.64.0).
+
+## Before you push
+
+| When | Run |
+|---|---|
+| Before every push (the hook `.githooks/pre-push` does it once `git config core.hooksPath .githooks` is set) | `scripts/prepush.sh`: format, the unit tests of the scripts, a build of the packages the push touches, and each generated-artefact check whose inputs changed. Aim: under two minutes. |
+| Before asking for a review of a change that touches measured code (gas, class size) or pins | `scripts/check.sh`, the full gate |
+
+Never push red and never skip the hook (`--no-verify`): a push that fails `scripts/prepush.sh` would
+have failed CI. The hook checks the working tree of the current branch, not the refs being pushed:
+commit your fix before pushing. It does not replace `scripts/check.sh` (every test, gas budgets and snapshots) or CI.
 
 ## Principles (the game's `docs/CAIRO.md`, in full at `grimworld:docs/CAIRO.md`; in short)
 

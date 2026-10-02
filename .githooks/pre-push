@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Runs scripts/prepush.sh before every push. Enable with `git config core.hooksPath .githooks`.
+# Never skip it (no --no-verify): a push that fails here would have failed CI.
+exec "$(git rev-parse --show-toplevel)/scripts/prepush.sh"

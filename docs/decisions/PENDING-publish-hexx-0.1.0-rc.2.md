@@ -19,8 +19,8 @@ Opened by the orchestrator of track LIB on 2026-10-02, under D-132 and
 The first release candidate built on Scarb 2.20.1 and starknet-foundry 0.64.0 (Cairo 2.20.0), and
 the needs that `0.1.0-rc.1` lacked: N-1 (`new_cave_with_margins`, `smooth`), N-2 (`Seam::{side,
 openings, is_open_across}`, `Layout::new_odd`) and N-6 (`hexagon`, `hexagon_ring`). See the
-[CHANGELOG](../../CHANGELOG.md) section `[0.1.0-rc.2]`. Parity, deviations, gas and the results
-changed are filled from the merge commit when the release PR is opened.
+[CHANGELOG](../../CHANGELOG.md) section `[0.1.0-rc.2]`. Parity (unchanged, 10.0 %), extensions (240), deviations
+(59) and the results changed (none) are in that section.
 
 ## Checks to pass before the go
 

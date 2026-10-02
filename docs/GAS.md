@@ -187,11 +187,11 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::line::tests::test_line_table_2` | 572,588,040 | 601,217,442 | 5.0 % |
 | `hexx::board::line::tests::test_line_table_3` | 473,243,550 | 496,905,728 | 5.0 % |
 | `hexx::board::map::tests::bench_map_new_cave_with_margins_15x15_order_3` | 184,691 | 193,926 | 5.0 % |
-| `hexx::board::map::tests::bench_map_smooth_15x15_order_1` | 94,826 | 99,568 | 5.0 % |
-| `hexx::board::map::tests::bench_map_smooth_15x15_order_255` | 10,172,530 | 10,681,157 | 5.0 % |
-| `hexx::board::map::tests::bench_map_smooth_15x15_order_3` | 174,178 | 182,887 | 5.0 % |
-| `hexx::board::map::tests::bench_map_smooth_15x15_order_3_twice` | 340,556 | 357,584 | 5.0 % |
-| `hexx::board::map::tests::bench_map_smooth_15x15_order_5` | 253,530 | 266,207 | 5.0 % |
+| `hexx::board::map::tests::bench_map_smooth_15x15_order_1` | 98,842 | 99,568 | 0.7 % |
+| `hexx::board::map::tests::bench_map_smooth_15x15_order_255` | 10,176,546 | 10,681,157 | 5.0 % |
+| `hexx::board::map::tests::bench_map_smooth_15x15_order_3` | 178,194 | 182,887 | 2.6 % |
+| `hexx::board::map::tests::bench_map_smooth_15x15_order_3_twice` | 348,588 | 357,584 | 2.6 % |
+| `hexx::board::map::tests::bench_map_smooth_15x15_order_5` | 257,546 | 266,207 | 3.4 % |
 | `hexx::board::map::tests::test_map_compute_distribution` | 377,884 | 396,779 | 5.0 % |
 | `hexx::board::map::tests::test_map_distance_to_walls_block` | 54,700 | 57,435 | 5.0 % |
 | `hexx::board::map::tests::test_map_distance_unreachable` | 499,740 | 524,727 | 5.0 % |
@@ -222,10 +222,10 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::map::tests::test_map_scenario_17x14` | 1,483,495 | 1,557,670 | 5.0 % |
 | `hexx::board::map::tests::test_map_scenario_7x7` | 463,848 | 487,041 | 5.0 % |
 | `hexx::board::map::tests::test_map_search_path_weighted_revert_costs` | 7,810 | 8,201 | 5.0 % |
-| `hexx::board::map::tests::test_map_smooth` | 995,302 | 1,045,068 | 5.0 % |
-| `hexx::board::map::tests::test_map_smooth_r_n1_1` | 87,766 | 92,155 | 5.0 % |
-| `hexx::board::map::tests::test_map_smooth_r_n1_3` | 89,676 | 94,160 | 5.0 % |
-| `hexx::board::map::tests::test_map_smooth_r_n1_6` | 79,696 | 83,681 | 5.0 % |
+| `hexx::board::map::tests::test_map_smooth` | 1,034,094 | 1,045,068 | 1.1 % |
+| `hexx::board::map::tests::test_map_smooth_r_n1_1` | 91,782 | 92,155 | 0.4 % |
+| `hexx::board::map::tests::test_map_smooth_r_n1_3` | 93,692 | 94,160 | 0.5 % |
+| `hexx::board::map::tests::test_map_smooth_r_n1_6` | 83,612 | 83,681 | 0.1 % |
 | `hexx::board::map::tests::test_map_smooth_revert_too_large` | 7,810 | 8,201 | 5.0 % |
 | `hexx::board::printer::tests::test_printer_render_shifts_even_rows` | 802,800 | 842,940 | 5.0 % |
 | `hexx::board::printer::tests::test_printer_render_with_path` | 813,125 | 853,782 | 5.0 % |
@@ -342,7 +342,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::generators::caver::tests::test_caver_margins_masks` | 32,681,170 | 34,315,229 | 5.0 % |
 | `hexx::generators::caver::tests::test_caver_margins_oracle_15x15` | 874,263,394 | 917,976,564 | 5.0 % |
 | `hexx::generators::caver::tests::test_caver_margins_oracle_15x15_odd` | 874,201,794 | 917,911,884 | 5.0 % |
-| `hexx::generators::caver::tests::test_caver_margins_oracle_deep` | 294,546,468 | 309,273,792 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_margins_oracle_deep` | 294,562,532 | 309,273,792 | 5.0 % |
 | `hexx::generators::caver::tests::test_caver_margins_oracle_others` | 445,610,410 | 467,890,931 | 5.0 % |
 | `hexx::generators::caver::tests::test_caver_margins_oracle_others_odd` | 445,590,850 | 467,870,393 | 5.0 % |
 | `hexx::generators::caver::tests::test_caver_margins_oracle_small` | 392,459,526 | 412,082,503 | 5.0 % |
@@ -357,21 +357,25 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::generators::caver::tests::test_caver_planes_15x15_odd` | 605,093,792 | 635,348,482 | 5.0 % |
 | `hexx::generators::caver::tests::test_caver_planes_7x7` | 252,255,894 | 264,868,689 | 5.0 % |
 | `hexx::generators::caver::tests::test_caver_planes_others` | 374,423,848 | 393,145,041 | 5.0 % |
-| `hexx::generators::caver::tests::test_caver_r_n1_1_west_plane` | 88,176 | 92,585 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_r_n1_1_west_plane` | 92,092 | 92,585 | 0.5 % |
 | `hexx::generators::caver::tests::test_caver_r_n1_2_odd_parity` | 142,904 | 150,050 | 5.0 % |
-| `hexx::generators::caver::tests::test_caver_r_n1_3_no_carry` | 153,351 | 161,019 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_r_n1_3_no_carry` | 157,367 | 161,019 | 2.3 % |
 | `hexx::generators::caver::tests::test_caver_r_n1_4_equals_generate` | 19,079,722 | 20,033,709 | 5.0 % |
 | `hexx::generators::caver::tests::test_caver_r_n1_5_revert_too_large` | 7,810 | 8,201 | 5.0 % |
-| `hexx::generators::caver::tests::test_caver_r_n1_6_ring_source` | 156,088 | 163,893 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_r_n1_6_ring_source` | 160,004 | 163,893 | 2.4 % |
 | `hexx::generators::caver::tests::test_caver_r_n1_7_equals_generate_order_255` | 77,191,330 | 81,050,897 | 5.0 % |
-| `hexx::generators::caver::tests::test_caver_smooth_oracle_15x15` | 787,982,746 | 827,381,884 | 5.0 % |
-| `hexx::generators::caver::tests::test_caver_smooth_oracle_15x15_odd` | 787,954,946 | 827,352,694 | 5.0 % |
-| `hexx::generators::caver::tests::test_caver_smooth_oracle_others` | 491,913,382 | 516,509,052 | 5.0 % |
-| `hexx::generators::caver::tests::test_caver_smooth_oracle_others_odd` | 491,880,422 | 516,474,444 | 5.0 % |
-| `hexx::generators::caver::tests::test_caver_smooth_oracle_small` | 345,745,524 | 363,032,801 | 5.0 % |
-| `hexx::generators::caver::tests::test_caver_smooth_oracle_small_odd` | 345,595,924 | 362,875,721 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_smooth_oracle_15x15` | 789,973,584 | 827,381,884 | 4.7 % |
+| `hexx::generators::caver::tests::test_caver_smooth_oracle_15x15_odd` | 789,939,084 | 827,352,694 | 4.7 % |
+| `hexx::generators::caver::tests::test_caver_smooth_oracle_others` | 493,042,302 | 516,509,052 | 4.8 % |
+| `hexx::generators::caver::tests::test_caver_smooth_oracle_others_odd` | 493,005,342 | 516,474,444 | 4.8 % |
+| `hexx::generators::caver::tests::test_caver_smooth_oracle_small` | 352,228,176 | 363,032,801 | 3.1 % |
+| `hexx::generators::caver::tests::test_caver_smooth_oracle_small_odd` | 352,051,776 | 362,875,721 | 3.1 % |
 | `hexx::generators::caver::tests::test_caver_smooth_revert_too_large` | 7,810 | 8,201 | 5.0 % |
 | `hexx::generators::caver::tests::test_caver_smooth_revert_too_low` | 7,810 | 8,201 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_smooth_stray_bits` | 4,858,060 | 5,100,963 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_smooth_stray_bits_odd` | 4,852,260 | 5,094,873 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_smooth_stray_bits_order_0` | 520,722 | 546,759 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_smooth_stray_bits_order_0_odd` | 520,722 | 546,759 | 5.0 % |
 | `hexx::generators::digger::tests::test_digger_corridor` | 674,486 | 708,211 | 5.0 % |
 | `hexx::generators::digger::tests::test_digger_corridor_open_neighbour` | 707,766 | 743,155 | 5.0 % |
 | `hexx::generators::digger::tests::test_digger_corridor_order_1` | 699,693 | 734,678 | 5.0 % |
@@ -2004,14 +2008,14 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 7,810 | 8,201 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 7,810 | 8,201 | 5.0 % |
 
-1997 measured test(s).
+2001 measured test(s).
 
 ## Figures accepted above their range
 
 Written by the orchestrator, never generated. A measurement above the upper bound of its range in
 §7 of the plan is accepted here with its reason, and in §14 of the plan for the audits. The project
 manager's rule (2026-09-30, D-144's logic): an accepted figure that moves the library's share of a
-worst tick (1,064,209 cave, 1,106,666 serpentine: `gas/hexx.snap` minus the baseline 30,250 of `bench_tick`, the last figures of M1-T9b) or of a reveal by more than 10 % goes to
+worst tick (1,064,309 cave, 1,106,766 serpentine on Scarb 2.20.1 / starknet-foundry 0.64.0: `gas/hexx.snap` minus the baseline 22,420 of `bench_tick`; 1,064,209 and 1,106,666 on Scarb 2.19.4 / 0.61.0, baseline 30,250, the last figures of M1-T9b) or of a reveal by more than 10 % goes to
 the project manager before the merge; under that, the orchestrator decides.
 
 | Function | Measured | Range of §7 | Task | Reason |
@@ -2035,3 +2039,24 @@ the project manager before the merge; under that, the orchestrator decides.
 | `SeamTrait::side` | 3,840 | [3,032, 3,790] | M1-T7 | The sketch leaves out the `NonZero` conversion, two products and the `match` on `Side`; not on the tick |
 | `HexagonTrait::hexagon`, loop path, 16 rows | 128,670 | [72,064, 90,080] | M1-T5 | About 5,840 per row against the sketch's 4,504; the tick reads the sight on the table path (16,430) |
 | `HexagonTrait::hexagon`, loop path, 83 rows | 519,840 | [373,832, 467,290] | M1-T5 | idem; the domain-wide worst case (3 × 83, radius 255) |
+
+### Figures on Scarb 2.20.1 and starknet-foundry 0.64.0 (LIB-04f, #86)
+
+Read from `gas/hexx.snap` and `gas/takeover_tests.snap` on `main` at `1527ac2`; nothing was
+re-measured and no gas pin was written. Every figure above is a marginal one (`twice − once` of a
+benchmark's method) and **none changed**: each equals its value on 2.19.4 / 0.61.0, e.g.
+`bench_geometry_chunk_of_twice − _once` is 3,020 before and after. Absolute figures of small tests
+fell by up to about 50 %, because the snforge 0.64 harness charges about 7.5–7.8k less per test
+(`bench_geometry_chunk_of_once` 20,260 → 12,430, `bench_tick_baseline` 30,250 → 22,420); the marginal
+costs of the code are unchanged.
+
+| Figure | Before (2.19.4) | After (2.20.1) |
+|---|---:|---:|
+| `bench_tick_baseline` | 30,250 | 22,420 |
+| `bench_tick_cave` | 1,094,459 | 1,086,729 |
+| `bench_tick_serpentine` | 1,136,916 | 1,129,186 |
+| Library share of the worst tick, cave (`bench_tick_cave` − baseline) | 1,064,209 | 1,064,309 |
+| Library share of the worst tick, serpentine | 1,106,666 | 1,106,766 |
+
+The two shares rose by 100 (under 0.01 %): the baseline fell by 7,830 and each tick by 7,730. That
+is not "equal or lower"; it is far below the 10 % rule above and is recorded here as measured.
