@@ -78,32 +78,46 @@ class FakeScarb(unittest.TestCase):
         self.assertEqual(captured["env"]["SCARB_PROFILE"], "release")
 
 
+# The label of bench.py's `scarb --version` row names that exempt call in words, verbatim.
+VERSION_LABEL = "scarb (cairo and sierra of `scarb --version`)"
+
+
 def option_first_calls(source: str) -> list[int]:
-    """Lines of the Python `source` where a scarb argument list has an option right after "scarb".
+    """Lines of the Python `source` where a scarb argument list may have an option after "scarb".
 
-    A list literal, or a `+` of lists (`["scarb"] + ["--offline", "fmt"]`), whose first element is
-    the string "scarb" and whose second starts with "-"; also a string "scarb -...". The exact
-    `["scarb", "--version"]` is exempt: it builds nothing and takes no lock.
+    A list or tuple literal, or a `+` of them (`["scarb"] + ["--offline", "fmt"]`), whose first
+    element is the string "scarb" and whose second starts with "-"; also a string containing
+    `scarb -...` (`"cd x && scarb --release build"`). A `scarb` list whose second element is not
+    a literal string (a name, a starred item, a `+` with a non-literal operand) cannot be
+    checked and is flagged too. The exact `["scarb", "--version"]` is exempt: it builds nothing
+    and takes no lock.
     """
+    unknown = object()  # an operand or item that is not a literal list element
 
-    def flat(node: ast.AST) -> list[ast.AST]:
-        if isinstance(node, ast.List):
-            return list(node.elts)
+    def flat(node: ast.AST) -> list:
+        if isinstance(node, (ast.List, ast.Tuple)):
+            return [e if not isinstance(e, ast.Starred) else unknown for e in node.elts]
         if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
-            return flat(node.left) + flat(node.right)
-        return []
+            left = flat(node.left)
+            return left if unknown in left else left + flat(node.right)
+        return [unknown]
 
-    def text(node: ast.AST) -> str | None:
+    def text(node) -> str | None:
         return node.value if isinstance(node, ast.Constant) and isinstance(node.value, str) else None
 
     lines = []
     for node in ast.walk(ast.parse(source)):
-        if isinstance(node, (ast.List, ast.BinOp)):
+        if isinstance(node, (ast.List, ast.Tuple, ast.BinOp)):
             elts = flat(node)
-            if len(elts) >= 2 and text(elts[0]) == "scarb" and (text(elts[1]) or "").startswith("-"):
+            if text(elts[0] if elts else None) != "scarb":
+                continue
+            if len(elts) == 1 and isinstance(node, (ast.List, ast.Tuple)):
+                continue  # `["scarb"]` alone; what follows is judged on the enclosing `+`
+            second = text(elts[1]) if len(elts) > 1 else None
+            if second is None or second.startswith("-"):
                 if [text(e) for e in elts] != ["scarb", "--version"]:
                     lines.append(node.lineno)
-        elif text(node) is not None and re.match(r"scarb +-", text(node)):
+        elif text(node) not in (None, VERSION_LABEL) and re.search(r"\bscarb +-", text(node)):
             lines.append(node.lineno)
     return lines
 
@@ -145,10 +159,14 @@ class NoOptionBeforeSubcommand(unittest.TestCase):
     def test_the_guard_catches_the_forms(self) -> None:
         for src in ('x = ["scarb", "--release", "build"]', 'x = ["scarb"] + ["--offline", "fmt"]',
                     'x = [\n    "scarb",\n    "--release",\n    "build",\n]',
-                    'x = ["scarb"] + ["-q"] + ["build"]', 'x = "scarb -q build"'):
+                    'x = ["scarb"] + ["-q"] + ["build"]', 'x = "scarb -q build"',
+                    'run("cd x && scarb --release build", shell=True)', 'x = ("scarb", "--release", "build")',
+                    'x = ["scarb"] + opts + ["build"]', 'x = ["scarb", *opts, "build"]',
+                    'x = ["scarb", opts[0], "build"]', 'x = ["scarb"] + args'):
             self.assertNotEqual(option_first_calls(src), [], src)
         for src in ('x = ["scarb", "build"]', 'x = ["scarb", "build"] + ["--release"]',
-                    'x = ["scarb", "--version"]', 'x = ["scarb"] + args', 'x = ["scarb_dir", "-x"]'):
+                    'x = ["scarb", "--version"]', 'x = ["scarb_dir", "-x"]', 'x = ("scarb", "build")',
+                    'x = ["scarb", "build"] + opts', 'run("scarb build --release", shell=True)'):
             self.assertEqual(option_first_calls(src), [], src)
         for line in ("scarb --offline fmt", "  scarb --manifest-path x build"):
             self.assertIsNotNone(self.SHELL.search(line), line)
