@@ -186,6 +186,12 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::line::tests::test_line_table_1` | 572,569,560 | 601,198,038 | 5.0 % |
 | `hexx::board::line::tests::test_line_table_2` | 572,595,750 | 601,225,538 | 5.0 % |
 | `hexx::board::line::tests::test_line_table_3` | 473,251,260 | 496,913,823 | 5.0 % |
+| `hexx::board::map::tests::bench_map_new_cave_with_margins_15x15_order_3` | 192,321 | 201,938 | 5.0 % |
+| `hexx::board::map::tests::bench_map_smooth_15x15_order_1` | 102,556 | 107,684 | 5.0 % |
+| `hexx::board::map::tests::bench_map_smooth_15x15_order_255` | 10,180,260 | 10,689,273 | 5.0 % |
+| `hexx::board::map::tests::bench_map_smooth_15x15_order_3` | 181,908 | 191,004 | 5.0 % |
+| `hexx::board::map::tests::bench_map_smooth_15x15_order_3_twice` | 348,286 | 365,701 | 5.0 % |
+| `hexx::board::map::tests::bench_map_smooth_15x15_order_5` | 261,260 | 274,323 | 5.0 % |
 | `hexx::board::map::tests::test_map_compute_distribution` | 385,514 | 404,790 | 5.0 % |
 | `hexx::board::map::tests::test_map_distance_to_walls_block` | 62,430 | 65,552 | 5.0 % |
 | `hexx::board::map::tests::test_map_distance_unreachable` | 507,470 | 532,844 | 5.0 % |
@@ -199,6 +205,8 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::map::tests::test_map_neighbor` | 13,720 | 14,406 | 5.0 % |
 | `hexx::board::map::tests::test_map_neighbor_outside` | 49,370 | 51,839 | 5.0 % |
 | `hexx::board::map::tests::test_map_new` | 13,720 | 14,406 | 5.0 % |
+| `hexx::board::map::tests::test_map_new_cave_with_margins` | 927,423 | 973,795 | 5.0 % |
+| `hexx::board::map::tests::test_map_new_cave_with_margins_revert_too_large` | 15,520 | 16,296 | 5.0 % |
 | `hexx::board::map::tests::test_map_new_empty` | 26,630 | 27,962 | 5.0 % |
 | `hexx::board::map::tests::test_map_new_empty_revert_invalid_dimension` | 15,520 | 16,296 | 5.0 % |
 | `hexx::board::map::tests::test_map_new_generators` | 10,542,940 | 11,070,087 | 5.0 % |
@@ -214,6 +222,11 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::map::tests::test_map_scenario_17x14` | 1,491,125 | 1,565,682 | 5.0 % |
 | `hexx::board::map::tests::test_map_scenario_7x7` | 471,478 | 495,052 | 5.0 % |
 | `hexx::board::map::tests::test_map_search_path_weighted_revert_costs` | 15,520 | 16,296 | 5.0 % |
+| `hexx::board::map::tests::test_map_smooth` | 1,003,032 | 1,053,184 | 5.0 % |
+| `hexx::board::map::tests::test_map_smooth_r_n1_1` | 95,496 | 100,271 | 5.0 % |
+| `hexx::board::map::tests::test_map_smooth_r_n1_3` | 97,406 | 102,277 | 5.0 % |
+| `hexx::board::map::tests::test_map_smooth_r_n1_6` | 87,426 | 91,798 | 5.0 % |
+| `hexx::board::map::tests::test_map_smooth_revert_too_large` | 15,520 | 16,296 | 5.0 % |
 | `hexx::board::printer::tests::test_printer_render_shifts_even_rows` | 810,530 | 851,057 | 5.0 % |
 | `hexx::board::printer::tests::test_printer_render_with_path` | 820,855 | 861,898 | 5.0 % |
 | `hexx::board::rng::tests::test_rng_deterministic` | 922,916 | 969,062 | 5.0 % |
@@ -297,6 +310,12 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::finders::dial::tests::test_dial_search_revert_too_many_costs` | 15,520 | 16,296 | 5.0 % |
 | `hexx::finders::dial::tests::test_dial_search_trivial` | 230,365 | 241,884 | 5.0 % |
 | `hexx::finders::dial::tests::test_dial_search_unit` | 5,654,295 | 5,937,010 | 5.0 % |
+| `hexx::generators::caver::tests::bench_caver_generate_with_margins_15x15_order_0` | 53,339 | 56,006 | 5.0 % |
+| `hexx::generators::caver::tests::bench_caver_generate_with_margins_15x15_order_1` | 113,869 | 119,563 | 5.0 % |
+| `hexx::generators::caver::tests::bench_caver_generate_with_margins_15x15_order_255` | 10,191,573 | 10,701,152 | 5.0 % |
+| `hexx::generators::caver::tests::bench_caver_generate_with_margins_15x15_order_3` | 193,221 | 202,883 | 5.0 % |
+| `hexx::generators::caver::tests::bench_caver_generate_with_margins_15x15_order_3_twice` | 370,422 | 388,944 | 5.0 % |
+| `hexx::generators::caver::tests::bench_caver_generate_with_margins_15x15_order_5` | 272,573 | 286,202 | 5.0 % |
 | `hexx::generators::caver::tests::test_caver_generate_17x14` | 143,737 | 150,924 | 5.0 % |
 | `hexx::generators::caver::tests::test_caver_generate_19x13` | 143,837 | 151,029 | 5.0 % |
 | `hexx::generators::caver::tests::test_caver_generate_3x3` | 6,923,122 | 7,269,279 | 5.0 % |
@@ -317,6 +336,42 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::generators::caver::tests::test_caver_keep_component_revert_wall` | 42,035 | 44,137 | 5.0 % |
 | `hexx::generators::caver::tests::test_caver_keep_component_single` | 115,740 | 121,527 | 5.0 % |
 | `hexx::generators::caver::tests::test_caver_keep_component_split` | 565,472 | 593,746 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_layout_new_odd_expand` | 50,031,040 | 52,532,592 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_margins_d134_corners` | 16,878,780 | 17,722,719 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_margins_equals_generate` | 39,995,330 | 41,995,097 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_margins_masks` | 32,688,880 | 34,323,324 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_margins_oracle_15x15` | 874,270,904 | 917,984,450 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_margins_oracle_15x15_odd` | 874,209,304 | 917,919,770 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_margins_oracle_deep` | 294,554,098 | 309,281,803 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_margins_oracle_others` | 445,617,920 | 467,898,816 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_margins_oracle_others_odd` | 445,598,360 | 467,878,278 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_margins_oracle_small` | 392,467,036 | 412,090,388 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_margins_oracle_small_odd` | 392,279,336 | 411,893,303 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_margins_revert_25x10` | 15,520 | 16,296 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_margins_revert_too_narrow` | 15,520 | 16,296 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_margins_revert_u8_overflow` | 15,520 | 16,296 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_margins_stream` | 116,688,364 | 122,522,783 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_oracle_neighbor` | 93,544,220 | 98,221,431 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_oracle_reference` | 232,452,816 | 244,075,457 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_planes_15x15` | 605,101,402 | 635,356,473 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_planes_15x15_odd` | 605,101,302 | 635,356,368 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_planes_7x7` | 252,263,404 | 264,876,575 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_planes_others` | 374,431,358 | 393,152,926 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_r_n1_1_west_plane` | 95,906 | 100,702 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_r_n1_2_odd_parity` | 150,514 | 158,040 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_r_n1_3_no_carry` | 161,081 | 169,136 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_r_n1_4_equals_generate` | 19,087,232 | 20,041,594 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_r_n1_5_revert_too_large` | 15,520 | 16,296 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_r_n1_6_ring_source` | 163,818 | 172,009 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_r_n1_7_equals_generate_order_255` | 77,198,840 | 81,058,782 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_smooth_oracle_15x15` | 787,990,256 | 827,389,769 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_smooth_oracle_15x15_odd` | 787,962,456 | 827,360,579 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_smooth_oracle_others` | 491,920,892 | 516,516,937 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_smooth_oracle_others_odd` | 491,887,932 | 516,482,329 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_smooth_oracle_small` | 345,753,034 | 363,040,686 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_smooth_oracle_small_odd` | 345,603,434 | 362,883,606 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_smooth_revert_too_large` | 15,520 | 16,296 | 5.0 % |
+| `hexx::generators::caver::tests::test_caver_smooth_revert_too_low` | 15,520 | 16,296 | 5.0 % |
 | `hexx::generators::digger::tests::test_digger_corridor` | 682,116 | 716,222 | 5.0 % |
 | `hexx::generators::digger::tests::test_digger_corridor_open_neighbour` | 715,396 | 751,166 | 5.0 % |
 | `hexx::generators::digger::tests::test_digger_corridor_order_1` | 707,323 | 742,690 | 5.0 % |
@@ -1949,7 +2004,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 15,520 | 16,296 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 15,520 | 16,296 | 5.0 % |
 
-1942 measured test(s).
+1997 measured test(s).
 
 ## Figures accepted above their range
 
