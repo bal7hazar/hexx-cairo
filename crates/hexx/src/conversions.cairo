@@ -230,7 +230,7 @@ mod tests {
     /// The deviation of `to_hexmod_coordinates`: from `range = 26_755` the area exceeds
     /// `i32::MAX`; `hexx` wraps it with `as i32`, this port panics.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_to_hexmod_coordinates_area_beyond_i32() {
         let _ = HexTrait::new(0, 0).to_hexmod_coordinates(26_755);
@@ -238,7 +238,7 @@ mod tests {
 
     /// The largest radius whose area fits `i32` converts.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 6311)]
     fn test_to_hexmod_coordinates_largest_area() {
         assert!(HexTrait::new(0, 0).to_hexmod_coordinates(26_754) == 0);
     }
@@ -246,7 +246,7 @@ mod tests {
     /// The deviation of `from_hexmod_coordinates`: a `coord` above `i32::MAX` wraps in `hexx` and
     /// panics here.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_from_hexmod_coordinates_coord_beyond_i32() {
         let _ = HexConversionsTrait::from_hexmod_coordinates(0x8000_0000, 1);
@@ -255,7 +255,7 @@ mod tests {
     /// The round trips of `hexx`'s own tests (`src/conversions.rs`, `doubled_coordinates`,
     /// `hexmod_coordinates`), on every hex of radius 6.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 7346304)]
     fn test_conversions_round_trips() {
         let mut x: i32 = -6;
         while x <= 6 {
@@ -291,7 +291,7 @@ mod tests {
     const REPS: u8 = 100;
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 366482)]
     fn bench_hexmod_baseline() {
         let (mut acc_i, mut acc_u): (i32, u32) = (0, 0);
         let mut n = REPS;
@@ -306,7 +306,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 1139870)]
     fn bench_to_hexmod_coordinates() {
         let (mut acc_i, mut acc_u): (i32, u32) = (0, 0);
         let mut n = REPS;
@@ -320,7 +320,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 1601408)]
     fn bench_from_hexmod_coordinates() {
         let (mut acc_i, mut acc_u): (i32, u32) = (0, 0);
         let mut n = REPS;

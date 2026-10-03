@@ -13,8 +13,24 @@ panic_cap = 2     # #[should_panic] tests per function and (mode, orientation) n
 hexmod_max = 6    # L-M2: the hexmod conversions at every radius 1..=6
 
 # budgets: ceil(1.05 * measured)
-
-# budgets: ceil(1.05 * measured)
+gas.golden_conversions_bounds_from_doubled = 33727229
+gas.golden_conversions_bounds_from_doubled_panics_0 = 7991
+gas.golden_conversions_bounds_from_doubled_panics_1 = 7991
+gas.golden_conversions_bounds_from_hexmod = 291984
+gas.golden_conversions_bounds_from_hexmod_panics_0 = 7991
+gas.golden_conversions_bounds_from_hexmod_panics_1 = 7991
+gas.golden_conversions_bounds_to_doubled = 7998249
+gas.golden_conversions_bounds_to_doubled_panics_0 = 7991
+gas.golden_conversions_bounds_to_doubled_panics_1 = 7991
+gas.golden_conversions_bounds_to_hexmod = 3792275
+gas.golden_conversions_bounds_to_hexmod_panics_0 = 7991
+gas.golden_conversions_bounds_to_hexmod_panics_1 = 7991
+gas.golden_conversions_every_from_hexmod = 107449220
+gas.golden_conversions_seeded_from_doubled = 18078029
+gas.golden_conversions_seeded_to_doubled = 18100698
+gas.golden_conversions_seeded_to_hexmod = 130309778
+gas.golden_doubled_default = 6311
+gas.golden_hexmod_round_trip = 14297945
 gas.golden_offset_bounds_from_even_flat = 9809237
 gas.golden_offset_bounds_from_even_pointy = 9809237
 gas.golden_offset_bounds_from_odd_flat = 9820902

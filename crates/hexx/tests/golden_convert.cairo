@@ -13,7 +13,7 @@ use hexx::hex::{Hex, HexTrait};
 
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3859086)]
 fn golden_convert_unary_as_u64() {
     let cases: Array<(i32, i32, u64)> = array![
         (37, 2, 158913789954), (-11, 0, 18446744026464911360), (10, 29, 42949672989),
@@ -49,7 +49,7 @@ fn golden_convert_unary_as_u64() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3648068)]
 fn golden_convert_unary_from_tuple() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (37, 2, 37, 2), (-11, 0, -11, 0), (10, 29, 10, 29), (36, -20, 36, -20), (4, 14, 4, 14),
@@ -78,7 +78,7 @@ fn golden_convert_unary_from_tuple() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3648068)]
 fn golden_convert_unary_from_array() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (37, 2, 37, 2), (-11, 0, -11, 0), (10, 29, 10, 29), (36, -20, 36, -20), (4, 14, 4, 14),
@@ -107,7 +107,7 @@ fn golden_convert_unary_from_array() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 11657730)]
 fn golden_convert_bounds_as_u64() {
     let cases: Array<(i32, i32, u64)> = array![
         (-2147483648, -2147483648, 9223372039002259456),
@@ -205,7 +205,7 @@ fn golden_convert_bounds_as_u64() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12686016)]
 fn golden_convert_bounds_from_tuple() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483648, -2147483648, -2147483648, -2147483648),
@@ -303,7 +303,7 @@ fn golden_convert_bounds_from_tuple() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12686016)]
 fn golden_convert_bounds_from_array() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483648, -2147483648, -2147483648, -2147483648),
@@ -401,7 +401,7 @@ fn golden_convert_bounds_from_array() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 42773682)]
 fn golden_convert_values_from_u64() {
     let cases: Array<(u64, i32, i32)> = array![
         (0, 0, 0), (1, 0, 1), (7, 0, 7), (1073741823, 0, 1073741823), (1073741824, 0, 1073741824),

@@ -7,7 +7,19 @@ seed = "euclidean::points"
 points = 64
 domain_min = -40
 domain_max = 40
-chunks = 4        # the 64 x 64 ordered pairs, in this many tests
+chunks = 16       # the 64 x 64 ordered pairs, in this many tests
 panic_cap = 4     # #[should_panic] tests per function near the bounds (partial sums included)
 
 # budgets: ceil(1.05 * measured)
+gas.golden_euclidean_bounds_squared_euclidean_distance_to = 11981865
+gas.golden_euclidean_bounds_squared_euclidean_distance_to_panics_0 = 7991
+gas.golden_euclidean_bounds_squared_euclidean_distance_to_panics_1 = 7991
+gas.golden_euclidean_bounds_squared_euclidean_distance_to_panics_2 = 7991
+gas.golden_euclidean_bounds_squared_euclidean_distance_to_panics_3 = 7991
+gas.golden_euclidean_bounds_squared_euclidean_length = 153111
+gas.golden_euclidean_bounds_squared_euclidean_length_panics_0 = 7991
+gas.golden_euclidean_bounds_squared_euclidean_length_panics_1 = 7991
+gas.golden_euclidean_bounds_squared_euclidean_length_panics_2 = 7991
+gas.golden_euclidean_bounds_squared_euclidean_length_panics_3 = 7991
+gas.golden_euclidean_partial_sum_panics = 7991
+gas.golden_euclidean_unary_squared_euclidean_length = 3019643

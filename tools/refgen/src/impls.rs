@@ -424,6 +424,9 @@ pub const BOUND_PAIR_POINTS: [(i32, i32); 15] = [
     (0, 0),
 ];
 
+/// The components of the divisors near the bounds: the extremes, the halves and `±1`.
+const DIVISORS: [i32; 6] = [i32::MIN, -1_073_741_824, -1, 1, 1_073_741_824, i32::MAX];
+
 /// A binary operator of `Hex` by `Hex`: its name, `hexx`'s result, the Cairo checks of a row.
 struct BinaryOp {
     name: &'static str,
@@ -850,12 +853,11 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
         .iter()
         .flat_map(|&a| BOUND_PAIR_POINTS.iter().map(move |&b| (a, b)))
         .collect();
-    // `Div` and `Rem`: the divisors of `BOUND_VALUES²` without a zero component (`-1` among them:
-    // `i32::MIN / -1` overflows).
+    // `Div` and `Rem`: the divisors of `DIVISORS²` (`-1` among them: `i32::MIN / -1` overflows).
     let nonzero: Vec<_> = BOUND_PAIR_POINTS
         .iter()
         .flat_map(|&a| {
-            crate::cairo::bound_points().into_iter().filter(|b| b.0 != 0 && b.1 != 0).map(move |b| (a, b))
+            DIVISORS.iter().flat_map(|&x| DIVISORS.iter().map(move |&y| (x, y))).map(move |b| (a, b))
         })
         .collect();
     binary_tables(&mut e, "bounds", &bound_pairs, &all[..3], panic_cap)?;
@@ -907,7 +909,10 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
             return Err(format!("div_scalar deviates on the small domain: ({x}, {y}) / {k}"));
         }
     }
-    tables(&mut e, "small", &small_pairs, &DIV_SCALAR, None)?;
+    let parts = spec.int("small_chunks")? as usize;
+    for (n, part) in small_pairs.chunks(small_pairs.len().div_ceil(parts)).enumerate() {
+        tables(&mut e, &format!("small_{n}"), part, &DIV_SCALAR, None)?;
+    }
     regressions(&mut e, &ties(&full.agree))?;
     let bound_div: Vec<((i32, i32), i32)> = bounds
         .iter()

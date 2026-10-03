@@ -468,7 +468,7 @@ mod tests {
 
     /// Scope 2's regression cases, by the rule itself: `ZERO` for `ZERO`, `rhs > L`, `rhs = ±1`.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 6311)]
     fn test_div_scalar_regressions() {
         let zero = HexTrait::ZERO;
         assert!(zero.div_scalar(1) == zero && zero.div_scalar(-1) == zero);
@@ -483,7 +483,7 @@ mod tests {
 
     /// `rhs = 0` panics, as `hexx`'s integer division `L / 0` does.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_div_scalar_zero() {
         let _ = HexTrait::new(0, 0).div_scalar(0);
@@ -493,7 +493,7 @@ mod tests {
     /// of `[-6, 6] \ {0}`, each cubic component of the result is within one tile of the point
     /// `self·n / L`, and `rhs = 1` is the identity (the oracle: plain cubic arithmetic).
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 141040862)]
     fn test_div_scalar_oracle() {
         let mut x: i32 = -6;
         while x <= 6 {
@@ -533,7 +533,7 @@ mod tests {
 
     /// The operators agree with their named forms and with each other.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 186291)]
     fn test_operators() {
         let a = HexTrait::new(7, -3);
         let b = HexTrait::new(-2, 5);
@@ -573,7 +573,7 @@ mod tests {
     /// The loop, the accumulator and the two operands `(-n - 1, -n - 1)` and `(n + 1, n + 1)`
     /// (no zero component: the divisor of `Div` and `Rem`).
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 643230)]
     fn bench_hex_ops_baseline_operands() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -587,7 +587,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 798063)]
     fn bench_hex_ops_add() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -601,7 +601,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 798063)]
     fn bench_hex_ops_sub() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -615,7 +615,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 798063)]
     fn bench_hex_ops_mul() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -629,7 +629,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 1542345)]
     fn bench_hex_ops_div() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -643,7 +643,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 1542345)]
     fn bench_hex_ops_rem() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -657,7 +657,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 818853)]
     fn bench_hex_ops_add_scalar() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -671,7 +671,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 818853)]
     fn bench_hex_ops_sub_scalar() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -685,7 +685,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 910088)]
     fn bench_hex_ops_add_direction() {
         let directions = EdgeDirectionTrait::ALL_DIRECTIONS.span();
         let mut acc: i32 = 0;
@@ -700,7 +700,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 910088)]
     fn bench_hex_ops_sub_direction() {
         let directions = EdgeDirectionTrait::ALL_DIRECTIONS.span();
         let mut acc: i32 = 0;
@@ -715,7 +715,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 910088)]
     fn bench_hex_ops_add_diagonal() {
         let directions = VertexDirectionTrait::ALL_DIRECTIONS.span();
         let mut acc: i32 = 0;
@@ -730,7 +730,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 910088)]
     fn bench_hex_ops_sub_diagonal() {
         let directions = VertexDirectionTrait::ALL_DIRECTIONS.span();
         let mut acc: i32 = 0;
@@ -747,7 +747,7 @@ mod tests {
     /// The loop, the accumulator, a direction of each type, and the operand of the direction
     /// forms.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 677933)]
     fn bench_hex_ops_baseline_direction() {
         let directions = EdgeDirectionTrait::ALL_DIRECTIONS.span();
         let mut acc: i32 = 0;
@@ -764,7 +764,7 @@ mod tests {
     /// The loop, the accumulator and the operand of `div_scalar`: `(40, -20 - z)` by `3`, a
     /// hexround tie on `y` (the point `(13, -6.5)`), `z = n / 128 = 0`.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 497648)]
     fn bench_hex_ops_baseline_scalar() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -778,7 +778,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 4983195)]
     fn bench_hex_ops_div_scalar() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -792,7 +792,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 5301282)]
     fn bench_hex_ops_rem_scalar() {
         let mut acc: i32 = 0;
         let mut n = REPS;

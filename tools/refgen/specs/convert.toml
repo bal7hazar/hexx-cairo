@@ -12,3 +12,10 @@ seed_u64 = "convert::values"
 values = 64
 
 # budgets: ceil(1.05 * measured)
+gas.golden_convert_bounds_as_u64 = 11657730
+gas.golden_convert_bounds_from_array = 12686016
+gas.golden_convert_bounds_from_tuple = 12686016
+gas.golden_convert_unary_as_u64 = 3859086
+gas.golden_convert_unary_from_array = 3648068
+gas.golden_convert_unary_from_tuple = 3648068
+gas.golden_convert_values_from_u64 = 42773682

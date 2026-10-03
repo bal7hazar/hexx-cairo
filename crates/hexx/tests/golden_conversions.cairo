@@ -1038,14 +1038,14 @@ fn golden_offset_from_odd_flat_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6311)]
 fn golden_doubled_default() {
     let mode: DoubledHexMode = Default::default();
     assert(mode == DoubledHexMode::DoubledWidth, 'default');
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 18100698)]
 fn golden_conversions_seeded_to_doubled() {
     let cases: Array<(i32, i32, u8, i32, i32)> = array![
         (16, 4, 0, 36, 4), (16, 4, 1, 16, 24), (-3, -7, 0, -13, -7), (-3, -7, 1, -3, -17),
@@ -1097,7 +1097,7 @@ fn golden_conversions_seeded_to_doubled() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 18078029)]
 fn golden_conversions_seeded_from_doubled() {
     let cases: Array<(i32, i32, u8, i32, i32)> = array![
         (33, -35, 0, 34, -35), (33, -35, 1, 33, -34), (1, 14, 0, -6, 14), (1, 14, 1, 1, 6),
@@ -1150,7 +1150,7 @@ fn golden_conversions_seeded_from_doubled() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7998249)]
 fn golden_conversions_bounds_to_doubled() {
     let cases: Array<(i32, i32, u8, i32, i32)> = array![
         (-2147483648, 0, 1, -2147483648, -2147483648),
@@ -1220,7 +1220,7 @@ fn golden_conversions_bounds_to_doubled() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_conversions_bounds_to_doubled_panics_0() {
     let (x, y, m): (i32, i32, u8) = (-2147483648, -2147483648, 0);
@@ -1234,7 +1234,7 @@ fn golden_conversions_bounds_to_doubled_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_conversions_bounds_to_doubled_panics_1() {
     let (x, y, m): (i32, i32, u8) = (2147483647, 2147483647, 1);
@@ -1248,7 +1248,7 @@ fn golden_conversions_bounds_to_doubled_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 33727229)]
 fn golden_conversions_bounds_from_doubled() {
     let cases: Array<(i32, i32, u8, i32, i32)> = array![
         (-2147483648, -2147483648, 0, 0, -2147483648),
@@ -1378,7 +1378,7 @@ fn golden_conversions_bounds_from_doubled() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_conversions_bounds_from_doubled_panics_0() {
     let (col, row, m): (i32, i32, u8) = (-2147483648, 0, 1);
@@ -1392,7 +1392,7 @@ fn golden_conversions_bounds_from_doubled_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_conversions_bounds_from_doubled_panics_1() {
     let (col, row, m): (i32, i32, u8) = (2147483647, -1, 0);
@@ -1406,7 +1406,7 @@ fn golden_conversions_bounds_from_doubled_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 107449220)]
 fn golden_conversions_every_from_hexmod() {
     let cases: Array<(u32, u32, i32, i32)> = array![
         (0, 1, 0, 0), (1, 1, 0, 1), (2, 1, -1, 0), (3, 1, -1, 1), (4, 1, 1, -1), (5, 1, 1, 0),
@@ -1486,7 +1486,7 @@ fn golden_conversions_every_from_hexmod() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 14297945)]
 fn golden_hexmod_round_trip() {
     let mut r: u32 = 1;
     while r <= 6 {
@@ -1501,7 +1501,7 @@ fn golden_hexmod_round_trip() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 130309778)]
 fn golden_conversions_seeded_to_hexmod() {
     let cases: Array<(i32, i32, u32, u32)> = array![
         (16, 4, 1, 0), (16, 4, 2, 18), (16, 4, 3, 32), (16, 4, 4, 45), (16, 4, 5, 3),
@@ -1592,7 +1592,7 @@ fn golden_conversions_seeded_to_hexmod() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3792275)]
 fn golden_conversions_bounds_to_hexmod() {
     let cases: Array<(i32, i32, u32, u32)> = array![
         (-1, -1073741825, 1, 0), (-1, -1073741825, 6, 102), (-1, -1073741824, 1, 1),
@@ -1622,7 +1622,7 @@ fn golden_conversions_bounds_to_hexmod() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_conversions_bounds_to_hexmod_panics_0() {
     let (x, y, r): (i32, i32, u32) = (-2147483648, -2147483648, 1);
@@ -1631,7 +1631,7 @@ fn golden_conversions_bounds_to_hexmod_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_conversions_bounds_to_hexmod_panics_1() {
     let (x, y, r): (i32, i32, u32) = (2147483647, 2147483647, 6);
@@ -1640,7 +1640,7 @@ fn golden_conversions_bounds_to_hexmod_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 291984)]
 fn golden_conversions_bounds_from_hexmod() {
     let cases: Array<(u32, u32, i32, i32)> = array![
         (0, 1, 0, 0), (0, 6, 0, 0), (1, 1, 0, 1), (1, 6, 0, 1),
@@ -1658,7 +1658,7 @@ fn golden_conversions_bounds_from_hexmod() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_conversions_bounds_from_hexmod_panics_0() {
     let (c, r): (u32, u32) = (2147483645, 6);
@@ -1667,7 +1667,7 @@ fn golden_conversions_bounds_from_hexmod_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_conversions_bounds_from_hexmod_panics_1() {
     let (c, r): (u32, u32) = (2147483647, 6);

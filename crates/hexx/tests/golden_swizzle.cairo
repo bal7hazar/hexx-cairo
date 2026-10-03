@@ -13,7 +13,7 @@ use hexx::hex::swizzle::HexSwizzleTrait;
 
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3628223)]
 fn golden_swizzle_unary_xx() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-21, -26, -21, -21), (-30, -37, -30, -30), (-39, -36, -39, -39), (-13, -12, -13, -13),
@@ -42,7 +42,7 @@ fn golden_swizzle_unary_xx() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3628223)]
 fn golden_swizzle_unary_yy() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-21, -26, -26, -26), (-30, -37, -37, -37), (-39, -36, -36, -36), (-13, -12, -12, -12),
@@ -71,7 +71,7 @@ fn golden_swizzle_unary_yy() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3703634)]
 fn golden_swizzle_unary_zz() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-21, -26, 47, 47), (-30, -37, 67, 67), (-39, -36, 75, 75), (-13, -12, 25, 25),
@@ -100,7 +100,7 @@ fn golden_swizzle_unary_zz() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3621608)]
 fn golden_swizzle_unary_yx() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-21, -26, -26, -21), (-30, -37, -37, -30), (-39, -36, -36, -39), (-13, -12, -12, -13),
@@ -129,7 +129,7 @@ fn golden_swizzle_unary_yx() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3703634)]
 fn golden_swizzle_unary_yz() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-21, -26, -26, 47), (-30, -37, -37, 67), (-39, -36, -36, 75), (-13, -12, -12, 25),
@@ -158,7 +158,7 @@ fn golden_swizzle_unary_yz() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3703634)]
 fn golden_swizzle_unary_xz() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-21, -26, -21, 47), (-30, -37, -30, 67), (-39, -36, -39, 75), (-13, -12, -13, 25),
@@ -188,7 +188,7 @@ fn golden_swizzle_unary_xz() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3703634)]
 fn golden_swizzle_unary_zx() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-21, -26, 47, -21), (-30, -37, 67, -30), (-39, -36, 75, -39), (-13, -12, 25, -13),
@@ -218,7 +218,7 @@ fn golden_swizzle_unary_zx() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3703634)]
 fn golden_swizzle_unary_zy() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-21, -26, 47, -26), (-30, -37, 67, -37), (-39, -36, 75, -36), (-13, -12, 25, -12),
@@ -247,7 +247,7 @@ fn golden_swizzle_unary_zy() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6017939)]
 fn golden_swizzle_bounds_zz() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483647, 0, 2147483647, 2147483647), (-2147483647, 1, 2147483646, 2147483646),
@@ -305,7 +305,7 @@ fn golden_swizzle_bounds_zz() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_swizzle_bounds_zz_panics_0() {
     let (x, y): (i32, i32) = (-2147483648, -2147483648);
@@ -314,7 +314,7 @@ fn golden_swizzle_bounds_zz_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_swizzle_bounds_zz_panics_1() {
     let (x, y): (i32, i32) = (2147483647, 2147483647);
@@ -323,7 +323,7 @@ fn golden_swizzle_bounds_zz_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6017939)]
 fn golden_swizzle_bounds_yz() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483647, 0, 0, 2147483647), (-2147483647, 1, 1, 2147483646),
@@ -381,7 +381,7 @@ fn golden_swizzle_bounds_yz() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_swizzle_bounds_yz_panics_0() {
     let (x, y): (i32, i32) = (-2147483648, -2147483648);
@@ -390,7 +390,7 @@ fn golden_swizzle_bounds_yz_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_swizzle_bounds_yz_panics_1() {
     let (x, y): (i32, i32) = (2147483647, 2147483647);
@@ -399,7 +399,7 @@ fn golden_swizzle_bounds_yz_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6017939)]
 fn golden_swizzle_bounds_xz() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483647, 0, -2147483647, 2147483647), (-2147483647, 1, -2147483647, 2147483646),
@@ -460,7 +460,7 @@ fn golden_swizzle_bounds_xz() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_swizzle_bounds_xz_panics_0() {
     let (x, y): (i32, i32) = (-2147483648, -2147483648);
@@ -469,7 +469,7 @@ fn golden_swizzle_bounds_xz_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_swizzle_bounds_xz_panics_1() {
     let (x, y): (i32, i32) = (2147483647, 2147483647);
@@ -478,7 +478,7 @@ fn golden_swizzle_bounds_xz_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6017939)]
 fn golden_swizzle_bounds_zx() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483647, 0, 2147483647, -2147483647), (-2147483647, 1, 2147483646, -2147483647),
@@ -539,7 +539,7 @@ fn golden_swizzle_bounds_zx() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_swizzle_bounds_zx_panics_0() {
     let (x, y): (i32, i32) = (-2147483648, -2147483648);
@@ -548,7 +548,7 @@ fn golden_swizzle_bounds_zx_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_swizzle_bounds_zx_panics_1() {
     let (x, y): (i32, i32) = (2147483647, 2147483647);
@@ -557,7 +557,7 @@ fn golden_swizzle_bounds_zx_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6017939)]
 fn golden_swizzle_bounds_zy() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483647, 0, 2147483647, 0), (-2147483647, 1, 2147483646, 1),
@@ -615,7 +615,7 @@ fn golden_swizzle_bounds_zy() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_swizzle_bounds_zy_panics_0() {
     let (x, y): (i32, i32) = (-2147483648, -2147483648);
@@ -624,7 +624,7 @@ fn golden_swizzle_bounds_zy_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_swizzle_bounds_zy_panics_1() {
     let (x, y): (i32, i32) = (2147483647, 2147483647);
@@ -633,7 +633,7 @@ fn golden_swizzle_bounds_zy_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12698616)]
 fn golden_swizzle_bounds_xx() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483648, -2147483648, -2147483648, -2147483648),
@@ -732,7 +732,7 @@ fn golden_swizzle_bounds_xx() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12698616)]
 fn golden_swizzle_bounds_yy() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483648, -2147483648, -2147483648, -2147483648),
@@ -832,7 +832,7 @@ fn golden_swizzle_bounds_yy() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12686016)]
 fn golden_swizzle_bounds_yx() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483648, -2147483648, -2147483648, -2147483648),

@@ -129,7 +129,7 @@ mod tests {
     /// The example of `hexx`'s documentation (`src/hex/convert.rs:68-74`, `:90-97`), and the
     /// conversions from a pair.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 6311)]
     fn test_convert_examples() {
         assert!(HexConvertTrait::from_u64(0x000000AA_FFFFFF45) == HexTrait::new(0xAA, -0xBB));
         assert!(HexTrait::new(0xAA, -0xBB).as_u64() == 0x000000AA_FFFFFF45);
@@ -150,7 +150,7 @@ mod tests {
     const REPS: u8 = 100;
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 657731)]
     fn bench_hex_convert_baseline() {
         let mut acc: u64 = 0;
         let mut n = REPS;
@@ -164,7 +164,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 1393697)]
     fn bench_hex_as_u64() {
         let mut acc: u64 = 0;
         let mut n = REPS;
@@ -178,7 +178,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 1149414)]
     fn bench_hex_from_u64() {
         let mut acc: u64 = 0;
         let mut n = REPS;

@@ -60,7 +60,7 @@ mod tests {
     /// The partial sum `x² + y²` leaves `i32` although the total would not: `hexx` panics there
     /// in a debug build, and so does this port.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_squared_euclidean_length_partial_sum() {
         let _ = HexTrait::new(40000, -40000).squared_euclidean_length();
@@ -69,7 +69,7 @@ mod tests {
     /// The oracle: the six neighbours are at squared distance 1, the six diagonals at 3, and the
     /// distance is symmetric.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 136931)]
     fn test_squared_euclidean_oracle() {
         let a = HexTrait::new(5, -7);
         let neighbors = a.all_neighbors().span();
@@ -95,7 +95,7 @@ mod tests {
     const REPS: u8 = 100;
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 643335)]
     fn bench_hex_euclidean_baseline() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -109,7 +109,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 1028832)]
     fn bench_hex_squared_euclidean_length() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -123,7 +123,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 1182678)]
     fn bench_hex_squared_euclidean_distance_to() {
         let mut acc: i32 = 0;
         let mut n = REPS;
