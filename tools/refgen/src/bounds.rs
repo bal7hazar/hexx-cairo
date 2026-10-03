@@ -24,13 +24,26 @@ use crate::impls::{cases_array, exact, hx};
 use crate::iter::{hexx_bounds, span_sets};
 use crate::spec::Spec;
 
-/// `let name: Array<ty> = array![...];` of scalars, one per line.
+/// `let name: Array<ty> = array![...];` of scalars, as `scarb fmt` prints it: on one line when it
+/// fits in 100 columns, else packed, as many per line as fit.
 pub fn scalar_array(name: &str, ty: &str, values: &[String]) -> String {
-    let mut out = format!("    let {name}: Array<{ty}> = array![\n");
-    for value in values {
-        out.push_str(&format!("        {value},\n"));
+    let one = format!("    let {name}: Array<{ty}> = array![{}];\n", values.join(", "));
+    if one.len() <= 101 {
+        return one;
     }
-    out.push_str("    ];\n");
+    let mut out = format!("    let {name}: Array<{ty}> = array![\n");
+    let mut line = String::new();
+    for value in values {
+        if !line.is_empty() && line.len() + 1 + value.len() + 1 > 100 - 8 {
+            out.push_str(&format!("        {line}\n"));
+            line.clear();
+        }
+        if !line.is_empty() {
+            line.push(' ');
+        }
+        line.push_str(&format!("{value},"));
+    }
+    out.push_str(&format!("        {line}\n    ];\n"));
     out
 }
 
@@ -157,7 +170,9 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
         let (x, y, r) = *cases.at(i);
         let bounds = HexBoundsTrait::new(HexTrait::new(x, y), r);
         assert(bounds.center == HexTrait::new(x, y) && bounds.radius == r, 'new');
-        assert(HexBoundsTrait::from_radius(r) == HexBoundsTrait::new(HexTrait::ZERO, r), 'from_radius');
+        assert(
+            HexBoundsTrait::from_radius(r) == HexBoundsTrait::new(HexTrait::ZERO, r), 'from_radius',
+        );
         i += 1;
     }}
 ",

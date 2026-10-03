@@ -111,8 +111,8 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
     let body = format!(
         "{}{}{}{}",
         crate::bounds::scalar_array("lens", "u32", &lens),
-        cases_array("(i32, i32)", &flat).replacen("let cases", "let points", 1),
-        cases_array("(i32, i32, u32, i32, i32)", &rows).replacen("let cases", "let expected", 1),
+        cases_array("i32, i32", &flat).replacen("let cases", "let points", 1),
+        cases_array("i32, i32, u32, i32, i32", &rows).replacen("let cases", "let expected", 1),
         "    let mut k = 0;
     let mut i = 0;
     while i < lens.len() {
