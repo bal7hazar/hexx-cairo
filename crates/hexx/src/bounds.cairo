@@ -846,7 +846,20 @@ mod tests {
         let mut n = REPS;
         while n != 0 {
             n -= 1;
-            acc += bounds.hex_count() + bounds.hex_count32();
+            acc += bounds.hex_count();
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 20000000)]
+    fn bench_bounds_hex_count32() {
+        let bounds = HexBoundsTrait::from_radius(64);
+        let mut acc: u32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            acc += bounds.hex_count32();
         }
         assert!(acc != 1);
     }
