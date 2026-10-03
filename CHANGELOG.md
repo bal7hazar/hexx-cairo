@@ -10,7 +10,47 @@ move. Versions before `0.1.0` are pre-releases (`0.1.0-rc.N`); nothing is publis
 
 ## [Unreleased]
 
+## [0.2.0] — unreleased (dated at publication)
+
+The second published line of `hexx`: milestone L-M2, the mirror of `hexx` 0.25.0 beyond what
+L-M1 needed (`Hex`, the directions, the conversions, rings, bounds, shapes and the grid edges and
+vertices). Additive: nothing of `0.1.0-rc.2` changes. A stable version: published only after the
+owner's go (D-132 as narrowed, `docs/RELEASING.md`).
+
+### Parity
+
+342 items of `hexx` 0.25.0 ported and 19 renamed counterparts, 52.2 % of its 692 items
+(`python3 scripts/api_parity.py --check`, `docs/API_PARITY.md`), against 67 and 2, 10.0 %, in
+`0.1.0-rc.2`; 322 items are `dropped`, each with its reason in the table. 9 items are `missing`,
+all of L-M3 (`hexx_glam` interop, the algorithms: `python3 scripts/api_parity.py --check-release
+L-M2` passes). Added, by module:
+
+- `hex`: the rest of `HexTrait` (M2-T2), the operators, swizzles, euclidean and convert items
+  (M2-T3), the rings and wedges (`hex/rings`, M2-T4) and the grid edges and vertices
+  (`hex/grid/{edge,vertex}`, M2-T7: `GridEdge`, `GridVertex`).
+- `direction`: `EdgeDirection`, `VertexDirection`, `DirectionWay` with their impls and rotations
+  (M2-T1).
+- `conversions`: the conversions of `hex` to and from offset, doubled, hexmod and axial
+  coordinates (M2-T3).
+- `bounds`: `HexBounds` and its iterator (`hex/iter`, M2-T5).
+- `shapes`: the shape generators (M2-T6).
+
+**Not ported, deferred:** `impl Sum`, `impl Sum<Hex>`, `impl Product`, `impl Product<Hex>` of
+`Hex` (M2-T3, #107; `PLAN.md`, *Deferred*). They are recorded `dropped` in the parity table:
+corelib's `core::iter::Sum` and `Product` need the experimental feature
+`associated_item_constraints` in the published manifest. Reversible when the feature is stabilised
+or enabled by decision.
+
+### Extensions
+
+240 extension items listed in `docs/EXTENSIONS.md` (`python3 scripts/api_parity.py --extensions`),
+the same as `0.1.0-rc.2`. The extra items of L-M2 (counterparts without a `hexx` item, 48 in
+`docs/API_PARITY.md`) are listed per module there.
+
 ### Deviations
+
+319 documented deviations (`python3 scripts/deviations.py --check`, `docs/DEVIATIONS.md`), 260
+more than the 59 of `0.1.0-rc.2`: see that file for the new rows. Two are of consumer interest:
 
 - `DirectionWay::map` takes a closure (`Fn`, the bound of corelib's `Option::map`: a `Tie` calls it
   twice). **A closure in a library function puts a closure type into every consumer class that
@@ -22,6 +62,10 @@ move. Versions before `0.1.0` are pre-releases (`0.1.0-rc.N`); nothing is publis
   `hexx::direction::impls`; `const_neg` needs nothing. `map` spells its bound
   `impl Func: Fn<F, (T,)>` with `Func::Output`: the constraint form `Fn<F, (T,)>[Output: U]` needs an
   experimental feature in the consumer's manifest.
+
+### Results changed
+
+None. L-M2 adds items and changes no result of `0.1.0-rc.2`.
 
 ## [0.1.0-rc.2] — 2026-10-03
 

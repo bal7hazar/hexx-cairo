@@ -3,14 +3,14 @@ version = 1
 
 [[package]]
 name = "consumer"
-version = "0.1.0-rc.2"
+version = "0.2.0"
 dependencies = [
  "hexx",
 ]
 
 [[package]]
 name = "golden_bounds"
-version = "0.1.0-rc.2"
+version = "0.2.0"
 dependencies = [
  "hexx",
  "snforge_std",
@@ -18,7 +18,7 @@ dependencies = [
 
 [[package]]
 name = "golden_grid"
-version = "0.1.0-rc.2"
+version = "0.2.0"
 dependencies = [
  "hexx",
  "snforge_std",
@@ -26,7 +26,7 @@ dependencies = [
 
 [[package]]
 name = "golden_hex"
-version = "0.1.0-rc.2"
+version = "0.2.0"
 dependencies = [
  "hexx",
  "snforge_std",
@@ -34,7 +34,7 @@ dependencies = [
 
 [[package]]
 name = "golden_hex_t2"
-version = "0.1.0-rc.2"
+version = "0.2.0"
 dependencies = [
  "hexx",
  "snforge_std",
@@ -42,7 +42,7 @@ dependencies = [
 
 [[package]]
 name = "golden_impls"
-version = "0.1.0-rc.2"
+version = "0.2.0"
 dependencies = [
  "hexx",
  "snforge_std",
@@ -50,7 +50,7 @@ dependencies = [
 
 [[package]]
 name = "golden_lm1"
-version = "0.1.0-rc.2"
+version = "0.2.0"
 dependencies = [
  "hexx",
  "snforge_std",
@@ -58,7 +58,7 @@ dependencies = [
 
 [[package]]
 name = "golden_lm2"
-version = "0.1.0-rc.2"
+version = "0.2.0"
 dependencies = [
  "hexx",
  "snforge_std",
@@ -66,7 +66,7 @@ dependencies = [
 
 [[package]]
 name = "golden_rings"
-version = "0.1.0-rc.2"
+version = "0.2.0"
 dependencies = [
  "hexx",
  "snforge_std",
@@ -74,7 +74,7 @@ dependencies = [
 
 [[package]]
 name = "golden_shapes"
-version = "0.1.0-rc.2"
+version = "0.2.0"
 dependencies = [
  "hexx",
  "snforge_std",
@@ -82,7 +82,7 @@ dependencies = [
 
 [[package]]
 name = "hexx"
-version = "0.1.0-rc.2"
+version = "0.2.0"
 dependencies = [
  "snforge_std",
 ]
@@ -110,7 +110,7 @@ dependencies = [
 
 [[package]]
 name = "takeover_tests"
-version = "0.1.0-rc.2"
+version = "0.2.0"
 dependencies = [
  "hexx",
  "origami_hexmap",
