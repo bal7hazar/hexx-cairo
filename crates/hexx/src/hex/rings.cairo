@@ -31,7 +31,8 @@ pub trait HexRingsTrait {
     /// #### Deviations
     ///
     /// Eager: the span is built at the call. `hexx` wraps in a release build and panics in a
-    /// debug build (plan §3.1); this port panics exactly where the debug build does.
+    /// debug build (plan §3.1); this port panics exactly where the debug build does, and also on
+    /// a range that does not fit `i32`, where `hexx` casts (`as i32`).
     fn custom_ring(self: Hex, range: u32, start_dir: EdgeDirection, clockwise: bool) -> Span<Hex>;
 
     /// One ring around `self` at `range`, starting from the default `EdgeDirection` and looping
@@ -91,7 +92,8 @@ pub trait HexRingsTrait {
     /// #### Deviations
     ///
     /// Eager: the span is built at the call. `hexx` wraps in a release build and panics in a
-    /// debug build (plan §3.1); this port panics exactly where the debug build does.
+    /// debug build (plan §3.1); this port panics exactly where the debug build does, and also on
+    /// a range that does not fit `i32`, where `hexx` casts (`as i32`).
     fn custom_ring_edge(
         self: Hex, radius: u32, direction: VertexDirection, clockwise: bool,
     ) -> Span<Hex>;
@@ -823,6 +825,7 @@ mod tests {
                     }
                 }
                 assert!(expected == wedge.len());
+                assert!(OracleTrait::contains(wedge, center));
                 r += 1;
             }
         }
