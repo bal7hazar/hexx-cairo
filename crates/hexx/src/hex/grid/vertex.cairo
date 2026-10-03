@@ -372,14 +372,14 @@ mod tests {
     /// among the 42 (6 classes of 3), 12 have two (6 classes of 2) and 12 have one: the ordered
     /// pairs are 6 x 9 + 6 x 4 + 12 = 90.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 84604559)]
     fn test_grid_vertex_equivalent_oracle_at_the_origin() {
         assert!(GridVertexOracleTrait::check_equivalent_around(HexTrait::ZERO) == 90);
     }
 
     /// The same away from the origin, with negative and positive components.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 169201967)]
     fn test_grid_vertex_equivalent_oracle_elsewhere() {
         assert!(GridVertexOracleTrait::check_equivalent_around(HexTrait::new(-7, 12)) == 90);
         assert!(GridVertexOracleTrait::check_equivalent_around(HexTrait::new(30, -17)) == 90);
@@ -387,7 +387,7 @@ mod tests {
 
     /// `coordinates` is the origin then `destinations`, the three hexes are pairwise adjacent.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 298620)]
     fn test_grid_vertex_coordinates_and_destinations() {
         let mut vertices = HexTrait::new(-4, 9).all_vertices().span();
         while let Some(v) = vertices.pop_front() {
@@ -403,7 +403,7 @@ mod tests {
     /// end of each of them: the clockwise vertex of the counter-clockwise side, the
     /// counter-clockwise vertex of the clockwise side.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 67820)]
     fn test_grid_vertex_side_edges_end_at_the_vertex() {
         let mut vertices = HexTrait::new(6, -1).all_vertices().span();
         while let Some(v) = vertices.pop_front() {
@@ -419,7 +419,7 @@ mod tests {
 
     /// `-vertex` is `const_neg`, and negating twice gives the vertex back, the origin is unchanged.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 118619)]
     fn test_grid_vertex_neg() {
         let mut vertices = HexTrait::new(2, 2).all_vertices().span();
         while let Some(v) = vertices.pop_front() {
@@ -434,7 +434,7 @@ mod tests {
     /// The rotations by `offset` are `offset` steps of `clockwise` and `counter_clockwise`, on the
     /// same origin, for the offsets `0..=12` (more than two turns).
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 1296656)]
     fn test_grid_vertex_rotations_are_repeated_steps() {
         let mut vertices = HexTrait::new(-3, 5).all_vertices().span();
         while let Some(v) = vertices.pop_front() {
@@ -456,7 +456,7 @@ mod tests {
 
     /// `Into<VertexDirection, GridVertex>`: the vertex of the origin `ZERO`.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 18480)]
     fn test_grid_vertex_from_vertex_direction() {
         let mut all = VertexDirectionTrait::iter();
         while let Some(d) = all.pop_front() {
@@ -468,7 +468,7 @@ mod tests {
 
     /// `all_vertices` is the six directions, in `ALL_DIRECTIONS` order, on the same origin.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 31290)]
     fn test_grid_vertex_all_vertices() {
         let h = HexTrait::new(8, -3);
         let mut vertices = h.all_vertices().span();
@@ -482,7 +482,7 @@ mod tests {
 
     /// `Serde` round trip of the derived impl.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 14606)]
     fn test_grid_vertex_serde_round_trip() {
         let v = GridVertex {
             origin: HexTrait::new(-5, 4), direction: VertexDirectionTrait::POINTY_SOUTH,
@@ -497,7 +497,7 @@ mod tests {
 
     /// A neighbour that leaves `i32` panics in `coordinates` (`hexx` does in a debug build).
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 10658)]
     #[should_panic]
     fn test_grid_vertex_coordinates_overflow_panics() {
         GridVertex {
@@ -510,7 +510,7 @@ mod tests {
     /// `equivalent` computes both neighbours first, as `hexx` does: it panics on an origin whose
     /// neighbour leaves `i32` even when the vertices are identical.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 12065)]
     #[should_panic]
     fn test_grid_vertex_equivalent_overflow_panics() {
         let v = GridVertex {
@@ -542,7 +542,7 @@ mod tests {
     // `all_vertices` on 102 calls.
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 538390)]
     fn bench_grid_vertex_baseline() {
         let h = HexTrait::new(3, -2);
         let items = h.all_vertices();
@@ -561,7 +561,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 857869)]
     fn bench_grid_vertex_baseline_hex2() {
         let h = HexTrait::new(3, -2);
         let items = h.all_vertices();
@@ -582,7 +582,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 1640592)]
     fn bench_grid_vertex_coordinates() {
         let h = HexTrait::new(3, -2);
         let items = h.all_vertices();
@@ -602,7 +602,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 1640592)]
     fn bench_grid_vertex_destinations() {
         let h = HexTrait::new(3, -2);
         let items = h.all_vertices();
@@ -622,7 +622,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 833058)]
     fn bench_grid_vertex_side_edges() {
         let h = HexTrait::new(3, -2);
         let items = h.all_vertices();
@@ -642,7 +642,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 992452)]
     fn bench_grid_vertex_baseline_pairs() {
         let h = HexTrait::new(3, -2);
         let vertices = h.all_vertices();
@@ -680,7 +680,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 2546463)]
     fn bench_grid_vertex_equivalent() {
         let h = HexTrait::new(3, -2);
         let vertices = h.all_vertices();
@@ -718,7 +718,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 715550)]
     fn bench_grid_vertex_rotate_cw() {
         let h = HexTrait::new(3, -2);
         let items = h.all_vertices();
@@ -737,7 +737,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 771137)]
     fn bench_grid_vertex_rotate_ccw() {
         let h = HexTrait::new(3, -2);
         let items = h.all_vertices();
@@ -756,7 +756,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 729564)]
     fn bench_grid_vertex_const_neg() {
         let h = HexTrait::new(3, -2);
         let items = h.all_vertices();
@@ -775,7 +775,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 691722)]
     fn bench_grid_vertex_clockwise() {
         let h = HexTrait::new(3, -2);
         let items = h.all_vertices();
@@ -794,7 +794,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 738489)]
     fn bench_grid_vertex_counter_clockwise() {
         let h = HexTrait::new(3, -2);
         let items = h.all_vertices();
@@ -813,7 +813,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 433285)]
     fn bench_grid_vertex_baseline_all() {
         let h = HexTrait::new(3, -2);
         let mut acc: u8 = 0;
@@ -828,7 +828,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 433285)]
     fn bench_grid_vertex_all_vertices() {
         let h = HexTrait::new(3, -2);
         let mut acc: u8 = 0;

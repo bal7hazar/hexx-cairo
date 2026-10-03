@@ -21,7 +21,7 @@ use hexx::hex::grid::vertex::{GridVertex, GridVertexNeg, GridVertexTrait, HexVer
 
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7615692)]
 fn golden_grid_edge_table() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, u8, i32, i32, u8, u8, u8, u8)> = array![
         (-6, 8, 0, -5, 8, 0, 1, -5, 8, 3, 3, 1, 5), (-6, 8, 1, -6, 9, 1, 2, -6, 9, 4, 4, 2, 0),
@@ -95,7 +95,7 @@ fn golden_grid_edge_table() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9847572)]
 fn golden_grid_edge_rotations_0() {
     let cases: Array<(i32, i32, u8, u8, u8, u8)> = array![
         (-6, 8, 0, 0, 0, 0), (-6, 8, 0, 1, 1, 5), (-6, 8, 0, 2, 2, 4), (-6, 8, 0, 3, 3, 3),
@@ -135,7 +135,7 @@ fn golden_grid_edge_rotations_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9847572)]
 fn golden_grid_edge_rotations_1() {
     let cases: Array<(i32, i32, u8, u8, u8, u8)> = array![
         (-29, -7, 0, 0, 0, 0), (-29, -7, 0, 1, 1, 5), (-29, -7, 0, 2, 2, 4), (-29, -7, 0, 3, 3, 3),
@@ -178,7 +178,7 @@ fn golden_grid_edge_rotations_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9847572)]
 fn golden_grid_edge_rotations_2() {
     let cases: Array<(i32, i32, u8, u8, u8, u8)> = array![
         (29, 24, 0, 0, 0, 0), (29, 24, 0, 1, 1, 5), (29, 24, 0, 2, 2, 4), (29, 24, 0, 3, 3, 3),
@@ -218,7 +218,7 @@ fn golden_grid_edge_rotations_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9847572)]
 fn golden_grid_edge_rotations_3() {
     let cases: Array<(i32, i32, u8, u8, u8, u8)> = array![
         (-14, -10, 0, 0, 0, 0), (-14, -10, 0, 1, 1, 5), (-14, -10, 0, 2, 2, 4),
@@ -265,7 +265,7 @@ fn golden_grid_edge_rotations_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9847572)]
 fn golden_grid_edge_rotations_4() {
     let cases: Array<(i32, i32, u8, u8, u8, u8)> = array![
         (12, 36, 0, 0, 0, 0), (12, 36, 0, 1, 1, 5), (12, 36, 0, 2, 2, 4), (12, 36, 0, 3, 3, 3),
@@ -305,7 +305,7 @@ fn golden_grid_edge_rotations_4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9847572)]
 fn golden_grid_edge_rotations_5() {
     let cases: Array<(i32, i32, u8, u8, u8, u8)> = array![
         (33, -30, 0, 0, 0, 0), (33, -30, 0, 1, 1, 5), (33, -30, 0, 2, 2, 4), (33, -30, 0, 3, 3, 3),
@@ -348,7 +348,7 @@ fn golden_grid_edge_rotations_5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9847572)]
 fn golden_grid_edge_rotations_6() {
     let cases: Array<(i32, i32, u8, u8, u8, u8)> = array![
         (-19, -17, 0, 0, 0, 0), (-19, -17, 0, 1, 1, 5), (-19, -17, 0, 2, 2, 4),
@@ -395,7 +395,7 @@ fn golden_grid_edge_rotations_6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9847572)]
 fn golden_grid_edge_rotations_7() {
     let cases: Array<(i32, i32, u8, u8, u8, u8)> = array![
         (-20, -1, 0, 0, 0, 0), (-20, -1, 0, 1, 1, 5), (-20, -1, 0, 2, 2, 4), (-20, -1, 0, 3, 3, 3),
@@ -438,7 +438,7 @@ fn golden_grid_edge_rotations_7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 417848)]
 fn golden_grid_edge_all_edges() {
     let cases: Array<(i32, i32, u8, u8, u8, u8, u8, u8)> = array![
         (-6, 8, 0, 1, 2, 3, 4, 5), (-29, -7, 0, 1, 2, 3, 4, 5), (29, 24, 0, 1, 2, 3, 4, 5),
@@ -462,7 +462,7 @@ fn golden_grid_edge_all_edges() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 60081)]
 fn golden_grid_edge_from_direction() {
     let cases: Array<(i32, i32, u8, u8)> = array![
         (0, 0, 0, 0), (0, 0, 1, 1), (0, 0, 2, 2), (0, 0, 3, 3), (0, 0, 4, 4), (0, 0, 5, 5),
@@ -479,7 +479,7 @@ fn golden_grid_edge_from_direction() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7619514)]
 fn golden_grid_vertex_table() {
     let cases: Array<(i32, i32, u8, i32, i32, i32, i32, u8, u8, u8, u8, u8)> = array![
         (-6, 8, 0, -5, 7, -5, 8, 5, 0, 3, 1, 5), (-6, 8, 1, -5, 8, -6, 9, 0, 1, 4, 2, 0),
@@ -546,7 +546,7 @@ fn golden_grid_vertex_table() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9847572)]
 fn golden_grid_vertex_rotations_0() {
     let cases: Array<(i32, i32, u8, u8, u8, u8)> = array![
         (-6, 8, 0, 0, 0, 0), (-6, 8, 0, 1, 1, 5), (-6, 8, 0, 2, 2, 4), (-6, 8, 0, 3, 3, 3),
@@ -586,7 +586,7 @@ fn golden_grid_vertex_rotations_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9847572)]
 fn golden_grid_vertex_rotations_1() {
     let cases: Array<(i32, i32, u8, u8, u8, u8)> = array![
         (-29, -7, 0, 0, 0, 0), (-29, -7, 0, 1, 1, 5), (-29, -7, 0, 2, 2, 4), (-29, -7, 0, 3, 3, 3),
@@ -629,7 +629,7 @@ fn golden_grid_vertex_rotations_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9847572)]
 fn golden_grid_vertex_rotations_2() {
     let cases: Array<(i32, i32, u8, u8, u8, u8)> = array![
         (29, 24, 0, 0, 0, 0), (29, 24, 0, 1, 1, 5), (29, 24, 0, 2, 2, 4), (29, 24, 0, 3, 3, 3),
@@ -669,7 +669,7 @@ fn golden_grid_vertex_rotations_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9847572)]
 fn golden_grid_vertex_rotations_3() {
     let cases: Array<(i32, i32, u8, u8, u8, u8)> = array![
         (-14, -10, 0, 0, 0, 0), (-14, -10, 0, 1, 1, 5), (-14, -10, 0, 2, 2, 4),
@@ -716,7 +716,7 @@ fn golden_grid_vertex_rotations_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9847572)]
 fn golden_grid_vertex_rotations_4() {
     let cases: Array<(i32, i32, u8, u8, u8, u8)> = array![
         (12, 36, 0, 0, 0, 0), (12, 36, 0, 1, 1, 5), (12, 36, 0, 2, 2, 4), (12, 36, 0, 3, 3, 3),
@@ -756,7 +756,7 @@ fn golden_grid_vertex_rotations_4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9847572)]
 fn golden_grid_vertex_rotations_5() {
     let cases: Array<(i32, i32, u8, u8, u8, u8)> = array![
         (33, -30, 0, 0, 0, 0), (33, -30, 0, 1, 1, 5), (33, -30, 0, 2, 2, 4), (33, -30, 0, 3, 3, 3),
@@ -799,7 +799,7 @@ fn golden_grid_vertex_rotations_5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9847572)]
 fn golden_grid_vertex_rotations_6() {
     let cases: Array<(i32, i32, u8, u8, u8, u8)> = array![
         (-19, -17, 0, 0, 0, 0), (-19, -17, 0, 1, 1, 5), (-19, -17, 0, 2, 2, 4),
@@ -846,7 +846,7 @@ fn golden_grid_vertex_rotations_6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9847572)]
 fn golden_grid_vertex_rotations_7() {
     let cases: Array<(i32, i32, u8, u8, u8, u8)> = array![
         (-20, -1, 0, 0, 0, 0), (-20, -1, 0, 1, 1, 5), (-20, -1, 0, 2, 2, 4), (-20, -1, 0, 3, 3, 3),
@@ -889,7 +889,7 @@ fn golden_grid_vertex_rotations_7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 417848)]
 fn golden_grid_vertex_all_vertices() {
     let cases: Array<(i32, i32, u8, u8, u8, u8, u8, u8)> = array![
         (-6, 8, 0, 1, 2, 3, 4, 5), (-29, -7, 0, 1, 2, 3, 4, 5), (29, 24, 0, 1, 2, 3, 4, 5),
@@ -913,7 +913,7 @@ fn golden_grid_vertex_all_vertices() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 60081)]
 fn golden_grid_vertex_from_direction() {
     let cases: Array<(i32, i32, u8, u8)> = array![
         (0, 0, 0, 0), (0, 0, 1, 1), (0, 0, 2, 2), (0, 0, 3, 3), (0, 0, 4, 4), (0, 0, 5, 5),
@@ -930,7 +930,7 @@ fn golden_grid_vertex_from_direction() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6673464)]
 fn golden_grid_edge_equivalent_0_0() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 8, 0, -6, 8, 0, true), (-6, 8, 0, -6, 8, 1, false), (-6, 8, 0, -6, 8, 2, false),
@@ -968,7 +968,7 @@ fn golden_grid_edge_equivalent_0_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6675039)]
 fn golden_grid_edge_equivalent_0_1() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 8, 1, -7, 9, 3, false), (-6, 8, 1, -7, 9, 4, false), (-6, 8, 1, -7, 9, 5, false),
@@ -1006,7 +1006,7 @@ fn golden_grid_edge_equivalent_0_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6674252)]
 fn golden_grid_edge_equivalent_0_2() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 8, 3, -6, 8, 0, false), (-6, 8, 3, -6, 8, 1, false), (-6, 8, 3, -6, 8, 2, false),
@@ -1044,7 +1044,7 @@ fn golden_grid_edge_equivalent_0_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6674850)]
 fn golden_grid_edge_equivalent_0_3() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 8, 4, -7, 9, 3, false), (-6, 8, 4, -7, 9, 4, false), (-6, 8, 4, -7, 9, 5, false),
@@ -1082,7 +1082,7 @@ fn golden_grid_edge_equivalent_0_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6673842)]
 fn golden_grid_edge_equivalent_0_4() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-5, 8, 0, -6, 8, 0, false), (-5, 8, 0, -6, 8, 1, false), (-5, 8, 0, -6, 8, 2, false),
@@ -1120,7 +1120,7 @@ fn golden_grid_edge_equivalent_0_4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6675039)]
 fn golden_grid_edge_equivalent_0_5() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-5, 8, 1, -7, 9, 3, false), (-5, 8, 1, -7, 9, 4, false), (-5, 8, 1, -7, 9, 5, false),
@@ -1158,7 +1158,7 @@ fn golden_grid_edge_equivalent_0_5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6674252)]
 fn golden_grid_edge_equivalent_0_6() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-5, 8, 3, -6, 8, 0, true), (-5, 8, 3, -6, 8, 1, false), (-5, 8, 3, -6, 8, 2, false),
@@ -1196,7 +1196,7 @@ fn golden_grid_edge_equivalent_0_6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6675039)]
 fn golden_grid_edge_equivalent_0_7() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-5, 8, 4, -7, 9, 3, false), (-5, 8, 4, -7, 9, 4, false), (-5, 8, 4, -7, 9, 5, false),
@@ -1234,7 +1234,7 @@ fn golden_grid_edge_equivalent_0_7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6673842)]
 fn golden_grid_edge_equivalent_0_8() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 9, 0, -6, 8, 0, false), (-6, 9, 0, -6, 8, 1, false), (-6, 9, 0, -6, 8, 2, false),
@@ -1272,7 +1272,7 @@ fn golden_grid_edge_equivalent_0_8() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6668718)]
 fn golden_grid_edge_equivalent_0_9() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 9, 1, -7, 9, 3, false), (-6, 9, 1, -7, 9, 4, false), (-6, 9, 1, -7, 9, 5, false),
@@ -1310,7 +1310,7 @@ fn golden_grid_edge_equivalent_0_9() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6674063)]
 fn golden_grid_edge_equivalent_0_10() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 9, 3, -6, 8, 0, false), (-6, 9, 3, -6, 8, 1, false), (-6, 9, 3, -6, 8, 2, false),
@@ -1348,7 +1348,7 @@ fn golden_grid_edge_equivalent_0_10() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6675039)]
 fn golden_grid_edge_equivalent_0_11() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 9, 4, -7, 9, 3, false), (-6, 9, 4, -7, 9, 4, false), (-6, 9, 4, -7, 9, 5, false),
@@ -1386,7 +1386,7 @@ fn golden_grid_edge_equivalent_0_11() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6673653)]
 fn golden_grid_edge_equivalent_0_12() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-7, 9, 0, -6, 8, 0, false), (-7, 9, 0, -6, 8, 1, false), (-7, 9, 0, -6, 8, 2, false),
@@ -1424,7 +1424,7 @@ fn golden_grid_edge_equivalent_0_12() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6668718)]
 fn golden_grid_edge_equivalent_0_13() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-7, 9, 1, -7, 9, 3, false), (-7, 9, 1, -7, 9, 4, false), (-7, 9, 1, -7, 9, 5, false),
@@ -1462,7 +1462,7 @@ fn golden_grid_edge_equivalent_0_13() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6668120)]
 fn golden_grid_edge_equivalent_0_14() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-7, 9, 3, -6, 8, 0, false), (-7, 9, 3, -6, 8, 1, false), (-7, 9, 3, -6, 8, 2, false),
@@ -1500,7 +1500,7 @@ fn golden_grid_edge_equivalent_0_14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6674661)]
 fn golden_grid_edge_equivalent_0_15() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-7, 9, 4, -7, 9, 3, false), (-7, 9, 4, -7, 9, 4, true), (-7, 9, 4, -7, 9, 5, false),
@@ -1538,7 +1538,7 @@ fn golden_grid_edge_equivalent_0_15() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6673842)]
 fn golden_grid_edge_equivalent_0_16() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-7, 8, 0, -6, 8, 0, false), (-7, 8, 0, -6, 8, 1, false), (-7, 8, 0, -6, 8, 2, false),
@@ -1576,7 +1576,7 @@ fn golden_grid_edge_equivalent_0_16() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6674850)]
 fn golden_grid_edge_equivalent_0_17() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-7, 8, 1, -7, 9, 3, false), (-7, 8, 1, -7, 9, 4, true), (-7, 8, 1, -7, 9, 5, false),
@@ -1614,7 +1614,7 @@ fn golden_grid_edge_equivalent_0_17() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6668120)]
 fn golden_grid_edge_equivalent_0_18() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-7, 8, 3, -6, 8, 0, false), (-7, 8, 3, -6, 8, 1, false), (-7, 8, 3, -6, 8, 2, false),
@@ -1652,7 +1652,7 @@ fn golden_grid_edge_equivalent_0_18() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6674850)]
 fn golden_grid_edge_equivalent_0_19() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-7, 8, 4, -7, 9, 3, false), (-7, 8, 4, -7, 9, 4, false), (-7, 8, 4, -7, 9, 5, false),
@@ -1690,7 +1690,7 @@ fn golden_grid_edge_equivalent_0_19() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6673653)]
 fn golden_grid_edge_equivalent_0_20() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 7, 0, -6, 8, 0, false), (-6, 7, 0, -6, 8, 1, false), (-6, 7, 0, -6, 8, 2, false),
@@ -1728,7 +1728,7 @@ fn golden_grid_edge_equivalent_0_20() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6674850)]
 fn golden_grid_edge_equivalent_0_21() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 7, 1, -7, 9, 3, false), (-6, 7, 1, -7, 9, 4, false), (-6, 7, 1, -7, 9, 5, false),
@@ -1766,7 +1766,7 @@ fn golden_grid_edge_equivalent_0_21() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6668120)]
 fn golden_grid_edge_equivalent_0_22() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 7, 3, -6, 8, 0, false), (-6, 7, 3, -6, 8, 1, false), (-6, 7, 3, -6, 8, 2, false),
@@ -1804,7 +1804,7 @@ fn golden_grid_edge_equivalent_0_22() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6675039)]
 fn golden_grid_edge_equivalent_0_23() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 7, 4, -7, 9, 3, false), (-6, 7, 4, -7, 9, 4, false), (-6, 7, 4, -7, 9, 5, false),
@@ -1842,7 +1842,7 @@ fn golden_grid_edge_equivalent_0_23() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6673842)]
 fn golden_grid_edge_equivalent_0_24() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-5, 7, 0, -6, 8, 0, false), (-5, 7, 0, -6, 8, 1, false), (-5, 7, 0, -6, 8, 2, false),
@@ -1880,7 +1880,7 @@ fn golden_grid_edge_equivalent_0_24() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6674850)]
 fn golden_grid_edge_equivalent_0_25() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-5, 7, 1, -7, 9, 3, false), (-5, 7, 1, -7, 9, 4, false), (-5, 7, 1, -7, 9, 5, false),
@@ -1918,7 +1918,7 @@ fn golden_grid_edge_equivalent_0_25() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6674441)]
 fn golden_grid_edge_equivalent_0_26() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-5, 7, 3, -6, 8, 0, false), (-5, 7, 3, -6, 8, 1, false), (-5, 7, 3, -6, 8, 2, false),
@@ -1956,7 +1956,7 @@ fn golden_grid_edge_equivalent_0_26() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6675039)]
 fn golden_grid_edge_equivalent_0_27() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-5, 7, 4, -7, 9, 3, false), (-5, 7, 4, -7, 9, 4, false), (-5, 7, 4, -7, 9, 5, false),
@@ -1994,7 +1994,7 @@ fn golden_grid_edge_equivalent_0_27() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7158627)]
 fn golden_grid_vertex_equivalent_0_0() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 8, 0, -6, 8, 0, true), (-6, 8, 0, -6, 8, 1, false), (-6, 8, 0, -6, 8, 2, false),
@@ -2032,7 +2032,7 @@ fn golden_grid_vertex_equivalent_0_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7160391)]
 fn golden_grid_vertex_equivalent_0_1() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 8, 1, -7, 9, 3, false), (-6, 8, 1, -7, 9, 4, false), (-6, 8, 1, -7, 9, 5, false),
@@ -2070,7 +2070,7 @@ fn golden_grid_vertex_equivalent_0_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7159604)]
 fn golden_grid_vertex_equivalent_0_2() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 8, 3, -6, 8, 0, false), (-6, 8, 3, -6, 8, 1, false), (-6, 8, 3, -6, 8, 2, false),
@@ -2108,7 +2108,7 @@ fn golden_grid_vertex_equivalent_0_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7160013)]
 fn golden_grid_vertex_equivalent_0_3() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 8, 4, -7, 9, 3, false), (-6, 8, 4, -7, 9, 4, false), (-6, 8, 4, -7, 9, 5, false),
@@ -2146,7 +2146,7 @@ fn golden_grid_vertex_equivalent_0_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7159383)]
 fn golden_grid_vertex_equivalent_0_4() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-5, 8, 0, -6, 8, 0, false), (-5, 8, 0, -6, 8, 1, false), (-5, 8, 0, -6, 8, 2, false),
@@ -2184,7 +2184,7 @@ fn golden_grid_vertex_equivalent_0_4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7160580)]
 fn golden_grid_vertex_equivalent_0_5() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-5, 8, 1, -7, 9, 3, false), (-5, 8, 1, -7, 9, 4, false), (-5, 8, 1, -7, 9, 5, false),
@@ -2222,7 +2222,7 @@ fn golden_grid_vertex_equivalent_0_5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7159415)]
 fn golden_grid_vertex_equivalent_0_6() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-5, 8, 3, -6, 8, 0, false), (-5, 8, 3, -6, 8, 1, true), (-5, 8, 3, -6, 8, 2, false),
@@ -2260,7 +2260,7 @@ fn golden_grid_vertex_equivalent_0_6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7160391)]
 fn golden_grid_vertex_equivalent_0_7() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-5, 8, 4, -7, 9, 3, false), (-5, 8, 4, -7, 9, 4, false), (-5, 8, 4, -7, 9, 5, false),
@@ -2298,7 +2298,7 @@ fn golden_grid_vertex_equivalent_0_7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7159194)]
 fn golden_grid_vertex_equivalent_0_8() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 9, 0, -6, 8, 0, false), (-6, 9, 0, -6, 8, 1, false), (-6, 9, 0, -6, 8, 2, false),
@@ -2336,7 +2336,7 @@ fn golden_grid_vertex_equivalent_0_8() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7154259)]
 fn golden_grid_vertex_equivalent_0_9() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 9, 1, -7, 9, 3, false), (-6, 9, 1, -7, 9, 4, false), (-6, 9, 1, -7, 9, 5, false),
@@ -2374,7 +2374,7 @@ fn golden_grid_vertex_equivalent_0_9() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7159415)]
 fn golden_grid_vertex_equivalent_0_10() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 9, 3, -6, 8, 0, false), (-6, 9, 3, -6, 8, 1, false), (-6, 9, 3, -6, 8, 2, false),
@@ -2412,7 +2412,7 @@ fn golden_grid_vertex_equivalent_0_10() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7160391)]
 fn golden_grid_vertex_equivalent_0_11() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 9, 4, -7, 9, 3, false), (-6, 9, 4, -7, 9, 4, false), (-6, 9, 4, -7, 9, 5, false),
@@ -2450,7 +2450,7 @@ fn golden_grid_vertex_equivalent_0_11() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7158816)]
 fn golden_grid_vertex_equivalent_0_12() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-7, 9, 0, -6, 8, 0, false), (-7, 9, 0, -6, 8, 1, false), (-7, 9, 0, -6, 8, 2, true),
@@ -2488,7 +2488,7 @@ fn golden_grid_vertex_equivalent_0_12() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7154259)]
 fn golden_grid_vertex_equivalent_0_13() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-7, 9, 1, -7, 9, 3, false), (-7, 9, 1, -7, 9, 4, false), (-7, 9, 1, -7, 9, 5, false),
@@ -2526,7 +2526,7 @@ fn golden_grid_vertex_equivalent_0_13() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7153661)]
 fn golden_grid_vertex_equivalent_0_14() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-7, 9, 3, -6, 8, 0, false), (-7, 9, 3, -6, 8, 1, false), (-7, 9, 3, -6, 8, 2, false),
@@ -2564,7 +2564,7 @@ fn golden_grid_vertex_equivalent_0_14() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7160013)]
 fn golden_grid_vertex_equivalent_0_15() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-7, 9, 4, -7, 9, 3, false), (-7, 9, 4, -7, 9, 4, true), (-7, 9, 4, -7, 9, 5, false),
@@ -2602,7 +2602,7 @@ fn golden_grid_vertex_equivalent_0_15() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7159005)]
 fn golden_grid_vertex_equivalent_0_16() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-7, 8, 0, -6, 8, 0, false), (-7, 8, 0, -6, 8, 1, false), (-7, 8, 0, -6, 8, 2, false),
@@ -2640,7 +2640,7 @@ fn golden_grid_vertex_equivalent_0_16() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7160202)]
 fn golden_grid_vertex_equivalent_0_17() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-7, 8, 1, -7, 9, 3, false), (-7, 8, 1, -7, 9, 4, false), (-7, 8, 1, -7, 9, 5, true),
@@ -2678,7 +2678,7 @@ fn golden_grid_vertex_equivalent_0_17() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7153661)]
 fn golden_grid_vertex_equivalent_0_18() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-7, 8, 3, -6, 8, 0, false), (-7, 8, 3, -6, 8, 1, false), (-7, 8, 3, -6, 8, 2, false),
@@ -2716,7 +2716,7 @@ fn golden_grid_vertex_equivalent_0_18() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7160391)]
 fn golden_grid_vertex_equivalent_0_19() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-7, 8, 4, -7, 9, 3, false), (-7, 8, 4, -7, 9, 4, false), (-7, 8, 4, -7, 9, 5, false),
@@ -2754,7 +2754,7 @@ fn golden_grid_vertex_equivalent_0_19() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7159194)]
 fn golden_grid_vertex_equivalent_0_20() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 7, 0, -6, 8, 0, false), (-6, 7, 0, -6, 8, 1, false), (-6, 7, 0, -6, 8, 2, false),
@@ -2792,7 +2792,7 @@ fn golden_grid_vertex_equivalent_0_20() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7160013)]
 fn golden_grid_vertex_equivalent_0_21() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 7, 1, -7, 9, 3, false), (-6, 7, 1, -7, 9, 4, false), (-6, 7, 1, -7, 9, 5, false),
@@ -2830,7 +2830,7 @@ fn golden_grid_vertex_equivalent_0_21() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7159982)]
 fn golden_grid_vertex_equivalent_0_22() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 7, 3, -6, 8, 0, false), (-6, 7, 3, -6, 8, 1, false), (-6, 7, 3, -6, 8, 2, false),
@@ -2868,7 +2868,7 @@ fn golden_grid_vertex_equivalent_0_22() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7160580)]
 fn golden_grid_vertex_equivalent_0_23() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-6, 7, 4, -7, 9, 3, false), (-6, 7, 4, -7, 9, 4, false), (-6, 7, 4, -7, 9, 5, false),
@@ -2906,7 +2906,7 @@ fn golden_grid_vertex_equivalent_0_23() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7159383)]
 fn golden_grid_vertex_equivalent_0_24() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-5, 7, 0, -6, 8, 0, false), (-5, 7, 0, -6, 8, 1, false), (-5, 7, 0, -6, 8, 2, false),
@@ -2944,7 +2944,7 @@ fn golden_grid_vertex_equivalent_0_24() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7160202)]
 fn golden_grid_vertex_equivalent_0_25() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-5, 7, 1, -7, 9, 3, false), (-5, 7, 1, -7, 9, 4, false), (-5, 7, 1, -7, 9, 5, false),
@@ -2982,7 +2982,7 @@ fn golden_grid_vertex_equivalent_0_25() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7159793)]
 fn golden_grid_vertex_equivalent_0_26() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-5, 7, 3, -6, 8, 0, false), (-5, 7, 3, -6, 8, 1, false), (-5, 7, 3, -6, 8, 2, false),
@@ -3020,7 +3020,7 @@ fn golden_grid_vertex_equivalent_0_26() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7160391)]
 fn golden_grid_vertex_equivalent_0_27() {
     let cases: Array<(i32, i32, u8, i32, i32, u8, bool)> = array![
         (-5, 7, 4, -7, 9, 3, false), (-5, 7, 4, -7, 9, 4, false), (-5, 7, 4, -7, 9, 5, false),

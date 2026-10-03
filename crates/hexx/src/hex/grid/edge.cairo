@@ -342,14 +342,14 @@ mod tests {
     /// between neighbouring ring hexes, each in both forms) have their flipped form among the 42
     /// as well: 66 ordered pairs.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 39302267)]
     fn test_grid_edge_equivalent_oracle_at_the_origin() {
         assert!(GridEdgeOracleTrait::check_equivalent_around(HexTrait::ZERO) == 66);
     }
 
     /// The same away from the origin, with negative and positive components.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 78597383)]
     fn test_grid_edge_equivalent_oracle_elsewhere() {
         assert!(GridEdgeOracleTrait::check_equivalent_around(HexTrait::new(-7, 12)) == 66);
         assert!(GridEdgeOracleTrait::check_equivalent_around(HexTrait::new(30, -17)) == 66);
@@ -358,7 +358,7 @@ mod tests {
     /// The flipped edge is the same edge, flipping twice gives the edge back, the destination of
     /// the flipped edge is the origin.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 2008503)]
     fn test_grid_edge_flipped() {
         let mut edges = GridEdgeOracleTrait::edges_around(HexTrait::new(-4, 9)).span();
         while let Some(e) = edges.pop_front() {
@@ -374,7 +374,7 @@ mod tests {
 
     /// `-edge` is `const_neg`, and negating twice gives the edge back, the origin is unchanged.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 118619)]
     fn test_grid_edge_neg() {
         let mut edges = HexTrait::new(2, 2).all_edges().span();
         while let Some(e) = edges.pop_front() {
@@ -389,7 +389,7 @@ mod tests {
     /// The rotations by `offset` are `offset` steps of `clockwise` and `counter_clockwise`, on the
     /// same origin, for the offsets `0..=12` (more than two turns).
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 1296656)]
     fn test_grid_edge_rotations_are_repeated_steps() {
         let mut edges = HexTrait::new(-3, 5).all_edges().span();
         while let Some(e) = edges.pop_front() {
@@ -413,7 +413,7 @@ mod tests {
     /// the edge is a side of each: the clockwise side of the counter-clockwise vertex, the
     /// counter-clockwise side of the clockwise vertex.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 70571)]
     fn test_grid_edge_vertices_are_its_ends() {
         let mut edges = HexTrait::new(6, -1).all_edges().span();
         while let Some(e) = edges.pop_front() {
@@ -429,7 +429,7 @@ mod tests {
 
     /// `Into<EdgeDirection, GridEdge>`: the edge of the origin `ZERO`.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 18480)]
     fn test_grid_edge_from_edge_direction() {
         let mut all = EdgeDirectionTrait::iter();
         while let Some(d) = all.pop_front() {
@@ -441,7 +441,7 @@ mod tests {
 
     /// `all_edges` is the six directions, in `ALL_DIRECTIONS` order, on the same origin.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 31290)]
     fn test_grid_edge_all_edges() {
         let h = HexTrait::new(8, -3);
         let mut edges = h.all_edges().span();
@@ -455,7 +455,7 @@ mod tests {
 
     /// `Serde` round trip of the derived impl.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 14606)]
     fn test_grid_edge_serde_round_trip() {
         let e = GridEdge { origin: HexTrait::new(-5, 4), direction: EdgeDirectionTrait::NEG_X };
         let mut output = array![];
@@ -468,7 +468,7 @@ mod tests {
 
     /// A destination that leaves `i32` panics (`hexx` does in a debug build).
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 9744)]
     #[should_panic]
     fn test_grid_edge_destination_overflow_panics() {
         GridEdge { origin: HexTrait::new(0x7fffffff, 0), direction: EdgeDirectionTrait::X }
@@ -477,7 +477,7 @@ mod tests {
 
     /// The panic of `equivalent`'s second clause, only evaluated when the first is false.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 9744)]
     #[should_panic]
     fn test_grid_edge_equivalent_overflow_panics() {
         let a = GridEdge { origin: HexTrait::ZERO, direction: EdgeDirectionTrait::X };
@@ -505,7 +505,7 @@ mod tests {
     // `equivalent` is measured on the pairs (edge, its flipped form); `all_edges` on 102 calls.
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 538390)]
     fn bench_grid_edge_baseline() {
         let h = HexTrait::new(3, -2);
         let items = h.all_edges();
@@ -524,7 +524,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 650845)]
     fn bench_grid_edge_baseline_hex() {
         let h = HexTrait::new(3, -2);
         let items = h.all_edges();
@@ -544,7 +544,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 968932)]
     fn bench_grid_edge_destination() {
         let h = HexTrait::new(3, -2);
         let items = h.all_edges();
@@ -563,7 +563,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 1149396)]
     fn bench_grid_edge_flipped() {
         let h = HexTrait::new(3, -2);
         let items = h.all_edges();
@@ -582,7 +582,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 980944)]
     fn bench_grid_edge_baseline_pairs() {
         let h = HexTrait::new(3, -2);
         let edges = h.all_edges();
@@ -613,7 +613,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 1748841)]
     fn bench_grid_edge_equivalent() {
         let h = HexTrait::new(3, -2);
         let edges = h.all_edges();
@@ -644,7 +644,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 786291)]
     fn bench_grid_edge_vertices() {
         let h = HexTrait::new(3, -2);
         let items = h.all_edges();
@@ -664,7 +664,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 715550)]
     fn bench_grid_edge_rotate_cw() {
         let h = HexTrait::new(3, -2);
         let items = h.all_edges();
@@ -683,7 +683,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 771137)]
     fn bench_grid_edge_rotate_ccw() {
         let h = HexTrait::new(3, -2);
         let items = h.all_edges();
@@ -702,7 +702,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 729564)]
     fn bench_grid_edge_const_neg() {
         let h = HexTrait::new(3, -2);
         let items = h.all_edges();
@@ -721,7 +721,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 691722)]
     fn bench_grid_edge_clockwise() {
         let h = HexTrait::new(3, -2);
         let items = h.all_edges();
@@ -740,7 +740,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 738489)]
     fn bench_grid_edge_counter_clockwise() {
         let h = HexTrait::new(3, -2);
         let items = h.all_edges();
@@ -759,7 +759,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 433285)]
     fn bench_grid_edge_baseline_all() {
         let h = HexTrait::new(3, -2);
         let mut acc: u8 = 0;
@@ -774,7 +774,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 433285)]
     fn bench_grid_edge_all_edges() {
         let h = HexTrait::new(3, -2);
         let mut acc: u8 = 0;
