@@ -1,12 +1,12 @@
 # Status
 
-**2026-10-02** — orchestrator `grimworld-lib` (herdr; the track moved from Nexus to herdr on 2026-10-01); predecessor's handover `docs/handover/orchestrator-hexmap-2026-10-01.md`
+**2026-10-03** — orchestrator `grimworld-lib` (herdr; the track moved from Nexus to herdr on 2026-10-01); predecessor's handover `docs/handover/orchestrator-hexmap-2026-10-01.md`
 
 | | |
 |---|---|
-| Phase | **Milestone L-M1: LIB-05, and L-M2 (LIB-06) briefed.** `hexx` 0.1.0-rc.1 published. N-1 to N-8 merged; **LIB-04e** (single-thread pin, D-176) merged in #81 as `920ddee`; **LIB-04f** (Scarb 2.20.1, starknet-foundry 0.64.0) merged in #86 as `1527ac2`. Next: rc.2 (`0.1.0-rc.2`, requires Cairo ≥ 2.20.0) for ENG-05 per the order of the handover note, then M2-T0 and M1-R |
+| Phase | **Milestone L-M1: LIB-05; L-M2 (LIB-06) started.** `hexx` 0.1.0-rc.2 published on 2026-10-03 (see *Done*); M2-T0 (#92) reviewed, merges after this record. N-1 to N-8 merged. Next: M2-T0 and M1-R |
 | Procedures (herdr) | Implementers, reviews and audits are threads of the project `grimworld-lib` (profiles `impl-sonnet`, `impl-opus`, `review`, `review-opus`, `audit`); Nexus and `scripts/agent.sh` are not used. Every code pull request is reviewed on another model than the one that wrote it; audits are the D-177 exceptions (randomness, among them seeded generation). The owner merges; the project manager is told one line per ready pull request |
-| Running agents | `smooth` mask follow-up (variant B, +3.92 % on order 1); rc.2 preparation; M2-T0 |
+| Running agents | M2-T0 (#92) in review |
 | Decisions pending | None for the owner on this track |
 
 ## Pause 2026-09-29 (ended 2026-09-30)
@@ -66,6 +66,9 @@ Diagnosis: the game's task SPK-13 on the owner's Mac ([reproduction](docs/report
 
 | Date | What |
 |---|---|
+| 2026-10-03 | **`hexx` 0.1.0-rc.2 published** on scarbs.xyz by the orchestrator, by hand, from `c60e05a`, after the project manager's go (request #102, `6678326`); `sha256sum --check` of `hexx-0.1.0-rc.2.tar.zst` OK; registry checksum `sha256:c4bf8aef…a753` equal to the go, `0.1.0-rc.1` unchanged; tag and pre-release `v0.1.0-rc.2`. [Record](docs/decisions/D-132-publish-hexx-0.1.0-rc.2.md) |
+| 2026-10-03 | L-M2 started: M2-T0 (#92) reviewed, merges after this record. LIB-04g (CI runs jobs by changed paths) merged in #100 |
+| 2026-10-03 | Merged since the last status: #89 each gas job uploads only its own partition report; #90 `prepush.sh` retries on tool downloads; #91 no scarb call with an option before its subcommand (VPS lock gap); #93 CI cancels only a pull request's superseded runs; #95 M1-T8 follow-up, `Caver::smooth` masks its grid to the board; #96 deferred items recorded in `PLAN.md` (#94 closed as replaced by #96); #97 `prepush.sh` clears git's local environment variables first; #98 release: hexx 0.1.0-rc.2; #99 brief LIB-04g; #100 CI: a job runs only when its files changed (LIB-04g); #101 release: rc.2 fix (licence notice, package README, CHANGELOG); #102 rc.2 publication request (sha, release check, checksum) |
 | 2026-10-02 (afternoon) | LIB-04f: Scarb 2.20.1 and starknet-foundry 0.64.0 merged in #86 as `1527ac2`, by `[Sonnet 5.5]`; two reviews, one minor finding fixed (the workflows read `.tool-versions`). Accepted figures re-read in `gas/accepted.md` and plan §14: marginal figures unchanged, small absolute figures down (snforge 0.64 harness about 7.5–7.8k less per test). E2201 on `extern fn bitwise` kept as a known warning (the file is under the strict take-over proof). rc.2 requires Cairo ≥ 2.20.0 |
 | 2026-10-02 (afternoon) | LIB-06: the briefs of milestone L-M2 merged in #87 as `38736b3` (M2-T0 to M2-T7, M2-R); tasks in `PLAN.md`. In progress: the `smooth` mask follow-up (variant B, +3.92 % on order 1), rc.2 preparation, M2-T0 |
 | 2026-10-02 | LIB-04e: single-thread pin (`RAYON_NUM_THREADS=1`, D-176), both `gas/*.builds` files dropped, a determinism job in CI, by `[Sonnet 5.5]`; ten CI runs identical. First review FAIL (the runs tested a stale base, before #65, #74 and #84); fixed by merging `main` and re-checking single-threaded with no row changed; second review PASS. Merged as `920ddee`, [pull request #81](https://github.com/bal7hazar/hexx-cairo/pull/81) |

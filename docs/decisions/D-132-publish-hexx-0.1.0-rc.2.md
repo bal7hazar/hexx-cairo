@@ -1,4 +1,4 @@
-# PENDING — `hexx` 0.1.0-rc.2: publication requested
+# D-132 — `hexx` 0.1.0-rc.2: published
 
 Opened by the orchestrator of track LIB on 2026-10-02, under D-132 and
 [`docs/RELEASING.md`](../RELEASING.md), on the model of
@@ -86,4 +86,26 @@ are met.
 
 ## Answer
 
-Not given.
+**The go** (the project manager, 2026-10-03), under D-132 as the owner narrowed it (release
+candidates delegated to the project manager; stable versions the owner's), after the written
+request (#102, `6678326`) and the project manager's own checklist, run in a clean clone (passed):
+
+> hexx, version 0.1.0-rc.2, commit c60e05ad548907b313faaeae98eb9af0b6ea586f, sha256 c4bf8aef830ca5ed0d9ebc02ad82aeea637ae96ab7311bbf522fc8d4d613a753
+
+**It holds for `hexx` `0.1.0-rc.2` from commit `c60e05ad548907b313faaeae98eb9af0b6ea586f` only.**
+
+## Publication
+
+By the orchestrator, by hand, 2026-10-03, as `docs/RELEASING.md` says:
+
+- A clean checkout of `c60e05a`; `sha256sum --check` of `hexx-0.1.0-rc.2.tar.zst`: OK; the archive's
+  `VCS.json` says sha1 `c60e05a`.
+- `scarb publish -p hexx`: `Published hexx v0.1.0-rc.2` (scarbs.xyz does not support docs upload:
+  a warning only).
+- Read-back: the registry's index (`https://scarbs.xyz/api/v1/index/he/xx/hexx.json`) lists
+  `0.1.0-rc.2` with `cksum`
+  `sha256:c4bf8aef830ca5ed0d9ebc02ad82aeea637ae96ab7311bbf522fc8d4d613a753`, equal to the go;
+  `0.1.0-rc.1` is unchanged.
+- Tag `v0.1.0-rc.2` on `c60e05a`; the GitHub release
+  [v0.1.0-rc.2](https://github.com/bal7hazar/hexx-cairo/releases/tag/v0.1.0-rc.2), marked a
+  pre-release.
