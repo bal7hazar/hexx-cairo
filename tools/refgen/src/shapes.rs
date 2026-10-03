@@ -181,6 +181,10 @@ fn cases_literal(types: &str, cases: &[&Case]) -> String {
             format!("({})", row.join(", "))
         })
         .collect();
+    let one = format!("    let cases: Array<({types}, u32)> = array![{}];\n", rows.join(", "));
+    if one.len() <= 101 {
+        return one;
+    }
     let mut out = format!("    let cases: Array<({types}, u32)> = array![\n");
     let mut line = String::new();
     for item in rows {
@@ -256,7 +260,12 @@ fn emit_defaults(e: &mut Emitter, d: &Defaults) -> Result<(), String> {
     let mut body = String::new();
     let mut check = |ty: &str, var: &str, literal: String, coords: Vec<Hex>| {
         body.push_str(&format!("    let {var}: {ty} = Default::default();\n"));
-        body.push_str(&format!("    assert({var} == {literal}, '{var}');\n"));
+        let one = format!("    assert({var} == {literal}, '{var}');\n");
+        if one.len() <= 101 {
+            body.push_str(&one);
+        } else {
+            body.push_str(&format!("    assert(\n        {var} == {literal},\n        '{var}',\n    );\n"));
+        }
         let flat: Vec<i64> =
             coords.iter().flat_map(|h| [i64::from(h.x), i64::from(h.y)]).collect();
         body.push_str(&format!("    let {var}_expected: Array<i32> = array![\n"));
@@ -332,7 +341,7 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
     let per_test = spec.int("hexes_per_test")? as usize;
     let mut e = Emitter::new(
         spec,
-        "the shapes of `src/shapes.rs`, `parallelogram` :45, `triangle` :95, `hexagon` :144,\n// `rombus` :186, `pointy_rectangle` :243, `flat_rectangle` :303 and the `Default` of each struct",
+        "the shapes of `src/shapes.rs`, `parallelogram` :45, `triangle` :95,\n// `hexagon` :144, `rombus` :186, `pointy_rectangle` :243, `flat_rectangle` :303 and the `Default`\n// of each struct",
         "use hexx::hex::{Hex, HexTrait};\nuse hexx::shapes::{\n    FlatRectangle, FlatRectangleTrait, Hexagon, HexagonTrait, Parallelogram, ParallelogramTrait,\n    PointyRectangle, PointyRectangleTrait, Rombus, RombusTrait, Triangle, TriangleTrait,\n    flat_rectangle, hexagon, parallelogram, pointy_rectangle, rombus, triangle,\n};\n",
     );
     let shapes = [
