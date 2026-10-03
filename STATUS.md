@@ -66,6 +66,7 @@ Diagnosis: the game's task SPK-13 on the owner's Mac ([reproduction](docs/report
 
 | Date | What |
 |---|---|
+| 2026-10-03 | L-M2 merged (#92, #105..#115, #116); `hexx` 0.2.0 requested ([request](docs/decisions/PENDING-publish-hexx-0.2.0.md)); `Sum`/`Product` of `Hex` recorded `dropped` in the parity table (deferred, M2-T3) |
 | 2026-10-03 | **`hexx` 0.1.0-rc.2 published** on scarbs.xyz by the orchestrator, by hand, from `c60e05a`, after the project manager's go (request #102, `6678326`); `sha256sum --check` of `hexx-0.1.0-rc.2.tar.zst` OK; registry checksum `sha256:c4bf8aef…a753` equal to the go, `0.1.0-rc.1` unchanged; tag and pre-release `v0.1.0-rc.2`. [Record](docs/decisions/D-132-publish-hexx-0.1.0-rc.2.md) |
 | 2026-10-03 | L-M2 started: M2-T0 (#92) reviewed, merges after this record. LIB-04g (CI runs jobs by changed paths) merged in #100 |
 | 2026-10-03 | Merged since the last status: #89 each gas job uploads only its own partition report; #90 `prepush.sh` retries on tool downloads; #91 no scarb call with an option before its subcommand (VPS lock gap); #93 CI cancels only a pull request's superseded runs; #95 M1-T8 follow-up, `Caver::smooth` masks its grid to the board; #96 deferred items recorded in `PLAN.md` (#94 closed as replaced by #96); #97 `prepush.sh` clears git's local environment variables first; #98 release: hexx 0.1.0-rc.2; #99 brief LIB-04g; #100 CI: a job runs only when its files changed (LIB-04g); #101 release: rc.2 fix (licence notice, package README, CHANGELOG); #102 rc.2 publication request (sha, release check, checksum) |
