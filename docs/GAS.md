@@ -2646,6 +2646,7 @@ the project manager before the merge; under that, the orchestrator decides.
 | `SeamTrait::side` | 3,840 | [3,032, 3,790] | M1-T7 | The sketch leaves out the `NonZero` conversion, two products and the `match` on `Side`; not on the tick |
 | `HexagonTrait::hexagon`, loop path, 16 rows | 128,670 | [72,064, 90,080] | M1-T5 | About 5,840 per row against the sketch's 4,504; the tick reads the sight on the table path (16,430) |
 | `HexagonTrait::hexagon`, loop path, 83 rows | 519,840 | [373,832, 467,290] | M1-T5 | idem; the domain-wide worst case (3 × 83, radius 255) |
+| `Hex::to_lower_res`, radius 6 | 28,674 | [22,659, 28,324] | M2-T2 | Three sign-branching exact floor divisions with `try_into` checks plus `range_count`; 1.2 % above the upper bound, below twice it (L-M2 rule). The mirror, off the tick's path |
 
 ### Figures on Scarb 2.20.1 and starknet-foundry 0.64.0 (LIB-04f, #86)
 
