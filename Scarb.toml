@@ -10,6 +10,7 @@ members = [
     "crates/golden_impls",
     "crates/golden_lm1",
     "crates/golden_lm2",
+    "crates/golden_shapes",
 ]
 
 [workspace.package]

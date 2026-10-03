@@ -49,6 +49,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "golden_shapes"
+version = "0.1.0-rc.2"
+dependencies = [
+ "hexx",
+ "snforge_std",
+]
+
+[[package]]
 name = "hexx"
 version = "0.1.0-rc.2"
 dependencies = [

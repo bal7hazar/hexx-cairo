@@ -97,7 +97,7 @@ class PackageSelection(Scratch):
         # The golden packages since LIB-04h: one test target each (AGENTS.md, "Golden tests").
         self.assertEqual(set(bench.workspace_packages()),
                          {"hexx", "takeover_tests", "consumer", "golden_hex", "golden_hex_t2",
-                          "golden_impls", "golden_lm1", "golden_lm2"})
+                          "golden_impls", "golden_lm1", "golden_lm2", "golden_shapes"})
 
     def test_snapshot_rewrites_only_the_packages_measured(self) -> None:
         (self.dir / "hexx.snap").write_text("# gas: measured budget\nhexx::old: 1 2\n")

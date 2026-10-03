@@ -1,0 +1,11 @@
+# The six shapes of `hexx::shapes` and the `Default` of each struct (tools/refgen/src/shapes.rs):
+# sizes 0..=radius_max around eight centres, the rectangles at bounds that make `y >> 1` and
+# `x >> 1` floor a negative odd value, the crossing bounds, and rows or columns of 0.
+module = "shapes"
+package = "golden_shapes"
+
+radius_max = 6        # the sizes of the hexagon, parallelogram, rombus and rectangles
+triangle_max = 10     # the sizes of the triangle (10 is its `Default`)
+hexes_per_test = 300  # a test holds whole cases up to this many hexes
+
+# budgets: ceil(1.05 * measured)
