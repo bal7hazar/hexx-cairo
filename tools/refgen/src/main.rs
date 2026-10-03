@@ -102,6 +102,7 @@ fn run() -> Result<bool, String> {
             for spec in &specs {
                 let outputs = match spec.module.as_str() {
                     "hex" => vec![(target(&root, spec), hex::emit(spec)?)],
+                    "hex_t2" => vec![(target(&root, spec), hex::emit_t2_module(spec)?)],
                     "direction" => vec![(target(&root, spec), direction::emit(spec)?)],
                     "conversions" => vec![(target(&root, spec), conversions::emit(spec)?)],
                     // The golden file, the table region of `board/line.cairo` and the deviations

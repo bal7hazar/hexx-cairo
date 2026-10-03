@@ -12,7 +12,7 @@
 //! cases where `hexx` returns, and a `#[should_panic]` test for the cases where it panics (at most
 //! `panic_cap` per function, evenly spread over the cases that panic).
 
-use hexx::{EdgeDirection, Hex};
+use hexx::{DirectionWay, EdgeDirection, Hex, VertexDirection};
 
 use crate::cairo::{bound_points, cases_array as packed_cases, probe, seeded_points, spread, Emitter};
 use crate::spec::Spec;
@@ -666,6 +666,652 @@ fn emit_l_m2(
     count_tests(e)
 }
 
+// ---- M2-T2: the rest of `HexTrait` ----
+
+/// The rotation counts of the vectors: `0..=12` and the largest `u32` that fits a `u8`.
+const ROTATIONS: [u32; 14] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 255];
+
+/// `2^24`: below it, every integer is exact in `f32`.
+const F32_EXACT: i64 = 1 << 24;
+
+const VERTEX_DIRECTION_IN: Inputs<((i32, i32), usize)> = Inputs {
+    types: "i32, i32, u8",
+    vars: "x, y, d",
+    prelude: "let all = VertexDirectionTrait::ALL_DIRECTIONS;
+let direction = *all.span().at(d.into());
+let h = HexTrait::new(x, y);
+",
+    row: direction_row,
+};
+
+/// A point and a neighbour direction `k` in `0..6`, or `6` for the one non-neighbour `(x + 2, y)`.
+const OTHER_IN: Inputs<((i32, i32), usize)> = Inputs {
+    types: "i32, i32, u8",
+    vars: "x, y, k",
+    prelude: "let h = HexTrait::new(x, y);
+let all = EdgeDirectionTrait::ALL_DIRECTIONS;
+let other = if k < 6 {
+    h.neighbor(*all.span().at(k.into()))
+} else {
+    HexTrait::new(x + 2, y)
+};
+",
+    row: direction_row,
+};
+
+const ROTATION_IN: Inputs<((i32, i32), u32)> = Inputs {
+    types: "i32, i32, u32",
+    vars: "x, y, m",
+    prelude: "let h = HexTrait::new(x, y);\n",
+    row: scalar_u32_row,
+};
+
+const RADIUS_IN: Inputs<((i32, i32), u32)> = Inputs {
+    types: "i32, i32, u32",
+    vars: "x, y, radius",
+    prelude: "let h = HexTrait::new(x, y);\n",
+    row: scalar_u32_row,
+};
+
+type Around = (((i32, i32), (i32, i32)), u32);
+
+const AROUND_IN: Inputs<Around> = Inputs {
+    types: "i32, i32, i32, i32, u32",
+    vars: "x1, y1, x2, y2, m",
+    prelude: "let a = HexTrait::new(x1, y1);\nlet b = HexTrait::new(x2, y2);\n",
+    row: around_row,
+};
+
+fn scalar_u32_row(p: ((i32, i32), u32)) -> String {
+    format!("{}, {}, {}", (p.0).0, (p.0).1, p.1)
+}
+
+fn around_row(p: Around) -> String {
+    format!("{}, {}", pair_row(p.0), p.1)
+}
+
+fn vh(p: (i32, i32)) -> Hex {
+    Hex::new(p.0, p.1)
+}
+
+/// `(kind, first, second)` of a way: `Single(d)` is `(0, d, d)`, `Tie([a, b])` is `(1, a, b)`.
+fn way_row<T: Copy>(way: DirectionWay<T>, index: impl Fn(T) -> u8) -> Vec<String> {
+    match way {
+        DirectionWay::Single(d) => vec!["0".into(), index(d).to_string(), index(d).to_string()],
+        DirectionWay::Tie([a, b]) => vec!["1".into(), index(a).to_string(), index(b).to_string()],
+    }
+}
+
+/// `(length, hash)` of a path: the polynomial hash the Cairo helper `PathDigestTrait::digest` computes.
+fn path_digest(path: impl Iterator<Item = Hex>) -> Vec<String> {
+    let (mut len, mut hash) = (0u32, 0u64);
+    for p in path {
+        let ux = (i64::from(p.x) + 2_147_483_648) as u64;
+        let uy = (i64::from(p.y) + 2_147_483_648) as u64;
+        hash = (hash * 1_000_003 + ux * 65_537 + uy) % 1_000_000_007;
+        len += 1;
+    }
+    vec![len.to_string(), hash.to_string()]
+}
+
+const WAY_TYPES: &str = "u8, u8, u8";
+const WAY_VARS: &str = "ek, e0, e1";
+
+/// The helpers of the generated file: the shape of a way and the digest of a path, in traits
+/// (D-143: a table of helpers, not free functions).
+const T2_USES: &str = "
+/// `(kind, first, second)` of a way: `Single(d)` is `(0, d, d)`, `Tie([a, b])` is `(1, a, b)`.
+#[generate_trait]
+impl WayShape of WayShapeTrait {
+    fn edge(way: DirectionWay<EdgeDirection>) -> (u8, u8, u8) {
+        match way {
+            DirectionWay::Single(d) => (0, d.index(), d.index()),
+            DirectionWay::Tie(pair) => {
+                let [a, b] = pair;
+                (1, a.index(), b.index())
+            },
+        }
+    }
+
+    fn neighbor(direction: Option<EdgeDirection>) -> u8 {
+        match direction {
+            Some(d) => d.index(),
+            None => 255,
+        }
+    }
+
+    fn vertex(way: DirectionWay<VertexDirection>) -> (u8, u8, u8) {
+        match way {
+            DirectionWay::Single(d) => (0, d.index(), d.index()),
+            DirectionWay::Tie(pair) => {
+                let [a, b] = pair;
+                (1, a.index(), b.index())
+            },
+        }
+    }
+}
+
+/// `(length, polynomial hash modulo 1_000_000_007)` of a path, computed as `refgen` does.
+#[generate_trait]
+impl PathDigest of PathDigestTrait {
+    fn digest(path: Span<Hex>) -> (u32, u32) {
+        let mut hash: u64 = 0;
+        let mut i = 0;
+        while i != path.len() {
+            let p = *path.at(i);
+            let x: i64 = p.x.into();
+            let y: i64 = p.y.into();
+            let ux: u64 = (x + 2147483648).try_into().unwrap();
+            let uy: u64 = (y + 2147483648).try_into().unwrap();
+            hash = (hash * 1000003 + ux * 65537 + uy) % 1000000007;
+            i += 1;
+        }
+        (path.len(), hash.try_into().unwrap())
+    }
+}
+";
+
+const UNARY_T2: [Fun<(i32, i32)>; 5] = [
+    Fun {
+        name: "counter_clockwise",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.counter_clockwise()",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p).counter_clockwise()).map(pair),
+    },
+    Fun {
+        name: "clockwise",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.clockwise()",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p).clockwise()).map(pair),
+    },
+    Fun {
+        name: "reflect_x",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.reflect_x()",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p).reflect_x()).map(pair),
+    },
+    Fun {
+        name: "reflect_y",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.reflect_y()",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p).reflect_y()).map(pair),
+    },
+    Fun {
+        name: "reflect_z",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.reflect_z()",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p).reflect_z()).map(pair),
+    },
+];
+
+const PAIR_T2: [Fun<((i32, i32), (i32, i32))>; 6] = [
+    Fun {
+        name: "way_to",
+        types: WAY_TYPES,
+        vars: WAY_VARS,
+        call: "WayShapeTrait::edge(a.way_to(b))",
+        check: "r == (ek, e0, e1)",
+        eval: |p| {
+            probe(|| way_row(h(p.0).way_to(h(p.1)), |d| d.index()))
+        },
+    },
+    Fun {
+        name: "main_direction_to",
+        types: "u8",
+        vars: "e",
+        call: "a.main_direction_to(b).index()",
+        check: "r == e",
+        eval: |p| probe(|| h(p.0).main_direction_to(h(p.1)).index()).map(one),
+    },
+    Fun {
+        name: "diagonal_way_to",
+        types: WAY_TYPES,
+        vars: WAY_VARS,
+        call: "WayShapeTrait::vertex(a.diagonal_way_to(b))",
+        check: "r == (ek, e0, e1)",
+        eval: |p| {
+            probe(|| way_row(h(p.0).diagonal_way_to(h(p.1)), |d| d.index()))
+        },
+    },
+    Fun {
+        name: "main_diagonal_to",
+        types: "u8",
+        vars: "e",
+        call: "a.main_diagonal_to(b).index()",
+        check: "r == e",
+        eval: |p| probe(|| h(p.0).main_diagonal_to(h(p.1)).index()).map(one),
+    },
+    Fun {
+        name: "ccw_around",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "a.ccw_around(b)",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p.0).ccw_around(h(p.1))).map(pair),
+    },
+    Fun {
+        name: "cw_around",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "a.cw_around(b)",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p.0).cw_around(h(p.1))).map(pair),
+    },
+];
+
+/// `rectiline_to` in both senses, as the digest of its path.
+const RECTILINE_T2: [Fun<((i32, i32), (i32, i32))>; 2] = [
+    Fun {
+        name: "rectiline_to_cw",
+        types: "u32, u32",
+        vars: "len, hash",
+        call: "PathDigestTrait::digest(a.rectiline_to(b, true))",
+        check: "r == (len, hash)",
+        eval: |p| probe(|| path_digest(h(p.0).rectiline_to(h(p.1), true))),
+    },
+    Fun {
+        name: "rectiline_to_ccw",
+        types: "u32, u32",
+        vars: "len, hash",
+        call: "PathDigestTrait::digest(a.rectiline_to(b, false))",
+        check: "r == (len, hash)",
+        eval: |p| probe(|| path_digest(h(p.0).rectiline_to(h(p.1), false))),
+    },
+];
+
+const VERTEX_T2: [Fun<((i32, i32), usize)>; 2] = [
+    Fun {
+        name: "diagonal_neighbor",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.diagonal_neighbor(direction)",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| {
+            probe(|| h(p.0).diagonal_neighbor(VertexDirection::ALL_DIRECTIONS[p.1])).map(pair)
+        },
+    },
+    Fun {
+        name: "add_diag_dir",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.add_diag_dir(direction)",
+        check: "r == HexTrait::new(ex, ey)",
+        // `pub(crate)` in `hexx`: its public form is the `Add<VertexDirection>` operator
+        eval: |p| probe(|| h(p.0) + VertexDirection::ALL_DIRECTIONS[p.1]).map(pair),
+    },
+];
+
+const OTHER_T2: [Fun<((i32, i32), usize)>; 1] = [Fun {
+    name: "neighbor_direction",
+    types: "u8",
+    vars: "e",
+    // 255 stands for `None`
+    call: "WayShapeTrait::neighbor(h.neighbor_direction(other))",
+    check: "r == e",
+    eval: |p| {
+        probe(|| {
+            let other = if p.1 < 6 {
+                h(p.0).neighbor(EdgeDirection::ALL_DIRECTIONS[p.1])
+            } else {
+                Hex::new(p.0 .0 + 2, p.0 .1)
+            };
+            h(p.0).neighbor_direction(other).map_or(255, |d| d.index())
+        })
+        .map(one)
+    },
+}];
+
+const ROTATION_T2: [Fun<((i32, i32), u32)>; 2] = [
+    Fun {
+        name: "rotate_cw",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.rotate_cw(m)",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p.0).rotate_cw(p.1)).map(pair),
+    },
+    Fun {
+        name: "rotate_ccw",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.rotate_ccw(m)",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p.0).rotate_ccw(p.1)).map(pair),
+    },
+];
+
+const AROUND_T2: [Fun<Around>; 2] = [
+    Fun {
+        name: "rotate_cw_around",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "a.rotate_cw_around(b, m)",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h((p.0).0).rotate_cw_around(h((p.0).1), p.1)).map(pair),
+    },
+    Fun {
+        name: "rotate_ccw_around",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "a.rotate_ccw_around(b, m)",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h((p.0).0).rotate_ccw_around(h((p.0).1), p.1)).map(pair),
+    },
+];
+
+const HIGHER_T2: [Fun<((i32, i32), u32)>; 1] = [Fun {
+    name: "to_higher_res",
+    types: "i32, i32",
+    vars: "ex, ey",
+    call: "h.to_higher_res(radius)",
+    check: "r == HexTrait::new(ex, ey)",
+    eval: |p| probe(|| h(p.0).to_higher_res(p.1)).map(pair),
+}];
+
+const LOWER_T2: [Fun<((i32, i32), u32)>; 3] = [
+    Fun {
+        name: "to_lower_res",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.to_lower_res(radius)",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p.0).to_lower_res(p.1)).map(pair),
+    },
+    Fun {
+        name: "to_local",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.to_local(radius)",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p.0).to_local(p.1)).map(pair),
+    },
+    Fun {
+        name: "wrap_in_range",
+        types: "i32, i32",
+        vars: "ex, ey",
+        call: "h.wrap_in_range(radius)",
+        check: "r == HexTrait::new(ex, ey)",
+        eval: |p| probe(|| h(p.0).wrap_in_range(p.1)).map(pair),
+    },
+];
+
+/// Whether `to_lower_res` is exact in `f32` on `p` at `radius`: every operand converted to `f32` is
+/// below `2^24` in magnitude, so that `hexx`'s floor is the exact one. Computed in `i64`.
+fn lower_res_exact(p: (i32, i32), radius: u32) -> bool {
+    let (x, y) = (i64::from(p.0), i64::from(p.1));
+    let z = -x - y;
+    let r = i64::from(radius);
+    let (area, shift) = (3 * r * (r + 1) + 1, 3 * r + 2);
+    let n = [y + shift * x, z + shift * y, x + shift * z];
+    if area >= F32_EXACT || n.iter().any(|v| v.abs() >= F32_EXACT) {
+        return false;
+    }
+    let q = n.map(|v| v.div_euclid(area));
+    [1 + q[0] - q[1], 1 + q[1] - q[2]].iter().all(|v| v.abs() < F32_EXACT)
+}
+
+/// The largest numerator of `to_lower_res` at `p`, `radius`: how far from zero the `f32` operands go.
+fn lower_res_magnitude(p: (i32, i32), radius: u32) -> i64 {
+    let (x, y) = (i64::from(p.0), i64::from(p.1));
+    let z = -x - y;
+    let shift = 3 * i64::from(radius) + 2;
+    [y + shift * x, z + shift * y, x + shift * z].iter().map(|v| v.abs()).max().unwrap_or(0)
+}
+
+/// `all_diagonals` of a point: its six diagonal neighbours, as one array.
+fn all_diagonals_test(
+    e: &mut Emitter,
+    prefix: &str,
+    inputs: &[(i32, i32)],
+    cap: Option<usize>,
+) -> Result<(), String> {
+    let mut rows = Vec::new();
+    let mut failing = Vec::new();
+    for &p in inputs {
+        match probe(|| h(p).all_diagonals()) {
+            Some(n) => rows.push(format!(
+                "{}, {}, {}",
+                p.0,
+                p.1,
+                n.iter().map(|c| format!("{}, {}", c.x, c.y)).collect::<Vec<_>>().join(", ")
+            )),
+            None if cap.is_some() => failing.push(p),
+            None => return Err("hexx panics inside the seeded domain: all_diagonals".into()),
+        }
+    }
+    let body = format!(
+        "{}    let mut i = 0;
+    while i < cases.len() {{
+        let (x, y, x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5) = *cases.at(i);
+        let r = HexTrait::new(x, y).all_diagonals();
+        let expected = [
+            HexTrait::new(x0, y0), HexTrait::new(x1, y1), HexTrait::new(x2, y2),
+            HexTrait::new(x3, y3), HexTrait::new(x4, y4), HexTrait::new(x5, y5),
+        ];
+        assert(r == expected, 'all_diagonals');
+        i += 1;
+    }}
+",
+        cases_array("i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32", &rows)
+    );
+    e.test(&format!("golden_hex_{prefix}_all_diagonals"), false, &body)?;
+    if let Some(cap) = cap {
+        for (n, p) in spread(&failing, cap).into_iter().enumerate() {
+            let body =
+                format!("    let _ = HexTrait::new({}, {}).all_diagonals();\n", p.0, p.1);
+            e.test(&format!("golden_hex_{prefix}_all_diagonals_panics_{n}"), true, &body)?;
+        }
+    }
+    Ok(())
+}
+
+/// `range` and `xrange`: for 8 centres and radii `0..=6`, the spans compared element by element, in
+/// the order of `hexx`.
+fn range_tests(e: &mut Emitter, points: &[(i32, i32)]) -> Result<(), String> {
+    let centers: Vec<(i32, i32)> = points.iter().step_by(points.len() / 8).copied().take(8).collect();
+    for (name, exclude) in [("range", false), ("xrange", true)] {
+        let mut cases = Vec::new();
+        let mut flat = Vec::new();
+        for &c in &centers {
+            for radius in 0..=6u32 {
+                cases.push(format!("{}, {}, {}", c.0, c.1, radius));
+                let span: Vec<Hex> = if exclude {
+                    h(c).xrange(radius).collect()
+                } else {
+                    h(c).range(radius).collect()
+                };
+                flat.extend(span.iter().map(|s| format!("{}, {}", s.x, s.y)));
+            }
+        }
+        let body = format!(
+            "{}{}    let mut at = 0;
+    let mut i = 0;
+    while i < cases.len() {{
+        let (x, y, r) = *cases.at(i);
+        let span = HexTrait::new(x, y).{name}(r);
+        let mut j = 0;
+        while j < span.len() {{
+            let (ex, ey) = *expected.at(at + j);
+            assert(*span.at(j) == HexTrait::new(ex, ey), '{name}');
+            j += 1;
+        }}
+        at += span.len();
+        i += 1;
+    }}
+    assert(at == expected.len(), '{name} len');
+",
+            cases_array("i32, i32, u32", &cases),
+            cases_array("i32, i32", &flat).replace("let cases", "let expected"),
+        );
+        e.test(&format!("golden_hex_{name}"), false, &body)?;
+    }
+    Ok(())
+}
+
+/// The items of M2-T2.
+fn emit_t2(
+    e: &mut Emitter,
+    points: &[(i32, i32)],
+    panic_cap: usize,
+) -> Result<(), String> {
+    // Every second point of the 121 bound points (the extremes included): the tables near the
+    // bounds of the new items are halved for the compile size of the integration target.
+    let bounds: Vec<(i32, i32)> = bound_points().into_iter().step_by(2).collect();
+
+    // The unary items: seeded points, then near the bounds.
+    tables(e, "unary_t2", points, &HEX_IN, &UNARY_T2, None)?;
+    tables(e, "bounds_t2", &bounds, &HEX_IN, &UNARY_T2, Some(panic_cap))?;
+    all_diagonals_test(e, "unary", points, None)?;
+    all_diagonals_test(e, "bounds", &bounds, Some(panic_cap))?;
+
+    // The binary items on every ordered pair of a 16-point subset (every fourth seeded point), in
+    // one test per function, then near the bounds. The 64 x 64 pairs of the first version made the
+    // integration target too large for the CI runner's compile (41,000 lines): the exhaustive
+    // checks are the module oracles. `rectiline_to` has none near the bounds: a path of two
+    // billion hexes.
+    let subset: Vec<(i32, i32)> = points.iter().step_by(4).copied().collect();
+    let pairs: Vec<_> =
+        subset.iter().flat_map(|&a| subset.iter().map(move |&b| (a, b))).collect();
+    tables(e, "pairs_t2", &pairs, &PAIR_IN, &PAIR_T2, None)?;
+    tables(e, "pairs_t2", &pairs, &PAIR_IN, &RECTILINE_T2, None)?;
+    let bound_pairs: Vec<_> = BOUND_PAIR_POINTS
+        .iter()
+        .flat_map(|&a| BOUND_PAIR_POINTS.iter().map(move |&b| (a, b)))
+        .collect();
+    tables(e, "bounds_pairs", &bound_pairs, &PAIR_IN, &PAIR_T2, Some(panic_cap))?;
+
+    // The diagonal neighbours: the six vertex directions of every point, then near the bounds.
+    let diagonals: Vec<((i32, i32), usize)> =
+        points.iter().flat_map(|&p| (0..6).map(move |d| (p, d))).collect();
+    tables(e, "diagonal", &diagonals, &VERTEX_DIRECTION_IN, &VERTEX_T2, None)?;
+    let bound_diagonals: Vec<((i32, i32), usize)> =
+        bounds.iter().flat_map(|&p| (0..6).map(move |d| (p, d))).collect();
+    tables(
+        e,
+        "bounds_diagonal",
+        &bound_diagonals,
+        &VERTEX_DIRECTION_IN,
+        &VERTEX_T2,
+        Some(panic_cap),
+    )?;
+    let mut body = String::new();
+    for d in 0..6 {
+        let c = Hex::diagonal_neighbor_coord(VertexDirection::ALL_DIRECTIONS[d]);
+        body.push_str(&format!(
+            "    let all = VertexDirectionTrait::ALL_DIRECTIONS;
+    let direction = *all.span().at({d});
+    assert(
+        HexTrait::diagonal_neighbor_coord(direction) == HexTrait::new({}, {}),
+        'diagonal_neighbor_coord {d}',
+    );\n",
+            c.x, c.y
+        ));
+    }
+    e.test("golden_hex_diagonal_neighbor_coord", false, &body)?;
+
+    // `neighbor_direction` against each neighbour and one non-neighbour, then near the bounds.
+    let others: Vec<((i32, i32), usize)> =
+        points.iter().flat_map(|&p| (0..7).map(move |k| (p, k))).collect();
+    tables(e, "other", &others, &OTHER_IN, &OTHER_T2, None)?;
+    let bound_others: Vec<((i32, i32), usize)> = bounds
+        .iter()
+        .flat_map(|&p| (0..7).map(move |k| (p, k)))
+        .filter(|&(p, k)| k < 6 || probe(|| Hex::new(p.0 + 2, p.1)).is_some())
+        .collect();
+    tables(e, "bounds_other", &bound_others, &OTHER_IN, &OTHER_T2, Some(panic_cap))?;
+
+    // The rotations at `m` in `0..=12` and 255, then near the bounds.
+    let rotations: Vec<((i32, i32), u32)> =
+        points.iter().flat_map(|&p| ROTATIONS.iter().map(move |&m| (p, m))).collect();
+    tables(e, "rotation", &rotations, &ROTATION_IN, &ROTATION_T2, None)?;
+    let bound_rotations: Vec<((i32, i32), u32)> =
+        bounds.iter().flat_map(|&p| [1u32, 3, 4].into_iter().map(move |m| (p, m))).collect();
+    tables(e, "bounds_rotation", &bound_rotations, &ROTATION_IN, &ROTATION_T2, Some(panic_cap))?;
+
+    // The rotations around a center: the 16-point subset around 4 centres, in 2 tests.
+    let centers: Vec<(i32, i32)> = points.iter().step_by(16).copied().collect();
+    let arounds: Vec<Around> = subset
+        .iter()
+        .flat_map(|&p| {
+            centers.iter().flat_map(move |&c| ROTATIONS.iter().map(move |&m| ((p, c), m)))
+        })
+        .collect();
+    for (n, part) in arounds.chunks(arounds.len() / 2).enumerate() {
+        tables(e, &format!("around_{n}"), part, &AROUND_IN, &AROUND_T2, None)?;
+    }
+    let bound_arounds: Vec<Around> = BOUND_PAIR_POINTS
+        .iter()
+        .flat_map(|&a| {
+            BOUND_PAIR_POINTS
+                .iter()
+                .flat_map(move |&c| [1u32, 4].into_iter().map(move |m| ((a, c), m)))
+        })
+        .collect();
+    tables(e, "bounds_around", &bound_arounds, &AROUND_IN, &AROUND_T2, Some(panic_cap))?;
+
+    // The resolutions at radii `1..=6`; a seeded sample of points whose operands are between
+    // `2^22` and `2^24`, where `hexx` is still exact; and near the bounds, where it panics.
+    let radii: Vec<((i32, i32), u32)> =
+        points.iter().flat_map(|&p| (1..=6).map(move |r| (p, r))).collect();
+    tables(e, "resolution", &radii, &RADIUS_IN, &LOWER_T2, None)?;
+    tables(e, "resolution", &radii, &RADIUS_IN, &HIGHER_T2, None)?;
+    let mut rng = crate::cairo::Rng::new("hex::big");
+    let mut big: Vec<((i32, i32), u32)> = Vec::new();
+    for radius in 1..=6u32 {
+        let shift = 3 * i64::from(radius) + 2;
+        let limit = (F32_EXACT / (shift + 2)) as i32;
+        let mut kept = 0;
+        while kept < 16 {
+            let p = (rng.next_i32(-limit, limit), rng.next_i32(-limit, limit));
+            let magnitude = lower_res_magnitude(p, radius);
+            if lower_res_exact(p, radius) && magnitude >= 1 << 22 {
+                big.push((p, radius));
+                kept += 1;
+            }
+        }
+    }
+    tables(e, "big", &big, &RADIUS_IN, &LOWER_T2, None)?;
+    tables(e, "big", &big, &RADIUS_IN, &HIGHER_T2, None)?;
+    // Near the bounds: `hexx`'s answer is its `f32` one where it returns beyond `2^24` (not this
+    // port's exact floor, see the deviation): those cases have no vector, the ones where `hexx`
+    // panics keep their `#[should_panic]`.
+    let bound_radii: Vec<((i32, i32), u32)> =
+        bounds.iter().flat_map(|&p| [1u32, 6].into_iter().map(move |r| (p, r))).collect();
+    let kept: Vec<((i32, i32), u32)> = bound_radii
+        .iter()
+        .copied()
+        .filter(|&(p, r)| probe(|| vh(p).to_lower_res(r)).is_none() || lower_res_exact(p, r))
+        .collect();
+    tables(e, "bounds_resolution", &kept, &RADIUS_IN, &LOWER_T2, Some(panic_cap))?;
+    tables(e, "bounds_resolution", &bound_radii, &RADIUS_IN, &HIGHER_T2, Some(panic_cap))?;
+
+    // `range` and `xrange`.
+    range_tests(e, points)?;
+
+    // `Debug`: the string of `hexx` for the seeded points.
+    let mut body = String::new();
+    for &p in points {
+        body.push_str(&format!(
+            "    assert!(format!(\"{{:?}}\", HexTrait::new({}, {})) == \"{:?}\");\n",
+            p.0,
+            p.1,
+            h(p)
+        ));
+    }
+    e.test("golden_hex_debug", false, &body)?;
+    Ok(())
+}
+
 pub fn emit(spec: &Spec) -> Result<String, String> {
     let points = seeded_points(
         &spec.text("seed")?,
@@ -807,5 +1453,30 @@ pub fn emit(spec: &Spec) -> Result<String, String> {
         }
     }
     emit_l_m2(&mut e, &points, spec.int("ops_chunks")? as usize, panic_cap)?;
+    e.finish()
+}
+
+/// The generated file of M2-T2 (`golden_hex_t2`, its own package: the target of `golden_hex` is at
+/// its line budget, `AGENTS.md` *Golden tests*): the same seeded points as `emit`.
+pub fn emit_t2_module(spec: &Spec) -> Result<String, String> {
+    let points = seeded_points(
+        &spec.text("seed")?,
+        spec.int("points")? as usize,
+        spec.int("domain_min")? as i32,
+        spec.int("domain_max")? as i32,
+    );
+    let panic_cap = spec.int("panic_cap")? as usize;
+    let mut e = Emitter::new(
+        spec,
+        "the items of M2-T2 of `Hex` (src/hex/mod.rs): `diagonal_neighbor_coord`\n// :641, `add_diag_dir` :649, `diagonal_neighbor` :682, `neighbor_direction` :700,\n// `main_diagonal_to` :709, `diagonal_way_to` :715, `main_direction_to` :734, `way_to` :740,\n// `all_diagonals` :767, the rotations :784-860, the reflections :868-884, `rectiline_to` :936,\n// `range` :993, `xrange` :1021, `to_lower_res` :1064, `to_higher_res` :1114, `to_local` :1143,\n// `wrap_in_range` :1183, `Debug` :1189",
+        &format!(
+            "use hexx::direction::edge_direction::{{EdgeDirection, EdgeDirectionTrait}};
+use hexx::direction::vertex_direction::{{VertexDirection, VertexDirectionTrait}};
+use hexx::direction::way::DirectionWay;
+use hexx::hex::{{Hex, HexTrait}};
+{T2_USES}"
+        ),
+    );
+    emit_t2(&mut e, &points, panic_cap)?;
     e.finish()
 }
