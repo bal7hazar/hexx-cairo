@@ -642,7 +642,7 @@ mod tests {
         assert!(HexBoundsTrait::from_radius(0).hex_count() == 1);
         assert!(HexBoundsTrait::from_radius(6).hex_count() == 127);
         assert!(HexBoundsTrait::from_radius(64).hex_count32() == 12481);
-        assert!(HexBoundsTrait::from_radius(37836).hex_count32() == 4294705153);
+        assert!(HexBoundsTrait::from_radius(37836).hex_count32() == 4294802197);
     }
 
     #[test]
