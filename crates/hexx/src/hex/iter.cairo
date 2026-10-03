@@ -98,7 +98,7 @@ mod tests {
     /// `hexx`'s documented examples: the average, centre and bounds of `ZERO.range(10)`; the
     /// empty span gives the origin.
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 7997819)]
     fn test_span_ext() {
         let span = HexTrait::ZERO.range(10);
         assert!(span.average() == HexTrait::ZERO);
@@ -118,7 +118,7 @@ mod tests {
     /// Oracle: the span of a bounds' corners has those bounds, and the centre of a symmetric span
     /// is its centre.
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 187415)]
     fn test_span_ext_oracle() {
         let bounds = HexBoundsTrait::new(HexTrait::new(7, -4), 5);
         let corners = bounds.corners();
@@ -144,25 +144,25 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 20000000)]
+    #[available_gas(l2_gas: 97986)]
     fn bench_iter_baseline() {
         assert!(FixtureTrait::span16().len() == 16);
     }
 
     #[test]
-    #[available_gas(l2_gas: 20000000)]
+    #[available_gas(l2_gas: 201212)]
     fn bench_iter_average() {
         assert!(FixtureTrait::span16().average().x != 1000);
     }
 
     #[test]
-    #[available_gas(l2_gas: 20000000)]
+    #[available_gas(l2_gas: 252378)]
     fn bench_iter_center() {
         assert!(FixtureTrait::span16().center().x != 1000);
     }
 
     #[test]
-    #[available_gas(l2_gas: 20000000)]
+    #[available_gas(l2_gas: 252378)]
     fn bench_iter_bounds() {
         assert!(FixtureTrait::span16().bounds().radius != 1000);
     }

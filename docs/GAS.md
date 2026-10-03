@@ -896,6 +896,38 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::seams::tests::test_seams_side` | 44,928,160 | 47,174,568 | 5.0 % |
 | `hexx::board::tables::tests::test_tables_bands` | 895,300 | 940,065 | 5.0 % |
 | `hexx::board::tables::tests::test_tables_rows_16` | 731,130 | 767,687 | 5.0 % |
+| `hexx::bounds::tests::bench_bounds_all_coords` | 586,050 | 615,353 | 5.0 % |
+| `hexx::bounds::tests::bench_bounds_baseline` | 34,300 | 36,015 | 5.0 % |
+| `hexx::bounds::tests::bench_bounds_corners` | 324,640 | 340,872 | 5.0 % |
+| `hexx::bounds::tests::bench_bounds_from_min_max` | 534,490 | 561,215 | 5.0 % |
+| `hexx::bounds::tests::bench_bounds_from_span` | 405,730 | 426,017 | 5.0 % |
+| `hexx::bounds::tests::bench_bounds_from_span_baseline` | 257,920 | 270,816 | 5.0 % |
+| `hexx::bounds::tests::bench_bounds_hex_count` | 24,310 | 25,526 | 5.0 % |
+| `hexx::bounds::tests::bench_bounds_hex_count32` | 24,310 | 25,526 | 5.0 % |
+| `hexx::bounds::tests::bench_bounds_intersecting_with` | 2,414,390 | 2,535,110 | 5.0 % |
+| `hexx::bounds::tests::bench_bounds_is_in_bounds` | 125,690 | 131,975 | 5.0 % |
+| `hexx::bounds::tests::bench_bounds_wrap` | 402,850 | 422,993 | 5.0 % |
+| `hexx::bounds::tests::bench_bounds_wrap_local` | 387,730 | 407,117 | 5.0 % |
+| `hexx::bounds::tests::test_bounds_edge_cases` | 38,750 | 40,688 | 5.0 % |
+| `hexx::bounds::tests::test_bounds_hexagon` | 4,928,160 | 5,174,568 | 5.0 % |
+| `hexx::bounds::tests::test_bounds_line` | 5,274,160 | 5,537,868 | 5.0 % |
+| `hexx::bounds::tests::test_bounds_rhombus` | 6,628,460 | 6,959,883 | 5.0 % |
+| `hexx::bounds::tests::test_constructors` | 6,010 | 6,311 | 5.0 % |
+| `hexx::bounds::tests::test_corners` | 89,740 | 94,227 | 5.0 % |
+| `hexx::bounds::tests::test_corners_radius_above_i32` | 7,610 | 7,991 | 5.0 % |
+| `hexx::bounds::tests::test_from_span_minimal` | 29,719,490 | 31,205,465 | 5.0 % |
+| `hexx::bounds::tests::test_from_span_oracle` | 11,558,190 | 12,136,100 | 5.0 % |
+| `hexx::bounds::tests::test_hex_count` | 6,010 | 6,311 | 5.0 % |
+| `hexx::bounds::tests::test_hex_count_overflow` | 7,610 | 7,991 | 5.0 % |
+| `hexx::bounds::tests::test_in_bounds_work` | 2,297,640 | 2,412,522 | 5.0 % |
+| `hexx::bounds::tests::test_intersecting_with` | 668,050 | 701,453 | 5.0 % |
+| `hexx::bounds::tests::test_intersecting_with_oracle` | 298,389,470 | 313,308,944 | 5.0 % |
+| `hexx::bounds::tests::test_is_in_bounds_oracle` | 11,075,960 | 11,629,758 | 5.0 % |
+| `hexx::bounds::tests::test_positive_radius` | 2,856,650 | 2,999,483 | 5.0 % |
+| `hexx::bounds::tests::test_positive_radius_above_i32` | 7,610 | 7,991 | 5.0 % |
+| `hexx::bounds::tests::test_range_works` | 2,276,060 | 2,389,863 | 5.0 % |
+| `hexx::bounds::tests::test_wrapping_outside_works` | 6,010 | 6,311 | 5.0 % |
+| `hexx::bounds::tests::test_wrapping_works` | 6,010 | 6,311 | 5.0 % |
 | `hexx::conversions::tests::bench_from_hexmod_coordinates` | 1,525,150 | 1,601,408 | 5.0 % |
 | `hexx::conversions::tests::bench_hexmod_baseline` | 349,030 | 366,482 | 5.0 % |
 | `hexx::conversions::tests::bench_to_hexmod_coordinates` | 1,085,590 | 1,139,870 | 5.0 % |
@@ -1142,6 +1174,12 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::hex::impls::tests::test_div_scalar_regressions` | 6,010 | 6,311 | 5.0 % |
 | `hexx::hex::impls::tests::test_div_scalar_zero` | 7,610 | 7,991 | 5.0 % |
 | `hexx::hex::impls::tests::test_operators` | 177,420 | 186,291 | 5.0 % |
+| `hexx::hex::iter::tests::bench_iter_average` | 191,630 | 201,212 | 5.0 % |
+| `hexx::hex::iter::tests::bench_iter_baseline` | 93,320 | 97,986 | 5.0 % |
+| `hexx::hex::iter::tests::bench_iter_bounds` | 240,360 | 252,378 | 5.0 % |
+| `hexx::hex::iter::tests::bench_iter_center` | 240,360 | 252,378 | 5.0 % |
+| `hexx::hex::iter::tests::test_span_ext` | 7,616,970 | 7,997,819 | 5.0 % |
+| `hexx::hex::iter::tests::test_span_ext_oracle` | 178,490 | 187,415 | 5.0 % |
 | `hexx::hex::tests::bench_hex_all_diagonals` | 1,484,160 | 1,558,368 | 5.0 % |
 | `hexx::hex::tests::bench_hex_all_neighbors` | 1,150,120 | 1,207,626 | 5.0 % |
 | `hexx::hex::tests::bench_hex_baseline_operands` | 446,280 | 468,594 | 5.0 % |
@@ -2678,7 +2716,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 7,810 | 8,201 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 7,810 | 8,201 | 5.0 % |
 
-2671 measured test(s).
+2709 measured test(s).
 
 ## Figures accepted above their range
 

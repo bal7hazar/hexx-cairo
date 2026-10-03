@@ -486,7 +486,7 @@ mod tests {
     // ----- the tests of `hexx` (`src/bounds.rs:241-455`) -----
 
     #[test]
-    #[available_gas(l2_gas: 7000000)]
+    #[available_gas(l2_gas: 2412522)]
     fn test_in_bounds_work() {
         let bounds = HexBoundsTrait::new(HexTrait::new(-4, 23), 6);
         let mut coords = bounds.all_coords();
@@ -497,7 +497,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 7000000)]
+    #[available_gas(l2_gas: 701453)]
     fn test_intersecting_with() {
         let ba = HexBoundsTrait::new(HexTrait::ZERO, 3);
         let bb = HexBoundsTrait::new(HexTrait::new(4, 0), 3);
@@ -505,7 +505,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 7000000)]
+    #[available_gas(l2_gas: 6311)]
     fn test_wrapping_works() {
         let map = HexBoundsTrait::from_radius(3);
         assert!(map.wrap(HexTrait::new(0, 4)) == HexTrait::new(-3, 0));
@@ -514,7 +514,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 7000000)]
+    #[available_gas(l2_gas: 6311)]
     fn test_wrapping_outside_works() {
         let map = HexBoundsTrait::from_radius(2);
         assert!(map.wrap(HexTrait::new(3, 0)) == HexTrait::new(-2, 2));
@@ -528,7 +528,7 @@ mod tests {
     /// `hexx` goes to radius 99; the coordinates of radius `r` are all positive for any `r`, and
     /// 0 to 6 hold the property in the ranges the gas budget allows.
     #[test]
-    #[available_gas(l2_gas: 7000000)]
+    #[available_gas(l2_gas: 2999483)]
     fn test_positive_radius() {
         let mut radius = 0;
         while radius < 7 {
@@ -543,7 +543,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 7000000)]
+    #[available_gas(l2_gas: 5174568)]
     fn test_bounds_hexagon() {
         let mut centers = array![HexTrait::ZERO, HexTrait::new(15, -19)].span();
         while let Some(center) = centers.pop_front() {
@@ -558,7 +558,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 7000000)]
+    #[available_gas(l2_gas: 2389863)]
     fn test_range_works() {
         let coords = HexTrait::ZERO.range(5);
         let bounds = HexBoundsTrait::from_span(coords);
@@ -570,7 +570,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 7000000)]
+    #[available_gas(l2_gas: 6959883)]
     fn test_bounds_rhombus() {
         let mut size = 1;
         while size < 6 {
@@ -592,7 +592,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 7000000)]
+    #[available_gas(l2_gas: 5537868)]
     fn test_bounds_line() {
         let mut direction = 0;
         while direction < 6 {
@@ -614,7 +614,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 7000000)]
+    #[available_gas(l2_gas: 40688)]
     fn test_bounds_edge_cases() {
         // Doesn't matter where it's placed, the radius is 0: the origin, as `hexx` does.
         let empty: Span<Hex> = array![].span();
@@ -626,7 +626,7 @@ mod tests {
     // ----- the other items -----
 
     #[test]
-    #[available_gas(l2_gas: 7000000)]
+    #[available_gas(l2_gas: 6311)]
     fn test_constructors() {
         let bounds = HexBoundsTrait::new(HexTrait::new(1, -2), 3);
         assert!(bounds.center == HexTrait::new(1, -2) && bounds.radius == 3);
@@ -637,7 +637,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 7000000)]
+    #[available_gas(l2_gas: 6311)]
     fn test_hex_count() {
         assert!(HexBoundsTrait::from_radius(0).hex_count() == 1);
         assert!(HexBoundsTrait::from_radius(6).hex_count() == 127);
@@ -646,7 +646,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 7000000)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_hex_count_overflow() {
         let _ = HexBoundsTrait::from_radius(37837).hex_count32();
@@ -654,21 +654,21 @@ mod tests {
 
     /// `hexx` casts the radius with `as`, which wraps; the port panics above `i32::MAX`.
     #[test]
-    #[available_gas(l2_gas: 7000000)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_positive_radius_above_i32() {
         let _ = HexBoundsTrait::positive_radius(2147483648);
     }
 
     #[test]
-    #[available_gas(l2_gas: 7000000)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_corners_radius_above_i32() {
         let _ = HexBoundsTrait::from_radius(2147483648).corners();
     }
 
     #[test]
-    #[available_gas(l2_gas: 7000000)]
+    #[available_gas(l2_gas: 94227)]
     fn test_corners() {
         let [c0, c1, c2, c3, c4, c5] = HexBoundsTrait::new(HexTrait::new(1, 1), 2).corners();
         let all = EdgeDirectionTrait::ALL_DIRECTIONS.span();
@@ -688,7 +688,7 @@ mod tests {
     /// (every hexagon of it is tested, in or out), and the count of hexagons in against
     /// `hex_count`.
     #[test]
-    #[available_gas(l2_gas: 40000000)]
+    #[available_gas(l2_gas: 11629758)]
     fn test_is_in_bounds_oracle() {
         let bounds = HexBoundsTrait::new(HexTrait::new(3, -5), 4);
         let larger = HexBoundsTrait::new(HexTrait::new(1, -2), 9);
@@ -709,7 +709,7 @@ mod tests {
     /// window that holds both, its elements are exactly the hexagons in both, each once (the
     /// order is `x` then `y` ascending), whichever of the two is the smaller, and for equal radii.
     #[test]
-    #[available_gas(l2_gas: 400000000)]
+    #[available_gas(l2_gas: 313308944)]
     fn test_intersecting_with_oracle() {
         let window = HexBoundsTrait::from_radius(14);
         let bounds = array![
@@ -740,7 +740,7 @@ mod tests {
     /// and whose radius minus one does not, around the same centre, on 16 seeded spans of 1 to 32
     /// points, triangular shapes (the `trio` branch of `hexx`'s algorithm) among them.
     #[test]
-    #[available_gas(l2_gas: 400000000)]
+    #[available_gas(l2_gas: 12136100)]
     fn test_from_span_oracle() {
         let mut seed: u64 = 20260610;
         let mut i: u32 = 0;
@@ -761,7 +761,7 @@ mod tests {
     /// Minimality in full: no bounds of radius `r - 1`, around any centre, contain a seeded span
     /// of a small window, nor a triangle of side 1 to 8 (the shapes of the `trio` branch).
     #[test]
-    #[available_gas(l2_gas: 2000000000)]
+    #[available_gas(l2_gas: 31205465)]
     fn test_from_span_minimal() {
         let mut seed: u64 = 7;
         let mut spans = array![];
@@ -808,7 +808,7 @@ mod tests {
     const REPS: u8 = 10;
 
     #[test]
-    #[available_gas(l2_gas: 20000000)]
+    #[available_gas(l2_gas: 36015)]
     fn bench_bounds_baseline() {
         let bounds = HexBoundsTrait::new(HexTrait::new(2, -3), 6);
         let mut acc: i32 = 0;
@@ -822,7 +822,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 20000000)]
+    #[available_gas(l2_gas: 131975)]
     fn bench_bounds_is_in_bounds() {
         let bounds = HexBoundsTrait::new(HexTrait::new(2, -3), 6);
         let mut acc: i32 = 0;
@@ -839,7 +839,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 20000000)]
+    #[available_gas(l2_gas: 25526)]
     fn bench_bounds_hex_count() {
         let bounds = HexBoundsTrait::from_radius(64);
         let mut acc: u32 = 0;
@@ -852,7 +852,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 20000000)]
+    #[available_gas(l2_gas: 25526)]
     fn bench_bounds_hex_count32() {
         let bounds = HexBoundsTrait::from_radius(64);
         let mut acc: u32 = 0;
@@ -865,7 +865,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 20000000)]
+    #[available_gas(l2_gas: 422993)]
     fn bench_bounds_wrap() {
         let bounds = HexBoundsTrait::new(HexTrait::new(2, -3), 6);
         let mut acc: i32 = 0;
@@ -879,7 +879,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 20000000)]
+    #[available_gas(l2_gas: 407117)]
     fn bench_bounds_wrap_local() {
         let bounds = HexBoundsTrait::new(HexTrait::new(2, -3), 6);
         let mut acc: i32 = 0;
@@ -893,7 +893,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 20000000)]
+    #[available_gas(l2_gas: 561215)]
     fn bench_bounds_from_min_max() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -906,7 +906,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 20000000)]
+    #[available_gas(l2_gas: 340872)]
     fn bench_bounds_corners() {
         let bounds = HexBoundsTrait::new(HexTrait::new(2, -3), 6);
         let mut acc: i32 = 0;
@@ -920,14 +920,14 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 20000000)]
+    #[available_gas(l2_gas: 615353)]
     fn bench_bounds_all_coords() {
         let bounds = HexBoundsTrait::new(HexTrait::new(2, -3), 6);
         assert!(bounds.all_coords().len() == 127);
     }
 
     #[test]
-    #[available_gas(l2_gas: 20000000)]
+    #[available_gas(l2_gas: 2535110)]
     fn bench_bounds_intersecting_with() {
         let a = HexBoundsTrait::new(HexTrait::new(2, -3), 6);
         let b = HexBoundsTrait::new(HexTrait::new(-1, 2), 6);
@@ -935,7 +935,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 20000000)]
+    #[available_gas(l2_gas: 270816)]
     fn bench_bounds_from_span_baseline() {
         let mut seed: u64 = 99;
         let span = OracleTrait::points(ref seed, 16, 20);
@@ -943,7 +943,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 20000000)]
+    #[available_gas(l2_gas: 426017)]
     fn bench_bounds_from_span() {
         let mut seed: u64 = 99;
         let span = OracleTrait::points(ref seed, 16, 20);
