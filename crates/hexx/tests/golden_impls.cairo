@@ -3,7 +3,7 @@
 //
 // Oracle: hexx 0.25.0, the operators of `Hex` (src/hex/impls.rs): `Add` :16, `AddAssign` :55,
 // `Sub` :96, `SubAssign` :135, `Mul` :164, `MulAssign` :196, `Div` :230,
-//, `DivAssign` :265, `Rem` :286, `RemAssign` :304, `Neg` :318; the counterparts
+// `DivAssign` :265, `Rem` :286, `RemAssign` :304, `Neg` :318; the counterparts
 // `Add<i32>` :25, `Add<EdgeDirection>` :38, `Add<VertexDirection>` :46, `Sub<i32>` :105,
 // `Sub<EdgeDirection>` :117, `Sub<VertexDirection>` :125, `Div<i32>` :241, `Rem<i32>` :295
 // (pinned checkout sources/hexx, tag 0.25.0,

@@ -8,20 +8,16 @@
 //! Excluded (plan §4.4, §14 #43): the bitwise and shift operators, the heterogeneous assignment
 //! operators, every `f32` operand. `Sum` and `Product` are not here: corelib's `core::iter::Sum`
 //! and `Product` declare `+Iterator<I>[Item: A]`, and implementing them needs the crate's
-//! experimental feature `associated_item_constraints` (escalated by M2-T3, LIB-06).
+//! experimental feature `associated_item_constraints` (deferred: `PLAN.md`, "Deferred").
 //!
 //! An impl is found where its trait or its type is declared, or where it is imported: these live in
 //! `hexx::hex::impls`, so a consumer imports the ones it uses (`use hexx::hex::impls::{HexAdd,
 //! HexOpsTrait};`), as for the `Neg` of the direction types.
 //!
-//! The assignment operators name their corelib trait by its path: `scripts/api_parity.py` does not
-//! classify a two-argument `AddAssign<Hex, Hex>` yet, and an impl of a mirror owner it reads but
-//! cannot classify stops the parity check. Their rows read `missing` until the script learns them
-//! (escalated by M2-T3, LIB-06).
-//!
 //! Every operation whose result leaves `i32` **panics**, where `hexx` panics in a debug build and
 //! wraps in a release build (plan §3.1).
 
+use core::ops::{AddAssign, DivAssign, MulAssign, RemAssign, SubAssign};
 use crate::direction::edge_direction::{EdgeDirection, EdgeDirectionTrait};
 use crate::direction::vertex_direction::{VertexDirection, VertexDirectionTrait};
 use crate::hex::{Hex, HexTrait};
@@ -151,7 +147,7 @@ pub impl HexNeg of Neg<Hex> {
 ///
 /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
 /// exactly where the debug build does.
-pub impl HexAddAssign of core::ops::AddAssign<Hex, Hex> {
+pub impl HexAddAssign of AddAssign<Hex, Hex> {
     #[inline]
     fn add_assign(ref self: Hex, rhs: Hex) {
         self = self.const_add(rhs);
@@ -170,7 +166,7 @@ pub impl HexAddAssign of core::ops::AddAssign<Hex, Hex> {
 ///
 /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
 /// exactly where the debug build does.
-pub impl HexSubAssign of core::ops::SubAssign<Hex, Hex> {
+pub impl HexSubAssign of SubAssign<Hex, Hex> {
     #[inline]
     fn sub_assign(ref self: Hex, rhs: Hex) {
         self = self.const_sub(rhs);
@@ -189,7 +185,7 @@ pub impl HexSubAssign of core::ops::SubAssign<Hex, Hex> {
 ///
 /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
 /// exactly where the debug build does.
-pub impl HexMulAssign of core::ops::MulAssign<Hex, Hex> {
+pub impl HexMulAssign of MulAssign<Hex, Hex> {
     #[inline]
     fn mul_assign(ref self: Hex, rhs: Hex) {
         self = HexMul::mul(self, rhs);
@@ -207,7 +203,7 @@ pub impl HexMulAssign of core::ops::MulAssign<Hex, Hex> {
 /// #### Deviations
 ///
 /// None.
-pub impl HexDivAssign of core::ops::DivAssign<Hex, Hex> {
+pub impl HexDivAssign of DivAssign<Hex, Hex> {
     #[inline]
     fn div_assign(ref self: Hex, rhs: Hex) {
         self = HexDiv::div(self, rhs);
@@ -225,7 +221,7 @@ pub impl HexDivAssign of core::ops::DivAssign<Hex, Hex> {
 /// #### Deviations
 ///
 /// None.
-pub impl HexRemAssign of core::ops::RemAssign<Hex, Hex> {
+pub impl HexRemAssign of RemAssign<Hex, Hex> {
     #[inline]
     fn rem_assign(ref self: Hex, rhs: Hex) {
         self = HexRem::rem(self, rhs);

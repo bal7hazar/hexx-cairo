@@ -244,7 +244,9 @@ fn deviations_doc(sets: &[(&str, &Compared)]) -> String {
         "Every difference below is `f32` error: `hexx`'s point (`f32`, printed as Rust prints it) is \
          not the exact point `(x·n / L, y·n / L)`. Under *rescale*, `hexx`'s result is the exact rule \
          applied to its own `f32` point; under *rescale and round*, `Hex::round`'s own `f32` \
-         arithmetic moved it further. The generator stops on a difference of any other kind, and \
+         arithmetic moved it further. `hexx`'s points are printed in their shortest round-trip \
+         form (Rust's `{:?}` of an `f32`), not as their exact binary values; the generator compares \
+         the exact values. The generator stops on a difference of any other kind, and \
          when more than 1 % of the exhaustive domain differs (brief LIB-06 M2-T3, Scope 2).\n\n",
     );
     out.push_str("## The sets compared\n\n| Set | Pairs | Pairs that differ |\n|---|---|---|\n");
@@ -818,7 +820,7 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
 
     let mut e = Emitter::new(
         spec,
-        "the operators of `Hex` (src/hex/impls.rs): `Add` :16, `AddAssign` :55,\n// `Sub` :96, `SubAssign` :135, `Mul` :164, `MulAssign` :196, `Div` :230,\n//, `DivAssign` :265, `Rem` :286, `RemAssign` :304, `Neg` :318; the counterparts\n// `Add<i32>` :25, `Add<EdgeDirection>` :38, `Add<VertexDirection>` :46, `Sub<i32>` :105,\n// `Sub<EdgeDirection>` :117, `Sub<VertexDirection>` :125, `Div<i32>` :241, `Rem<i32>` :295",
+        "the operators of `Hex` (src/hex/impls.rs): `Add` :16, `AddAssign` :55,\n// `Sub` :96, `SubAssign` :135, `Mul` :164, `MulAssign` :196, `Div` :230,\n// `DivAssign` :265, `Rem` :286, `RemAssign` :304, `Neg` :318; the counterparts\n// `Add<i32>` :25, `Add<EdgeDirection>` :38, `Add<VertexDirection>` :46, `Sub<i32>` :105,\n// `Sub<EdgeDirection>` :117, `Sub<VertexDirection>` :125, `Div<i32>` :241, `Rem<i32>` :295",
         "use hexx::direction::edge_direction::EdgeDirectionTrait;\nuse hexx::direction::vertex_direction::VertexDirectionTrait;\nuse hexx::hex::HexTrait;\nuse hexx::hex::impls::{\n    HexAdd, HexAddAssign, HexDiv, HexDivAssign, HexMul, HexMulAssign, HexNeg, HexOpsTrait, HexRem,\n    HexRemAssign, HexSub, HexSubAssign,\n};\n",
     );
 

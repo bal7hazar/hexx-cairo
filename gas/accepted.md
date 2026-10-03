@@ -48,3 +48,4 @@ costs of the code are unchanged.
 
 The two shares rose by 100 (under 0.01 %): the baseline fell by 7,830 and each tick by 7,730. That
 is not "equal or lower"; it is far below the 10 % rule above and is recorded here as measured.
+| `Div<Hex>`, `Rem<Hex>` (`hexx::hex::impls`) | 8,563 | [3,230, 4,038] (brief LIB-06 M2-T3) | M2-T3 | The range assumed about 1,100 per signed `i32` division; the corelib's `i32` `/` and `%` measure about 4,300 each (sign handling around the unsigned division), two per call. The stop (2U = 8,076) was crossed and accepted by the orchestrator (review of #107); the mirror is not on the tick's path |
