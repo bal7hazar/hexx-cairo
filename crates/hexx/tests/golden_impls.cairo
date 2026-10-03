@@ -5354,7 +5354,7 @@ fn golden_impls_bounds_mul_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 337178352)]
 fn golden_impls_bounds_div() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (2147483647, 0, -2147483648, -2147483648, 0, 0),
@@ -5735,7 +5735,7 @@ fn golden_impls_bounds_div_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 337178352)]
 fn golden_impls_bounds_rem() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (2147483647, 0, -2147483648, -2147483648, 2147483647, 0),
@@ -9343,7 +9343,7 @@ fn golden_impls_seeded_rem_scalar() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 294221844)]
 fn golden_impls_small_0_div_scalar() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (-6, -6, -6, 1, 1), (-6, -6, -5, 1, 1), (-6, -6, -4, 1, 2), (-6, -6, -3, 2, 2),
@@ -9484,7 +9484,7 @@ fn golden_impls_small_0_div_scalar() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 296007012)]
 fn golden_impls_small_0_rem_scalar() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (-6, -6, -6, 0, 0), (-6, -6, -5, -1, -1), (-6, -6, -4, -2, 2), (-6, -6, -3, 0, 0),
@@ -9621,7 +9621,7 @@ fn golden_impls_small_0_rem_scalar() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 294221844)]
 fn golden_impls_small_1_div_scalar() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (-3, -3, -3, 1, 1), (-3, -3, -2, 1, 2), (-3, -3, -1, 3, 3), (-3, -3, 1, -3, -3),
@@ -9755,7 +9755,7 @@ fn golden_impls_small_1_div_scalar() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 296007012)]
 fn golden_impls_small_1_rem_scalar() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (-3, -3, -3, 0, 0), (-3, -3, -2, -1, 1), (-3, -3, -1, 0, 0), (-3, -3, 1, 0, 0),
@@ -9893,7 +9893,7 @@ fn golden_impls_small_1_rem_scalar() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 294221844)]
 fn golden_impls_small_2_div_scalar() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (0, 0, 1, 0, 0), (0, 0, 2, 0, 0), (0, 0, 3, 0, 0), (0, 0, 4, 0, 0), (0, 0, 5, 0, 0),
@@ -10018,7 +10018,7 @@ fn golden_impls_small_2_div_scalar() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 296007012)]
 fn golden_impls_small_2_rem_scalar() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (0, 0, 1, 0, 0), (0, 0, 2, 0, 0), (0, 0, 3, 0, 0), (0, 0, 4, 0, 0), (0, 0, 5, 0, 0),
@@ -10142,7 +10142,7 @@ fn golden_impls_small_2_rem_scalar() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 294221844)]
 fn golden_impls_small_3_div_scalar() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (3, 3, 4, 0, 1), (3, 3, 5, 0, 1), (3, 3, 6, 0, 1), (3, 4, -6, 0, -1), (3, 4, -5, 0, -1),
@@ -10271,7 +10271,7 @@ fn golden_impls_small_3_div_scalar() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 296007012)]
 fn golden_impls_small_3_rem_scalar() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (3, 3, 4, 3, -1), (3, 3, 5, 3, -2), (3, 3, 6, 3, -3), (3, 4, -6, 3, -2), (3, 4, -5, 3, -1),

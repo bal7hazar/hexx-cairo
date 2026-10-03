@@ -40,7 +40,7 @@ fn golden_euclidean_unary_squared_euclidean_length() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 70906679)]
 fn golden_euclidean_pairs_0_squared_euclidean_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (30, -8, 30, -8, 0), (30, -8, 1, 10, 643), (30, -8, 32, 31, 1603), (30, -8, 12, 37, 1539),
@@ -133,7 +133,7 @@ fn golden_euclidean_pairs_0_squared_euclidean_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 70906679)]
 fn golden_euclidean_pairs_1_squared_euclidean_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (-25, -21, 30, -8, 3909), (-25, -21, 1, 10, 2443), (-25, -21, 32, 31, 8917),
@@ -227,7 +227,7 @@ fn golden_euclidean_pairs_1_squared_euclidean_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 70906679)]
 fn golden_euclidean_pairs_2_squared_euclidean_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (8, 10, 30, -8, 412), (8, 10, 1, 10, 49), (8, 10, 32, 31, 1521), (8, 10, 12, 37, 853),
@@ -322,7 +322,7 @@ fn golden_euclidean_pairs_2_squared_euclidean_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 70906679)]
 fn golden_euclidean_pairs_3_squared_euclidean_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (6, 3, 30, -8, 433), (6, 3, 1, 10, 39), (6, 3, 32, 31, 2188), (6, 3, 12, 37, 1396),
@@ -417,7 +417,7 @@ fn golden_euclidean_pairs_3_squared_euclidean_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 70906679)]
 fn golden_euclidean_pairs_4_squared_euclidean_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (15, 4, 30, -8, 189), (15, 4, 1, 10, 148), (15, 4, 32, 31, 1477), (15, 4, 12, 37, 999),
@@ -509,7 +509,7 @@ fn golden_euclidean_pairs_4_squared_euclidean_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 70906679)]
 fn golden_euclidean_pairs_5_squared_euclidean_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (26, 31, 30, -8, 1381), (26, 31, 1, 10, 1591), (26, 31, 32, 31, 36), (26, 31, 12, 37, 148),
@@ -600,7 +600,7 @@ fn golden_euclidean_pairs_5_squared_euclidean_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 70906679)]
 fn golden_euclidean_pairs_6_squared_euclidean_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (25, -9, 30, -8, 31), (25, -9, 1, 10, 481), (25, -9, 32, 31, 1929), (25, -9, 12, 37, 1687),
@@ -695,7 +695,7 @@ fn golden_euclidean_pairs_6_squared_euclidean_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 70906679)]
 fn golden_euclidean_pairs_7_squared_euclidean_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (-4, -40, 30, -8, 3268), (-4, -40, 1, 10, 2775), (-4, -40, 32, 31, 8893),
@@ -795,7 +795,7 @@ fn golden_euclidean_pairs_7_squared_euclidean_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 70906679)]
 fn golden_euclidean_pairs_8_squared_euclidean_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (-36, 13, 30, -8, 3411), (-36, 13, 1, 10, 1267), (-36, 13, 32, 31, 6172),
@@ -893,7 +893,7 @@ fn golden_euclidean_pairs_8_squared_euclidean_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 70906679)]
 fn golden_euclidean_pairs_9_squared_euclidean_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (-10, -20, 30, -8, 2224), (-10, -20, 1, 10, 1351), (-10, -20, 32, 31, 6507),
@@ -992,7 +992,7 @@ fn golden_euclidean_pairs_9_squared_euclidean_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 70906679)]
 fn golden_euclidean_pairs_10_squared_euclidean_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (-15, -40, 30, -8, 4489), (-15, -40, 1, 10, 3556), (-15, -40, 32, 31, 10587),
@@ -1090,7 +1090,7 @@ fn golden_euclidean_pairs_10_squared_euclidean_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 70906679)]
 fn golden_euclidean_pairs_11_squared_euclidean_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (2, -39, 30, -8, 2613), (2, -39, 1, 10, 2353), (2, -39, 32, 31, 7900),
@@ -1189,7 +1189,7 @@ fn golden_euclidean_pairs_11_squared_euclidean_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 70906679)]
 fn golden_euclidean_pairs_12_squared_euclidean_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (-32, -4, 30, -8, 3612), (-32, -4, 1, 10, 1747), (-32, -4, 32, 31, 7561),
@@ -1290,7 +1290,7 @@ fn golden_euclidean_pairs_12_squared_euclidean_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 70906679)]
 fn golden_euclidean_pairs_13_squared_euclidean_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (-4, 22, 30, -8, 1036), (-4, 22, 1, 10, 109), (-4, 22, 32, 31, 1701), (-4, 22, 12, 37, 721),
@@ -1384,7 +1384,7 @@ fn golden_euclidean_pairs_13_squared_euclidean_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 70906679)]
 fn golden_euclidean_pairs_14_squared_euclidean_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (19, -25, 30, -8, 597), (19, -25, 1, 10, 919), (19, -25, 32, 31, 4033),
@@ -1481,7 +1481,7 @@ fn golden_euclidean_pairs_14_squared_euclidean_distance_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 70906679)]
 fn golden_euclidean_pairs_15_squared_euclidean_distance_to() {
     let cases: Array<(i32, i32, i32, i32, i32)> = array![
         (16, -27, 30, -8, 823), (16, -27, 1, 10, 1039), (16, -27, 32, 31, 4548),
