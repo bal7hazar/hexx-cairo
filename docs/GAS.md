@@ -592,6 +592,36 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `golden_lm2_integrationtest::golden_swizzle::golden_swizzle_unary_zx` | 3,527,270 | 3,703,634 | 5.0 % |
 | `golden_lm2_integrationtest::golden_swizzle::golden_swizzle_unary_zy` | 3,527,270 | 3,703,634 | 5.0 % |
 | `golden_lm2_integrationtest::golden_swizzle::golden_swizzle_unary_zz` | 3,527,270 | 3,703,634 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_default` | 299,085,170 | 314,039,429 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_flat_rectangle_0` | 7,180,360 | 7,539,378 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_flat_rectangle_1` | 8,515,570 | 8,941,349 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_flat_rectangle_2` | 1,821,810 | 1,912,901 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_hexagon_0` | 3,160,090 | 3,318,095 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_hexagon_1` | 16,032,310 | 16,833,926 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_hexagon_10` | 10,376,090 | 10,894,895 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_hexagon_2` | 14,045,950 | 14,748,248 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_hexagon_3` | 10,741,400 | 11,278,470 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_hexagon_4` | 4,301,430 | 4,516,502 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_hexagon_5` | 16,239,550 | 17,051,528 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_hexagon_6` | 14,122,150 | 14,828,258 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_hexagon_7` | 10,788,440 | 11,327,862 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_hexagon_8` | 4,285,710 | 4,499,996 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_hexagon_9` | 16,133,110 | 16,939,766 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_parallelogram_0` | 4,986,520 | 5,235,846 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_parallelogram_1` | 7,732,640 | 8,119,272 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_parallelogram_2` | 10,465,080 | 10,988,334 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_parallelogram_3` | 7,223,980 | 7,585,179 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_parallelogram_4` | 5,472,000 | 5,745,600 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_parallelogram_5` | 7,732,640 | 8,119,272 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_parallelogram_6` | 4,386,720 | 4,606,056 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_pointy_rectangle_0` | 7,279,510 | 7,643,486 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_pointy_rectangle_1` | 8,460,310 | 8,883,326 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_pointy_rectangle_2` | 1,779,040 | 1,867,992 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_rombus_0` | 8,631,890 | 9,063,485 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_rombus_1` | 8,898,410 | 9,343,331 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_rombus_2` | 10,095,110 | 10,599,866 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_rombus_3` | 5,298,830 | 5,563,772 | 5.0 % |
+| `golden_shapes_integrationtest::golden_shapes::golden_shapes_triangle_0` | 3,783,860 | 3,973,053 | 5.0 % |
 | `hexx::board::asserter::tests::test_asserter_edges_and_corners` | 7,510 | 7,886 | 5.0 % |
 | `hexx::board::asserter::tests::test_asserter_revert_corner` | 7,810 | 8,201 | 5.0 % |
 | `hexx::board::asserter::tests::test_asserter_revert_not_edge` | 7,810 | 8,201 | 5.0 % |
@@ -2634,7 +2664,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 7,810 | 8,201 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 7,810 | 8,201 | 5.0 % |
 
-2627 measured test(s).
+2657 measured test(s).
 
 ## Figures accepted above their range
 

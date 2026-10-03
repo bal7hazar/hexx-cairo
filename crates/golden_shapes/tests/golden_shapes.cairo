@@ -18,7 +18,7 @@ use hexx::shapes::{
 
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3318095)]
 fn golden_shapes_hexagon_0() {
     let cases: Array<(i32, i32, u32, u32)> = array![
         (0, 0, 0, 1), (0, 0, 1, 7), (0, 0, 2, 19), (0, 0, 3, 37), (0, 0, 4, 61), (0, 0, 5, 91),
@@ -62,7 +62,7 @@ fn golden_shapes_hexagon_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16833926)]
 fn golden_shapes_hexagon_1() {
     let cases: Array<(i32, i32, u32, u32)> = array![
         (0, 0, 6, 127), (1, 0, 0, 1), (1, 0, 1, 7), (1, 0, 2, 19), (1, 0, 3, 37), (1, 0, 4, 61),
@@ -108,7 +108,7 @@ fn golden_shapes_hexagon_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 14748248)]
 fn golden_shapes_hexagon_2() {
     let cases: Array<(i32, i32, u32, u32)> = array![
         (1, 0, 5, 91), (1, 0, 6, 127), (0, 1, 0, 1), (0, 1, 1, 7), (0, 1, 2, 19), (0, 1, 3, 37),
@@ -156,7 +156,7 @@ fn golden_shapes_hexagon_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 11278470)]
 fn golden_shapes_hexagon_3() {
     let cases: Array<(i32, i32, u32, u32)> = array![
         (0, 1, 4, 61), (0, 1, 5, 91), (0, 1, 6, 127), (-1, -1, 0, 1), (-1, -1, 1, 7),
@@ -205,7 +205,7 @@ fn golden_shapes_hexagon_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 4516502)]
 fn golden_shapes_hexagon_4() {
     let cases: Array<(i32, i32, u32, u32)> = array![
         (-1, -1, 2, 19), (-1, -1, 3, 37), (-1, -1, 4, 61), (-1, -1, 5, 91),
@@ -249,7 +249,7 @@ fn golden_shapes_hexagon_4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 17051528)]
 fn golden_shapes_hexagon_5() {
     let cases: Array<(i32, i32, u32, u32)> = array![
         (-1, -1, 6, 127), (3, -7, 0, 1), (3, -7, 1, 7), (3, -7, 2, 19), (3, -7, 3, 37),
@@ -297,7 +297,7 @@ fn golden_shapes_hexagon_5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 14828258)]
 fn golden_shapes_hexagon_6() {
     let cases: Array<(i32, i32, u32, u32)> = array![
         (3, -7, 5, 91), (3, -7, 6, 127), (-5, 4, 0, 1), (-5, 4, 1, 7), (-5, 4, 2, 19),
@@ -348,7 +348,7 @@ fn golden_shapes_hexagon_6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 11327862)]
 fn golden_shapes_hexagon_7() {
     let cases: Array<(i32, i32, u32, u32)> = array![
         (-5, 4, 4, 61), (-5, 4, 5, 91), (-5, 4, 6, 127), (-3, 0, 0, 1), (-3, 0, 1, 7),
@@ -398,7 +398,7 @@ fn golden_shapes_hexagon_7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 4499996)]
 fn golden_shapes_hexagon_8() {
     let cases: Array<(i32, i32, u32, u32)> = array![
         (-3, 0, 2, 19), (-3, 0, 3, 37), (-3, 0, 4, 61), (-3, 0, 5, 91),
@@ -442,7 +442,7 @@ fn golden_shapes_hexagon_8() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 16939766)]
 fn golden_shapes_hexagon_9() {
     let cases: Array<(i32, i32, u32, u32)> = array![
         (-3, 0, 6, 127), (0, -3, 0, 1), (0, -3, 1, 7), (0, -3, 2, 19), (0, -3, 3, 37),
@@ -490,7 +490,7 @@ fn golden_shapes_hexagon_9() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 10894895)]
 fn golden_shapes_hexagon_10() {
     let cases: Array<(i32, i32, u32, u32)> = array![(0, -3, 5, 91), (0, -3, 6, 127)];
     let expected: Array<i32> = array![
@@ -533,7 +533,7 @@ fn golden_shapes_hexagon_10() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 5235846)]
 fn golden_shapes_parallelogram_0() {
     let cases: Array<(i32, i32, i32, i32, u32)> = array![
         (0, 0, 0, 0, 1), (0, 0, 1, 1, 4), (0, 0, 2, 2, 9), (0, 0, 3, 3, 16), (0, 0, 4, 4, 25),
@@ -581,7 +581,7 @@ fn golden_shapes_parallelogram_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 8119272)]
 fn golden_shapes_parallelogram_1() {
     let cases: Array<(i32, i32, i32, i32, u32)> = array![
         (1, 0, 6, 5, 36), (1, 0, 7, 6, 49), (1, 0, 1, 6, 7), (1, 0, 2, 5, 12), (1, 0, 3, 4, 15),
@@ -627,7 +627,7 @@ fn golden_shapes_parallelogram_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 10988334)]
 fn golden_shapes_parallelogram_2() {
     let cases: Array<(i32, i32, i32, i32, u32)> = array![
         (0, 1, 6, 7, 49), (0, 1, 0, 7, 7), (0, 1, 1, 6, 12), (0, 1, 2, 5, 15), (0, 1, 3, 4, 16),
@@ -677,7 +677,7 @@ fn golden_shapes_parallelogram_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7585179)]
 fn golden_shapes_parallelogram_3() {
     let cases: Array<(i32, i32, i32, i32, u32)> = array![
         (-1, -1, 1, 3, 15), (-1, -1, 2, 2, 16), (-1, -1, 3, 1, 15), (-1, -1, 4, 0, 12),
@@ -732,7 +732,7 @@ fn golden_shapes_parallelogram_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 5745600)]
 fn golden_shapes_parallelogram_4() {
     let cases: Array<(i32, i32, i32, i32, u32)> = array![
         (-5, 4, -3, 6, 9), (-5, 4, -2, 7, 16), (-5, 4, -1, 8, 25), (-5, 4, 0, 9, 36),
@@ -784,7 +784,7 @@ fn golden_shapes_parallelogram_4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 8119272)]
 fn golden_shapes_parallelogram_5() {
     let cases: Array<(i32, i32, i32, i32, u32)> = array![
         (-3, 0, 2, 5, 36), (-3, 0, 3, 6, 49), (-3, 0, -3, 6, 7), (-3, 0, -2, 5, 12),
@@ -833,7 +833,7 @@ fn golden_shapes_parallelogram_5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 4606056)]
 fn golden_shapes_parallelogram_6() {
     let cases: Array<(i32, i32, i32, i32, u32)> = array![
         (0, -3, 6, 3, 49), (0, -3, 0, 3, 7), (0, -3, 1, 2, 12), (0, -3, 2, 1, 15),
@@ -872,7 +872,7 @@ fn golden_shapes_parallelogram_6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3973053)]
 fn golden_shapes_triangle_0() {
     let cases: Array<(u32, u32)> = array![
         (0, 1), (1, 3), (2, 6), (3, 10), (4, 15), (5, 21), (6, 28), (7, 36), (8, 45), (9, 55),
@@ -919,7 +919,7 @@ fn golden_shapes_triangle_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9063485)]
 fn golden_shapes_rombus_0() {
     let cases: Array<(i32, i32, u32, u32, u32)> = array![
         (0, 0, 0, 0, 0), (0, 0, 0, 6, 0), (0, 0, 1, 1, 1), (0, 0, 1, 5, 5), (0, 0, 2, 2, 4),
@@ -972,7 +972,7 @@ fn golden_shapes_rombus_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 9343331)]
 fn golden_shapes_rombus_1() {
     let cases: Array<(i32, i32, u32, u32, u32)> = array![
         (0, 1, 4, 4, 16), (0, 1, 4, 2, 8), (0, 1, 5, 5, 25), (0, 1, 5, 1, 5), (0, 1, 6, 6, 36),
@@ -1025,7 +1025,7 @@ fn golden_shapes_rombus_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 10599866)]
 fn golden_shapes_rombus_2() {
     let cases: Array<(i32, i32, u32, u32, u32)> = array![
         (3, -7, 5, 5, 25), (3, -7, 5, 1, 5), (3, -7, 6, 6, 36), (3, -7, 6, 0, 0), (-5, 4, 0, 0, 0),
@@ -1079,7 +1079,7 @@ fn golden_shapes_rombus_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 5563772)]
 fn golden_shapes_rombus_3() {
     let cases: Array<(i32, i32, u32, u32, u32)> = array![
         (-3, 0, 6, 6, 36), (-3, 0, 6, 0, 0), (0, -3, 0, 0, 0), (0, -3, 0, 6, 0), (0, -3, 1, 1, 1),
@@ -1121,7 +1121,7 @@ fn golden_shapes_rombus_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7643486)]
 fn golden_shapes_pointy_rectangle_0() {
     let cases: Array<(i32, i32, i32, i32, u32)> = array![
         (0, 0, 0, 6, 7), (0, 1, 0, 5, 12), (0, 2, 0, 4, 15), (0, 3, 0, 3, 16), (0, 4, 0, 2, 15),
@@ -1172,7 +1172,7 @@ fn golden_shapes_pointy_rectangle_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 8883326)]
 fn golden_shapes_pointy_rectangle_1() {
     let cases: Array<(i32, i32, i32, i32, u32)> = array![
         (-1, 2, -1, 2, 16), (-1, 3, -1, 1, 15), (-1, 4, -1, 0, 12), (-1, 5, -1, -1, 7),
@@ -1227,7 +1227,7 @@ fn golden_shapes_pointy_rectangle_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1867992)]
 fn golden_shapes_pointy_rectangle_2() {
     let cases: Array<(i32, i32, i32, i32, u32)> = array![
         (-3, 3, 0, 0, 7), (0, 0, -3, 3, 7), (0, 1, -3, 2, 12), (0, 2, -3, 1, 15), (0, 3, -3, 0, 16),
@@ -1263,7 +1263,7 @@ fn golden_shapes_pointy_rectangle_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7539378)]
 fn golden_shapes_flat_rectangle_0() {
     let cases: Array<(i32, i32, i32, i32, u32)> = array![
         (0, 0, 0, 6, 7), (0, 1, 0, 5, 12), (0, 2, 0, 4, 15), (0, 3, 0, 3, 16), (0, 4, 0, 2, 15),
@@ -1314,7 +1314,7 @@ fn golden_shapes_flat_rectangle_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 8941349)]
 fn golden_shapes_flat_rectangle_1() {
     let cases: Array<(i32, i32, i32, i32, u32)> = array![
         (-1, 2, -1, 2, 16), (-1, 3, -1, 1, 15), (-1, 4, -1, 0, 12), (-1, 5, -1, -1, 7),
@@ -1369,7 +1369,7 @@ fn golden_shapes_flat_rectangle_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1912901)]
 fn golden_shapes_flat_rectangle_2() {
     let cases: Array<(i32, i32, i32, i32, u32)> = array![
         (-3, 3, 0, 0, 7), (0, 0, -3, 3, 7), (0, 1, -3, 2, 12), (0, 2, -3, 1, 15), (0, 3, -3, 0, 16),
@@ -1405,7 +1405,7 @@ fn golden_shapes_flat_rectangle_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 314039429)]
 fn golden_shapes_default() {
     let parallelogram: Parallelogram = Default::default();
     assert(
