@@ -750,7 +750,8 @@ mod tests {
     // Oracles (D-167): each `coords` as a set against its per-hex definition. A span whose every
     // element satisfies the definition, whose elements are strictly increasing in the order of
     // `hexx` (so all distinct) and whose length is the closed form of the definition's size is
-    // exactly the set of the definition.
+    // exactly the set of the definition. The sizes stay small (radius 4, boxes of 5 × 5, 4 × 4
+    // rectangles): the golden vectors hold radii and boxes up to 6 against `hexx`.
 
     #[test]
     #[available_gas(l2_gas: 100000000)]
@@ -758,7 +759,7 @@ mod tests {
         for anchor in anchors() {
             let (cx, cy) = *anchor;
             let center = HexTrait::new(cx, cy);
-            for radius in 0..7_u32 {
+            for radius in 0..5_u32 {
                 let span = hexagon(center, radius);
                 assert!(span.len() == HexTrait::range_count(radius));
                 assert!(span == center.range(radius));
@@ -782,8 +783,8 @@ mod tests {
     fn test_shapes_parallelogram_oracle() {
         for anchor in anchors() {
             let (mx, my) = *anchor;
-            for dx in 0..7_i32 {
-                for dy in 0..7_i32 {
+            for dx in 0..5_i32 {
+                for dy in 0..5_i32 {
                     let min = HexTrait::new(mx, my);
                     let max = HexTrait::new(mx + dx, my + dy);
                     let span = parallelogram(min, max);
@@ -804,7 +805,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 4936229)]
     fn test_shapes_triangle_oracle() {
         for size in 0..11_u32 {
             let span = triangle(size);
@@ -824,7 +825,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 47747637)]
     fn test_shapes_rombus_oracle() {
         for anchor in anchors() {
             let (ox, oy) = *anchor;
@@ -855,8 +856,8 @@ mod tests {
     fn test_shapes_pointy_rectangle_oracle() {
         for anchor in anchors() {
             let (left, top) = *anchor;
-            for width in 0..6_i32 {
-                for height in 0..6_i32 {
+            for width in 0..4_i32 {
+                for height in 0..4_i32 {
                     let (right, bottom) = (left + width, top + height);
                     let span = pointy_rectangle([left, right, top, bottom]);
                     assert!(span.len() == ((width + 1) * (height + 1)).try_into().unwrap());
@@ -883,8 +884,8 @@ mod tests {
     fn test_shapes_flat_rectangle_oracle() {
         for anchor in anchors() {
             let (left, top) = *anchor;
-            for width in 0..6_i32 {
-                for height in 0..6_i32 {
+            for width in 0..4_i32 {
+                for height in 0..4_i32 {
                     let (right, bottom) = (left + width, top + height);
                     let span = flat_rectangle([left, right, top, bottom]);
                     assert!(span.len() == ((width + 1) * (height + 1)).try_into().unwrap());
@@ -910,7 +911,7 @@ mod tests {
     /// where Cairo's `i32` division truncates (`-3 / 2 = -1`). Rows `y = -3` and `y = -2` of a
     /// pointy rectangle shift by `-2` and `-1`.
     #[test]
-    #[available_gas(l2_gas: 1000000)]
+    #[available_gas(l2_gas: 41360)]
     fn test_shapes_pointy_rectangle_negative_top() {
         let span = pointy_rectangle([0, 1, -3, -2]);
         let expected = array![
@@ -922,7 +923,7 @@ mod tests {
 
     /// Regression: the columns `x = -3` and `x = -2` of a flat rectangle shift by `-2` and `-1`.
     #[test]
-    #[available_gas(l2_gas: 1000000)]
+    #[available_gas(l2_gas: 41360)]
     fn test_shapes_flat_rectangle_negative_left() {
         let span = flat_rectangle([-3, -2, 0, 1]);
         let expected = array![
@@ -934,7 +935,7 @@ mod tests {
 
     /// A shape whose bounds cross is the empty span; so is a rombus of no row or no column.
     #[test]
-    #[available_gas(l2_gas: 1000000)]
+    #[available_gas(l2_gas: 30870)]
     fn test_shapes_empty() {
         let origin = HexTrait::ZERO;
         assert!(parallelogram(HexTrait::new(3, 0), HexTrait::new(1, 5)).is_empty());
@@ -952,7 +953,7 @@ mod tests {
 
     /// A bound of `i32::MAX` is served: the loops stop at the bound without stepping past it.
     #[test]
-    #[available_gas(l2_gas: 1000000)]
+    #[available_gas(l2_gas: 24266)]
     fn test_shapes_bound_at_max() {
         let top = 2147483647;
         let span = parallelogram(HexTrait::new(0, top), HexTrait::new(1, top));
@@ -961,7 +962,7 @@ mod tests {
 
     /// `i32` overflow of a coordinate panics, as `hexx` does in a debug build.
     #[test]
-    #[available_gas(l2_gas: 1000000)]
+    #[available_gas(l2_gas: 15393)]
     #[should_panic]
     fn test_shapes_rombus_revert_overflow() {
         rombus(HexTrait::new(2147483647, 0), 1, 2);
@@ -969,7 +970,7 @@ mod tests {
 
     /// `size` above `i32::MAX` panics (`hexx` wraps with `as i32`).
     #[test]
-    #[available_gas(l2_gas: 1000000)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_shapes_triangle_revert_size() {
         triangle(0x80000000);
@@ -977,7 +978,7 @@ mod tests {
 
     /// The `Default` of each struct, and its `coords` against the closed form of its size.
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 4552706)]
     fn test_shapes_default() {
         let parallelogram: Parallelogram = Default::default();
         assert!(
@@ -1017,75 +1018,75 @@ mod tests {
     // of the `#[should_panic]` tests) is in the figure.
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 615353)]
     fn bench_shapes_hexagon() {
         assert!(hexagon(HexTrait::new(3, -7), 6).len() == 127);
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 615353)]
     fn bench_shapes_hexagon_coords() {
         assert!(Hexagon { center: HexTrait::new(3, -7), radius: 6 }.coords().len() == 127);
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 119627)]
     fn bench_shapes_parallelogram() {
         assert!(parallelogram(HexTrait::new(3, -7), HexTrait::new(9, -1)).len() == 49);
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 119627)]
     fn bench_shapes_parallelogram_coords() {
         let shape = ParallelogramTrait::new(HexTrait::new(3, -7), HexTrait::new(9, -1));
         assert!(shape.coords().len() == 49);
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 84420)]
     fn bench_shapes_triangle() {
         assert!(triangle(6).len() == 28);
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 84420)]
     fn bench_shapes_triangle_coords() {
         assert!(TriangleTrait::new(6).coords().len() == 28);
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 206693)]
     fn bench_shapes_rombus() {
         assert!(rombus(HexTrait::new(3, -7), 7, 7).len() == 49);
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 206693)]
     fn bench_shapes_rombus_coords() {
         assert!(Rombus { origin: HexTrait::new(3, -7), rows: 7, columns: 7 }.coords().len() == 49);
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 166079)]
     fn bench_shapes_pointy_rectangle() {
         assert!(pointy_rectangle([-3, 3, -3, 3]).len() == 49);
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 166079)]
     fn bench_shapes_pointy_rectangle_coords() {
         let rect = PointyRectangle { left: -3, right: 3, top: -3, bottom: 3 };
         assert!(rect.coords().len() == 49);
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 166079)]
     fn bench_shapes_flat_rectangle() {
         assert!(flat_rectangle([-3, 3, -3, 3]).len() == 49);
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 166079)]
     fn bench_shapes_flat_rectangle_coords() {
         let rect = FlatRectangle { left: -3, right: 3, top: -3, bottom: 3 };
         assert!(rect.coords().len() == 49);
