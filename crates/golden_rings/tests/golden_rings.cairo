@@ -75,7 +75,7 @@ impl GoldenImpl of GoldenTrait {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 224494982)]
 fn golden_rings_custom_ring() {
     let expected: Array<u64> = array![
         0xe88356433914f763, 0xe88356433914f763, 0xe88356433914f763, 0xe88356433914f763,
@@ -264,7 +264,7 @@ fn golden_rings_custom_ring() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 18196492)]
 fn golden_rings_ring() {
     let expected: Array<u64> = array![
         0xe88356433914f763, 0x124c1b90bd55a00c, 0xf76def956245f9a5, 0xa06c10b72e95fc8d,
@@ -295,7 +295,7 @@ fn golden_rings_ring() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 26536852)]
 fn golden_rings_rings() {
     let expected: Array<u64> = array![
         0xfb9bd68c871439be, 0x12d4cafa1a7076a8, 0xaf63bd4c29620a93, 0xfe3e21292607f01e,
@@ -318,7 +318,7 @@ fn golden_rings_rings() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 324930422)]
 fn golden_rings_custom_rings() {
     let expected: Array<u64> = array![
         0xfb9bd68c871439be, 0x5c321db5c30cbd76, 0x0032a178b52adfe3, 0xd42a088554079bda,
@@ -411,7 +411,7 @@ fn golden_rings_custom_rings() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 62404734)]
 fn golden_rings_custom_ring_edge() {
     let expected: Array<u64> = array![
         0xe88356433914f763, 0xe88356433914f763, 0xe88356433914f763, 0xe88356433914f763,
@@ -600,7 +600,7 @@ fn golden_rings_custom_ring_edge() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 29382654)]
 fn golden_rings_ring_edge() {
     let expected: Array<u64> = array![
         0xe88356433914f763, 0xe88356433914f763, 0xe88356433914f763, 0xe88356433914f763,
@@ -703,7 +703,7 @@ fn golden_rings_ring_edge() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 43381658)]
 fn golden_rings_ring_edges() {
     let expected: Array<u64> = array![
         0xdedef85645222d40, 0x62b97f5a20d50d99, 0x184fa5087cc66cde, 0xc5dbdbfcd964c6a0,
@@ -758,7 +758,7 @@ fn golden_rings_ring_edges() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 88324749)]
 fn golden_rings_custom_ring_edges() {
     let expected: Array<u64> = array![
         0xdedef85645222d40, 0xe94e85bc83e514dd, 0x62b97f5a20d50d99, 0xe7ddeb4eb4b4efbc,
@@ -851,7 +851,7 @@ fn golden_rings_custom_ring_edges() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 77476653)]
 fn golden_rings_custom_wedge() {
     let expected: Array<u64> = array![
         0x6a204efe03c785be, 0x9cf5ffe2a3a36ce7, 0xf47560454eed7a94, 0x948dba55159bf029,
@@ -944,7 +944,7 @@ fn golden_rings_custom_wedge() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 37957610)]
 fn golden_rings_wedge() {
     let expected: Array<u64> = array![
         0x6a204efe03c785be, 0xf47560454eed7a94, 0x9828563968fd0521, 0x479ec637bd2da775,
@@ -999,7 +999,7 @@ fn golden_rings_wedge() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 170211947)]
 fn golden_rings_custom_full_wedge() {
     let expected: Array<u64> = array![
         0xe88356433914f763, 0xe88356433914f763, 0xe88356433914f763, 0xe88356433914f763,
@@ -1188,7 +1188,7 @@ fn golden_rings_custom_full_wedge() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 83730789)]
 fn golden_rings_full_wedge() {
     let expected: Array<u64> = array![
         0xe88356433914f763, 0xe88356433914f763, 0xe88356433914f763, 0xe88356433914f763,
@@ -1291,7 +1291,7 @@ fn golden_rings_full_wedge() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 290525928)]
 fn golden_rings_custom_wedge_to() {
     let expected: Array<u64> = array![
         0xe88356433914f763, 0xe88356433914f763, 0x44b8a816323bb5a4, 0x6f62398fc9d54f03,
@@ -1342,7 +1342,7 @@ fn golden_rings_custom_wedge_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 145020656)]
 fn golden_rings_wedge_to() {
     let expected: Array<u64> = array![
         0xe88356433914f763, 0x44b8a816323bb5a4, 0x513f536a6c5df01f, 0x61825d09f9d9069a,
@@ -1375,7 +1375,7 @@ fn golden_rings_wedge_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 40786259)]
 fn golden_rings_corner_wedge() {
     let expected: Array<u64> = array![
         0xc1422e4335a63e28, 0x18ca2baca9b773cf, 0x3b69b6b58b171680, 0xf36c1c94f017fe52,
@@ -1430,7 +1430,7 @@ fn golden_rings_corner_wedge() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 152751661)]
 fn golden_rings_corner_wedge_to() {
     let expected: Array<u64> = array![
         0xe88356433914f763, 0x088dd00aacabed27, 0x638d75ecd8401a04, 0xa5cdbfec7ae4841f,
@@ -1463,7 +1463,7 @@ fn golden_rings_corner_wedge_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 69608826)]
 fn golden_rings_cached_custom_ring_edges() {
     let expected: Array<u64> = array![
         0xaf63bd4c29620a93, 0xaf63bd4c29620a93, 0xaf63bd4c29620a93, 0xaf63bd4c29620a93,
@@ -1556,7 +1556,7 @@ fn golden_rings_cached_custom_ring_edges() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 32714766)]
 fn golden_rings_cached_ring_edges() {
     let expected: Array<u64> = array![
         0xaf63bd4c29620a93, 0xaf63bd4c29620a93, 0xaf63bd4c29620a93, 0xaf63bd4c29620a93,
@@ -1611,7 +1611,7 @@ fn golden_rings_cached_ring_edges() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 18762400)]
 fn golden_rings_cached_rings() {
     let expected: Array<u64> = array![
         0xaf63bd4c29620a93, 0x2c20905852bb4603, 0xfb9bd68c871439be, 0xaf63bd4c29620a93,
@@ -1634,7 +1634,7 @@ fn golden_rings_cached_rings() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 229792862)]
 fn golden_rings_cached_custom_rings() {
     let expected: Array<u64> = array![
         0xaf63bd4c29620a93, 0xaf63bd4c29620a93, 0xaf63bd4c29620a93, 0xaf63bd4c29620a93,
@@ -1727,7 +1727,7 @@ fn golden_rings_cached_custom_rings() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 348562982)]
 fn golden_rings_custom_spiral_range() {
     let expected: Array<u64> = array![
         0xf223b3d0c23c22d9, 0xe6fc61a6f96e87a1, 0xf31e1b56f893de60, 0xf5b865499398b74c,
@@ -1820,7 +1820,7 @@ fn golden_rings_custom_spiral_range() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 28948576)]
 fn golden_rings_spiral_range() {
     let expected: Array<u64> = array![
         0xf223b3d0c23c22d9, 0x156a887a294083bf, 0xaf63bd4c29620a93, 0xbac3e832e3c88f7d,
@@ -1843,7 +1843,7 @@ fn golden_rings_spiral_range() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 102209107)]
 fn golden_rings_circular_range_squared_small() {
     let expected: Array<u64> = array![
         0xe88356433914f763, 0x63355a48a2d222b7, 0xbf957330c9096a85, 0x2ef00c963dd3a0e1,
@@ -1868,7 +1868,7 @@ fn golden_rings_circular_range_squared_small() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 244515246)]
 fn golden_rings_circular_range_squared_large() {
     let expected: Array<u64> = array![0x8991ebad10b4fe51, 0x4a1946f7881a3079];
     let mut want = expected.span();
