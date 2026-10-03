@@ -1,0 +1,21 @@
+# The conversions of `Hex` (plan §4.3, brief LIB-06 M2-T3): the `u64` packing and the conversions
+# from an i32 pair, on the seeded points, near the bounds and on seeded u64 values
+# (tools/refgen/src/convert.rs).
+module = "convert"
+package = "hexx"
+
+seed = "convert::points"
+points = 64
+domain_min = -40
+domain_max = 40
+seed_u64 = "convert::values"
+values = 64
+
+# budgets: ceil(1.05 * measured)
+gas.golden_convert_bounds_as_u64 = 11657730
+gas.golden_convert_bounds_from_array = 12686016
+gas.golden_convert_bounds_from_tuple = 12686016
+gas.golden_convert_unary_as_u64 = 3859086
+gas.golden_convert_unary_from_array = 3648068
+gas.golden_convert_unary_from_tuple = 3648068
+gas.golden_convert_values_from_u64 = 42773682

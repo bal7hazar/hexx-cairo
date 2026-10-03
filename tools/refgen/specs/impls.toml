@@ -1,0 +1,108 @@
+# The operators of `Hex` (plan §4.3, brief LIB-06 M2-T3): the seeded points, every ordered pair of
+# them, the scalar and direction forms, `Sum` and `Product`, and the i32 values near the bounds;
+# `div_scalar` compared exhaustively off-chain (tools/refgen/src/impls.rs, docs/deviations/div_scalar.md).
+module = "impls"
+package = "hexx"
+
+seed = "impls::points"
+points = 64
+domain_min = -40
+domain_max = 40
+chunks = 8        # the 64 x 64 ordered pairs, in this many tests per operator
+panic_cap = 2     # #[should_panic] tests per function near the bounds
+
+# div_scalar (Scope 2)
+div_domain = 40   # every Hex of [-40, 40]^2 ...
+div_rhs = 12      # ... by every rhs of [-12, 12] \ {0}: 157,464 pairs
+seed_large = "impls::large"
+div_large = 4096  # seeded pairs with 2^20 <= L < 2^31
+seed_div = "impls::div"
+div_sample = 512  # on-chain: seeded pairs where hexx and the rule agree
+small_div = 6     # on-chain: every pair with |x|, |y| <= 6 and rhs in [-6, 6] \ {0}
+small_chunks = 4  # ... in this many tests per function
+
+# budgets: ceil(1.05 * measured)
+gas.golden_impls_bounds_add = 32046494
+gas.golden_impls_bounds_add_panics_0 = 7991
+gas.golden_impls_bounds_add_panics_1 = 7991
+gas.golden_impls_bounds_direction_add_diagonal = 333596561
+gas.golden_impls_bounds_direction_add_diagonal_panics_0 = 12485
+gas.golden_impls_bounds_direction_add_diagonal_panics_1 = 11991
+gas.golden_impls_bounds_direction_add_direction = 435011682
+gas.golden_impls_bounds_direction_add_direction_panics_0 = 11991
+gas.golden_impls_bounds_direction_add_direction_panics_1 = 11991
+gas.golden_impls_bounds_direction_sub_diagonal = 333596561
+gas.golden_impls_bounds_direction_sub_diagonal_panics_0 = 11393
+gas.golden_impls_bounds_direction_sub_diagonal_panics_1 = 13083
+gas.golden_impls_bounds_direction_sub_direction = 435012281
+gas.golden_impls_bounds_direction_sub_direction_panics_0 = 11393
+gas.golden_impls_bounds_direction_sub_direction_panics_1 = 13083
+gas.golden_impls_bounds_div = 337178352
+gas.golden_impls_bounds_div_panics_0 = 7991
+gas.golden_impls_bounds_div_panics_1 = 7991
+gas.golden_impls_bounds_mul = 22111236
+gas.golden_impls_bounds_mul_panics_0 = 7991
+gas.golden_impls_bounds_mul_panics_1 = 7991
+gas.golden_impls_bounds_neg = 8783576
+gas.golden_impls_bounds_neg_panics_0 = 7991
+gas.golden_impls_bounds_neg_panics_1 = 7991
+gas.golden_impls_bounds_rem = 337178352
+gas.golden_impls_bounds_rem_panics_0 = 7991
+gas.golden_impls_bounds_rem_panics_1 = 7991
+gas.golden_impls_bounds_scalar_add_scalar = 12085584
+gas.golden_impls_bounds_scalar_add_scalar_panics_0 = 7991
+gas.golden_impls_bounds_scalar_add_scalar_panics_1 = 7991
+gas.golden_impls_bounds_scalar_div_scalar = 396391674
+gas.golden_impls_bounds_scalar_div_scalar_panics_0 = 7991
+gas.golden_impls_bounds_scalar_div_scalar_panics_1 = 7991
+gas.golden_impls_bounds_scalar_rem_scalar = 398476722
+gas.golden_impls_bounds_scalar_rem_scalar_panics_0 = 7991
+gas.golden_impls_bounds_scalar_rem_scalar_panics_1 = 7991
+gas.golden_impls_bounds_scalar_sub_scalar = 10771467
+gas.golden_impls_bounds_scalar_sub_scalar_panics_0 = 7991
+gas.golden_impls_bounds_scalar_sub_scalar_panics_1 = 7991
+gas.golden_impls_bounds_sub = 24160311
+gas.golden_impls_bounds_sub_panics_0 = 7991
+gas.golden_impls_bounds_sub_panics_1 = 7991
+gas.golden_impls_direction_add_diagonal = 157790178
+gas.golden_impls_direction_add_direction = 157790178
+gas.golden_impls_direction_sub_diagonal = 157790178
+gas.golden_impls_direction_sub_direction = 157790178
+gas.golden_impls_div_scalar_regressions = 1423758
+gas.golden_impls_div_scalar_zero_panics_0 = 7991
+gas.golden_impls_div_scalar_zero_panics_1 = 7991
+gas.golden_impls_div_zero_panics_0 = 7991
+gas.golden_impls_div_zero_panics_1 = 7991
+gas.golden_impls_divisible_0 = 443173994
+gas.golden_impls_divisible_1 = 443173994
+gas.golden_impls_divisible_2 = 443173994
+gas.golden_impls_divisible_3 = 443173994
+gas.golden_impls_divisible_4 = 443173994
+gas.golden_impls_divisible_5 = 443173994
+gas.golden_impls_divisible_6 = 443173994
+gas.golden_impls_divisible_7 = 443173994
+gas.golden_impls_pairs_0 = 561524828
+gas.golden_impls_pairs_1 = 561524828
+gas.golden_impls_pairs_2 = 561524828
+gas.golden_impls_pairs_3 = 561524828
+gas.golden_impls_pairs_4 = 561524828
+gas.golden_impls_pairs_5 = 561524828
+gas.golden_impls_pairs_6 = 561524828
+gas.golden_impls_pairs_7 = 561524828
+gas.golden_impls_rem_scalar_zero_panics_0 = 7991
+gas.golden_impls_rem_scalar_zero_panics_1 = 7991
+gas.golden_impls_rem_zero_panics_0 = 7991
+gas.golden_impls_rem_zero_panics_1 = 7991
+gas.golden_impls_scalar_add_scalar = 277722071
+gas.golden_impls_scalar_sub_scalar = 277722071
+gas.golden_impls_seeded_div_scalar = 299543559
+gas.golden_impls_seeded_rem_scalar = 301346367
+gas.golden_impls_small_0_div_scalar = 294221844
+gas.golden_impls_small_0_rem_scalar = 296007012
+gas.golden_impls_small_1_div_scalar = 294221844
+gas.golden_impls_small_1_rem_scalar = 296007012
+gas.golden_impls_small_2_div_scalar = 294221844
+gas.golden_impls_small_2_rem_scalar = 296007012
+gas.golden_impls_small_3_div_scalar = 294221844
+gas.golden_impls_small_3_rem_scalar = 296007012
+gas.golden_impls_unary_neg = 3687758

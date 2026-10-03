@@ -16,7 +16,7 @@ pub use board::map::{HexMap, HexMapTrait};
 pub mod bounds;
 
 pub mod conversions;
-pub use conversions::{HexConversionsTrait, OffsetHexMode};
+pub use conversions::{DoubledHexMode, HexConversionsTrait, OffsetHexMode};
 
 pub mod direction;
 pub use direction::edge_direction::{EdgeDirection, EdgeDirectionTrait};

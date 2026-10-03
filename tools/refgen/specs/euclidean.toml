@@ -1,0 +1,41 @@
+# The squared Euclidean items of `Hex` (plan §4.3, brief LIB-06 M2-T3): the seeded points, every
+# ordered pair of them, and the i32 values near the bounds (tools/refgen/src/euclidean.rs).
+module = "euclidean"
+package = "hexx"
+
+seed = "euclidean::points"
+points = 64
+domain_min = -40
+domain_max = 40
+chunks = 16       # the 64 x 64 ordered pairs, in this many tests
+panic_cap = 4     # #[should_panic] tests per function near the bounds (partial sums included)
+
+# budgets: ceil(1.05 * measured)
+gas.golden_euclidean_bounds_squared_euclidean_distance_to = 11981865
+gas.golden_euclidean_bounds_squared_euclidean_distance_to_panics_0 = 7991
+gas.golden_euclidean_bounds_squared_euclidean_distance_to_panics_1 = 7991
+gas.golden_euclidean_bounds_squared_euclidean_distance_to_panics_2 = 7991
+gas.golden_euclidean_bounds_squared_euclidean_distance_to_panics_3 = 7991
+gas.golden_euclidean_bounds_squared_euclidean_length = 153111
+gas.golden_euclidean_bounds_squared_euclidean_length_panics_0 = 7991
+gas.golden_euclidean_bounds_squared_euclidean_length_panics_1 = 7991
+gas.golden_euclidean_bounds_squared_euclidean_length_panics_2 = 7991
+gas.golden_euclidean_bounds_squared_euclidean_length_panics_3 = 7991
+gas.golden_euclidean_pairs_0_squared_euclidean_distance_to = 70906679
+gas.golden_euclidean_pairs_10_squared_euclidean_distance_to = 70906679
+gas.golden_euclidean_pairs_11_squared_euclidean_distance_to = 70906679
+gas.golden_euclidean_pairs_12_squared_euclidean_distance_to = 70906679
+gas.golden_euclidean_pairs_13_squared_euclidean_distance_to = 70906679
+gas.golden_euclidean_pairs_14_squared_euclidean_distance_to = 70906679
+gas.golden_euclidean_pairs_15_squared_euclidean_distance_to = 70906679
+gas.golden_euclidean_pairs_1_squared_euclidean_distance_to = 70906679
+gas.golden_euclidean_pairs_2_squared_euclidean_distance_to = 70906679
+gas.golden_euclidean_pairs_3_squared_euclidean_distance_to = 70906679
+gas.golden_euclidean_pairs_4_squared_euclidean_distance_to = 70906679
+gas.golden_euclidean_pairs_5_squared_euclidean_distance_to = 70906679
+gas.golden_euclidean_pairs_6_squared_euclidean_distance_to = 70906679
+gas.golden_euclidean_pairs_7_squared_euclidean_distance_to = 70906679
+gas.golden_euclidean_pairs_8_squared_euclidean_distance_to = 70906679
+gas.golden_euclidean_pairs_9_squared_euclidean_distance_to = 70906679
+gas.golden_euclidean_partial_sum_panics = 7991
+gas.golden_euclidean_unary_squared_euclidean_length = 3019643
