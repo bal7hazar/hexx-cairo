@@ -163,7 +163,7 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
     let pair_origins = spec.int("pair_origins")? as usize;
     let mut e = Emitter::new(
         spec,
-        "`GridEdge` (src/hex/grid/edge.rs: `equivalent` :23, `destination` :31, `vertices` :38,\n// `flipped` :55, `const_neg` :65, `clockwise` :75, `counter_clockwise` :85, `rotate_cw` :95,\n// `rotate_ccw` :104, `Hex::all_edges` :116, `Neg` :124, `From<EdgeDirection>` :133) and\n// `GridVertex` (src/hex/grid/vertex.rs: `equivalent` :24, `coordinates` :44, `destinations` :54,\n// `side_edges` :65, `const_neg` :81, `clockwise` :91, `counter_clockwise` :101, `rotate_cw` :111,\n// `rotate_ccw` :120, `Hex::all_vertices` :132, `Neg` :140, `From<VertexDirection>` :149)",
+        "`GridEdge` (src/hex/grid/edge.rs: `equivalent` :23, `destination` :31,\n// `vertices` :38, `flipped` :55, `const_neg` :65, `clockwise` :75, `counter_clockwise` :85,\n// `rotate_cw` :95, `rotate_ccw` :104, `Hex::all_edges` :116, `Neg` :124, `From<EdgeDirection>`\n// :133) and `GridVertex` (src/hex/grid/vertex.rs: `equivalent` :24, `coordinates` :44,\n// `destinations` :54, `side_edges` :65, `const_neg` :81, `clockwise` :91, `counter_clockwise` :101,\n// `rotate_cw` :111, `rotate_ccw` :120, `Hex::all_vertices` :132, `Neg` :140,\n// `From<VertexDirection>` :149)",
         "use hexx::direction::edge_direction::EdgeDirectionTrait;\nuse hexx::direction::vertex_direction::VertexDirectionTrait;\nuse hexx::hex::HexTrait;\nuse hexx::hex::grid::edge::{GridEdge, GridEdgeNeg, GridEdgeTrait, HexEdgesTrait};\nuse hexx::hex::grid::vertex::{GridVertex, GridVertexNeg, GridVertexTrait, HexVerticesTrait};\n",
     );
 
@@ -180,13 +180,13 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
         let flipped = e.flipped();
         assert(flipped.origin == HexTrait::new(fx, fy), 'flipped origin');
         assert(flipped.direction.index() == fd, 'flipped direction');
-        assert(e.const_neg() == GridEdge { origin: e.origin, direction: *dirs.at(neg.into()) }, 'const_neg');
-        assert(-e == e.const_neg(), 'neg');
-        assert(e.clockwise().direction.index() == cw && e.clockwise().origin == e.origin, 'clockwise');
-        assert(
-            e.counter_clockwise().direction.index() == ccw && e.counter_clockwise().origin == e.origin,
-            'counter_clockwise',
-        );
+        let n = e.const_neg();
+        assert(n.origin == e.origin && n.direction.index() == neg, 'const_neg');
+        assert(-e == n, 'neg');
+        let c = e.clockwise();
+        assert(c.origin == e.origin && c.direction.index() == cw, 'clockwise');
+        let c = e.counter_clockwise();
+        assert(c.origin == e.origin && c.direction.index() == ccw, 'counter_clockwise');
 ";
     e.test(
         "golden_grid_edge_table",
@@ -270,13 +270,13 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
         let [s1, s2] = v.side_edges();
         assert(s1.origin == v.origin && s1.direction.index() == e_ccw, 'side_edges ccw');
         assert(s2.origin == v.origin && s2.direction.index() == e_cw, 'side_edges cw');
-        assert(v.const_neg() == GridVertex { origin: v.origin, direction: *dirs.at(neg.into()) }, 'const_neg');
-        assert(-v == v.const_neg(), 'neg');
-        assert(v.clockwise().direction.index() == cw && v.clockwise().origin == v.origin, 'clockwise');
-        assert(
-            v.counter_clockwise().direction.index() == ccw && v.counter_clockwise().origin == v.origin,
-            'counter_clockwise',
-        );
+        let n = v.const_neg();
+        assert(n.origin == v.origin && n.direction.index() == neg, 'const_neg');
+        assert(-v == n, 'neg');
+        let c = v.clockwise();
+        assert(c.origin == v.origin && c.direction.index() == cw, 'clockwise');
+        let c = v.counter_clockwise();
+        assert(c.origin == v.origin && c.direction.index() == ccw, 'counter_clockwise');
 ";
     e.test(
         "golden_grid_vertex_table",

@@ -83,19 +83,13 @@ fn golden_grid_edge_table() {
         let flipped = e.flipped();
         assert(flipped.origin == HexTrait::new(fx, fy), 'flipped origin');
         assert(flipped.direction.index() == fd, 'flipped direction');
-        assert(
-            e.const_neg() == GridEdge { origin: e.origin, direction: *dirs.at(neg.into()) },
-            'const_neg',
-        );
-        assert(-e == e.const_neg(), 'neg');
-        assert(
-            e.clockwise().direction.index() == cw && e.clockwise().origin == e.origin, 'clockwise',
-        );
-        assert(
-            e.counter_clockwise().direction.index() == ccw
-                && e.counter_clockwise().origin == e.origin,
-            'counter_clockwise',
-        );
+        let n = e.const_neg();
+        assert(n.origin == e.origin && n.direction.index() == neg, 'const_neg');
+        assert(-e == n, 'neg');
+        let c = e.clockwise();
+        assert(c.origin == e.origin && c.direction.index() == cw, 'clockwise');
+        let c = e.counter_clockwise();
+        assert(c.origin == e.origin && c.direction.index() == ccw, 'counter_clockwise');
         i += 1;
     }
 }
@@ -540,19 +534,13 @@ fn golden_grid_vertex_table() {
         let [s1, s2] = v.side_edges();
         assert(s1.origin == v.origin && s1.direction.index() == e_ccw, 'side_edges ccw');
         assert(s2.origin == v.origin && s2.direction.index() == e_cw, 'side_edges cw');
-        assert(
-            v.const_neg() == GridVertex { origin: v.origin, direction: *dirs.at(neg.into()) },
-            'const_neg',
-        );
-        assert(-v == v.const_neg(), 'neg');
-        assert(
-            v.clockwise().direction.index() == cw && v.clockwise().origin == v.origin, 'clockwise',
-        );
-        assert(
-            v.counter_clockwise().direction.index() == ccw
-                && v.counter_clockwise().origin == v.origin,
-            'counter_clockwise',
-        );
+        let n = v.const_neg();
+        assert(n.origin == v.origin && n.direction.index() == neg, 'const_neg');
+        assert(-v == n, 'neg');
+        let c = v.clockwise();
+        assert(c.origin == v.origin && c.direction.index() == cw, 'clockwise');
+        let c = v.counter_clockwise();
+        assert(c.origin == v.origin && c.direction.index() == ccw, 'counter_clockwise');
         i += 1;
     }
 }
