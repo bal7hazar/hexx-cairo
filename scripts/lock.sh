@@ -8,7 +8,10 @@
 #     shared with every other programme. `scarb` and `snforge` on PATH are the machine's shims
 #     (~/.local/bin), which take it by themselves; this script takes it for `--heavy`.
 # Nested calls inherit the locks already held and take only the ones they miss, in the same
-# order. Commands run under `nice -n 10` with capped parallelism.
+# order. Commands run under `nice -n 10` with capped parallelism. The compiler runs on one
+# thread by default (RAYON_NUM_THREADS=1, D-176): on several, it places a `withdraw_gas` check by
+# thread order, so a measured build would differ between runs. CARGO_BUILD_JOBS does not change
+# the Cairo output and stays at 4.
 #
 # Only build and test commands are wrapped: the audit profile allows `scripts/lock.sh …`, so
 # this script must not become a way to run anything else.
@@ -51,7 +54,7 @@ esac
 
 project_lock=${HEXMAP_BUILD_LOCK:-/tmp/hexmap-build.lock}
 heavy_lock=${HEAVY_BUILD_LOCK:-$HOME/orchestrator/heavy-build.lock}
-export RAYON_NUM_THREADS="${RAYON_NUM_THREADS:-4}" CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-4}"
+export RAYON_NUM_THREADS="${RAYON_NUM_THREADS:-1}" CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-4}"
 
 [ -z "$manifest_path" ] || export SCARB_MANIFEST_PATH="$manifest_path"
 cmd=("$@")

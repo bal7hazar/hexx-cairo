@@ -60,7 +60,8 @@ def build(cwd: Path, args: list[str]) -> None:
     cmd = ["scarb", "build"] + args
     print(f"$ SCARB_PROFILE=release {' '.join(cmd)}", file=sys.stderr)
     p = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True,
-                       env={**os.environ, "SCARB_PROFILE": "release"})
+                       env={**os.environ, "SCARB_PROFILE": "release",
+                            "RAYON_NUM_THREADS": "1"})  # D-176: a class-size pin is single-threaded, whatever the caller set
     if p.returncode != 0:
         out = (p.stdout + p.stderr).splitlines()
         sys.exit("scarb build failed:\n" + "\n".join(out[-60:]))
