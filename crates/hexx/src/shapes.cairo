@@ -415,8 +415,9 @@ pub trait RombusTrait {
     ///
     /// #### Deviations
     ///
-    /// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` wraps in a release build and
-    /// panics in a debug build (plan §3.1); this port panics where the debug build does.
+    /// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` casts `rows` and `columns` with
+    /// `as i32`, which wraps above `i32::MAX`; this port panics (as `triangle` does). A
+    /// coordinate leaving `i32` panics as in `hexx`'s debug build.
     fn coords(self: Rombus) -> Span<Hex>;
 }
 
@@ -444,8 +445,9 @@ pub impl RombusImpl of RombusTrait {
 ///
 /// #### Deviations
 ///
-/// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` wraps in a release build and panics in
-/// a debug build (plan §3.1); this port panics where the debug build does.
+/// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` casts `rows` and `columns` with
+/// `as i32`, which wraps above `i32::MAX`; this port panics (as `triangle` does). A coordinate
+/// leaving `i32` panics as in `hexx`'s debug build.
 pub fn rombus(point: Hex, rows: u32, columns: u32) -> Span<Hex> {
     let mut out = array![];
     if rows == 0 || columns == 0 {
@@ -550,7 +552,10 @@ pub impl PointyRectangleImpl of PointyRectangleTrait {
 
 /// The coordinates of the pointy rectangle `[left, right, top, bottom]`, row by row (`y`
 /// ascending, then `x` ascending): row `y` holds `x` from `left − (y >> 1)` to `right − (y >>
-/// 1)`, with `y >> 1` the floor of `y / 2`. Empty when `right < left` or `bottom < top`.
+/// 1)`, with `y >> 1` the floor of `y / 2`. Empty when `right < left` or `bottom < top`. Cairo's
+/// `i32` division truncates where `y >> 1`
+/// floors; the loop floors a negative odd `y` (`-3 >> 1 = -2`), so the results are those of
+/// `hexx`.
 ///
 /// A free function, by decision of the brief of M2-T6: it mirrors the free function of
 /// `hexx::shapes` at the same path (`hexx::shapes::pointy_rectangle`), and the mirror keeps
@@ -566,8 +571,7 @@ pub impl PointyRectangleImpl of PointyRectangleTrait {
 /// #### Deviations
 ///
 /// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` wraps in a release build and panics in
-/// a debug build (plan §3.1); this port panics where the debug build does. Cairo's `i32`
-/// division truncates where `y >> 1` floors: a negative odd `y` is taken one lower. The array is
+/// a debug build (plan §3.1); this port panics where the debug build does. The array is
 /// one parameter `bounds`, destructured in the body: Cairo has no array pattern in a parameter
 /// (`hexx` takes `[left, right, top, bottom]: [i32; 4]`).
 pub fn pointy_rectangle(bounds: [i32; 4]) -> Span<Hex> {
@@ -662,7 +666,9 @@ pub impl FlatRectangleImpl of FlatRectangleTrait {
 /// The coordinates of the flat rectangle `[left, right, top, bottom]`, column by column (`x`
 /// ascending, then `y` ascending): column `x` holds `y` from `top − (x >> 1)` to
 /// `bottom − (x >> 1)`, with `x >> 1` the floor of `x / 2`. Empty when `right < left` or
-/// `bottom < top`.
+/// `bottom < top`. Cairo's `i32` division truncates where `x >> 1`
+/// floors; the loop floors a negative odd `x` (`-3 >> 1 = -2`), so the results are those of
+/// `hexx`.
 ///
 /// A free function, by decision of the brief of M2-T6: it mirrors the free function of
 /// `hexx::shapes` at the same path (`hexx::shapes::flat_rectangle`), and the mirror keeps
@@ -678,8 +684,7 @@ pub impl FlatRectangleImpl of FlatRectangleTrait {
 /// #### Deviations
 ///
 /// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` wraps in a release build and panics in
-/// a debug build (plan §3.1); this port panics where the debug build does. Cairo's `i32`
-/// division truncates where `x >> 1` floors: a negative odd `x` is taken one lower. The array is
+/// a debug build (plan §3.1); this port panics where the debug build does. The array is
 /// one parameter `bounds`, destructured in the body: Cairo has no array pattern in a parameter
 /// (`hexx` takes `[left, right, top, bottom]: [i32; 4]`).
 pub fn flat_rectangle(bounds: [i32; 4]) -> Span<Hex> {
