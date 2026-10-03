@@ -10,8 +10,10 @@ Opened by the orchestrator of track LIB on 2026-10-02, under D-132 and
 |---|---|
 | Package | `hexx` |
 | Version | `0.1.0-rc.2` (a pre-release: the milestone gate is informational) |
-| Commit | `TBD`: the merge commit of the release PR, on `main` |
-| Release check | `TBD`: the run dispatched from `main` with that version and that sha, which must be **success**; its artifact `hexx-release-check-0.1.0-rc.2` |
+| Commit | `c60e05ad548907b313faaeae98eb9af0b6ea586f` (on `main`, merge of pull request #101) |
+| Release check | [run 37075327908](https://github.com/bal7hazar/hexx-cairo/actions/runs/37075327908), dispatched from `main` with version `0.1.0-rc.2`: completed, **success**; its artifact `hexx-release-check-0.1.0-rc.2` |
+| Archive sha256 | `c4bf8aef830ca5ed0d9ebc02ad82aeea637ae96ab7311bbf522fc8d4d613a753`: taken by the orchestrator on the VPS, `scarb package -p hexx` at `c60e05a` (the archive's `VCS.json` says sha1 `c60e05ad548907b313faaeae98eb9af0b6ea586f`, path `crates/hexx`). The registry's checksum must equal this value after publication |
+| Packed files | 39, including `LICENSE`, `LICENSE-hexx`, `LICENSE-origami` and `README.md` |
 | For | The game's ENG-05 |
 
 ## Content
@@ -40,8 +42,15 @@ openings, is_open_across}`, `LayoutTrait::new_odd`) and N-6 (`hexagon`, `hexagon
    for it; the N-9 consumer check after publication runs on 2.20.1.
 
 Audits so far: release audit at `29a8360` FAIL (finding F1, the notice of `origami_hexmap` was not
-in the package); fixed in the release-fix PR, which makes the new release commit. A release check
-and an audit at that commit are still to come.
+in the package); fixed in the release-fix PR, which makes the new release commit.
+
+- Release audit re-done at `646c451` (PR #101 head), PASS WITH FINDINGS (two notes, no blocker, no
+  major); it covers the release commit `c60e05a`, whose only difference from `646c451` is
+  `docs/briefs/LIB-04g-ci-path-filters.md` (merged in between, not packaged).
+- Review of #101: PASS WITH FINDINGS (notes).
+- `LICENSE-hexx` is byte-identical to `LICENSE` of hexx 0.25.0 (checked with `cmp` by the
+  orchestrator).
+- The release check at the release commit: run `37075327908`, completed, success.
 
 ## Constraint on class hashes
 
