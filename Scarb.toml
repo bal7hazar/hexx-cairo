@@ -7,6 +7,7 @@ members = [
     # budget of AGENTS.md ("Golden tests") so that no test build needs more than ~8 GB (LIB-04h).
     "crates/golden_bounds",
     "crates/golden_hex",
+    "crates/golden_grid",
     "crates/golden_hex_t2",
     "crates/golden_impls",
     "crates/golden_lm1",
