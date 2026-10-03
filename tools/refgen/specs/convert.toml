@@ -1,0 +1,14 @@
+# The conversions of `Hex` (plan §4.3, brief LIB-06 M2-T3): the `u64` packing and the conversions
+# from an i32 pair, on the seeded points, near the bounds and on seeded u64 values
+# (tools/refgen/src/convert.rs).
+module = "convert"
+package = "hexx"
+
+seed = "convert::points"
+points = 64
+domain_min = -40
+domain_max = 40
+seed_u64 = "convert::values"
+values = 64
+
+# budgets: ceil(1.05 * measured)

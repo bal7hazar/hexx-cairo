@@ -1,0 +1,13 @@
+# The squared Euclidean items of `Hex` (plan §4.3, brief LIB-06 M2-T3): the seeded points, every
+# ordered pair of them, and the i32 values near the bounds (tools/refgen/src/euclidean.rs).
+module = "euclidean"
+package = "hexx"
+
+seed = "euclidean::points"
+points = 64
+domain_min = -40
+domain_max = 40
+chunks = 4        # the 64 x 64 ordered pairs, in this many tests
+panic_cap = 4     # #[should_panic] tests per function near the bounds (partial sums included)
+
+# budgets: ceil(1.05 * measured)

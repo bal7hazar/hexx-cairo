@@ -1,0 +1,12 @@
+# The swizzles of `Hex` (plan §4.3, brief LIB-06 M2-T3): the seeded points and the i32 values
+# near the bounds (tools/refgen/src/swizzle.rs).
+module = "swizzle"
+package = "hexx"
+
+seed = "swizzle::points"
+points = 64
+domain_min = -40
+domain_max = 40
+panic_cap = 2     # #[should_panic] tests per swizzle near the bounds
+
+# budgets: ceil(1.05 * measured)

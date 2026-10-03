@@ -1,0 +1,23 @@
+# The operators of `Hex` (plan §4.3, brief LIB-06 M2-T3): the seeded points, every ordered pair of
+# them, the scalar and direction forms, `Sum` and `Product`, and the i32 values near the bounds;
+# `div_scalar` compared exhaustively off-chain (tools/refgen/src/impls.rs, docs/deviations/div_scalar.md).
+module = "impls"
+package = "hexx"
+
+seed = "impls::points"
+points = 64
+domain_min = -40
+domain_max = 40
+chunks = 8        # the 64 x 64 ordered pairs, in this many tests per operator
+panic_cap = 2     # #[should_panic] tests per function near the bounds
+
+# div_scalar (Scope 2)
+div_domain = 40   # every Hex of [-40, 40]^2 ...
+div_rhs = 12      # ... by every rhs of [-12, 12] \ {0}: 157,464 pairs
+seed_large = "impls::large"
+div_large = 4096  # seeded pairs with 2^20 <= L < 2^31
+seed_div = "impls::div"
+div_sample = 512  # on-chain: seeded pairs where hexx and the rule agree
+small_div = 6     # on-chain: every pair with |x|, |y| <= 6 and rhs in [-6, 6] \ {0}
+
+# budgets: ceil(1.05 * measured)

@@ -10,6 +10,7 @@ points = 64
 domain_min = -40
 domain_max = 40
 panic_cap = 2     # #[should_panic] tests per function and (mode, orientation) near the bounds
+hexmod_max = 6    # L-M2: the hexmod conversions at every radius 1..=6
 
 # budgets: ceil(1.05 * measured)
 

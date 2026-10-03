@@ -1,15 +1,35 @@
 //! The offset coordinate conversions of `Hex`, the mirror of `hexx`'s `src/conversions.rs`.
 //!
 //! `OffsetHexMode` and the two conversions of milestone L-M1: they define the mapping between a
-//! `Hex` and a board index (plan §3.5). The doubled and hexmod conversions land with L-M2.
+//! `Hex` and a board index (plan §3.5). `DoubledHexMode`, the doubled and the hexmod conversions
+//! of L-M2 (M2-T3).
 //!
 //! `hexx` writes `i32::midpoint(v, v & 1)` and `(v - (v & 1)) / 2`. Both numerators are even, so
 //! the divisions are exact: they are the ceiling and the floor of `v / 2`, computed here from the
 //! truncating division of Cairo without ever forming `v + 1` (which would leave `i32` for
 //! `i32::MAX`, where `hexx`'s `midpoint` does not).
 
-use crate::hex::Hex;
+use crate::hex::{Hex, HexShiftTrait, HexTrait};
 use crate::orientation::HexOrientation;
+
+/// Which axis of a doubled grid is doubled: the width (columns, the default) or the height (rows).
+///
+/// Mirrors `hexx::conversions::DoubledHexMode` (`src/conversions.rs:12`), its variants
+/// `DoubledWidth` (`:15`, the default) and `DoubledHeight` (`:17`).
+///
+/// #### Panics
+///
+/// None.
+///
+/// #### Deviations
+///
+/// `Serde` and `Hash` are derived as a matter of course (plan §2.3).
+#[derive(Copy, Drop, Serde, PartialEq, Debug, Default, Hash)]
+pub enum DoubledHexMode {
+    #[default]
+    DoubledWidth,
+    DoubledHeight,
+}
 
 /// Which rows or columns of an offset grid are shoved: the even ones or the odd ones.
 ///
@@ -74,6 +94,106 @@ pub impl HexConversionsImpl of HexConversionsTrait {
             HexOrientation::Flat => Hex { x: col, y: row - OffsetHalfTrait::shove(col, mode) },
             HexOrientation::Pointy => Hex { x: col - OffsetHalfTrait::shove(row, mode), y: row },
         }
+    }
+
+    /// Converts `self` to doubled coordinates `[column, row]`: `[2x + y, y]` for
+    /// `DoubledWidth`, `[x, 2y + x]` for `DoubledHeight`.
+    ///
+    /// Mirrors `Hex::to_doubled_coordinates` (`src/conversions.rs:50`).
+    ///
+    /// #### Panics
+    ///
+    /// When `2x`, `2y` or the sum leaves `i32`.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn to_doubled_coordinates(self: Hex, mode: DoubledHexMode) -> [i32; 2] {
+        match mode {
+            DoubledHexMode::DoubledWidth => [2 * self.x + self.y, self.y],
+            DoubledHexMode::DoubledHeight => [self.x, 2 * self.y + self.x],
+        }
+    }
+
+    /// Converts doubled coordinates `[column, row]` back to a `Hex`: `((col - row) / 2, row)`
+    /// for `DoubledWidth`, `(col, (row - col) / 2)` for `DoubledHeight`, the division truncated
+    /// toward zero as `hexx`'s, also on a pair that is not a valid doubled coordinate (an odd
+    /// difference).
+    ///
+    /// Mirrors `Hex::from_doubled_coordinates` (`src/conversions.rs:128`).
+    ///
+    /// #### Panics
+    ///
+    /// When the difference leaves `i32`.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn from_doubled_coordinates(doubled: [i32; 2], mode: DoubledHexMode) -> Hex {
+        let [col, row] = doubled;
+        match mode {
+            DoubledHexMode::DoubledWidth => HexTrait::new((col - row) / 2, row),
+            DoubledHexMode::DoubledHeight => HexTrait::new(col, (row - col) / 2),
+        }
+    }
+
+    /// The hexmod index of `self` in a hexagon of radius `range` around the origin:
+    /// `(y + shift·x) mod area`, `area = range_count(range)`, `shift = 3·range + 2`, the modulo
+    /// Euclidean (in `0..area`); a coordinate outside the hexagon wraps.
+    ///
+    /// Mirrors `Hex::to_hexmod_coordinates` (`src/conversions.rs:92`).
+    ///
+    /// #### Panics
+    ///
+    /// When `range_count(range)` leaves `u32` or `i32` (`range ≥ 26_755`), and when
+    /// `y + shift·x` leaves `i32`.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` casts `range_count(range)` and `shift(range)` with `as i32`: from `range = 26_755`
+    /// the area wraps to a negative `i32` there and its result is not an index of the hexagon;
+    /// this port panics. Elsewhere `hexx` wraps in a release build and panics in a debug build
+    /// (plan §3.1); this port panics exactly where the debug build does. `rem_euclid` is written
+    /// out.
+    fn to_hexmod_coordinates(self: Hex, range: u32) -> u32 {
+        let area: i32 = HexTrait::range_count(range).try_into().unwrap();
+        let shift: i32 = HexShiftTrait::shift(range).try_into().unwrap();
+        let r = (self.y + shift * self.x) % area;
+        let r = if r < 0 {
+            r + area
+        } else {
+            r
+        };
+        r.try_into().unwrap()
+    }
+
+    /// The `Hex` of the hexmod index `coord` in a hexagon of radius `range` around the origin,
+    /// the inverse of `to_hexmod_coordinates` on `0..range_count(range)`.
+    ///
+    /// Mirrors `Hex::from_hexmod_coordinates` (`src/conversions.rs:110`).
+    ///
+    /// #### Panics
+    ///
+    /// When `coord`, `range` or `shift(range)` exceeds `i32::MAX`, and when an intermediate value
+    /// leaves `i32`.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` casts `coord`, `range` and `shift(range)` with `as i32`: a value above `i32::MAX`
+    /// wraps there (a `coord` beyond `i32::MAX` becomes negative) and panics here. Elsewhere
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn from_hexmod_coordinates(coord: u32, range: u32) -> Hex {
+        let shift: i32 = HexShiftTrait::shift(range).try_into().unwrap();
+        let range: i32 = range.try_into().unwrap();
+        let coord: i32 = coord.try_into().unwrap();
+        let ms = (coord + range) / shift;
+        let mcs = (coord + 2 * range) / (shift - 1);
+        HexTrait::new(
+            ms * (range + 1) + mcs * -range, coord + ms * (-2 * range - 1) + mcs * (-range - 1),
+        )
     }
 }
 
