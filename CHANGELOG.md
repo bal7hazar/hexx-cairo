@@ -10,7 +10,7 @@ move. Versions before `0.1.0` are pre-releases (`0.1.0-rc.N`); nothing is publis
 
 ## [Unreleased]
 
-## [0.1.0-rc.2] — unreleased
+## [0.1.0-rc.2] — 2026-10-03
 
 The second release candidate of `hexx`, the first built on Scarb 2.20.1. It adds needs N-1, N-2
 and N-6 (`hexagon`, `hexagon_ring`), which `0.1.0-rc.1` lacked. Published only after the go of

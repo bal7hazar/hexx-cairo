@@ -60,7 +60,7 @@ scripts/agent.sh --branch feat/lib-04f-scarb-2-20 LIB-04f claude sonnet new "<la
 4. rc.2: version `0.1.0-rc.2`, CHANGELOG section (N-1, N-2, N-6 added; built with Scarb 2.20.1 and
    starknet-foundry 0.64.0; rc.1 stays as published), merged; the release check dispatched from
    `main` on the merge commit; **one audit of the release** (a published interface, D-177;
-   `nexus audit` with a real lens falls back to Opus); `docs/decisions/PENDING-publish-hexx-0.1.0-rc.2.md`;
+   `nexus audit` with a real lens falls back to Opus); `docs/decisions/D-132-publish-hexx-0.1.0-rc.2.md`;
    the project manager's go (D-132 delegates release candidates); publish by hand from a clean
    clone of the sha (the token is `SCARB_REGISTRY_AUTH_TOKEN` in the session's environment, used by
    name only); confirm the registry; tag and release; the consumer check runs on the tag; one line
