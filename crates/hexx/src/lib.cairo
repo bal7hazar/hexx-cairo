@@ -20,6 +20,8 @@ pub use conversions::{HexConversionsTrait, OffsetHexMode};
 
 pub mod direction;
 pub use direction::edge_direction::{EdgeDirection, EdgeDirectionTrait};
+pub use direction::vertex_direction::{VertexDirection, VertexDirectionTrait};
+pub use direction::way::{DirectionWay, DirectionWayTrait};
 
 pub mod finders;
 

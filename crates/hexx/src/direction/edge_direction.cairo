@@ -26,6 +26,7 @@
 //! `hexx`'s iterator (`iter`, `impl ExactSizeIterator`) is an eager `Span` here: a `Span` is the
 //! iterator of Cairo (plan §4.4, "Span" counterparts).
 
+use crate::direction::vertex_direction::{VertexDirection, VertexDirectionIndexTrait};
 use crate::hex::{Hex, HexTrait};
 
 /// The number of directions, as a divisor.
@@ -43,12 +44,13 @@ const SIX: NonZero<u8> = 6;
 /// #### Deviations
 ///
 /// Cairo has no tuple structs: the field is named `index`. It stays private so that `index()` is
-/// the only reader, as `pub(crate)` is in `hexx` (plan §3.2). `Debug` and `Hash` are derived as a
-/// matter of course (plan §2.3); `Debug` prints the field, not the pointy name as `hexx` does
-/// (L-M2). `Serde` is written by hand: `deserialize` returns `None` for an index above 5, so that
+/// the only reader, as `pub(crate)` is in `hexx` (plan §3.2). `Hash` is derived as a matter of
+/// course (plan §2.3). `Debug` is written by hand and prints what `hexx`'s does
+/// (`EdgeDirection { index: 0, x: 1, y: 0, z: -1 }`, `src/direction/edge_direction.rs:635`).
+/// `Serde` is written by hand: `deserialize` returns `None` for an index above 5, so that
 /// a value read from calldata is always one of the six directions (a derived `Serde` would
 /// accept any `u8`, and `rotate_cw` and `into_hex` would leave `0..=5`).
-#[derive(Copy, Drop, PartialEq, Debug, Default, Hash)]
+#[derive(Copy, Drop, PartialEq, Default, Hash)]
 pub struct EdgeDirection {
     index: u8,
 }
@@ -69,7 +71,7 @@ impl EdgeDirectionSerde of Serde<EdgeDirection> {
     }
 }
 
-/// The items of `impl EdgeDirection` of milestone L-M1.
+/// The items of `impl EdgeDirection` of milestones L-M1 and L-M2.
 pub trait EdgeDirectionTrait {
     /// The direction towards `(1, -1)`, index 5.
     ///
@@ -580,6 +582,71 @@ pub trait EdgeDirectionTrait {
     ///
     /// None.
     fn rotate_cw(self: EdgeDirection, offset: u8) -> EdgeDirection;
+
+    /// The vertex direction counter-clockwise of the edge, `vertex_ccw`: the vertex `index`.
+    ///
+    /// Mirrors `EdgeDirection::diagonal_ccw` (`src/direction/edge_direction.rs:571`).
+    ///
+    /// #### Panics
+    ///
+    /// None.
+    ///
+    /// #### Deviations
+    ///
+    /// None.
+    fn diagonal_ccw(self: EdgeDirection) -> VertexDirection;
+
+    /// The vertex direction counter-clockwise of the edge: the vertex `index`.
+    ///
+    /// Mirrors `EdgeDirection::vertex_ccw` (`src/direction/edge_direction.rs:586`).
+    ///
+    /// #### Panics
+    ///
+    /// None.
+    ///
+    /// #### Deviations
+    ///
+    /// None.
+    fn vertex_ccw(self: EdgeDirection) -> VertexDirection;
+
+    /// The vertex direction clockwise of the edge, `vertex_cw`: the vertex `(index + 1) mod 6`.
+    ///
+    /// Mirrors `EdgeDirection::diagonal_cw` (`src/direction/edge_direction.rs:601`).
+    ///
+    /// #### Panics
+    ///
+    /// None.
+    ///
+    /// #### Deviations
+    ///
+    /// None.
+    fn diagonal_cw(self: EdgeDirection) -> VertexDirection;
+
+    /// The vertex direction clockwise of the edge: the vertex `(index + 1) mod 6`.
+    ///
+    /// Mirrors `EdgeDirection::vertex_cw` (`src/direction/edge_direction.rs:616`).
+    ///
+    /// #### Panics
+    ///
+    /// None.
+    ///
+    /// #### Deviations
+    ///
+    /// None.
+    fn vertex_cw(self: EdgeDirection) -> VertexDirection;
+
+    /// The two adjacent vertex directions, `[vertex_ccw, vertex_cw]`.
+    ///
+    /// Mirrors `EdgeDirection::vertex_directions` (`src/direction/edge_direction.rs:623`).
+    ///
+    /// #### Panics
+    ///
+    /// None.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` returns `[VertexDirection; 2]`; so does this port (a fixed-size array).
+    fn vertex_directions(self: EdgeDirection) -> [VertexDirection; 2];
 }
 
 pub impl EdgeDirectionImpl of EdgeDirectionTrait {
@@ -659,6 +726,31 @@ pub impl EdgeDirectionImpl of EdgeDirectionTrait {
         let steps = EdgeDirectionStepsTrait::steps(offset);
         EdgeDirection { index: EdgeDirectionStepsTrait::wrap(self.index + steps) }
     }
+
+    #[inline]
+    fn diagonal_ccw(self: EdgeDirection) -> VertexDirection {
+        self.vertex_ccw()
+    }
+
+    #[inline]
+    fn vertex_ccw(self: EdgeDirection) -> VertexDirection {
+        VertexDirectionIndexTrait::from_index(self.index)
+    }
+
+    #[inline]
+    fn diagonal_cw(self: EdgeDirection) -> VertexDirection {
+        self.vertex_cw()
+    }
+
+    #[inline]
+    fn vertex_cw(self: EdgeDirection) -> VertexDirection {
+        VertexDirectionIndexTrait::from_index(EdgeDirectionStepsTrait::wrap(self.index + 1))
+    }
+
+    #[inline]
+    fn vertex_directions(self: EdgeDirection) -> [VertexDirection; 2] {
+        [self.vertex_ccw(), self.vertex_cw()]
+    }
 }
 
 /// The index arithmetic of the rotations, private: `sum mod 6` for `sum` in `0..=11`, and
@@ -681,6 +773,30 @@ impl EdgeDirectionStepsImpl of EdgeDirectionStepsTrait {
     }
 }
 
+/// The edge direction of an index in `0..=5`, for the vertex direction's `edge_*` methods:
+/// `pub(crate)`, the field being private. Outside the parity table and the public documentation
+/// template (`pub(crate)` in `hexx`: `EdgeDirection(pub(crate) u8)`). The caller guarantees
+/// `index <= 5`.
+#[generate_trait]
+pub(crate) impl EdgeDirectionIndexImpl of EdgeDirectionIndexTrait {
+    #[inline]
+    fn from_index(index: u8) -> EdgeDirection {
+        EdgeDirection { index }
+    }
+}
+
+/// `Debug` of `EdgeDirection`, as `hexx`'s: `EdgeDirection { index: 0, x: 1, y: 0, z: -1 }`.
+///
+/// Mirrors `impl Debug for EdgeDirection` (`src/direction/edge_direction.rs:635`).
+impl EdgeDirectionDebug of core::fmt::Debug<EdgeDirection> {
+    fn fmt(self: @EdgeDirection, ref f: core::fmt::Formatter) -> Result<(), core::fmt::Error> {
+        let c = (*self).into_hex();
+        write!(
+            f, "EdgeDirection {{ index: {}, x: {}, y: {}, z: {} }}", *self.index, c.x, c.y, c.z(),
+        )
+    }
+}
+
 /// The neighbour coordinates of the direction.
 ///
 /// Mirrors `impl From<EdgeDirection> for Hex` (`src/direction/edge_direction.rs:628`): Cairo
@@ -698,5 +814,150 @@ pub impl EdgeDirectionIntoHex of Into<EdgeDirection, Hex> {
     #[inline]
     fn into(self: EdgeDirection) -> Hex {
         self.into_hex()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    // Local imports
+
+    use crate::direction::vertex_direction::VertexDirectionTrait;
+    use super::EdgeDirectionTrait;
+
+    /// The links to the vertex directions, against the index arithmetic written plainly: the
+    /// vertex counter-clockwise of edge `i` is vertex `i`, the one clockwise of it is `(i + 1) %
+    /// 6`.
+    #[test]
+    #[available_gas(l2_gas: 130589)]
+    fn test_edge_direction_links_with_vertex_direction() {
+        let all = EdgeDirectionTrait::iter();
+        let vertices = VertexDirectionTrait::iter();
+        let mut i: u8 = 0;
+        while i < 6 {
+            let e = *all.at(i.into());
+            assert(e.vertex_ccw() == *vertices.at(i.into()), 'vertex_ccw');
+            assert(e.diagonal_ccw() == *vertices.at(i.into()), 'diagonal_ccw');
+            assert(e.vertex_cw() == *vertices.at(((i + 1) % 6).into()), 'vertex_cw');
+            assert(e.diagonal_cw() == *vertices.at(((i + 1) % 6).into()), 'diagonal_cw');
+            let [a, b] = e.vertex_directions();
+            assert(a == e.vertex_ccw() && b == e.vertex_cw(), 'vertex_directions');
+            // The vertex of an edge leads back to the edge on the right side.
+            assert(e.vertex_ccw().edge_cw() == e, 'vertex_ccw then edge_cw');
+            assert(e.vertex_cw().edge_ccw() == e, 'vertex_cw then edge_ccw');
+            i += 1;
+        }
+    }
+
+    // Benchmarks of M2-T1 (LIB-06), as `vertex_direction`'s: 17 repetitions of the six directions,
+    // per call = (test − `bench_edge_direction_vertex_baseline`) / 102. Targets (`L`,
+    // `U = ceil(1.25 L)`), from `counter_clockwise` 1,868 of the L-M1 measurements, written before
+    // the first measurement:
+    //
+    // | function | `L` | `U` |
+    // |---|---|---|
+    // | `diagonal_cw`, `diagonal_ccw`, `vertex_cw`, `vertex_ccw` | 1,868 | 2,335 |
+    // | `vertex_directions` | 3,736 (two `vertex_*`) | 4,670 |
+
+    #[test]
+    #[available_gas(l2_gas: 538390)]
+    fn bench_edge_direction_vertex_baseline() {
+        let mut acc: u8 = 0;
+        let mut rep: u8 = 0;
+        while rep != 17 {
+            let offset: u8 = 255 - rep;
+            let mut all = EdgeDirectionTrait::iter();
+            while let Some(d) = all.pop_front() {
+                let d = *d;
+                acc = acc ^ d.index() ^ offset;
+            }
+            rep += 1;
+        }
+        assert!(acc != 200);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 691722)]
+    fn bench_edge_direction_vertex_cw() {
+        let mut acc: u8 = 0;
+        let mut rep: u8 = 0;
+        while rep != 17 {
+            let offset: u8 = 255 - rep;
+            let mut all = EdgeDirectionTrait::iter();
+            while let Some(d) = all.pop_front() {
+                let d = *d;
+                acc = acc ^ d.vertex_cw().index() ^ offset;
+            }
+            rep += 1;
+        }
+        assert!(acc != 200);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 538390)]
+    fn bench_edge_direction_vertex_ccw() {
+        let mut acc: u8 = 0;
+        let mut rep: u8 = 0;
+        while rep != 17 {
+            let offset: u8 = 255 - rep;
+            let mut all = EdgeDirectionTrait::iter();
+            while let Some(d) = all.pop_front() {
+                let d = *d;
+                acc = acc ^ d.vertex_ccw().index() ^ offset;
+            }
+            rep += 1;
+        }
+        assert!(acc != 200);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 691722)]
+    fn bench_edge_direction_diagonal_cw() {
+        let mut acc: u8 = 0;
+        let mut rep: u8 = 0;
+        while rep != 17 {
+            let offset: u8 = 255 - rep;
+            let mut all = EdgeDirectionTrait::iter();
+            while let Some(d) = all.pop_front() {
+                let d = *d;
+                acc = acc ^ d.diagonal_cw().index() ^ offset;
+            }
+            rep += 1;
+        }
+        assert!(acc != 200);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 538390)]
+    fn bench_edge_direction_diagonal_ccw() {
+        let mut acc: u8 = 0;
+        let mut rep: u8 = 0;
+        while rep != 17 {
+            let offset: u8 = 255 - rep;
+            let mut all = EdgeDirectionTrait::iter();
+            while let Some(d) = all.pop_front() {
+                let d = *d;
+                acc = acc ^ d.diagonal_ccw().index() ^ offset;
+            }
+            rep += 1;
+        }
+        assert!(acc != 200);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 786291)]
+    fn bench_edge_direction_vertex_directions() {
+        let mut acc: u8 = 0;
+        let mut rep: u8 = 0;
+        while rep != 17 {
+            let offset: u8 = 255 - rep;
+            let mut all = EdgeDirectionTrait::iter();
+            while let Some(d) = all.pop_front() {
+                let d = *d;
+                let [a, b] = d.vertex_directions();
+                acc = acc ^ a.index() ^ b.index() ^ offset;
+            }
+            rep += 1;
+        }
+        assert!(acc != 200);
     }
 }

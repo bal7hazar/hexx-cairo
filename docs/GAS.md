@@ -266,6 +266,46 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::seams::tests::test_seams_side` | 44,928,160 | 47,174,568 | 5.0 % |
 | `hexx::board::tables::tests::test_tables_bands` | 895,300 | 940,065 | 5.0 % |
 | `hexx::board::tables::tests::test_tables_rows_16` | 731,130 | 767,687 | 5.0 % |
+| `hexx::direction::edge_direction::tests::bench_edge_direction_diagonal_ccw` | 512,752 | 538,390 | 5.0 % |
+| `hexx::direction::edge_direction::tests::bench_edge_direction_diagonal_cw` | 658,782 | 691,722 | 5.0 % |
+| `hexx::direction::edge_direction::tests::bench_edge_direction_vertex_baseline` | 512,752 | 538,390 | 5.0 % |
+| `hexx::direction::edge_direction::tests::bench_edge_direction_vertex_ccw` | 512,752 | 538,390 | 5.0 % |
+| `hexx::direction::edge_direction::tests::bench_edge_direction_vertex_cw` | 658,782 | 691,722 | 5.0 % |
+| `hexx::direction::edge_direction::tests::bench_edge_direction_vertex_directions` | 748,848 | 786,291 | 5.0 % |
+| `hexx::direction::edge_direction::tests::test_edge_direction_links_with_vertex_direction` | 124,370 | 130,589 | 5.0 % |
+| `hexx::direction::impls::tests::bench_direction_ops_baseline` | 386,160 | 405,468 | 5.0 % |
+| `hexx::direction::impls::tests::bench_edge_direction_mul_scalar` | 688,000 | 722,400 | 5.0 % |
+| `hexx::direction::impls::tests::bench_vertex_direction_mul_scalar` | 688,000 | 722,400 | 5.0 % |
+| `hexx::direction::impls::tests::test_direction_operators_oracle` | 1,190,950 | 1,250,498 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::bench_vertex_direction_baseline` | 512,752 | 538,390 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::bench_vertex_direction_baseline_into_hex` | 496,766 | 521,605 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::bench_vertex_direction_clockwise` | 658,782 | 691,722 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::bench_vertex_direction_const_neg` | 694,822 | 729,564 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::bench_vertex_direction_counter_clockwise` | 703,322 | 738,489 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::bench_vertex_direction_edge_baseline` | 512,752 | 538,390 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::bench_vertex_direction_edge_ccw` | 703,322 | 738,489 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::bench_vertex_direction_edge_cw` | 512,752 | 538,390 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::bench_vertex_direction_edge_directions` | 793,388 | 833,058 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::bench_vertex_direction_into_hex` | 627,326 | 658,693 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::bench_vertex_direction_rotate_ccw` | 734,416 | 771,137 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::bench_vertex_direction_rotate_cw` | 681,476 | 715,550 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::test_vertex_direction_compass_aliases` | 6,010 | 6,311 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::test_vertex_direction_into_hex_is_the_sum_of_its_edges` | 74,260 | 77,973 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::test_vertex_direction_links_with_edge_direction` | 100,150 | 105,158 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::test_vertex_direction_rotation_oracle` | 18,475,960 | 19,399,758 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::test_vertex_direction_serde_refuses_an_index_above_five` | 951,510 | 999,086 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::test_vertex_direction_serde_round_trip` | 44,090 | 46,295 | 5.0 % |
+| `hexx::direction::vertex_direction::tests::test_vertex_direction_steps_oracle` | 126,350 | 132,668 | 5.0 % |
+| `hexx::direction::way::tests::bench_direction_way_baseline` | 512,752 | 538,390 | 5.0 % |
+| `hexx::direction::way::tests::bench_direction_way_baseline_absent` | 784,888 | 824,133 | 5.0 % |
+| `hexx::direction::way::tests::bench_direction_way_contains` | 897,088 | 941,943 | 5.0 % |
+| `hexx::direction::way::tests::bench_direction_way_from` | 893,926 | 938,623 | 5.0 % |
+| `hexx::direction::way::tests::bench_direction_way_from_baseline` | 680,118 | 714,124 | 5.0 % |
+| `hexx::direction::way::tests::bench_direction_way_map` | 512,752 | 538,390 | 5.0 % |
+| `hexx::direction::way::tests::bench_direction_way_unwrap` | 512,752 | 538,390 | 5.0 % |
+| `hexx::direction::way::tests::test_direction_way_from_oracle` | 822,870 | 864,014 | 5.0 % |
+| `hexx::direction::way::tests::test_direction_way_into` | 6,010 | 6,311 | 5.0 % |
+| `hexx::direction::way::tests::test_direction_way_map_captures` | 6,010 | 6,311 | 5.0 % |
 | `hexx::finders::bfs::tests::test_bfs_corners` | 225,448,815 | 236,721,256 | 5.0 % |
 | `hexx::finders::bfs::tests::test_bfs_digger_entrances` | 617,335,506 | 648,202,282 | 5.0 % |
 | `hexx::finders::bfs::tests::test_bfs_distance_revert_wall` | 15,366 | 16,135 | 5.0 % |
@@ -1313,8 +1353,13 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx_integrationtest::golden_conversions::golden_offset_to_odd_flat_panics_1` | 7,610 | 7,991 | 5.0 % |
 | `hexx_integrationtest::golden_conversions::golden_offset_to_odd_pointy_panics_0` | 7,610 | 7,991 | 5.0 % |
 | `hexx_integrationtest::golden_conversions::golden_offset_to_odd_pointy_panics_1` | 7,610 | 7,991 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_direction_debug` | 1,629,390 | 1,710,860 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_direction_neg` | 41,730 | 43,817 | 5.0 % |
 | `hexx_integrationtest::golden_direction::golden_edge_direction_all` | 20,810 | 21,851 | 5.0 % |
 | `hexx_integrationtest::golden_direction::golden_edge_direction_constants` | 6,010 | 6,311 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_edge_direction_mul_scalar` | 10,467,260 | 10,990,623 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_edge_direction_mul_scalar_revert_overflow_0` | 11,320 | 11,886 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_edge_direction_mul_scalar_revert_overflow_1` | 12,260 | 12,873 | 5.0 % |
 | `hexx_integrationtest::golden_direction::golden_edge_direction_rotations_0` | 41,593,300 | 43,672,965 | 5.0 % |
 | `hexx_integrationtest::golden_direction::golden_edge_direction_rotations_1` | 41,616,140 | 43,696,947 | 5.0 % |
 | `hexx_integrationtest::golden_direction::golden_edge_direction_rotations_2` | 41,637,390 | 43,719,260 | 5.0 % |
@@ -1322,6 +1367,23 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx_integrationtest::golden_direction::golden_edge_direction_rotations_4` | 41,680,140 | 43,764,147 | 5.0 % |
 | `hexx_integrationtest::golden_direction::golden_edge_direction_rotations_5` | 41,701,390 | 43,786,460 | 5.0 % |
 | `hexx_integrationtest::golden_direction::golden_edge_direction_table` | 103,880 | 109,074 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_edge_direction_vertices` | 84,490 | 88,715 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_edge_direction_way_contains` | 65,100,510 | 68,355,536 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_edge_direction_way_unwrap_map` | 3,973,280 | 4,171,944 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_vertex_direction_all` | 20,810 | 21,851 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_vertex_direction_constants` | 6,010 | 6,311 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_vertex_direction_mul_scalar` | 6,974,330 | 7,323,047 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_vertex_direction_mul_scalar_revert_overflow_0` | 10,750 | 11,288 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_vertex_direction_mul_scalar_revert_overflow_1` | 12,260 | 12,873 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_vertex_direction_rotations_0` | 41,593,300 | 43,672,965 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_vertex_direction_rotations_1` | 41,616,140 | 43,696,947 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_vertex_direction_rotations_2` | 41,637,390 | 43,719,260 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_vertex_direction_rotations_3` | 41,658,890 | 43,741,835 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_vertex_direction_rotations_4` | 41,680,140 | 43,764,147 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_vertex_direction_rotations_5` | 41,701,390 | 43,786,460 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_vertex_direction_table` | 151,910 | 159,506 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_vertex_direction_way_contains` | 65,100,510 | 68,355,536 | 5.0 % |
+| `hexx_integrationtest::golden_direction::golden_vertex_direction_way_unwrap_map` | 3,973,580 | 4,172,259 | 5.0 % |
 | `hexx_integrationtest::golden_hex::golden_hex_bounds_abs` | 8,535,770 | 8,962,559 | 5.0 % |
 | `hexx_integrationtest::golden_hex::golden_hex_bounds_abs_panics_0` | 7,610 | 7,991 | 5.0 % |
 | `hexx_integrationtest::golden_hex::golden_hex_bounds_abs_panics_1` | 7,610 | 7,991 | 5.0 % |
@@ -2178,7 +2240,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 7,810 | 8,201 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 7,810 | 8,201 | 5.0 % |
 
-2171 measured test(s).
+2233 measured test(s).
 
 ## Figures accepted above their range
 
