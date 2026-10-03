@@ -1177,11 +1177,22 @@ fn emit_t2(
     // The binary items on every ordered pair of a 16-point subset (every fourth seeded point), in
     // one test per function, then near the bounds. The 64 x 64 pairs of the first version made the
     // integration target too large for the CI runner's compile (41,000 lines): the exhaustive
-    // checks are the module oracles. `rectiline_to` has none near the bounds: a path of two
-    // billion hexes.
+    // checks are the module oracles of `range`, the rotations and the counts only; `way_to`,
+    // `diagonal_way_to`, `main_diagonal_to`, `main_direction_to`, `rectiline_to` and the
+    // `*_around` items rest on the property tests and on this golden subset. `rectiline_to` has
+    // none near the bounds: a path of two billion hexes.
     let subset: Vec<(i32, i32)> = points.iter().step_by(4).copied().collect();
-    let pairs: Vec<_> =
+    let mut pairs: Vec<_> =
         subset.iter().flat_map(|&a| subset.iter().map(move |&b| (a, b))).collect();
+    // Hand-picked: the origin to each of the six vertex hexes and back, so that all six tie
+    // orders of `way_to` are pinned against `hexx` (the seeded points hit few of them).
+    for v in [(1, 1), (-1, -1), (2, -1), (-2, 1), (1, -2), (-1, 2)] {
+        for pair in [((0, 0), v), (v, (0, 0))] {
+            if !pairs.contains(&pair) {
+                pairs.push(pair);
+            }
+        }
+    }
     tables(e, "pairs_t2", &pairs, &PAIR_IN, &PAIR_T2, None)?;
     tables(e, "pairs_t2", &pairs, &PAIR_IN, &RECTILINE_T2, None)?;
     let bound_pairs: Vec<_> = BOUND_PAIR_POINTS

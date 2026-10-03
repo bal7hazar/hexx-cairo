@@ -280,9 +280,10 @@ jobs:
           PACKAGE: ${{ matrix.package }}
           PARTITION: ${{ matrix.partition }}
         run: python3 scripts/bench.py repeat --package "$PACKAGE" --filter digger ${PARTITION:+--partition "$PARTITION"}
-      # Fails on any class size change of crates/consumer not committed in gas/bytecode.size.
+      # Fails on any class size change of crates/consumer not committed in gas/bytecode.size. It runs
+      # even when the gas check failed: what it measured is the pin of the run (LIB-04i).
       - name: Check bytecode size
-        if: ${{ matrix.package == 'consumer' }}
+        if: ${{ !cancelled() && matrix.package == 'consumer' }}
         run: |
           set -o pipefail
           python3 scripts/bytecode_size.py check | tee -a gas_report.md
@@ -333,6 +334,27 @@ jobs:
           SCOPE: ${{ matrix.scope }}
           TOTAL: ${{ matrix.total }}
         run: python3 scripts/bench.py complete --package hexx --scope "$SCOPE" --total "$TOTAL" --reports partition-reports
+      # LIB-04i: the pins of the run, for a thread to commit (AGENTS.md, "Gas pins from CI"). Every
+      # gas job's `check` leaves `pins-*.json` (and the consumer job `bytecode.size`) in its artefact,
+      # whatever its verdict; `bench.py pins` assembles those of all the packages into the snapshots,
+      # the budgets to change and a manifest. Once per run (scope `regular`), after the gas jobs,
+      # failed ones included.
+      - name: Assemble the gas pins of the run
+        if: ${{ !cancelled() && matrix.scope == 'regular' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --pattern "gas-*-$GITHUB_SHA" --dir gas-reports
+          python3 scripts/bench.py pins --reports gas-reports --out gas-pins --head "$HEAD_SHA" --merge "$GITHUB_SHA" --base "$BASE_SHA"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: ${{ always() && matrix.scope == 'regular' }}
+        with:
+          name: gas-pins-${{ github.event.pull_request.head.sha || github.sha }}
+          path: gas-pins
+          if-no-files-found: warn
+          retention-days: 30
 
   # D-176: the proof that a clean build is one build. `crates/consumer` is built three times from
   # clean (`scarb clean` between, release profile as the class-size check, RAYON_NUM_THREADS=1 from

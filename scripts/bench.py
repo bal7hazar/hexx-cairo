@@ -59,6 +59,19 @@ usage:
                                             measured in no partition or in two, when a partition
                                             report is missing or repeated, or when the snapshot
                                             has a row no partition measured
+  scripts/bench.py pins --reports DIR --out OUT [--head SHA --merge SHA --base SHA]
+                                            (CI, LIB-04i) assembles the `pins-*.json` every
+                                            `check` leaves, whatever its verdict, into OUT:
+                                            gas/<package>.snap of each package measured
+                                            completely, gas/bytecode.size, budgets.json (the
+                                            budgets to change) and manifest.json
+  scripts/bench.py apply-pins DIR          writes the artefact `gas-pins-<head sha>` (downloaded
+                                            into DIR) into the tree: gas/ and the budgets of the
+                                            sources (not of the generated golden files: printed);
+                                            refuses pins of another head than HEAD, warns when
+                                            their base is not origin/main, exits 1 on anything
+                                            left to do (a package not assembled, a test failed or
+                                            unmeasured, a golden budget)
   scripts/bench.py repeat --package P [--filter F] [--partition I/T]
                                             run the tests matching F (default `digger`) twice, in
                                             the same job; fail if the compiled files differ from
@@ -103,7 +116,8 @@ GAS = ROOT / "gas"
 ARTIFACTS = ROOT / "target" / "gas-artifacts"
 PASS_RE = re.compile(r"^\[(PASS|FAIL)\] (\S+)")
 GAS_LINE_RE = re.compile(r"^\s*sierra gas:\s*(\d+)")
-AVAILABLE_GAS_RE = re.compile(r"available_gas\(\s*l2_gas\s*:\s*(\d+)\s*\)")
+# A trailing comma is allowed: an attribute spread over several lines may end its argument with one.
+AVAILABLE_GAS_RE = re.compile(r"available_gas\(\s*l2_gas\s*:\s*(\d+)\s*,?\s*\)")
 # An attribute may be followed by a line comment (`#[ignore] // why`), and comment lines may sit
 # between the attributes and `fn` (M1-T1a fix loop 1, finding 2).
 FN_RE = re.compile(r"((?:#\[[^\]]*\](?:\s|//[^\n]*)*)+)fn\s+([A-Za-z_]\w*)\s*\(")
@@ -140,7 +154,8 @@ def closing_brace(text: str, opening: int) -> int:
 
 
 def module_nodes(
-    root_file: Path, root_dir: Path | None = None, root_text: str | None = None
+    root_file: Path, root_dir: Path | None = None, root_text: str | None = None,
+    bases: list[int] | None = None,
 ) -> list[tuple[tuple[str, ...], str, Path]]:
     """Every module of a Cairo crate (or of one `tests/` integration-test file) as
     `(path, own_text, file)`, walked from `root_file`, the same `mod NAME;` / `mod NAME { ... }`
@@ -152,34 +167,40 @@ def module_nodes(
     `root_file.parent` (`src/lib.cairo` is the crate root, so its children sit directly in `src/`).
     A `tests/<stem>.cairo` integration-test root is itself a *flat file*, not a crate root: its own
     children resolve in the sibling directory named after it (`tests/<stem>/`), exactly like any
-    other flat file's children one level down — the caller passes that directory explicitly."""
+    other flat file's children one level down — the caller passes that directory explicitly.
+
+    `bases`, when given, receives for each node (same order) the offset of its own text in its
+    file: the text of a node keeps the length of the source (a child module is blanked, not cut),
+    so an offset in it plus its base is an offset in the file (`test_sites`)."""
     nodes: list[tuple[tuple[str, ...], str, Path]] = []
 
-    def visit(path: tuple[str, ...], dir_path: Path, text: str, file: Path) -> None:
+    def visit(path: tuple[str, ...], dir_path: Path, text: str, file: Path, base: int = 0) -> None:
         chars = list(text)
         consumed_until = 0
-        children: list[tuple[str, str | None]] = []
+        children: list[tuple[str, str | None, int]] = []
         for m in MOD_DECL_RE.finditer(text):
             if m.start() < consumed_until:
                 continue
             name, term = m.group(1), m.group(2)
             if term == ";":
-                children.append((name, None))
+                children.append((name, None, 0))
                 end = m.end()
             else:
                 open_pos = m.end() - 1
                 close_pos = closing_brace(text, open_pos)
-                children.append((name, text[open_pos + 1:close_pos]))
+                children.append((name, text[open_pos + 1:close_pos], base + open_pos + 1))
                 end = close_pos + 1
             for i in range(m.start(), end):
                 if chars[i] != "\n":
                     chars[i] = " "
             consumed_until = end
         nodes.append((path, "".join(chars), file))
-        for name, inline_body in children:
+        if bases is not None:
+            bases.append(base)
+        for name, inline_body, inline_base in children:
             child_path = path + (name,)
             if inline_body is not None:
-                visit(child_path, dir_path, inline_body, file)
+                visit(child_path, dir_path, inline_body, file, inline_base)
                 continue
             flat = dir_path / f"{name}.cairo"
             nested = dir_path / name / "mod.cairo"
@@ -278,6 +299,26 @@ def declared_tests(package: str, package_dir: Path,
             )
 
     return tests
+
+
+def test_sites(package: str, package_dir: Path) -> dict[str, tuple[Path, int, int]]:
+    """Full test name (as `declared_tests`) -> (file, start, end): the span of its attributes in
+    the file, the text `apply_budgets` rewrites."""
+    sites: dict[str, tuple[Path, int, int]] = {}
+
+    def scan(prefix: tuple[str, ...], root_file: Path, root_dir: Path | None = None) -> None:
+        bases: list[int] = []
+        nodes = module_nodes(root_file, root_dir, bases=bases)
+        for (path, text, file), base in zip(nodes, bases):
+            for match in FN_RE.finditer(text):
+                if "#[test]" in match.group(1):
+                    full = "::".join((*prefix, *path, match.group(2)))
+                    sites[full] = (file, base + match.start(1), base + match.end(1))
+
+    scan((package,), package_dir / "src" / "lib.cairo")
+    for stem, root_file in integration_test_roots(package_dir):
+        scan((f"{package}_integrationtest", stem), root_file, root_file.parent / stem)
+    return sites
 
 
 def tool_version(cmd: list[str]) -> str:
@@ -773,9 +814,286 @@ def complete(package: str, scope: str, total: int, directory: Path) -> int:
     return 0
 
 
+# LIB-04i: the pins of a CI run. Every `check` leaves what it measured (`pins-<scope>-<I>of<T>.json`,
+# whatever its verdict); `pins` assembles those of all the gas jobs into the files a thread
+# commits, and `apply-pins` writes them into the tree. A pin of hexx is never built uncapped on the
+# VPS: CI's Linux run is its source (D-182).
+PINS_REPORT_RE = re.compile(r"^pins-(\w+)-(\d+)of(\d+)\.json$")
+BUDGETS = "budgets.json"
+MANIFEST = "manifest.json"
+
+
+def pins_report_path(package: str, scope: str, partition: tuple[int, int] | None) -> Path:
+    index, total = partition or (1, 1)
+    return ARTIFACTS / package / f"pins-{scope}-{index}of{total}.json"
+
+
+def write_pins_reports(packages: dict[str, dict[str, dict]], scope: str,
+                       partition: tuple[int, int] | None) -> None:
+    """Keeps, with the evidence of a `check`, every test it measured: its measurement, its budget
+    in the sources and whether it passed; and the tests that ran without a measurement."""
+    for package, rows in packages.items():
+        path = pins_report_path(package, scope, partition)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({
+            "package": package, "scope": scope, "partition": list(partition or (1, 1)),
+            "rows": {n: {"measured": r["measured"], "declared": r["declared"], "passed": r["passed"]}
+                     for n, r in sorted(rows.items()) if r["measured"] is not None},
+            "unmeasured": sorted(n for n, r in rows.items()
+                                 if r["measured"] is None and r.get("is_declared", True)),
+        }, indent=1) + "\n")
+
+
+def read_pins_reports(directory: Path) -> list[dict]:
+    reports = []
+    for path in sorted(directory.rglob("pins-*.json")):
+        if PINS_REPORT_RE.match(path.name):
+            reports.append({**json.loads(path.read_text()), "path": str(path)})
+    return reports
+
+
+def budget_for(measured: int, declared: int | None) -> int:
+    """The budget a test carries after `apply-pins`: its own when the rule accepts it (in
+    [measured, ceil(1.05 * measured)]), else `ceil(1.05 * measured)`."""
+    ceiling = math.ceil(1.05 * measured)
+    if declared is not None and measured <= declared <= ceiling:
+        return declared
+    return ceiling
+
+
+def shares_problems(reports: list[dict]) -> list[str]:
+    """Why the reports of one package are not one complete measurement (empty: they are): every
+    scope `all`, or both `regular` and `ignored`, each with every partition 1..T exactly once."""
+    by_scope: dict[str, dict[int, list[int]]] = {}
+    for report in reports:
+        index, total = report["partition"]
+        by_scope.setdefault(report["scope"], {}).setdefault(total, []).append(index)
+    bad = []
+    wanted = ["all"] if "all" in by_scope else ["regular", "ignored"]
+    for scope in sorted(set(by_scope) - set(wanted)):
+        bad.append(f"scope {scope} measured beside scope all")
+    for scope in wanted:
+        totals = by_scope.get(scope)
+        if not totals:
+            bad.append(f"no report of scope {scope}")
+            continue
+        if len(totals) > 1:
+            bad.append(f"scope {scope} in {', '.join(map(str, sorted(totals)))} partitions at once")
+            continue
+        total, indices = next(iter(totals.items()))
+        for index in range(1, total + 1):
+            if indices.count(index) != 1:
+                bad.append(f"scope {scope}: partition {index}/{total} has "
+                           f"{indices.count(index)} reports")
+    return bad
+
+
+def assemble_pins(reports: list[dict], expected: Iterable[str] = ()) -> dict:
+    """The pins of a run, as a dict: `rows` (package -> {test: {"measured", "declared"}} for each
+    package measured completely, `declared` being the budget after `apply-pins`), `budgets` (test
+    -> new budget, for the tests whose budget changes), `incomplete` (package -> why its snapshot
+    is not assembled; a package of `expected` with no report at all is one: "no report"),
+    `empty` (the packages measured completely with no test: their snapshot is removed, as
+    `write_snapshots` does), `unmeasured` (the tests that ran with no measurement: no row) and
+    `failed` (the tests measured but failed: their row is the figure of a failing run)."""
+    by_package: dict[str, list[dict]] = {package: [] for package in expected}
+    for report in reports:
+        by_package.setdefault(report["package"], []).append(report)
+    result: dict = {"rows": {}, "budgets": {}, "incomplete": {}, "empty": [], "unmeasured": [],
+                    "failed": []}
+    for package, found in sorted(by_package.items()):
+        if not found:
+            result["incomplete"][package] = ["no report"]
+            continue
+        problems = shares_problems(found)
+        merged: dict[str, dict] = {}
+        for report in found:
+            result["unmeasured"].extend(report.get("unmeasured", []))
+            for name, row in report["rows"].items():
+                if name in merged and merged[name] != row:
+                    problems.append(f"{name}: measured twice, differently")
+                merged[name] = row
+        result["failed"].extend(n for n, row in merged.items() if row.get("passed") is False)
+        if problems:
+            result["incomplete"][package] = problems
+            continue
+        if not merged:
+            result["empty"].append(package)
+            continue
+        rows = result["rows"][package] = {}
+        for name, row in sorted(merged.items()):
+            budget = budget_for(row["measured"], row["declared"])
+            if budget != row["declared"]:
+                result["budgets"][name] = budget
+            rows[name] = {"measured": row["measured"], "declared": budget}
+    result["unmeasured"] = sorted(set(result["unmeasured"]))
+    result["failed"] = sorted(set(result["failed"]))
+    return result
+
+
+def snapshot_text(rows: dict[str, dict]) -> str:
+    """The text of gas/<package>.snap for these rows (as `write_snapshots`)."""
+    return "\n".join(["# gas: measured budget"] + [
+        f"{name}: {rows[name]['measured']} {rows[name]['declared']}" for name in sorted(rows)]) + "\n"
+
+
+def pins(directory: Path, out: Path, commits: dict[str, str],
+         expected: Iterable[str] | None = None) -> int:
+    """`pins` of the command line: the artefact a thread downloads. `out/gas/<package>.snap` for
+    each package measured completely, `out/gas/bytecode.size` when the consumer job measured it,
+    `out/budgets.json` and `out/manifest.json`. `expected`: the packages the run should have
+    measured (default: those of the workspace, each a job of the gas matrix). Exits 0 whatever was
+    missing (the manifest says it): the gas jobs are the gate, this only publishes their figures."""
+    result = assemble_pins(read_pins_reports(directory),
+                           workspace_packages() if expected is None else expected)
+    rows = result["rows"]
+    (out / "gas").mkdir(parents=True, exist_ok=True)
+    for package, package_rows in rows.items():
+        (out / "gas" / f"{package}.snap").write_text(snapshot_text(package_rows))
+    sizes = sorted(directory.rglob("bytecode.size"))
+    if sizes:
+        shutil.copyfile(sizes[0], out / "gas" / "bytecode.size")
+    (out / BUDGETS).write_text(json.dumps(result["budgets"], indent=1, sort_keys=True) + "\n")
+    (out / MANIFEST).write_text(json.dumps({
+        **commits, "snapshots": sorted(rows), "bytecode_size": bool(sizes),
+        "incomplete": result["incomplete"], "empty": result["empty"],
+        "unmeasured": result["unmeasured"], "failed": result["failed"],
+        "budgets_changed": len(result["budgets"]),
+    }, indent=1, sort_keys=True) + "\n")
+    print(f"pins: {len(rows)} snapshot(s) ({', '.join(sorted(rows)) or 'none'}), "
+          f"{len(result['budgets'])} budget(s) to change, bytecode.size "
+          f"{'yes' if sizes else 'no'}", file=sys.stderr)
+    for package, problems in result["incomplete"].items():
+        print(f"  {package} not assembled: {'; '.join(problems)}", file=sys.stderr)
+    for name in result["unmeasured"]:
+        print(f"  {name}: ran with no measurement (no row; a budget too low fails the test "
+              f"before snforge prints its gas)", file=sys.stderr)
+    for name in result["failed"]:
+        print(f"  {name}: failed", file=sys.stderr)
+    return 0
+
+
+def apply_budgets(budgets: dict[str, int], sites: dict[str, tuple[Path, int, int]]) -> list[str]:
+    """Writes each budget into `#[available_gas(l2_gas: N)]` of its test (the number replaced, or
+    the attribute inserted on its own line after `#[test]`). Returns the tests it could not place
+    (not found in the sources)."""
+    edits: dict[Path, list[tuple[int, int, str]]] = {}
+    missing = []
+    for name, budget in sorted(budgets.items()):
+        if name not in sites:
+            missing.append(name)
+            continue
+        file, start, end = sites[name]
+        text = file.read_text()
+        attrs = text[start:end]
+        gas = AVAILABLE_GAS_RE.search(attrs)
+        if gas:
+            edits.setdefault(file, []).append(
+                (start + gas.start(1), start + gas.end(1), str(budget)))
+            continue
+        test = start + attrs.index("#[test]")
+        before = text[text.rfind("\n", 0, test) + 1:test]
+        indent = before if not before.strip() else ""
+        at = test + len("#[test]")
+        edits.setdefault(file, []).append((at, at, f"\n{indent}#[available_gas(l2_gas: {budget})]"))
+    for file, file_edits in edits.items():
+        text = file.read_text()
+        for start, end, new in sorted(file_edits, reverse=True):
+            text = text[:start] + new + text[end:]
+        file.write_text(text)
+    return missing
+
+
+GENERATED_PREFIX = "golden_"
+
+
+def git_rev(ref: str) -> str | None:
+    p = subprocess.run(["git", "rev-parse", "--verify", "--quiet", f"{ref}^{{commit}}"],
+                       cwd=ROOT, capture_output=True, text=True)
+    return p.stdout.strip() or None
+
+
+def git_is_ancestor(ancestor: str, descendant: str) -> bool:
+    return subprocess.run(["git", "merge-base", "--is-ancestor", ancestor, descendant],
+                          cwd=ROOT, capture_output=True).returncode == 0
+
+
+def apply_pins(directory: Path) -> int:
+    """`apply-pins` of the command line: the downloaded artefact into the tree. Copies its
+    snapshots and bytecode.size into gas/ and writes its budgets into the sources, except into the
+    generated golden files (`crates/golden_*`), whose budgets are printed for the spec of
+    tools/refgen (`gas.<test name>`)."""
+    manifest = json.loads((directory / MANIFEST).read_text())
+    budgets = json.loads((directory / BUDGETS).read_text())
+    head = git_rev("HEAD")
+    if manifest.get("head") != head:
+        print(f"apply-pins: these pins are of head {manifest.get('head')}, the checkout is at "
+              f"{head}: nothing applied. Download the gas-pins artefact of the run of this head.",
+              file=sys.stderr)
+        return 1
+    main_rev = git_rev("origin/main")
+    if manifest.get("base") and manifest["base"] != main_rev:
+        print(f"apply-pins: WARNING: the run measured the merge into base {manifest['base']}, "
+              f"origin/main is now {main_rev}"
+              + ("" if git_is_ancestor(manifest["base"], main_rev or "") else
+                 " (and the base is not one of its ancestors)")
+              + ": main moved since the run; re-run CI on this head before applying, or let the "
+              "confirming run decide.", file=sys.stderr)
+    for path in sorted((directory / "gas").glob("*")):
+        shutil.copyfile(path, GAS / path.name)
+        print(f"wrote gas/{path.name}", file=sys.stderr)
+    for package in manifest.get("empty", []):
+        if (GAS / f"{package}.snap").exists():
+            (GAS / f"{package}.snap").unlink()
+            print(f"removed gas/{package}.snap (no test measured)", file=sys.stderr)
+    status = 0
+    packages = workspace_packages()
+    by_package: dict[str, dict[str, int]] = {}
+    for name, budget in budgets.items():
+        package = name.split("::", 1)[0].removesuffix("_integrationtest")
+        by_package.setdefault(package, {})[name] = budget
+    for package, package_budgets in sorted(by_package.items()):
+        if package.startswith(GENERATED_PREFIX):
+            print(f"{package} is generated: set these budgets in the spec of tools/refgen "
+                  f"(`gas.<test>`), then regenerate:", file=sys.stderr)
+            for name, budget in sorted(package_budgets.items()):
+                print(f"  {name}: {budget}", file=sys.stderr)
+            status = 1
+            continue
+        if package not in packages:
+            print(f"{package}: not a package of the workspace; budgets not applied",
+                  file=sys.stderr)
+            status = 1
+            continue
+        missing = apply_budgets(package_budgets, test_sites(package, packages[package]))
+        print(f"{package}: {len(package_budgets) - len(missing)} budget(s) written",
+              file=sys.stderr)
+        for name in missing:
+            print(f"  {name}: not found in the sources", file=sys.stderr)
+            status = 1
+    for package, problems in manifest.get("incomplete", {}).items():
+        print(f"{package}: not measured completely by the run, gas/{package}.snap left as it is "
+              f"({'; '.join(problems)})", file=sys.stderr)
+        status = 1
+    for name in manifest.get("unmeasured", []):
+        print(f"{name}: ran with no measurement; raise or remove its budget and run CI again",
+              file=sys.stderr)
+        status = 1
+    for name in manifest.get("failed", []):
+        print(f"{name}: failed in the run; its row is the figure of a failing test: fix it and "
+              f"run CI again", file=sys.stderr)
+        status = 1
+    print(f"pins of head {manifest.get('head')} (merge {manifest.get('merge')} of base "
+          f"{manifest.get('base')}) applied; now `python3 scripts/gas_tables.py`", file=sys.stderr)
+    return status
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("cmd", choices=["run", "snapshot", "check", "repeat", "complete"])
+    ap.add_argument("cmd", choices=["run", "snapshot", "check", "repeat", "complete", "pins",
+                                    "apply-pins"])
+    ap.add_argument("directory", nargs="?", type=Path, default=None,
+                    help="apply-pins only: the downloaded artefact gas-pins-<head sha>")
     ap.add_argument("--package", default=None,
                     help="measure this package only (default: every package of the workspace); "
                          "required by `repeat`")
@@ -791,8 +1109,27 @@ def main() -> int:
     ap.add_argument("--total", type=int, default=None,
                     help="complete only: the number of partitions of the package")
     ap.add_argument("--reports", type=Path, default=None,
-                    help="complete only: the directory holding the partition reports")
+                    help="complete and pins: the directory holding the reports of the gas jobs")
+    ap.add_argument("--out", type=Path, default=None,
+                    help="pins only: the directory to write the artefact into")
+    for commit in ("head", "merge", "base"):
+        ap.add_argument(f"--{commit}", default=None,
+                        help=f"pins only: the {commit} commit of the run, kept in the manifest")
     args = ap.parse_args()
+
+    if args.directory is not None and args.cmd != "apply-pins":
+        sys.exit(f"{args.cmd} takes no directory argument (only apply-pins does)")
+
+    if args.cmd == "pins":
+        if args.reports is None or args.out is None:
+            sys.exit("pins needs --reports and --out")
+        return pins(args.reports, args.out,
+                    {"head": args.head, "merge": args.merge, "base": args.base})
+
+    if args.cmd == "apply-pins":
+        if args.directory is None:
+            sys.exit("apply-pins needs the directory of the downloaded artefact")
+        return apply_pins(args.directory)
 
     if args.cmd == "repeat":
         if args.package is None:
@@ -816,6 +1153,8 @@ def main() -> int:
     packages, infos = collect(args.package, args.cmd, args.scope, args.partition)
     if args.partition:
         write_partition_reports(packages, args.scope, args.partition)
+    if args.cmd == "check":
+        write_pins_reports(packages, args.scope, args.partition)
     print_table(packages)
     errors, counts = reconcile(packages, infos)
     print("\nreconciliation (declared in the sources / collected by snforge / with a gas row / "
