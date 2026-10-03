@@ -1,0 +1,13 @@
+# The grid edges and vertices (plan §4.3, brief LIB-06 M2-T7): `GridEdge`, `GridVertex`,
+# `Hex::all_edges` and `Hex::all_vertices` around seeded origins (tools/refgen/src/grid.rs).
+module = "grid"
+package = "golden_grid"
+
+seed = "grid::origins"
+origins = 8
+domain_min = -40
+domain_max = 40
+pair_origins = 1   # `equivalent` on every ordered pair of the 6 x 7 edges (vertices) around the first origin
+chunk = 63         # rows per `equivalent` test (a table of 1,764 rows ran out of memory; the cost grows faster than the length)
+
+# budgets: ceil(1.05 * measured), set from the first measurement

@@ -96,7 +96,7 @@ class PackageSelection(Scratch):
     def test_the_workspace_has_the_packages_of_the_ci_jobs(self) -> None:
         # The golden packages since LIB-04h: one test target each (AGENTS.md, "Golden tests").
         self.assertEqual(set(bench.workspace_packages()),
-                         {"hexx", "takeover_tests", "consumer", "golden_hex", "golden_hex_t2",
+                         {"hexx", "takeover_tests", "consumer", "golden_grid", "golden_hex", "golden_hex_t2",
                           "golden_impls", "golden_lm1", "golden_lm2"})
 
     def test_snapshot_rewrites_only_the_packages_measured(self) -> None:
