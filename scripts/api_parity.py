@@ -1552,8 +1552,9 @@ def scan_cairo_tree(
             name = first.group(0) if first else None
             owner = owner_of(path, name) if name and exported(name) else None
             if trait == "Into" and len(parts) == 2:
-                # `Into<A, B>` is `From<A> for B`: when `A` is no owner (`T`, `[T; 2]`: the
-                # generic `impl<T> From<T> for DirectionWay<T>`), the impl belongs to `B`.
+                # `Into<A, B>` is `From<A> for B`: when `A` is no owner, whatever it is (`T`,
+                # `[T; 2]`: the generic `impl<T> From<T> for DirectionWay<T>`; `Direction`: the
+                # board's `Into<Direction, EdgeDirection>`), the impl belongs to `B`.
                 target = re.match(r"[A-Za-z_]\w*", parts[1])
                 target = target.group(0) if target else None
                 if owner is None and target and exported(target):

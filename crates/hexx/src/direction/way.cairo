@@ -15,9 +15,11 @@ use crate::direction::vertex_direction::{VertexDirection, VertexDirectionTrait};
 ///
 /// #### Deviations
 ///
-/// `Tie([T; 2])` is `Tie: [T; 2]` (a fixed-size array, plan §3.2). `hexx` derives `Debug` only;
-/// so does this port. There is no `PartialEq` between a way and its direction: `PartialEq` is
-/// homogeneous in Cairo, and `hexx`'s `PartialEq<T> for DirectionWay<T>` is `contains`
+/// `Tie([T; 2])` is `Tie: [T; 2]` (a fixed-size array, plan §3.2). `Drop` is derived, and
+/// `Copy` (when `T: Copy`) and `Debug`: `hexx`'s `DirectionWay` derives `Debug` only and is neither
+/// `Clone` nor `Copy`. Cairo needs `Drop`, and `Copy` lets a way be read more than once. There is
+/// no `PartialEq` between a way and its direction: `PartialEq` is homogeneous in Cairo, and
+/// `hexx`'s `PartialEq<T> for DirectionWay<T>` is `contains`
 /// (`src/direction/way.rs:42`), which `DirectionWayTrait::contains` is.
 #[derive(Copy, Drop, Debug)]
 pub enum DirectionWay<T> {
