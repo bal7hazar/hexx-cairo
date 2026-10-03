@@ -19,7 +19,7 @@ SCRIPTS = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS))
 import bytecode_size as b  # noqa: E402
 
-FAKE = '#!/bin/sh\necho "args=$*"\necho "profile=${SCARB_PROFILE:-}"\necho "manifest=${SCARB_MANIFEST_PATH:-}"\n'
+FAKE = '#!/bin/sh\necho "args=$*"\necho "profile=${SCARB_PROFILE:-}"\necho "manifest=${SCARB_MANIFEST_PATH:-}"\necho "rayon=${RAYON_NUM_THREADS:-}"\n'
 
 
 class FakeScarb(unittest.TestCase):
@@ -34,6 +34,7 @@ class FakeScarb(unittest.TestCase):
         self.env.pop("HEAVY_BUILD_LOCK_HELD", None)
         self.env.pop("SCARB_PROFILE", None)
         self.env.pop("SCARB_MANIFEST_PATH", None)
+        self.env.pop("RAYON_NUM_THREADS", None)
 
     def tearDown(self) -> None:
         self.tmp.cleanup()
@@ -53,6 +54,16 @@ class FakeScarb(unittest.TestCase):
         self.assertEqual(p.returncode, 0, p.stderr)
         self.assertIn("args=build\n", p.stdout)
         self.assertIn("manifest=\n", p.stdout)
+
+    def test_lock_sh_builds_on_one_thread_by_default(self) -> None:
+        p = self.lock("scarb", "build")
+        self.assertEqual(p.returncode, 0, p.stderr)
+        self.assertIn("rayon=1\n", p.stdout)
+
+    def test_lock_sh_keeps_an_explicit_thread_count(self) -> None:
+        self.env["RAYON_NUM_THREADS"] = "3"
+        p = self.lock("scarb", "build")
+        self.assertIn("rayon=3\n", p.stdout)
 
     def test_lock_sh_still_refuses_other_options_before_the_subcommand(self) -> None:
         for args in (("scarb", "--release", "build"), ("scarb", "--manifest-path", "--x", "build"),
@@ -76,6 +87,27 @@ class FakeScarb(unittest.TestCase):
             subprocess.run = real
         self.assertEqual(captured["cmd"], ["scarb", "build", "-p", "consumer"])
         self.assertEqual(captured["env"]["SCARB_PROFILE"], "release")
+
+    def test_bytecode_size_build_is_single_threaded_whatever_the_caller_set(self) -> None:
+        captured: dict = {}
+        real = subprocess.run
+
+        def spy(cmd, **kw):
+            captured["env"] = kw["env"]
+            return real(["true"], **{k: v for k, v in kw.items() if k != "env"})
+
+        old = os.environ.get("RAYON_NUM_THREADS")
+        os.environ["RAYON_NUM_THREADS"] = "8"
+        subprocess.run = spy
+        try:
+            b.build(Path(self.tmp.name), ["-p", "consumer"])
+        finally:
+            subprocess.run = real
+            if old is None:
+                os.environ.pop("RAYON_NUM_THREADS")
+            else:
+                os.environ["RAYON_NUM_THREADS"] = old
+        self.assertEqual(captured["env"]["RAYON_NUM_THREADS"], "1")
 
 
 # The label of bench.py's `scarb --version` row names that exempt call in words, verbatim.

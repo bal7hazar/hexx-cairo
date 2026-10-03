@@ -53,19 +53,21 @@ class EveryTestObeysTheRule(unittest.TestCase):
         self.assertIn("cannot be verified", bad[0])
 
     def test_snforge_is_asked_for_the_ignored_tests_too(self) -> None:
-        seen = []
+        seen, envs = [], []
 
         class Done:
             returncode, stdout, stderr = 0, "Collected 0 test(s)\n", ""
 
-        with mock.patch.object(bench.subprocess, "run", lambda cmd, **kw: seen.append(cmd) or Done()), \
-                mock.patch.object(bench, "write_evidence", lambda *args: None):
+        with mock.patch.object(bench.subprocess, "run", lambda cmd, **kw: seen.append(cmd) or envs.append(kw["env"]) or Done()), \
+                mock.patch.object(bench, "write_evidence", lambda *args: None), \
+                mock.patch.dict(bench.os.environ, {"RAYON_NUM_THREADS": "8"}):
             for scope, flag in (("all", "--include-ignored"), ("ignored", "--ignored")):
                 bench.run_snforge("hexx", "check", scope=scope)
                 self.assertIn(flag, seen[-1])
             bench.run_snforge("hexx", "check")
         self.assertNotIn("--include-ignored", seen[-1])
         self.assertNotIn("--ignored", seen[-1])
+        self.assertEqual({e["RAYON_NUM_THREADS"] for e in envs}, {"1"})  # D-176
 
     def test_no_test_is_exempt(self) -> None:
         packages = pk(over=row(1000, 2000), none=row(1000, None), ign=row(None, None, ran=False),
