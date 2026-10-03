@@ -184,7 +184,6 @@ mod tests {
         let mut n = REPS;
         while n != 0 {
             n -= 1;
-            let a = HexTrait::new(-1 - n.into(), -2 - n.into());
             let v: u64 = 0xffff_ff00_ffff_ff00 + n.into();
             acc += v % 2 + HexConvertTrait::from_u64(v).x.try_into().unwrap_or(1);
         }

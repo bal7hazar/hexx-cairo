@@ -549,7 +549,7 @@ mod tests {
         let mut i = 0;
         while i < 6 {
             assert!(a.add_direction(*all.at(i)) == a.neighbor(*all.at(i)));
-            assert!(a.sub_direction(*all.at(i)) == a.neighbor(-*all.at(i)));
+            assert!(a.sub_direction(*all.at(i)) == a.neighbor((*all.at(i)).const_neg()));
             assert!(a.add_diagonal(*diagonals.at(i)).sub_diagonal(*diagonals.at(i)) == a);
             i += 1;
         }
