@@ -1,0 +1,31 @@
+# The rings, ring edges, wedges and spirals of `Hex`, and `circular_range` (plan §4.3, brief LIB-06
+# M2-T4): every item at radii 0..=6 around 8 centres, every start direction and both senses, every
+# vertex direction, the `*_to` forms on every ordered pair of the centres, the radii spans
+# [0..=6], [3, 1, 5] and [], the cached forms at RANGE 0, 1 and 7, and `circular_range` at r in
+# 0..=12 and 40 around two centres (tools/refgen/src/rings.rs).
+module = "rings"
+package = "golden_rings"
+
+# the centres are split over this many tests per function (it must divide 8)
+chunks.custom_ring = 1
+chunks.ring = 1
+chunks.rings = 1
+chunks.custom_rings = 1
+chunks.custom_ring_edge = 1
+chunks.ring_edge = 1
+chunks.ring_edges = 1
+chunks.custom_ring_edges = 1
+chunks.custom_wedge = 1
+chunks.wedge = 1
+chunks.custom_full_wedge = 1
+chunks.full_wedge = 1
+chunks.custom_wedge_to = 1
+chunks.wedge_to = 1
+chunks.corner_wedge = 1
+chunks.corner_wedge_to = 1
+chunks.cached_custom_ring_edges = 1
+chunks.cached_ring_edges = 1
+chunks.cached_rings = 1
+chunks.cached_custom_rings = 1
+chunks.custom_spiral_range = 1
+chunks.spiral_range = 1
