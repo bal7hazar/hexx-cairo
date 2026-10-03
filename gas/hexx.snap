@@ -606,9 +606,11 @@ hexx::shapes::tests::test_shapes_bound_at_max: 23110 24266
 hexx::shapes::tests::test_shapes_default: 4335910 4552706
 hexx::shapes::tests::test_shapes_empty: 29400 30870
 hexx::shapes::tests::test_shapes_flat_rectangle_negative_left: 39390 41360
-hexx::shapes::tests::test_shapes_flat_rectangle_oracle: 97208580 100000000
+hexx::shapes::tests::test_shapes_flat_rectangle_oracle: 24393540 25613217
+hexx::shapes::tests::test_shapes_hexagon_oracle: 40804660 42844893
+hexx::shapes::tests::test_shapes_parallelogram_oracle: 31948820 33546261
 hexx::shapes::tests::test_shapes_pointy_rectangle_negative_top: 39390 41360
-hexx::shapes::tests::test_shapes_pointy_rectangle_oracle: 97211940 100000000
+hexx::shapes::tests::test_shapes_pointy_rectangle_oracle: 24393540 25613217
 hexx::shapes::tests::test_shapes_rombus_oracle: 45473940 47747637
 hexx::shapes::tests::test_shapes_rombus_revert_overflow: 14660 15393
 hexx::shapes::tests::test_shapes_triangle_oracle: 4701170 4936229

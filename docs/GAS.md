@@ -1229,9 +1229,11 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::shapes::tests::test_shapes_default` | 4,335,910 | 4,552,706 | 5.0 % |
 | `hexx::shapes::tests::test_shapes_empty` | 29,400 | 30,870 | 5.0 % |
 | `hexx::shapes::tests::test_shapes_flat_rectangle_negative_left` | 39,390 | 41,360 | 5.0 % |
-| `hexx::shapes::tests::test_shapes_flat_rectangle_oracle` | 97,208,580 | 100,000,000 | 2.9 % |
+| `hexx::shapes::tests::test_shapes_flat_rectangle_oracle` | 24,393,540 | 25,613,217 | 5.0 % |
+| `hexx::shapes::tests::test_shapes_hexagon_oracle` | 40,804,660 | 42,844,893 | 5.0 % |
+| `hexx::shapes::tests::test_shapes_parallelogram_oracle` | 31,948,820 | 33,546,261 | 5.0 % |
 | `hexx::shapes::tests::test_shapes_pointy_rectangle_negative_top` | 39,390 | 41,360 | 5.0 % |
-| `hexx::shapes::tests::test_shapes_pointy_rectangle_oracle` | 97,211,940 | 100,000,000 | 2.9 % |
+| `hexx::shapes::tests::test_shapes_pointy_rectangle_oracle` | 24,393,540 | 25,613,217 | 5.0 % |
 | `hexx::shapes::tests::test_shapes_rombus_oracle` | 45,473,940 | 47,747,637 | 5.0 % |
 | `hexx::shapes::tests::test_shapes_rombus_revert_overflow` | 14,660 | 15,393 | 5.0 % |
 | `hexx::shapes::tests::test_shapes_triangle_oracle` | 4,701,170 | 4,936,229 | 5.0 % |
@@ -2687,7 +2689,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 7,810 | 8,201 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 7,810 | 8,201 | 5.0 % |
 
-2680 measured test(s).
+2682 measured test(s).
 
 ## Figures accepted above their range
 
