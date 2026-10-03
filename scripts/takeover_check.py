@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import difflib
+import os
 import re
 import shutil
 import subprocess
@@ -215,8 +216,10 @@ def scarb_fmt(files: dict[str, str]) -> dict[str, str]:
         path = FMT_DIR / "src" / rel
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text)
-    subprocess.run(["scarb", "--offline", "fmt"], cwd=FMT_DIR, check=True,
-                   stdout=subprocess.DEVNULL)
+    # SCARB_OFFLINE is `--offline`: Scarb 2.19 and 2.20 take that option before the subcommand only, and
+    # no `scarb` call of the scripts may have an option first (the shim's lock, test_lock_gap.py).
+    subprocess.run(["scarb", "fmt"], cwd=FMT_DIR, check=True, stdout=subprocess.DEVNULL,
+                   env={**os.environ, "SCARB_OFFLINE": "true"})
     result = {rel: (FMT_DIR / "src" / rel).read_text() for rel in files}
     shutil.rmtree(FMT_DIR, ignore_errors=True)
     return result

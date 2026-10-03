@@ -134,7 +134,8 @@ against the published package (`.github/workflows/consumer_check.yml`), never ag
 manifest alone. The cause of 1.8.0's defect is the consumer's resolver, not the artifact: Scarb
 2.13.1 counts a dependency's `kind: test` entries as constraints, Scarb 2.19.4 does not, for
 `origami_hexmap` 1.8.0 and `hexx` 0.1.0-rc.1 alike (`docs/research/N-9-cause.md`). N-9 therefore
-holds for consumers on Scarb 2.19.4, the game's toolchain.
+holds for consumers on Scarb 2.19.4 (`0.1.0-rc.1`, built on it) and on 2.20.1 (`0.1.0-rc.2`, which
+requires it); the check after a publication runs on the toolchain the version was built with.
 
 ## What LIB-04 rehearsed, and what it never touched
 

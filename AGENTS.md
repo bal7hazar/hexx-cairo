@@ -49,6 +49,29 @@ over the whole stated domain before keeping any optimisation, and may replace it
 
 Toolchain versions live in `.tool-versions` only (Scarb 2.20.1, starknet-foundry 0.64.0).
 
+## Before you push
+
+| When | Run |
+|---|---|
+| Before every push (the hook `.githooks/pre-push` does it once `git config core.hooksPath .githooks` is set) | `scripts/prepush.sh`: format, the unit tests of the scripts, a build of the packages the push touches, and each generated-artefact check whose inputs changed. Aim: under two minutes. |
+| Before asking for a review of a change that touches measured code (gas, class size) or pins | `scripts/check.sh`, the full gate |
+
+Never push red and never skip the hook (`--no-verify`): a push that fails `scripts/prepush.sh` would
+have failed CI. The hook checks the working tree of the current branch, not the refs being pushed:
+commit your fix before pushing. It does not replace `scripts/check.sh` (every test, gas budgets and snapshots) or CI.
+
+On a pull request, each job of `.github/workflows/ci.yml` runs only when a path that concerns it
+changed (`scripts/ci_changes.py`, run by the job `changes`; a documents-only pull request runs no
+test). Groups: `links` (job `links`: any `*.md`, `LICENSE*`), `shell` (`scripts`: `scripts/*.sh`, `.githooks/**`),
+`docs_checks` (`fmt`: Cairo sources, manifests, `.tool-versions`, `scripts/**`, the generated
+documents, `gas/**`), `takeover` (`crates/hexx/**`, `scripts/takeover_check.py`), `cairo` (`test`,
+`package`, `gas`, `gas-complete`, `determinism`: `crates/**`, manifests, `.gitignore`, `gas/**`, `scripts/bench.py`,
+`scripts/bytecode_size.py`), `golden` (`tools/refgen/**`, the golden tests and their sources). A change
+to `ci.yml` or to `scripts/ci_changes.py`, an empty list, and any push to `main` select everything.
+`all-checks` always runs and treats a skipped job as a pass. A new job, or a new input of a job, must
+be added to `scripts/ci_changes.py` (and its test) in the same change, or it is skipped when only that
+input changes.
+
 ## Principles (the game's `docs/CAIRO.md`, in full at `grimworld:docs/CAIRO.md`; in short)
 
 1. Test-driven: tests first, from the brief's acceptance criteria.

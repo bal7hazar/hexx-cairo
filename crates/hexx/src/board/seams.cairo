@@ -56,6 +56,9 @@ pub impl SeamImpl of SeamTrait {
     /// * The bits of the side: column 0 (East), column `W − 1` (West), row 0 (South) or row
     ///   `H − 1` (North)
     ///
+    /// The dimensions are not checked: a board outside the domain (e.g. `width * height` above
+    /// `u8`, `height = 0`) is the caller's error and panics on overflow, as in `HexagonTrait`.
+    ///
     /// Mirrors nothing in `hexx`: an extension (N-2).
     fn side(width: u8, height: u8, side: Side) -> felt252 {
         let row = Bits::pow(width);
@@ -78,6 +81,9 @@ pub impl SeamImpl of SeamTrait {
     /// * `odd` - Whether `near`'s local row 0 is a global odd row
     /// # Returns
     /// * The openings, a subset of `SeamTrait::side(width, height, side)`
+    ///
+    /// The dimensions are not checked: a board outside the domain (e.g. `width * height` above
+    /// `u8`, `height = 0`) is the caller's error and panics on overflow, as in `HexagonTrait`.
     ///
     /// Mirrors nothing in `hexx`: an extension (N-2).
     fn openings(
@@ -113,6 +119,9 @@ pub impl SeamImpl of SeamTrait {
     /// * `odd` - Whether `near`'s local row 0 is a global odd row
     /// # Returns
     /// * `openings(width, height, near, far, side, odd) != 0`
+    ///
+    /// The dimensions are not checked: a board outside the domain (e.g. `width * height` above
+    /// `u8`, `height = 0`) is the caller's error and panics on overflow, as in `HexagonTrait`.
     ///
     /// Mirrors nothing in `hexx`: an extension (N-2).
     #[inline]
