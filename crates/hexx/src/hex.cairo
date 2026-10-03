@@ -11,7 +11,11 @@
 //! other task of L-M2 calls (M2-T0). The rest lands with the other tasks of L-M2, in the modules
 //! declared below (plan §2.2).
 
+use core::fmt::{Debug, Error, Formatter};
 use crate::direction::edge_direction::{EdgeDirection, EdgeDirectionTrait};
+use crate::direction::impls::EdgeDirectionOpsTrait;
+use crate::direction::vertex_direction::{VertexDirection, VertexDirectionTrait};
+use crate::direction::way::{DirectionWay, DirectionWayFromTrait, DirectionWayTrait};
 
 // The modules of milestone L-M2 (plan §2.2): each is filled by the task that owns it (M2-T3:
 // `impls`, `swizzle`, `euclidean`, `convert`; M2-T4: `rings`; M2-T5: `iter`; M2-T7: `grid`).
@@ -59,9 +63,11 @@ pub fn hex(x: i32, y: i32) -> Hex {
 ///
 /// #### Deviations
 ///
-/// Derives `Serde`, `Debug`, `Default`, `Hash` as a matter of course (plan §2.3); `Debug` prints
-/// the fields, not `x`, `y` and `z` as `hexx` does (L-M2).
-#[derive(Copy, Drop, Serde, PartialEq, Debug, Default, Hash)]
+/// Derives `Serde`, `Default`, `Hash` as a matter of course (plan §2.3). `Debug` is a manual impl
+/// printing what `hexx`'s does (`src/hex/mod.rs:1189`), `Hex { x: 1, y: 2, z: -3 }`: it panics
+/// where `z` does (a component of `i32::MIN`), as `hexx` does in a debug build; the single-line
+/// form is the only one (Cairo has no `{:#?}` pretty form).
+#[derive(Copy, Drop, Serde, PartialEq, Default, Hash)]
 pub struct Hex {
     pub x: i32,
     pub y: i32,
@@ -710,6 +716,405 @@ pub trait HexTrait {
     /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
     /// exactly where the debug build does.
     fn all_neighbors(self: Hex) -> [Hex; 6];
+
+    /// The diagonal neighbour coordinates of `direction`.
+    ///
+    /// Mirrors `Hex::diagonal_neighbor_coord` (`src/hex/mod.rs:641`).
+    ///
+    /// #### Panics
+    ///
+    /// None.
+    ///
+    /// #### Deviations
+    ///
+    /// None.
+    fn diagonal_neighbor_coord(direction: VertexDirection) -> Hex;
+
+    /// Adds the diagonal neighbour coordinates of `direction` to `self`.
+    ///
+    /// Mirrors `Hex::add_diag_dir` (`src/hex/mod.rs:649`), `pub(crate)` there.
+    ///
+    /// #### Panics
+    ///
+    /// When a component of the sum leaves `i32`.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn add_diag_dir(self: Hex, direction: VertexDirection) -> Hex;
+
+    /// The diagonal neighbour of `self` in the given direction.
+    ///
+    /// Mirrors `Hex::diagonal_neighbor` (`src/hex/mod.rs:682`).
+    ///
+    /// #### Panics
+    ///
+    /// When a component of the sum leaves `i32`.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn diagonal_neighbor(self: Hex, direction: VertexDirection) -> Hex;
+
+    /// The direction of the neighbour `other`, `None` when `other` is not a neighbour of `self`.
+    /// The first match in `EdgeDirectionTrait::ALL_DIRECTIONS` order.
+    ///
+    /// Mirrors `Hex::neighbor_direction` (`src/hex/mod.rs:700`).
+    ///
+    /// #### Panics
+    ///
+    /// When the sum of a neighbour tried before the match leaves `i32`, as `hexx` does in a debug
+    /// build.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn neighbor_direction(self: Hex, other: Hex) -> Option<EdgeDirection>;
+
+    /// The `VertexDirection` wedge of `rhs` relative to `self`: the first direction of
+    /// `diagonal_way_to`. Inaccurate at a tie, prefer `diagonal_way_to`.
+    ///
+    /// Mirrors `Hex::main_diagonal_to` (`src/hex/mod.rs:709`).
+    ///
+    /// #### Panics
+    ///
+    /// Where `diagonal_way_to` does.
+    ///
+    /// #### Deviations
+    ///
+    /// None.
+    fn main_diagonal_to(self: Hex, rhs: Hex) -> VertexDirection;
+
+    /// The `VertexDirection` wedge of `rhs` relative to `self`, a tie when `rhs` is on the boundary
+    /// between two wedges.
+    ///
+    /// Mirrors `Hex::diagonal_way_to` (`src/hex/mod.rs:715`).
+    ///
+    /// #### Panics
+    ///
+    /// When `rhs − self`, its `z` or an absolute value leaves `i32`, as `hexx` does in a debug
+    /// build.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does. The subtraction is `const_sub`, not the operator.
+    fn diagonal_way_to(self: Hex, rhs: Hex) -> DirectionWay<VertexDirection>;
+
+    /// The `EdgeDirection` wedge of `rhs` relative to `self`: the first direction of `way_to`.
+    /// Inaccurate at a tie, prefer `way_to`.
+    ///
+    /// Mirrors `Hex::main_direction_to` (`src/hex/mod.rs:734`).
+    ///
+    /// #### Panics
+    ///
+    /// Where `way_to` does.
+    ///
+    /// #### Deviations
+    ///
+    /// None.
+    fn main_direction_to(self: Hex, rhs: Hex) -> EdgeDirection;
+
+    /// The `EdgeDirection` wedge of `rhs` relative to `self`, a tie when `rhs` is on the boundary
+    /// between two wedges.
+    ///
+    /// Mirrors `Hex::way_to` (`src/hex/mod.rs:740`).
+    ///
+    /// #### Panics
+    ///
+    /// When `rhs − self`, its `z`, the differences of its cubic components or an absolute value
+    /// leaves `i32`, as `hexx` does in a debug build.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does. The subtraction is `const_sub`, not the operator.
+    fn way_to(self: Hex, rhs: Hex) -> DirectionWay<EdgeDirection>;
+
+    /// The six diagonal neighbours of `self`, in `VertexDirection` order.
+    ///
+    /// Mirrors `Hex::all_diagonals` (`src/hex/mod.rs:767`).
+    ///
+    /// #### Panics
+    ///
+    /// When a component of a diagonal leaves `i32`.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn all_diagonals(self: Hex) -> [Hex; 6];
+
+    /// `self` rotated around the origin counter-clockwise by 60 degrees.
+    ///
+    /// Mirrors `Hex::counter_clockwise` (`src/hex/mod.rs:784`).
+    ///
+    /// #### Panics
+    ///
+    /// When `z` or the negation of a component leaves `i32`.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn counter_clockwise(self: Hex) -> Hex;
+
+    /// `self` rotated around `center` counter-clockwise by 60 degrees.
+    ///
+    /// Mirrors `Hex::ccw_around` (`src/hex/mod.rs:791`).
+    ///
+    /// #### Panics
+    ///
+    /// Where `const_sub`, `counter_clockwise` or `const_add` does.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn ccw_around(self: Hex, center: Hex) -> Hex;
+
+    /// `self` rotated around the origin counter-clockwise by `m` times 60 degrees (`m` modulo 6).
+    ///
+    /// Mirrors `Hex::rotate_ccw` (`src/hex/mod.rs:799`).
+    ///
+    /// #### Panics
+    ///
+    /// Where one of the single rotations or `const_neg` it applies does.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn rotate_ccw(self: Hex, m: u32) -> Hex;
+
+    /// `self` rotated around `center` counter-clockwise by `m` times 60 degrees.
+    ///
+    /// Mirrors `Hex::rotate_ccw_around` (`src/hex/mod.rs:814`).
+    ///
+    /// #### Panics
+    ///
+    /// Where `const_sub`, `rotate_ccw` or `const_add` does.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn rotate_ccw_around(self: Hex, center: Hex, m: u32) -> Hex;
+
+    /// `self` rotated around the origin clockwise by 60 degrees.
+    ///
+    /// Mirrors `Hex::clockwise` (`src/hex/mod.rs:831`).
+    ///
+    /// #### Panics
+    ///
+    /// When `z` or the negation of a component leaves `i32`.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn clockwise(self: Hex) -> Hex;
+
+    /// `self` rotated around `center` clockwise by 60 degrees.
+    ///
+    /// Mirrors `Hex::cw_around` (`src/hex/mod.rs:838`).
+    ///
+    /// #### Panics
+    ///
+    /// Where `const_sub`, `clockwise` or `const_add` does.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn cw_around(self: Hex, center: Hex) -> Hex;
+
+    /// `self` rotated around the origin clockwise by `m` times 60 degrees (`m` modulo 6).
+    ///
+    /// Mirrors `Hex::rotate_cw` (`src/hex/mod.rs:846`).
+    ///
+    /// #### Panics
+    ///
+    /// Where one of the single rotations or `const_neg` it applies does.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn rotate_cw(self: Hex, m: u32) -> Hex;
+
+    /// `self` rotated around `center` clockwise by `m` times 60 degrees.
+    ///
+    /// Mirrors `Hex::rotate_cw_around` (`src/hex/mod.rs:860`).
+    ///
+    /// #### Panics
+    ///
+    /// Where `const_sub`, `rotate_cw` or `const_add` does.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn rotate_cw_around(self: Hex, center: Hex, m: u32) -> Hex;
+
+    /// The reflection of `self` across the `x` axis: `(x, z)`.
+    ///
+    /// Mirrors `Hex::reflect_x` (`src/hex/mod.rs:868`).
+    ///
+    /// #### Panics
+    ///
+    /// When `z` leaves `i32`.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn reflect_x(self: Hex) -> Hex;
+
+    /// The reflection of `self` across the `y` axis: `(z, y)`.
+    ///
+    /// Mirrors `Hex::reflect_y` (`src/hex/mod.rs:876`).
+    ///
+    /// #### Panics
+    ///
+    /// When `z` leaves `i32`.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn reflect_y(self: Hex) -> Hex;
+
+    /// The reflection of `self` across the `z` axis: `(y, x)`.
+    ///
+    /// Mirrors `Hex::reflect_z` (`src/hex/mod.rs:884`).
+    ///
+    /// #### Panics
+    ///
+    /// None.
+    ///
+    /// #### Deviations
+    ///
+    /// None.
+    fn reflect_z(self: Hex) -> Hex;
+
+    /// Every coordinate of the two-segment rectilinear path from `self` to `other`: `count + 1`
+    /// coordinates, `count = (other − self).length()`, both ends included. The first segment
+    /// follows the first direction of `main_diagonal_to(other).edge_directions()` when
+    /// `clockwise`, the second otherwise, for `ca` steps, where `ca` is the distance from the full
+    /// projection of the other direction to `other − self`; the second segment follows the other.
+    ///
+    /// Mirrors `Hex::rectiline_to` (`src/hex/mod.rs:936`).
+    ///
+    /// #### Panics
+    ///
+    /// When `other − self`, its `length`, the scaled direction or the distance leaves `i32`, as
+    /// `hexx` does in a debug build.
+    ///
+    /// #### Deviations
+    ///
+    /// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` wraps in a release build and panics
+    /// in a debug build (plan §3.1); this port panics exactly where the debug build does.
+    fn rectiline_to(self: Hex, other: Hex, clockwise: bool) -> Span<Hex>;
+
+    /// Every coordinate within `range` of `self`, `range_count(range)` of them, in the order of
+    /// `hexx`: `x` ascending, then `y` ascending.
+    ///
+    /// Mirrors `Hex::range` (`src/hex/mod.rs:993`).
+    ///
+    /// #### Panics
+    ///
+    /// When `range_count(range)` leaves `u32` (`range` above 37,836), or a coordinate leaves `i32`.
+    ///
+    /// #### Deviations
+    ///
+    /// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` wraps in a release build and panics
+    /// in a debug build (plan §3.1); this port panics exactly where the debug build does.
+    fn range(self: Hex, range: u32) -> Span<Hex>;
+
+    /// Every coordinate within `range` of `self` except `self`, `range_count(range) − 1` of them
+    /// (none for `range = 0`), in the order of `range`.
+    ///
+    /// Mirrors `Hex::xrange` (`src/hex/mod.rs:1021`).
+    ///
+    /// #### Panics
+    ///
+    /// As `range`.
+    ///
+    /// #### Deviations
+    ///
+    /// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` wraps in a release build and panics
+    /// in a debug build (plan §3.1); this port panics exactly where the debug build does.
+    fn xrange(self: Hex, range: u32) -> Span<Hex>;
+
+    /// The coordinate of the lower resolution hexagon of radius `radius` that contains `self`:
+    /// its *parent*, in its own coordinates system.
+    ///
+    /// Mirrors `Hex::to_lower_res` (`src/hex/mod.rs:1064`).
+    ///
+    /// #### Panics
+    ///
+    /// When `radius` is above 37,836 (`range_count` leaves `u32`), or when a term of the
+    /// computation (`z`, `shift * x`, the sums) leaves `i32`, as `hexx` does in a debug build.
+    ///
+    /// #### Deviations
+    ///
+    /// Exact integer floor division in place of `hexx`'s `f32` floor. Identical to `hexx` while
+    /// every operand converted to `f32` is exact: the three numerators `y + shift·x`,
+    /// `z + shift·y`, `x + shift·z`, the divisor `range_count(radius)` and `1 + x − y`,
+    /// `1 + y − z`, all within `|value| < 2^24` (a division `n / a` of exact operands floors in
+    /// `f32`
+    /// like the exact one when `|n| < 2^24`). Beyond, `hexx`'s result depends on the rounding of
+    /// its `f32`; this port's is exact. `to_local` and `wrap_in_range` inherit it. `hexx` wraps in
+    /// a release build and panics in a debug build (plan §3.1); this port panics exactly where the
+    /// debug build does.
+    fn to_lower_res(self: Hex, radius: u32) -> Hex;
+
+    /// The center of `self` in the higher resolution system of radius `radius`: its first
+    /// *child*.
+    ///
+    /// Mirrors `Hex::to_higher_res` (`src/hex/mod.rs:1114`).
+    ///
+    /// #### Panics
+    ///
+    /// When `radius` is above `i32::MAX`, or when a term of the computation leaves `i32`.
+    ///
+    /// #### Deviations
+    ///
+    /// `hexx` casts `radius` to `i32` with `as`, which wraps; this port panics above `i32::MAX`.
+    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
+    /// exactly where the debug build does.
+    fn to_higher_res(self: Hex, radius: u32) -> Hex;
+
+    /// The coordinates of `self` relative to the center of its parent hexagon of radius `radius`.
+    ///
+    /// Mirrors `Hex::to_local` (`src/hex/mod.rs:1143`).
+    ///
+    /// #### Panics
+    ///
+    /// Where `to_lower_res`, `to_higher_res` or `const_sub` does.
+    ///
+    /// #### Deviations
+    ///
+    /// Inherits the exact floor of `to_lower_res` and its bound `|value| < 2^24`.
+    fn to_local(self: Hex, radius: u32) -> Hex;
+
+    /// `self` wrapped into the hexagon of radius `range` around the origin: the seamless
+    /// *wraparound* of a hexagonal map.
+    ///
+    /// Mirrors `Hex::wrap_in_range` (`src/hex/mod.rs:1183`).
+    ///
+    /// #### Panics
+    ///
+    /// Where `to_local` does.
+    ///
+    /// #### Deviations
+    ///
+    /// Inherits the exact floor of `to_lower_res` and its bound `|value| < 2^24`.
+    fn wrap_in_range(self: Hex, range: u32) -> Hex;
 }
 
 pub impl HexImpl of HexTrait {
@@ -939,6 +1344,222 @@ pub impl HexImpl of HexTrait {
             self.const_add(n4), self.const_add(n5),
         ]
     }
+
+    #[inline]
+    fn diagonal_neighbor_coord(direction: VertexDirection) -> Hex {
+        direction.into_hex()
+    }
+
+    #[inline]
+    fn add_diag_dir(self: Hex, direction: VertexDirection) -> Hex {
+        self.const_add(direction.into_hex())
+    }
+
+    #[inline]
+    fn diagonal_neighbor(self: Hex, direction: VertexDirection) -> Hex {
+        self.const_add(direction.into_hex())
+    }
+
+    fn neighbor_direction(self: Hex, other: Hex) -> Option<EdgeDirection> {
+        let mut directions = EdgeDirectionTrait::iter();
+        let mut found = None;
+        while let Some(direction) = directions.pop_front() {
+            if self.neighbor(*direction) == other {
+                found = Some(*direction);
+                break;
+            }
+        }
+        found
+    }
+
+    fn main_diagonal_to(self: Hex, rhs: Hex) -> VertexDirection {
+        self.diagonal_way_to(rhs).unwrap()
+    }
+
+    fn diagonal_way_to(self: Hex, rhs: Hex) -> DirectionWay<VertexDirection> {
+        let [x, y, z] = rhs.const_sub(self).to_cubic_array();
+        let (xa, ya, za) = (HexMathTrait::abs(x), HexMathTrait::abs(y), HexMathTrait::abs(z));
+        if xa >= ya && xa >= za {
+            DirectionWayFromTrait::way_from(
+                x < 0, xa == ya, xa == za, VertexDirectionTrait::FLAT_RIGHT,
+            )
+        } else if ya >= za {
+            DirectionWayFromTrait::way_from(
+                y < 0, ya == za, ya == xa, VertexDirectionTrait::FLAT_BOTTOM_LEFT,
+            )
+        } else {
+            DirectionWayFromTrait::way_from(
+                z < 0, za == xa, za == ya, VertexDirectionTrait::FLAT_TOP_LEFT,
+            )
+        }
+    }
+
+    fn main_direction_to(self: Hex, rhs: Hex) -> EdgeDirection {
+        self.way_to(rhs).unwrap()
+    }
+
+    fn way_to(self: Hex, rhs: Hex) -> DirectionWay<EdgeDirection> {
+        let [x, y, z] = rhs.const_sub(self).to_cubic_array();
+        let (x, y, z) = (y - x, z - y, x - z);
+        let (xa, ya, za) = (HexMathTrait::abs(x), HexMathTrait::abs(y), HexMathTrait::abs(z));
+        if xa >= ya && xa >= za {
+            DirectionWayFromTrait::way_from(
+                x < 0, xa == ya, xa == za, EdgeDirectionTrait::FLAT_BOTTOM_LEFT,
+            )
+        } else if ya >= za {
+            DirectionWayFromTrait::way_from(y < 0, ya == za, ya == xa, EdgeDirectionTrait::FLAT_TOP)
+        } else {
+            DirectionWayFromTrait::way_from(
+                z < 0, za == xa, za == ya, EdgeDirectionTrait::FLAT_BOTTOM_RIGHT,
+            )
+        }
+    }
+
+    fn all_diagonals(self: Hex) -> [Hex; 6] {
+        let [d0, d1, d2, d3, d4, d5] = Self::DIAGONAL_COORDS;
+        [
+            self.const_add(d0), self.const_add(d1), self.const_add(d2), self.const_add(d3),
+            self.const_add(d4), self.const_add(d5),
+        ]
+    }
+
+    #[inline]
+    fn counter_clockwise(self: Hex) -> Hex {
+        Hex { x: -self.z(), y: -self.x }
+    }
+
+    #[inline]
+    fn ccw_around(self: Hex, center: Hex) -> Hex {
+        self.const_sub(center).counter_clockwise().const_add(center)
+    }
+
+    fn rotate_ccw(self: Hex, m: u32) -> Hex {
+        match m % 6 {
+            0 => self,
+            1 => self.counter_clockwise(),
+            2 => self.counter_clockwise().counter_clockwise(),
+            3 => self.const_neg(),
+            4 => self.clockwise().clockwise(),
+            _ => self.clockwise(),
+        }
+    }
+
+    #[inline]
+    fn rotate_ccw_around(self: Hex, center: Hex, m: u32) -> Hex {
+        self.const_sub(center).rotate_ccw(m).const_add(center)
+    }
+
+    #[inline]
+    fn clockwise(self: Hex) -> Hex {
+        Hex { x: -self.y, y: -self.z() }
+    }
+
+    #[inline]
+    fn cw_around(self: Hex, center: Hex) -> Hex {
+        self.const_sub(center).clockwise().const_add(center)
+    }
+
+    fn rotate_cw(self: Hex, m: u32) -> Hex {
+        match m % 6 {
+            0 => self,
+            1 => self.clockwise(),
+            2 => self.clockwise().clockwise(),
+            3 => self.const_neg(),
+            4 => self.counter_clockwise().counter_clockwise(),
+            _ => self.counter_clockwise(),
+        }
+    }
+
+    #[inline]
+    fn rotate_cw_around(self: Hex, center: Hex, m: u32) -> Hex {
+        self.const_sub(center).rotate_cw(m).const_add(center)
+    }
+
+    #[inline]
+    fn reflect_x(self: Hex) -> Hex {
+        Hex { x: self.x, y: self.z() }
+    }
+
+    #[inline]
+    fn reflect_y(self: Hex) -> Hex {
+        Hex { x: self.z(), y: self.y }
+    }
+
+    #[inline]
+    fn reflect_z(self: Hex) -> Hex {
+        Hex { x: self.y, y: self.x }
+    }
+
+    fn rectiline_to(self: Hex, other: Hex, clockwise: bool) -> Span<Hex> {
+        let delta = other.const_sub(self);
+        let count = delta.length();
+        let [first, second] = self.main_diagonal_to(other).edge_directions();
+        // [Compute] `rotate_left(1)` of the pair when counter-clockwise
+        let (dir_a, dir_b) = if clockwise {
+            (first, second)
+        } else {
+            (second, first)
+        };
+        // [Compute] The steps of `dir_a` are the distance between `delta` and the full
+        // projection of `dir_b`
+        let steps_a = dir_b.mul_scalar(count).distance_to(delta);
+        let mut path = array![self];
+        let mut p = self;
+        let mut i: i32 = 0;
+        while i != count {
+            p = if i < steps_a {
+                p.add_dir(dir_a)
+            } else {
+                p.add_dir(dir_b)
+            };
+            path.append(p);
+            i += 1;
+        }
+        path.span()
+    }
+
+    fn range(self: Hex, range: u32) -> Span<Hex> {
+        HexRangeTrait::collect(self, range, false)
+    }
+
+    fn xrange(self: Hex, range: u32) -> Span<Hex> {
+        HexRangeTrait::collect(self, range, true)
+    }
+
+    fn to_lower_res(self: Hex, radius: u32) -> Hex {
+        let [x, y, z] = self.to_cubic_array();
+        let area = Self::range_count(radius);
+        let shift: i32 = HexShiftTrait::shift(radius).try_into().unwrap();
+        let a = HexMathTrait::floor_div(y + shift * x, area);
+        let b = HexMathTrait::floor_div(z + shift * y, area);
+        let c = HexMathTrait::floor_div(x + shift * z, area);
+        Hex { x: HexMathTrait::floor_div(1 + a - b, 3), y: HexMathTrait::floor_div(1 + b - c, 3) }
+    }
+
+    fn to_higher_res(self: Hex, radius: u32) -> Hex {
+        let range: i32 = radius.try_into().unwrap();
+        let [x, y, z] = self.to_cubic_array();
+        Hex { x: x * (range + 1) - range * z, y: y * (range + 1) - range * x }
+    }
+
+    fn to_local(self: Hex, radius: u32) -> Hex {
+        let center = self.to_lower_res(radius).to_higher_res(radius);
+        self.const_sub(center)
+    }
+
+    #[inline]
+    fn wrap_in_range(self: Hex, range: u32) -> Hex {
+        self.to_local(range)
+    }
+}
+
+/// `Debug` of `Hex`, as `hexx`'s: `Hex { x: 1, y: 2, z: -3 }`.
+///
+/// Mirrors `impl Debug for Hex` (`src/hex/mod.rs:1189`).
+pub impl HexDebug of Debug<Hex> {
+    fn fmt(self: @Hex, ref f: Formatter) -> Result<(), Error> {
+        write!(f, "Hex {{ x: {}, y: {}, z: {} }}", *self.x, *self.y, (*self).z())
+    }
 }
 
 /// `Hex::shift` (`src/hex/mod.rs:1169`), the constant of the `hexmod` operations: `pub(crate)` in
@@ -951,6 +1572,41 @@ pub(crate) impl HexShiftImpl of HexShiftTrait {
     #[inline]
     fn shift(range: u32) -> u32 {
         3 * range + 2
+    }
+}
+
+/// The span builder of `range` and `xrange`: private, one loop for both.
+#[generate_trait]
+impl HexRangeImpl of HexRangeTrait {
+    /// The coordinates within `range` of `center`, `x` ascending then `y` ascending, without
+    /// `center` itself when `skip_center`. Panics where `range_count(range)` does, as `hexx`'s
+    /// eager `count` does.
+    fn collect(center: Hex, range: u32, skip_center: bool) -> Span<Hex> {
+        let _ = HexTrait::range_count(range);
+        let radius: i32 = range.try_into().unwrap();
+        let mut hexes = array![];
+        let mut x = -radius;
+        while x <= radius {
+            // [Compute] `max(-radius, -x - radius)` and `min(radius, radius - x)`
+            let mut y = if x < 0 {
+                -radius - x
+            } else {
+                -radius
+            };
+            let y_max = if x > 0 {
+                radius - x
+            } else {
+                radius
+            };
+            while y <= y_max {
+                if !(skip_center && x == 0 && y == 0) {
+                    hexes.append(Hex { x: center.x + x, y: center.y + y });
+                }
+                y += 1;
+            }
+            x += 1;
+        }
+        hexes.span()
     }
 }
 
@@ -990,6 +1646,21 @@ impl HexMathImpl of HexMathTrait {
         }
     }
 
+    /// `floor(n / d)` for `d > 0`, exact on all of `i32`: the exact counterpart of `hexx`'s
+    /// `(n as f32 / d as f32).floor() as i32`.
+    #[inline]
+    fn floor_div(n: i32, d: u32) -> i32 {
+        if n >= 0 {
+            let n: u32 = n.try_into().unwrap();
+            (n / d).try_into().unwrap()
+        } else {
+            // `-(n + 1)` is in `0..=i32::MAX`; `floor(n / d) = -((-n - 1) / d) - 1`
+            let above: u32 = (-(n + 1)).try_into().unwrap();
+            let quotient: i32 = (above / d).try_into().unwrap();
+            -quotient - 1
+        }
+    }
+
     /// The sign of `v`: `0`, `1` or `-1` (`i32::signum`).
     #[inline]
     fn signum(v: i32) -> i32 {
@@ -1020,6 +1691,8 @@ mod tests {
     // Local imports
 
     use crate::direction::edge_direction::EdgeDirectionTrait;
+    use crate::direction::vertex_direction::VertexDirectionTrait;
+    use crate::direction::way::{DirectionWay, DirectionWayTrait};
     use super::{Hex, HexShiftTrait, HexTrait, hex};
 
     #[generate_trait]
@@ -1514,5 +2187,755 @@ mod tests {
             acc += first.x + b.y;
         }
         assert!(acc != 1);
+    }
+
+    /// The oracles of M2-T2: plain, obviously correct versions of the optimised or repeated items.
+    #[generate_trait]
+    impl Oracle of OracleTrait {
+        /// The hexes within `radius` of `center` by definition: every hex of the square
+        /// `[-radius, radius]²` around it whose distance is at most `radius`, `x` then `y`.
+        fn within(center: Hex, radius: i32, skip_center: bool) -> Array<Hex> {
+            let mut hexes = array![];
+            let mut x = -radius;
+            while x <= radius {
+                let mut y = -radius;
+                while y <= radius {
+                    let h = HexTrait::new(center.x + x, center.y + y);
+                    if h.distance_to(center) <= radius && !(skip_center && h == center) {
+                        hexes.append(h);
+                    }
+                    y += 1;
+                }
+                x += 1;
+            }
+            hexes
+        }
+
+        /// `m` single clockwise rotations around the origin.
+        fn repeat_cw(h: Hex, m: u32) -> Hex {
+            let mut h = h;
+            let mut i = 0;
+            while i != m {
+                h = h.clockwise();
+                i += 1;
+            }
+            h
+        }
+
+        /// `m` single counter-clockwise rotations around the origin.
+        fn repeat_ccw(h: Hex, m: u32) -> Hex {
+            let mut h = h;
+            let mut i = 0;
+            while i != m {
+                h = h.counter_clockwise();
+                i += 1;
+            }
+            h
+        }
+
+        /// Whether `got` is `want`, element by element.
+        fn same(got: Span<Hex>, want: Span<Hex>) -> bool {
+            if got.len() != want.len() {
+                return false;
+            }
+            let mut i = 0;
+            let mut equal = true;
+            while i != got.len() {
+                if *got.at(i) != *want.at(i) {
+                    equal = false;
+                    break;
+                }
+                i += 1;
+            }
+            equal
+        }
+    }
+
+    /// The sample of the oracles: the origin, both signs, the axes.
+    fn sample() -> Span<Hex> {
+        array![
+            HexTrait::new(0, 0), HexTrait::new(1, 2), HexTrait::new(-7, 2), HexTrait::new(3, -5),
+            HexTrait::new(-4, -6), HexTrait::new(9, 0), HexTrait::new(0, -8),
+        ]
+            .span()
+    }
+
+    /// `range` and `xrange` against the per-hex definition, radii `0..=8`, order included.
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn test_hex_range_oracle() {
+        let center = HexTrait::new(7, -3);
+        let mut r: u32 = 0;
+        while r != 9 {
+            let radius: i32 = r.try_into().unwrap();
+            let want = OracleTrait::within(center, radius, false);
+            assert!(want.len() == HexTrait::range_count(r));
+            assert!(OracleTrait::same(center.range(r), want.span()));
+            let want = OracleTrait::within(center, radius, true);
+            assert!(want.len() == HexTrait::range_count(r) - 1);
+            assert!(OracleTrait::same(center.xrange(r), want.span()));
+            r += 1;
+        }
+    }
+
+    /// `range` of `hexx`'s doc: 1 and 7 hexes, the center first of the middle column.
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn test_hex_range_doc() {
+        let h = HexTrait::new(12, 34);
+        assert!(h.range(0).len() == 1 && h.xrange(0).len() == 0);
+        assert!(h.range(1).len() == 7 && h.xrange(1).len() == 6);
+        assert!(*h.range(1).at(0) == HexTrait::new(12, 33));
+        assert!(*h.range(1).at(6) == HexTrait::new(12, 35));
+    }
+
+    /// Each `rotate_*` against `m` repeated single rotations, around the origin and around a
+    /// center, for `m` in `0..=13` and 255.
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn test_hex_rotate_oracle() {
+        let center = HexTrait::new(-2, 5);
+        let mut points = sample();
+        while let Some(h) = points.pop_front() {
+            let h = *h;
+            let mut m: u32 = 0;
+            while m != 256 {
+                if m == 14 {
+                    m = 255;
+                }
+                assert!(h.rotate_cw(m) == OracleTrait::repeat_cw(h, m));
+                assert!(h.rotate_ccw(m) == OracleTrait::repeat_ccw(h, m));
+                let moved = h.const_sub(center);
+                assert!(
+                    h
+                        .rotate_cw_around(center, m) == OracleTrait::repeat_cw(moved, m)
+                        .const_add(center),
+                );
+                assert!(
+                    h
+                        .rotate_ccw_around(center, m) == OracleTrait::repeat_ccw(moved, m)
+                        .const_add(center),
+                );
+                m += 1;
+            }
+            assert!(h.cw_around(center) == h.rotate_cw_around(center, 1));
+            assert!(h.ccw_around(center) == h.rotate_ccw_around(center, 1));
+            assert!(h.clockwise().counter_clockwise() == h);
+        }
+    }
+
+    /// The examples of `hexx`'s documentation, and the reflections.
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn test_hex_rotate_reflect_doc() {
+        let p = HexTrait::new(1, 2);
+        assert!(p.counter_clockwise() == HexTrait::new(3, -1));
+        assert!(p.clockwise() == HexTrait::new(-2, 3));
+        assert!(p.reflect_x() == HexTrait::new(1, -3));
+        assert!(p.reflect_y() == HexTrait::new(-3, 2));
+        assert!(p.reflect_z() == HexTrait::new(2, 1));
+        assert!(p.reflect_x().reflect_x() == p);
+        assert!(p.reflect_y().reflect_y() == p);
+        assert!(p.reflect_z().reflect_z() == p);
+    }
+
+    /// The diagonals: `all_diagonals` is `diagonal_neighbor` in every direction, at distance two.
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn test_hex_diagonals() {
+        let h = HexTrait::new(10, 5);
+        assert!(h.diagonal_neighbor(VertexDirectionTrait::FLAT_RIGHT) == HexTrait::new(12, 4));
+        let all = h.all_diagonals();
+        let mut directions = VertexDirectionTrait::iter();
+        let mut i = 0;
+        while let Some(direction) = directions.pop_front() {
+            let direction = *direction;
+            let diagonal = *all.span().at(i);
+            assert!(h.diagonal_neighbor(direction) == diagonal);
+            assert!(h.add_diag_dir(direction) == diagonal);
+            assert!(HexTrait::diagonal_neighbor_coord(direction) == diagonal.const_sub(h));
+            assert!(h.distance_to(diagonal) == 2);
+            i += 1;
+        }
+    }
+
+    /// `neighbor_direction`: the direction of each neighbour, `None` for the others and for `self`.
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn test_hex_neighbor_direction() {
+        let h = HexTrait::new(10, 5);
+        let mut directions = EdgeDirectionTrait::iter();
+        while let Some(direction) = directions.pop_front() {
+            let direction = *direction;
+            assert!(h.neighbor_direction(h.neighbor(direction)) == Some(direction));
+        }
+        assert!(h.neighbor_direction(h).is_none());
+        assert!(h.neighbor_direction(HexTrait::new(12, 5)).is_none());
+        let mut diagonals = VertexDirectionTrait::iter();
+        while let Some(direction) = diagonals.pop_front() {
+            assert!(h.neighbor_direction(h.diagonal_neighbor(*direction)).is_none());
+        }
+    }
+
+    /// `rectiline_to` against its properties, on every ordered pair of a radius-two hexagon, both
+    /// senses: `distance + 1` hexes, the ends included, each step a neighbour in one of the two
+    /// directions of `main_diagonal_to(...).edge_directions()`.
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn test_hex_rectiline_to_properties() {
+        let hexagon = HexTrait::new(5, -3).range(2);
+        let mut senders = hexagon;
+        while let Some(a) = senders.pop_front() {
+            let a = *a;
+            let mut receivers = hexagon;
+            while let Some(b) = receivers.pop_front() {
+                let b = *b;
+                let [first, second] = a.main_diagonal_to(b).edge_directions();
+                let mut sense = 0_u8;
+                while sense != 2 {
+                    let path = a.rectiline_to(b, sense == 0);
+                    assert!(path.len() == a.unsigned_distance_to(b) + 1);
+                    assert!(*path.at(0) == a && *path.at(path.len() - 1) == b);
+                    let mut i = 1;
+                    while i != path.len() {
+                        let step = (*path.at(i - 1)).neighbor_direction(*path.at(i));
+                        let step = step.unwrap();
+                        assert!(step == first || step == second);
+                        i += 1;
+                    }
+                    sense += 1;
+                }
+            }
+        }
+    }
+
+    /// The straight case of `hexx`'s documentation: `(0, 0)` to `(5, 0)`, six hexes.
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn test_hex_rectiline_to_doc() {
+        let path = HexTrait::new(0, 0).rectiline_to(HexTrait::new(5, 0), true);
+        assert!(path.len() == 6);
+        assert!(*path.at(0) == HexTrait::new(0, 0) && *path.at(5) == HexTrait::new(5, 0));
+    }
+
+    /// `way_to` and `diagonal_way_to`: a clear wedge is a single direction, a boundary a tie that
+    /// contains both, and the main direction is the first one.
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn test_hex_ways() {
+        let origin = HexTrait::new(0, 0);
+        let mut directions = EdgeDirectionTrait::iter();
+        while let Some(direction) = directions.pop_front() {
+            let direction = *direction;
+            let far = direction.into_hex().mul_scalar(5);
+            assert!(origin.way_to(far).contains(@direction));
+            assert!(origin.main_direction_to(far) == direction);
+        }
+        let mut diagonals = VertexDirectionTrait::iter();
+        while let Some(direction) = diagonals.pop_front() {
+            let direction = *direction;
+            let far = direction.into_hex().mul_scalar(5);
+            assert!(origin.diagonal_way_to(far).contains(@direction));
+            assert!(origin.main_diagonal_to(far) == direction);
+        }
+        // Between two edge directions: `(1, 1)` is the vertex direction `Y`... a tie of the edges
+        match origin.way_to(HexTrait::new(1, 1)) {
+            DirectionWay::Tie(_) => {},
+            DirectionWay::Single(_) => panic!("no tie"),
+        }
+        match origin.way_to(HexTrait::new(2, 1)) {
+            DirectionWay::Tie(_) => panic!("tie"),
+            DirectionWay::Single(_) => {},
+        }
+    }
+
+    /// The resolutions: a hexagon of radius `r` is its parent's child within `r`, `to_local` is
+    /// the offset from the parent's center, and `wrap_in_range` lands within the range and keeps
+    /// the hexes already inside.
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn test_hex_resolution_properties() {
+        let coord = HexTrait::new(23, 45);
+        let parent = coord.to_lower_res(5);
+        assert!(coord.distance_to(parent.to_higher_res(5)) <= 5);
+        assert!(coord.to_higher_res(5).to_local(5) == HexTrait::ZERO);
+        let mut radius: u32 = 1;
+        while radius != 7 {
+            let r: i32 = radius.try_into().unwrap();
+            let mut points = HexTrait::new(-11, 9).range(5);
+            while let Some(p) = points.pop_front() {
+                let p = *p;
+                let parent = p.to_lower_res(radius);
+                let center = parent.to_higher_res(radius);
+                assert!(p.distance_to(center) <= r);
+                assert!(p.to_local(radius) == p.const_sub(center));
+                assert!(p.wrap_in_range(radius) == p.to_local(radius));
+                assert!(p.wrap_in_range(radius).length() <= r);
+                // The centers are fixed points of the parent map
+                assert!(center.to_lower_res(radius) == parent);
+            }
+            let mut inside = HexTrait::ZERO.range(radius);
+            while let Some(p) = inside.pop_front() {
+                assert!(*p == (*p).wrap_in_range(radius));
+            }
+            radius += 1;
+        }
+    }
+
+    /// `to_lower_res` floors on negative values (a truncation would put `(-1, 0)` in the parent
+    /// of the origin).
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn test_hex_to_lower_res_floor() {
+        assert!(HexTrait::new(-1, 0).to_lower_res(1) != HexTrait::new(0, 0));
+        assert!(HexTrait::new(0, 0).to_lower_res(1) == HexTrait::new(0, 0));
+        assert!(HexTrait::new(1, 0).to_lower_res(1) == HexTrait::new(0, 0));
+        assert!(HexTrait::new(2, -1).to_lower_res(0) == HexTrait::new(2, -1));
+        assert!(HexTrait::new(-5, 3).to_lower_res(0) == HexTrait::new(-5, 3));
+    }
+
+    /// `Debug` prints what `hexx`'s prints: `x`, `y` and `z`.
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn test_hex_debug() {
+        assert!(format!("{:?}", HexTrait::new(1, 2)) == "Hex { x: 1, y: 2, z: -3 }");
+        assert!(format!("{:?}", HexTrait::new(-4, 0)) == "Hex { x: -4, y: 0, z: 4 }");
+        assert!(format!("{:?}", HexTrait::ZERO) == "Hex { x: 0, y: 0, z: 0 }");
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    #[should_panic]
+    fn test_hex_diagonal_neighbor_revert_overflow() {
+        HexTrait::new(0x7fffffff, 0).diagonal_neighbor(VertexDirectionTrait::FLAT_RIGHT);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    #[should_panic]
+    fn test_hex_all_diagonals_revert_overflow() {
+        HexTrait::new(0, 0x7fffffff).all_diagonals();
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    #[should_panic]
+    fn test_hex_neighbor_direction_revert_overflow() {
+        HexTrait::new(0x7fffffff, 0).neighbor_direction(HexTrait::ZERO);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    #[should_panic]
+    fn test_hex_way_to_revert_overflow() {
+        HexTrait::new(0x7fffffff, 0).way_to(HexTrait::new(-0x7fffffff, 0));
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    #[should_panic]
+    fn test_hex_diagonal_way_to_revert_overflow() {
+        HexTrait::new(0x7fffffff, 0).diagonal_way_to(HexTrait::new(-0x7fffffff, 0));
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    #[should_panic]
+    fn test_hex_rotate_cw_revert_z() {
+        HexTrait::new(-0x7fffffff - 1, 0).rotate_cw(1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    #[should_panic]
+    fn test_hex_reflect_x_revert_z() {
+        HexTrait::new(-0x7fffffff - 1, 0).reflect_x();
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    #[should_panic]
+    fn test_hex_rectiline_to_revert_overflow() {
+        HexTrait::new(0x7fffffff, 0).rectiline_to(HexTrait::new(-0x7fffffff, 0), true);
+    }
+
+    /// `range_count(37_837)` leaves `u32`: `range` and `xrange` panic before building anything.
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    #[should_panic]
+    fn test_hex_range_revert_count() {
+        HexTrait::ZERO.range(37_837);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    #[should_panic]
+    fn test_hex_xrange_revert_count() {
+        HexTrait::ZERO.xrange(37_837);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    #[should_panic]
+    fn test_hex_to_lower_res_revert_count() {
+        HexTrait::ZERO.to_lower_res(37_837);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    #[should_panic]
+    fn test_hex_to_lower_res_revert_overflow() {
+        HexTrait::new(0x7fffffff, 0).to_lower_res(1);
+    }
+
+    /// `hexx` wraps `radius` into `i32`; this port panics above `i32::MAX`.
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    #[should_panic]
+    fn test_hex_to_higher_res_revert_radius() {
+        HexTrait::ZERO.to_higher_res(0x80000000);
+    }
+
+    // Benchmarks of M2-T2 (LIB-06), 100 repetitions per test, one call per repetition, per call =
+    // (test − matching baseline) / 100; the span builders (`range`, `xrange`, `rectiline_to`,
+    // `to_lower_res`, `to_local`, `wrap_in_range`) run once, per call = test − 7,991 (an empty
+    // test's entry cost, the measured minimum of the `#[should_panic]` tests). Targets (`L`,
+    // `U = ceil(1.25 L)`) derived from the L-M1 measurements of `bench_mirror` and the
+    // M2-T0/M2-T1 benches of this file (`i32` operation 1,030, `const_sub` 2,930, `z` and
+    // `const_neg` 2,059, `distance_to` 8,722, `neighbor` 4,341, `way_from` 4,683, `range_count`
+    // 4,120, a span built by a loop 7,358 per element), written before the first measurement:
+    //
+    // | function | case | `L` | `U` |
+    // |---|---|---|---|
+    // | `way_to` | a tie | 24,092 | 30,115 |
+    // | `main_direction_to` | a tie | 24,092 + `unwrap` | 30,115 |
+    // | `diagonal_way_to` | a tie | 20,002 | 25,003 |
+    // | `main_diagonal_to` | a tie | 20,002 + `unwrap` | 25,003 |
+    // | `neighbor_direction` | not a neighbour | 32,226 | 40,283 |
+    // | `rotate_cw`, `rotate_ccw` | `m = 4` | 9,338 | 11,673 |
+    // | `rotate_cw_around` | `m = 4` | 15,198 | 18,998 |
+    // | `range` | radius 6 | 934,466 | 1,168,083 |
+    // | `rectiline_to` | distance 20 | 187,332 | 234,165 |
+    // | `to_lower_res` | radius 6 | 22,659 | 28,324 |
+    // | `to_local`, `wrap_in_range` | radius 6 | 33,828 | 42,285 |
+    // | `diagonal_neighbor` | | 4,341 (as `neighbor`) | 5,427 |
+    // | `all_diagonals` | | 26,046 (6 × `neighbor`) | 32,558 |
+    // | `counter_clockwise`, `clockwise` | | 4,120 (`z` + two negations) | 5,150 |
+    // | `ccw_around`, `cw_around` | | 9,980 (`const_sub` + rotation + `const_add`) | 12,475 |
+    // | `reflect_x`, `reflect_y` | | 2,059 (as `z`) | 2,574 |
+    // | `to_higher_res` | | 8,239 (`z` + 6 operations) | 10,299 |
+    // | `xrange` | radius 6 | 934,466 (as `range`) | 1,168,083 |
+    //
+    // `reflect_z` swaps two fields and `add_diag_dir`, `diagonal_neighbor_coord`, `ccw_around`'s
+    // peers are the bodies measured above: no bench of their own.
+
+    /// The loop, the accumulator and the operands `(-n, -n)` and `(n, -n)`: the tie of
+    /// `diagonal_way_to` (`b − a = (2n, 0)`).
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_baseline_tie() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), 0 - n.into());
+            acc += a.x + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_diagonal_neighbor() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += a.diagonal_neighbor(VertexDirectionTrait::FLAT_RIGHT).x + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_all_diagonals() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += {
+                let [first, _, _, _, _, _] = a.all_diagonals();
+                first.x + b.y
+            };
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_neighbor_direction() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += match a.neighbor_direction(b) {
+                Some(_) => 1,
+                None => 0,
+            } + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_counter_clockwise() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += a.counter_clockwise().x + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_clockwise() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += a.clockwise().x + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_ccw_around() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += a.ccw_around(b).x + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_cw_around() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += a.cw_around(b).x + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_rotate_cw() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += a.rotate_cw(4).x + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_rotate_ccw() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += a.rotate_ccw(4).x + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_rotate_cw_around() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += a.rotate_cw_around(b, 4).x + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_reflect_x() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += a.reflect_x().x + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_reflect_y() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += a.reflect_y().x + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_way_to() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += match a.way_to(b) {
+                DirectionWay::Single(_) => 0,
+                DirectionWay::Tie(_) => 1,
+            }
+                + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_main_direction_to() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += a.main_direction_to(b).index().into() + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_diagonal_way_to() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), 0 - n.into());
+            acc += match a.diagonal_way_to(b) {
+                DirectionWay::Single(_) => 0,
+                DirectionWay::Tie(_) => 1,
+            }
+                + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_main_diagonal_to() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), 0 - n.into());
+            acc += a.main_diagonal_to(b).index().into() + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_to_higher_res() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 0 - n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += a.to_higher_res(6).x + b.y;
+        }
+        assert!(acc != 1000000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_range() {
+        let ranged = HexTrait::new(3, -7).range(6);
+        assert!(ranged.len() == 127);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_xrange() {
+        let ranged = HexTrait::new(3, -7).xrange(6);
+        assert!(ranged.len() == 126);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_rectiline_to() {
+        let path = HexTrait::new(3, -7).rectiline_to(HexTrait::new(13, 6), true);
+        assert!(path.len() == 21);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_to_lower_res() {
+        let parent = HexTrait::new(-23, 45).to_lower_res(6);
+        assert!(parent != HexTrait::new(1000, 1000));
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_to_local() {
+        let local = HexTrait::new(-23, 45).to_local(6);
+        assert!(local != HexTrait::new(1000, 1000));
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 99999999)]
+    fn bench_hex_wrap_in_range() {
+        let wrapped = HexTrait::new(-23, 45).wrap_in_range(6);
+        assert!(wrapped != HexTrait::new(1000, 1000));
     }
 }
