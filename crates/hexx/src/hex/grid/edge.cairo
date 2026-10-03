@@ -338,9 +338,9 @@ mod tests {
     }
 
     /// `equivalent` against its geometric definition on every pair of the 6 x 7 edges around the
-    /// origin: 42 edges are equivalent to themselves, and 24 of them (the 6 spokes and the 18
-    /// edges between two ring hexes or a ring hex and the centre, seen from both sides) have their
-    /// flipped form among the 42 as well: 66 ordered pairs.
+    /// origin: 42 edges are equivalent to themselves, and 24 of them (the 6 spokes and the 6 edges
+    /// between neighbouring ring hexes, each in both forms) have their flipped form among the 42
+    /// as well: 66 ordered pairs.
     #[test]
     #[available_gas(l2_gas: 1000000000)]
     fn test_grid_edge_equivalent_oracle_at_the_origin() {
