@@ -118,3 +118,76 @@ impl HalfImpl of HalfTrait {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    // Local imports
+
+    use crate::hex::{Hex, HexTrait};
+    use super::{HexConvertTrait, HexFromArray, HexFromTuple};
+
+    /// The example of `hexx`'s documentation (`src/hex/convert.rs:68-74`, `:90-97`), and the
+    /// conversions from a pair.
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn test_convert_examples() {
+        assert!(HexConvertTrait::from_u64(0x000000AA_FFFFFF45) == HexTrait::new(0xAA, -0xBB));
+        assert!(HexTrait::new(0xAA, -0xBB).as_u64() == 0x000000AA_FFFFFF45);
+        let h: Hex = (3, -4).into();
+        assert!(h == HexTrait::new(3, -4));
+        let h: Hex = [3, -4].into();
+        assert!(h == HexTrait::new(3, -4));
+    }
+
+    // Benchmarks of M2-T3 (LIB-06), 100 repetitions per test, one call per repetition: per call =
+    // (test − baseline) / 100, on negative components (the longest branch). Targets (`L`,
+    // `U = ceil(1.25 L)`, the brief's table), written before the first measurement:
+    //
+    // | function | `L` | `U` |
+    // |---|---|---|
+    // | `from_u64`, `as_u64` | 6,180 (6 operations) | 7,725 |
+
+    const REPS: u8 = 100;
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_convert_baseline() {
+        let mut acc: u64 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(-1 - n.into(), -2 - n.into());
+            let v: u64 = 0xffff_ff00_ffff_ff00 + n.into();
+            acc += v % 2 + a.x.try_into().unwrap_or(1);
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_as_u64() {
+        let mut acc: u64 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(-1 - n.into(), -2 - n.into());
+            let v: u64 = 0xffff_ff00_ffff_ff00 + n.into();
+            acc += v % 2 + a.as_u64() % 2;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_from_u64() {
+        let mut acc: u64 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(-1 - n.into(), -2 - n.into());
+            let v: u64 = 0xffff_ff00_ffff_ff00 + n.into();
+            acc += v % 2 + HexConvertTrait::from_u64(v).x.try_into().unwrap_or(1);
+        }
+        assert!(acc != 1);
+    }
+}

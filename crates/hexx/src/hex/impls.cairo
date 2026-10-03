@@ -555,4 +555,253 @@ mod tests {
         }
         assert!(a.add_scalar(4).sub_scalar(4) == a);
     }
+
+    // Benchmarks of M2-T3 (LIB-06), 100 repetitions per test, one call per repetition: per call =
+    // (test − matching baseline) / 100. Targets (`L`, `U = ceil(1.25 L)`; the brief's table, from
+    // the L-M1 measurements of `bench_mirror` and M2-T0's), written before the first measurement:
+    //
+    // | function | `L` | `U` |
+    // |---|---|---|
+    // | `Add`, `Sub`, `Mul` (`Hex`), `add_scalar`, `sub_scalar` | 2,930 | 3,663 |
+    // | `add_direction`, `sub_direction`, `add_diagonal`, `sub_diagonal` | 4,341 | 5,427 |
+    // | `Div`, `Rem` (`Hex`) | 3,230 | 4,038 |
+    // | `div_scalar` (a hexround tie, `L = 40`) | 28,957 | 36,197 |
+    // | `rem_scalar` (same) | 34,817 | 43,522 |
+
+    const REPS: u8 = 100;
+
+    /// The loop, the accumulator and the two operands `(-n - 1, -n - 1)` and `(n + 1, n + 1)`
+    /// (no zero component: the divisor of `Div` and `Rem`).
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_ops_baseline_operands() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(-1 - n.into(), -1 - n.into());
+            let b = HexTrait::new(1 + n.into(), 1 + n.into());
+            acc += a.x + b.y;
+        }
+        assert!(acc == 0);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_ops_add() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(-1 - n.into(), -1 - n.into());
+            let b = HexTrait::new(1 + n.into(), 1 + n.into());
+            acc += (a + b).x + b.y;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_ops_sub() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(-1 - n.into(), -1 - n.into());
+            let b = HexTrait::new(1 + n.into(), 1 + n.into());
+            acc += (a - b).x + b.y;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_ops_mul() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(-1 - n.into(), -1 - n.into());
+            let b = HexTrait::new(1 + n.into(), 1 + n.into());
+            acc += (a * b).x + b.y;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_ops_div() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(-1 - n.into(), -1 - n.into());
+            let b = HexTrait::new(1 + n.into(), 1 + n.into());
+            acc += (a / b).x + b.y;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_ops_rem() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(-1 - n.into(), -1 - n.into());
+            let b = HexTrait::new(1 + n.into(), 1 + n.into());
+            acc += (a % b).x + b.y;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_ops_add_scalar() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(-1 - n.into(), -1 - n.into());
+            let b = HexTrait::new(1 + n.into(), 1 + n.into());
+            acc += a.add_scalar(7).x + b.y;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_ops_sub_scalar() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(-1 - n.into(), -1 - n.into());
+            let b = HexTrait::new(1 + n.into(), 1 + n.into());
+            acc += a.sub_scalar(7).x + b.y;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_ops_add_direction() {
+        let directions = EdgeDirectionTrait::ALL_DIRECTIONS.span();
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(-1 - n.into(), -1 - n.into());
+            let d = *directions.at((n % 6).into());
+            acc += a.add_direction(d).x;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_ops_sub_direction() {
+        let directions = EdgeDirectionTrait::ALL_DIRECTIONS.span();
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(-1 - n.into(), -1 - n.into());
+            let d = *directions.at((n % 6).into());
+            acc += a.sub_direction(d).x;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_ops_add_diagonal() {
+        let directions = VertexDirectionTrait::ALL_DIRECTIONS.span();
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(-1 - n.into(), -1 - n.into());
+            let d = *directions.at((n % 6).into());
+            acc += a.add_diagonal(d).x;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_ops_sub_diagonal() {
+        let directions = VertexDirectionTrait::ALL_DIRECTIONS.span();
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(-1 - n.into(), -1 - n.into());
+            let d = *directions.at((n % 6).into());
+            acc += a.sub_diagonal(d).x;
+        }
+        assert!(acc != 1);
+    }
+
+    /// The loop, the accumulator, a direction of each type, and the operand of the direction
+    /// forms.
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_ops_baseline_direction() {
+        let directions = EdgeDirectionTrait::ALL_DIRECTIONS.span();
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(-1 - n.into(), -1 - n.into());
+            let d = *directions.at((n % 6).into());
+            acc += a.x + d.index().into();
+        }
+        assert!(acc != 1);
+    }
+
+    /// The loop, the accumulator and the operand of `div_scalar`: `(40, -20 - z)` by `3`, a
+    /// hexround tie on `y` (the point `(13, -6.5)`), `z = n / 128 = 0`.
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_ops_baseline_scalar() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let z: i32 = (n / 128).into();
+            let h = HexTrait::new(40, -20 - z);
+            acc += h.y + 3;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_ops_div_scalar() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let z: i32 = (n / 128).into();
+            let h = HexTrait::new(40, -20 - z);
+            acc += h.div_scalar(3).y + 3;
+        }
+        assert!(acc == (-6 + 3) * 100);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hex_ops_rem_scalar() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let z: i32 = (n / 128).into();
+            let h = HexTrait::new(40, -20 - z);
+            acc += h.rem_scalar(3).y + 3;
+        }
+        assert!(acc == (-2 + 3) * 100);
+    }
 }

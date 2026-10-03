@@ -219,3 +219,117 @@ impl OffsetHalfImpl of OffsetHalfTrait {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    // Local imports
+
+    use crate::hex::HexTrait;
+    use super::{DoubledHexMode, HexConversionsTrait};
+
+    /// The deviation of `to_hexmod_coordinates`: from `range = 26_755` the area exceeds
+    /// `i32::MAX`; `hexx` wraps it with `as i32`, this port panics.
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    #[should_panic]
+    fn test_to_hexmod_coordinates_area_beyond_i32() {
+        let _ = HexTrait::new(0, 0).to_hexmod_coordinates(26_755);
+    }
+
+    /// The largest radius whose area fits `i32` converts.
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn test_to_hexmod_coordinates_largest_area() {
+        assert!(HexTrait::new(0, 0).to_hexmod_coordinates(26_754) == 0);
+    }
+
+    /// The deviation of `from_hexmod_coordinates`: a `coord` above `i32::MAX` wraps in `hexx` and
+    /// panics here.
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    #[should_panic]
+    fn test_from_hexmod_coordinates_coord_beyond_i32() {
+        let _ = HexConversionsTrait::from_hexmod_coordinates(0x8000_0000, 1);
+    }
+
+    /// The round trips of `hexx`'s own tests (`src/conversions.rs`, `doubled_coordinates`,
+    /// `hexmod_coordinates`), on every hex of radius 6.
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn test_conversions_round_trips() {
+        let mut x: i32 = -6;
+        while x <= 6 {
+            let mut y: i32 = -6;
+            while y <= 6 {
+                let h = HexTrait::new(x, y);
+                if h.length() <= 6 {
+                    for mode in array![
+                        DoubledHexMode::DoubledWidth, DoubledHexMode::DoubledHeight,
+                    ] {
+                        let doubled = h.to_doubled_coordinates(mode);
+                        assert!(HexConversionsTrait::from_doubled_coordinates(doubled, mode) == h);
+                    }
+                    let coord = h.to_hexmod_coordinates(6);
+                    assert!(HexConversionsTrait::from_hexmod_coordinates(coord, 6) == h);
+                }
+                y += 1;
+            }
+            x += 1;
+        }
+    }
+
+    // Benchmarks of M2-T3 (LIB-06), 100 repetitions per test, one call per repetition: per call =
+    // (test − baseline) / 100, at radius 6. Targets (`L`, `U = ceil(1.25 L)`, the brief's table;
+    // the doubled conversions are at most two operations and need none), written before the
+    // first measurement:
+    //
+    // | function | `L` | `U` |
+    // |---|---|---|
+    // | `to_hexmod_coordinates` | 11,400 | 14,250 |
+    // | `from_hexmod_coordinates` | 14,560 | 18,200 |
+
+    const REPS: u8 = 100;
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_hexmod_baseline() {
+        let (mut acc_i, mut acc_u): (i32, u32) = (0, 0);
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let h = HexTrait::new(-1 - n.into(), 2);
+            let coord: u32 = n.into();
+            acc_i += h.x;
+            acc_u += coord;
+        }
+        assert!(acc_i != 1 && acc_u != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_to_hexmod_coordinates() {
+        let (mut acc_i, mut acc_u): (i32, u32) = (0, 0);
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let h = HexTrait::new(-1 - n.into(), 2);
+            acc_i += h.x;
+            acc_u += h.to_hexmod_coordinates(6);
+        }
+        assert!(acc_i != 1 && acc_u != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 1000000000)]
+    fn bench_from_hexmod_coordinates() {
+        let (mut acc_i, mut acc_u): (i32, u32) = (0, 0);
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let coord: u32 = n.into();
+            acc_i += HexConversionsTrait::from_hexmod_coordinates(coord, 6).x;
+            acc_u += coord;
+        }
+        assert!(acc_i != 1 && acc_u != 1);
+    }
+}
