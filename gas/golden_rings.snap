@@ -1,0 +1,25 @@
+# gas: measured budget
+golden_rings_integrationtest::golden_rings::golden_rings_cached_custom_ring_edges: 66294120 69608826
+golden_rings_integrationtest::golden_rings::golden_rings_cached_custom_rings: 218850344 229792862
+golden_rings_integrationtest::golden_rings::golden_rings_cached_ring_edges: 31156920 32714766
+golden_rings_integrationtest::golden_rings::golden_rings_cached_rings: 17868952 18762400
+golden_rings_integrationtest::golden_rings::golden_rings_circular_range_squared_large: 232871662 244515246
+golden_rings_integrationtest::golden_rings::golden_rings_circular_range_squared_small: 97342006 102209107
+golden_rings_integrationtest::golden_rings::golden_rings_corner_wedge: 38844056 40786259
+golden_rings_integrationtest::golden_rings::golden_rings_corner_wedge_to: 145477772 152751661
+golden_rings_integrationtest::golden_rings::golden_rings_custom_full_wedge: 162106616 170211947
+golden_rings_integrationtest::golden_rings::golden_rings_custom_ring: 213804744 224494982
+golden_rings_integrationtest::golden_rings::golden_rings_custom_ring_edge: 59433080 62404734
+golden_rings_integrationtest::golden_rings::golden_rings_custom_ring_edges: 84118808 88324749
+golden_rings_integrationtest::golden_rings::golden_rings_custom_rings: 309457544 324930422
+golden_rings_integrationtest::golden_rings::golden_rings_custom_spiral_range: 331964744 348562982
+golden_rings_integrationtest::golden_rings::golden_rings_custom_wedge: 73787288 77476653
+golden_rings_integrationtest::golden_rings::golden_rings_custom_wedge_to: 276691360 290525928
+golden_rings_integrationtest::golden_rings::golden_rings_full_wedge: 79743608 83730789
+golden_rings_integrationtest::golden_rings::golden_rings_ring: 17329992 18196492
+golden_rings_integrationtest::golden_rings::golden_rings_ring_edge: 27983480 29382654
+golden_rings_integrationtest::golden_rings::golden_rings_ring_edges: 41315864 43381658
+golden_rings_integrationtest::golden_rings::golden_rings_rings: 25273192 26536852
+golden_rings_integrationtest::golden_rings::golden_rings_spiral_range: 27570072 28948576
+golden_rings_integrationtest::golden_rings::golden_rings_wedge: 36150104 37957610
+golden_rings_integrationtest::golden_rings::golden_rings_wedge_to: 138114910 145020656

@@ -743,7 +743,7 @@ mod tests {
 
     /// The ring of radius 1 starting from the default direction is the neighbours, in order.
     #[test]
-    #[available_gas(l2_gas: 4000000)]
+    #[available_gas(l2_gas: 104664)]
     fn test_ring_one_is_the_neighbours() {
         let center = HexTrait::new(3, -6);
         let ring = center.ring(1);
@@ -755,7 +755,7 @@ mod tests {
     /// The oracle of `ring`: the hexes at distance `r`, as a set (`6 r` distinct hexes, all at
     /// distance `r`).
     #[test]
-    #[available_gas(l2_gas: 72000000)]
+    #[available_gas(l2_gas: 41759193)]
     fn test_ring_oracle() {
         let center = HexTrait::new(3, -6);
         let mut r = 0;
@@ -773,7 +773,7 @@ mod tests {
     /// The ring of every start direction and sense is the same set, and its first hex is
     /// `center + start_dir * range`.
     #[test]
-    #[available_gas(l2_gas: 50000000)]
+    #[available_gas(l2_gas: 22422099)]
     fn test_custom_ring_is_the_same_set() {
         let center = HexTrait::new(-5, 4);
         let base = center.ring(3);
@@ -792,7 +792,7 @@ mod tests {
 
     /// The oracle of `spiral_range`: the rings `0..=r` as a set are `range(r)`.
     #[test]
-    #[available_gas(l2_gas: 50000000)]
+    #[available_gas(l2_gas: 48123002)]
     fn test_spiral_range_oracle() {
         let center = HexTrait::new(-5, 4);
         for r in array![0_u32, 1, 3, 6] {
@@ -808,7 +808,7 @@ mod tests {
     /// The oracle of the wedges: the hexes of `range(r)` whose `diagonal_way_to` from the centre
     /// contains the direction, and the centre.
     #[test]
-    #[available_gas(l2_gas: 120000000)]
+    #[available_gas(l2_gas: 104664126)]
     fn test_full_wedge_oracle() {
         let center = HexTrait::new(2, -3);
         for vertex in VertexDirectionTrait::iter() {
@@ -834,7 +834,7 @@ mod tests {
     /// The oracle of `circular_range_squared` for `s` in `0..=40`: the per-hex filter, in
     /// `range`'s order; and the empty span for a negative one.
     #[test]
-    #[available_gas(l2_gas: 400000000)]
+    #[available_gas(l2_gas: 124445643)]
     fn test_circular_range_squared_oracle() {
         let center = HexTrait::new(12, -7);
         let mut s = 0;
@@ -852,7 +852,7 @@ mod tests {
     /// A hex at hex distance `n` is at squared Euclidean distance at least `3 n² / 4`, checked
     /// on every ring `0..=51`: the radius bound of `circular_range_squared` stands on it.
     #[test]
-    #[available_gas(l2_gas: 400000000)]
+    #[available_gas(l2_gas: 99693038)]
     fn test_circular_range_squared_inradius() {
         let mut n = 0;
         while n <= 51 {
@@ -866,7 +866,7 @@ mod tests {
     /// The radius is the largest `n` with `3 n² <= 4 s`, for every `s` in `0..=1700`: no hex of
     /// a ring beyond it is at squared Euclidean distance `s` or less (with the inradius test).
     #[test]
-    #[available_gas(l2_gas: 40000000)]
+    #[available_gas(l2_gas: 16190171)]
     fn test_circular_range_squared_radius_bound() {
         let mut s: u32 = 0;
         while s <= 1700 {
@@ -878,7 +878,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 20000)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_custom_ring_range_leaves_i32() {
         let _ = HexTrait::new(0, 0).custom_ring(2147483648, Default::default(), false);
@@ -898,13 +898,15 @@ mod tests {
     //
     // Items the brief does not list, with the same rule (7,358 per element, one `u32` operation
     // 1,030 per call): `ring_edge`, `custom_ring_edge` at radius 6 (7 hexes) `L` = 51,506, `U` =
-    // 64,383; `corner_wedge` at radii `0..=6` (see the body: 19 hexes) `L` = 139,802, `U` =
-    // 174,753.
+    // 64,383; `corner_wedge` at radii `0..=6` (25 hexes, 14 edges) `L` = 183,950, `U` = 229,938.
+    // Measured per call (CI, `gas/hexx.snap`): `corner_wedge` 279,227, between `U` and `2U`: each
+    // of the 14 edges pays its own start point (`mul_scalar`, `try_into`, `into_hex`), about 6,800
+    // more than a hex of a loop.
 
     const REPS: u8 = 10;
 
     #[test]
-    #[available_gas(l2_gas: 200000)]
+    #[available_gas(l2_gas: 50946)]
     fn bench_hex_rings_baseline() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -917,7 +919,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 1876077)]
     fn bench_hex_ring() {
         let mut acc: u32 = 0;
         let mut n = REPS;
@@ -930,7 +932,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 1898127)]
     fn bench_hex_custom_ring() {
         let mut acc: u32 = 0;
         let mut n = REPS;
@@ -943,7 +945,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 458472)]
     fn bench_hex_ring_edge() {
         let mut acc: u32 = 0;
         let mut n = REPS;
@@ -956,7 +958,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 2068647)]
     fn bench_hex_full_wedge() {
         let mut acc: u32 = 0;
         let mut n = REPS;
@@ -969,7 +971,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 2982830)]
     fn bench_hex_corner_wedge() {
         let radii = OracleTrait::radii(6);
         let mut acc: u32 = 0;
@@ -983,7 +985,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 10867595)]
     fn bench_hex_spiral_range() {
         let radii = OracleTrait::radii(6);
         let mut acc: u32 = 0;
@@ -997,7 +999,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 7943397)]
     fn bench_hex_cached_rings() {
         let mut acc: u32 = 0;
         let mut n = REPS;
@@ -1010,7 +1012,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 100000000)]
+    #[available_gas(l2_gas: 12602562)]
     fn bench_hex_circular_range_squared() {
         let mut acc: u32 = 0;
         let mut n = REPS;
