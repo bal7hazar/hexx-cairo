@@ -1363,6 +1363,10 @@ CAIRO_STRUCT_HEAD_RE = re.compile(r"\bpub\s+struct\s+([A-Za-z_]\w*)")
 CAIRO_ENUM_HEAD_RE = re.compile(r"\bpub\s+enum\s+([A-Za-z_]\w*)")
 CAIRO_TRAIT_RE = re.compile(r"\bpub\s+trait\s+([A-Za-z_]\w*)[^\{]*\{")
 CAIRO_IMPL_OF_RE = re.compile(r"\bpub\s+impl\s+[A-Za-z_]\w*\s+of\s+([A-Za-z_]\w*)(?:<[^\{]*>)?\s*\{")
+# A generic parameter list of a Cairo `fn`, with one level of nested `<...>` and `(...)` tuples
+# inside it: `<F, +Drop<F>, impl Func: core::ops::Fn<F, (T,)>>` (`DirectionWayTrait::map`).
+CAIRO_FN_GENERICS = r"(?:<(?:[^<>()]|\([^()]*\)|<(?:[^<>()]|\([^()]*\))*>)*>)?"
+CAIRO_FN_RE = re.compile(r"\bfn\s+([A-Za-z_]\w*)\s*" + CAIRO_FN_GENERICS + r"\s*\(")
 CAIRO_FREE_FN_RE = re.compile(r"\bpub\s+fn\s+([A-Za-z_]\w*)")
 CAIRO_FREE_CONST_RE = re.compile(r"\bpub\s+const\s+([A-Za-z_]\w*)\s*:")
 # `#[generate_trait] pub impl XImpl of XTrait { fn f(...) ... }`: the Cairo compiler synthesizes
@@ -1378,8 +1382,8 @@ GENERATE_TRAIT_RE = re.compile(r"#\[\s*(generate_trait)\s*\]\Z")
 # generic argument (the type the impl is on), as `impl Not for HexOrientation` is. The unary ones
 # carry no argument in their inventory name, the binary ones the (homogeneous) right operand.
 CAIRO_IMPL_HEAD_RE = re.compile(
-    r"\bpub\s+impl\s+[A-Za-z_]\w*\s+of\s+([A-Za-z_]\w*)\s*(?:<([^\{]*)>)?\s*\{")
-CAIRO_UNARY_TRAITS = ("Default", "Not", "Neg")
+    r"\bpub\s+impl\s+[A-Za-z_]\w*(?:<[^{]*?>)?\s+of\s+([A-Za-z_]\w*)\s*(?:<([^\{]*)>)?\s*\{")
+CAIRO_UNARY_TRAITS = ("Debug", "Default", "Not", "Neg")
 CAIRO_BINARY_TRAITS = ("Add", "Sub", "Mul", "Div", "Rem", "AddAssign", "SubAssign", "MulAssign",
                        "DivAssign", "RemAssign")
 
@@ -1419,6 +1423,13 @@ def build_cairo_tree():
     bridged, glob_targets, _used_names = collect_use_statements(nodes, reachable)
     reject_scoped_aliases(nodes, reachable, bridged, glob_targets, cairo=True)
     return nodes, reachable, bridged, glob_targets
+
+
+def ops_type_name(owner: str, type_name: str) -> str:
+    """`EdgeDirectionOps` -> `EdgeDirection`: the operators of a type that Cairo writes as named
+    methods (`src/direction/impls.rs`) live in a trait named `<Type>OpsTrait` (D-143), and count
+    for `<Type>` (`cairo_owner_of`)."""
+    return owner if type_name == owner + "Ops" else type_name
 
 
 def scan_cairo_tree(
@@ -1495,9 +1506,10 @@ def scan_cairo_tree(
             owner = owner_of(path, type_name) if trait_name else None
             if owner is None:
                 continue
+            type_name = ops_type_name(owner, type_name)
             items.add(Item(owner, "trait", trait_name, source))
             body = text[opening + 1:end]
-            for fn in re.finditer(r"\bfn\s+([A-Za-z_]\w*)\s*(?:<[^;{()]*>)?\s*\(", body):
+            for fn in CAIRO_FN_RE.finditer(body):
                 items.add(Item(owner, "method",
                                 scoped(pfx(owner, type_name), type_name, fn.group(1)), source))
             for const in re.finditer(r"\bconst\s+([A-Za-z_]\w*)\s*:", body):
@@ -1518,13 +1530,14 @@ def scan_cairo_tree(
             owner = owner_of(path, type_name) if trait_name else None
             if owner is None:
                 continue
+            type_name = ops_type_name(owner, type_name)
             # `#[generate_trait] pub impl XImpl of XTrait { ... }`: the trait itself has no other
             # text anywhere, so the block that introduces it is also where its own "trait" item
             # comes from (fix loop 3 finding P2-14) — only once per trait (`items` is a set).
             if find_preceding_attr(text, match.start(), GENERATE_TRAIT_RE) is not None:
                 items.add(Item(owner, "trait", trait_name, source))
             body = text[opening + 1:end]
-            for fn in re.finditer(r"\bfn\s+([A-Za-z_]\w*)\s*(?:<[^;{()]*>)?\s*\(", body):
+            for fn in CAIRO_FN_RE.finditer(body):
                 items.add(Item(owner, "method",
                                 scoped(pfx(owner, type_name), type_name, fn.group(1)), source))
 
@@ -1538,6 +1551,16 @@ def scan_cairo_tree(
             first = re.match(r"[A-Za-z_]\w*", parts[0]) if parts else None
             name = first.group(0) if first else None
             owner = owner_of(path, name) if name and exported(name) else None
+            if trait == "Into" and len(parts) == 2:
+                # `Into<A, B>` is `From<A> for B`: when `A` is no owner, whatever it is (`T`,
+                # `[T; 2]`: the generic `impl<T> From<T> for DirectionWay<T>`; `Direction`: the
+                # board's `Into<Direction, EdgeDirection>`), the impl belongs to `B`.
+                target = re.match(r"[A-Za-z_]\w*", parts[1])
+                target = target.group(0) if target else None
+                if owner is None and target and exported(target):
+                    owner = owner_of(path, target)
+                    if owner is not None:
+                        parts = [re.sub(r"\s+", "", parts[0]), target]
             if owner is None:
                 continue
             where = node_location(node, match.start())
@@ -1576,18 +1599,24 @@ def scan_cairo_tree(
     return unique_items(items)
 
 
+def cairo_owner_of(path: tuple[str, ...], name: str) -> str | None:
+    """The mirror owner of a Cairo declaration named `name` (a type, or a trait minus `Trait`) in
+    the module `path`: the module's owner, else `name` itself when it is an owner, else `T` for
+    `TOps` (the named operators of `T`, `ops_type_name`)."""
+    if path in CAIRO_MODULE_OWNER:
+        return CAIRO_MODULE_OWNER[path]
+    if name.endswith("Ops") and name.removesuffix("Ops") in OWNERS:
+        return name.removesuffix("Ops")
+    return name if name in OWNERS else None
+
+
 def parse_cairo() -> list[Item]:
     tree = build_cairo_tree()
     if tree is None:
         return []
     nodes, reachable, bridged, glob_targets = tree
 
-    def owner_of(path: tuple[str, ...], name: str) -> str | None:
-        if path in CAIRO_MODULE_OWNER:
-            return CAIRO_MODULE_OWNER[path]
-        return name if name in OWNERS else None
-
-    return scan_cairo_tree(nodes, reachable, bridged, glob_targets, owner_of,
+    return scan_cairo_tree(nodes, reachable, bridged, glob_targets, cairo_owner_of,
                            bare_owners=frozenset(CAIRO_MODULE_OWNER.values()))
 
 

@@ -10,6 +10,19 @@ move. Versions before `0.1.0` are pre-releases (`0.1.0-rc.N`); nothing is publis
 
 ## [Unreleased]
 
+### Deviations
+
+- `DirectionWay::map` takes a closure (`Fn`, the bound of corelib's `Option::map`: a `Tie` calls it
+  twice). **A closure in a library function puts a closure type into every consumer class that
+  calls `DirectionWay::map`: the class hash of such a class depends on the build path until the
+  upstream compiler issue 10359 (cairo#10359) ships in a Scarb.** A class that does not call `map`
+  is unaffected, and so are its code and its gas. Class hashes are taken from CI only (programme
+  build-root rule).
+- `-direction` (`Neg`) needs `EdgeDirectionNeg` / `VertexDirectionNeg` imported from
+  `hexx::direction::impls`; `const_neg` needs nothing. `map` spells its bound
+  `impl Func: Fn<F, (T,)>` with `Func::Output`: the constraint form `Fn<F, (T,)>[Output: U]` needs an
+  experimental feature in the consumer's manifest.
+
 ## [0.1.0-rc.2] — 2026-10-03
 
 The second release candidate of `hexx`, the first built on Scarb 2.20.1. It adds needs N-1, N-2
