@@ -1,0 +1,11 @@
+# The rest of `HexTrait` (milestone L-M2, brief LIB-06 M2-T2): the 16-point subset (every fourth
+# seeded point), the 64 seeded points for the unary items, and the i32 values near the bounds
+# (tools/refgen/src/hex.rs, `emit_t2`). Its own package: `golden_hex` is at its line budget.
+module = "hex_t2"
+package = "golden_hex_t2"
+
+seed = "hex::points"
+points = 64
+domain_min = -40
+domain_max = 40
+panic_cap = 4     # #[should_panic] tests per function near the bounds

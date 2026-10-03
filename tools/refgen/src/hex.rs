@@ -1327,8 +1327,8 @@ pub fn emit(spec: &Spec) -> Result<String, String> {
 
     let mut e = Emitter::new(
         spec,
-        "`Hex` (src/hex/mod.rs:69), `new` :208, `x` :256, `y` :264, `z` :274,\n// `const_sub` :449, `length` :568, `ulength` :594, `distance_to` :615, `unsigned_distance_to` :625;\n// and the items of M2-T0: the constants :95-186, `hex` :89, `splat` :225, `new_cubic` :247,\n// `from_array` :290, `to_array` :307, `to_cubic_array` :333, `const_neg` :421, `const_add` :435,\n// `abs` :498, `min` :511, `max` :525, `dot` :535, `signum` :546, `neighbor_coord` :633,\n// `add_dir` :645, `neighbor` :665, `all_neighbors` :760, `range_count` :1160, `ring_count`\n// (rings.rs:540), `wedge_count` (rings.rs:285), `Mul<i32>` (impls.rs:174);\n// and the items of M2-T2: `diagonal_neighbor_coord` :641, `add_diag_dir` :649, `diagonal_neighbor`\n// :682, `neighbor_direction` :700, `main_diagonal_to` :709, `diagonal_way_to` :715,\n// `main_direction_to` :734, `way_to` :740, `all_diagonals` :767, the rotations :784-860, the\n// reflections :868-884, `rectiline_to` :936, `range` :993, `xrange` :1021, `to_lower_res`\n// :1064, `to_higher_res` :1114, `to_local` :1143, `wrap_in_range` :1183, `Debug` :1189",
-        &format!("use hexx::direction::edge_direction::{{EdgeDirection, EdgeDirectionTrait}};\nuse hexx::direction::vertex_direction::{{VertexDirection, VertexDirectionTrait}};\nuse hexx::direction::way::DirectionWay;\nuse hexx::hex::{{Hex, HexTrait, hex}};\n{T2_USES}"),
+        "`Hex` (src/hex/mod.rs:69), `new` :208, `x` :256, `y` :264, `z` :274,\n// `const_sub` :449, `length` :568, `ulength` :594, `distance_to` :615, `unsigned_distance_to` :625;\n// and the items of M2-T0: the constants :95-186, `hex` :89, `splat` :225, `new_cubic` :247,\n// `from_array` :290, `to_array` :307, `to_cubic_array` :333, `const_neg` :421, `const_add` :435,\n// `abs` :498, `min` :511, `max` :525, `dot` :535, `signum` :546, `neighbor_coord` :633,\n// `add_dir` :645, `neighbor` :665, `all_neighbors` :760, `range_count` :1160, `ring_count`\n// (rings.rs:540), `wedge_count` (rings.rs:285), `Mul<i32>` (impls.rs:174)",
+        "use hexx::direction::edge_direction::EdgeDirectionTrait;\nuse hexx::hex::{Hex, HexTrait, hex};\n",
     );
 
     // Constants.
@@ -1453,6 +1453,30 @@ pub fn emit(spec: &Spec) -> Result<String, String> {
         }
     }
     emit_l_m2(&mut e, &points, spec.int("ops_chunks")? as usize, panic_cap)?;
+    e.finish()
+}
+
+/// The generated file of M2-T2 (`golden_hex_t2`, its own package: the target of `golden_hex` is at
+/// its line budget, `AGENTS.md` *Golden tests*): the same seeded points as `emit`.
+pub fn emit_t2_module(spec: &Spec) -> Result<String, String> {
+    let points = seeded_points(
+        &spec.text("seed")?,
+        spec.int("points")? as usize,
+        spec.int("domain_min")? as i32,
+        spec.int("domain_max")? as i32,
+    );
+    let panic_cap = spec.int("panic_cap")? as usize;
+    let mut e = Emitter::new(
+        spec,
+        "the items of M2-T2 of `Hex` (src/hex/mod.rs): `diagonal_neighbor_coord`\n// :641, `add_diag_dir` :649, `diagonal_neighbor` :682, `neighbor_direction` :700,\n// `main_diagonal_to` :709, `diagonal_way_to` :715, `main_direction_to` :734, `way_to` :740,\n// `all_diagonals` :767, the rotations :784-860, the reflections :868-884, `rectiline_to` :936,\n// `range` :993, `xrange` :1021, `to_lower_res` :1064, `to_higher_res` :1114, `to_local` :1143,\n// `wrap_in_range` :1183, `Debug` :1189",
+        &format!(
+            "use hexx::direction::edge_direction::{{EdgeDirection, EdgeDirectionTrait}};
+use hexx::direction::vertex_direction::{{VertexDirection, VertexDirectionTrait}};
+use hexx::direction::way::DirectionWay;
+use hexx::hex::{{Hex, HexTrait}};
+{T2_USES}"
+        ),
+    );
     emit_t2(&mut e, &points, panic_cap)?;
     e.finish()
 }

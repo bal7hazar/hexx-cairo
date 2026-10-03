@@ -1,9 +1,9 @@
 //! `line`: the integer line of plan §6.6 (N-5), `Hex::line_to` of the mirror and `LineTrait` of the
 //! board. Three outputs, all checked by `-- check`:
 //!
-//! - `crates/hexx/tests/golden_line.cairo`: golden vectors. The mirror's `line_to` against the rule
-//!   (`rule`, below) on every ordered pair of the 15 × 16 window and of a 7 × 7 board in the mirror
-//!   frame, against `hexx` 0.25.0 itself on a seeded sample of non-tie pairs of `[-40, 40]²`, and
+//! - `crates/<package>/tests/golden_line.cairo` (the spec's `package`): golden vectors. The
+//!   mirror's `line_to` against the rule (`rule`, below) on every ordered pair of the 15 × 16
+//!   window and of a 7 × 7 board in the mirror frame, against `hexx` 0.25.0 itself on a seeded sample of non-tie pairs of `[-40, 40]²`, and
 //!   against the rule on the adversarial large-coordinate pairs; the board's `line`, `approach`
 //!   and `line_of_sight` against the board model on every ordered pair of the boards of the spec.
 //!   Each vector is a digest (`Digest`) of the whole line, so that every element is compared
@@ -902,7 +902,7 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
 
     let doc = deviations(&differences, &counts);
     Ok(vec![
-        (root.join("crates/hexx/tests/golden_line.cairo"), golden),
+        (crate::target(root, spec), golden),
         (source, source_text),
         (root.join("docs/deviations/line_ties.md"), doc),
     ])

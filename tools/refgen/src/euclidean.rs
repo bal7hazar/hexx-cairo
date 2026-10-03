@@ -100,6 +100,6 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
         .flat_map(|&a| bound_points_2.iter().map(move |&b| (a, b)))
         .collect();
     fun_tables(&mut e, "euclidean", "bounds", &bound_pairs, &DISTANCE, Some(panic_cap))?;
-    let golden = root.join("crates").join("hexx").join("tests").join("golden_euclidean.cairo");
+    let golden = crate::target(root, spec);
     Ok(vec![(golden, e.finish()?)])
 }

@@ -19,23 +19,17 @@ crate), not the richer format the house tool uses; a future module whose mirror 
 `f32` -> exact-rational treatment `hexx`'s own `div_scalar`/`to_lower_res` deviations describe
 (plan §4.4) can grow this format then, not before.
 
-## Why the golden file is not under `crates/hexx/tests/` yet
+## Where the golden files go
 
-`Hex::distance_to` is not ported: M1-T2 (LIB-05) is the task that adds `Hex`, `HexTrait` and
-`distance_to` to `crates/hexx/src`. Until then, a golden file that calls them must not be part of
-`scarb build` / `snforge test`.
-
-It cannot simply be dropped into `crates/hexx/tests/` and left undeclared: **Scarb bundles every
-`.cairo` file directly under a package's `tests/` directory into one `<package>_integrationtest`
-target even with no `tests/lib.cairo` present** — confirmed empirically while building this task
-(`scarb build -p hexx` failed with `E0006`/`E0002` the moment a `tests/golden_hex.cairo` calling
-the not-yet-existing `hexx::hex::Hex` existed, with no `tests/lib.cairo` and no `[[test]]` target
-declaring it). There is no "declared but not compiled" state for a loose file in that directory.
-
-`refgen` therefore writes to `tools/refgen/generated/golden_<module>.cairo`, outside every
-package's source tree, where nothing discovers or compiles it. M1-T2 moves the file into
-`crates/hexx/tests/` (creating `tests/lib.cairo` at that point, as the house convention does) once
-the mirror item it tests exists.
+A spec's `package` names the package whose `tests/` directory receives `golden_<module>.cairo`
+(`target` in `main.rs`): never `hexx` itself, but one of the unpublished golden packages
+`crates/golden_*`, which depend on `hexx` by path (LIB-04h). **Scarb bundles every `.cairo` file
+directly under a package's `tests/` directory into one `<package>_integrationtest` target**, and
+the memory of that compile grows with its line count (measured on the VPS, single-threaded:
+13,765 lines took 6.0 GB, 5,119 lines 2.0 GB): a package per group of golden files keeps every
+compile apart. The line budget of a package and where a new golden file goes are in `AGENTS.md`
+("Golden tests"). The `hexagon` spec keeps `package = "hexx"`: it writes tables into
+`crates/hexx/src/board/`, not a golden file.
 
 ## How CI checks golden files are current without a Rust toolchain in the main job
 
@@ -53,4 +47,4 @@ its cache key (`tools/refgen/Cargo.lock`) keeps it fast. This is the same split 
 2. Register a generator for it in `main.rs`'s `match spec.module.as_str()` (`emit_hex_module` is
    the one example so far).
 3. `cargo run --manifest-path tools/refgen/Cargo.toml -- gen <module>`, commit the result under
-   `tools/refgen/generated/` (or `crates/<package>/tests/` once the mirror item it calls exists).
+   `crates/<package>/tests/` (a golden package, `AGENTS.md`, "Golden tests").

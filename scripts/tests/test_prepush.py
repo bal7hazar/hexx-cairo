@@ -59,6 +59,15 @@ class PrepushSelectionTest(unittest.TestCase):
     def test_refgen_selects_the_golden_vectors(self):
         self.assertEqual(select("tools/refgen/specs/hex.toml"), ["check golden-vectors"])
 
+    def test_golden_file_selects_the_golden_vectors_and_builds_its_package(self):
+        self.assertEqual(select("crates/golden_hex/tests/golden_hex.cairo"),
+                         ["build golden_hex", "check golden-vectors"])
+        self.assertNotIn("check golden-vectors", select("crates/hexx/tests/readme.cairo"))
+
+    def test_hexx_source_does_not_build_the_golden_packages(self):
+        steps = select("crates/hexx/src/hex.cairo")
+        self.assertFalse([s for s in steps if s.startswith("build golden_")], steps)
+
     def test_board_line_source_selects_the_golden_vectors(self):
         steps = select("crates/hexx/src/board/line.cairo")
         self.assertIn("check golden-vectors", steps)

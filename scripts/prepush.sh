@@ -49,7 +49,7 @@ CHECKS=(
   "extensions::python3 scripts/api_parity.py --extensions --check::^(docs/EXTENSIONS\.md|scripts/api_parity\.py|crates/hexx/src/.*\.cairo)$"
   "deviations::python3 scripts/deviations.py --check::^(docs/DEVIATIONS\.md|scripts/deviations\.py|crates/hexx/src/.*\.cairo)$"
   "takeover::python3 scripts/takeover_check.py --skip-if-missing::^(scripts/takeover_check\.py|\.tool-versions|crates/hexx/(src/|tests/|GAS-origami-1\.8\.0\.md$|\.scarbignore$).*)$"
-  "golden-vectors::golden::^(tools/refgen/.*|crates/hexx/tests/golden_.*\.cairo|crates/hexx/src/board/(line|tables|hexagon)\.cairo|docs/deviations/line_ties\.md)$"
+  "golden-vectors::golden::^(tools/refgen/.*|crates/golden_[^/]+/tests/golden_[^/]*\.cairo|crates/hexx/src/board/(line|tables|hexagon)\.cairo|docs/deviations/line_ties\.md)$"
 )
 # A change here builds the whole workspace.
 WORKSPACE_TRIGGER='^(Scarb\.toml|Scarb\.lock|\.tool-versions)$'
@@ -70,6 +70,9 @@ select_steps() {
     for pkg in $pkgs; do
       for manifest in crates/*/Scarb.toml; do
         dependent=$(basename "$(dirname "$manifest")")
+        # A golden package (LIB-04h) has an empty library and only tests: building it proves
+        # nothing about the change, and prepush never builds tests.
+        case "$dependent" in golden_*) continue ;; esac
         if grep -Eq "^$pkg *= *\{ *path *= *\"\.\./$pkg\"" "$manifest"; then
           all=$(printf '%s\n%s\n' "$all" "$dependent")
         fi
