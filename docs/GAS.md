@@ -2470,6 +2470,7 @@ the project manager before the merge; under that, the orchestrator decides.
 | `SeamTrait::side` | 3,840 | [3,032, 3,790] | M1-T7 | The sketch leaves out the `NonZero` conversion, two products and the `match` on `Side`; not on the tick |
 | `HexagonTrait::hexagon`, loop path, 16 rows | 128,670 | [72,064, 90,080] | M1-T5 | About 5,840 per row against the sketch's 4,504; the tick reads the sight on the table path (16,430) |
 | `HexagonTrait::hexagon`, loop path, 83 rows | 519,840 | [373,832, 467,290] | M1-T5 | idem; the domain-wide worst case (3 × 83, radius 255) |
+| `Div<Hex>`, `Rem<Hex>` (`hexx::hex::impls`) | 8,563 | [3,230, 4,038] (brief LIB-06 M2-T3) | M2-T3 | The range assumed about 1,100 per signed `i32` division; the corelib's `i32` `/` and `%` measure about 4,300 each (sign handling around the unsigned division), two per call. The stop (2U = 8,076) was crossed and accepted by the orchestrator (review of #107); the mirror is not on the tick's path |
 
 ### Figures on Scarb 2.20.1 and starknet-foundry 0.64.0 (LIB-04f, #86)
 
@@ -2491,4 +2492,3 @@ costs of the code are unchanged.
 
 The two shares rose by 100 (under 0.01 %): the baseline fell by 7,830 and each tick by 7,730. That
 is not "equal or lower"; it is far below the 10 % rule above and is recorded here as measured.
-| `Div<Hex>`, `Rem<Hex>` (`hexx::hex::impls`) | 8,563 | [3,230, 4,038] (brief LIB-06 M2-T3) | M2-T3 | The range assumed about 1,100 per signed `i32` division; the corelib's `i32` `/` and `%` measure about 4,300 each (sign handling around the unsigned division), two per call. The stop (2U = 8,076) was crossed and accepted by the orchestrator (review of #107); the mirror is not on the tick's path |
