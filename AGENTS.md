@@ -75,14 +75,15 @@ measures gas publishes the artefact `gas-pins-<head sha>` (job `Gas completeness
 even when the gas check failed: the regenerated `gas/*.snap` of every package measured completely,
 `gas/bytecode.size`, `budgets.json` (each test whose `#[available_gas(l2_gas: N)]` is missing or
 outside the rule, with `ceil(1.05 × measured)`) and `manifest.json` (head, merge commit and base
-measured; packages not assembled; tests that ran with no measurement). Push the change with no
+measured; packages not assembled; tests that failed or ran with no measurement). Push the change with no
 budget on a new test (or a generous one: a budget too low fails the test before it is measured),
 then `gh run download <run-id> -n gas-pins-<head sha> -D <scratch dir>`, `python3 scripts/bench.py
 apply-pins <scratch dir>` (writes `gas/` and the budgets; prints those of the generated
 `crates/golden_*` files for the spec of `tools/refgen`, and exits 1 on anything left to do),
 `python3 scripts/gas_tables.py`, `scarb fmt --workspace`, commit and push: CI then confirms. The
-figures are of the merge of the head into the base named in the manifest: if `main` moved since,
-the confirming run says whether they still hold.
+figures are of the merge of the head into the base named in the manifest: `apply-pins` refuses
+pins of another head than `HEAD`, and prints a `WARNING` line when that base is not `origin/main`;
+read it, and on a stale base re-run CI on the head before applying.
 
 ## Before you push
 

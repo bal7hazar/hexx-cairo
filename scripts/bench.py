@@ -67,7 +67,11 @@ usage:
                                             budgets to change) and manifest.json
   scripts/bench.py apply-pins DIR          writes the artefact `gas-pins-<head sha>` (downloaded
                                             into DIR) into the tree: gas/ and the budgets of the
-                                            sources (not of the generated golden files: printed)
+                                            sources (not of the generated golden files: printed);
+                                            refuses pins of another head than HEAD, warns when
+                                            their base is not origin/main, exits 1 on anything
+                                            left to do (a package not assembled, a test failed or
+                                            unmeasured, a golden budget)
   scripts/bench.py repeat --package P [--filter F] [--partition I/T]
                                             run the tests matching F (default `digger`) twice, in
                                             the same job; fail if the compiled files differ from
@@ -112,7 +116,8 @@ GAS = ROOT / "gas"
 ARTIFACTS = ROOT / "target" / "gas-artifacts"
 PASS_RE = re.compile(r"^\[(PASS|FAIL)\] (\S+)")
 GAS_LINE_RE = re.compile(r"^\s*sierra gas:\s*(\d+)")
-AVAILABLE_GAS_RE = re.compile(r"available_gas\(\s*l2_gas\s*:\s*(\d+)\s*\)")
+# A trailing comma is allowed: an attribute spread over several lines may end its argument with one.
+AVAILABLE_GAS_RE = re.compile(r"available_gas\(\s*l2_gas\s*:\s*(\d+)\s*,?\s*\)")
 # An attribute may be followed by a line comment (`#[ignore] // why`), and comment lines may sit
 # between the attributes and `fn` (M1-T1a fix loop 1, finding 2).
 FN_RE = re.compile(r"((?:#\[[^\]]*\](?:\s|//[^\n]*)*)+)fn\s+([A-Za-z_]\w*)\s*\(")
@@ -883,38 +888,47 @@ def shares_problems(reports: list[dict]) -> list[str]:
     return bad
 
 
-def assemble_pins(reports: list[dict]) -> tuple[dict[str, dict[str, dict]], dict[str, int],
-                                                dict[str, list[str]], list[str]]:
-    """(rows, budgets, incomplete, unmeasured). rows: package -> {test: {"measured", "declared"}}
-    for each package measured completely, `declared` being the budget after `apply-pins`; budgets:
-    test -> new budget, for the tests whose budget changes; incomplete: package -> why its
-    snapshot is not assembled; unmeasured: the tests that ran with no measurement (no row)."""
-    by_package: dict[str, list[dict]] = {}
+def assemble_pins(reports: list[dict], expected: Iterable[str] = ()) -> dict:
+    """The pins of a run, as a dict: `rows` (package -> {test: {"measured", "declared"}} for each
+    package measured completely, `declared` being the budget after `apply-pins`), `budgets` (test
+    -> new budget, for the tests whose budget changes), `incomplete` (package -> why its snapshot
+    is not assembled; a package of `expected` with no report at all is one: "no report"),
+    `empty` (the packages measured completely with no test: their snapshot is removed, as
+    `write_snapshots` does), `unmeasured` (the tests that ran with no measurement: no row) and
+    `failed` (the tests measured but failed: their row is the figure of a failing run)."""
+    by_package: dict[str, list[dict]] = {package: [] for package in expected}
     for report in reports:
         by_package.setdefault(report["package"], []).append(report)
-    rows: dict[str, dict[str, dict]] = {}
-    budgets: dict[str, int] = {}
-    incomplete: dict[str, list[str]] = {}
-    unmeasured: list[str] = []
+    result: dict = {"rows": {}, "budgets": {}, "incomplete": {}, "empty": [], "unmeasured": [],
+                    "failed": []}
     for package, found in sorted(by_package.items()):
+        if not found:
+            result["incomplete"][package] = ["no report"]
+            continue
         problems = shares_problems(found)
         merged: dict[str, dict] = {}
         for report in found:
-            unmeasured.extend(report.get("unmeasured", []))
+            result["unmeasured"].extend(report.get("unmeasured", []))
             for name, row in report["rows"].items():
                 if name in merged and merged[name] != row:
                     problems.append(f"{name}: measured twice, differently")
                 merged[name] = row
+        result["failed"].extend(n for n, row in merged.items() if row.get("passed") is False)
         if problems:
-            incomplete[package] = problems
+            result["incomplete"][package] = problems
             continue
-        rows[package] = {}
+        if not merged:
+            result["empty"].append(package)
+            continue
+        rows = result["rows"][package] = {}
         for name, row in sorted(merged.items()):
             budget = budget_for(row["measured"], row["declared"])
             if budget != row["declared"]:
-                budgets[name] = budget
-            rows[package][name] = {"measured": row["measured"], "declared": budget}
-    return rows, budgets, incomplete, sorted(set(unmeasured))
+                result["budgets"][name] = budget
+            rows[name] = {"measured": row["measured"], "declared": budget}
+    result["unmeasured"] = sorted(set(result["unmeasured"]))
+    result["failed"] = sorted(set(result["failed"]))
+    return result
 
 
 def snapshot_text(rows: dict[str, dict]) -> str:
@@ -923,31 +937,39 @@ def snapshot_text(rows: dict[str, dict]) -> str:
         f"{name}: {rows[name]['measured']} {rows[name]['declared']}" for name in sorted(rows)]) + "\n"
 
 
-def pins(directory: Path, out: Path, commits: dict[str, str]) -> int:
+def pins(directory: Path, out: Path, commits: dict[str, str],
+         expected: Iterable[str] | None = None) -> int:
     """`pins` of the command line: the artefact a thread downloads. `out/gas/<package>.snap` for
     each package measured completely, `out/gas/bytecode.size` when the consumer job measured it,
-    `out/budgets.json` and `out/manifest.json`. Exits 0 whatever was missing (the manifest says
-    it): the gas jobs are the gate, this only publishes their figures."""
-    rows, budgets, incomplete, unmeasured = assemble_pins(read_pins_reports(directory))
+    `out/budgets.json` and `out/manifest.json`. `expected`: the packages the run should have
+    measured (default: those of the workspace, each a job of the gas matrix). Exits 0 whatever was
+    missing (the manifest says it): the gas jobs are the gate, this only publishes their figures."""
+    result = assemble_pins(read_pins_reports(directory),
+                           workspace_packages() if expected is None else expected)
+    rows = result["rows"]
     (out / "gas").mkdir(parents=True, exist_ok=True)
     for package, package_rows in rows.items():
         (out / "gas" / f"{package}.snap").write_text(snapshot_text(package_rows))
     sizes = sorted(directory.rglob("bytecode.size"))
     if sizes:
         shutil.copyfile(sizes[0], out / "gas" / "bytecode.size")
-    (out / BUDGETS).write_text(json.dumps(budgets, indent=1, sort_keys=True) + "\n")
+    (out / BUDGETS).write_text(json.dumps(result["budgets"], indent=1, sort_keys=True) + "\n")
     (out / MANIFEST).write_text(json.dumps({
         **commits, "snapshots": sorted(rows), "bytecode_size": bool(sizes),
-        "incomplete": incomplete, "unmeasured": unmeasured, "budgets_changed": len(budgets),
+        "incomplete": result["incomplete"], "empty": result["empty"],
+        "unmeasured": result["unmeasured"], "failed": result["failed"],
+        "budgets_changed": len(result["budgets"]),
     }, indent=1, sort_keys=True) + "\n")
     print(f"pins: {len(rows)} snapshot(s) ({', '.join(sorted(rows)) or 'none'}), "
-          f"{len(budgets)} budget(s) to change, bytecode.size {'yes' if sizes else 'no'}",
-          file=sys.stderr)
-    for package, problems in incomplete.items():
+          f"{len(result['budgets'])} budget(s) to change, bytecode.size "
+          f"{'yes' if sizes else 'no'}", file=sys.stderr)
+    for package, problems in result["incomplete"].items():
         print(f"  {package} not assembled: {'; '.join(problems)}", file=sys.stderr)
-    for name in unmeasured:
+    for name in result["unmeasured"]:
         print(f"  {name}: ran with no measurement (no row; a budget too low fails the test "
               f"before snforge prints its gas)", file=sys.stderr)
+    for name in result["failed"]:
+        print(f"  {name}: failed", file=sys.stderr)
     return 0
 
 
@@ -985,6 +1007,17 @@ def apply_budgets(budgets: dict[str, int], sites: dict[str, tuple[Path, int, int
 GENERATED_PREFIX = "golden_"
 
 
+def git_rev(ref: str) -> str | None:
+    p = subprocess.run(["git", "rev-parse", "--verify", "--quiet", f"{ref}^{{commit}}"],
+                       cwd=ROOT, capture_output=True, text=True)
+    return p.stdout.strip() or None
+
+
+def git_is_ancestor(ancestor: str, descendant: str) -> bool:
+    return subprocess.run(["git", "merge-base", "--is-ancestor", ancestor, descendant],
+                          cwd=ROOT, capture_output=True).returncode == 0
+
+
 def apply_pins(directory: Path) -> int:
     """`apply-pins` of the command line: the downloaded artefact into the tree. Copies its
     snapshots and bytecode.size into gas/ and writes its budgets into the sources, except into the
@@ -992,9 +1025,27 @@ def apply_pins(directory: Path) -> int:
     tools/refgen (`gas.<test name>`)."""
     manifest = json.loads((directory / MANIFEST).read_text())
     budgets = json.loads((directory / BUDGETS).read_text())
+    head = git_rev("HEAD")
+    if manifest.get("head") != head:
+        print(f"apply-pins: these pins are of head {manifest.get('head')}, the checkout is at "
+              f"{head}: nothing applied. Download the gas-pins artefact of the run of this head.",
+              file=sys.stderr)
+        return 1
+    main_rev = git_rev("origin/main")
+    if manifest.get("base") and manifest["base"] != main_rev:
+        print(f"apply-pins: WARNING: the run measured the merge into base {manifest['base']}, "
+              f"origin/main is now {main_rev}"
+              + ("" if git_is_ancestor(manifest["base"], main_rev or "") else
+                 " (and the base is not one of its ancestors)")
+              + ": main moved since the run; re-run CI on this head before applying, or let the "
+              "confirming run decide.", file=sys.stderr)
     for path in sorted((directory / "gas").glob("*")):
         shutil.copyfile(path, GAS / path.name)
         print(f"wrote gas/{path.name}", file=sys.stderr)
+    for package in manifest.get("empty", []):
+        if (GAS / f"{package}.snap").exists():
+            (GAS / f"{package}.snap").unlink()
+            print(f"removed gas/{package}.snap (no test measured)", file=sys.stderr)
     status = 0
     packages = workspace_packages()
     by_package: dict[str, dict[str, int]] = {}
@@ -1027,6 +1078,10 @@ def apply_pins(directory: Path) -> int:
     for name in manifest.get("unmeasured", []):
         print(f"{name}: ran with no measurement; raise or remove its budget and run CI again",
               file=sys.stderr)
+        status = 1
+    for name in manifest.get("failed", []):
+        print(f"{name}: failed in the run; its row is the figure of a failing test: fix it and "
+              f"run CI again", file=sys.stderr)
         status = 1
     print(f"pins of head {manifest.get('head')} (merge {manifest.get('merge')} of base "
           f"{manifest.get('base')}) applied; now `python3 scripts/gas_tables.py`", file=sys.stderr)
@@ -1061,6 +1116,9 @@ def main() -> int:
         ap.add_argument(f"--{commit}", default=None,
                         help=f"pins only: the {commit} commit of the run, kept in the manifest")
     args = ap.parse_args()
+
+    if args.directory is not None and args.cmd != "apply-pins":
+        sys.exit(f"{args.cmd} takes no directory argument (only apply-pins does)")
 
     if args.cmd == "pins":
         if args.reports is None or args.out is None:
