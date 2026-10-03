@@ -9,6 +9,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "golden_bounds"
+version = "0.1.0-rc.2"
+dependencies = [
+ "hexx",
+ "snforge_std",
+]
+
+[[package]]
+name = "golden_grid"
+version = "0.1.0-rc.2"
+dependencies = [
+ "hexx",
+ "snforge_std",
+]
+
+[[package]]
 name = "golden_hex"
 version = "0.1.0-rc.2"
 dependencies = [
@@ -42,6 +58,14 @@ dependencies = [
 
 [[package]]
 name = "golden_lm2"
+version = "0.1.0-rc.2"
+dependencies = [
+ "hexx",
+ "snforge_std",
+]
+
+[[package]]
+name = "golden_rings"
 version = "0.1.0-rc.2"
 dependencies = [
  "hexx",

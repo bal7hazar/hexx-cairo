@@ -1,0 +1,16 @@
+# `HexSpanExt` (milestone L-M2, brief LIB-06 M2-T5): `average`, `center`, `bounds` on the empty
+# span, one point, the seeded points, 16 seeded spans of 1..=32 points and the triangles
+# (tools/refgen/src/iter.rs). Same package as `bounds`.
+module = "iter"
+package = "golden_bounds"
+
+seed = "bounds::points"
+domain_min = -40
+domain_max = 40
+points = 64
+spans = 16
+span_domain = 20
+span_max = 32
+
+# budgets: ceil(1.05 * measured)
+gas.golden_iter_spans = 20853084

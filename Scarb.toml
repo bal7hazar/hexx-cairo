@@ -5,11 +5,14 @@ members = [
     "crates/consumer",
     # The golden vectors of tools/refgen, one test target per package, each held to the line
     # budget of AGENTS.md ("Golden tests") so that no test build needs more than ~8 GB (LIB-04h).
+    "crates/golden_bounds",
     "crates/golden_hex",
+    "crates/golden_grid",
     "crates/golden_hex_t2",
     "crates/golden_impls",
     "crates/golden_lm1",
     "crates/golden_lm2",
+    "crates/golden_rings",
     "crates/golden_shapes",
 ]
 

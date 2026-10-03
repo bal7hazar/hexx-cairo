@@ -1,0 +1,70 @@
+# `HexBounds` (milestone L-M2, brief LIB-06 M2-T5): every item at the radii 0..=6 around 8 centres
+# (the origin and seeded ones), `from_min_max` on every ordered pair of 16 seeded points,
+# `intersecting_with` on every ordered pair of 8 bounds, `from_span` on the spans of `iter`
+# (tools/refgen/src/bounds.rs). Its own package: `golden_lm2` is at its line budget.
+module = "bounds"
+package = "golden_bounds"
+
+seed = "bounds::points"
+centers = 8        # the origin and 7 seeded
+center_min = -40
+center_max = 40
+radius_max = 6
+domain_min = -40
+domain_max = 40
+wrap_points = 64   # per bounds
+near = 8           # is_in_bounds probes: seeded offsets of [-near, near]^2 from each centre
+near_points = 64
+min_max_points = 16
+inter_radii = "3,3,6,0,5,5,2,6"
+inter_domain = 6
+# the spans of `from_span` (the same keys, the same values, as specs/iter.toml)
+points = 64
+spans = 16
+span_domain = 20
+span_max = 32
+
+# budgets: ceil(1.05 * measured)
+gas.golden_bounds_all_coords_r0 = 181986
+gas.golden_bounds_all_coords_r1 = 948171
+gas.golden_bounds_all_coords_r2 = 3084438
+gas.golden_bounds_all_coords_r3 = 8041215
+gas.golden_bounds_all_coords_r4 = 17995782
+gas.golden_bounds_all_coords_r5 = 35851179
+gas.golden_bounds_all_coords_r6 = 65068626
+gas.golden_bounds_constructors = 2198459
+gas.golden_bounds_corners_r0 = 467376
+gas.golden_bounds_corners_r1 = 734118
+gas.golden_bounds_corners_r2 = 734118
+gas.golden_bounds_corners_r3 = 734118
+gas.golden_bounds_corners_r4 = 734118
+gas.golden_bounds_corners_r5 = 734118
+gas.golden_bounds_corners_r6 = 734118
+gas.golden_bounds_from_min_max = 112399896
+gas.golden_bounds_from_span = 12796088
+gas.golden_bounds_hex_count = 151851
+gas.golden_bounds_hex_count_overflow = 7991
+gas.golden_bounds_intersecting_with = 75864485
+gas.golden_bounds_is_in_bounds_r0 = 12583589
+gas.golden_bounds_is_in_bounds_r1 = 12748796
+gas.golden_bounds_is_in_bounds_r2 = 12747200
+gas.golden_bounds_is_in_bounds_r3 = 12742412
+gas.golden_bounds_is_in_bounds_r4 = 12728048
+gas.golden_bounds_is_in_bounds_r5 = 12713684
+gas.golden_bounds_is_in_bounds_r6 = 12704108
+gas.golden_bounds_positive_radius = 126546
+gas.golden_bounds_positive_radius_above_i32 = 7991
+gas.golden_bounds_wrap_local_r0 = 35457377
+gas.golden_bounds_wrap_local_r1 = 35754611
+gas.golden_bounds_wrap_local_r2 = 35931011
+gas.golden_bounds_wrap_local_r3 = 36195611
+gas.golden_bounds_wrap_local_r4 = 36533711
+gas.golden_bounds_wrap_local_r5 = 36974711
+gas.golden_bounds_wrap_local_r6 = 37489211
+gas.golden_bounds_wrap_r0 = 36246179
+gas.golden_bounds_wrap_r1 = 37160813
+gas.golden_bounds_wrap_r2 = 38439713
+gas.golden_bounds_wrap_r3 = 39914123
+gas.golden_bounds_wrap_r4 = 41160683
+gas.golden_bounds_wrap_r5 = 41488493
+gas.golden_bounds_wrap_r6 = 42022103

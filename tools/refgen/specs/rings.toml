@@ -1,0 +1,57 @@
+# The rings, ring edges, wedges and spirals of `Hex`, and `circular_range` (plan §4.3, brief LIB-06
+# M2-T4): every item at radii 0..=6 around 8 centres, every start direction and both senses, every
+# vertex direction, the `*_to` forms on every ordered pair of the centres, the radii spans
+# [0..=6], [3, 1, 5] and [], the cached forms at RANGE 0, 1 and 7, and `circular_range` at r in
+# 0..=12 and 40 around two centres (tools/refgen/src/rings.rs).
+module = "rings"
+package = "golden_rings"
+
+# the centres are split over this many tests per function (it must divide 8)
+chunks.custom_ring = 1
+chunks.ring = 1
+chunks.rings = 1
+chunks.custom_rings = 1
+chunks.custom_ring_edge = 1
+chunks.ring_edge = 1
+chunks.ring_edges = 1
+chunks.custom_ring_edges = 1
+chunks.custom_wedge = 1
+chunks.wedge = 1
+chunks.custom_full_wedge = 1
+chunks.full_wedge = 1
+chunks.custom_wedge_to = 1
+chunks.wedge_to = 1
+chunks.corner_wedge = 1
+chunks.corner_wedge_to = 1
+chunks.cached_custom_ring_edges = 1
+chunks.cached_ring_edges = 1
+chunks.cached_rings = 1
+chunks.cached_custom_rings = 1
+chunks.custom_spiral_range = 1
+chunks.spiral_range = 1
+
+# budgets: ceil(1.05 * measured) of the capped run on the VPS; CI regenerates the pins (LIB-04i)
+gas.golden_rings_cached_custom_ring_edges = 69608826
+gas.golden_rings_cached_custom_rings = 229792862
+gas.golden_rings_cached_ring_edges = 32714766
+gas.golden_rings_cached_rings = 18762400
+gas.golden_rings_circular_range_squared_large = 244515246
+gas.golden_rings_circular_range_squared_small = 102209107
+gas.golden_rings_corner_wedge = 40786259
+gas.golden_rings_corner_wedge_to = 152751661
+gas.golden_rings_custom_full_wedge = 170211947
+gas.golden_rings_custom_ring = 224494982
+gas.golden_rings_custom_ring_edge = 62404734
+gas.golden_rings_custom_ring_edges = 88324749
+gas.golden_rings_custom_rings = 324930422
+gas.golden_rings_custom_spiral_range = 348562982
+gas.golden_rings_custom_wedge = 77476653
+gas.golden_rings_custom_wedge_to = 290525928
+gas.golden_rings_full_wedge = 83730789
+gas.golden_rings_ring = 18196492
+gas.golden_rings_ring_edge = 29382654
+gas.golden_rings_ring_edges = 43381658
+gas.golden_rings_rings = 26536852
+gas.golden_rings_spiral_range = 28948576
+gas.golden_rings_wedge = 37957610
+gas.golden_rings_wedge_to = 145020656
