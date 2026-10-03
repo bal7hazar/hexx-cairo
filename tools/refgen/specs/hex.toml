@@ -1,7 +1,7 @@
 # `impl Hex` of milestone L-M1 (plan §4.3, brief LIB-05 M1-T2): the seeded points, every ordered
 # pair of them, and the i32 values near the bounds (tools/refgen/src/hex.rs).
 module = "hex"
-package = "hexx"
+package = "golden_hex"
 
 seed = "hex::points"
 points = 64

@@ -46,8 +46,10 @@ class CiChangesTest(unittest.TestCase):
         self.assertIn("docs_checks", selected("crates/hexx/src/board/line.cairo"))
         self.assertIn("golden", selected("crates/hexx/src/board/line.cairo"))
         self.assertEqual(
-            selected("crates/hexx/tests/golden_hex.cairo"),
-            {"docs_checks", "takeover", "cairo", "golden"})
+            selected("crates/golden_hex/tests/golden_hex.cairo"),
+            {"docs_checks", "cairo", "golden"})
+        self.assertEqual(
+            selected("crates/hexx/tests/readme.cairo"), {"docs_checks", "takeover", "cairo"})
 
     def test_shell_scripts_select_shell_and_docs_checks(self):
         self.assertEqual(selected("scripts/prepush.sh"), {"shell", "docs_checks"})

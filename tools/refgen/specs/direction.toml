@@ -1,7 +1,7 @@
 # `EdgeDirection` (plan §4.3, brief LIB-05 M1-T2): exhaustive, no seeded input
 # (tools/refgen/src/direction.rs): the 30 constants, the six directions, every u8 rotation count.
 module = "direction"
-package = "hexx"
+package = "golden_lm1"
 
 # budgets: ceil(1.05 * measured)
 gas.golden_direction_debug = 1710860

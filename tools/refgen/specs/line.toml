@@ -4,7 +4,7 @@
 # board's `line`, `approach` and `line_of_sight` on every ordered pair of each board of `boards`
 # (`<width>x<height>/<tests>`); the table of the table path; docs/deviations/line_ties.md.
 module = "line"
-package = "hexx"
+package = "golden_lm1"
 
 seed = "line::pairs"
 domain_min = -40

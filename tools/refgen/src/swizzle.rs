@@ -49,6 +49,6 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
     let (with_z, without_z): (Vec<_>, Vec<_>) = funs.into_iter().partition(|f| f.name.contains('z'));
     fun_tables(&mut e, "swizzle", "bounds", &bounds, &with_z, Some(panic_cap))?;
     fun_tables(&mut e, "swizzle", "bounds", &bounds, &without_z, None)?;
-    let golden = root.join("crates").join("hexx").join("tests").join("golden_swizzle.cairo");
+    let golden = crate::target(root, spec);
     Ok(vec![(golden, e.finish()?)])
 }

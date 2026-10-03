@@ -2,7 +2,7 @@
 # from an i32 pair, on the seeded points, near the bounds and on seeded u64 values
 # (tools/refgen/src/convert.rs).
 module = "convert"
-package = "hexx"
+package = "golden_lm2"
 
 seed = "convert::points"
 points = 64

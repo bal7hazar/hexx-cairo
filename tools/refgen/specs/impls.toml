@@ -2,7 +2,7 @@
 # them, the scalar and direction forms, `Sum` and `Product`, and the i32 values near the bounds;
 # `div_scalar` compared exhaustively off-chain (tools/refgen/src/impls.rs, docs/deviations/div_scalar.md).
 module = "impls"
-package = "hexx"
+package = "golden_impls"
 
 seed = "impls::points"
 points = 64

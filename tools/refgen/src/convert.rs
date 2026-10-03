@@ -92,6 +92,6 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
     values.sort_unstable();
     values.dedup();
     fun_tables(&mut e, "convert", "values", &values, &UNPACKING, None)?;
-    let golden = root.join("crates").join("hexx").join("tests").join("golden_convert.cairo");
+    let golden = crate::target(root, spec);
     Ok(vec![(golden, e.finish()?)])
 }
