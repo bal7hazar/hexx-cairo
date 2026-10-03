@@ -488,7 +488,7 @@ mod tests {
     #[test]
     #[available_gas(l2_gas: 7000000)]
     fn test_in_bounds_work() {
-        let bounds = HexBoundsTrait::new(HexTrait::new(-4, 23), 7);
+        let bounds = HexBoundsTrait::new(HexTrait::new(-4, 23), 6);
         let mut coords = bounds.all_coords();
         assert!(coords.len() == 127);
         while let Some(h) = coords.pop_front() {
@@ -691,7 +691,7 @@ mod tests {
     #[available_gas(l2_gas: 40000000)]
     fn test_is_in_bounds_oracle() {
         let bounds = HexBoundsTrait::new(HexTrait::new(3, -5), 4);
-        let larger = HexBoundsTrait::new(HexTrait::new(1, 1), 9);
+        let larger = HexBoundsTrait::new(HexTrait::new(1, -2), 9);
         let mut coords = larger.all_coords();
         let mut inside = 0;
         while let Some(h) = coords.pop_front() {
