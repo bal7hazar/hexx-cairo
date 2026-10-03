@@ -155,6 +155,7 @@ jobs:
           - { package: golden_impls, partition: "1/1" }
           - { package: golden_lm1, partition: "1/1" }
           - { package: golden_lm2, partition: "1/1" }
+          - { package: golden_rings, partition: "1/1" }
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
@@ -243,6 +244,7 @@ jobs:
           - {package: golden_impls, scope: all, label: golden_impls}
           - {package: golden_lm1, scope: all, label: golden_lm1}
           - {package: golden_lm2, scope: all, label: golden_lm2}
+          - {package: golden_rings, scope: all, label: golden_rings}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2

@@ -714,6 +714,30 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `golden_lm2_integrationtest::golden_swizzle::golden_swizzle_unary_zx` | 3,527,270 | 3,703,634 | 5.0 % |
 | `golden_lm2_integrationtest::golden_swizzle::golden_swizzle_unary_zy` | 3,527,270 | 3,703,634 | 5.0 % |
 | `golden_lm2_integrationtest::golden_swizzle::golden_swizzle_unary_zz` | 3,527,270 | 3,703,634 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_cached_custom_ring_edges` | 66,294,120 | 69,608,826 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_cached_custom_rings` | 218,850,344 | 229,792,862 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_cached_ring_edges` | 31,156,920 | 32,714,766 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_cached_rings` | 17,868,952 | 18,762,400 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_circular_range_squared_large` | 232,871,662 | 244,515,246 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_circular_range_squared_small` | 97,342,006 | 102,209,107 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_corner_wedge` | 38,844,056 | 40,786,259 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_corner_wedge_to` | 145,477,772 | 152,751,661 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_custom_full_wedge` | 162,106,616 | 170,211,947 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_custom_ring` | 213,804,744 | 224,494,982 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_custom_ring_edge` | 59,433,080 | 62,404,734 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_custom_ring_edges` | 84,118,808 | 88,324,749 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_custom_rings` | 309,457,544 | 324,930,422 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_custom_spiral_range` | 331,964,744 | 348,562,982 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_custom_wedge` | 73,787,288 | 77,476,653 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_custom_wedge_to` | 276,691,360 | 290,525,928 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_full_wedge` | 79,743,608 | 83,730,789 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_ring` | 17,329,992 | 18,196,492 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_ring_edge` | 27,983,480 | 29,382,654 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_ring_edges` | 41,315,864 | 43,381,658 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_rings` | 25,273,192 | 26,536,852 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_spiral_range` | 27,570,072 | 28,948,576 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_wedge` | 36,150,104 | 37,957,610 | 5.0 % |
+| `golden_rings_integrationtest::golden_rings::golden_rings_wedge_to` | 138,114,910 | 145,020,656 | 5.0 % |
 | `hexx::board::asserter::tests::test_asserter_edges_and_corners` | 7,510 | 7,886 | 5.0 % |
 | `hexx::board::asserter::tests::test_asserter_revert_corner` | 7,810 | 8,201 | 5.0 % |
 | `hexx::board::asserter::tests::test_asserter_revert_not_edge` | 7,810 | 8,201 | 5.0 % |
@@ -1308,6 +1332,24 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::hex::iter::tests::bench_iter_center` | 240,360 | 252,378 | 5.0 % |
 | `hexx::hex::iter::tests::test_span_ext` | 7,616,970 | 7,997,819 | 5.0 % |
 | `hexx::hex::iter::tests::test_span_ext_oracle` | 178,490 | 187,415 | 5.0 % |
+| `hexx::hex::rings::tests::bench_hex_cached_rings` | 7,565,140 | 7,943,397 | 5.0 % |
+| `hexx::hex::rings::tests::bench_hex_circular_range_squared` | 12,002,440 | 12,602,562 | 5.0 % |
+| `hexx::hex::rings::tests::bench_hex_corner_wedge` | 2,840,790 | 2,982,830 | 5.0 % |
+| `hexx::hex::rings::tests::bench_hex_custom_ring` | 1,807,740 | 1,898,127 | 5.0 % |
+| `hexx::hex::rings::tests::bench_hex_full_wedge` | 1,970,140 | 2,068,647 | 5.0 % |
+| `hexx::hex::rings::tests::bench_hex_ring` | 1,786,740 | 1,876,077 | 5.0 % |
+| `hexx::hex::rings::tests::bench_hex_ring_edge` | 436,640 | 458,472 | 5.0 % |
+| `hexx::hex::rings::tests::bench_hex_rings_baseline` | 48,520 | 50,946 | 5.0 % |
+| `hexx::hex::rings::tests::bench_hex_spiral_range` | 10,350,090 | 10,867,595 | 5.0 % |
+| `hexx::hex::rings::tests::test_circular_range_squared_inradius` | 94,945,750 | 99,693,038 | 5.0 % |
+| `hexx::hex::rings::tests::test_circular_range_squared_oracle` | 118,519,660 | 124,445,643 | 5.0 % |
+| `hexx::hex::rings::tests::test_circular_range_squared_radius_bound` | 15,419,210 | 16,190,171 | 5.0 % |
+| `hexx::hex::rings::tests::test_custom_ring_is_the_same_set` | 21,354,380 | 22,422,099 | 5.0 % |
+| `hexx::hex::rings::tests::test_custom_ring_range_leaves_i32` | 7,610 | 7,991 | 5.0 % |
+| `hexx::hex::rings::tests::test_full_wedge_oracle` | 99,680,120 | 104,664,126 | 5.0 % |
+| `hexx::hex::rings::tests::test_ring_one_is_the_neighbours` | 99,680 | 104,664 | 5.0 % |
+| `hexx::hex::rings::tests::test_ring_oracle` | 39,770,660 | 41,759,193 | 5.0 % |
+| `hexx::hex::rings::tests::test_spiral_range_oracle` | 45,831,430 | 48,123,002 | 5.0 % |
 | `hexx::hex::tests::bench_hex_all_diagonals` | 1,484,160 | 1,558,368 | 5.0 % |
 | `hexx::hex::tests::bench_hex_all_neighbors` | 1,150,120 | 1,207,626 | 5.0 % |
 | `hexx::hex::tests::bench_hex_baseline_operands` | 446,280 | 468,594 | 5.0 % |
@@ -2844,7 +2886,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 7,810 | 8,201 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 7,810 | 8,201 | 5.0 % |
 
-2837 measured test(s).
+2879 measured test(s).
 
 ## Figures accepted above their range
 
