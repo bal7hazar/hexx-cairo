@@ -89,6 +89,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import re
 import shutil
 import subprocess
@@ -358,7 +359,8 @@ def run_snforge(package: str, label: str, test_filter: str | None = None,
     if test_filter:
         cmd.append(test_filter)
     print("$", " ".join(cmd), file=sys.stderr)
-    p = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
+    p = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True,
+                       env={**os.environ, "RAYON_NUM_THREADS": "1"})  # D-176: measured builds are single-threaded
     out = p.stdout + p.stderr
     write_evidence(package, out, label)
     if p.returncode not in (0, 1):  # 1: some test failed, still parseable
