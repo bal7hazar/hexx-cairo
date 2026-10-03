@@ -57,8 +57,8 @@ line count (LIB-04h, measured on the VPS, single-threaded, capped at 8 GB: 3,241
 5,119 lines 2.0 GB, 11,156 lines 5.0 GB, 13,765 lines 6.0 GB). So the golden files live in the
 unpublished packages `crates/golden_*`, never in `crates/hexx/tests/` (`scripts/takeover_check.py`
 rejects one there): `golden_hex` (hex), `golden_impls` (impls), `golden_lm1` (conversions,
-direction, line; closed), `golden_lm2` (euclidean, swizzle, convert). Budget: the `tests/` of a
-package holds at most 8,000 lines, for a peak under ~4 GB; one generated file above that takes a
+direction, line; closed), `golden_lm2` (euclidean, swizzle, convert), `golden_hex_t2` (the M2-T2 vectors of `hex`).
+Budget: the `tests/` of a package holds at most 8,000 lines, for a peak under ~4 GB; one generated file above that takes a
 package of its own and never exceeds 14,000 lines (split its generator's output first). A new
 golden file goes into `golden_lm2` while its total stays within 8,000 lines (room for about 4,700
 lines of M2-T4 to M2-T7), else into a new package `crates/golden_<module>`. Its spec's
