@@ -1162,10 +1162,11 @@ fn range_tests(e: &mut Emitter, points: &[(i32, i32)]) -> Result<(), String> {
 fn emit_t2(
     e: &mut Emitter,
     points: &[(i32, i32)],
-    chunks: usize,
     panic_cap: usize,
 ) -> Result<(), String> {
-    let bounds = bound_points();
+    // Every second point of the 121 bound points (the extremes included): the tables near the
+    // bounds of the new items are halved for the compile size of the integration target.
+    let bounds: Vec<(i32, i32)> = bound_points().into_iter().step_by(2).collect();
 
     // The unary items: seeded points, then near the bounds.
     tables(e, "unary_t2", points, &HEX_IN, &UNARY_T2, None)?;
@@ -1173,17 +1174,16 @@ fn emit_t2(
     all_diagonals_test(e, "unary", points, None)?;
     all_diagonals_test(e, "bounds", &bounds, Some(panic_cap))?;
 
-    // The binary items on every ordered pair of the seeded points, in `chunks` tests, then near
-    // the bounds. `rectiline_to` has none near the bounds: a path of two billion hexes.
-    let per_chunk = points.len() / chunks;
-    for chunk in 0..chunks {
-        let pairs: Vec<_> = points[chunk * per_chunk..(chunk + 1) * per_chunk]
-            .iter()
-            .flat_map(|&a| points.iter().map(move |&b| (a, b)))
-            .collect();
-        tables(e, &format!("pairs_{chunk}"), &pairs, &PAIR_IN, &PAIR_T2, None)?;
-        tables(e, &format!("pairs_{chunk}"), &pairs, &PAIR_IN, &RECTILINE_T2, None)?;
-    }
+    // The binary items on every ordered pair of a 16-point subset (every fourth seeded point), in
+    // one test per function, then near the bounds. The 64 x 64 pairs of the first version made the
+    // integration target too large for the CI runner's compile (41,000 lines): the exhaustive
+    // checks are the module oracles. `rectiline_to` has none near the bounds: a path of two
+    // billion hexes.
+    let subset: Vec<(i32, i32)> = points.iter().step_by(4).copied().collect();
+    let pairs: Vec<_> =
+        subset.iter().flat_map(|&a| subset.iter().map(move |&b| (a, b))).collect();
+    tables(e, "pairs_t2", &pairs, &PAIR_IN, &PAIR_T2, None)?;
+    tables(e, "pairs_t2", &pairs, &PAIR_IN, &RECTILINE_T2, None)?;
     let bound_pairs: Vec<_> = BOUND_PAIR_POINTS
         .iter()
         .flat_map(|&a| BOUND_PAIR_POINTS.iter().map(move |&b| (a, b)))
@@ -1238,15 +1238,15 @@ fn emit_t2(
         bounds.iter().flat_map(|&p| [1u32, 3, 4].into_iter().map(move |m| (p, m))).collect();
     tables(e, "bounds_rotation", &bound_rotations, &ROTATION_IN, &ROTATION_T2, Some(panic_cap))?;
 
-    // The rotations around a center: every point around 8 of them, in 32 tests.
-    let centers: Vec<(i32, i32)> = points.iter().step_by(8).copied().collect();
-    let arounds: Vec<Around> = points
+    // The rotations around a center: the 16-point subset around 4 centres, in 2 tests.
+    let centers: Vec<(i32, i32)> = points.iter().step_by(16).copied().collect();
+    let arounds: Vec<Around> = subset
         .iter()
         .flat_map(|&p| {
             centers.iter().flat_map(move |&c| ROTATIONS.iter().map(move |&m| ((p, c), m)))
         })
         .collect();
-    for (n, part) in arounds.chunks(arounds.len() / 32).enumerate() {
+    for (n, part) in arounds.chunks(arounds.len() / 2).enumerate() {
         tables(e, &format!("around_{n}"), part, &AROUND_IN, &AROUND_T2, None)?;
     }
     let bound_arounds: Vec<Around> = BOUND_PAIR_POINTS
@@ -1453,6 +1453,6 @@ pub fn emit(spec: &Spec) -> Result<String, String> {
         }
     }
     emit_l_m2(&mut e, &points, spec.int("ops_chunks")? as usize, panic_cap)?;
-    emit_t2(&mut e, &points, spec.int("ops_chunks")? as usize, panic_cap)?;
+    emit_t2(&mut e, &points, panic_cap)?;
     e.finish()
 }
