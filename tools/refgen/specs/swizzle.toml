@@ -1,0 +1,38 @@
+# The swizzles of `Hex` (plan §4.3, brief LIB-06 M2-T3): the seeded points and the i32 values
+# near the bounds (tools/refgen/src/swizzle.rs).
+module = "swizzle"
+package = "hexx"
+
+seed = "swizzle::points"
+points = 64
+domain_min = -40
+domain_max = 40
+panic_cap = 2     # #[should_panic] tests per swizzle near the bounds
+
+# budgets: ceil(1.05 * measured)
+gas.golden_swizzle_bounds_xx = 12698616
+gas.golden_swizzle_bounds_xz = 6017939
+gas.golden_swizzle_bounds_xz_panics_0 = 7991
+gas.golden_swizzle_bounds_xz_panics_1 = 7991
+gas.golden_swizzle_bounds_yx = 12686016
+gas.golden_swizzle_bounds_yy = 12698616
+gas.golden_swizzle_bounds_yz = 6017939
+gas.golden_swizzle_bounds_yz_panics_0 = 7991
+gas.golden_swizzle_bounds_yz_panics_1 = 7991
+gas.golden_swizzle_bounds_zx = 6017939
+gas.golden_swizzle_bounds_zx_panics_0 = 7991
+gas.golden_swizzle_bounds_zx_panics_1 = 7991
+gas.golden_swizzle_bounds_zy = 6017939
+gas.golden_swizzle_bounds_zy_panics_0 = 7991
+gas.golden_swizzle_bounds_zy_panics_1 = 7991
+gas.golden_swizzle_bounds_zz = 6017939
+gas.golden_swizzle_bounds_zz_panics_0 = 7991
+gas.golden_swizzle_bounds_zz_panics_1 = 7991
+gas.golden_swizzle_unary_xx = 3628223
+gas.golden_swizzle_unary_xz = 3703634
+gas.golden_swizzle_unary_yx = 3621608
+gas.golden_swizzle_unary_yy = 3628223
+gas.golden_swizzle_unary_yz = 3703634
+gas.golden_swizzle_unary_zx = 3703634
+gas.golden_swizzle_unary_zy = 3703634
+gas.golden_swizzle_unary_zz = 3703634

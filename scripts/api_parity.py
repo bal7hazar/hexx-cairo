@@ -1386,6 +1386,10 @@ CAIRO_IMPL_HEAD_RE = re.compile(
 CAIRO_UNARY_TRAITS = ("Debug", "Default", "Not", "Neg")
 CAIRO_BINARY_TRAITS = ("Add", "Sub", "Mul", "Div", "Rem", "AddAssign", "SubAssign", "MulAssign",
                        "DivAssign", "RemAssign")
+# Cairo's assignment traits take both operands, `AddAssign<Lhs, Rhs>` (corelib `core::ops`): the
+# homogeneous form `AddAssign<T, T>` on an owner `T` is Rust's `impl AddAssign for T` (`Rhs = Self`),
+# named without an argument (M2-T3, LIB-06). A heterogeneous form is not understood and raises.
+CAIRO_ASSIGN_TRAITS = ("AddAssign", "SubAssign", "MulAssign", "DivAssign", "RemAssign")
 
 # Cairo module path -> the owner of *every* declaration of that module file, with bare
 # (unscoped) member names: `conversions.rs` is `impl Hex` blocks, and the parity table groups it
@@ -1567,6 +1571,9 @@ def scan_cairo_tree(
             if trait == "Into" and len(parts) == 2:
                 built = build_impl_item(owner, f"From<{parts[0]}>", parts[1])
             elif trait in CAIRO_UNARY_TRAITS and len(parts) == 1:
+                built = build_impl_item(owner, trait, name)
+            elif (trait in CAIRO_ASSIGN_TRAITS and len(parts) == 2
+                  and re.sub(r"\s+", "", parts[0]) == re.sub(r"\s+", "", parts[1]) == name):
                 built = build_impl_item(owner, trait, name)
             elif trait in CAIRO_BINARY_TRAITS and len(parts) == 1:
                 built = build_impl_item(owner, f"{trait}<{parts[0]}>", name)

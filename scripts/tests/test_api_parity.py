@@ -1163,6 +1163,54 @@ class CairoImplItemsAndConversionsOwner(FixtureTreeCase):
         keys = {i.key for i in self.scan({"orientation.cairo": text})}
         self.assertIn(("Hex", "impl", "Add<Hex>"), keys)
 
+    def test_homogeneous_add_assign_is_the_unparameterised_rust_impl(self) -> None:
+        text = ("pub struct Hex {\n    pub x: i32,\n}\n"
+                "pub impl HexAddAssign of AddAssign<Hex, Hex> {\n"
+                "    fn add_assign(ref self: Hex, rhs: Hex) {}\n}\n")
+        keys = {i.key for i in self.scan({"orientation.cairo": text})}
+        self.assertIn(("Hex", "impl", "AddAssign"), keys)
+        self.assertNotIn(("Hex", "impl", "AddAssign<Hex>"), keys)
+
+    def test_homogeneous_sub_assign_is_the_unparameterised_rust_impl(self) -> None:
+        text = ("pub struct Hex {\n    pub x: i32,\n}\n"
+                "pub impl HexSubAssign of SubAssign<Hex, Hex> {\n"
+                "    fn sub_assign(ref self: Hex, rhs: Hex) {}\n}\n")
+        keys = {i.key for i in self.scan({"orientation.cairo": text})}
+        self.assertIn(("Hex", "impl", "SubAssign"), keys)
+        self.assertNotIn(("Hex", "impl", "SubAssign<Hex>"), keys)
+
+    def test_homogeneous_mul_assign_is_the_unparameterised_rust_impl(self) -> None:
+        text = ("pub struct Hex {\n    pub x: i32,\n}\n"
+                "pub impl HexMulAssign of MulAssign<Hex, Hex> {\n"
+                "    fn mul_assign(ref self: Hex, rhs: Hex) {}\n}\n")
+        keys = {i.key for i in self.scan({"orientation.cairo": text})}
+        self.assertIn(("Hex", "impl", "MulAssign"), keys)
+        self.assertNotIn(("Hex", "impl", "MulAssign<Hex>"), keys)
+
+    def test_homogeneous_div_assign_is_the_unparameterised_rust_impl(self) -> None:
+        text = ("pub struct Hex {\n    pub x: i32,\n}\n"
+                "pub impl HexDivAssign of DivAssign<Hex, Hex> {\n"
+                "    fn div_assign(ref self: Hex, rhs: Hex) {}\n}\n")
+        keys = {i.key for i in self.scan({"orientation.cairo": text})}
+        self.assertIn(("Hex", "impl", "DivAssign"), keys)
+        self.assertNotIn(("Hex", "impl", "DivAssign<Hex>"), keys)
+
+    def test_homogeneous_rem_assign_is_the_unparameterised_rust_impl(self) -> None:
+        text = ("pub struct Hex {\n    pub x: i32,\n}\n"
+                "pub impl HexRemAssign of RemAssign<Hex, Hex> {\n"
+                "    fn rem_assign(ref self: Hex, rhs: Hex) {}\n}\n")
+        keys = {i.key for i in self.scan({"orientation.cairo": text})}
+        self.assertIn(("Hex", "impl", "RemAssign"), keys)
+        self.assertNotIn(("Hex", "impl", "RemAssign<Hex>"), keys)
+
+    def test_a_heterogeneous_assignment_impl_raises(self) -> None:
+        text = ("pub struct Hex {\n    pub x: i32,\n}\n"
+                "pub impl HexAddAssignI32 of AddAssign<Hex, i32> {\n"
+                "    fn add_assign(ref self: Hex, rhs: i32) {}\n}\n")
+        with self.assertRaises(SystemExit) as raised:
+            self.scan({"orientation.cairo": text})
+        self.assertIn("AddAssign", str(raised.exception))
+
     def test_an_impl_of_an_unknown_trait_on_a_mirror_owner_raises_with_file_and_line(self) -> None:
         text = ("pub struct Hex {\n    pub x: i32,\n}\n"
                 "pub impl HexFoo of Foo<Hex> {\n    fn foo(a: Hex) -> Hex { a }\n}\n")
