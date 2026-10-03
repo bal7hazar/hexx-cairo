@@ -1,0 +1,25 @@
+# `HexBounds` (milestone L-M2, brief LIB-06 M2-T5): every item at the radii 0..=6 around 8 centres
+# (the origin and seeded ones), `from_min_max` on every ordered pair of 16 seeded points,
+# `intersecting_with` on every ordered pair of 8 bounds, `from_span` on the spans of `iter`
+# (tools/refgen/src/bounds.rs). Its own package: `golden_lm2` is at its line budget.
+module = "bounds"
+package = "golden_bounds"
+
+seed = "bounds::points"
+centers = 8        # the origin and 7 seeded
+center_min = -40
+center_max = 40
+radius_max = 6
+domain_min = -40
+domain_max = 40
+wrap_points = 64   # per bounds
+near = 8           # is_in_bounds probes: seeded offsets of [-near, near]^2 from each centre
+near_points = 64
+min_max_points = 16
+inter_radii = "3,3,6,0,5,5,2,6"
+inter_domain = 6
+# the spans of `from_span` (the same keys, the same values, as specs/iter.toml)
+points = 64
+spans = 16
+span_domain = 20
+span_max = 32

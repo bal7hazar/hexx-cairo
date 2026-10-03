@@ -14,6 +14,7 @@ pub use board::direction::{Arc, Direction};
 pub use board::map::{HexMap, HexMapTrait};
 
 pub mod bounds;
+pub use bounds::{HexBounds, HexBoundsTrait};
 
 pub mod conversions;
 pub use conversions::{DoubledHexMode, HexConversionsTrait, OffsetHexMode};
