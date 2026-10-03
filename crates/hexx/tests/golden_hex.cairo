@@ -13822,7 +13822,7 @@ fn golden_hex_wedge_count_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3756554)]
 fn golden_hex_unary_t2_counter_clockwise() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (31, 13, 44, -31), (-22, -26, -48, 22), (1, -18, -17, -1), (11, 12, 23, -11),
@@ -13852,7 +13852,7 @@ fn golden_hex_unary_t2_counter_clockwise() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3756554)]
 fn golden_hex_unary_t2_clockwise() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (31, 13, -13, 44), (-22, -26, 26, -48), (1, -18, 18, -17), (11, 12, -12, 23),
@@ -13882,7 +13882,7 @@ fn golden_hex_unary_t2_clockwise() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3730094)]
 fn golden_hex_unary_t2_reflect_x() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (31, 13, 31, -44), (-22, -26, -22, 48), (1, -18, 1, 17), (11, 12, 11, -23),
@@ -13912,7 +13912,7 @@ fn golden_hex_unary_t2_reflect_x() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3730094)]
 fn golden_hex_unary_t2_reflect_y() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (31, 13, -44, 13), (-22, -26, 48, -26), (1, -18, 17, -18), (11, 12, -23, 12),
@@ -13942,7 +13942,7 @@ fn golden_hex_unary_t2_reflect_y() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3648068)]
 fn golden_hex_unary_t2_reflect_z() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (31, 13, 13, 31), (-22, -26, -26, -22), (1, -18, -18, 1), (11, 12, 12, 11), (30, 9, 9, 30),
@@ -13972,7 +13972,7 @@ fn golden_hex_unary_t2_reflect_z() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 5631591)]
 fn golden_hex_bounds_t2_counter_clockwise() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483647, 0, -2147483647, 2147483647), (-2147483647, 1, -2147483646, 2147483647),
@@ -14031,7 +14031,7 @@ fn golden_hex_bounds_t2_counter_clockwise() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_t2_counter_clockwise_panics_0() {
     let (x, y): (i32, i32) = (-2147483648, -2147483648);
@@ -14040,7 +14040,7 @@ fn golden_hex_bounds_t2_counter_clockwise_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_t2_counter_clockwise_panics_1() {
     let (x, y): (i32, i32) = (-2147483647, -1073741825);
@@ -14049,7 +14049,7 @@ fn golden_hex_bounds_t2_counter_clockwise_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_t2_counter_clockwise_panics_2() {
     let (x, y): (i32, i32) = (1, 2147483647);
@@ -14058,7 +14058,7 @@ fn golden_hex_bounds_t2_counter_clockwise_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_t2_counter_clockwise_panics_3() {
     let (x, y): (i32, i32) = (2147483647, 2147483647);
@@ -14067,7 +14067,7 @@ fn golden_hex_bounds_t2_counter_clockwise_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 4964579)]
 fn golden_hex_bounds_t2_clockwise() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483647, 0, 0, -2147483647), (-2147483647, 1, -1, -2147483646),
@@ -14122,7 +14122,7 @@ fn golden_hex_bounds_t2_clockwise() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_t2_clockwise_panics_0() {
     let (x, y): (i32, i32) = (-2147483648, -2147483648);
@@ -14131,7 +14131,7 @@ fn golden_hex_bounds_t2_clockwise_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_t2_clockwise_panics_1() {
     let (x, y): (i32, i32) = (-2147483647, -1);
@@ -14140,7 +14140,7 @@ fn golden_hex_bounds_t2_clockwise_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_t2_clockwise_panics_2() {
     let (x, y): (i32, i32) = (1073741823, 2147483646);
@@ -14149,7 +14149,7 @@ fn golden_hex_bounds_t2_clockwise_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_t2_clockwise_panics_3() {
     let (x, y): (i32, i32) = (2147483647, 2147483647);
@@ -14158,7 +14158,7 @@ fn golden_hex_bounds_t2_clockwise_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6017939)]
 fn golden_hex_bounds_t2_reflect_x() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483647, 0, -2147483647, 2147483647), (-2147483647, 1, -2147483647, 2147483646),
@@ -14220,7 +14220,7 @@ fn golden_hex_bounds_t2_reflect_x() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_t2_reflect_x_panics_0() {
     let (x, y): (i32, i32) = (-2147483648, -2147483648);
@@ -14229,7 +14229,7 @@ fn golden_hex_bounds_t2_reflect_x_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_t2_reflect_x_panics_1() {
     let (x, y): (i32, i32) = (-2147483647, -2147483647);
@@ -14238,7 +14238,7 @@ fn golden_hex_bounds_t2_reflect_x_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_t2_reflect_x_panics_2() {
     let (x, y): (i32, i32) = (-1, -2147483647);
@@ -14247,7 +14247,7 @@ fn golden_hex_bounds_t2_reflect_x_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_t2_reflect_x_panics_3() {
     let (x, y): (i32, i32) = (2147483647, 2147483647);
@@ -14256,7 +14256,7 @@ fn golden_hex_bounds_t2_reflect_x_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6017939)]
 fn golden_hex_bounds_t2_reflect_y() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483647, 0, 2147483647, 0), (-2147483647, 1, 2147483646, 1),
@@ -14315,7 +14315,7 @@ fn golden_hex_bounds_t2_reflect_y() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_t2_reflect_y_panics_0() {
     let (x, y): (i32, i32) = (-2147483648, -2147483648);
@@ -14324,7 +14324,7 @@ fn golden_hex_bounds_t2_reflect_y_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_t2_reflect_y_panics_1() {
     let (x, y): (i32, i32) = (-2147483647, -2147483647);
@@ -14333,7 +14333,7 @@ fn golden_hex_bounds_t2_reflect_y_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_t2_reflect_y_panics_2() {
     let (x, y): (i32, i32) = (-1, -2147483647);
@@ -14342,7 +14342,7 @@ fn golden_hex_bounds_t2_reflect_y_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_t2_reflect_y_panics_3() {
     let (x, y): (i32, i32) = (2147483647, 2147483647);
@@ -14351,7 +14351,7 @@ fn golden_hex_bounds_t2_reflect_y_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12686016)]
 fn golden_hex_bounds_t2_reflect_z() {
     let cases: Array<(i32, i32, i32, i32)> = array![
         (-2147483648, -2147483648, -2147483648, -2147483648),
@@ -14450,7 +14450,7 @@ fn golden_hex_bounds_t2_reflect_z() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 13058567)]
 fn golden_hex_unary_all_diagonals() {
     let cases: Array<(i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32)> =
         array![
@@ -14533,7 +14533,7 @@ fn golden_hex_unary_all_diagonals() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7834764)]
 fn golden_hex_bounds_all_diagonals() {
     let cases: Array<(i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32)> =
         array![
@@ -15201,35 +15201,35 @@ fn golden_hex_bounds_all_diagonals() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_all_diagonals_panics_0() {
     let _ = HexTrait::new(-2147483648, -2147483648).all_diagonals();
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_all_diagonals_panics_1() {
     let _ = HexTrait::new(-1073741825, -2147483647).all_diagonals();
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_all_diagonals_panics_2() {
     let _ = HexTrait::new(1073741824, -2147483647).all_diagonals();
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_all_diagonals_panics_3() {
     let _ = HexTrait::new(2147483647, 2147483647).all_diagonals();
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 101514809)]
 fn golden_hex_pairs_0_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (31, 13, 31, 13, 1, 2, 1), (31, 13, -22, -26, 0, 3, 3), (31, 13, 1, -18, 0, 4, 4),
@@ -15331,7 +15331,7 @@ fn golden_hex_pairs_0_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73749134)]
 fn golden_hex_pairs_0_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (31, 13, 31, 13, 2), (31, 13, -22, -26, 3), (31, 13, 1, -18, 4), (31, 13, 11, 12, 3),
@@ -15414,7 +15414,7 @@ fn golden_hex_pairs_0_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 100920614)]
 fn golden_hex_pairs_0_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (31, 13, 31, 13, 1, 0, 5), (31, 13, -22, -26, 0, 4, 4), (31, 13, 1, -18, 0, 4, 4),
@@ -15516,7 +15516,7 @@ fn golden_hex_pairs_0_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73154939)]
 fn golden_hex_pairs_0_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (31, 13, 31, 13, 0), (31, 13, -22, -26, 4), (31, 13, 1, -18, 4), (31, 13, 11, 12, 4),
@@ -15599,7 +15599,7 @@ fn golden_hex_pairs_0_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_0_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (31, 13, 31, 13, 31, 13), (31, 13, -22, -26, 70, -79), (31, 13, 1, -18, 62, -48),
@@ -15701,7 +15701,7 @@ fn golden_hex_pairs_0_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_0_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (31, 13, 31, 13, 31, 13), (31, 13, -22, -26, -61, 66), (31, 13, 1, -18, -30, 43),
@@ -15803,7 +15803,7 @@ fn golden_hex_pairs_0_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 265731050)]
 fn golden_hex_pairs_0_rectiline_to_cw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (31, 13, 31, 13, 1, 784369097), (31, 13, -22, -26, 93, 767992792),
@@ -15947,7 +15947,7 @@ fn golden_hex_pairs_0_rectiline_to_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 183857300)]
 fn golden_hex_pairs_0_rectiline_to_ccw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (31, 13, 31, 13, 1, 784369097), (31, 13, -22, -26, 93, 213408499),
@@ -16091,7 +16091,7 @@ fn golden_hex_pairs_0_rectiline_to_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 101515229)]
 fn golden_hex_pairs_1_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (30, 9, 31, 13, 0, 1, 1), (30, 9, -22, -26, 0, 3, 3), (30, 9, 1, -18, 0, 3, 3),
@@ -16193,7 +16193,7 @@ fn golden_hex_pairs_1_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73749554)]
 fn golden_hex_pairs_1_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (30, 9, 31, 13, 1), (30, 9, -22, -26, 3), (30, 9, 1, -18, 3), (30, 9, 11, 12, 3),
@@ -16273,7 +16273,7 @@ fn golden_hex_pairs_1_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 100919984)]
 fn golden_hex_pairs_1_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (30, 9, 31, 13, 0, 1, 1), (30, 9, -22, -26, 0, 4, 4), (30, 9, 1, -18, 0, 4, 4),
@@ -16375,7 +16375,7 @@ fn golden_hex_pairs_1_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73154309)]
 fn golden_hex_pairs_1_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (30, 9, 31, 13, 1), (30, 9, -22, -26, 4), (30, 9, 1, -18, 4), (30, 9, 11, 12, 3),
@@ -16455,7 +16455,7 @@ fn golden_hex_pairs_1_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_1_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (30, 9, 31, 13, 26, 14), (30, 9, -22, -26, 65, -78), (30, 9, 1, -18, 57, -47),
@@ -16557,7 +16557,7 @@ fn golden_hex_pairs_1_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_1_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (30, 9, 31, 13, 35, 8), (30, 9, -22, -26, -57, 61), (30, 9, 1, -18, -26, 38),
@@ -16659,7 +16659,7 @@ fn golden_hex_pairs_1_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 259401408)]
 fn golden_hex_pairs_1_rectiline_to_cw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (30, 9, 31, 13, 6, 74175389), (30, 9, -22, -26, 88, 179175021),
@@ -16803,7 +16803,7 @@ fn golden_hex_pairs_1_rectiline_to_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 259461605)]
 fn golden_hex_pairs_1_rectiline_to_ccw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (30, 9, 31, 13, 6, 8780053), (30, 9, -22, -26, 88, 706875778),
@@ -16946,7 +16946,7 @@ fn golden_hex_pairs_1_rectiline_to_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 101515019)]
 fn golden_hex_pairs_2_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (27, 39, 31, 13, 0, 4, 4), (27, 39, -22, -26, 0, 4, 4), (27, 39, 1, -18, 0, 4, 4),
@@ -17048,7 +17048,7 @@ fn golden_hex_pairs_2_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73749344)]
 fn golden_hex_pairs_2_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (27, 39, 31, 13, 4), (27, 39, -22, -26, 4), (27, 39, 1, -18, 4), (27, 39, 11, 12, 4),
@@ -17128,7 +17128,7 @@ fn golden_hex_pairs_2_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 100920089)]
 fn golden_hex_pairs_2_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (27, 39, 31, 13, 0, 5, 5), (27, 39, -22, -26, 0, 4, 4), (27, 39, 1, -18, 0, 4, 4),
@@ -17230,7 +17230,7 @@ fn golden_hex_pairs_2_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73154414)]
 fn golden_hex_pairs_2_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (27, 39, 31, 13, 5), (27, 39, -22, -26, 4), (27, 39, 1, -18, 4), (27, 39, 11, 12, 4),
@@ -17310,7 +17310,7 @@ fn golden_hex_pairs_2_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_2_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (27, 39, 31, 13, 53, 17), (27, 39, -22, -26, 92, -75), (27, 39, 1, -18, 84, -44),
@@ -17412,7 +17412,7 @@ fn golden_hex_pairs_2_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_2_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (27, 39, 31, 13, 5, 35), (27, 39, -22, -26, -87, 88), (27, 39, 1, -18, -56, 65),
@@ -17514,7 +17514,7 @@ fn golden_hex_pairs_2_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 279356669)]
 fn golden_hex_pairs_2_rectiline_to_cw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (27, 39, 31, 13, 27, 847540153), (27, 39, -22, -26, 115, 932754667),
@@ -17658,7 +17658,7 @@ fn golden_hex_pairs_2_rectiline_to_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 279419249)]
 fn golden_hex_pairs_2_rectiline_to_ccw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (27, 39, 31, 13, 27, 247366601), (27, 39, -22, -26, 115, 948526352),
@@ -17802,7 +17802,7 @@ fn golden_hex_pairs_2_rectiline_to_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 101515229)]
 fn golden_hex_pairs_3_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (-39, -1, 31, 13, 0, 0, 0), (-39, -1, -22, -26, 0, 5, 5), (-39, -1, 1, -18, 0, 0, 0),
@@ -17904,7 +17904,7 @@ fn golden_hex_pairs_3_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73749554)]
 fn golden_hex_pairs_3_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (-39, -1, 31, 13, 0), (-39, -1, -22, -26, 5), (-39, -1, 1, -18, 0), (-39, -1, 11, 12, 0),
@@ -17984,7 +17984,7 @@ fn golden_hex_pairs_3_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 100920509)]
 fn golden_hex_pairs_3_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (-39, -1, 31, 13, 0, 1, 1), (-39, -1, -22, -26, 0, 5, 5), (-39, -1, 1, -18, 0, 0, 0),
@@ -18086,7 +18086,7 @@ fn golden_hex_pairs_3_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73154834)]
 fn golden_hex_pairs_3_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (-39, -1, 31, 13, 1), (-39, -1, -22, -26, 5), (-39, -1, 1, -18, 0), (-39, -1, 11, 12, 1),
@@ -18166,7 +18166,7 @@ fn golden_hex_pairs_3_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_3_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (-39, -1, 31, 13, -53, 83), (-39, -1, -22, -26, -14, -9), (-39, -1, 1, -18, -22, 22),
@@ -18268,7 +18268,7 @@ fn golden_hex_pairs_3_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_3_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (-39, -1, 31, 13, 45, -71), (-39, -1, -22, -26, -47, -18), (-39, -1, 1, -18, -16, -41),
@@ -18370,7 +18370,7 @@ fn golden_hex_pairs_3_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 297880296)]
 fn golden_hex_pairs_3_rectiline_to_cw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (-39, -1, 31, 13, 85, 607848020), (-39, -1, -22, -26, 26, 690841165),
@@ -18514,7 +18514,7 @@ fn golden_hex_pairs_3_rectiline_to_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 297898073)]
 fn golden_hex_pairs_3_rectiline_to_ccw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (-39, -1, 31, 13, 85, 231110280), (-39, -1, -22, -26, 26, 784271504),
@@ -18658,7 +18658,7 @@ fn golden_hex_pairs_3_rectiline_to_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 101514914)]
 fn golden_hex_pairs_4_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (24, 1, 31, 13, 0, 1, 1), (24, 1, -22, -26, 0, 3, 3), (24, 1, 1, -18, 0, 3, 3),
@@ -18760,7 +18760,7 @@ fn golden_hex_pairs_4_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73749239)]
 fn golden_hex_pairs_4_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (24, 1, 31, 13, 1), (24, 1, -22, -26, 3), (24, 1, 1, -18, 3), (24, 1, 11, 12, 2),
@@ -18843,7 +18843,7 @@ fn golden_hex_pairs_4_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 100919879)]
 fn golden_hex_pairs_4_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (24, 1, 31, 13, 0, 1, 1), (24, 1, -22, -26, 0, 4, 4), (24, 1, 1, -18, 0, 4, 4),
@@ -18945,7 +18945,7 @@ fn golden_hex_pairs_4_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73154204)]
 fn golden_hex_pairs_4_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (24, 1, 31, 13, 1), (24, 1, -22, -26, 4), (24, 1, 1, -18, 4), (24, 1, 11, 12, 3),
@@ -19028,7 +19028,7 @@ fn golden_hex_pairs_4_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_4_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (24, 1, 31, 13, 12, 20), (24, 1, -22, -26, 51, -72), (24, 1, 1, -18, 43, -41),
@@ -19130,7 +19130,7 @@ fn golden_hex_pairs_4_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_4_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (24, 1, 31, 13, 43, -6), (24, 1, -22, -26, -49, 47), (24, 1, 1, -18, -18, 24),
@@ -19232,7 +19232,7 @@ fn golden_hex_pairs_4_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 269804619)]
 fn golden_hex_pairs_4_rectiline_to_cw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (24, 1, 31, 13, 20, 25425481), (24, 1, -22, -26, 74, 479851219),
@@ -19376,7 +19376,7 @@ fn golden_hex_pairs_4_rectiline_to_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 269835521)]
 fn golden_hex_pairs_4_rectiline_to_ccw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (24, 1, 31, 13, 20, 199903661), (24, 1, -22, -26, 74, 587426470),
@@ -19520,7 +19520,7 @@ fn golden_hex_pairs_4_rectiline_to_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 101515124)]
 fn golden_hex_pairs_5_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (-9, 30, 31, 13, 0, 0, 0), (-9, 30, -22, -26, 0, 4, 4), (-9, 30, 1, -18, 0, 4, 4),
@@ -19622,7 +19622,7 @@ fn golden_hex_pairs_5_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73749449)]
 fn golden_hex_pairs_5_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (-9, 30, 31, 13, 0), (-9, 30, -22, -26, 4), (-9, 30, 1, -18, 4), (-9, 30, 11, 12, 5),
@@ -19705,7 +19705,7 @@ fn golden_hex_pairs_5_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 100920404)]
 fn golden_hex_pairs_5_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (-9, 30, 31, 13, 0, 0, 0), (-9, 30, -22, -26, 0, 4, 4), (-9, 30, 1, -18, 0, 5, 5),
@@ -19807,7 +19807,7 @@ fn golden_hex_pairs_5_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73154729)]
 fn golden_hex_pairs_5_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (-9, 30, 31, 13, 0), (-9, 30, -22, -26, 4), (-9, 30, 1, -18, 5), (-9, 30, 11, 12, 0),
@@ -19890,7 +19890,7 @@ fn golden_hex_pairs_5_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_5_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (-9, 30, 31, 13, 8, 53), (-9, 30, -22, -26, 47, -39), (-9, 30, 1, -18, 39, -8),
@@ -19992,7 +19992,7 @@ fn golden_hex_pairs_5_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_5_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (-9, 30, 31, 13, 14, -10), (-9, 30, -22, -26, -78, 43), (-9, 30, 1, -18, -47, 20),
@@ -20094,7 +20094,7 @@ fn golden_hex_pairs_5_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 273965024)]
 fn golden_hex_pairs_5_rectiline_to_cw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (-9, 30, 31, 13, 41, 870928141), (-9, 30, -22, -26, 70, 846665243),
@@ -20237,7 +20237,7 @@ fn golden_hex_pairs_5_rectiline_to_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 274010352)]
 fn golden_hex_pairs_5_rectiline_to_ccw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (-9, 30, 31, 13, 41, 122351158), (-9, 30, -22, -26, 70, 604423547),
@@ -20380,7 +20380,7 @@ fn golden_hex_pairs_5_rectiline_to_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 101514704)]
 fn golden_hex_pairs_6_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (-21, -18, 31, 13, 0, 0, 0), (-21, -18, -22, -26, 0, 4, 4), (-21, -18, 1, -18, 0, 0, 0),
@@ -20482,7 +20482,7 @@ fn golden_hex_pairs_6_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73749029)]
 fn golden_hex_pairs_6_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (-21, -18, 31, 13, 0), (-21, -18, -22, -26, 4), (-21, -18, 1, -18, 0),
@@ -20565,7 +20565,7 @@ fn golden_hex_pairs_6_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 100920089)]
 fn golden_hex_pairs_6_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (-21, -18, 31, 13, 0, 1, 1), (-21, -18, -22, -26, 0, 4, 4), (-21, -18, 1, -18, 1, 0, 1),
@@ -20667,7 +20667,7 @@ fn golden_hex_pairs_6_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73154414)]
 fn golden_hex_pairs_6_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (-21, -18, 31, 13, 1), (-21, -18, -22, -26, 4), (-21, -18, 1, -18, 0),
@@ -20750,7 +20750,7 @@ fn golden_hex_pairs_6_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_6_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (-21, -18, 31, 13, -52, 65), (-21, -18, -22, -26, -13, -27), (-21, -18, 1, -18, -21, 4),
@@ -20852,7 +20852,7 @@ fn golden_hex_pairs_6_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_6_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (-21, -18, 31, 13, 62, -70), (-21, -18, -22, -26, -30, -17), (-21, -18, 1, -18, 1, -40),
@@ -20954,7 +20954,7 @@ fn golden_hex_pairs_6_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 269831657)]
 fn golden_hex_pairs_6_rectiline_to_cw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (-21, -18, 31, 13, 84, 405260098), (-21, -18, -22, -26, 10, 250299762),
@@ -21098,7 +21098,7 @@ fn golden_hex_pairs_6_rectiline_to_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 269812578)]
 fn golden_hex_pairs_6_rectiline_to_ccw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (-21, -18, 31, 13, 84, 974521517), (-21, -18, -22, -26, 10, 308470138),
@@ -21242,7 +21242,7 @@ fn golden_hex_pairs_6_rectiline_to_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 101515019)]
 fn golden_hex_pairs_7_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (-26, 11, 31, 13, 0, 0, 0), (-26, 11, -22, -26, 0, 4, 4), (-26, 11, 1, -18, 0, 5, 5),
@@ -21344,7 +21344,7 @@ fn golden_hex_pairs_7_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73749344)]
 fn golden_hex_pairs_7_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (-26, 11, 31, 13, 0), (-26, 11, -22, -26, 4), (-26, 11, 1, -18, 5), (-26, 11, 11, 12, 0),
@@ -21427,7 +21427,7 @@ fn golden_hex_pairs_7_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 100919879)]
 fn golden_hex_pairs_7_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (-26, 11, 31, 13, 0, 1, 1), (-26, 11, -22, -26, 0, 5, 5), (-26, 11, 1, -18, 0, 5, 5),
@@ -21529,7 +21529,7 @@ fn golden_hex_pairs_7_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73154204)]
 fn golden_hex_pairs_7_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (-26, 11, 31, 13, 1), (-26, 11, -22, -26, 5), (-26, 11, 1, -18, 5), (-26, 11, 11, 12, 1),
@@ -21612,7 +21612,7 @@ fn golden_hex_pairs_7_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_7_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (-26, 11, 31, 13, -28, 70), (-26, 11, -22, -26, 11, -22), (-26, 11, 1, -18, 3, 9),
@@ -21714,7 +21714,7 @@ fn golden_hex_pairs_7_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_7_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (-26, 11, 31, 13, 33, -46), (-26, 11, -22, -26, -59, 7), (-26, 11, 1, -18, -28, -16),
@@ -21816,7 +21816,7 @@ fn golden_hex_pairs_7_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 272559284)]
 fn golden_hex_pairs_7_rectiline_to_cw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (-26, 11, 31, 13, 60, 617946548), (-26, 11, -22, -26, 38, 427764946),
@@ -21960,7 +21960,7 @@ fn golden_hex_pairs_7_rectiline_to_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 272536425)]
 fn golden_hex_pairs_7_rectiline_to_ccw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (-26, 11, 31, 13, 60, 686686425), (-26, 11, -22, -26, 38, 284190273),
@@ -22104,7 +22104,7 @@ fn golden_hex_pairs_7_rectiline_to_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 101515019)]
 fn golden_hex_pairs_8_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (-13, -35, 31, 13, 0, 1, 1), (-13, -35, -22, -26, 0, 2, 2), (-13, -35, 1, -18, 0, 1, 1),
@@ -22206,7 +22206,7 @@ fn golden_hex_pairs_8_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73749344)]
 fn golden_hex_pairs_8_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (-13, -35, 31, 13, 1), (-13, -35, -22, -26, 2), (-13, -35, 1, -18, 1),
@@ -22289,7 +22289,7 @@ fn golden_hex_pairs_8_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 100920404)]
 fn golden_hex_pairs_8_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (-13, -35, 31, 13, 0, 1, 1), (-13, -35, -22, -26, 1, 3, 2), (-13, -35, 1, -18, 0, 1, 1),
@@ -22391,7 +22391,7 @@ fn golden_hex_pairs_8_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73154729)]
 fn golden_hex_pairs_8_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (-13, -35, 31, 13, 1), (-13, -35, -22, -26, 3), (-13, -35, 1, -18, 1),
@@ -22474,7 +22474,7 @@ fn golden_hex_pairs_8_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_8_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (-13, -35, 31, 13, -61, 57), (-13, -35, -22, -26, -22, -35), (-13, -35, 1, -18, -30, -4),
@@ -22576,7 +22576,7 @@ fn golden_hex_pairs_8_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_8_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (-13, -35, 31, 13, 79, -79), (-13, -35, -22, -26, -13, -26), (-13, -35, 1, -18, 18, -49),
@@ -22678,7 +22678,7 @@ fn golden_hex_pairs_8_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 273787101)]
 fn golden_hex_pairs_8_rectiline_to_cw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (-13, -35, 31, 13, 93, 383347644), (-13, -35, -22, -26, 10, 715182463),
@@ -22822,7 +22822,7 @@ fn golden_hex_pairs_8_rectiline_to_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 273967943)]
 fn golden_hex_pairs_8_rectiline_to_ccw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (-13, -35, 31, 13, 93, 343338208), (-13, -35, -22, -26, 10, 715182463),
@@ -22966,7 +22966,7 @@ fn golden_hex_pairs_8_rectiline_to_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 101515229)]
 fn golden_hex_pairs_9_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (36, -31, 31, 13, 0, 1, 1), (36, -31, -22, -26, 0, 3, 3), (36, -31, 1, -18, 0, 3, 3),
@@ -23068,7 +23068,7 @@ fn golden_hex_pairs_9_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73749554)]
 fn golden_hex_pairs_9_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (36, -31, 31, 13, 1), (36, -31, -22, -26, 3), (36, -31, 1, -18, 3), (36, -31, 11, 12, 2),
@@ -23148,7 +23148,7 @@ fn golden_hex_pairs_9_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 100920194)]
 fn golden_hex_pairs_9_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (36, -31, 31, 13, 0, 2, 2), (36, -31, -22, -26, 0, 3, 3), (36, -31, 1, -18, 0, 3, 3),
@@ -23250,7 +23250,7 @@ fn golden_hex_pairs_9_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73154519)]
 fn golden_hex_pairs_9_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (36, -31, 31, 13, 2), (36, -31, -22, -26, 3), (36, -31, 1, -18, 3), (36, -31, 11, 12, 2),
@@ -23330,7 +23330,7 @@ fn golden_hex_pairs_9_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_9_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (36, -31, 31, 13, -8, 8), (36, -31, -22, -26, 31, -84), (36, -31, 1, -18, 23, -53),
@@ -23432,7 +23432,7 @@ fn golden_hex_pairs_9_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_9_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (36, -31, 31, 13, 75, -26), (36, -31, -22, -26, -17, 27), (36, -31, 1, -18, 14, 4),
@@ -23534,7 +23534,7 @@ fn golden_hex_pairs_9_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 259354673)]
 fn golden_hex_pairs_9_rectiline_to_cw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (36, -31, 31, 13, 45, 905875510), (36, -31, -22, -26, 59, 857180633),
@@ -23678,7 +23678,7 @@ fn golden_hex_pairs_9_rectiline_to_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 259361078)]
 fn golden_hex_pairs_9_rectiline_to_ccw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (36, -31, 31, 13, 45, 871454139), (36, -31, -22, -26, 59, 217299980),
@@ -23822,7 +23822,7 @@ fn golden_hex_pairs_9_rectiline_to_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 101515019)]
 fn golden_hex_pairs_10_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (-26, 7, 31, 13, 0, 0, 0), (-26, 7, -22, -26, 0, 4, 4), (-26, 7, 1, -18, 0, 5, 5),
@@ -23924,7 +23924,7 @@ fn golden_hex_pairs_10_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73749344)]
 fn golden_hex_pairs_10_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (-26, 7, 31, 13, 0), (-26, 7, -22, -26, 4), (-26, 7, 1, -18, 5), (-26, 7, 11, 12, 0),
@@ -24010,7 +24010,7 @@ fn golden_hex_pairs_10_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 100920194)]
 fn golden_hex_pairs_10_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (-26, 7, 31, 13, 0, 1, 1), (-26, 7, -22, -26, 0, 5, 5), (-26, 7, 1, -18, 0, 0, 0),
@@ -24112,7 +24112,7 @@ fn golden_hex_pairs_10_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73154519)]
 fn golden_hex_pairs_10_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (-26, 7, 31, 13, 1), (-26, 7, -22, -26, 5), (-26, 7, 1, -18, 0), (-26, 7, 11, 12, 1),
@@ -24198,7 +24198,7 @@ fn golden_hex_pairs_10_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_10_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (-26, 7, 31, 13, -32, 70), (-26, 7, -22, -26, 7, -22), (-26, 7, 1, -18, -1, 9),
@@ -24300,7 +24300,7 @@ fn golden_hex_pairs_10_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_10_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (-26, 7, 31, 13, 37, -50), (-26, 7, -22, -26, -55, 3), (-26, 7, 1, -18, -24, -20),
@@ -24402,7 +24402,7 @@ fn golden_hex_pairs_10_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 304668840)]
 fn golden_hex_pairs_10_rectiline_to_cw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (-26, 7, 31, 13, 64, 270264270), (-26, 7, -22, -26, 34, 764255120),
@@ -24546,7 +24546,7 @@ fn golden_hex_pairs_10_rectiline_to_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 304664147)]
 fn golden_hex_pairs_10_rectiline_to_ccw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (-26, 7, 31, 13, 64, 964748486), (-26, 7, -22, -26, 34, 404313584),
@@ -24690,7 +24690,7 @@ fn golden_hex_pairs_10_rectiline_to_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 101515019)]
 fn golden_hex_pairs_11_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (27, -17, 31, 13, 0, 1, 1), (27, -17, -22, -26, 0, 3, 3), (27, -17, 1, -18, 0, 3, 3),
@@ -24792,7 +24792,7 @@ fn golden_hex_pairs_11_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73749344)]
 fn golden_hex_pairs_11_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (27, -17, 31, 13, 1), (27, -17, -22, -26, 3), (27, -17, 1, -18, 3), (27, -17, 11, 12, 2),
@@ -24872,7 +24872,7 @@ fn golden_hex_pairs_11_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 100920509)]
 fn golden_hex_pairs_11_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (27, -17, 31, 13, 0, 1, 1), (27, -17, -22, -26, 0, 4, 4), (27, -17, 1, -18, 0, 4, 4),
@@ -24974,7 +24974,7 @@ fn golden_hex_pairs_11_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73154834)]
 fn golden_hex_pairs_11_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (27, -17, 31, 13, 1), (27, -17, -22, -26, 4), (27, -17, 1, -18, 4), (27, -17, 11, 12, 2),
@@ -25054,7 +25054,7 @@ fn golden_hex_pairs_11_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_11_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (27, -17, 31, 13, -3, 17), (27, -17, -22, -26, 36, -75), (27, -17, 1, -18, 28, -44),
@@ -25156,7 +25156,7 @@ fn golden_hex_pairs_11_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_11_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (27, -17, 31, 13, 61, -21), (27, -17, -22, -26, -31, 32), (27, -17, 1, -18, 0, 9),
@@ -25258,7 +25258,7 @@ fn golden_hex_pairs_11_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 281592234)]
 fn golden_hex_pairs_11_rectiline_to_cw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (27, -17, 31, 13, 35, 407931082), (27, -17, -22, -26, 59, 425645526),
@@ -25402,7 +25402,7 @@ fn golden_hex_pairs_11_rectiline_to_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 281707661)]
 fn golden_hex_pairs_11_rectiline_to_ccw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (27, -17, 31, 13, 35, 113894780), (27, -17, -22, -26, 59, 187103943),
@@ -25545,7 +25545,7 @@ fn golden_hex_pairs_11_rectiline_to_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 101515229)]
 fn golden_hex_pairs_12_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (38, -1, 31, 13, 1, 2, 1), (38, -1, -22, -26, 0, 3, 3), (38, -1, 1, -18, 0, 3, 3),
@@ -25647,7 +25647,7 @@ fn golden_hex_pairs_12_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73749554)]
 fn golden_hex_pairs_12_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (38, -1, 31, 13, 2), (38, -1, -22, -26, 3), (38, -1, 1, -18, 3), (38, -1, 11, 12, 3),
@@ -25730,7 +25730,7 @@ fn golden_hex_pairs_12_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 100920614)]
 fn golden_hex_pairs_12_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (38, -1, 31, 13, 0, 2, 2), (38, -1, -22, -26, 0, 4, 4), (38, -1, 1, -18, 0, 4, 4),
@@ -25832,7 +25832,7 @@ fn golden_hex_pairs_12_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73154939)]
 fn golden_hex_pairs_12_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (38, -1, 31, 13, 2), (38, -1, -22, -26, 4), (38, -1, 1, -18, 4), (38, -1, 11, 12, 3),
@@ -25915,7 +25915,7 @@ fn golden_hex_pairs_12_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_12_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (38, -1, 31, 13, 24, 6), (38, -1, -22, -26, 63, -86), (38, -1, 1, -18, 55, -55),
@@ -26016,7 +26016,7 @@ fn golden_hex_pairs_12_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_12_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (38, -1, 31, 13, 45, 6), (38, -1, -22, -26, -47, 59), (38, -1, 1, -18, -16, 36),
@@ -26117,7 +26117,7 @@ fn golden_hex_pairs_12_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 277846296)]
 fn golden_hex_pairs_12_rectiline_to_cw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (38, -1, 31, 13, 15, 902406256), (38, -1, -22, -26, 86, 114813472),
@@ -26256,7 +26256,7 @@ fn golden_hex_pairs_12_rectiline_to_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 277833801)]
 fn golden_hex_pairs_12_rectiline_to_ccw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (38, -1, 31, 13, 15, 178528120), (38, -1, -22, -26, 86, 231361361),
@@ -26395,7 +26395,7 @@ fn golden_hex_pairs_12_rectiline_to_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 101514914)]
 fn golden_hex_pairs_13_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (10, -16, 31, 13, 0, 1, 1), (10, -16, -22, -26, 0, 3, 3), (10, -16, 1, -18, 0, 3, 3),
@@ -26497,7 +26497,7 @@ fn golden_hex_pairs_13_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73749239)]
 fn golden_hex_pairs_13_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (10, -16, 31, 13, 1), (10, -16, -22, -26, 3), (10, -16, 1, -18, 3), (10, -16, 11, 12, 1),
@@ -26577,7 +26577,7 @@ fn golden_hex_pairs_13_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 100920194)]
 fn golden_hex_pairs_13_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (10, -16, 31, 13, 0, 1, 1), (10, -16, -22, -26, 0, 4, 4), (10, -16, 1, -18, 0, 4, 4),
@@ -26679,7 +26679,7 @@ fn golden_hex_pairs_13_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73154519)]
 fn golden_hex_pairs_13_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (10, -16, 31, 13, 1), (10, -16, -22, -26, 4), (10, -16, 1, -18, 4), (10, -16, 11, 12, 1),
@@ -26759,7 +26759,7 @@ fn golden_hex_pairs_13_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_13_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (10, -16, 31, 13, -19, 34), (10, -16, -22, -26, 20, -58), (10, -16, 1, -18, 12, -27),
@@ -26861,7 +26861,7 @@ fn golden_hex_pairs_13_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_13_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (10, -16, 31, 13, 60, -37), (10, -16, -22, -26, -32, 16), (10, -16, 1, -18, -1, -7),
@@ -26963,7 +26963,7 @@ fn golden_hex_pairs_13_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 251847498)]
 fn golden_hex_pairs_13_rectiline_to_cw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (10, -16, 31, 13, 51, 308434144), (10, -16, -22, -26, 43, 443370696),
@@ -27104,7 +27104,7 @@ fn golden_hex_pairs_13_rectiline_to_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 251862755)]
 fn golden_hex_pairs_13_rectiline_to_ccw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (10, -16, 31, 13, 51, 146978603), (10, -16, -22, -26, 43, 913238466),
@@ -27247,7 +27247,7 @@ fn golden_hex_pairs_13_rectiline_to_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 101515019)]
 fn golden_hex_pairs_14_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (33, 8, 31, 13, 0, 1, 1), (33, 8, -22, -26, 0, 3, 3), (33, 8, 1, -18, 0, 3, 3),
@@ -27349,7 +27349,7 @@ fn golden_hex_pairs_14_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73749344)]
 fn golden_hex_pairs_14_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (33, 8, 31, 13, 1), (33, 8, -22, -26, 3), (33, 8, 1, -18, 3), (33, 8, 11, 12, 3),
@@ -27429,7 +27429,7 @@ fn golden_hex_pairs_14_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 100920614)]
 fn golden_hex_pairs_14_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (33, 8, 31, 13, 0, 2, 2), (33, 8, -22, -26, 0, 4, 4), (33, 8, 1, -18, 0, 4, 4),
@@ -27531,7 +27531,7 @@ fn golden_hex_pairs_14_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73154939)]
 fn golden_hex_pairs_14_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (33, 8, 31, 13, 2), (33, 8, -22, -26, 4), (33, 8, 1, -18, 4), (33, 8, 11, 12, 3),
@@ -27611,7 +27611,7 @@ fn golden_hex_pairs_14_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_14_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (33, 8, 31, 13, 28, 11), (33, 8, -22, -26, 67, -81), (33, 8, 1, -18, 59, -50),
@@ -27713,7 +27713,7 @@ fn golden_hex_pairs_14_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_14_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (33, 8, 31, 13, 36, 10), (33, 8, -22, -26, -56, 63), (33, 8, 1, -18, -25, 40),
@@ -27815,7 +27815,7 @@ fn golden_hex_pairs_14_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 257691368)]
 fn golden_hex_pairs_14_rectiline_to_cw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (33, 8, 31, 13, 6, 332005870), (33, 8, -22, -26, 90, 204405069),
@@ -27956,7 +27956,7 @@ fn golden_hex_pairs_14_rectiline_to_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 257802983)]
 fn golden_hex_pairs_14_rectiline_to_ccw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (33, 8, 31, 13, 6, 937092245), (33, 8, -22, -26, 90, 12250923),
@@ -28096,7 +28096,7 @@ fn golden_hex_pairs_14_rectiline_to_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 101514809)]
 fn golden_hex_pairs_15_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (-39, -38, 31, 13, 0, 0, 0), (-39, -38, -22, -26, 0, 0, 0), (-39, -38, 1, -18, 0, 0, 0),
@@ -28198,7 +28198,7 @@ fn golden_hex_pairs_15_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73749134)]
 fn golden_hex_pairs_15_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (-39, -38, 31, 13, 0), (-39, -38, -22, -26, 0), (-39, -38, 1, -18, 0),
@@ -28281,7 +28281,7 @@ fn golden_hex_pairs_15_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 100920089)]
 fn golden_hex_pairs_15_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (-39, -38, 31, 13, 0, 1, 1), (-39, -38, -22, -26, 0, 1, 1), (-39, -38, 1, -18, 0, 1, 1),
@@ -28383,7 +28383,7 @@ fn golden_hex_pairs_15_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 73154414)]
 fn golden_hex_pairs_15_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (-39, -38, 31, 13, 1), (-39, -38, -22, -26, 1), (-39, -38, 1, -18, 1),
@@ -28466,7 +28466,7 @@ fn golden_hex_pairs_15_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_15_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (-39, -38, 31, 13, -90, 83), (-39, -38, -22, -26, -51, -9), (-39, -38, 1, -18, -59, 22),
@@ -28568,7 +28568,7 @@ fn golden_hex_pairs_15_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 84620834)]
 fn golden_hex_pairs_15_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (-39, -38, 31, 13, 82, -108), (-39, -38, -22, -26, -10, -55), (-39, -38, 1, -18, 21, -78),
@@ -28670,7 +28670,7 @@ fn golden_hex_pairs_15_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 311477943)]
 fn golden_hex_pairs_15_rectiline_to_cw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (-39, -38, 31, 13, 122, 908376542), (-39, -38, -22, -26, 30, 123522948),
@@ -28814,7 +28814,7 @@ fn golden_hex_pairs_15_rectiline_to_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 311509790)]
 fn golden_hex_pairs_15_rectiline_to_ccw() {
     let cases: Array<(i32, i32, i32, i32, u32, u32)> = array![
         (-39, -38, 31, 13, 122, 245039432), (-39, -38, -22, -26, 30, 861108837),
@@ -28958,7 +28958,7 @@ fn golden_hex_pairs_15_rectiline_to_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3874668)]
 fn golden_hex_bounds_pairs_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (2147483647, 0, 2147483647, 0, 1, 2, 1), (2147483647, 0, 1073741824, 0, 0, 3, 3),
@@ -28994,7 +28994,7 @@ fn golden_hex_bounds_pairs_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_way_to_panics_0() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (2147483647, 0, -2147483648, 0);
@@ -29004,7 +29004,7 @@ fn golden_hex_bounds_pairs_way_to_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_way_to_panics_1() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (2147483647, -2147483648, -2147483648, 2147483647);
@@ -29014,7 +29014,7 @@ fn golden_hex_bounds_pairs_way_to_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_way_to_panics_2() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (-1, 0, 1073741824, 0);
@@ -29024,7 +29024,7 @@ fn golden_hex_bounds_pairs_way_to_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_way_to_panics_3() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (0, 0, -1073741824, 0);
@@ -29034,7 +29034,7 @@ fn golden_hex_bounds_pairs_way_to_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 2983008)]
 fn golden_hex_bounds_pairs_main_direction_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (2147483647, 0, 2147483647, 0, 2), (2147483647, 0, 1073741824, 0, 3),
@@ -29065,7 +29065,7 @@ fn golden_hex_bounds_pairs_main_direction_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_main_direction_to_panics_0() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (2147483647, 0, -2147483648, 0);
@@ -29075,7 +29075,7 @@ fn golden_hex_bounds_pairs_main_direction_to_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_main_direction_to_panics_1() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (2147483647, -2147483648, -2147483648, 2147483647);
@@ -29085,7 +29085,7 @@ fn golden_hex_bounds_pairs_main_direction_to_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_main_direction_to_panics_2() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (-1, 0, 1073741824, 0);
@@ -29095,7 +29095,7 @@ fn golden_hex_bounds_pairs_main_direction_to_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_main_direction_to_panics_3() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (0, 0, -1073741824, 0);
@@ -29105,7 +29105,7 @@ fn golden_hex_bounds_pairs_main_direction_to_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 14365050)]
 fn golden_hex_bounds_pairs_diagonal_way_to() {
     let cases: Array<(i32, i32, i32, i32, u8, u8, u8)> = array![
         (2147483647, 0, 2147483647, 0, 1, 0, 5), (2147483647, 0, 0, 2147483647, 1, 3, 2),
@@ -29168,7 +29168,7 @@ fn golden_hex_bounds_pairs_diagonal_way_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_diagonal_way_to_panics_0() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (2147483647, 0, -2147483648, 0);
@@ -29178,7 +29178,7 @@ fn golden_hex_bounds_pairs_diagonal_way_to_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_diagonal_way_to_panics_1() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (2147483647, -2147483648, 2147483647, 2147483647);
@@ -29188,7 +29188,7 @@ fn golden_hex_bounds_pairs_diagonal_way_to_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_diagonal_way_to_panics_2() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (-2147483648, -2147483648, 0, 0);
@@ -29198,7 +29198,7 @@ fn golden_hex_bounds_pairs_diagonal_way_to_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_diagonal_way_to_panics_3() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (0, 0, -2147483648, -2147483648);
@@ -29208,7 +29208,7 @@ fn golden_hex_bounds_pairs_diagonal_way_to_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 10645950)]
 fn golden_hex_bounds_pairs_main_diagonal_to() {
     let cases: Array<(i32, i32, i32, i32, u8)> = array![
         (2147483647, 0, 2147483647, 0, 0), (2147483647, 0, 0, 2147483647, 3),
@@ -29259,7 +29259,7 @@ fn golden_hex_bounds_pairs_main_diagonal_to() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_main_diagonal_to_panics_0() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (2147483647, 0, -2147483648, 0);
@@ -29269,7 +29269,7 @@ fn golden_hex_bounds_pairs_main_diagonal_to_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_main_diagonal_to_panics_1() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (2147483647, -2147483648, 2147483647, 2147483647);
@@ -29279,7 +29279,7 @@ fn golden_hex_bounds_pairs_main_diagonal_to_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_main_diagonal_to_panics_2() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (-2147483648, -2147483648, 0, 0);
@@ -29289,7 +29289,7 @@ fn golden_hex_bounds_pairs_main_diagonal_to_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_main_diagonal_to_panics_3() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (0, 0, -2147483648, -2147483648);
@@ -29299,7 +29299,7 @@ fn golden_hex_bounds_pairs_main_diagonal_to_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 11640762)]
 fn golden_hex_bounds_pairs_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (2147483647, 0, 2147483647, 0, 2147483647, 0), (2147483647, 0, 0, 2147483647, 0, 0),
@@ -29377,7 +29377,7 @@ fn golden_hex_bounds_pairs_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_ccw_around_panics_0() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (2147483647, 0, -2147483648, 0);
@@ -29387,7 +29387,7 @@ fn golden_hex_bounds_pairs_ccw_around_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_ccw_around_panics_1() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (2147483647, -2147483648, -2147483648, 2147483647);
@@ -29397,7 +29397,7 @@ fn golden_hex_bounds_pairs_ccw_around_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_ccw_around_panics_2() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (-1, 0, 2147483647, 0);
@@ -29407,7 +29407,7 @@ fn golden_hex_bounds_pairs_ccw_around_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_ccw_around_panics_3() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (0, 0, -2147483648, -2147483648);
@@ -29417,7 +29417,7 @@ fn golden_hex_bounds_pairs_ccw_around_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 10460510)]
 fn golden_hex_bounds_pairs_cw_around() {
     let cases: Array<(i32, i32, i32, i32, i32, i32)> = array![
         (2147483647, 0, 2147483647, 0, 2147483647, 0),
@@ -29487,7 +29487,7 @@ fn golden_hex_bounds_pairs_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_cw_around_panics_0() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (2147483647, 0, -2147483648, 0);
@@ -29497,7 +29497,7 @@ fn golden_hex_bounds_pairs_cw_around_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_cw_around_panics_1() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (2147483647, -2147483648, 2147483647, 2147483647);
@@ -29507,7 +29507,7 @@ fn golden_hex_bounds_pairs_cw_around_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_cw_around_panics_2() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (-2147483648, -2147483648, 1073741824, 0);
@@ -29517,7 +29517,7 @@ fn golden_hex_bounds_pairs_cw_around_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_pairs_cw_around_panics_3() {
     let (x1, y1, x2, y2): (i32, i32, i32, i32) = (0, 0, -2147483648, -2147483648);
@@ -29527,7 +29527,7 @@ fn golden_hex_bounds_pairs_cw_around_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 157790178)]
 fn golden_hex_diagonal_diagonal_neighbor() {
     let cases: Array<(i32, i32, u8, i32, i32)> = array![
         (31, 13, 0, 33, 12), (31, 13, 1, 32, 14), (31, 13, 2, 30, 15), (31, 13, 3, 29, 14),
@@ -29645,7 +29645,7 @@ fn golden_hex_diagonal_diagonal_neighbor() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 157790178)]
 fn golden_hex_diagonal_add_diag_dir() {
     let cases: Array<(i32, i32, u8, i32, i32)> = array![
         (31, 13, 0, 33, 12), (31, 13, 1, 32, 14), (31, 13, 2, 30, 15), (31, 13, 3, 29, 14),
@@ -29763,7 +29763,7 @@ fn golden_hex_diagonal_add_diag_dir() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 333596561)]
 fn golden_hex_bounds_diagonal_diagonal_neighbor() {
     let cases: Array<(i32, i32, u8, i32, i32)> = array![
         (-2147483648, -2147483648, 1, -2147483647, -2147483647),
@@ -30173,7 +30173,7 @@ fn golden_hex_bounds_diagonal_diagonal_neighbor() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12485)]
 #[should_panic]
 fn golden_hex_bounds_diagonal_diagonal_neighbor_panics_0() {
     let (x, y, d): (i32, i32, u8) = (-2147483648, -2147483648, 0);
@@ -30184,7 +30184,7 @@ fn golden_hex_bounds_diagonal_diagonal_neighbor_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12485)]
 #[should_panic]
 fn golden_hex_bounds_diagonal_diagonal_neighbor_panics_1() {
     let (x, y, d): (i32, i32, u8) = (-1073741825, -2147483648, 0);
@@ -30195,7 +30195,7 @@ fn golden_hex_bounds_diagonal_diagonal_neighbor_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 13083)]
 #[should_panic]
 fn golden_hex_bounds_diagonal_diagonal_neighbor_panics_2() {
     let (x, y, d): (i32, i32, u8) = (1073741824, 2147483647, 3);
@@ -30206,7 +30206,7 @@ fn golden_hex_bounds_diagonal_diagonal_neighbor_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 11991)]
 #[should_panic]
 fn golden_hex_bounds_diagonal_diagonal_neighbor_panics_3() {
     let (x, y, d): (i32, i32, u8) = (2147483647, 2147483647, 5);
@@ -30217,7 +30217,7 @@ fn golden_hex_bounds_diagonal_diagonal_neighbor_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 333596561)]
 fn golden_hex_bounds_diagonal_add_diag_dir() {
     let cases: Array<(i32, i32, u8, i32, i32)> = array![
         (-2147483648, -2147483648, 1, -2147483647, -2147483647),
@@ -30627,7 +30627,7 @@ fn golden_hex_bounds_diagonal_add_diag_dir() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12485)]
 #[should_panic]
 fn golden_hex_bounds_diagonal_add_diag_dir_panics_0() {
     let (x, y, d): (i32, i32, u8) = (-2147483648, -2147483648, 0);
@@ -30638,7 +30638,7 @@ fn golden_hex_bounds_diagonal_add_diag_dir_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12485)]
 #[should_panic]
 fn golden_hex_bounds_diagonal_add_diag_dir_panics_1() {
     let (x, y, d): (i32, i32, u8) = (-1073741825, -2147483648, 0);
@@ -30649,7 +30649,7 @@ fn golden_hex_bounds_diagonal_add_diag_dir_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 13083)]
 #[should_panic]
 fn golden_hex_bounds_diagonal_add_diag_dir_panics_2() {
     let (x, y, d): (i32, i32, u8) = (1073741824, 2147483647, 3);
@@ -30660,7 +30660,7 @@ fn golden_hex_bounds_diagonal_add_diag_dir_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 11991)]
 #[should_panic]
 fn golden_hex_bounds_diagonal_add_diag_dir_panics_3() {
     let (x, y, d): (i32, i32, u8) = (2147483647, 2147483647, 5);
@@ -30671,7 +30671,7 @@ fn golden_hex_bounds_diagonal_add_diag_dir_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 26334)]
 fn golden_hex_diagonal_neighbor_coord() {
     let all = VertexDirectionTrait::ALL_DIRECTIONS;
     let direction = *all.span().at(0);
@@ -30712,7 +30712,7 @@ fn golden_hex_diagonal_neighbor_coord() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 183001203)]
 fn golden_hex_other_neighbor_direction() {
     let cases: Array<(i32, i32, u8, u8)> = array![
         (31, 13, 0, 0), (31, 13, 1, 1), (31, 13, 2, 2), (31, 13, 3, 3), (31, 13, 4, 4),
@@ -30821,7 +30821,7 @@ fn golden_hex_other_neighbor_direction() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 346347603)]
 fn golden_hex_bounds_other_neighbor_direction() {
     let cases: Array<(i32, i32, u8, u8)> = array![
         (-2147483648, -2147483648, 0, 0), (-2147483648, -2147483648, 1, 1),
@@ -31081,7 +31081,7 @@ fn golden_hex_bounds_other_neighbor_direction() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 11991)]
 #[should_panic]
 fn golden_hex_bounds_other_neighbor_direction_panics_0() {
     let (x, y, k): (i32, i32, u8) = (-2147483648, -2147483648, 2);
@@ -31096,7 +31096,7 @@ fn golden_hex_bounds_other_neighbor_direction_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 13083)]
 #[should_panic]
 fn golden_hex_bounds_other_neighbor_direction_panics_1() {
     let (x, y, k): (i32, i32, u8) = (-1073741825, -2147483648, 5);
@@ -31111,7 +31111,7 @@ fn golden_hex_bounds_other_neighbor_direction_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 25011)]
 #[should_panic]
 fn golden_hex_bounds_other_neighbor_direction_panics_2() {
     let (x, y, k): (i32, i32, u8) = (2147483646, 2147483647, 4);
@@ -31126,7 +31126,7 @@ fn golden_hex_bounds_other_neighbor_direction_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 11991)]
 #[should_panic]
 fn golden_hex_bounds_other_neighbor_direction_panics_3() {
     let (x, y, k): (i32, i32, u8) = (2147483647, 2147483647, 5);
@@ -31141,7 +31141,7 @@ fn golden_hex_bounds_other_neighbor_direction_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 852174456)]
 fn golden_hex_rotation_rotate_cw() {
     let cases: Array<(i32, i32, u32, i32, i32)> = array![
         (31, 13, 0, 31, 13), (31, 13, 1, -13, 44), (31, 13, 2, -44, 31), (31, 13, 3, -31, -13),
@@ -31396,7 +31396,7 @@ fn golden_hex_rotation_rotate_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 852174456)]
 fn golden_hex_rotation_rotate_ccw() {
     let cases: Array<(i32, i32, u32, i32, i32)> = array![
         (31, 13, 0, 31, 13), (31, 13, 1, 44, -31), (31, 13, 2, 13, -44), (31, 13, 3, -31, -13),
@@ -31650,845 +31650,169 @@ fn golden_hex_rotation_rotate_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 67128936)]
 fn golden_hex_bounds_rotation_rotate_cw() {
     let cases: Array<(i32, i32, u32, i32, i32)> = array![
-        (-2147483648, -2147483648, 0, -2147483648, -2147483648),
-        (-2147483648, -2147483648, 6, -2147483648, -2147483648),
-        (-2147483648, -2147483648, 12, -2147483648, -2147483648),
-        (-2147483648, -2147483647, 0, -2147483648, -2147483647),
-        (-2147483648, -2147483647, 6, -2147483648, -2147483647),
-        (-2147483648, -2147483647, 12, -2147483648, -2147483647),
-        (-2147483648, -1073741825, 0, -2147483648, -1073741825),
-        (-2147483648, -1073741825, 6, -2147483648, -1073741825),
-        (-2147483648, -1073741825, 12, -2147483648, -1073741825),
-        (-2147483648, -1073741824, 0, -2147483648, -1073741824),
-        (-2147483648, -1073741824, 6, -2147483648, -1073741824),
-        (-2147483648, -1073741824, 12, -2147483648, -1073741824),
-        (-2147483648, -1, 0, -2147483648, -1), (-2147483648, -1, 6, -2147483648, -1),
-        (-2147483648, -1, 12, -2147483648, -1), (-2147483648, 0, 0, -2147483648, 0),
-        (-2147483648, 0, 6, -2147483648, 0), (-2147483648, 0, 12, -2147483648, 0),
-        (-2147483648, 1, 0, -2147483648, 1), (-2147483648, 1, 6, -2147483648, 1),
-        (-2147483648, 1, 12, -2147483648, 1), (-2147483648, 1073741823, 0, -2147483648, 1073741823),
-        (-2147483648, 1073741823, 6, -2147483648, 1073741823),
-        (-2147483648, 1073741823, 12, -2147483648, 1073741823),
-        (-2147483648, 1073741824, 0, -2147483648, 1073741824),
-        (-2147483648, 1073741824, 6, -2147483648, 1073741824),
-        (-2147483648, 1073741824, 12, -2147483648, 1073741824),
-        (-2147483648, 2147483646, 0, -2147483648, 2147483646),
-        (-2147483648, 2147483646, 6, -2147483648, 2147483646),
-        (-2147483648, 2147483646, 12, -2147483648, 2147483646),
-        (-2147483648, 2147483647, 0, -2147483648, 2147483647),
-        (-2147483648, 2147483647, 6, -2147483648, 2147483647),
-        (-2147483648, 2147483647, 12, -2147483648, 2147483647),
-        (-2147483647, -2147483648, 0, -2147483647, -2147483648),
-        (-2147483647, -2147483648, 6, -2147483647, -2147483648),
-        (-2147483647, -2147483648, 12, -2147483647, -2147483648),
-        (-2147483647, -2147483647, 0, -2147483647, -2147483647),
         (-2147483647, -2147483647, 3, 2147483647, 2147483647),
-        (-2147483647, -2147483647, 6, -2147483647, -2147483647),
-        (-2147483647, -2147483647, 9, 2147483647, 2147483647),
-        (-2147483647, -2147483647, 12, -2147483647, -2147483647),
-        (-2147483647, -2147483647, 255, 2147483647, 2147483647),
-        (-2147483647, -1073741825, 0, -2147483647, -1073741825),
         (-2147483647, -1073741825, 3, 2147483647, 1073741825),
-        (-2147483647, -1073741825, 6, -2147483647, -1073741825),
-        (-2147483647, -1073741825, 9, 2147483647, 1073741825),
-        (-2147483647, -1073741825, 12, -2147483647, -1073741825),
-        (-2147483647, -1073741825, 255, 2147483647, 1073741825),
-        (-2147483647, -1073741824, 0, -2147483647, -1073741824),
-        (-2147483647, -1073741824, 3, 2147483647, 1073741824),
-        (-2147483647, -1073741824, 6, -2147483647, -1073741824),
-        (-2147483647, -1073741824, 9, 2147483647, 1073741824),
-        (-2147483647, -1073741824, 12, -2147483647, -1073741824),
-        (-2147483647, -1073741824, 255, 2147483647, 1073741824),
-        (-2147483647, -1, 0, -2147483647, -1), (-2147483647, -1, 3, 2147483647, 1),
-        (-2147483647, -1, 6, -2147483647, -1), (-2147483647, -1, 9, 2147483647, 1),
-        (-2147483647, -1, 12, -2147483647, -1), (-2147483647, -1, 255, 2147483647, 1),
-        (-2147483647, 0, 0, -2147483647, 0), (-2147483647, 0, 1, 0, -2147483647),
-        (-2147483647, 0, 2, 2147483647, -2147483647), (-2147483647, 0, 3, 2147483647, 0),
-        (-2147483647, 0, 4, 0, 2147483647), (-2147483647, 0, 5, -2147483647, 2147483647),
-        (-2147483647, 0, 6, -2147483647, 0), (-2147483647, 0, 7, 0, -2147483647),
-        (-2147483647, 0, 8, 2147483647, -2147483647), (-2147483647, 0, 9, 2147483647, 0),
-        (-2147483647, 0, 10, 0, 2147483647), (-2147483647, 0, 11, -2147483647, 2147483647),
-        (-2147483647, 0, 12, -2147483647, 0), (-2147483647, 0, 255, 2147483647, 0),
-        (-2147483647, 1, 0, -2147483647, 1), (-2147483647, 1, 1, -1, -2147483646),
-        (-2147483647, 1, 2, 2147483646, -2147483647), (-2147483647, 1, 3, 2147483647, -1),
-        (-2147483647, 1, 4, 1, 2147483646), (-2147483647, 1, 5, -2147483646, 2147483647),
-        (-2147483647, 1, 6, -2147483647, 1), (-2147483647, 1, 7, -1, -2147483646),
-        (-2147483647, 1, 8, 2147483646, -2147483647), (-2147483647, 1, 9, 2147483647, -1),
-        (-2147483647, 1, 10, 1, 2147483646), (-2147483647, 1, 11, -2147483646, 2147483647),
-        (-2147483647, 1, 12, -2147483647, 1), (-2147483647, 1, 255, 2147483647, -1),
-        (-2147483647, 1073741823, 0, -2147483647, 1073741823),
+        (-2147483647, -1073741824, 3, 2147483647, 1073741824), (-2147483647, -1, 3, 2147483647, 1),
+        (-2147483647, 0, 1, 0, -2147483647), (-2147483647, 0, 3, 2147483647, 0),
+        (-2147483647, 0, 4, 0, 2147483647), (-2147483647, 1, 1, -1, -2147483646),
+        (-2147483647, 1, 3, 2147483647, -1), (-2147483647, 1, 4, 1, 2147483646),
         (-2147483647, 1073741823, 1, -1073741823, -1073741824),
-        (-2147483647, 1073741823, 2, 1073741824, -2147483647),
         (-2147483647, 1073741823, 3, 2147483647, -1073741823),
         (-2147483647, 1073741823, 4, 1073741823, 1073741824),
-        (-2147483647, 1073741823, 5, -1073741824, 2147483647),
-        (-2147483647, 1073741823, 6, -2147483647, 1073741823),
-        (-2147483647, 1073741823, 7, -1073741823, -1073741824),
-        (-2147483647, 1073741823, 8, 1073741824, -2147483647),
-        (-2147483647, 1073741823, 9, 2147483647, -1073741823),
-        (-2147483647, 1073741823, 10, 1073741823, 1073741824),
-        (-2147483647, 1073741823, 11, -1073741824, 2147483647),
-        (-2147483647, 1073741823, 12, -2147483647, 1073741823),
-        (-2147483647, 1073741823, 255, 2147483647, -1073741823),
-        (-2147483647, 1073741824, 0, -2147483647, 1073741824),
         (-2147483647, 1073741824, 1, -1073741824, -1073741823),
-        (-2147483647, 1073741824, 2, 1073741823, -2147483647),
         (-2147483647, 1073741824, 3, 2147483647, -1073741824),
         (-2147483647, 1073741824, 4, 1073741824, 1073741823),
-        (-2147483647, 1073741824, 5, -1073741823, 2147483647),
-        (-2147483647, 1073741824, 6, -2147483647, 1073741824),
-        (-2147483647, 1073741824, 7, -1073741824, -1073741823),
-        (-2147483647, 1073741824, 8, 1073741823, -2147483647),
-        (-2147483647, 1073741824, 9, 2147483647, -1073741824),
-        (-2147483647, 1073741824, 10, 1073741824, 1073741823),
-        (-2147483647, 1073741824, 11, -1073741823, 2147483647),
-        (-2147483647, 1073741824, 12, -2147483647, 1073741824),
-        (-2147483647, 1073741824, 255, 2147483647, -1073741824),
-        (-2147483647, 2147483646, 0, -2147483647, 2147483646),
-        (-2147483647, 2147483646, 1, -2147483646, -1), (-2147483647, 2147483646, 2, 1, -2147483647),
+        (-2147483647, 2147483646, 1, -2147483646, -1),
         (-2147483647, 2147483646, 3, 2147483647, -2147483646),
-        (-2147483647, 2147483646, 4, 2147483646, 1), (-2147483647, 2147483646, 5, -1, 2147483647),
-        (-2147483647, 2147483646, 6, -2147483647, 2147483646),
-        (-2147483647, 2147483646, 7, -2147483646, -1), (-2147483647, 2147483646, 8, 1, -2147483647),
-        (-2147483647, 2147483646, 9, 2147483647, -2147483646),
-        (-2147483647, 2147483646, 10, 2147483646, 1), (-2147483647, 2147483646, 11, -1, 2147483647),
-        (-2147483647, 2147483646, 12, -2147483647, 2147483646),
-        (-2147483647, 2147483646, 255, 2147483647, -2147483646),
-        (-2147483647, 2147483647, 0, -2147483647, 2147483647),
-        (-2147483647, 2147483647, 1, -2147483647, 0), (-2147483647, 2147483647, 2, 0, -2147483647),
+        (-2147483647, 2147483646, 4, 2147483646, 1), (-2147483647, 2147483647, 1, -2147483647, 0),
         (-2147483647, 2147483647, 3, 2147483647, -2147483647),
-        (-2147483647, 2147483647, 4, 2147483647, 0), (-2147483647, 2147483647, 5, 0, 2147483647),
-        (-2147483647, 2147483647, 6, -2147483647, 2147483647),
-        (-2147483647, 2147483647, 7, -2147483647, 0), (-2147483647, 2147483647, 8, 0, -2147483647),
-        (-2147483647, 2147483647, 9, 2147483647, -2147483647),
-        (-2147483647, 2147483647, 10, 2147483647, 0), (-2147483647, 2147483647, 11, 0, 2147483647),
-        (-2147483647, 2147483647, 12, -2147483647, 2147483647),
-        (-2147483647, 2147483647, 255, 2147483647, -2147483647),
-        (-1073741825, -2147483648, 0, -1073741825, -2147483648),
-        (-1073741825, -2147483648, 6, -1073741825, -2147483648),
-        (-1073741825, -2147483648, 12, -1073741825, -2147483648),
-        (-1073741825, -2147483647, 0, -1073741825, -2147483647),
+        (-2147483647, 2147483647, 4, 2147483647, 0),
         (-1073741825, -2147483647, 3, 1073741825, 2147483647),
-        (-1073741825, -2147483647, 6, -1073741825, -2147483647),
-        (-1073741825, -2147483647, 9, 1073741825, 2147483647),
-        (-1073741825, -2147483647, 12, -1073741825, -2147483647),
-        (-1073741825, -2147483647, 255, 1073741825, 2147483647),
-        (-1073741825, -1073741825, 0, -1073741825, -1073741825),
         (-1073741825, -1073741825, 3, 1073741825, 1073741825),
-        (-1073741825, -1073741825, 6, -1073741825, -1073741825),
-        (-1073741825, -1073741825, 9, 1073741825, 1073741825),
-        (-1073741825, -1073741825, 12, -1073741825, -1073741825),
-        (-1073741825, -1073741825, 255, 1073741825, 1073741825),
-        (-1073741825, -1073741824, 0, -1073741825, -1073741824),
-        (-1073741825, -1073741824, 3, 1073741825, 1073741824),
-        (-1073741825, -1073741824, 6, -1073741825, -1073741824),
-        (-1073741825, -1073741824, 9, 1073741825, 1073741824),
-        (-1073741825, -1073741824, 12, -1073741825, -1073741824),
-        (-1073741825, -1073741824, 255, 1073741825, 1073741824),
-        (-1073741825, -1, 0, -1073741825, -1), (-1073741825, -1, 1, 1, -1073741826),
-        (-1073741825, -1, 2, 1073741826, -1073741825), (-1073741825, -1, 3, 1073741825, 1),
-        (-1073741825, -1, 4, -1, 1073741826), (-1073741825, -1, 5, -1073741826, 1073741825),
-        (-1073741825, -1, 6, -1073741825, -1), (-1073741825, -1, 7, 1, -1073741826),
-        (-1073741825, -1, 8, 1073741826, -1073741825), (-1073741825, -1, 9, 1073741825, 1),
-        (-1073741825, -1, 10, -1, 1073741826), (-1073741825, -1, 11, -1073741826, 1073741825),
-        (-1073741825, -1, 12, -1073741825, -1), (-1073741825, -1, 255, 1073741825, 1),
-        (-1073741825, 0, 0, -1073741825, 0), (-1073741825, 0, 1, 0, -1073741825),
-        (-1073741825, 0, 2, 1073741825, -1073741825), (-1073741825, 0, 3, 1073741825, 0),
-        (-1073741825, 0, 4, 0, 1073741825), (-1073741825, 0, 5, -1073741825, 1073741825),
-        (-1073741825, 0, 6, -1073741825, 0), (-1073741825, 0, 7, 0, -1073741825),
-        (-1073741825, 0, 8, 1073741825, -1073741825), (-1073741825, 0, 9, 1073741825, 0),
-        (-1073741825, 0, 10, 0, 1073741825), (-1073741825, 0, 11, -1073741825, 1073741825),
-        (-1073741825, 0, 12, -1073741825, 0), (-1073741825, 0, 255, 1073741825, 0),
-        (-1073741825, 1, 0, -1073741825, 1), (-1073741825, 1, 1, -1, -1073741824),
-        (-1073741825, 1, 2, 1073741824, -1073741825), (-1073741825, 1, 3, 1073741825, -1),
-        (-1073741825, 1, 4, 1, 1073741824), (-1073741825, 1, 5, -1073741824, 1073741825),
-        (-1073741825, 1, 6, -1073741825, 1), (-1073741825, 1, 7, -1, -1073741824),
-        (-1073741825, 1, 8, 1073741824, -1073741825), (-1073741825, 1, 9, 1073741825, -1),
-        (-1073741825, 1, 10, 1, 1073741824), (-1073741825, 1, 11, -1073741824, 1073741825),
-        (-1073741825, 1, 12, -1073741825, 1), (-1073741825, 1, 255, 1073741825, -1),
-        (-1073741825, 1073741823, 0, -1073741825, 1073741823),
-        (-1073741825, 1073741823, 1, -1073741823, -2), (-1073741825, 1073741823, 2, 2, -1073741825),
+        (-1073741825, -1073741824, 3, 1073741825, 1073741824), (-1073741825, -1, 1, 1, -1073741826),
+        (-1073741825, -1, 3, 1073741825, 1), (-1073741825, -1, 4, -1, 1073741826),
+        (-1073741825, 0, 1, 0, -1073741825), (-1073741825, 0, 3, 1073741825, 0),
+        (-1073741825, 0, 4, 0, 1073741825), (-1073741825, 1, 1, -1, -1073741824),
+        (-1073741825, 1, 3, 1073741825, -1), (-1073741825, 1, 4, 1, 1073741824),
+        (-1073741825, 1073741823, 1, -1073741823, -2),
         (-1073741825, 1073741823, 3, 1073741825, -1073741823),
-        (-1073741825, 1073741823, 4, 1073741823, 2), (-1073741825, 1073741823, 5, -2, 1073741825),
-        (-1073741825, 1073741823, 6, -1073741825, 1073741823),
-        (-1073741825, 1073741823, 7, -1073741823, -2), (-1073741825, 1073741823, 8, 2, -1073741825),
-        (-1073741825, 1073741823, 9, 1073741825, -1073741823),
-        (-1073741825, 1073741823, 10, 1073741823, 2), (-1073741825, 1073741823, 11, -2, 1073741825),
-        (-1073741825, 1073741823, 12, -1073741825, 1073741823),
-        (-1073741825, 1073741823, 255, 1073741825, -1073741823),
-        (-1073741825, 1073741824, 0, -1073741825, 1073741824),
-        (-1073741825, 1073741824, 1, -1073741824, -1), (-1073741825, 1073741824, 2, 1, -1073741825),
+        (-1073741825, 1073741823, 4, 1073741823, 2), (-1073741825, 1073741824, 1, -1073741824, -1),
         (-1073741825, 1073741824, 3, 1073741825, -1073741824),
-        (-1073741825, 1073741824, 4, 1073741824, 1), (-1073741825, 1073741824, 5, -1, 1073741825),
-        (-1073741825, 1073741824, 6, -1073741825, 1073741824),
-        (-1073741825, 1073741824, 7, -1073741824, -1), (-1073741825, 1073741824, 8, 1, -1073741825),
-        (-1073741825, 1073741824, 9, 1073741825, -1073741824),
-        (-1073741825, 1073741824, 10, 1073741824, 1), (-1073741825, 1073741824, 11, -1, 1073741825),
-        (-1073741825, 1073741824, 12, -1073741825, 1073741824),
-        (-1073741825, 1073741824, 255, 1073741825, -1073741824),
-        (-1073741825, 2147483646, 0, -1073741825, 2147483646),
+        (-1073741825, 1073741824, 4, 1073741824, 1),
         (-1073741825, 2147483646, 1, -2147483646, 1073741821),
-        (-1073741825, 2147483646, 2, -1073741821, -1073741825),
         (-1073741825, 2147483646, 3, 1073741825, -2147483646),
         (-1073741825, 2147483646, 4, 2147483646, -1073741821),
-        (-1073741825, 2147483646, 5, 1073741821, 1073741825),
-        (-1073741825, 2147483646, 6, -1073741825, 2147483646),
-        (-1073741825, 2147483646, 7, -2147483646, 1073741821),
-        (-1073741825, 2147483646, 8, -1073741821, -1073741825),
-        (-1073741825, 2147483646, 9, 1073741825, -2147483646),
-        (-1073741825, 2147483646, 10, 2147483646, -1073741821),
-        (-1073741825, 2147483646, 11, 1073741821, 1073741825),
-        (-1073741825, 2147483646, 12, -1073741825, 2147483646),
-        (-1073741825, 2147483646, 255, 1073741825, -2147483646),
-        (-1073741825, 2147483647, 0, -1073741825, 2147483647),
         (-1073741825, 2147483647, 1, -2147483647, 1073741822),
-        (-1073741825, 2147483647, 2, -1073741822, -1073741825),
         (-1073741825, 2147483647, 3, 1073741825, -2147483647),
         (-1073741825, 2147483647, 4, 2147483647, -1073741822),
-        (-1073741825, 2147483647, 5, 1073741822, 1073741825),
-        (-1073741825, 2147483647, 6, -1073741825, 2147483647),
-        (-1073741825, 2147483647, 7, -2147483647, 1073741822),
-        (-1073741825, 2147483647, 8, -1073741822, -1073741825),
-        (-1073741825, 2147483647, 9, 1073741825, -2147483647),
-        (-1073741825, 2147483647, 10, 2147483647, -1073741822),
-        (-1073741825, 2147483647, 11, 1073741822, 1073741825),
-        (-1073741825, 2147483647, 12, -1073741825, 2147483647),
-        (-1073741825, 2147483647, 255, 1073741825, -2147483647),
-        (-1073741824, -2147483648, 0, -1073741824, -2147483648),
-        (-1073741824, -2147483648, 6, -1073741824, -2147483648),
-        (-1073741824, -2147483648, 12, -1073741824, -2147483648),
-        (-1073741824, -2147483647, 0, -1073741824, -2147483647),
         (-1073741824, -2147483647, 3, 1073741824, 2147483647),
-        (-1073741824, -2147483647, 6, -1073741824, -2147483647),
-        (-1073741824, -2147483647, 9, 1073741824, 2147483647),
-        (-1073741824, -2147483647, 12, -1073741824, -2147483647),
-        (-1073741824, -2147483647, 255, 1073741824, 2147483647),
-        (-1073741824, -1073741825, 0, -1073741824, -1073741825),
         (-1073741824, -1073741825, 3, 1073741824, 1073741825),
-        (-1073741824, -1073741825, 6, -1073741824, -1073741825),
-        (-1073741824, -1073741825, 9, 1073741824, 1073741825),
-        (-1073741824, -1073741825, 12, -1073741824, -1073741825),
-        (-1073741824, -1073741825, 255, 1073741824, 1073741825),
-        (-1073741824, -1073741824, 0, -1073741824, -1073741824),
-        (-1073741824, -1073741824, 3, 1073741824, 1073741824),
-        (-1073741824, -1073741824, 6, -1073741824, -1073741824),
-        (-1073741824, -1073741824, 9, 1073741824, 1073741824),
-        (-1073741824, -1073741824, 12, -1073741824, -1073741824),
-        (-1073741824, -1073741824, 255, 1073741824, 1073741824),
-        (-1073741824, -1, 0, -1073741824, -1), (-1073741824, -1, 1, 1, -1073741825),
-        (-1073741824, -1, 2, 1073741825, -1073741824), (-1073741824, -1, 3, 1073741824, 1),
-        (-1073741824, -1, 4, -1, 1073741825), (-1073741824, -1, 5, -1073741825, 1073741824),
-        (-1073741824, -1, 6, -1073741824, -1), (-1073741824, -1, 7, 1, -1073741825),
-        (-1073741824, -1, 8, 1073741825, -1073741824), (-1073741824, -1, 9, 1073741824, 1),
-        (-1073741824, -1, 10, -1, 1073741825), (-1073741824, -1, 11, -1073741825, 1073741824),
-        (-1073741824, -1, 12, -1073741824, -1), (-1073741824, -1, 255, 1073741824, 1),
-        (-1073741824, 0, 0, -1073741824, 0), (-1073741824, 0, 1, 0, -1073741824),
-        (-1073741824, 0, 2, 1073741824, -1073741824), (-1073741824, 0, 3, 1073741824, 0),
-        (-1073741824, 0, 4, 0, 1073741824), (-1073741824, 0, 5, -1073741824, 1073741824),
-        (-1073741824, 0, 6, -1073741824, 0), (-1073741824, 0, 7, 0, -1073741824),
-        (-1073741824, 0, 8, 1073741824, -1073741824), (-1073741824, 0, 9, 1073741824, 0),
-        (-1073741824, 0, 10, 0, 1073741824), (-1073741824, 0, 11, -1073741824, 1073741824),
-        (-1073741824, 0, 12, -1073741824, 0), (-1073741824, 0, 255, 1073741824, 0),
-        (-1073741824, 1, 0, -1073741824, 1), (-1073741824, 1, 1, -1, -1073741823),
-        (-1073741824, 1, 2, 1073741823, -1073741824), (-1073741824, 1, 3, 1073741824, -1),
-        (-1073741824, 1, 4, 1, 1073741823), (-1073741824, 1, 5, -1073741823, 1073741824),
-        (-1073741824, 1, 6, -1073741824, 1), (-1073741824, 1, 7, -1, -1073741823),
-        (-1073741824, 1, 8, 1073741823, -1073741824), (-1073741824, 1, 9, 1073741824, -1),
-        (-1073741824, 1, 10, 1, 1073741823), (-1073741824, 1, 11, -1073741823, 1073741824),
-        (-1073741824, 1, 12, -1073741824, 1), (-1073741824, 1, 255, 1073741824, -1),
-        (-1073741824, 1073741823, 0, -1073741824, 1073741823),
-        (-1073741824, 1073741823, 1, -1073741823, -1), (-1073741824, 1073741823, 2, 1, -1073741824),
+        (-1073741824, -1073741824, 3, 1073741824, 1073741824), (-1073741824, -1, 1, 1, -1073741825),
+        (-1073741824, -1, 3, 1073741824, 1), (-1073741824, -1, 4, -1, 1073741825),
+        (-1073741824, 0, 1, 0, -1073741824), (-1073741824, 0, 3, 1073741824, 0),
+        (-1073741824, 0, 4, 0, 1073741824), (-1073741824, 1, 1, -1, -1073741823),
+        (-1073741824, 1, 3, 1073741824, -1), (-1073741824, 1, 4, 1, 1073741823),
+        (-1073741824, 1073741823, 1, -1073741823, -1),
         (-1073741824, 1073741823, 3, 1073741824, -1073741823),
-        (-1073741824, 1073741823, 4, 1073741823, 1), (-1073741824, 1073741823, 5, -1, 1073741824),
-        (-1073741824, 1073741823, 6, -1073741824, 1073741823),
-        (-1073741824, 1073741823, 7, -1073741823, -1), (-1073741824, 1073741823, 8, 1, -1073741824),
-        (-1073741824, 1073741823, 9, 1073741824, -1073741823),
-        (-1073741824, 1073741823, 10, 1073741823, 1), (-1073741824, 1073741823, 11, -1, 1073741824),
-        (-1073741824, 1073741823, 12, -1073741824, 1073741823),
-        (-1073741824, 1073741823, 255, 1073741824, -1073741823),
-        (-1073741824, 1073741824, 0, -1073741824, 1073741824),
-        (-1073741824, 1073741824, 1, -1073741824, 0), (-1073741824, 1073741824, 2, 0, -1073741824),
+        (-1073741824, 1073741823, 4, 1073741823, 1), (-1073741824, 1073741824, 1, -1073741824, 0),
         (-1073741824, 1073741824, 3, 1073741824, -1073741824),
-        (-1073741824, 1073741824, 4, 1073741824, 0), (-1073741824, 1073741824, 5, 0, 1073741824),
-        (-1073741824, 1073741824, 6, -1073741824, 1073741824),
-        (-1073741824, 1073741824, 7, -1073741824, 0), (-1073741824, 1073741824, 8, 0, -1073741824),
-        (-1073741824, 1073741824, 9, 1073741824, -1073741824),
-        (-1073741824, 1073741824, 10, 1073741824, 0), (-1073741824, 1073741824, 11, 0, 1073741824),
-        (-1073741824, 1073741824, 12, -1073741824, 1073741824),
-        (-1073741824, 1073741824, 255, 1073741824, -1073741824),
-        (-1073741824, 2147483646, 0, -1073741824, 2147483646),
+        (-1073741824, 1073741824, 4, 1073741824, 0),
         (-1073741824, 2147483646, 1, -2147483646, 1073741822),
-        (-1073741824, 2147483646, 2, -1073741822, -1073741824),
         (-1073741824, 2147483646, 3, 1073741824, -2147483646),
         (-1073741824, 2147483646, 4, 2147483646, -1073741822),
-        (-1073741824, 2147483646, 5, 1073741822, 1073741824),
-        (-1073741824, 2147483646, 6, -1073741824, 2147483646),
-        (-1073741824, 2147483646, 7, -2147483646, 1073741822),
-        (-1073741824, 2147483646, 8, -1073741822, -1073741824),
-        (-1073741824, 2147483646, 9, 1073741824, -2147483646),
-        (-1073741824, 2147483646, 10, 2147483646, -1073741822),
-        (-1073741824, 2147483646, 11, 1073741822, 1073741824),
-        (-1073741824, 2147483646, 12, -1073741824, 2147483646),
-        (-1073741824, 2147483646, 255, 1073741824, -2147483646),
-        (-1073741824, 2147483647, 0, -1073741824, 2147483647),
         (-1073741824, 2147483647, 1, -2147483647, 1073741823),
-        (-1073741824, 2147483647, 2, -1073741823, -1073741824),
         (-1073741824, 2147483647, 3, 1073741824, -2147483647),
-        (-1073741824, 2147483647, 4, 2147483647, -1073741823),
-        (-1073741824, 2147483647, 5, 1073741823, 1073741824),
-        (-1073741824, 2147483647, 6, -1073741824, 2147483647),
-        (-1073741824, 2147483647, 7, -2147483647, 1073741823),
-        (-1073741824, 2147483647, 8, -1073741823, -1073741824),
-        (-1073741824, 2147483647, 9, 1073741824, -2147483647),
-        (-1073741824, 2147483647, 10, 2147483647, -1073741823),
-        (-1073741824, 2147483647, 11, 1073741823, 1073741824),
-        (-1073741824, 2147483647, 12, -1073741824, 2147483647),
-        (-1073741824, 2147483647, 255, 1073741824, -2147483647),
-        (-1, -2147483648, 0, -1, -2147483648), (-1, -2147483648, 6, -1, -2147483648),
-        (-1, -2147483648, 12, -1, -2147483648), (-1, -2147483647, 0, -1, -2147483647),
-        (-1, -2147483647, 3, 1, 2147483647), (-1, -2147483647, 6, -1, -2147483647),
-        (-1, -2147483647, 9, 1, 2147483647), (-1, -2147483647, 12, -1, -2147483647),
-        (-1, -2147483647, 255, 1, 2147483647), (-1, -1073741825, 0, -1, -1073741825),
-        (-1, -1073741825, 1, 1073741825, -1073741826), (-1, -1073741825, 2, 1073741826, -1),
-        (-1, -1073741825, 3, 1, 1073741825), (-1, -1073741825, 4, -1073741825, 1073741826),
-        (-1, -1073741825, 5, -1073741826, 1), (-1, -1073741825, 6, -1, -1073741825),
-        (-1, -1073741825, 7, 1073741825, -1073741826), (-1, -1073741825, 8, 1073741826, -1),
-        (-1, -1073741825, 9, 1, 1073741825), (-1, -1073741825, 10, -1073741825, 1073741826),
-        (-1, -1073741825, 11, -1073741826, 1), (-1, -1073741825, 12, -1, -1073741825),
-        (-1, -1073741825, 255, 1, 1073741825), (-1, -1073741824, 0, -1, -1073741824),
-        (-1, -1073741824, 1, 1073741824, -1073741825), (-1, -1073741824, 2, 1073741825, -1),
-        (-1, -1073741824, 3, 1, 1073741824), (-1, -1073741824, 4, -1073741824, 1073741825),
-        (-1, -1073741824, 5, -1073741825, 1), (-1, -1073741824, 6, -1, -1073741824),
-        (-1, -1073741824, 7, 1073741824, -1073741825), (-1, -1073741824, 8, 1073741825, -1),
-        (-1, -1073741824, 9, 1, 1073741824), (-1, -1073741824, 10, -1073741824, 1073741825),
-        (-1, -1073741824, 11, -1073741825, 1), (-1, -1073741824, 12, -1, -1073741824),
-        (-1, -1073741824, 255, 1, 1073741824), (-1, -1, 0, -1, -1), (-1, -1, 1, 1, -2),
-        (-1, -1, 2, 2, -1), (-1, -1, 3, 1, 1), (-1, -1, 4, -1, 2), (-1, -1, 5, -2, 1),
-        (-1, -1, 6, -1, -1), (-1, -1, 7, 1, -2), (-1, -1, 8, 2, -1), (-1, -1, 9, 1, 1),
-        (-1, -1, 10, -1, 2), (-1, -1, 11, -2, 1), (-1, -1, 12, -1, -1), (-1, -1, 255, 1, 1),
-        (-1, 0, 0, -1, 0), (-1, 0, 1, 0, -1), (-1, 0, 2, 1, -1), (-1, 0, 3, 1, 0), (-1, 0, 4, 0, 1),
-        (-1, 0, 5, -1, 1), (-1, 0, 6, -1, 0), (-1, 0, 7, 0, -1), (-1, 0, 8, 1, -1),
-        (-1, 0, 9, 1, 0), (-1, 0, 10, 0, 1), (-1, 0, 11, -1, 1), (-1, 0, 12, -1, 0),
-        (-1, 0, 255, 1, 0), (-1, 1, 0, -1, 1), (-1, 1, 1, -1, 0), (-1, 1, 2, 0, -1),
-        (-1, 1, 3, 1, -1), (-1, 1, 4, 1, 0), (-1, 1, 5, 0, 1), (-1, 1, 6, -1, 1), (-1, 1, 7, -1, 0),
-        (-1, 1, 8, 0, -1), (-1, 1, 9, 1, -1), (-1, 1, 10, 1, 0), (-1, 1, 11, 0, 1),
-        (-1, 1, 12, -1, 1), (-1, 1, 255, 1, -1), (-1, 1073741823, 0, -1, 1073741823),
-        (-1, 1073741823, 1, -1073741823, 1073741822), (-1, 1073741823, 2, -1073741822, -1),
-        (-1, 1073741823, 3, 1, -1073741823), (-1, 1073741823, 4, 1073741823, -1073741822),
-        (-1, 1073741823, 5, 1073741822, 1), (-1, 1073741823, 6, -1, 1073741823),
-        (-1, 1073741823, 7, -1073741823, 1073741822), (-1, 1073741823, 8, -1073741822, -1),
-        (-1, 1073741823, 9, 1, -1073741823), (-1, 1073741823, 10, 1073741823, -1073741822),
-        (-1, 1073741823, 11, 1073741822, 1), (-1, 1073741823, 12, -1, 1073741823),
-        (-1, 1073741823, 255, 1, -1073741823), (-1, 1073741824, 0, -1, 1073741824),
-        (-1, 1073741824, 1, -1073741824, 1073741823), (-1, 1073741824, 2, -1073741823, -1),
+        (-1073741824, 2147483647, 4, 2147483647, -1073741823), (-1, -2147483647, 3, 1, 2147483647),
+        (-1, -1073741825, 1, 1073741825, -1073741826), (-1, -1073741825, 3, 1, 1073741825),
+        (-1, -1073741825, 4, -1073741825, 1073741826),
+        (-1, -1073741824, 1, 1073741824, -1073741825), (-1, -1073741824, 3, 1, 1073741824),
+        (-1, -1073741824, 4, -1073741824, 1073741825), (-1, -1, 1, 1, -2), (-1, -1, 3, 1, 1),
+        (-1, -1, 4, -1, 2), (-1, 0, 1, 0, -1), (-1, 0, 3, 1, 0), (-1, 0, 4, 0, 1),
+        (-1, 1, 1, -1, 0), (-1, 1, 3, 1, -1), (-1, 1, 4, 1, 0),
+        (-1, 1073741823, 1, -1073741823, 1073741822), (-1, 1073741823, 3, 1, -1073741823),
+        (-1, 1073741823, 4, 1073741823, -1073741822), (-1, 1073741824, 1, -1073741824, 1073741823),
         (-1, 1073741824, 3, 1, -1073741824), (-1, 1073741824, 4, 1073741824, -1073741823),
-        (-1, 1073741824, 5, 1073741823, 1), (-1, 1073741824, 6, -1, 1073741824),
-        (-1, 1073741824, 7, -1073741824, 1073741823), (-1, 1073741824, 8, -1073741823, -1),
-        (-1, 1073741824, 9, 1, -1073741824), (-1, 1073741824, 10, 1073741824, -1073741823),
-        (-1, 1073741824, 11, 1073741823, 1), (-1, 1073741824, 12, -1, 1073741824),
-        (-1, 1073741824, 255, 1, -1073741824), (-1, 2147483646, 0, -1, 2147483646),
-        (-1, 2147483646, 1, -2147483646, 2147483645), (-1, 2147483646, 2, -2147483645, -1),
-        (-1, 2147483646, 3, 1, -2147483646), (-1, 2147483646, 4, 2147483646, -2147483645),
-        (-1, 2147483646, 5, 2147483645, 1), (-1, 2147483646, 6, -1, 2147483646),
-        (-1, 2147483646, 7, -2147483646, 2147483645), (-1, 2147483646, 8, -2147483645, -1),
-        (-1, 2147483646, 9, 1, -2147483646), (-1, 2147483646, 10, 2147483646, -2147483645),
-        (-1, 2147483646, 11, 2147483645, 1), (-1, 2147483646, 12, -1, 2147483646),
-        (-1, 2147483646, 255, 1, -2147483646), (-1, 2147483647, 0, -1, 2147483647),
-        (-1, 2147483647, 1, -2147483647, 2147483646), (-1, 2147483647, 2, -2147483646, -1),
+        (-1, 2147483646, 1, -2147483646, 2147483645), (-1, 2147483646, 3, 1, -2147483646),
+        (-1, 2147483646, 4, 2147483646, -2147483645), (-1, 2147483647, 1, -2147483647, 2147483646),
         (-1, 2147483647, 3, 1, -2147483647), (-1, 2147483647, 4, 2147483647, -2147483646),
-        (-1, 2147483647, 5, 2147483646, 1), (-1, 2147483647, 6, -1, 2147483647),
-        (-1, 2147483647, 7, -2147483647, 2147483646), (-1, 2147483647, 8, -2147483646, -1),
-        (-1, 2147483647, 9, 1, -2147483647), (-1, 2147483647, 10, 2147483647, -2147483646),
-        (-1, 2147483647, 11, 2147483646, 1), (-1, 2147483647, 12, -1, 2147483647),
-        (-1, 2147483647, 255, 1, -2147483647), (0, -2147483648, 0, 0, -2147483648),
-        (0, -2147483648, 6, 0, -2147483648), (0, -2147483648, 12, 0, -2147483648),
-        (0, -2147483647, 0, 0, -2147483647), (0, -2147483647, 1, 2147483647, -2147483647),
-        (0, -2147483647, 2, 2147483647, 0), (0, -2147483647, 3, 0, 2147483647),
-        (0, -2147483647, 4, -2147483647, 2147483647), (0, -2147483647, 5, -2147483647, 0),
-        (0, -2147483647, 6, 0, -2147483647), (0, -2147483647, 7, 2147483647, -2147483647),
-        (0, -2147483647, 8, 2147483647, 0), (0, -2147483647, 9, 0, 2147483647),
-        (0, -2147483647, 10, -2147483647, 2147483647), (0, -2147483647, 11, -2147483647, 0),
-        (0, -2147483647, 12, 0, -2147483647), (0, -2147483647, 255, 0, 2147483647),
-        (0, -1073741825, 0, 0, -1073741825), (0, -1073741825, 1, 1073741825, -1073741825),
-        (0, -1073741825, 2, 1073741825, 0), (0, -1073741825, 3, 0, 1073741825),
-        (0, -1073741825, 4, -1073741825, 1073741825), (0, -1073741825, 5, -1073741825, 0),
-        (0, -1073741825, 6, 0, -1073741825), (0, -1073741825, 7, 1073741825, -1073741825),
-        (0, -1073741825, 8, 1073741825, 0), (0, -1073741825, 9, 0, 1073741825),
-        (0, -1073741825, 10, -1073741825, 1073741825), (0, -1073741825, 11, -1073741825, 0),
-        (0, -1073741825, 12, 0, -1073741825), (0, -1073741825, 255, 0, 1073741825),
-        (0, -1073741824, 0, 0, -1073741824), (0, -1073741824, 1, 1073741824, -1073741824),
-        (0, -1073741824, 2, 1073741824, 0), (0, -1073741824, 3, 0, 1073741824),
-        (0, -1073741824, 4, -1073741824, 1073741824), (0, -1073741824, 5, -1073741824, 0),
-        (0, -1073741824, 6, 0, -1073741824), (0, -1073741824, 7, 1073741824, -1073741824),
-        (0, -1073741824, 8, 1073741824, 0), (0, -1073741824, 9, 0, 1073741824),
-        (0, -1073741824, 10, -1073741824, 1073741824), (0, -1073741824, 11, -1073741824, 0),
-        (0, -1073741824, 12, 0, -1073741824), (0, -1073741824, 255, 0, 1073741824),
-        (0, -1, 0, 0, -1), (0, -1, 1, 1, -1), (0, -1, 2, 1, 0), (0, -1, 3, 0, 1), (0, -1, 4, -1, 1),
-        (0, -1, 5, -1, 0), (0, -1, 6, 0, -1), (0, -1, 7, 1, -1), (0, -1, 8, 1, 0), (0, -1, 9, 0, 1),
-        (0, -1, 10, -1, 1), (0, -1, 11, -1, 0), (0, -1, 12, 0, -1), (0, -1, 255, 0, 1),
-        (0, 0, 0, 0, 0), (0, 0, 1, 0, 0), (0, 0, 2, 0, 0), (0, 0, 3, 0, 0), (0, 0, 4, 0, 0),
-        (0, 0, 5, 0, 0), (0, 0, 6, 0, 0), (0, 0, 7, 0, 0), (0, 0, 8, 0, 0), (0, 0, 9, 0, 0),
-        (0, 0, 10, 0, 0), (0, 0, 11, 0, 0), (0, 0, 12, 0, 0), (0, 0, 255, 0, 0), (0, 1, 0, 0, 1),
-        (0, 1, 1, -1, 1), (0, 1, 2, -1, 0), (0, 1, 3, 0, -1), (0, 1, 4, 1, -1), (0, 1, 5, 1, 0),
-        (0, 1, 6, 0, 1), (0, 1, 7, -1, 1), (0, 1, 8, -1, 0), (0, 1, 9, 0, -1), (0, 1, 10, 1, -1),
-        (0, 1, 11, 1, 0), (0, 1, 12, 0, 1), (0, 1, 255, 0, -1), (0, 1073741823, 0, 0, 1073741823),
-        (0, 1073741823, 1, -1073741823, 1073741823), (0, 1073741823, 2, -1073741823, 0),
+        (0, -2147483647, 1, 2147483647, -2147483647), (0, -2147483647, 3, 0, 2147483647),
+        (0, -2147483647, 4, -2147483647, 2147483647), (0, -1073741825, 1, 1073741825, -1073741825),
+        (0, -1073741825, 3, 0, 1073741825), (0, -1073741825, 4, -1073741825, 1073741825),
+        (0, -1073741824, 1, 1073741824, -1073741824), (0, -1073741824, 3, 0, 1073741824),
+        (0, -1073741824, 4, -1073741824, 1073741824), (0, -1, 1, 1, -1), (0, -1, 3, 0, 1),
+        (0, -1, 4, -1, 1), (0, 0, 1, 0, 0), (0, 0, 3, 0, 0), (0, 0, 4, 0, 0), (0, 1, 1, -1, 1),
+        (0, 1, 3, 0, -1), (0, 1, 4, 1, -1), (0, 1073741823, 1, -1073741823, 1073741823),
         (0, 1073741823, 3, 0, -1073741823), (0, 1073741823, 4, 1073741823, -1073741823),
-        (0, 1073741823, 5, 1073741823, 0), (0, 1073741823, 6, 0, 1073741823),
-        (0, 1073741823, 7, -1073741823, 1073741823), (0, 1073741823, 8, -1073741823, 0),
-        (0, 1073741823, 9, 0, -1073741823), (0, 1073741823, 10, 1073741823, -1073741823),
-        (0, 1073741823, 11, 1073741823, 0), (0, 1073741823, 12, 0, 1073741823),
-        (0, 1073741823, 255, 0, -1073741823), (0, 1073741824, 0, 0, 1073741824),
-        (0, 1073741824, 1, -1073741824, 1073741824), (0, 1073741824, 2, -1073741824, 0),
-        (0, 1073741824, 3, 0, -1073741824), (0, 1073741824, 4, 1073741824, -1073741824),
-        (0, 1073741824, 5, 1073741824, 0), (0, 1073741824, 6, 0, 1073741824),
-        (0, 1073741824, 7, -1073741824, 1073741824), (0, 1073741824, 8, -1073741824, 0),
-        (0, 1073741824, 9, 0, -1073741824), (0, 1073741824, 10, 1073741824, -1073741824),
-        (0, 1073741824, 11, 1073741824, 0), (0, 1073741824, 12, 0, 1073741824),
-        (0, 1073741824, 255, 0, -1073741824), (0, 2147483646, 0, 0, 2147483646),
-        (0, 2147483646, 1, -2147483646, 2147483646), (0, 2147483646, 2, -2147483646, 0),
+        (0, 1073741824, 1, -1073741824, 1073741824), (0, 1073741824, 3, 0, -1073741824),
+        (0, 1073741824, 4, 1073741824, -1073741824), (0, 2147483646, 1, -2147483646, 2147483646),
         (0, 2147483646, 3, 0, -2147483646), (0, 2147483646, 4, 2147483646, -2147483646),
-        (0, 2147483646, 5, 2147483646, 0), (0, 2147483646, 6, 0, 2147483646),
-        (0, 2147483646, 7, -2147483646, 2147483646), (0, 2147483646, 8, -2147483646, 0),
-        (0, 2147483646, 9, 0, -2147483646), (0, 2147483646, 10, 2147483646, -2147483646),
-        (0, 2147483646, 11, 2147483646, 0), (0, 2147483646, 12, 0, 2147483646),
-        (0, 2147483646, 255, 0, -2147483646), (0, 2147483647, 0, 0, 2147483647),
-        (0, 2147483647, 1, -2147483647, 2147483647), (0, 2147483647, 2, -2147483647, 0),
-        (0, 2147483647, 3, 0, -2147483647), (0, 2147483647, 4, 2147483647, -2147483647),
-        (0, 2147483647, 5, 2147483647, 0), (0, 2147483647, 6, 0, 2147483647),
-        (0, 2147483647, 7, -2147483647, 2147483647), (0, 2147483647, 8, -2147483647, 0),
-        (0, 2147483647, 9, 0, -2147483647), (0, 2147483647, 10, 2147483647, -2147483647),
-        (0, 2147483647, 11, 2147483647, 0), (0, 2147483647, 12, 0, 2147483647),
-        (0, 2147483647, 255, 0, -2147483647), (1, -2147483648, 0, 1, -2147483648),
-        (1, -2147483648, 5, -2147483647, -1), (1, -2147483648, 6, 1, -2147483648),
-        (1, -2147483648, 11, -2147483647, -1), (1, -2147483648, 12, 1, -2147483648),
-        (1, -2147483647, 0, 1, -2147483647), (1, -2147483647, 1, 2147483647, -2147483646),
-        (1, -2147483647, 2, 2147483646, 1), (1, -2147483647, 3, -1, 2147483647),
-        (1, -2147483647, 4, -2147483647, 2147483646), (1, -2147483647, 5, -2147483646, -1),
-        (1, -2147483647, 6, 1, -2147483647), (1, -2147483647, 7, 2147483647, -2147483646),
-        (1, -2147483647, 8, 2147483646, 1), (1, -2147483647, 9, -1, 2147483647),
-        (1, -2147483647, 10, -2147483647, 2147483646), (1, -2147483647, 11, -2147483646, -1),
-        (1, -2147483647, 12, 1, -2147483647), (1, -2147483647, 255, -1, 2147483647),
-        (1, -1073741825, 0, 1, -1073741825), (1, -1073741825, 1, 1073741825, -1073741824),
-        (1, -1073741825, 2, 1073741824, 1), (1, -1073741825, 3, -1, 1073741825),
-        (1, -1073741825, 4, -1073741825, 1073741824), (1, -1073741825, 5, -1073741824, -1),
-        (1, -1073741825, 6, 1, -1073741825), (1, -1073741825, 7, 1073741825, -1073741824),
-        (1, -1073741825, 8, 1073741824, 1), (1, -1073741825, 9, -1, 1073741825),
-        (1, -1073741825, 10, -1073741825, 1073741824), (1, -1073741825, 11, -1073741824, -1),
-        (1, -1073741825, 12, 1, -1073741825), (1, -1073741825, 255, -1, 1073741825),
-        (1, -1073741824, 0, 1, -1073741824), (1, -1073741824, 1, 1073741824, -1073741823),
-        (1, -1073741824, 2, 1073741823, 1), (1, -1073741824, 3, -1, 1073741824),
-        (1, -1073741824, 4, -1073741824, 1073741823), (1, -1073741824, 5, -1073741823, -1),
-        (1, -1073741824, 6, 1, -1073741824), (1, -1073741824, 7, 1073741824, -1073741823),
-        (1, -1073741824, 8, 1073741823, 1), (1, -1073741824, 9, -1, 1073741824),
-        (1, -1073741824, 10, -1073741824, 1073741823), (1, -1073741824, 11, -1073741823, -1),
-        (1, -1073741824, 12, 1, -1073741824), (1, -1073741824, 255, -1, 1073741824),
-        (1, -1, 0, 1, -1), (1, -1, 1, 1, 0), (1, -1, 2, 0, 1), (1, -1, 3, -1, 1), (1, -1, 4, -1, 0),
-        (1, -1, 5, 0, -1), (1, -1, 6, 1, -1), (1, -1, 7, 1, 0), (1, -1, 8, 0, 1), (1, -1, 9, -1, 1),
-        (1, -1, 10, -1, 0), (1, -1, 11, 0, -1), (1, -1, 12, 1, -1), (1, -1, 255, -1, 1),
-        (1, 0, 0, 1, 0), (1, 0, 1, 0, 1), (1, 0, 2, -1, 1), (1, 0, 3, -1, 0), (1, 0, 4, 0, -1),
-        (1, 0, 5, 1, -1), (1, 0, 6, 1, 0), (1, 0, 7, 0, 1), (1, 0, 8, -1, 1), (1, 0, 9, -1, 0),
-        (1, 0, 10, 0, -1), (1, 0, 11, 1, -1), (1, 0, 12, 1, 0), (1, 0, 255, -1, 0), (1, 1, 0, 1, 1),
-        (1, 1, 1, -1, 2), (1, 1, 2, -2, 1), (1, 1, 3, -1, -1), (1, 1, 4, 1, -2), (1, 1, 5, 2, -1),
-        (1, 1, 6, 1, 1), (1, 1, 7, -1, 2), (1, 1, 8, -2, 1), (1, 1, 9, -1, -1), (1, 1, 10, 1, -2),
-        (1, 1, 11, 2, -1), (1, 1, 12, 1, 1), (1, 1, 255, -1, -1), (1, 1073741823, 0, 1, 1073741823),
-        (1, 1073741823, 1, -1073741823, 1073741824), (1, 1073741823, 2, -1073741824, 1),
-        (1, 1073741823, 3, -1, -1073741823), (1, 1073741823, 4, 1073741823, -1073741824),
-        (1, 1073741823, 5, 1073741824, -1), (1, 1073741823, 6, 1, 1073741823),
-        (1, 1073741823, 7, -1073741823, 1073741824), (1, 1073741823, 8, -1073741824, 1),
-        (1, 1073741823, 9, -1, -1073741823), (1, 1073741823, 10, 1073741823, -1073741824),
-        (1, 1073741823, 11, 1073741824, -1), (1, 1073741823, 12, 1, 1073741823),
-        (1, 1073741823, 255, -1, -1073741823), (1, 1073741824, 0, 1, 1073741824),
-        (1, 1073741824, 1, -1073741824, 1073741825), (1, 1073741824, 2, -1073741825, 1),
+        (0, 2147483647, 1, -2147483647, 2147483647), (0, 2147483647, 3, 0, -2147483647),
+        (0, 2147483647, 4, 2147483647, -2147483647), (1, -2147483647, 1, 2147483647, -2147483646),
+        (1, -2147483647, 3, -1, 2147483647), (1, -2147483647, 4, -2147483647, 2147483646),
+        (1, -1073741825, 1, 1073741825, -1073741824), (1, -1073741825, 3, -1, 1073741825),
+        (1, -1073741825, 4, -1073741825, 1073741824), (1, -1073741824, 1, 1073741824, -1073741823),
+        (1, -1073741824, 3, -1, 1073741824), (1, -1073741824, 4, -1073741824, 1073741823),
+        (1, -1, 1, 1, 0), (1, -1, 3, -1, 1), (1, -1, 4, -1, 0), (1, 0, 1, 0, 1), (1, 0, 3, -1, 0),
+        (1, 0, 4, 0, -1), (1, 1, 1, -1, 2), (1, 1, 3, -1, -1), (1, 1, 4, 1, -2),
+        (1, 1073741823, 1, -1073741823, 1073741824), (1, 1073741823, 3, -1, -1073741823),
+        (1, 1073741823, 4, 1073741823, -1073741824), (1, 1073741824, 1, -1073741824, 1073741825),
         (1, 1073741824, 3, -1, -1073741824), (1, 1073741824, 4, 1073741824, -1073741825),
-        (1, 1073741824, 5, 1073741825, -1), (1, 1073741824, 6, 1, 1073741824),
-        (1, 1073741824, 7, -1073741824, 1073741825), (1, 1073741824, 8, -1073741825, 1),
-        (1, 1073741824, 9, -1, -1073741824), (1, 1073741824, 10, 1073741824, -1073741825),
-        (1, 1073741824, 11, 1073741825, -1), (1, 1073741824, 12, 1, 1073741824),
-        (1, 1073741824, 255, -1, -1073741824), (1, 2147483646, 0, 1, 2147483646),
-        (1, 2147483646, 1, -2147483646, 2147483647), (1, 2147483646, 2, -2147483647, 1),
-        (1, 2147483646, 3, -1, -2147483646), (1, 2147483646, 4, 2147483646, -2147483647),
-        (1, 2147483646, 5, 2147483647, -1), (1, 2147483646, 6, 1, 2147483646),
-        (1, 2147483646, 7, -2147483646, 2147483647), (1, 2147483646, 8, -2147483647, 1),
-        (1, 2147483646, 9, -1, -2147483646), (1, 2147483646, 10, 2147483646, -2147483647),
-        (1, 2147483646, 11, 2147483647, -1), (1, 2147483646, 12, 1, 2147483646),
-        (1, 2147483646, 255, -1, -2147483646), (1, 2147483647, 0, 1, 2147483647),
-        (1, 2147483647, 3, -1, -2147483647), (1, 2147483647, 6, 1, 2147483647),
-        (1, 2147483647, 9, -1, -2147483647), (1, 2147483647, 12, 1, 2147483647),
-        (1, 2147483647, 255, -1, -2147483647),
-        (1073741823, -2147483648, 0, 1073741823, -2147483648),
-        (1073741823, -2147483648, 5, -1073741825, -1073741823),
-        (1073741823, -2147483648, 6, 1073741823, -2147483648),
-        (1073741823, -2147483648, 11, -1073741825, -1073741823),
-        (1073741823, -2147483648, 12, 1073741823, -2147483648),
-        (1073741823, -2147483647, 0, 1073741823, -2147483647),
+        (1, 2147483646, 1, -2147483646, 2147483647), (1, 2147483646, 3, -1, -2147483646),
+        (1, 2147483646, 4, 2147483646, -2147483647), (1, 2147483647, 3, -1, -2147483647),
         (1073741823, -2147483647, 1, 2147483647, -1073741824),
-        (1073741823, -2147483647, 2, 1073741824, 1073741823),
         (1073741823, -2147483647, 3, -1073741823, 2147483647),
         (1073741823, -2147483647, 4, -2147483647, 1073741824),
-        (1073741823, -2147483647, 5, -1073741824, -1073741823),
-        (1073741823, -2147483647, 6, 1073741823, -2147483647),
-        (1073741823, -2147483647, 7, 2147483647, -1073741824),
-        (1073741823, -2147483647, 8, 1073741824, 1073741823),
-        (1073741823, -2147483647, 9, -1073741823, 2147483647),
-        (1073741823, -2147483647, 10, -2147483647, 1073741824),
-        (1073741823, -2147483647, 11, -1073741824, -1073741823),
-        (1073741823, -2147483647, 12, 1073741823, -2147483647),
-        (1073741823, -2147483647, 255, -1073741823, 2147483647),
-        (1073741823, -1073741825, 0, 1073741823, -1073741825),
-        (1073741823, -1073741825, 1, 1073741825, -2), (1073741823, -1073741825, 2, 2, 1073741823),
+        (1073741823, -1073741825, 1, 1073741825, -2),
         (1073741823, -1073741825, 3, -1073741823, 1073741825),
-        (1073741823, -1073741825, 4, -1073741825, 2), (1073741823, -1073741825, 5, -2, -1073741823),
-        (1073741823, -1073741825, 6, 1073741823, -1073741825),
-        (1073741823, -1073741825, 7, 1073741825, -2), (1073741823, -1073741825, 8, 2, 1073741823),
-        (1073741823, -1073741825, 9, -1073741823, 1073741825),
-        (1073741823, -1073741825, 10, -1073741825, 2),
-        (1073741823, -1073741825, 11, -2, -1073741823),
-        (1073741823, -1073741825, 12, 1073741823, -1073741825),
-        (1073741823, -1073741825, 255, -1073741823, 1073741825),
-        (1073741823, -1073741824, 0, 1073741823, -1073741824),
-        (1073741823, -1073741824, 1, 1073741824, -1), (1073741823, -1073741824, 2, 1, 1073741823),
+        (1073741823, -1073741825, 4, -1073741825, 2), (1073741823, -1073741824, 1, 1073741824, -1),
         (1073741823, -1073741824, 3, -1073741823, 1073741824),
-        (1073741823, -1073741824, 4, -1073741824, 1), (1073741823, -1073741824, 5, -1, -1073741823),
-        (1073741823, -1073741824, 6, 1073741823, -1073741824),
-        (1073741823, -1073741824, 7, 1073741824, -1), (1073741823, -1073741824, 8, 1, 1073741823),
-        (1073741823, -1073741824, 9, -1073741823, 1073741824),
-        (1073741823, -1073741824, 10, -1073741824, 1),
-        (1073741823, -1073741824, 11, -1, -1073741823),
-        (1073741823, -1073741824, 12, 1073741823, -1073741824),
-        (1073741823, -1073741824, 255, -1073741823, 1073741824),
-        (1073741823, -1, 0, 1073741823, -1), (1073741823, -1, 1, 1, 1073741822),
-        (1073741823, -1, 2, -1073741822, 1073741823), (1073741823, -1, 3, -1073741823, 1),
-        (1073741823, -1, 4, -1, -1073741822), (1073741823, -1, 5, 1073741822, -1073741823),
-        (1073741823, -1, 6, 1073741823, -1), (1073741823, -1, 7, 1, 1073741822),
-        (1073741823, -1, 8, -1073741822, 1073741823), (1073741823, -1, 9, -1073741823, 1),
-        (1073741823, -1, 10, -1, -1073741822), (1073741823, -1, 11, 1073741822, -1073741823),
-        (1073741823, -1, 12, 1073741823, -1), (1073741823, -1, 255, -1073741823, 1),
-        (1073741823, 0, 0, 1073741823, 0), (1073741823, 0, 1, 0, 1073741823),
-        (1073741823, 0, 2, -1073741823, 1073741823), (1073741823, 0, 3, -1073741823, 0),
-        (1073741823, 0, 4, 0, -1073741823), (1073741823, 0, 5, 1073741823, -1073741823),
-        (1073741823, 0, 6, 1073741823, 0), (1073741823, 0, 7, 0, 1073741823),
-        (1073741823, 0, 8, -1073741823, 1073741823), (1073741823, 0, 9, -1073741823, 0),
-        (1073741823, 0, 10, 0, -1073741823), (1073741823, 0, 11, 1073741823, -1073741823),
-        (1073741823, 0, 12, 1073741823, 0), (1073741823, 0, 255, -1073741823, 0),
-        (1073741823, 1, 0, 1073741823, 1), (1073741823, 1, 1, -1, 1073741824),
-        (1073741823, 1, 2, -1073741824, 1073741823), (1073741823, 1, 3, -1073741823, -1),
-        (1073741823, 1, 4, 1, -1073741824), (1073741823, 1, 5, 1073741824, -1073741823),
-        (1073741823, 1, 6, 1073741823, 1), (1073741823, 1, 7, -1, 1073741824),
-        (1073741823, 1, 8, -1073741824, 1073741823), (1073741823, 1, 9, -1073741823, -1),
-        (1073741823, 1, 10, 1, -1073741824), (1073741823, 1, 11, 1073741824, -1073741823),
-        (1073741823, 1, 12, 1073741823, 1), (1073741823, 1, 255, -1073741823, -1),
-        (1073741823, 1073741823, 0, 1073741823, 1073741823),
+        (1073741823, -1073741824, 4, -1073741824, 1), (1073741823, -1, 1, 1, 1073741822),
+        (1073741823, -1, 3, -1073741823, 1), (1073741823, -1, 4, -1, -1073741822),
+        (1073741823, 0, 1, 0, 1073741823), (1073741823, 0, 3, -1073741823, 0),
+        (1073741823, 0, 4, 0, -1073741823), (1073741823, 1, 1, -1, 1073741824),
+        (1073741823, 1, 3, -1073741823, -1), (1073741823, 1, 4, 1, -1073741824),
         (1073741823, 1073741823, 1, -1073741823, 2147483646),
-        (1073741823, 1073741823, 2, -2147483646, 1073741823),
         (1073741823, 1073741823, 3, -1073741823, -1073741823),
         (1073741823, 1073741823, 4, 1073741823, -2147483646),
-        (1073741823, 1073741823, 5, 2147483646, -1073741823),
-        (1073741823, 1073741823, 6, 1073741823, 1073741823),
-        (1073741823, 1073741823, 7, -1073741823, 2147483646),
-        (1073741823, 1073741823, 8, -2147483646, 1073741823),
-        (1073741823, 1073741823, 9, -1073741823, -1073741823),
-        (1073741823, 1073741823, 10, 1073741823, -2147483646),
-        (1073741823, 1073741823, 11, 2147483646, -1073741823),
-        (1073741823, 1073741823, 12, 1073741823, 1073741823),
-        (1073741823, 1073741823, 255, -1073741823, -1073741823),
-        (1073741823, 1073741824, 0, 1073741823, 1073741824),
         (1073741823, 1073741824, 1, -1073741824, 2147483647),
-        (1073741823, 1073741824, 2, -2147483647, 1073741823),
         (1073741823, 1073741824, 3, -1073741823, -1073741824),
         (1073741823, 1073741824, 4, 1073741824, -2147483647),
-        (1073741823, 1073741824, 5, 2147483647, -1073741823),
-        (1073741823, 1073741824, 6, 1073741823, 1073741824),
-        (1073741823, 1073741824, 7, -1073741824, 2147483647),
-        (1073741823, 1073741824, 8, -2147483647, 1073741823),
-        (1073741823, 1073741824, 9, -1073741823, -1073741824),
-        (1073741823, 1073741824, 10, 1073741824, -2147483647),
-        (1073741823, 1073741824, 11, 2147483647, -1073741823),
-        (1073741823, 1073741824, 12, 1073741823, 1073741824),
-        (1073741823, 1073741824, 255, -1073741823, -1073741824),
-        (1073741823, 2147483646, 0, 1073741823, 2147483646),
         (1073741823, 2147483646, 3, -1073741823, -2147483646),
-        (1073741823, 2147483646, 6, 1073741823, 2147483646),
-        (1073741823, 2147483646, 9, -1073741823, -2147483646),
-        (1073741823, 2147483646, 12, 1073741823, 2147483646),
-        (1073741823, 2147483646, 255, -1073741823, -2147483646),
-        (1073741823, 2147483647, 0, 1073741823, 2147483647),
         (1073741823, 2147483647, 3, -1073741823, -2147483647),
-        (1073741823, 2147483647, 6, 1073741823, 2147483647),
-        (1073741823, 2147483647, 9, -1073741823, -2147483647),
-        (1073741823, 2147483647, 12, 1073741823, 2147483647),
-        (1073741823, 2147483647, 255, -1073741823, -2147483647),
-        (1073741824, -2147483648, 0, 1073741824, -2147483648),
-        (1073741824, -2147483648, 5, -1073741824, -1073741824),
-        (1073741824, -2147483648, 6, 1073741824, -2147483648),
-        (1073741824, -2147483648, 11, -1073741824, -1073741824),
-        (1073741824, -2147483648, 12, 1073741824, -2147483648),
-        (1073741824, -2147483647, 0, 1073741824, -2147483647),
         (1073741824, -2147483647, 1, 2147483647, -1073741823),
-        (1073741824, -2147483647, 2, 1073741823, 1073741824),
         (1073741824, -2147483647, 3, -1073741824, 2147483647),
         (1073741824, -2147483647, 4, -2147483647, 1073741823),
-        (1073741824, -2147483647, 5, -1073741823, -1073741824),
-        (1073741824, -2147483647, 6, 1073741824, -2147483647),
-        (1073741824, -2147483647, 7, 2147483647, -1073741823),
-        (1073741824, -2147483647, 8, 1073741823, 1073741824),
-        (1073741824, -2147483647, 9, -1073741824, 2147483647),
-        (1073741824, -2147483647, 10, -2147483647, 1073741823),
-        (1073741824, -2147483647, 11, -1073741823, -1073741824),
-        (1073741824, -2147483647, 12, 1073741824, -2147483647),
-        (1073741824, -2147483647, 255, -1073741824, 2147483647),
-        (1073741824, -1073741825, 0, 1073741824, -1073741825),
-        (1073741824, -1073741825, 1, 1073741825, -1), (1073741824, -1073741825, 2, 1, 1073741824),
+        (1073741824, -1073741825, 1, 1073741825, -1),
         (1073741824, -1073741825, 3, -1073741824, 1073741825),
-        (1073741824, -1073741825, 4, -1073741825, 1), (1073741824, -1073741825, 5, -1, -1073741824),
-        (1073741824, -1073741825, 6, 1073741824, -1073741825),
-        (1073741824, -1073741825, 7, 1073741825, -1), (1073741824, -1073741825, 8, 1, 1073741824),
-        (1073741824, -1073741825, 9, -1073741824, 1073741825),
-        (1073741824, -1073741825, 10, -1073741825, 1),
-        (1073741824, -1073741825, 11, -1, -1073741824),
-        (1073741824, -1073741825, 12, 1073741824, -1073741825),
-        (1073741824, -1073741825, 255, -1073741824, 1073741825),
-        (1073741824, -1073741824, 0, 1073741824, -1073741824),
-        (1073741824, -1073741824, 1, 1073741824, 0), (1073741824, -1073741824, 2, 0, 1073741824),
+        (1073741824, -1073741825, 4, -1073741825, 1), (1073741824, -1073741824, 1, 1073741824, 0),
         (1073741824, -1073741824, 3, -1073741824, 1073741824),
-        (1073741824, -1073741824, 4, -1073741824, 0), (1073741824, -1073741824, 5, 0, -1073741824),
-        (1073741824, -1073741824, 6, 1073741824, -1073741824),
-        (1073741824, -1073741824, 7, 1073741824, 0), (1073741824, -1073741824, 8, 0, 1073741824),
-        (1073741824, -1073741824, 9, -1073741824, 1073741824),
-        (1073741824, -1073741824, 10, -1073741824, 0),
-        (1073741824, -1073741824, 11, 0, -1073741824),
-        (1073741824, -1073741824, 12, 1073741824, -1073741824),
-        (1073741824, -1073741824, 255, -1073741824, 1073741824),
-        (1073741824, -1, 0, 1073741824, -1), (1073741824, -1, 1, 1, 1073741823),
-        (1073741824, -1, 2, -1073741823, 1073741824), (1073741824, -1, 3, -1073741824, 1),
-        (1073741824, -1, 4, -1, -1073741823), (1073741824, -1, 5, 1073741823, -1073741824),
-        (1073741824, -1, 6, 1073741824, -1), (1073741824, -1, 7, 1, 1073741823),
-        (1073741824, -1, 8, -1073741823, 1073741824), (1073741824, -1, 9, -1073741824, 1),
-        (1073741824, -1, 10, -1, -1073741823), (1073741824, -1, 11, 1073741823, -1073741824),
-        (1073741824, -1, 12, 1073741824, -1), (1073741824, -1, 255, -1073741824, 1),
-        (1073741824, 0, 0, 1073741824, 0), (1073741824, 0, 1, 0, 1073741824),
-        (1073741824, 0, 2, -1073741824, 1073741824), (1073741824, 0, 3, -1073741824, 0),
-        (1073741824, 0, 4, 0, -1073741824), (1073741824, 0, 5, 1073741824, -1073741824),
-        (1073741824, 0, 6, 1073741824, 0), (1073741824, 0, 7, 0, 1073741824),
-        (1073741824, 0, 8, -1073741824, 1073741824), (1073741824, 0, 9, -1073741824, 0),
-        (1073741824, 0, 10, 0, -1073741824), (1073741824, 0, 11, 1073741824, -1073741824),
-        (1073741824, 0, 12, 1073741824, 0), (1073741824, 0, 255, -1073741824, 0),
-        (1073741824, 1, 0, 1073741824, 1), (1073741824, 1, 1, -1, 1073741825),
-        (1073741824, 1, 2, -1073741825, 1073741824), (1073741824, 1, 3, -1073741824, -1),
-        (1073741824, 1, 4, 1, -1073741825), (1073741824, 1, 5, 1073741825, -1073741824),
-        (1073741824, 1, 6, 1073741824, 1), (1073741824, 1, 7, -1, 1073741825),
-        (1073741824, 1, 8, -1073741825, 1073741824), (1073741824, 1, 9, -1073741824, -1),
-        (1073741824, 1, 10, 1, -1073741825), (1073741824, 1, 11, 1073741825, -1073741824),
-        (1073741824, 1, 12, 1073741824, 1), (1073741824, 1, 255, -1073741824, -1),
-        (1073741824, 1073741823, 0, 1073741824, 1073741823),
+        (1073741824, -1073741824, 4, -1073741824, 0), (1073741824, -1, 1, 1, 1073741823),
+        (1073741824, -1, 3, -1073741824, 1), (1073741824, -1, 4, -1, -1073741823),
+        (1073741824, 0, 1, 0, 1073741824), (1073741824, 0, 3, -1073741824, 0),
+        (1073741824, 0, 4, 0, -1073741824), (1073741824, 1, 1, -1, 1073741825),
+        (1073741824, 1, 3, -1073741824, -1), (1073741824, 1, 4, 1, -1073741825),
         (1073741824, 1073741823, 1, -1073741823, 2147483647),
-        (1073741824, 1073741823, 2, -2147483647, 1073741824),
         (1073741824, 1073741823, 3, -1073741824, -1073741823),
         (1073741824, 1073741823, 4, 1073741823, -2147483647),
-        (1073741824, 1073741823, 5, 2147483647, -1073741824),
-        (1073741824, 1073741823, 6, 1073741824, 1073741823),
-        (1073741824, 1073741823, 7, -1073741823, 2147483647),
-        (1073741824, 1073741823, 8, -2147483647, 1073741824),
-        (1073741824, 1073741823, 9, -1073741824, -1073741823),
-        (1073741824, 1073741823, 10, 1073741823, -2147483647),
-        (1073741824, 1073741823, 11, 2147483647, -1073741824),
-        (1073741824, 1073741823, 12, 1073741824, 1073741823),
-        (1073741824, 1073741823, 255, -1073741824, -1073741823),
-        (1073741824, 1073741824, 0, 1073741824, 1073741824),
         (1073741824, 1073741824, 3, -1073741824, -1073741824),
-        (1073741824, 1073741824, 6, 1073741824, 1073741824),
-        (1073741824, 1073741824, 9, -1073741824, -1073741824),
-        (1073741824, 1073741824, 12, 1073741824, 1073741824),
-        (1073741824, 1073741824, 255, -1073741824, -1073741824),
-        (1073741824, 2147483646, 0, 1073741824, 2147483646),
         (1073741824, 2147483646, 3, -1073741824, -2147483646),
-        (1073741824, 2147483646, 6, 1073741824, 2147483646),
-        (1073741824, 2147483646, 9, -1073741824, -2147483646),
-        (1073741824, 2147483646, 12, 1073741824, 2147483646),
-        (1073741824, 2147483646, 255, -1073741824, -2147483646),
-        (1073741824, 2147483647, 0, 1073741824, 2147483647),
         (1073741824, 2147483647, 3, -1073741824, -2147483647),
-        (1073741824, 2147483647, 6, 1073741824, 2147483647),
-        (1073741824, 2147483647, 9, -1073741824, -2147483647),
-        (1073741824, 2147483647, 12, 1073741824, 2147483647),
-        (1073741824, 2147483647, 255, -1073741824, -2147483647),
-        (2147483646, -2147483648, 0, 2147483646, -2147483648),
-        (2147483646, -2147483648, 5, -2, -2147483646),
-        (2147483646, -2147483648, 6, 2147483646, -2147483648),
-        (2147483646, -2147483648, 11, -2, -2147483646),
-        (2147483646, -2147483648, 12, 2147483646, -2147483648),
-        (2147483646, -2147483647, 0, 2147483646, -2147483647),
-        (2147483646, -2147483647, 1, 2147483647, -1), (2147483646, -2147483647, 2, 1, 2147483646),
+        (2147483646, -2147483647, 1, 2147483647, -1),
         (2147483646, -2147483647, 3, -2147483646, 2147483647),
-        (2147483646, -2147483647, 4, -2147483647, 1), (2147483646, -2147483647, 5, -1, -2147483646),
-        (2147483646, -2147483647, 6, 2147483646, -2147483647),
-        (2147483646, -2147483647, 7, 2147483647, -1), (2147483646, -2147483647, 8, 1, 2147483646),
-        (2147483646, -2147483647, 9, -2147483646, 2147483647),
-        (2147483646, -2147483647, 10, -2147483647, 1),
-        (2147483646, -2147483647, 11, -1, -2147483646),
-        (2147483646, -2147483647, 12, 2147483646, -2147483647),
-        (2147483646, -2147483647, 255, -2147483646, 2147483647),
-        (2147483646, -1073741825, 0, 2147483646, -1073741825),
+        (2147483646, -2147483647, 4, -2147483647, 1),
         (2147483646, -1073741825, 1, 1073741825, 1073741821),
-        (2147483646, -1073741825, 2, -1073741821, 2147483646),
         (2147483646, -1073741825, 3, -2147483646, 1073741825),
         (2147483646, -1073741825, 4, -1073741825, -1073741821),
-        (2147483646, -1073741825, 5, 1073741821, -2147483646),
-        (2147483646, -1073741825, 6, 2147483646, -1073741825),
-        (2147483646, -1073741825, 7, 1073741825, 1073741821),
-        (2147483646, -1073741825, 8, -1073741821, 2147483646),
-        (2147483646, -1073741825, 9, -2147483646, 1073741825),
-        (2147483646, -1073741825, 10, -1073741825, -1073741821),
-        (2147483646, -1073741825, 11, 1073741821, -2147483646),
-        (2147483646, -1073741825, 12, 2147483646, -1073741825),
-        (2147483646, -1073741825, 255, -2147483646, 1073741825),
-        (2147483646, -1073741824, 0, 2147483646, -1073741824),
         (2147483646, -1073741824, 1, 1073741824, 1073741822),
-        (2147483646, -1073741824, 2, -1073741822, 2147483646),
         (2147483646, -1073741824, 3, -2147483646, 1073741824),
-        (2147483646, -1073741824, 4, -1073741824, -1073741822),
-        (2147483646, -1073741824, 5, 1073741822, -2147483646),
-        (2147483646, -1073741824, 6, 2147483646, -1073741824),
-        (2147483646, -1073741824, 7, 1073741824, 1073741822),
-        (2147483646, -1073741824, 8, -1073741822, 2147483646),
-        (2147483646, -1073741824, 9, -2147483646, 1073741824),
-        (2147483646, -1073741824, 10, -1073741824, -1073741822),
-        (2147483646, -1073741824, 11, 1073741822, -2147483646),
-        (2147483646, -1073741824, 12, 2147483646, -1073741824),
-        (2147483646, -1073741824, 255, -2147483646, 1073741824),
-        (2147483646, -1, 0, 2147483646, -1), (2147483646, -1, 1, 1, 2147483645),
-        (2147483646, -1, 2, -2147483645, 2147483646), (2147483646, -1, 3, -2147483646, 1),
-        (2147483646, -1, 4, -1, -2147483645), (2147483646, -1, 5, 2147483645, -2147483646),
-        (2147483646, -1, 6, 2147483646, -1), (2147483646, -1, 7, 1, 2147483645),
-        (2147483646, -1, 8, -2147483645, 2147483646), (2147483646, -1, 9, -2147483646, 1),
-        (2147483646, -1, 10, -1, -2147483645), (2147483646, -1, 11, 2147483645, -2147483646),
-        (2147483646, -1, 12, 2147483646, -1), (2147483646, -1, 255, -2147483646, 1),
-        (2147483646, 0, 0, 2147483646, 0), (2147483646, 0, 1, 0, 2147483646),
-        (2147483646, 0, 2, -2147483646, 2147483646), (2147483646, 0, 3, -2147483646, 0),
-        (2147483646, 0, 4, 0, -2147483646), (2147483646, 0, 5, 2147483646, -2147483646),
-        (2147483646, 0, 6, 2147483646, 0), (2147483646, 0, 7, 0, 2147483646),
-        (2147483646, 0, 8, -2147483646, 2147483646), (2147483646, 0, 9, -2147483646, 0),
-        (2147483646, 0, 10, 0, -2147483646), (2147483646, 0, 11, 2147483646, -2147483646),
-        (2147483646, 0, 12, 2147483646, 0), (2147483646, 0, 255, -2147483646, 0),
-        (2147483646, 1, 0, 2147483646, 1), (2147483646, 1, 1, -1, 2147483647),
-        (2147483646, 1, 2, -2147483647, 2147483646), (2147483646, 1, 3, -2147483646, -1),
-        (2147483646, 1, 4, 1, -2147483647), (2147483646, 1, 5, 2147483647, -2147483646),
-        (2147483646, 1, 6, 2147483646, 1), (2147483646, 1, 7, -1, 2147483647),
-        (2147483646, 1, 8, -2147483647, 2147483646), (2147483646, 1, 9, -2147483646, -1),
-        (2147483646, 1, 10, 1, -2147483647), (2147483646, 1, 11, 2147483647, -2147483646),
-        (2147483646, 1, 12, 2147483646, 1), (2147483646, 1, 255, -2147483646, -1),
-        (2147483646, 1073741823, 0, 2147483646, 1073741823),
+        (2147483646, -1073741824, 4, -1073741824, -1073741822), (2147483646, -1, 1, 1, 2147483645),
+        (2147483646, -1, 3, -2147483646, 1), (2147483646, -1, 4, -1, -2147483645),
+        (2147483646, 0, 1, 0, 2147483646), (2147483646, 0, 3, -2147483646, 0),
+        (2147483646, 0, 4, 0, -2147483646), (2147483646, 1, 1, -1, 2147483647),
+        (2147483646, 1, 3, -2147483646, -1), (2147483646, 1, 4, 1, -2147483647),
         (2147483646, 1073741823, 3, -2147483646, -1073741823),
-        (2147483646, 1073741823, 6, 2147483646, 1073741823),
-        (2147483646, 1073741823, 9, -2147483646, -1073741823),
-        (2147483646, 1073741823, 12, 2147483646, 1073741823),
-        (2147483646, 1073741823, 255, -2147483646, -1073741823),
-        (2147483646, 1073741824, 0, 2147483646, 1073741824),
         (2147483646, 1073741824, 3, -2147483646, -1073741824),
-        (2147483646, 1073741824, 6, 2147483646, 1073741824),
-        (2147483646, 1073741824, 9, -2147483646, -1073741824),
-        (2147483646, 1073741824, 12, 2147483646, 1073741824),
-        (2147483646, 1073741824, 255, -2147483646, -1073741824),
-        (2147483646, 2147483646, 0, 2147483646, 2147483646),
         (2147483646, 2147483646, 3, -2147483646, -2147483646),
-        (2147483646, 2147483646, 6, 2147483646, 2147483646),
-        (2147483646, 2147483646, 9, -2147483646, -2147483646),
-        (2147483646, 2147483646, 12, 2147483646, 2147483646),
-        (2147483646, 2147483646, 255, -2147483646, -2147483646),
-        (2147483646, 2147483647, 0, 2147483646, 2147483647),
         (2147483646, 2147483647, 3, -2147483646, -2147483647),
-        (2147483646, 2147483647, 6, 2147483646, 2147483647),
-        (2147483646, 2147483647, 9, -2147483646, -2147483647),
-        (2147483646, 2147483647, 12, 2147483646, 2147483647),
-        (2147483646, 2147483647, 255, -2147483646, -2147483647),
-        (2147483647, -2147483648, 0, 2147483647, -2147483648),
-        (2147483647, -2147483648, 5, -1, -2147483647),
-        (2147483647, -2147483648, 6, 2147483647, -2147483648),
-        (2147483647, -2147483648, 11, -1, -2147483647),
-        (2147483647, -2147483648, 12, 2147483647, -2147483648),
-        (2147483647, -2147483647, 0, 2147483647, -2147483647),
-        (2147483647, -2147483647, 1, 2147483647, 0), (2147483647, -2147483647, 2, 0, 2147483647),
+        (2147483647, -2147483647, 1, 2147483647, 0),
         (2147483647, -2147483647, 3, -2147483647, 2147483647),
-        (2147483647, -2147483647, 4, -2147483647, 0), (2147483647, -2147483647, 5, 0, -2147483647),
-        (2147483647, -2147483647, 6, 2147483647, -2147483647),
-        (2147483647, -2147483647, 7, 2147483647, 0), (2147483647, -2147483647, 8, 0, 2147483647),
-        (2147483647, -2147483647, 9, -2147483647, 2147483647),
-        (2147483647, -2147483647, 10, -2147483647, 0),
-        (2147483647, -2147483647, 11, 0, -2147483647),
-        (2147483647, -2147483647, 12, 2147483647, -2147483647),
-        (2147483647, -2147483647, 255, -2147483647, 2147483647),
-        (2147483647, -1073741825, 0, 2147483647, -1073741825),
+        (2147483647, -2147483647, 4, -2147483647, 0),
         (2147483647, -1073741825, 1, 1073741825, 1073741822),
-        (2147483647, -1073741825, 2, -1073741822, 2147483647),
         (2147483647, -1073741825, 3, -2147483647, 1073741825),
         (2147483647, -1073741825, 4, -1073741825, -1073741822),
-        (2147483647, -1073741825, 5, 1073741822, -2147483647),
-        (2147483647, -1073741825, 6, 2147483647, -1073741825),
-        (2147483647, -1073741825, 7, 1073741825, 1073741822),
-        (2147483647, -1073741825, 8, -1073741822, 2147483647),
-        (2147483647, -1073741825, 9, -2147483647, 1073741825),
-        (2147483647, -1073741825, 10, -1073741825, -1073741822),
-        (2147483647, -1073741825, 11, 1073741822, -2147483647),
-        (2147483647, -1073741825, 12, 2147483647, -1073741825),
-        (2147483647, -1073741825, 255, -2147483647, 1073741825),
-        (2147483647, -1073741824, 0, 2147483647, -1073741824),
         (2147483647, -1073741824, 1, 1073741824, 1073741823),
-        (2147483647, -1073741824, 2, -1073741823, 2147483647),
         (2147483647, -1073741824, 3, -2147483647, 1073741824),
-        (2147483647, -1073741824, 4, -1073741824, -1073741823),
-        (2147483647, -1073741824, 5, 1073741823, -2147483647),
-        (2147483647, -1073741824, 6, 2147483647, -1073741824),
-        (2147483647, -1073741824, 7, 1073741824, 1073741823),
-        (2147483647, -1073741824, 8, -1073741823, 2147483647),
-        (2147483647, -1073741824, 9, -2147483647, 1073741824),
-        (2147483647, -1073741824, 10, -1073741824, -1073741823),
-        (2147483647, -1073741824, 11, 1073741823, -2147483647),
-        (2147483647, -1073741824, 12, 2147483647, -1073741824),
-        (2147483647, -1073741824, 255, -2147483647, 1073741824),
-        (2147483647, -1, 0, 2147483647, -1), (2147483647, -1, 1, 1, 2147483646),
-        (2147483647, -1, 2, -2147483646, 2147483647), (2147483647, -1, 3, -2147483647, 1),
-        (2147483647, -1, 4, -1, -2147483646), (2147483647, -1, 5, 2147483646, -2147483647),
-        (2147483647, -1, 6, 2147483647, -1), (2147483647, -1, 7, 1, 2147483646),
-        (2147483647, -1, 8, -2147483646, 2147483647), (2147483647, -1, 9, -2147483647, 1),
-        (2147483647, -1, 10, -1, -2147483646), (2147483647, -1, 11, 2147483646, -2147483647),
-        (2147483647, -1, 12, 2147483647, -1), (2147483647, -1, 255, -2147483647, 1),
-        (2147483647, 0, 0, 2147483647, 0), (2147483647, 0, 1, 0, 2147483647),
-        (2147483647, 0, 2, -2147483647, 2147483647), (2147483647, 0, 3, -2147483647, 0),
-        (2147483647, 0, 4, 0, -2147483647), (2147483647, 0, 5, 2147483647, -2147483647),
-        (2147483647, 0, 6, 2147483647, 0), (2147483647, 0, 7, 0, 2147483647),
-        (2147483647, 0, 8, -2147483647, 2147483647), (2147483647, 0, 9, -2147483647, 0),
-        (2147483647, 0, 10, 0, -2147483647), (2147483647, 0, 11, 2147483647, -2147483647),
-        (2147483647, 0, 12, 2147483647, 0), (2147483647, 0, 255, -2147483647, 0),
-        (2147483647, 1, 0, 2147483647, 1), (2147483647, 1, 3, -2147483647, -1),
-        (2147483647, 1, 6, 2147483647, 1), (2147483647, 1, 9, -2147483647, -1),
-        (2147483647, 1, 12, 2147483647, 1), (2147483647, 1, 255, -2147483647, -1),
-        (2147483647, 1073741823, 0, 2147483647, 1073741823),
+        (2147483647, -1073741824, 4, -1073741824, -1073741823), (2147483647, -1, 1, 1, 2147483646),
+        (2147483647, -1, 3, -2147483647, 1), (2147483647, -1, 4, -1, -2147483646),
+        (2147483647, 0, 1, 0, 2147483647), (2147483647, 0, 3, -2147483647, 0),
+        (2147483647, 0, 4, 0, -2147483647), (2147483647, 1, 3, -2147483647, -1),
         (2147483647, 1073741823, 3, -2147483647, -1073741823),
-        (2147483647, 1073741823, 6, 2147483647, 1073741823),
-        (2147483647, 1073741823, 9, -2147483647, -1073741823),
-        (2147483647, 1073741823, 12, 2147483647, 1073741823),
-        (2147483647, 1073741823, 255, -2147483647, -1073741823),
-        (2147483647, 1073741824, 0, 2147483647, 1073741824),
         (2147483647, 1073741824, 3, -2147483647, -1073741824),
-        (2147483647, 1073741824, 6, 2147483647, 1073741824),
-        (2147483647, 1073741824, 9, -2147483647, -1073741824),
-        (2147483647, 1073741824, 12, 2147483647, 1073741824),
-        (2147483647, 1073741824, 255, -2147483647, -1073741824),
-        (2147483647, 2147483646, 0, 2147483647, 2147483646),
         (2147483647, 2147483646, 3, -2147483647, -2147483646),
-        (2147483647, 2147483646, 6, 2147483647, 2147483646),
-        (2147483647, 2147483646, 9, -2147483647, -2147483646),
-        (2147483647, 2147483646, 12, 2147483647, 2147483646),
-        (2147483647, 2147483646, 255, -2147483647, -2147483646),
-        (2147483647, 2147483647, 0, 2147483647, 2147483647),
         (2147483647, 2147483647, 3, -2147483647, -2147483647),
-        (2147483647, 2147483647, 6, 2147483647, 2147483647),
-        (2147483647, 2147483647, 9, -2147483647, -2147483647),
-        (2147483647, 2147483647, 12, 2147483647, 2147483647),
-        (2147483647, 2147483647, 255, -2147483647, -2147483647),
     ];
     let mut i = 0;
     while i < cases.len() {
@@ -32501,7 +31825,7 @@ fn golden_hex_bounds_rotation_rotate_cw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_rotation_rotate_cw_panics_0() {
     let (x, y, m): (i32, i32, u32) = (-2147483648, -2147483648, 1);
@@ -32510,872 +31834,198 @@ fn golden_hex_bounds_rotation_rotate_cw_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_rotation_rotate_cw_panics_1() {
-    let (x, y, m): (i32, i32, u32) = (-2147483647, -1073741825, 4);
+    let (x, y, m): (i32, i32, u32) = (-2147483647, -1073741825, 1);
     let h = HexTrait::new(x, y);
     let _ = h.rotate_cw(m);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_rotation_rotate_cw_panics_2() {
-    let (x, y, m): (i32, i32, u32) = (1073741823, -2147483648, 7);
+    let (x, y, m): (i32, i32, u32) = (1073741823, -2147483648, 3);
     let h = HexTrait::new(x, y);
     let _ = h.rotate_cw(m);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_rotation_rotate_cw_panics_3() {
-    let (x, y, m): (i32, i32, u32) = (2147483647, 2147483647, 11);
+    let (x, y, m): (i32, i32, u32) = (2147483647, 2147483647, 4);
     let h = HexTrait::new(x, y);
     let _ = h.rotate_cw(m);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 69810636)]
 fn golden_hex_bounds_rotation_rotate_ccw() {
     let cases: Array<(i32, i32, u32, i32, i32)> = array![
-        (-2147483648, -2147483648, 0, -2147483648, -2147483648),
-        (-2147483648, -2147483648, 6, -2147483648, -2147483648),
-        (-2147483648, -2147483648, 12, -2147483648, -2147483648),
-        (-2147483648, -2147483647, 0, -2147483648, -2147483647),
-        (-2147483648, -2147483647, 6, -2147483648, -2147483647),
-        (-2147483648, -2147483647, 12, -2147483648, -2147483647),
-        (-2147483648, -1073741825, 0, -2147483648, -1073741825),
-        (-2147483648, -1073741825, 6, -2147483648, -1073741825),
-        (-2147483648, -1073741825, 12, -2147483648, -1073741825),
-        (-2147483648, -1073741824, 0, -2147483648, -1073741824),
-        (-2147483648, -1073741824, 6, -2147483648, -1073741824),
-        (-2147483648, -1073741824, 12, -2147483648, -1073741824),
-        (-2147483648, -1, 0, -2147483648, -1), (-2147483648, -1, 6, -2147483648, -1),
-        (-2147483648, -1, 12, -2147483648, -1), (-2147483648, 0, 0, -2147483648, 0),
-        (-2147483648, 0, 6, -2147483648, 0), (-2147483648, 0, 12, -2147483648, 0),
-        (-2147483648, 1, 0, -2147483648, 1), (-2147483648, 1, 6, -2147483648, 1),
-        (-2147483648, 1, 12, -2147483648, 1), (-2147483648, 1073741823, 0, -2147483648, 1073741823),
-        (-2147483648, 1073741823, 6, -2147483648, 1073741823),
-        (-2147483648, 1073741823, 12, -2147483648, 1073741823),
-        (-2147483648, 1073741824, 0, -2147483648, 1073741824),
-        (-2147483648, 1073741824, 6, -2147483648, 1073741824),
-        (-2147483648, 1073741824, 12, -2147483648, 1073741824),
-        (-2147483648, 2147483646, 0, -2147483648, 2147483646),
-        (-2147483648, 2147483646, 6, -2147483648, 2147483646),
-        (-2147483648, 2147483646, 12, -2147483648, 2147483646),
-        (-2147483648, 2147483647, 0, -2147483648, 2147483647),
-        (-2147483648, 2147483647, 6, -2147483648, 2147483647),
-        (-2147483648, 2147483647, 12, -2147483648, 2147483647),
-        (-2147483647, -2147483648, 0, -2147483647, -2147483648),
-        (-2147483647, -2147483648, 6, -2147483647, -2147483648),
-        (-2147483647, -2147483648, 12, -2147483647, -2147483648),
-        (-2147483647, -2147483647, 0, -2147483647, -2147483647),
         (-2147483647, -2147483647, 3, 2147483647, 2147483647),
-        (-2147483647, -2147483647, 6, -2147483647, -2147483647),
-        (-2147483647, -2147483647, 9, 2147483647, 2147483647),
-        (-2147483647, -2147483647, 12, -2147483647, -2147483647),
-        (-2147483647, -2147483647, 255, 2147483647, 2147483647),
-        (-2147483647, -1073741825, 0, -2147483647, -1073741825),
         (-2147483647, -1073741825, 3, 2147483647, 1073741825),
-        (-2147483647, -1073741825, 6, -2147483647, -1073741825),
-        (-2147483647, -1073741825, 9, 2147483647, 1073741825),
-        (-2147483647, -1073741825, 12, -2147483647, -1073741825),
-        (-2147483647, -1073741825, 255, 2147483647, 1073741825),
-        (-2147483647, -1073741824, 0, -2147483647, -1073741824),
-        (-2147483647, -1073741824, 3, 2147483647, 1073741824),
-        (-2147483647, -1073741824, 6, -2147483647, -1073741824),
-        (-2147483647, -1073741824, 9, 2147483647, 1073741824),
-        (-2147483647, -1073741824, 12, -2147483647, -1073741824),
-        (-2147483647, -1073741824, 255, 2147483647, 1073741824),
-        (-2147483647, -1, 0, -2147483647, -1), (-2147483647, -1, 3, 2147483647, 1),
-        (-2147483647, -1, 6, -2147483647, -1), (-2147483647, -1, 9, 2147483647, 1),
-        (-2147483647, -1, 12, -2147483647, -1), (-2147483647, -1, 255, 2147483647, 1),
-        (-2147483647, 0, 0, -2147483647, 0), (-2147483647, 0, 1, -2147483647, 2147483647),
-        (-2147483647, 0, 2, 0, 2147483647), (-2147483647, 0, 3, 2147483647, 0),
-        (-2147483647, 0, 4, 2147483647, -2147483647), (-2147483647, 0, 5, 0, -2147483647),
-        (-2147483647, 0, 6, -2147483647, 0), (-2147483647, 0, 7, -2147483647, 2147483647),
-        (-2147483647, 0, 8, 0, 2147483647), (-2147483647, 0, 9, 2147483647, 0),
-        (-2147483647, 0, 10, 2147483647, -2147483647), (-2147483647, 0, 11, 0, -2147483647),
-        (-2147483647, 0, 12, -2147483647, 0), (-2147483647, 0, 255, 2147483647, 0),
-        (-2147483647, 1, 0, -2147483647, 1), (-2147483647, 1, 1, -2147483646, 2147483647),
-        (-2147483647, 1, 2, 1, 2147483646), (-2147483647, 1, 3, 2147483647, -1),
-        (-2147483647, 1, 4, 2147483646, -2147483647), (-2147483647, 1, 5, -1, -2147483646),
-        (-2147483647, 1, 6, -2147483647, 1), (-2147483647, 1, 7, -2147483646, 2147483647),
-        (-2147483647, 1, 8, 1, 2147483646), (-2147483647, 1, 9, 2147483647, -1),
-        (-2147483647, 1, 10, 2147483646, -2147483647), (-2147483647, 1, 11, -1, -2147483646),
-        (-2147483647, 1, 12, -2147483647, 1), (-2147483647, 1, 255, 2147483647, -1),
-        (-2147483647, 1073741823, 0, -2147483647, 1073741823),
+        (-2147483647, -1073741824, 3, 2147483647, 1073741824), (-2147483647, -1, 3, 2147483647, 1),
+        (-2147483647, 0, 1, -2147483647, 2147483647), (-2147483647, 0, 3, 2147483647, 0),
+        (-2147483647, 0, 4, 2147483647, -2147483647), (-2147483647, 1, 1, -2147483646, 2147483647),
+        (-2147483647, 1, 3, 2147483647, -1), (-2147483647, 1, 4, 2147483646, -2147483647),
         (-2147483647, 1073741823, 1, -1073741824, 2147483647),
-        (-2147483647, 1073741823, 2, 1073741823, 1073741824),
         (-2147483647, 1073741823, 3, 2147483647, -1073741823),
         (-2147483647, 1073741823, 4, 1073741824, -2147483647),
-        (-2147483647, 1073741823, 5, -1073741823, -1073741824),
-        (-2147483647, 1073741823, 6, -2147483647, 1073741823),
-        (-2147483647, 1073741823, 7, -1073741824, 2147483647),
-        (-2147483647, 1073741823, 8, 1073741823, 1073741824),
-        (-2147483647, 1073741823, 9, 2147483647, -1073741823),
-        (-2147483647, 1073741823, 10, 1073741824, -2147483647),
-        (-2147483647, 1073741823, 11, -1073741823, -1073741824),
-        (-2147483647, 1073741823, 12, -2147483647, 1073741823),
-        (-2147483647, 1073741823, 255, 2147483647, -1073741823),
-        (-2147483647, 1073741824, 0, -2147483647, 1073741824),
         (-2147483647, 1073741824, 1, -1073741823, 2147483647),
-        (-2147483647, 1073741824, 2, 1073741824, 1073741823),
         (-2147483647, 1073741824, 3, 2147483647, -1073741824),
         (-2147483647, 1073741824, 4, 1073741823, -2147483647),
-        (-2147483647, 1073741824, 5, -1073741824, -1073741823),
-        (-2147483647, 1073741824, 6, -2147483647, 1073741824),
-        (-2147483647, 1073741824, 7, -1073741823, 2147483647),
-        (-2147483647, 1073741824, 8, 1073741824, 1073741823),
-        (-2147483647, 1073741824, 9, 2147483647, -1073741824),
-        (-2147483647, 1073741824, 10, 1073741823, -2147483647),
-        (-2147483647, 1073741824, 11, -1073741824, -1073741823),
-        (-2147483647, 1073741824, 12, -2147483647, 1073741824),
-        (-2147483647, 1073741824, 255, 2147483647, -1073741824),
-        (-2147483647, 2147483646, 0, -2147483647, 2147483646),
-        (-2147483647, 2147483646, 1, -1, 2147483647), (-2147483647, 2147483646, 2, 2147483646, 1),
+        (-2147483647, 2147483646, 1, -1, 2147483647),
         (-2147483647, 2147483646, 3, 2147483647, -2147483646),
-        (-2147483647, 2147483646, 4, 1, -2147483647), (-2147483647, 2147483646, 5, -2147483646, -1),
-        (-2147483647, 2147483646, 6, -2147483647, 2147483646),
-        (-2147483647, 2147483646, 7, -1, 2147483647), (-2147483647, 2147483646, 8, 2147483646, 1),
-        (-2147483647, 2147483646, 9, 2147483647, -2147483646),
-        (-2147483647, 2147483646, 10, 1, -2147483647),
-        (-2147483647, 2147483646, 11, -2147483646, -1),
-        (-2147483647, 2147483646, 12, -2147483647, 2147483646),
-        (-2147483647, 2147483646, 255, 2147483647, -2147483646),
-        (-2147483647, 2147483647, 0, -2147483647, 2147483647),
-        (-2147483647, 2147483647, 1, 0, 2147483647), (-2147483647, 2147483647, 2, 2147483647, 0),
+        (-2147483647, 2147483646, 4, 1, -2147483647), (-2147483647, 2147483647, 1, 0, 2147483647),
         (-2147483647, 2147483647, 3, 2147483647, -2147483647),
-        (-2147483647, 2147483647, 4, 0, -2147483647), (-2147483647, 2147483647, 5, -2147483647, 0),
-        (-2147483647, 2147483647, 6, -2147483647, 2147483647),
-        (-2147483647, 2147483647, 7, 0, 2147483647), (-2147483647, 2147483647, 8, 2147483647, 0),
-        (-2147483647, 2147483647, 9, 2147483647, -2147483647),
-        (-2147483647, 2147483647, 10, 0, -2147483647),
-        (-2147483647, 2147483647, 11, -2147483647, 0),
-        (-2147483647, 2147483647, 12, -2147483647, 2147483647),
-        (-2147483647, 2147483647, 255, 2147483647, -2147483647),
-        (-1073741825, -2147483648, 0, -1073741825, -2147483648),
-        (-1073741825, -2147483648, 6, -1073741825, -2147483648),
-        (-1073741825, -2147483648, 12, -1073741825, -2147483648),
-        (-1073741825, -2147483647, 0, -1073741825, -2147483647),
+        (-2147483647, 2147483647, 4, 0, -2147483647),
         (-1073741825, -2147483647, 3, 1073741825, 2147483647),
-        (-1073741825, -2147483647, 6, -1073741825, -2147483647),
-        (-1073741825, -2147483647, 9, 1073741825, 2147483647),
-        (-1073741825, -2147483647, 12, -1073741825, -2147483647),
-        (-1073741825, -2147483647, 255, 1073741825, 2147483647),
-        (-1073741825, -1073741825, 0, -1073741825, -1073741825),
         (-1073741825, -1073741825, 3, 1073741825, 1073741825),
-        (-1073741825, -1073741825, 6, -1073741825, -1073741825),
-        (-1073741825, -1073741825, 9, 1073741825, 1073741825),
-        (-1073741825, -1073741825, 12, -1073741825, -1073741825),
-        (-1073741825, -1073741825, 255, 1073741825, 1073741825),
-        (-1073741825, -1073741824, 0, -1073741825, -1073741824),
         (-1073741825, -1073741824, 3, 1073741825, 1073741824),
-        (-1073741825, -1073741824, 6, -1073741825, -1073741824),
-        (-1073741825, -1073741824, 9, 1073741825, 1073741824),
-        (-1073741825, -1073741824, 12, -1073741825, -1073741824),
-        (-1073741825, -1073741824, 255, 1073741825, 1073741824),
-        (-1073741825, -1, 0, -1073741825, -1), (-1073741825, -1, 1, -1073741826, 1073741825),
-        (-1073741825, -1, 2, -1, 1073741826), (-1073741825, -1, 3, 1073741825, 1),
-        (-1073741825, -1, 4, 1073741826, -1073741825), (-1073741825, -1, 5, 1, -1073741826),
-        (-1073741825, -1, 6, -1073741825, -1), (-1073741825, -1, 7, -1073741826, 1073741825),
-        (-1073741825, -1, 8, -1, 1073741826), (-1073741825, -1, 9, 1073741825, 1),
-        (-1073741825, -1, 10, 1073741826, -1073741825), (-1073741825, -1, 11, 1, -1073741826),
-        (-1073741825, -1, 12, -1073741825, -1), (-1073741825, -1, 255, 1073741825, 1),
-        (-1073741825, 0, 0, -1073741825, 0), (-1073741825, 0, 1, -1073741825, 1073741825),
-        (-1073741825, 0, 2, 0, 1073741825), (-1073741825, 0, 3, 1073741825, 0),
-        (-1073741825, 0, 4, 1073741825, -1073741825), (-1073741825, 0, 5, 0, -1073741825),
-        (-1073741825, 0, 6, -1073741825, 0), (-1073741825, 0, 7, -1073741825, 1073741825),
-        (-1073741825, 0, 8, 0, 1073741825), (-1073741825, 0, 9, 1073741825, 0),
-        (-1073741825, 0, 10, 1073741825, -1073741825), (-1073741825, 0, 11, 0, -1073741825),
-        (-1073741825, 0, 12, -1073741825, 0), (-1073741825, 0, 255, 1073741825, 0),
-        (-1073741825, 1, 0, -1073741825, 1), (-1073741825, 1, 1, -1073741824, 1073741825),
-        (-1073741825, 1, 2, 1, 1073741824), (-1073741825, 1, 3, 1073741825, -1),
-        (-1073741825, 1, 4, 1073741824, -1073741825), (-1073741825, 1, 5, -1, -1073741824),
-        (-1073741825, 1, 6, -1073741825, 1), (-1073741825, 1, 7, -1073741824, 1073741825),
-        (-1073741825, 1, 8, 1, 1073741824), (-1073741825, 1, 9, 1073741825, -1),
-        (-1073741825, 1, 10, 1073741824, -1073741825), (-1073741825, 1, 11, -1, -1073741824),
-        (-1073741825, 1, 12, -1073741825, 1), (-1073741825, 1, 255, 1073741825, -1),
-        (-1073741825, 1073741823, 0, -1073741825, 1073741823),
-        (-1073741825, 1073741823, 1, -2, 1073741825), (-1073741825, 1073741823, 2, 1073741823, 2),
+        (-1073741825, -1, 1, -1073741826, 1073741825), (-1073741825, -1, 3, 1073741825, 1),
+        (-1073741825, -1, 4, 1073741826, -1073741825), (-1073741825, 0, 1, -1073741825, 1073741825),
+        (-1073741825, 0, 3, 1073741825, 0), (-1073741825, 0, 4, 1073741825, -1073741825),
+        (-1073741825, 1, 1, -1073741824, 1073741825), (-1073741825, 1, 3, 1073741825, -1),
+        (-1073741825, 1, 4, 1073741824, -1073741825), (-1073741825, 1073741823, 1, -2, 1073741825),
         (-1073741825, 1073741823, 3, 1073741825, -1073741823),
-        (-1073741825, 1073741823, 4, 2, -1073741825), (-1073741825, 1073741823, 5, -1073741823, -2),
-        (-1073741825, 1073741823, 6, -1073741825, 1073741823),
-        (-1073741825, 1073741823, 7, -2, 1073741825), (-1073741825, 1073741823, 8, 1073741823, 2),
-        (-1073741825, 1073741823, 9, 1073741825, -1073741823),
-        (-1073741825, 1073741823, 10, 2, -1073741825),
-        (-1073741825, 1073741823, 11, -1073741823, -2),
-        (-1073741825, 1073741823, 12, -1073741825, 1073741823),
-        (-1073741825, 1073741823, 255, 1073741825, -1073741823),
-        (-1073741825, 1073741824, 0, -1073741825, 1073741824),
-        (-1073741825, 1073741824, 1, -1, 1073741825), (-1073741825, 1073741824, 2, 1073741824, 1),
+        (-1073741825, 1073741823, 4, 2, -1073741825), (-1073741825, 1073741824, 1, -1, 1073741825),
         (-1073741825, 1073741824, 3, 1073741825, -1073741824),
-        (-1073741825, 1073741824, 4, 1, -1073741825), (-1073741825, 1073741824, 5, -1073741824, -1),
-        (-1073741825, 1073741824, 6, -1073741825, 1073741824),
-        (-1073741825, 1073741824, 7, -1, 1073741825), (-1073741825, 1073741824, 8, 1073741824, 1),
-        (-1073741825, 1073741824, 9, 1073741825, -1073741824),
-        (-1073741825, 1073741824, 10, 1, -1073741825),
-        (-1073741825, 1073741824, 11, -1073741824, -1),
-        (-1073741825, 1073741824, 12, -1073741825, 1073741824),
-        (-1073741825, 1073741824, 255, 1073741825, -1073741824),
-        (-1073741825, 2147483646, 0, -1073741825, 2147483646),
+        (-1073741825, 1073741824, 4, 1, -1073741825),
         (-1073741825, 2147483646, 1, 1073741821, 1073741825),
-        (-1073741825, 2147483646, 2, 2147483646, -1073741821),
         (-1073741825, 2147483646, 3, 1073741825, -2147483646),
         (-1073741825, 2147483646, 4, -1073741821, -1073741825),
-        (-1073741825, 2147483646, 5, -2147483646, 1073741821),
-        (-1073741825, 2147483646, 6, -1073741825, 2147483646),
-        (-1073741825, 2147483646, 7, 1073741821, 1073741825),
-        (-1073741825, 2147483646, 8, 2147483646, -1073741821),
-        (-1073741825, 2147483646, 9, 1073741825, -2147483646),
-        (-1073741825, 2147483646, 10, -1073741821, -1073741825),
-        (-1073741825, 2147483646, 11, -2147483646, 1073741821),
-        (-1073741825, 2147483646, 12, -1073741825, 2147483646),
-        (-1073741825, 2147483646, 255, 1073741825, -2147483646),
-        (-1073741825, 2147483647, 0, -1073741825, 2147483647),
         (-1073741825, 2147483647, 1, 1073741822, 1073741825),
-        (-1073741825, 2147483647, 2, 2147483647, -1073741822),
         (-1073741825, 2147483647, 3, 1073741825, -2147483647),
         (-1073741825, 2147483647, 4, -1073741822, -1073741825),
-        (-1073741825, 2147483647, 5, -2147483647, 1073741822),
-        (-1073741825, 2147483647, 6, -1073741825, 2147483647),
-        (-1073741825, 2147483647, 7, 1073741822, 1073741825),
-        (-1073741825, 2147483647, 8, 2147483647, -1073741822),
-        (-1073741825, 2147483647, 9, 1073741825, -2147483647),
-        (-1073741825, 2147483647, 10, -1073741822, -1073741825),
-        (-1073741825, 2147483647, 11, -2147483647, 1073741822),
-        (-1073741825, 2147483647, 12, -1073741825, 2147483647),
-        (-1073741825, 2147483647, 255, 1073741825, -2147483647),
-        (-1073741824, -2147483648, 0, -1073741824, -2147483648),
-        (-1073741824, -2147483648, 6, -1073741824, -2147483648),
-        (-1073741824, -2147483648, 12, -1073741824, -2147483648),
-        (-1073741824, -2147483647, 0, -1073741824, -2147483647),
         (-1073741824, -2147483647, 3, 1073741824, 2147483647),
-        (-1073741824, -2147483647, 6, -1073741824, -2147483647),
-        (-1073741824, -2147483647, 9, 1073741824, 2147483647),
-        (-1073741824, -2147483647, 12, -1073741824, -2147483647),
-        (-1073741824, -2147483647, 255, 1073741824, 2147483647),
-        (-1073741824, -1073741825, 0, -1073741824, -1073741825),
         (-1073741824, -1073741825, 3, 1073741824, 1073741825),
-        (-1073741824, -1073741825, 6, -1073741824, -1073741825),
-        (-1073741824, -1073741825, 9, 1073741824, 1073741825),
-        (-1073741824, -1073741825, 12, -1073741824, -1073741825),
-        (-1073741824, -1073741825, 255, 1073741824, 1073741825),
-        (-1073741824, -1073741824, 0, -1073741824, -1073741824),
         (-1073741824, -1073741824, 3, 1073741824, 1073741824),
-        (-1073741824, -1073741824, 6, -1073741824, -1073741824),
-        (-1073741824, -1073741824, 9, 1073741824, 1073741824),
-        (-1073741824, -1073741824, 12, -1073741824, -1073741824),
-        (-1073741824, -1073741824, 255, 1073741824, 1073741824),
-        (-1073741824, -1, 0, -1073741824, -1), (-1073741824, -1, 1, -1073741825, 1073741824),
-        (-1073741824, -1, 2, -1, 1073741825), (-1073741824, -1, 3, 1073741824, 1),
-        (-1073741824, -1, 4, 1073741825, -1073741824), (-1073741824, -1, 5, 1, -1073741825),
-        (-1073741824, -1, 6, -1073741824, -1), (-1073741824, -1, 7, -1073741825, 1073741824),
-        (-1073741824, -1, 8, -1, 1073741825), (-1073741824, -1, 9, 1073741824, 1),
-        (-1073741824, -1, 10, 1073741825, -1073741824), (-1073741824, -1, 11, 1, -1073741825),
-        (-1073741824, -1, 12, -1073741824, -1), (-1073741824, -1, 255, 1073741824, 1),
-        (-1073741824, 0, 0, -1073741824, 0), (-1073741824, 0, 1, -1073741824, 1073741824),
-        (-1073741824, 0, 2, 0, 1073741824), (-1073741824, 0, 3, 1073741824, 0),
-        (-1073741824, 0, 4, 1073741824, -1073741824), (-1073741824, 0, 5, 0, -1073741824),
-        (-1073741824, 0, 6, -1073741824, 0), (-1073741824, 0, 7, -1073741824, 1073741824),
-        (-1073741824, 0, 8, 0, 1073741824), (-1073741824, 0, 9, 1073741824, 0),
-        (-1073741824, 0, 10, 1073741824, -1073741824), (-1073741824, 0, 11, 0, -1073741824),
-        (-1073741824, 0, 12, -1073741824, 0), (-1073741824, 0, 255, 1073741824, 0),
-        (-1073741824, 1, 0, -1073741824, 1), (-1073741824, 1, 1, -1073741823, 1073741824),
-        (-1073741824, 1, 2, 1, 1073741823), (-1073741824, 1, 3, 1073741824, -1),
-        (-1073741824, 1, 4, 1073741823, -1073741824), (-1073741824, 1, 5, -1, -1073741823),
-        (-1073741824, 1, 6, -1073741824, 1), (-1073741824, 1, 7, -1073741823, 1073741824),
-        (-1073741824, 1, 8, 1, 1073741823), (-1073741824, 1, 9, 1073741824, -1),
-        (-1073741824, 1, 10, 1073741823, -1073741824), (-1073741824, 1, 11, -1, -1073741823),
-        (-1073741824, 1, 12, -1073741824, 1), (-1073741824, 1, 255, 1073741824, -1),
-        (-1073741824, 1073741823, 0, -1073741824, 1073741823),
-        (-1073741824, 1073741823, 1, -1, 1073741824), (-1073741824, 1073741823, 2, 1073741823, 1),
+        (-1073741824, -1, 1, -1073741825, 1073741824), (-1073741824, -1, 3, 1073741824, 1),
+        (-1073741824, -1, 4, 1073741825, -1073741824), (-1073741824, 0, 1, -1073741824, 1073741824),
+        (-1073741824, 0, 3, 1073741824, 0), (-1073741824, 0, 4, 1073741824, -1073741824),
+        (-1073741824, 1, 1, -1073741823, 1073741824), (-1073741824, 1, 3, 1073741824, -1),
+        (-1073741824, 1, 4, 1073741823, -1073741824), (-1073741824, 1073741823, 1, -1, 1073741824),
         (-1073741824, 1073741823, 3, 1073741824, -1073741823),
-        (-1073741824, 1073741823, 4, 1, -1073741824), (-1073741824, 1073741823, 5, -1073741823, -1),
-        (-1073741824, 1073741823, 6, -1073741824, 1073741823),
-        (-1073741824, 1073741823, 7, -1, 1073741824), (-1073741824, 1073741823, 8, 1073741823, 1),
-        (-1073741824, 1073741823, 9, 1073741824, -1073741823),
-        (-1073741824, 1073741823, 10, 1, -1073741824),
-        (-1073741824, 1073741823, 11, -1073741823, -1),
-        (-1073741824, 1073741823, 12, -1073741824, 1073741823),
-        (-1073741824, 1073741823, 255, 1073741824, -1073741823),
-        (-1073741824, 1073741824, 0, -1073741824, 1073741824),
-        (-1073741824, 1073741824, 1, 0, 1073741824), (-1073741824, 1073741824, 2, 1073741824, 0),
+        (-1073741824, 1073741823, 4, 1, -1073741824), (-1073741824, 1073741824, 1, 0, 1073741824),
         (-1073741824, 1073741824, 3, 1073741824, -1073741824),
-        (-1073741824, 1073741824, 4, 0, -1073741824), (-1073741824, 1073741824, 5, -1073741824, 0),
-        (-1073741824, 1073741824, 6, -1073741824, 1073741824),
-        (-1073741824, 1073741824, 7, 0, 1073741824), (-1073741824, 1073741824, 8, 1073741824, 0),
-        (-1073741824, 1073741824, 9, 1073741824, -1073741824),
-        (-1073741824, 1073741824, 10, 0, -1073741824),
-        (-1073741824, 1073741824, 11, -1073741824, 0),
-        (-1073741824, 1073741824, 12, -1073741824, 1073741824),
-        (-1073741824, 1073741824, 255, 1073741824, -1073741824),
-        (-1073741824, 2147483646, 0, -1073741824, 2147483646),
+        (-1073741824, 1073741824, 4, 0, -1073741824),
         (-1073741824, 2147483646, 1, 1073741822, 1073741824),
-        (-1073741824, 2147483646, 2, 2147483646, -1073741822),
         (-1073741824, 2147483646, 3, 1073741824, -2147483646),
         (-1073741824, 2147483646, 4, -1073741822, -1073741824),
-        (-1073741824, 2147483646, 5, -2147483646, 1073741822),
-        (-1073741824, 2147483646, 6, -1073741824, 2147483646),
-        (-1073741824, 2147483646, 7, 1073741822, 1073741824),
-        (-1073741824, 2147483646, 8, 2147483646, -1073741822),
-        (-1073741824, 2147483646, 9, 1073741824, -2147483646),
-        (-1073741824, 2147483646, 10, -1073741822, -1073741824),
-        (-1073741824, 2147483646, 11, -2147483646, 1073741822),
-        (-1073741824, 2147483646, 12, -1073741824, 2147483646),
-        (-1073741824, 2147483646, 255, 1073741824, -2147483646),
-        (-1073741824, 2147483647, 0, -1073741824, 2147483647),
         (-1073741824, 2147483647, 1, 1073741823, 1073741824),
-        (-1073741824, 2147483647, 2, 2147483647, -1073741823),
         (-1073741824, 2147483647, 3, 1073741824, -2147483647),
-        (-1073741824, 2147483647, 4, -1073741823, -1073741824),
-        (-1073741824, 2147483647, 5, -2147483647, 1073741823),
-        (-1073741824, 2147483647, 6, -1073741824, 2147483647),
-        (-1073741824, 2147483647, 7, 1073741823, 1073741824),
-        (-1073741824, 2147483647, 8, 2147483647, -1073741823),
-        (-1073741824, 2147483647, 9, 1073741824, -2147483647),
-        (-1073741824, 2147483647, 10, -1073741823, -1073741824),
-        (-1073741824, 2147483647, 11, -2147483647, 1073741823),
-        (-1073741824, 2147483647, 12, -1073741824, 2147483647),
-        (-1073741824, 2147483647, 255, 1073741824, -2147483647),
-        (-1, -2147483648, 0, -1, -2147483648), (-1, -2147483648, 6, -1, -2147483648),
-        (-1, -2147483648, 12, -1, -2147483648), (-1, -2147483647, 0, -1, -2147483647),
-        (-1, -2147483647, 3, 1, 2147483647), (-1, -2147483647, 6, -1, -2147483647),
-        (-1, -2147483647, 9, 1, 2147483647), (-1, -2147483647, 12, -1, -2147483647),
-        (-1, -2147483647, 255, 1, 2147483647), (-1, -1073741825, 0, -1, -1073741825),
-        (-1, -1073741825, 1, -1073741826, 1), (-1, -1073741825, 2, -1073741825, 1073741826),
-        (-1, -1073741825, 3, 1, 1073741825), (-1, -1073741825, 4, 1073741826, -1),
-        (-1, -1073741825, 5, 1073741825, -1073741826), (-1, -1073741825, 6, -1, -1073741825),
-        (-1, -1073741825, 7, -1073741826, 1), (-1, -1073741825, 8, -1073741825, 1073741826),
-        (-1, -1073741825, 9, 1, 1073741825), (-1, -1073741825, 10, 1073741826, -1),
-        (-1, -1073741825, 11, 1073741825, -1073741826), (-1, -1073741825, 12, -1, -1073741825),
-        (-1, -1073741825, 255, 1, 1073741825), (-1, -1073741824, 0, -1, -1073741824),
-        (-1, -1073741824, 1, -1073741825, 1), (-1, -1073741824, 2, -1073741824, 1073741825),
+        (-1073741824, 2147483647, 4, -1073741823, -1073741824), (-1, -2147483647, 3, 1, 2147483647),
+        (-1, -1073741825, 1, -1073741826, 1), (-1, -1073741825, 3, 1, 1073741825),
+        (-1, -1073741825, 4, 1073741826, -1), (-1, -1073741824, 1, -1073741825, 1),
         (-1, -1073741824, 3, 1, 1073741824), (-1, -1073741824, 4, 1073741825, -1),
-        (-1, -1073741824, 5, 1073741824, -1073741825), (-1, -1073741824, 6, -1, -1073741824),
-        (-1, -1073741824, 7, -1073741825, 1), (-1, -1073741824, 8, -1073741824, 1073741825),
-        (-1, -1073741824, 9, 1, 1073741824), (-1, -1073741824, 10, 1073741825, -1),
-        (-1, -1073741824, 11, 1073741824, -1073741825), (-1, -1073741824, 12, -1, -1073741824),
-        (-1, -1073741824, 255, 1, 1073741824), (-1, -1, 0, -1, -1), (-1, -1, 1, -2, 1),
-        (-1, -1, 2, -1, 2), (-1, -1, 3, 1, 1), (-1, -1, 4, 2, -1), (-1, -1, 5, 1, -2),
-        (-1, -1, 6, -1, -1), (-1, -1, 7, -2, 1), (-1, -1, 8, -1, 2), (-1, -1, 9, 1, 1),
-        (-1, -1, 10, 2, -1), (-1, -1, 11, 1, -2), (-1, -1, 12, -1, -1), (-1, -1, 255, 1, 1),
-        (-1, 0, 0, -1, 0), (-1, 0, 1, -1, 1), (-1, 0, 2, 0, 1), (-1, 0, 3, 1, 0), (-1, 0, 4, 1, -1),
-        (-1, 0, 5, 0, -1), (-1, 0, 6, -1, 0), (-1, 0, 7, -1, 1), (-1, 0, 8, 0, 1), (-1, 0, 9, 1, 0),
-        (-1, 0, 10, 1, -1), (-1, 0, 11, 0, -1), (-1, 0, 12, -1, 0), (-1, 0, 255, 1, 0),
-        (-1, 1, 0, -1, 1), (-1, 1, 1, 0, 1), (-1, 1, 2, 1, 0), (-1, 1, 3, 1, -1), (-1, 1, 4, 0, -1),
-        (-1, 1, 5, -1, 0), (-1, 1, 6, -1, 1), (-1, 1, 7, 0, 1), (-1, 1, 8, 1, 0), (-1, 1, 9, 1, -1),
-        (-1, 1, 10, 0, -1), (-1, 1, 11, -1, 0), (-1, 1, 12, -1, 1), (-1, 1, 255, 1, -1),
-        (-1, 1073741823, 0, -1, 1073741823), (-1, 1073741823, 1, 1073741822, 1),
-        (-1, 1073741823, 2, 1073741823, -1073741822), (-1, 1073741823, 3, 1, -1073741823),
-        (-1, 1073741823, 4, -1073741822, -1), (-1, 1073741823, 5, -1073741823, 1073741822),
-        (-1, 1073741823, 6, -1, 1073741823), (-1, 1073741823, 7, 1073741822, 1),
-        (-1, 1073741823, 8, 1073741823, -1073741822), (-1, 1073741823, 9, 1, -1073741823),
-        (-1, 1073741823, 10, -1073741822, -1), (-1, 1073741823, 11, -1073741823, 1073741822),
-        (-1, 1073741823, 12, -1, 1073741823), (-1, 1073741823, 255, 1, -1073741823),
-        (-1, 1073741824, 0, -1, 1073741824), (-1, 1073741824, 1, 1073741823, 1),
-        (-1, 1073741824, 2, 1073741824, -1073741823), (-1, 1073741824, 3, 1, -1073741824),
-        (-1, 1073741824, 4, -1073741823, -1), (-1, 1073741824, 5, -1073741824, 1073741823),
-        (-1, 1073741824, 6, -1, 1073741824), (-1, 1073741824, 7, 1073741823, 1),
-        (-1, 1073741824, 8, 1073741824, -1073741823), (-1, 1073741824, 9, 1, -1073741824),
-        (-1, 1073741824, 10, -1073741823, -1), (-1, 1073741824, 11, -1073741824, 1073741823),
-        (-1, 1073741824, 12, -1, 1073741824), (-1, 1073741824, 255, 1, -1073741824),
-        (-1, 2147483646, 0, -1, 2147483646), (-1, 2147483646, 1, 2147483645, 1),
-        (-1, 2147483646, 2, 2147483646, -2147483645), (-1, 2147483646, 3, 1, -2147483646),
-        (-1, 2147483646, 4, -2147483645, -1), (-1, 2147483646, 5, -2147483646, 2147483645),
-        (-1, 2147483646, 6, -1, 2147483646), (-1, 2147483646, 7, 2147483645, 1),
-        (-1, 2147483646, 8, 2147483646, -2147483645), (-1, 2147483646, 9, 1, -2147483646),
-        (-1, 2147483646, 10, -2147483645, -1), (-1, 2147483646, 11, -2147483646, 2147483645),
-        (-1, 2147483646, 12, -1, 2147483646), (-1, 2147483646, 255, 1, -2147483646),
-        (-1, 2147483647, 0, -1, 2147483647), (-1, 2147483647, 1, 2147483646, 1),
-        (-1, 2147483647, 2, 2147483647, -2147483646), (-1, 2147483647, 3, 1, -2147483647),
-        (-1, 2147483647, 4, -2147483646, -1), (-1, 2147483647, 5, -2147483647, 2147483646),
-        (-1, 2147483647, 6, -1, 2147483647), (-1, 2147483647, 7, 2147483646, 1),
-        (-1, 2147483647, 8, 2147483647, -2147483646), (-1, 2147483647, 9, 1, -2147483647),
-        (-1, 2147483647, 10, -2147483646, -1), (-1, 2147483647, 11, -2147483647, 2147483646),
-        (-1, 2147483647, 12, -1, 2147483647), (-1, 2147483647, 255, 1, -2147483647),
-        (0, -2147483648, 0, 0, -2147483648), (0, -2147483648, 6, 0, -2147483648),
-        (0, -2147483648, 12, 0, -2147483648), (0, -2147483647, 0, 0, -2147483647),
-        (0, -2147483647, 1, -2147483647, 0), (0, -2147483647, 2, -2147483647, 2147483647),
-        (0, -2147483647, 3, 0, 2147483647), (0, -2147483647, 4, 2147483647, 0),
-        (0, -2147483647, 5, 2147483647, -2147483647), (0, -2147483647, 6, 0, -2147483647),
-        (0, -2147483647, 7, -2147483647, 0), (0, -2147483647, 8, -2147483647, 2147483647),
-        (0, -2147483647, 9, 0, 2147483647), (0, -2147483647, 10, 2147483647, 0),
-        (0, -2147483647, 11, 2147483647, -2147483647), (0, -2147483647, 12, 0, -2147483647),
-        (0, -2147483647, 255, 0, 2147483647), (0, -1073741825, 0, 0, -1073741825),
-        (0, -1073741825, 1, -1073741825, 0), (0, -1073741825, 2, -1073741825, 1073741825),
+        (-1, -1, 1, -2, 1), (-1, -1, 3, 1, 1), (-1, -1, 4, 2, -1), (-1, 0, 1, -1, 1),
+        (-1, 0, 3, 1, 0), (-1, 0, 4, 1, -1), (-1, 1, 1, 0, 1), (-1, 1, 3, 1, -1), (-1, 1, 4, 0, -1),
+        (-1, 1073741823, 1, 1073741822, 1), (-1, 1073741823, 3, 1, -1073741823),
+        (-1, 1073741823, 4, -1073741822, -1), (-1, 1073741824, 1, 1073741823, 1),
+        (-1, 1073741824, 3, 1, -1073741824), (-1, 1073741824, 4, -1073741823, -1),
+        (-1, 2147483646, 1, 2147483645, 1), (-1, 2147483646, 3, 1, -2147483646),
+        (-1, 2147483646, 4, -2147483645, -1), (-1, 2147483647, 1, 2147483646, 1),
+        (-1, 2147483647, 3, 1, -2147483647), (-1, 2147483647, 4, -2147483646, -1),
+        (0, -2147483647, 1, -2147483647, 0), (0, -2147483647, 3, 0, 2147483647),
+        (0, -2147483647, 4, 2147483647, 0), (0, -1073741825, 1, -1073741825, 0),
         (0, -1073741825, 3, 0, 1073741825), (0, -1073741825, 4, 1073741825, 0),
-        (0, -1073741825, 5, 1073741825, -1073741825), (0, -1073741825, 6, 0, -1073741825),
-        (0, -1073741825, 7, -1073741825, 0), (0, -1073741825, 8, -1073741825, 1073741825),
-        (0, -1073741825, 9, 0, 1073741825), (0, -1073741825, 10, 1073741825, 0),
-        (0, -1073741825, 11, 1073741825, -1073741825), (0, -1073741825, 12, 0, -1073741825),
-        (0, -1073741825, 255, 0, 1073741825), (0, -1073741824, 0, 0, -1073741824),
-        (0, -1073741824, 1, -1073741824, 0), (0, -1073741824, 2, -1073741824, 1073741824),
-        (0, -1073741824, 3, 0, 1073741824), (0, -1073741824, 4, 1073741824, 0),
-        (0, -1073741824, 5, 1073741824, -1073741824), (0, -1073741824, 6, 0, -1073741824),
-        (0, -1073741824, 7, -1073741824, 0), (0, -1073741824, 8, -1073741824, 1073741824),
-        (0, -1073741824, 9, 0, 1073741824), (0, -1073741824, 10, 1073741824, 0),
-        (0, -1073741824, 11, 1073741824, -1073741824), (0, -1073741824, 12, 0, -1073741824),
-        (0, -1073741824, 255, 0, 1073741824), (0, -1, 0, 0, -1), (0, -1, 1, -1, 0),
-        (0, -1, 2, -1, 1), (0, -1, 3, 0, 1), (0, -1, 4, 1, 0), (0, -1, 5, 1, -1), (0, -1, 6, 0, -1),
-        (0, -1, 7, -1, 0), (0, -1, 8, -1, 1), (0, -1, 9, 0, 1), (0, -1, 10, 1, 0),
-        (0, -1, 11, 1, -1), (0, -1, 12, 0, -1), (0, -1, 255, 0, 1), (0, 0, 0, 0, 0),
-        (0, 0, 1, 0, 0), (0, 0, 2, 0, 0), (0, 0, 3, 0, 0), (0, 0, 4, 0, 0), (0, 0, 5, 0, 0),
-        (0, 0, 6, 0, 0), (0, 0, 7, 0, 0), (0, 0, 8, 0, 0), (0, 0, 9, 0, 0), (0, 0, 10, 0, 0),
-        (0, 0, 11, 0, 0), (0, 0, 12, 0, 0), (0, 0, 255, 0, 0), (0, 1, 0, 0, 1), (0, 1, 1, 1, 0),
-        (0, 1, 2, 1, -1), (0, 1, 3, 0, -1), (0, 1, 4, -1, 0), (0, 1, 5, -1, 1), (0, 1, 6, 0, 1),
-        (0, 1, 7, 1, 0), (0, 1, 8, 1, -1), (0, 1, 9, 0, -1), (0, 1, 10, -1, 0), (0, 1, 11, -1, 1),
-        (0, 1, 12, 0, 1), (0, 1, 255, 0, -1), (0, 1073741823, 0, 0, 1073741823),
-        (0, 1073741823, 1, 1073741823, 0), (0, 1073741823, 2, 1073741823, -1073741823),
-        (0, 1073741823, 3, 0, -1073741823), (0, 1073741823, 4, -1073741823, 0),
-        (0, 1073741823, 5, -1073741823, 1073741823), (0, 1073741823, 6, 0, 1073741823),
-        (0, 1073741823, 7, 1073741823, 0), (0, 1073741823, 8, 1073741823, -1073741823),
-        (0, 1073741823, 9, 0, -1073741823), (0, 1073741823, 10, -1073741823, 0),
-        (0, 1073741823, 11, -1073741823, 1073741823), (0, 1073741823, 12, 0, 1073741823),
-        (0, 1073741823, 255, 0, -1073741823), (0, 1073741824, 0, 0, 1073741824),
-        (0, 1073741824, 1, 1073741824, 0), (0, 1073741824, 2, 1073741824, -1073741824),
+        (0, -1073741824, 1, -1073741824, 0), (0, -1073741824, 3, 0, 1073741824),
+        (0, -1073741824, 4, 1073741824, 0), (0, -1, 1, -1, 0), (0, -1, 3, 0, 1), (0, -1, 4, 1, 0),
+        (0, 0, 1, 0, 0), (0, 0, 3, 0, 0), (0, 0, 4, 0, 0), (0, 1, 1, 1, 0), (0, 1, 3, 0, -1),
+        (0, 1, 4, -1, 0), (0, 1073741823, 1, 1073741823, 0), (0, 1073741823, 3, 0, -1073741823),
+        (0, 1073741823, 4, -1073741823, 0), (0, 1073741824, 1, 1073741824, 0),
         (0, 1073741824, 3, 0, -1073741824), (0, 1073741824, 4, -1073741824, 0),
-        (0, 1073741824, 5, -1073741824, 1073741824), (0, 1073741824, 6, 0, 1073741824),
-        (0, 1073741824, 7, 1073741824, 0), (0, 1073741824, 8, 1073741824, -1073741824),
-        (0, 1073741824, 9, 0, -1073741824), (0, 1073741824, 10, -1073741824, 0),
-        (0, 1073741824, 11, -1073741824, 1073741824), (0, 1073741824, 12, 0, 1073741824),
-        (0, 1073741824, 255, 0, -1073741824), (0, 2147483646, 0, 0, 2147483646),
-        (0, 2147483646, 1, 2147483646, 0), (0, 2147483646, 2, 2147483646, -2147483646),
-        (0, 2147483646, 3, 0, -2147483646), (0, 2147483646, 4, -2147483646, 0),
-        (0, 2147483646, 5, -2147483646, 2147483646), (0, 2147483646, 6, 0, 2147483646),
-        (0, 2147483646, 7, 2147483646, 0), (0, 2147483646, 8, 2147483646, -2147483646),
-        (0, 2147483646, 9, 0, -2147483646), (0, 2147483646, 10, -2147483646, 0),
-        (0, 2147483646, 11, -2147483646, 2147483646), (0, 2147483646, 12, 0, 2147483646),
-        (0, 2147483646, 255, 0, -2147483646), (0, 2147483647, 0, 0, 2147483647),
-        (0, 2147483647, 1, 2147483647, 0), (0, 2147483647, 2, 2147483647, -2147483647),
+        (0, 2147483646, 1, 2147483646, 0), (0, 2147483646, 3, 0, -2147483646),
+        (0, 2147483646, 4, -2147483646, 0), (0, 2147483647, 1, 2147483647, 0),
         (0, 2147483647, 3, 0, -2147483647), (0, 2147483647, 4, -2147483647, 0),
-        (0, 2147483647, 5, -2147483647, 2147483647), (0, 2147483647, 6, 0, 2147483647),
-        (0, 2147483647, 7, 2147483647, 0), (0, 2147483647, 8, 2147483647, -2147483647),
-        (0, 2147483647, 9, 0, -2147483647), (0, 2147483647, 10, -2147483647, 0),
-        (0, 2147483647, 11, -2147483647, 2147483647), (0, 2147483647, 12, 0, 2147483647),
-        (0, 2147483647, 255, 0, -2147483647), (1, -2147483648, 0, 1, -2147483648),
-        (1, -2147483648, 1, -2147483647, -1), (1, -2147483648, 6, 1, -2147483648),
-        (1, -2147483648, 7, -2147483647, -1), (1, -2147483648, 12, 1, -2147483648),
-        (1, -2147483647, 0, 1, -2147483647), (1, -2147483647, 1, -2147483646, -1),
-        (1, -2147483647, 2, -2147483647, 2147483646), (1, -2147483647, 3, -1, 2147483647),
-        (1, -2147483647, 4, 2147483646, 1), (1, -2147483647, 5, 2147483647, -2147483646),
-        (1, -2147483647, 6, 1, -2147483647), (1, -2147483647, 7, -2147483646, -1),
-        (1, -2147483647, 8, -2147483647, 2147483646), (1, -2147483647, 9, -1, 2147483647),
-        (1, -2147483647, 10, 2147483646, 1), (1, -2147483647, 11, 2147483647, -2147483646),
-        (1, -2147483647, 12, 1, -2147483647), (1, -2147483647, 255, -1, 2147483647),
-        (1, -1073741825, 0, 1, -1073741825), (1, -1073741825, 1, -1073741824, -1),
-        (1, -1073741825, 2, -1073741825, 1073741824), (1, -1073741825, 3, -1, 1073741825),
-        (1, -1073741825, 4, 1073741824, 1), (1, -1073741825, 5, 1073741825, -1073741824),
-        (1, -1073741825, 6, 1, -1073741825), (1, -1073741825, 7, -1073741824, -1),
-        (1, -1073741825, 8, -1073741825, 1073741824), (1, -1073741825, 9, -1, 1073741825),
-        (1, -1073741825, 10, 1073741824, 1), (1, -1073741825, 11, 1073741825, -1073741824),
-        (1, -1073741825, 12, 1, -1073741825), (1, -1073741825, 255, -1, 1073741825),
-        (1, -1073741824, 0, 1, -1073741824), (1, -1073741824, 1, -1073741823, -1),
-        (1, -1073741824, 2, -1073741824, 1073741823), (1, -1073741824, 3, -1, 1073741824),
-        (1, -1073741824, 4, 1073741823, 1), (1, -1073741824, 5, 1073741824, -1073741823),
-        (1, -1073741824, 6, 1, -1073741824), (1, -1073741824, 7, -1073741823, -1),
-        (1, -1073741824, 8, -1073741824, 1073741823), (1, -1073741824, 9, -1, 1073741824),
-        (1, -1073741824, 10, 1073741823, 1), (1, -1073741824, 11, 1073741824, -1073741823),
-        (1, -1073741824, 12, 1, -1073741824), (1, -1073741824, 255, -1, 1073741824),
-        (1, -1, 0, 1, -1), (1, -1, 1, 0, -1), (1, -1, 2, -1, 0), (1, -1, 3, -1, 1),
-        (1, -1, 4, 0, 1), (1, -1, 5, 1, 0), (1, -1, 6, 1, -1), (1, -1, 7, 0, -1), (1, -1, 8, -1, 0),
-        (1, -1, 9, -1, 1), (1, -1, 10, 0, 1), (1, -1, 11, 1, 0), (1, -1, 12, 1, -1),
-        (1, -1, 255, -1, 1), (1, 0, 0, 1, 0), (1, 0, 1, 1, -1), (1, 0, 2, 0, -1), (1, 0, 3, -1, 0),
-        (1, 0, 4, -1, 1), (1, 0, 5, 0, 1), (1, 0, 6, 1, 0), (1, 0, 7, 1, -1), (1, 0, 8, 0, -1),
-        (1, 0, 9, -1, 0), (1, 0, 10, -1, 1), (1, 0, 11, 0, 1), (1, 0, 12, 1, 0), (1, 0, 255, -1, 0),
-        (1, 1, 0, 1, 1), (1, 1, 1, 2, -1), (1, 1, 2, 1, -2), (1, 1, 3, -1, -1), (1, 1, 4, -2, 1),
-        (1, 1, 5, -1, 2), (1, 1, 6, 1, 1), (1, 1, 7, 2, -1), (1, 1, 8, 1, -2), (1, 1, 9, -1, -1),
-        (1, 1, 10, -2, 1), (1, 1, 11, -1, 2), (1, 1, 12, 1, 1), (1, 1, 255, -1, -1),
-        (1, 1073741823, 0, 1, 1073741823), (1, 1073741823, 1, 1073741824, -1),
-        (1, 1073741823, 2, 1073741823, -1073741824), (1, 1073741823, 3, -1, -1073741823),
-        (1, 1073741823, 4, -1073741824, 1), (1, 1073741823, 5, -1073741823, 1073741824),
-        (1, 1073741823, 6, 1, 1073741823), (1, 1073741823, 7, 1073741824, -1),
-        (1, 1073741823, 8, 1073741823, -1073741824), (1, 1073741823, 9, -1, -1073741823),
-        (1, 1073741823, 10, -1073741824, 1), (1, 1073741823, 11, -1073741823, 1073741824),
-        (1, 1073741823, 12, 1, 1073741823), (1, 1073741823, 255, -1, -1073741823),
-        (1, 1073741824, 0, 1, 1073741824), (1, 1073741824, 1, 1073741825, -1),
-        (1, 1073741824, 2, 1073741824, -1073741825), (1, 1073741824, 3, -1, -1073741824),
-        (1, 1073741824, 4, -1073741825, 1), (1, 1073741824, 5, -1073741824, 1073741825),
-        (1, 1073741824, 6, 1, 1073741824), (1, 1073741824, 7, 1073741825, -1),
-        (1, 1073741824, 8, 1073741824, -1073741825), (1, 1073741824, 9, -1, -1073741824),
-        (1, 1073741824, 10, -1073741825, 1), (1, 1073741824, 11, -1073741824, 1073741825),
-        (1, 1073741824, 12, 1, 1073741824), (1, 1073741824, 255, -1, -1073741824),
-        (1, 2147483646, 0, 1, 2147483646), (1, 2147483646, 1, 2147483647, -1),
-        (1, 2147483646, 2, 2147483646, -2147483647), (1, 2147483646, 3, -1, -2147483646),
-        (1, 2147483646, 4, -2147483647, 1), (1, 2147483646, 5, -2147483646, 2147483647),
-        (1, 2147483646, 6, 1, 2147483646), (1, 2147483646, 7, 2147483647, -1),
-        (1, 2147483646, 8, 2147483646, -2147483647), (1, 2147483646, 9, -1, -2147483646),
-        (1, 2147483646, 10, -2147483647, 1), (1, 2147483646, 11, -2147483646, 2147483647),
-        (1, 2147483646, 12, 1, 2147483646), (1, 2147483646, 255, -1, -2147483646),
-        (1, 2147483647, 0, 1, 2147483647), (1, 2147483647, 3, -1, -2147483647),
-        (1, 2147483647, 6, 1, 2147483647), (1, 2147483647, 9, -1, -2147483647),
-        (1, 2147483647, 12, 1, 2147483647), (1, 2147483647, 255, -1, -2147483647),
-        (1073741823, -2147483648, 0, 1073741823, -2147483648),
-        (1073741823, -2147483648, 1, -1073741825, -1073741823),
-        (1073741823, -2147483648, 6, 1073741823, -2147483648),
-        (1073741823, -2147483648, 7, -1073741825, -1073741823),
-        (1073741823, -2147483648, 12, 1073741823, -2147483648),
-        (1073741823, -2147483647, 0, 1073741823, -2147483647),
+        (1, -2147483648, 1, -2147483647, -1), (1, -2147483647, 1, -2147483646, -1),
+        (1, -2147483647, 3, -1, 2147483647), (1, -2147483647, 4, 2147483646, 1),
+        (1, -1073741825, 1, -1073741824, -1), (1, -1073741825, 3, -1, 1073741825),
+        (1, -1073741825, 4, 1073741824, 1), (1, -1073741824, 1, -1073741823, -1),
+        (1, -1073741824, 3, -1, 1073741824), (1, -1073741824, 4, 1073741823, 1), (1, -1, 1, 0, -1),
+        (1, -1, 3, -1, 1), (1, -1, 4, 0, 1), (1, 0, 1, 1, -1), (1, 0, 3, -1, 0), (1, 0, 4, -1, 1),
+        (1, 1, 1, 2, -1), (1, 1, 3, -1, -1), (1, 1, 4, -2, 1), (1, 1073741823, 1, 1073741824, -1),
+        (1, 1073741823, 3, -1, -1073741823), (1, 1073741823, 4, -1073741824, 1),
+        (1, 1073741824, 1, 1073741825, -1), (1, 1073741824, 3, -1, -1073741824),
+        (1, 1073741824, 4, -1073741825, 1), (1, 2147483646, 1, 2147483647, -1),
+        (1, 2147483646, 3, -1, -2147483646), (1, 2147483646, 4, -2147483647, 1),
+        (1, 2147483647, 3, -1, -2147483647), (1073741823, -2147483648, 1, -1073741825, -1073741823),
         (1073741823, -2147483647, 1, -1073741824, -1073741823),
-        (1073741823, -2147483647, 2, -2147483647, 1073741824),
         (1073741823, -2147483647, 3, -1073741823, 2147483647),
         (1073741823, -2147483647, 4, 1073741824, 1073741823),
-        (1073741823, -2147483647, 5, 2147483647, -1073741824),
-        (1073741823, -2147483647, 6, 1073741823, -2147483647),
-        (1073741823, -2147483647, 7, -1073741824, -1073741823),
-        (1073741823, -2147483647, 8, -2147483647, 1073741824),
-        (1073741823, -2147483647, 9, -1073741823, 2147483647),
-        (1073741823, -2147483647, 10, 1073741824, 1073741823),
-        (1073741823, -2147483647, 11, 2147483647, -1073741824),
-        (1073741823, -2147483647, 12, 1073741823, -2147483647),
-        (1073741823, -2147483647, 255, -1073741823, 2147483647),
-        (1073741823, -1073741825, 0, 1073741823, -1073741825),
-        (1073741823, -1073741825, 1, -2, -1073741823), (1073741823, -1073741825, 2, -1073741825, 2),
+        (1073741823, -1073741825, 1, -2, -1073741823),
         (1073741823, -1073741825, 3, -1073741823, 1073741825),
-        (1073741823, -1073741825, 4, 2, 1073741823), (1073741823, -1073741825, 5, 1073741825, -2),
-        (1073741823, -1073741825, 6, 1073741823, -1073741825),
-        (1073741823, -1073741825, 7, -2, -1073741823), (1073741823, -1073741825, 8, -1073741825, 2),
-        (1073741823, -1073741825, 9, -1073741823, 1073741825),
-        (1073741823, -1073741825, 10, 2, 1073741823), (1073741823, -1073741825, 11, 1073741825, -2),
-        (1073741823, -1073741825, 12, 1073741823, -1073741825),
-        (1073741823, -1073741825, 255, -1073741823, 1073741825),
-        (1073741823, -1073741824, 0, 1073741823, -1073741824),
-        (1073741823, -1073741824, 1, -1, -1073741823), (1073741823, -1073741824, 2, -1073741824, 1),
+        (1073741823, -1073741825, 4, 2, 1073741823), (1073741823, -1073741824, 1, -1, -1073741823),
         (1073741823, -1073741824, 3, -1073741823, 1073741824),
-        (1073741823, -1073741824, 4, 1, 1073741823), (1073741823, -1073741824, 5, 1073741824, -1),
-        (1073741823, -1073741824, 6, 1073741823, -1073741824),
-        (1073741823, -1073741824, 7, -1, -1073741823), (1073741823, -1073741824, 8, -1073741824, 1),
-        (1073741823, -1073741824, 9, -1073741823, 1073741824),
-        (1073741823, -1073741824, 10, 1, 1073741823), (1073741823, -1073741824, 11, 1073741824, -1),
-        (1073741823, -1073741824, 12, 1073741823, -1073741824),
-        (1073741823, -1073741824, 255, -1073741823, 1073741824),
-        (1073741823, -1, 0, 1073741823, -1), (1073741823, -1, 1, 1073741822, -1073741823),
-        (1073741823, -1, 2, -1, -1073741822), (1073741823, -1, 3, -1073741823, 1),
-        (1073741823, -1, 4, -1073741822, 1073741823), (1073741823, -1, 5, 1, 1073741822),
-        (1073741823, -1, 6, 1073741823, -1), (1073741823, -1, 7, 1073741822, -1073741823),
-        (1073741823, -1, 8, -1, -1073741822), (1073741823, -1, 9, -1073741823, 1),
-        (1073741823, -1, 10, -1073741822, 1073741823), (1073741823, -1, 11, 1, 1073741822),
-        (1073741823, -1, 12, 1073741823, -1), (1073741823, -1, 255, -1073741823, 1),
-        (1073741823, 0, 0, 1073741823, 0), (1073741823, 0, 1, 1073741823, -1073741823),
-        (1073741823, 0, 2, 0, -1073741823), (1073741823, 0, 3, -1073741823, 0),
-        (1073741823, 0, 4, -1073741823, 1073741823), (1073741823, 0, 5, 0, 1073741823),
-        (1073741823, 0, 6, 1073741823, 0), (1073741823, 0, 7, 1073741823, -1073741823),
-        (1073741823, 0, 8, 0, -1073741823), (1073741823, 0, 9, -1073741823, 0),
-        (1073741823, 0, 10, -1073741823, 1073741823), (1073741823, 0, 11, 0, 1073741823),
-        (1073741823, 0, 12, 1073741823, 0), (1073741823, 0, 255, -1073741823, 0),
-        (1073741823, 1, 0, 1073741823, 1), (1073741823, 1, 1, 1073741824, -1073741823),
-        (1073741823, 1, 2, 1, -1073741824), (1073741823, 1, 3, -1073741823, -1),
-        (1073741823, 1, 4, -1073741824, 1073741823), (1073741823, 1, 5, -1, 1073741824),
-        (1073741823, 1, 6, 1073741823, 1), (1073741823, 1, 7, 1073741824, -1073741823),
-        (1073741823, 1, 8, 1, -1073741824), (1073741823, 1, 9, -1073741823, -1),
-        (1073741823, 1, 10, -1073741824, 1073741823), (1073741823, 1, 11, -1, 1073741824),
-        (1073741823, 1, 12, 1073741823, 1), (1073741823, 1, 255, -1073741823, -1),
-        (1073741823, 1073741823, 0, 1073741823, 1073741823),
+        (1073741823, -1073741824, 4, 1, 1073741823), (1073741823, -1, 1, 1073741822, -1073741823),
+        (1073741823, -1, 3, -1073741823, 1), (1073741823, -1, 4, -1073741822, 1073741823),
+        (1073741823, 0, 1, 1073741823, -1073741823), (1073741823, 0, 3, -1073741823, 0),
+        (1073741823, 0, 4, -1073741823, 1073741823), (1073741823, 1, 1, 1073741824, -1073741823),
+        (1073741823, 1, 3, -1073741823, -1), (1073741823, 1, 4, -1073741824, 1073741823),
         (1073741823, 1073741823, 1, 2147483646, -1073741823),
-        (1073741823, 1073741823, 2, 1073741823, -2147483646),
         (1073741823, 1073741823, 3, -1073741823, -1073741823),
         (1073741823, 1073741823, 4, -2147483646, 1073741823),
-        (1073741823, 1073741823, 5, -1073741823, 2147483646),
-        (1073741823, 1073741823, 6, 1073741823, 1073741823),
-        (1073741823, 1073741823, 7, 2147483646, -1073741823),
-        (1073741823, 1073741823, 8, 1073741823, -2147483646),
-        (1073741823, 1073741823, 9, -1073741823, -1073741823),
-        (1073741823, 1073741823, 10, -2147483646, 1073741823),
-        (1073741823, 1073741823, 11, -1073741823, 2147483646),
-        (1073741823, 1073741823, 12, 1073741823, 1073741823),
-        (1073741823, 1073741823, 255, -1073741823, -1073741823),
-        (1073741823, 1073741824, 0, 1073741823, 1073741824),
         (1073741823, 1073741824, 1, 2147483647, -1073741823),
-        (1073741823, 1073741824, 2, 1073741824, -2147483647),
         (1073741823, 1073741824, 3, -1073741823, -1073741824),
         (1073741823, 1073741824, 4, -2147483647, 1073741823),
-        (1073741823, 1073741824, 5, -1073741824, 2147483647),
-        (1073741823, 1073741824, 6, 1073741823, 1073741824),
-        (1073741823, 1073741824, 7, 2147483647, -1073741823),
-        (1073741823, 1073741824, 8, 1073741824, -2147483647),
-        (1073741823, 1073741824, 9, -1073741823, -1073741824),
-        (1073741823, 1073741824, 10, -2147483647, 1073741823),
-        (1073741823, 1073741824, 11, -1073741824, 2147483647),
-        (1073741823, 1073741824, 12, 1073741823, 1073741824),
-        (1073741823, 1073741824, 255, -1073741823, -1073741824),
-        (1073741823, 2147483646, 0, 1073741823, 2147483646),
         (1073741823, 2147483646, 3, -1073741823, -2147483646),
-        (1073741823, 2147483646, 6, 1073741823, 2147483646),
-        (1073741823, 2147483646, 9, -1073741823, -2147483646),
-        (1073741823, 2147483646, 12, 1073741823, 2147483646),
-        (1073741823, 2147483646, 255, -1073741823, -2147483646),
-        (1073741823, 2147483647, 0, 1073741823, 2147483647),
         (1073741823, 2147483647, 3, -1073741823, -2147483647),
-        (1073741823, 2147483647, 6, 1073741823, 2147483647),
-        (1073741823, 2147483647, 9, -1073741823, -2147483647),
-        (1073741823, 2147483647, 12, 1073741823, 2147483647),
-        (1073741823, 2147483647, 255, -1073741823, -2147483647),
-        (1073741824, -2147483648, 0, 1073741824, -2147483648),
         (1073741824, -2147483648, 1, -1073741824, -1073741824),
-        (1073741824, -2147483648, 6, 1073741824, -2147483648),
-        (1073741824, -2147483648, 7, -1073741824, -1073741824),
-        (1073741824, -2147483648, 12, 1073741824, -2147483648),
-        (1073741824, -2147483647, 0, 1073741824, -2147483647),
         (1073741824, -2147483647, 1, -1073741823, -1073741824),
-        (1073741824, -2147483647, 2, -2147483647, 1073741823),
         (1073741824, -2147483647, 3, -1073741824, 2147483647),
         (1073741824, -2147483647, 4, 1073741823, 1073741824),
-        (1073741824, -2147483647, 5, 2147483647, -1073741823),
-        (1073741824, -2147483647, 6, 1073741824, -2147483647),
-        (1073741824, -2147483647, 7, -1073741823, -1073741824),
-        (1073741824, -2147483647, 8, -2147483647, 1073741823),
-        (1073741824, -2147483647, 9, -1073741824, 2147483647),
-        (1073741824, -2147483647, 10, 1073741823, 1073741824),
-        (1073741824, -2147483647, 11, 2147483647, -1073741823),
-        (1073741824, -2147483647, 12, 1073741824, -2147483647),
-        (1073741824, -2147483647, 255, -1073741824, 2147483647),
-        (1073741824, -1073741825, 0, 1073741824, -1073741825),
-        (1073741824, -1073741825, 1, -1, -1073741824), (1073741824, -1073741825, 2, -1073741825, 1),
+        (1073741824, -1073741825, 1, -1, -1073741824),
         (1073741824, -1073741825, 3, -1073741824, 1073741825),
-        (1073741824, -1073741825, 4, 1, 1073741824), (1073741824, -1073741825, 5, 1073741825, -1),
-        (1073741824, -1073741825, 6, 1073741824, -1073741825),
-        (1073741824, -1073741825, 7, -1, -1073741824), (1073741824, -1073741825, 8, -1073741825, 1),
-        (1073741824, -1073741825, 9, -1073741824, 1073741825),
-        (1073741824, -1073741825, 10, 1, 1073741824), (1073741824, -1073741825, 11, 1073741825, -1),
-        (1073741824, -1073741825, 12, 1073741824, -1073741825),
-        (1073741824, -1073741825, 255, -1073741824, 1073741825),
-        (1073741824, -1073741824, 0, 1073741824, -1073741824),
-        (1073741824, -1073741824, 1, 0, -1073741824), (1073741824, -1073741824, 2, -1073741824, 0),
+        (1073741824, -1073741825, 4, 1, 1073741824), (1073741824, -1073741824, 1, 0, -1073741824),
         (1073741824, -1073741824, 3, -1073741824, 1073741824),
-        (1073741824, -1073741824, 4, 0, 1073741824), (1073741824, -1073741824, 5, 1073741824, 0),
-        (1073741824, -1073741824, 6, 1073741824, -1073741824),
-        (1073741824, -1073741824, 7, 0, -1073741824), (1073741824, -1073741824, 8, -1073741824, 0),
-        (1073741824, -1073741824, 9, -1073741824, 1073741824),
-        (1073741824, -1073741824, 10, 0, 1073741824), (1073741824, -1073741824, 11, 1073741824, 0),
-        (1073741824, -1073741824, 12, 1073741824, -1073741824),
-        (1073741824, -1073741824, 255, -1073741824, 1073741824),
-        (1073741824, -1, 0, 1073741824, -1), (1073741824, -1, 1, 1073741823, -1073741824),
-        (1073741824, -1, 2, -1, -1073741823), (1073741824, -1, 3, -1073741824, 1),
-        (1073741824, -1, 4, -1073741823, 1073741824), (1073741824, -1, 5, 1, 1073741823),
-        (1073741824, -1, 6, 1073741824, -1), (1073741824, -1, 7, 1073741823, -1073741824),
-        (1073741824, -1, 8, -1, -1073741823), (1073741824, -1, 9, -1073741824, 1),
-        (1073741824, -1, 10, -1073741823, 1073741824), (1073741824, -1, 11, 1, 1073741823),
-        (1073741824, -1, 12, 1073741824, -1), (1073741824, -1, 255, -1073741824, 1),
-        (1073741824, 0, 0, 1073741824, 0), (1073741824, 0, 1, 1073741824, -1073741824),
-        (1073741824, 0, 2, 0, -1073741824), (1073741824, 0, 3, -1073741824, 0),
-        (1073741824, 0, 4, -1073741824, 1073741824), (1073741824, 0, 5, 0, 1073741824),
-        (1073741824, 0, 6, 1073741824, 0), (1073741824, 0, 7, 1073741824, -1073741824),
-        (1073741824, 0, 8, 0, -1073741824), (1073741824, 0, 9, -1073741824, 0),
-        (1073741824, 0, 10, -1073741824, 1073741824), (1073741824, 0, 11, 0, 1073741824),
-        (1073741824, 0, 12, 1073741824, 0), (1073741824, 0, 255, -1073741824, 0),
-        (1073741824, 1, 0, 1073741824, 1), (1073741824, 1, 1, 1073741825, -1073741824),
-        (1073741824, 1, 2, 1, -1073741825), (1073741824, 1, 3, -1073741824, -1),
-        (1073741824, 1, 4, -1073741825, 1073741824), (1073741824, 1, 5, -1, 1073741825),
-        (1073741824, 1, 6, 1073741824, 1), (1073741824, 1, 7, 1073741825, -1073741824),
-        (1073741824, 1, 8, 1, -1073741825), (1073741824, 1, 9, -1073741824, -1),
-        (1073741824, 1, 10, -1073741825, 1073741824), (1073741824, 1, 11, -1, 1073741825),
-        (1073741824, 1, 12, 1073741824, 1), (1073741824, 1, 255, -1073741824, -1),
-        (1073741824, 1073741823, 0, 1073741824, 1073741823),
+        (1073741824, -1073741824, 4, 0, 1073741824), (1073741824, -1, 1, 1073741823, -1073741824),
+        (1073741824, -1, 3, -1073741824, 1), (1073741824, -1, 4, -1073741823, 1073741824),
+        (1073741824, 0, 1, 1073741824, -1073741824), (1073741824, 0, 3, -1073741824, 0),
+        (1073741824, 0, 4, -1073741824, 1073741824), (1073741824, 1, 1, 1073741825, -1073741824),
+        (1073741824, 1, 3, -1073741824, -1), (1073741824, 1, 4, -1073741825, 1073741824),
         (1073741824, 1073741823, 1, 2147483647, -1073741824),
-        (1073741824, 1073741823, 2, 1073741823, -2147483647),
         (1073741824, 1073741823, 3, -1073741824, -1073741823),
         (1073741824, 1073741823, 4, -2147483647, 1073741824),
-        (1073741824, 1073741823, 5, -1073741823, 2147483647),
-        (1073741824, 1073741823, 6, 1073741824, 1073741823),
-        (1073741824, 1073741823, 7, 2147483647, -1073741824),
-        (1073741824, 1073741823, 8, 1073741823, -2147483647),
-        (1073741824, 1073741823, 9, -1073741824, -1073741823),
-        (1073741824, 1073741823, 10, -2147483647, 1073741824),
-        (1073741824, 1073741823, 11, -1073741823, 2147483647),
-        (1073741824, 1073741823, 12, 1073741824, 1073741823),
-        (1073741824, 1073741823, 255, -1073741824, -1073741823),
-        (1073741824, 1073741824, 0, 1073741824, 1073741824),
         (1073741824, 1073741824, 3, -1073741824, -1073741824),
-        (1073741824, 1073741824, 6, 1073741824, 1073741824),
-        (1073741824, 1073741824, 9, -1073741824, -1073741824),
-        (1073741824, 1073741824, 12, 1073741824, 1073741824),
-        (1073741824, 1073741824, 255, -1073741824, -1073741824),
-        (1073741824, 2147483646, 0, 1073741824, 2147483646),
         (1073741824, 2147483646, 3, -1073741824, -2147483646),
-        (1073741824, 2147483646, 6, 1073741824, 2147483646),
-        (1073741824, 2147483646, 9, -1073741824, -2147483646),
-        (1073741824, 2147483646, 12, 1073741824, 2147483646),
-        (1073741824, 2147483646, 255, -1073741824, -2147483646),
-        (1073741824, 2147483647, 0, 1073741824, 2147483647),
         (1073741824, 2147483647, 3, -1073741824, -2147483647),
-        (1073741824, 2147483647, 6, 1073741824, 2147483647),
-        (1073741824, 2147483647, 9, -1073741824, -2147483647),
-        (1073741824, 2147483647, 12, 1073741824, 2147483647),
-        (1073741824, 2147483647, 255, -1073741824, -2147483647),
-        (2147483646, -2147483648, 0, 2147483646, -2147483648),
         (2147483646, -2147483648, 1, -2, -2147483646),
-        (2147483646, -2147483648, 6, 2147483646, -2147483648),
-        (2147483646, -2147483648, 7, -2, -2147483646),
-        (2147483646, -2147483648, 12, 2147483646, -2147483648),
-        (2147483646, -2147483647, 0, 2147483646, -2147483647),
-        (2147483646, -2147483647, 1, -1, -2147483646), (2147483646, -2147483647, 2, -2147483647, 1),
+        (2147483646, -2147483647, 1, -1, -2147483646),
         (2147483646, -2147483647, 3, -2147483646, 2147483647),
-        (2147483646, -2147483647, 4, 1, 2147483646), (2147483646, -2147483647, 5, 2147483647, -1),
-        (2147483646, -2147483647, 6, 2147483646, -2147483647),
-        (2147483646, -2147483647, 7, -1, -2147483646), (2147483646, -2147483647, 8, -2147483647, 1),
-        (2147483646, -2147483647, 9, -2147483646, 2147483647),
-        (2147483646, -2147483647, 10, 1, 2147483646), (2147483646, -2147483647, 11, 2147483647, -1),
-        (2147483646, -2147483647, 12, 2147483646, -2147483647),
-        (2147483646, -2147483647, 255, -2147483646, 2147483647),
-        (2147483646, -1073741825, 0, 2147483646, -1073741825),
+        (2147483646, -2147483647, 4, 1, 2147483646),
         (2147483646, -1073741825, 1, 1073741821, -2147483646),
-        (2147483646, -1073741825, 2, -1073741825, -1073741821),
         (2147483646, -1073741825, 3, -2147483646, 1073741825),
         (2147483646, -1073741825, 4, -1073741821, 2147483646),
-        (2147483646, -1073741825, 5, 1073741825, 1073741821),
-        (2147483646, -1073741825, 6, 2147483646, -1073741825),
-        (2147483646, -1073741825, 7, 1073741821, -2147483646),
-        (2147483646, -1073741825, 8, -1073741825, -1073741821),
-        (2147483646, -1073741825, 9, -2147483646, 1073741825),
-        (2147483646, -1073741825, 10, -1073741821, 2147483646),
-        (2147483646, -1073741825, 11, 1073741825, 1073741821),
-        (2147483646, -1073741825, 12, 2147483646, -1073741825),
-        (2147483646, -1073741825, 255, -2147483646, 1073741825),
-        (2147483646, -1073741824, 0, 2147483646, -1073741824),
         (2147483646, -1073741824, 1, 1073741822, -2147483646),
-        (2147483646, -1073741824, 2, -1073741824, -1073741822),
         (2147483646, -1073741824, 3, -2147483646, 1073741824),
         (2147483646, -1073741824, 4, -1073741822, 2147483646),
-        (2147483646, -1073741824, 5, 1073741824, 1073741822),
-        (2147483646, -1073741824, 6, 2147483646, -1073741824),
-        (2147483646, -1073741824, 7, 1073741822, -2147483646),
-        (2147483646, -1073741824, 8, -1073741824, -1073741822),
-        (2147483646, -1073741824, 9, -2147483646, 1073741824),
-        (2147483646, -1073741824, 10, -1073741822, 2147483646),
-        (2147483646, -1073741824, 11, 1073741824, 1073741822),
-        (2147483646, -1073741824, 12, 2147483646, -1073741824),
-        (2147483646, -1073741824, 255, -2147483646, 1073741824),
-        (2147483646, -1, 0, 2147483646, -1), (2147483646, -1, 1, 2147483645, -2147483646),
-        (2147483646, -1, 2, -1, -2147483645), (2147483646, -1, 3, -2147483646, 1),
-        (2147483646, -1, 4, -2147483645, 2147483646), (2147483646, -1, 5, 1, 2147483645),
-        (2147483646, -1, 6, 2147483646, -1), (2147483646, -1, 7, 2147483645, -2147483646),
-        (2147483646, -1, 8, -1, -2147483645), (2147483646, -1, 9, -2147483646, 1),
-        (2147483646, -1, 10, -2147483645, 2147483646), (2147483646, -1, 11, 1, 2147483645),
-        (2147483646, -1, 12, 2147483646, -1), (2147483646, -1, 255, -2147483646, 1),
-        (2147483646, 0, 0, 2147483646, 0), (2147483646, 0, 1, 2147483646, -2147483646),
-        (2147483646, 0, 2, 0, -2147483646), (2147483646, 0, 3, -2147483646, 0),
-        (2147483646, 0, 4, -2147483646, 2147483646), (2147483646, 0, 5, 0, 2147483646),
-        (2147483646, 0, 6, 2147483646, 0), (2147483646, 0, 7, 2147483646, -2147483646),
-        (2147483646, 0, 8, 0, -2147483646), (2147483646, 0, 9, -2147483646, 0),
-        (2147483646, 0, 10, -2147483646, 2147483646), (2147483646, 0, 11, 0, 2147483646),
-        (2147483646, 0, 12, 2147483646, 0), (2147483646, 0, 255, -2147483646, 0),
-        (2147483646, 1, 0, 2147483646, 1), (2147483646, 1, 1, 2147483647, -2147483646),
-        (2147483646, 1, 2, 1, -2147483647), (2147483646, 1, 3, -2147483646, -1),
-        (2147483646, 1, 4, -2147483647, 2147483646), (2147483646, 1, 5, -1, 2147483647),
-        (2147483646, 1, 6, 2147483646, 1), (2147483646, 1, 7, 2147483647, -2147483646),
-        (2147483646, 1, 8, 1, -2147483647), (2147483646, 1, 9, -2147483646, -1),
-        (2147483646, 1, 10, -2147483647, 2147483646), (2147483646, 1, 11, -1, 2147483647),
-        (2147483646, 1, 12, 2147483646, 1), (2147483646, 1, 255, -2147483646, -1),
-        (2147483646, 1073741823, 0, 2147483646, 1073741823),
+        (2147483646, -1, 1, 2147483645, -2147483646), (2147483646, -1, 3, -2147483646, 1),
+        (2147483646, -1, 4, -2147483645, 2147483646), (2147483646, 0, 1, 2147483646, -2147483646),
+        (2147483646, 0, 3, -2147483646, 0), (2147483646, 0, 4, -2147483646, 2147483646),
+        (2147483646, 1, 1, 2147483647, -2147483646), (2147483646, 1, 3, -2147483646, -1),
+        (2147483646, 1, 4, -2147483647, 2147483646),
         (2147483646, 1073741823, 3, -2147483646, -1073741823),
-        (2147483646, 1073741823, 6, 2147483646, 1073741823),
-        (2147483646, 1073741823, 9, -2147483646, -1073741823),
-        (2147483646, 1073741823, 12, 2147483646, 1073741823),
-        (2147483646, 1073741823, 255, -2147483646, -1073741823),
-        (2147483646, 1073741824, 0, 2147483646, 1073741824),
         (2147483646, 1073741824, 3, -2147483646, -1073741824),
-        (2147483646, 1073741824, 6, 2147483646, 1073741824),
-        (2147483646, 1073741824, 9, -2147483646, -1073741824),
-        (2147483646, 1073741824, 12, 2147483646, 1073741824),
-        (2147483646, 1073741824, 255, -2147483646, -1073741824),
-        (2147483646, 2147483646, 0, 2147483646, 2147483646),
         (2147483646, 2147483646, 3, -2147483646, -2147483646),
-        (2147483646, 2147483646, 6, 2147483646, 2147483646),
-        (2147483646, 2147483646, 9, -2147483646, -2147483646),
-        (2147483646, 2147483646, 12, 2147483646, 2147483646),
-        (2147483646, 2147483646, 255, -2147483646, -2147483646),
-        (2147483646, 2147483647, 0, 2147483646, 2147483647),
         (2147483646, 2147483647, 3, -2147483646, -2147483647),
-        (2147483646, 2147483647, 6, 2147483646, 2147483647),
-        (2147483646, 2147483647, 9, -2147483646, -2147483647),
-        (2147483646, 2147483647, 12, 2147483646, 2147483647),
-        (2147483646, 2147483647, 255, -2147483646, -2147483647),
-        (2147483647, -2147483648, 0, 2147483647, -2147483648),
-        (2147483647, -2147483648, 1, -1, -2147483647),
-        (2147483647, -2147483648, 6, 2147483647, -2147483648),
-        (2147483647, -2147483648, 7, -1, -2147483647),
-        (2147483647, -2147483648, 12, 2147483647, -2147483648),
-        (2147483647, -2147483647, 0, 2147483647, -2147483647),
-        (2147483647, -2147483647, 1, 0, -2147483647), (2147483647, -2147483647, 2, -2147483647, 0),
+        (2147483647, -2147483648, 1, -1, -2147483647), (2147483647, -2147483647, 1, 0, -2147483647),
         (2147483647, -2147483647, 3, -2147483647, 2147483647),
-        (2147483647, -2147483647, 4, 0, 2147483647), (2147483647, -2147483647, 5, 2147483647, 0),
-        (2147483647, -2147483647, 6, 2147483647, -2147483647),
-        (2147483647, -2147483647, 7, 0, -2147483647), (2147483647, -2147483647, 8, -2147483647, 0),
-        (2147483647, -2147483647, 9, -2147483647, 2147483647),
-        (2147483647, -2147483647, 10, 0, 2147483647), (2147483647, -2147483647, 11, 2147483647, 0),
-        (2147483647, -2147483647, 12, 2147483647, -2147483647),
-        (2147483647, -2147483647, 255, -2147483647, 2147483647),
-        (2147483647, -1073741825, 0, 2147483647, -1073741825),
+        (2147483647, -2147483647, 4, 0, 2147483647),
         (2147483647, -1073741825, 1, 1073741822, -2147483647),
-        (2147483647, -1073741825, 2, -1073741825, -1073741822),
         (2147483647, -1073741825, 3, -2147483647, 1073741825),
         (2147483647, -1073741825, 4, -1073741822, 2147483647),
-        (2147483647, -1073741825, 5, 1073741825, 1073741822),
-        (2147483647, -1073741825, 6, 2147483647, -1073741825),
-        (2147483647, -1073741825, 7, 1073741822, -2147483647),
-        (2147483647, -1073741825, 8, -1073741825, -1073741822),
-        (2147483647, -1073741825, 9, -2147483647, 1073741825),
-        (2147483647, -1073741825, 10, -1073741822, 2147483647),
-        (2147483647, -1073741825, 11, 1073741825, 1073741822),
-        (2147483647, -1073741825, 12, 2147483647, -1073741825),
-        (2147483647, -1073741825, 255, -2147483647, 1073741825),
-        (2147483647, -1073741824, 0, 2147483647, -1073741824),
         (2147483647, -1073741824, 1, 1073741823, -2147483647),
-        (2147483647, -1073741824, 2, -1073741824, -1073741823),
         (2147483647, -1073741824, 3, -2147483647, 1073741824),
         (2147483647, -1073741824, 4, -1073741823, 2147483647),
-        (2147483647, -1073741824, 5, 1073741824, 1073741823),
-        (2147483647, -1073741824, 6, 2147483647, -1073741824),
-        (2147483647, -1073741824, 7, 1073741823, -2147483647),
-        (2147483647, -1073741824, 8, -1073741824, -1073741823),
-        (2147483647, -1073741824, 9, -2147483647, 1073741824),
-        (2147483647, -1073741824, 10, -1073741823, 2147483647),
-        (2147483647, -1073741824, 11, 1073741824, 1073741823),
-        (2147483647, -1073741824, 12, 2147483647, -1073741824),
-        (2147483647, -1073741824, 255, -2147483647, 1073741824),
-        (2147483647, -1, 0, 2147483647, -1), (2147483647, -1, 1, 2147483646, -2147483647),
-        (2147483647, -1, 2, -1, -2147483646), (2147483647, -1, 3, -2147483647, 1),
-        (2147483647, -1, 4, -2147483646, 2147483647), (2147483647, -1, 5, 1, 2147483646),
-        (2147483647, -1, 6, 2147483647, -1), (2147483647, -1, 7, 2147483646, -2147483647),
-        (2147483647, -1, 8, -1, -2147483646), (2147483647, -1, 9, -2147483647, 1),
-        (2147483647, -1, 10, -2147483646, 2147483647), (2147483647, -1, 11, 1, 2147483646),
-        (2147483647, -1, 12, 2147483647, -1), (2147483647, -1, 255, -2147483647, 1),
-        (2147483647, 0, 0, 2147483647, 0), (2147483647, 0, 1, 2147483647, -2147483647),
-        (2147483647, 0, 2, 0, -2147483647), (2147483647, 0, 3, -2147483647, 0),
-        (2147483647, 0, 4, -2147483647, 2147483647), (2147483647, 0, 5, 0, 2147483647),
-        (2147483647, 0, 6, 2147483647, 0), (2147483647, 0, 7, 2147483647, -2147483647),
-        (2147483647, 0, 8, 0, -2147483647), (2147483647, 0, 9, -2147483647, 0),
-        (2147483647, 0, 10, -2147483647, 2147483647), (2147483647, 0, 11, 0, 2147483647),
-        (2147483647, 0, 12, 2147483647, 0), (2147483647, 0, 255, -2147483647, 0),
-        (2147483647, 1, 0, 2147483647, 1), (2147483647, 1, 3, -2147483647, -1),
-        (2147483647, 1, 6, 2147483647, 1), (2147483647, 1, 9, -2147483647, -1),
-        (2147483647, 1, 12, 2147483647, 1), (2147483647, 1, 255, -2147483647, -1),
-        (2147483647, 1073741823, 0, 2147483647, 1073741823),
-        (2147483647, 1073741823, 3, -2147483647, -1073741823),
-        (2147483647, 1073741823, 6, 2147483647, 1073741823),
-        (2147483647, 1073741823, 9, -2147483647, -1073741823),
-        (2147483647, 1073741823, 12, 2147483647, 1073741823),
-        (2147483647, 1073741823, 255, -2147483647, -1073741823),
-        (2147483647, 1073741824, 0, 2147483647, 1073741824),
+        (2147483647, -1, 1, 2147483646, -2147483647), (2147483647, -1, 3, -2147483647, 1),
+        (2147483647, -1, 4, -2147483646, 2147483647), (2147483647, 0, 1, 2147483647, -2147483647),
+        (2147483647, 0, 3, -2147483647, 0), (2147483647, 0, 4, -2147483647, 2147483647),
+        (2147483647, 1, 3, -2147483647, -1), (2147483647, 1073741823, 3, -2147483647, -1073741823),
         (2147483647, 1073741824, 3, -2147483647, -1073741824),
-        (2147483647, 1073741824, 6, 2147483647, 1073741824),
-        (2147483647, 1073741824, 9, -2147483647, -1073741824),
-        (2147483647, 1073741824, 12, 2147483647, 1073741824),
-        (2147483647, 1073741824, 255, -2147483647, -1073741824),
-        (2147483647, 2147483646, 0, 2147483647, 2147483646),
         (2147483647, 2147483646, 3, -2147483647, -2147483646),
-        (2147483647, 2147483646, 6, 2147483647, 2147483646),
-        (2147483647, 2147483646, 9, -2147483647, -2147483646),
-        (2147483647, 2147483646, 12, 2147483647, 2147483646),
-        (2147483647, 2147483646, 255, -2147483647, -2147483646),
-        (2147483647, 2147483647, 0, 2147483647, 2147483647),
         (2147483647, 2147483647, 3, -2147483647, -2147483647),
-        (2147483647, 2147483647, 6, 2147483647, 2147483647),
-        (2147483647, 2147483647, 9, -2147483647, -2147483647),
-        (2147483647, 2147483647, 12, 2147483647, 2147483647),
-        (2147483647, 2147483647, 255, -2147483647, -2147483647),
     ];
     let mut i = 0;
     while i < cases.len() {
@@ -33388,7 +32038,7 @@ fn golden_hex_bounds_rotation_rotate_ccw() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_rotation_rotate_ccw_panics_0() {
     let (x, y, m): (i32, i32, u32) = (-2147483648, -2147483648, 1);
@@ -33397,34 +32047,34 @@ fn golden_hex_bounds_rotation_rotate_ccw_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_rotation_rotate_ccw_panics_1() {
-    let (x, y, m): (i32, i32, u32) = (-2147483647, -1073741825, 4);
+    let (x, y, m): (i32, i32, u32) = (-2147483647, -2147483647, 1);
     let h = HexTrait::new(x, y);
     let _ = h.rotate_ccw(m);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_rotation_rotate_ccw_panics_2() {
-    let (x, y, m): (i32, i32, u32) = (1073741823, -2147483648, 8);
+    let (x, y, m): (i32, i32, u32) = (1, 2147483647, 1);
     let h = HexTrait::new(x, y);
     let _ = h.rotate_ccw(m);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_rotation_rotate_ccw_panics_3() {
-    let (x, y, m): (i32, i32, u32) = (2147483647, 2147483647, 11);
+    let (x, y, m): (i32, i32, u32) = (2147483647, 2147483647, 4);
     let h = HexTrait::new(x, y);
     let _ = h.rotate_ccw(m);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 76800990)]
 fn golden_hex_around_0_rotate_cw_around() {
     let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (31, 13, 31, 13, 0, 31, 13), (31, 13, 31, 13, 1, 31, 13), (31, 13, 31, 13, 2, 31, 13),
@@ -33523,608 +32173,6 @@ fn golden_hex_around_0_rotate_cw_around() {
         (-22, -26, 33, 8, 7, 67, -81), (-22, -26, 33, 8, 8, 122, -47), (-22, -26, 33, 8, 9, 88, 42),
         (-22, -26, 33, 8, 10, -1, 97), (-22, -26, 33, 8, 11, -56, 63),
         (-22, -26, 33, 8, 12, -22, -26), (-22, -26, 33, 8, 255, 88, 42),
-        (1, -18, 31, 13, 0, 1, -18), (1, -18, 31, 13, 1, 62, -48), (1, -18, 31, 13, 2, 92, -17),
-        (1, -18, 31, 13, 3, 61, 44), (1, -18, 31, 13, 4, 0, 74), (1, -18, 31, 13, 5, -30, 43),
-        (1, -18, 31, 13, 6, 1, -18), (1, -18, 31, 13, 7, 62, -48), (1, -18, 31, 13, 8, 92, -17),
-        (1, -18, 31, 13, 9, 61, 44), (1, -18, 31, 13, 10, 0, 74), (1, -18, 31, 13, 11, -30, 43),
-        (1, -18, 31, 13, 12, 1, -18), (1, -18, 31, 13, 255, 61, 44), (1, -18, 27, 39, 0, 1, -18),
-        (1, -18, 27, 39, 1, 84, -44), (1, -18, 27, 39, 2, 110, 13), (1, -18, 27, 39, 3, 53, 96),
-        (1, -18, 27, 39, 4, -30, 122), (1, -18, 27, 39, 5, -56, 65), (1, -18, 27, 39, 6, 1, -18),
-        (1, -18, 27, 39, 7, 84, -44), (1, -18, 27, 39, 8, 110, 13), (1, -18, 27, 39, 9, 53, 96),
-        (1, -18, 27, 39, 10, -30, 122), (1, -18, 27, 39, 11, -56, 65), (1, -18, 27, 39, 12, 1, -18),
-        (1, -18, 27, 39, 255, 53, 96), (1, -18, 24, 1, 0, 1, -18), (1, -18, 24, 1, 1, 43, -41),
-        (1, -18, 24, 1, 2, 66, -22), (1, -18, 24, 1, 3, 47, 20), (1, -18, 24, 1, 4, 5, 43),
-        (1, -18, 24, 1, 5, -18, 24), (1, -18, 24, 1, 6, 1, -18), (1, -18, 24, 1, 7, 43, -41),
-        (1, -18, 24, 1, 8, 66, -22), (1, -18, 24, 1, 9, 47, 20), (1, -18, 24, 1, 10, 5, 43),
-        (1, -18, 24, 1, 11, -18, 24), (1, -18, 24, 1, 12, 1, -18), (1, -18, 24, 1, 255, 47, 20),
-        (1, -18, -21, -18, 0, 1, -18), (1, -18, -21, -18, 1, -21, 4), (1, -18, -21, -18, 2, -43, 4),
-        (1, -18, -21, -18, 3, -43, -18), (1, -18, -21, -18, 4, -21, -40),
-        (1, -18, -21, -18, 5, 1, -40), (1, -18, -21, -18, 6, 1, -18), (1, -18, -21, -18, 7, -21, 4),
-        (1, -18, -21, -18, 8, -43, 4), (1, -18, -21, -18, 9, -43, -18),
-        (1, -18, -21, -18, 10, -21, -40), (1, -18, -21, -18, 11, 1, -40),
-        (1, -18, -21, -18, 12, 1, -18), (1, -18, -21, -18, 255, -43, -18),
-        (1, -18, -13, -35, 0, 1, -18), (1, -18, -13, -35, 1, -30, -4),
-        (1, -18, -13, -35, 2, -44, -21), (1, -18, -13, -35, 3, -27, -52),
-        (1, -18, -13, -35, 4, 4, -66), (1, -18, -13, -35, 5, 18, -49),
-        (1, -18, -13, -35, 6, 1, -18), (1, -18, -13, -35, 7, -30, -4),
-        (1, -18, -13, -35, 8, -44, -21), (1, -18, -13, -35, 9, -27, -52),
-        (1, -18, -13, -35, 10, 4, -66), (1, -18, -13, -35, 11, 18, -49),
-        (1, -18, -13, -35, 12, 1, -18), (1, -18, -13, -35, 255, -27, -52),
-        (1, -18, -26, 7, 0, 1, -18), (1, -18, -26, 7, 1, -1, 9), (1, -18, -26, 7, 2, -28, 34),
-        (1, -18, -26, 7, 3, -53, 32), (1, -18, -26, 7, 4, -51, 5), (1, -18, -26, 7, 5, -24, -20),
-        (1, -18, -26, 7, 6, 1, -18), (1, -18, -26, 7, 7, -1, 9), (1, -18, -26, 7, 8, -28, 34),
-        (1, -18, -26, 7, 9, -53, 32), (1, -18, -26, 7, 10, -51, 5), (1, -18, -26, 7, 11, -24, -20),
-        (1, -18, -26, 7, 12, 1, -18), (1, -18, -26, 7, 255, -53, 32), (1, -18, 38, -1, 0, 1, -18),
-        (1, -18, 38, -1, 1, 55, -55), (1, -18, 38, -1, 2, 92, -38), (1, -18, 38, -1, 3, 75, 16),
-        (1, -18, 38, -1, 4, 21, 53), (1, -18, 38, -1, 5, -16, 36), (1, -18, 38, -1, 6, 1, -18),
-        (1, -18, 38, -1, 7, 55, -55), (1, -18, 38, -1, 8, 92, -38), (1, -18, 38, -1, 9, 75, 16),
-        (1, -18, 38, -1, 10, 21, 53), (1, -18, 38, -1, 11, -16, 36), (1, -18, 38, -1, 12, 1, -18),
-        (1, -18, 38, -1, 255, 75, 16), (1, -18, 33, 8, 0, 1, -18), (1, -18, 33, 8, 1, 59, -50),
-        (1, -18, 33, 8, 2, 91, -24), (1, -18, 33, 8, 3, 65, 34), (1, -18, 33, 8, 4, 7, 66),
-        (1, -18, 33, 8, 5, -25, 40), (1, -18, 33, 8, 6, 1, -18), (1, -18, 33, 8, 7, 59, -50),
-        (1, -18, 33, 8, 8, 91, -24), (1, -18, 33, 8, 9, 65, 34), (1, -18, 33, 8, 10, 7, 66),
-        (1, -18, 33, 8, 11, -25, 40), (1, -18, 33, 8, 12, 1, -18), (1, -18, 33, 8, 255, 65, 34),
-        (11, 12, 31, 13, 0, 11, 12), (11, 12, 31, 13, 1, 32, -8), (11, 12, 31, 13, 2, 52, -7),
-        (11, 12, 31, 13, 3, 51, 14), (11, 12, 31, 13, 4, 30, 34), (11, 12, 31, 13, 5, 10, 33),
-        (11, 12, 31, 13, 6, 11, 12), (11, 12, 31, 13, 7, 32, -8), (11, 12, 31, 13, 8, 52, -7),
-        (11, 12, 31, 13, 9, 51, 14), (11, 12, 31, 13, 10, 30, 34), (11, 12, 31, 13, 11, 10, 33),
-        (11, 12, 31, 13, 12, 11, 12), (11, 12, 31, 13, 255, 51, 14), (11, 12, 27, 39, 0, 11, 12),
-        (11, 12, 27, 39, 1, 54, -4), (11, 12, 27, 39, 2, 70, 23), (11, 12, 27, 39, 3, 43, 66),
-        (11, 12, 27, 39, 4, 0, 82), (11, 12, 27, 39, 5, -16, 55), (11, 12, 27, 39, 6, 11, 12),
-        (11, 12, 27, 39, 7, 54, -4), (11, 12, 27, 39, 8, 70, 23), (11, 12, 27, 39, 9, 43, 66),
-        (11, 12, 27, 39, 10, 0, 82), (11, 12, 27, 39, 11, -16, 55), (11, 12, 27, 39, 12, 11, 12),
-        (11, 12, 27, 39, 255, 43, 66), (11, 12, 24, 1, 0, 11, 12), (11, 12, 24, 1, 1, 13, -1),
-        (11, 12, 24, 1, 2, 26, -12), (11, 12, 24, 1, 3, 37, -10), (11, 12, 24, 1, 4, 35, 3),
-        (11, 12, 24, 1, 5, 22, 14), (11, 12, 24, 1, 6, 11, 12), (11, 12, 24, 1, 7, 13, -1),
-        (11, 12, 24, 1, 8, 26, -12), (11, 12, 24, 1, 9, 37, -10), (11, 12, 24, 1, 10, 35, 3),
-        (11, 12, 24, 1, 11, 22, 14), (11, 12, 24, 1, 12, 11, 12), (11, 12, 24, 1, 255, 37, -10),
-        (11, 12, -21, -18, 0, 11, 12), (11, 12, -21, -18, 1, -51, 44),
-        (11, 12, -21, -18, 2, -83, 14), (11, 12, -21, -18, 3, -53, -48),
-        (11, 12, -21, -18, 4, 9, -80), (11, 12, -21, -18, 5, 41, -50),
-        (11, 12, -21, -18, 6, 11, 12), (11, 12, -21, -18, 7, -51, 44),
-        (11, 12, -21, -18, 8, -83, 14), (11, 12, -21, -18, 9, -53, -48),
-        (11, 12, -21, -18, 10, 9, -80), (11, 12, -21, -18, 11, 41, -50),
-        (11, 12, -21, -18, 12, 11, 12), (11, 12, -21, -18, 255, -53, -48),
-        (11, 12, -13, -35, 0, 11, 12), (11, 12, -13, -35, 1, -60, 36),
-        (11, 12, -13, -35, 2, -84, -11), (11, 12, -13, -35, 3, -37, -82),
-        (11, 12, -13, -35, 4, 34, -106), (11, 12, -13, -35, 5, 58, -59),
-        (11, 12, -13, -35, 6, 11, 12), (11, 12, -13, -35, 7, -60, 36),
-        (11, 12, -13, -35, 8, -84, -11), (11, 12, -13, -35, 9, -37, -82),
-        (11, 12, -13, -35, 10, 34, -106), (11, 12, -13, -35, 11, 58, -59),
-        (11, 12, -13, -35, 12, 11, 12), (11, 12, -13, -35, 255, -37, -82),
-        (11, 12, -26, 7, 0, 11, 12), (11, 12, -26, 7, 1, -31, 49), (11, 12, -26, 7, 2, -68, 44),
-        (11, 12, -26, 7, 3, -63, 2), (11, 12, -26, 7, 4, -21, -35), (11, 12, -26, 7, 5, 16, -30),
-        (11, 12, -26, 7, 6, 11, 12), (11, 12, -26, 7, 7, -31, 49), (11, 12, -26, 7, 8, -68, 44),
-        (11, 12, -26, 7, 9, -63, 2), (11, 12, -26, 7, 10, -21, -35), (11, 12, -26, 7, 11, 16, -30),
-        (11, 12, -26, 7, 12, 11, 12), (11, 12, -26, 7, 255, -63, 2), (11, 12, 38, -1, 0, 11, 12),
-        (11, 12, 38, -1, 1, 25, -15), (11, 12, 38, -1, 2, 52, -28), (11, 12, 38, -1, 3, 65, -14),
-        (11, 12, 38, -1, 4, 51, 13), (11, 12, 38, -1, 5, 24, 26), (11, 12, 38, -1, 6, 11, 12),
-        (11, 12, 38, -1, 7, 25, -15), (11, 12, 38, -1, 8, 52, -28), (11, 12, 38, -1, 9, 65, -14),
-        (11, 12, 38, -1, 10, 51, 13), (11, 12, 38, -1, 11, 24, 26), (11, 12, 38, -1, 12, 11, 12),
-        (11, 12, 38, -1, 255, 65, -14), (11, 12, 33, 8, 0, 11, 12), (11, 12, 33, 8, 1, 29, -10),
-        (11, 12, 33, 8, 2, 51, -14), (11, 12, 33, 8, 3, 55, 4), (11, 12, 33, 8, 4, 37, 26),
-        (11, 12, 33, 8, 5, 15, 30), (11, 12, 33, 8, 6, 11, 12), (11, 12, 33, 8, 7, 29, -10),
-        (11, 12, 33, 8, 8, 51, -14), (11, 12, 33, 8, 9, 55, 4), (11, 12, 33, 8, 10, 37, 26),
-        (11, 12, 33, 8, 11, 15, 30), (11, 12, 33, 8, 12, 11, 12), (11, 12, 33, 8, 255, 55, 4),
-        (30, 9, 31, 13, 0, 30, 9), (30, 9, 31, 13, 1, 35, 8), (30, 9, 31, 13, 2, 36, 12),
-        (30, 9, 31, 13, 3, 32, 17), (30, 9, 31, 13, 4, 27, 18), (30, 9, 31, 13, 5, 26, 14),
-        (30, 9, 31, 13, 6, 30, 9), (30, 9, 31, 13, 7, 35, 8), (30, 9, 31, 13, 8, 36, 12),
-        (30, 9, 31, 13, 9, 32, 17), (30, 9, 31, 13, 10, 27, 18), (30, 9, 31, 13, 11, 26, 14),
-        (30, 9, 31, 13, 12, 30, 9), (30, 9, 31, 13, 255, 32, 17), (30, 9, 27, 39, 0, 30, 9),
-        (30, 9, 27, 39, 1, 57, 12), (30, 9, 27, 39, 2, 54, 42), (30, 9, 27, 39, 3, 24, 69),
-        (30, 9, 27, 39, 4, -3, 66), (30, 9, 27, 39, 5, 0, 36), (30, 9, 27, 39, 6, 30, 9),
-        (30, 9, 27, 39, 7, 57, 12), (30, 9, 27, 39, 8, 54, 42), (30, 9, 27, 39, 9, 24, 69),
-        (30, 9, 27, 39, 10, -3, 66), (30, 9, 27, 39, 11, 0, 36), (30, 9, 27, 39, 12, 30, 9),
-        (30, 9, 27, 39, 255, 24, 69), (30, 9, 24, 1, 0, 30, 9), (30, 9, 24, 1, 1, 16, 15),
-        (30, 9, 24, 1, 2, 10, 7), (30, 9, 24, 1, 3, 18, -7), (30, 9, 24, 1, 4, 32, -13),
-        (30, 9, 24, 1, 5, 38, -5), (30, 9, 24, 1, 6, 30, 9), (30, 9, 24, 1, 7, 16, 15),
-        (30, 9, 24, 1, 8, 10, 7), (30, 9, 24, 1, 9, 18, -7), (30, 9, 24, 1, 10, 32, -13),
-        (30, 9, 24, 1, 11, 38, -5), (30, 9, 24, 1, 12, 30, 9), (30, 9, 24, 1, 255, 18, -7),
-        (30, 9, -21, -18, 0, 30, 9), (30, 9, -21, -18, 1, -48, 60), (30, 9, -21, -18, 2, -99, 33),
-        (30, 9, -21, -18, 3, -72, -45), (30, 9, -21, -18, 4, 6, -96), (30, 9, -21, -18, 5, 57, -69),
-        (30, 9, -21, -18, 6, 30, 9), (30, 9, -21, -18, 7, -48, 60), (30, 9, -21, -18, 8, -99, 33),
-        (30, 9, -21, -18, 9, -72, -45), (30, 9, -21, -18, 10, 6, -96),
-        (30, 9, -21, -18, 11, 57, -69), (30, 9, -21, -18, 12, 30, 9),
-        (30, 9, -21, -18, 255, -72, -45), (30, 9, -13, -35, 0, 30, 9),
-        (30, 9, -13, -35, 1, -57, 52), (30, 9, -13, -35, 2, -100, 8),
-        (30, 9, -13, -35, 3, -56, -79), (30, 9, -13, -35, 4, 31, -122),
-        (30, 9, -13, -35, 5, 74, -78), (30, 9, -13, -35, 6, 30, 9), (30, 9, -13, -35, 7, -57, 52),
-        (30, 9, -13, -35, 8, -100, 8), (30, 9, -13, -35, 9, -56, -79),
-        (30, 9, -13, -35, 10, 31, -122), (30, 9, -13, -35, 11, 74, -78),
-        (30, 9, -13, -35, 12, 30, 9), (30, 9, -13, -35, 255, -56, -79), (30, 9, -26, 7, 0, 30, 9),
-        (30, 9, -26, 7, 1, -28, 65), (30, 9, -26, 7, 2, -84, 63), (30, 9, -26, 7, 3, -82, 5),
-        (30, 9, -26, 7, 4, -24, -51), (30, 9, -26, 7, 5, 32, -49), (30, 9, -26, 7, 6, 30, 9),
-        (30, 9, -26, 7, 7, -28, 65), (30, 9, -26, 7, 8, -84, 63), (30, 9, -26, 7, 9, -82, 5),
-        (30, 9, -26, 7, 10, -24, -51), (30, 9, -26, 7, 11, 32, -49), (30, 9, -26, 7, 12, 30, 9),
-        (30, 9, -26, 7, 255, -82, 5), (30, 9, 38, -1, 0, 30, 9), (30, 9, 38, -1, 1, 28, 1),
-        (30, 9, 38, -1, 2, 36, -9), (30, 9, 38, -1, 3, 46, -11), (30, 9, 38, -1, 4, 48, -3),
-        (30, 9, 38, -1, 5, 40, 7), (30, 9, 38, -1, 6, 30, 9), (30, 9, 38, -1, 7, 28, 1),
-        (30, 9, 38, -1, 8, 36, -9), (30, 9, 38, -1, 9, 46, -11), (30, 9, 38, -1, 10, 48, -3),
-        (30, 9, 38, -1, 11, 40, 7), (30, 9, 38, -1, 12, 30, 9), (30, 9, 38, -1, 255, 46, -11),
-        (30, 9, 33, 8, 0, 30, 9), (30, 9, 33, 8, 1, 32, 6), (30, 9, 33, 8, 2, 35, 5),
-        (30, 9, 33, 8, 3, 36, 7), (30, 9, 33, 8, 4, 34, 10), (30, 9, 33, 8, 5, 31, 11),
-        (30, 9, 33, 8, 6, 30, 9), (30, 9, 33, 8, 7, 32, 6), (30, 9, 33, 8, 8, 35, 5),
-        (30, 9, 33, 8, 9, 36, 7), (30, 9, 33, 8, 10, 34, 10), (30, 9, 33, 8, 11, 31, 11),
-        (30, 9, 33, 8, 12, 30, 9), (30, 9, 33, 8, 255, 36, 7), (16, -33, 31, 13, 0, 16, -33),
-        (16, -33, 31, 13, 1, 77, -48), (16, -33, 31, 13, 2, 92, -2), (16, -33, 31, 13, 3, 46, 59),
-        (16, -33, 31, 13, 4, -15, 74), (16, -33, 31, 13, 5, -30, 28), (16, -33, 31, 13, 6, 16, -33),
-        (16, -33, 31, 13, 7, 77, -48), (16, -33, 31, 13, 8, 92, -2), (16, -33, 31, 13, 9, 46, 59),
-        (16, -33, 31, 13, 10, -15, 74), (16, -33, 31, 13, 11, -30, 28),
-        (16, -33, 31, 13, 12, 16, -33), (16, -33, 31, 13, 255, 46, 59),
-        (16, -33, 27, 39, 0, 16, -33), (16, -33, 27, 39, 1, 99, -44), (16, -33, 27, 39, 2, 110, 28),
-        (16, -33, 27, 39, 3, 38, 111), (16, -33, 27, 39, 4, -45, 122),
-        (16, -33, 27, 39, 5, -56, 50), (16, -33, 27, 39, 6, 16, -33), (16, -33, 27, 39, 7, 99, -44),
-        (16, -33, 27, 39, 8, 110, 28), (16, -33, 27, 39, 9, 38, 111),
-        (16, -33, 27, 39, 10, -45, 122), (16, -33, 27, 39, 11, -56, 50),
-        (16, -33, 27, 39, 12, 16, -33), (16, -33, 27, 39, 255, 38, 111),
-        (16, -33, 24, 1, 0, 16, -33), (16, -33, 24, 1, 1, 58, -41), (16, -33, 24, 1, 2, 66, -7),
-        (16, -33, 24, 1, 3, 32, 35), (16, -33, 24, 1, 4, -10, 43), (16, -33, 24, 1, 5, -18, 9),
-        (16, -33, 24, 1, 6, 16, -33), (16, -33, 24, 1, 7, 58, -41), (16, -33, 24, 1, 8, 66, -7),
-        (16, -33, 24, 1, 9, 32, 35), (16, -33, 24, 1, 10, -10, 43), (16, -33, 24, 1, 11, -18, 9),
-        (16, -33, 24, 1, 12, 16, -33), (16, -33, 24, 1, 255, 32, 35),
-        (16, -33, -21, -18, 0, 16, -33), (16, -33, -21, -18, 1, -6, 4),
-        (16, -33, -21, -18, 2, -43, 19), (16, -33, -21, -18, 3, -58, -3),
-        (16, -33, -21, -18, 4, -36, -40), (16, -33, -21, -18, 5, 1, -55),
-        (16, -33, -21, -18, 6, 16, -33), (16, -33, -21, -18, 7, -6, 4),
-        (16, -33, -21, -18, 8, -43, 19), (16, -33, -21, -18, 9, -58, -3),
-        (16, -33, -21, -18, 10, -36, -40), (16, -33, -21, -18, 11, 1, -55),
-        (16, -33, -21, -18, 12, 16, -33), (16, -33, -21, -18, 255, -58, -3),
-        (16, -33, -13, -35, 0, 16, -33), (16, -33, -13, -35, 1, -15, -4),
-        (16, -33, -13, -35, 2, -44, -6), (16, -33, -13, -35, 3, -42, -37),
-        (16, -33, -13, -35, 4, -11, -66), (16, -33, -13, -35, 5, 18, -64),
-        (16, -33, -13, -35, 6, 16, -33), (16, -33, -13, -35, 7, -15, -4),
-        (16, -33, -13, -35, 8, -44, -6), (16, -33, -13, -35, 9, -42, -37),
-        (16, -33, -13, -35, 10, -11, -66), (16, -33, -13, -35, 11, 18, -64),
-        (16, -33, -13, -35, 12, 16, -33), (16, -33, -13, -35, 255, -42, -37),
-        (16, -33, -26, 7, 0, 16, -33), (16, -33, -26, 7, 1, 14, 9), (16, -33, -26, 7, 2, -28, 49),
-        (16, -33, -26, 7, 3, -68, 47), (16, -33, -26, 7, 4, -66, 5), (16, -33, -26, 7, 5, -24, -35),
-        (16, -33, -26, 7, 6, 16, -33), (16, -33, -26, 7, 7, 14, 9), (16, -33, -26, 7, 8, -28, 49),
-        (16, -33, -26, 7, 9, -68, 47), (16, -33, -26, 7, 10, -66, 5),
-        (16, -33, -26, 7, 11, -24, -35), (16, -33, -26, 7, 12, 16, -33),
-        (16, -33, -26, 7, 255, -68, 47), (16, -33, 38, -1, 0, 16, -33),
-        (16, -33, 38, -1, 1, 70, -55), (16, -33, 38, -1, 2, 92, -23), (16, -33, 38, -1, 3, 60, 31),
-        (16, -33, 38, -1, 4, 6, 53), (16, -33, 38, -1, 5, -16, 21), (16, -33, 38, -1, 6, 16, -33),
-        (16, -33, 38, -1, 7, 70, -55), (16, -33, 38, -1, 8, 92, -23), (16, -33, 38, -1, 9, 60, 31),
-        (16, -33, 38, -1, 10, 6, 53), (16, -33, 38, -1, 11, -16, 21),
-        (16, -33, 38, -1, 12, 16, -33), (16, -33, 38, -1, 255, 60, 31),
-        (16, -33, 33, 8, 0, 16, -33), (16, -33, 33, 8, 1, 74, -50), (16, -33, 33, 8, 2, 91, -9),
-        (16, -33, 33, 8, 3, 50, 49), (16, -33, 33, 8, 4, -8, 66), (16, -33, 33, 8, 5, -25, 25),
-        (16, -33, 33, 8, 6, 16, -33), (16, -33, 33, 8, 7, 74, -50), (16, -33, 33, 8, 8, 91, -9),
-        (16, -33, 33, 8, 9, 50, 49), (16, -33, 33, 8, 10, -8, 66), (16, -33, 33, 8, 11, -25, 25),
-        (16, -33, 33, 8, 12, 16, -33), (16, -33, 33, 8, 255, 50, 49), (-2, -20, 31, 13, 0, -2, -20),
-        (-2, -20, 31, 13, 1, 64, -53), (-2, -20, 31, 13, 2, 97, -20), (-2, -20, 31, 13, 3, 64, 46),
-        (-2, -20, 31, 13, 4, -2, 79), (-2, -20, 31, 13, 5, -35, 46), (-2, -20, 31, 13, 6, -2, -20),
-        (-2, -20, 31, 13, 7, 64, -53), (-2, -20, 31, 13, 8, 97, -20), (-2, -20, 31, 13, 9, 64, 46),
-        (-2, -20, 31, 13, 10, -2, 79), (-2, -20, 31, 13, 11, -35, 46),
-        (-2, -20, 31, 13, 12, -2, -20), (-2, -20, 31, 13, 255, 64, 46),
-        (-2, -20, 27, 39, 0, -2, -20), (-2, -20, 27, 39, 1, 86, -49), (-2, -20, 27, 39, 2, 115, 10),
-        (-2, -20, 27, 39, 3, 56, 98), (-2, -20, 27, 39, 4, -32, 127), (-2, -20, 27, 39, 5, -61, 68),
-        (-2, -20, 27, 39, 6, -2, -20), (-2, -20, 27, 39, 7, 86, -49), (-2, -20, 27, 39, 8, 115, 10),
-        (-2, -20, 27, 39, 9, 56, 98), (-2, -20, 27, 39, 10, -32, 127),
-        (-2, -20, 27, 39, 11, -61, 68), (-2, -20, 27, 39, 12, -2, -20),
-        (-2, -20, 27, 39, 255, 56, 98), (-2, -20, 24, 1, 0, -2, -20), (-2, -20, 24, 1, 1, 45, -46),
-        (-2, -20, 24, 1, 2, 71, -25), (-2, -20, 24, 1, 3, 50, 22), (-2, -20, 24, 1, 4, 3, 48),
-        (-2, -20, 24, 1, 5, -23, 27), (-2, -20, 24, 1, 6, -2, -20), (-2, -20, 24, 1, 7, 45, -46),
-        (-2, -20, 24, 1, 8, 71, -25), (-2, -20, 24, 1, 9, 50, 22), (-2, -20, 24, 1, 10, 3, 48),
-        (-2, -20, 24, 1, 11, -23, 27), (-2, -20, 24, 1, 12, -2, -20), (-2, -20, 24, 1, 255, 50, 22),
-        (-2, -20, -21, -18, 0, -2, -20), (-2, -20, -21, -18, 1, -19, -1),
-        (-2, -20, -21, -18, 2, -38, 1), (-2, -20, -21, -18, 3, -40, -16),
-        (-2, -20, -21, -18, 4, -23, -35), (-2, -20, -21, -18, 5, -4, -37),
-        (-2, -20, -21, -18, 6, -2, -20), (-2, -20, -21, -18, 7, -19, -1),
-        (-2, -20, -21, -18, 8, -38, 1), (-2, -20, -21, -18, 9, -40, -16),
-        (-2, -20, -21, -18, 10, -23, -35), (-2, -20, -21, -18, 11, -4, -37),
-        (-2, -20, -21, -18, 12, -2, -20), (-2, -20, -21, -18, 255, -40, -16),
-        (-2, -20, -13, -35, 0, -2, -20), (-2, -20, -13, -35, 1, -28, -9),
-        (-2, -20, -13, -35, 2, -39, -24), (-2, -20, -13, -35, 3, -24, -50),
-        (-2, -20, -13, -35, 4, 2, -61), (-2, -20, -13, -35, 5, 13, -46),
-        (-2, -20, -13, -35, 6, -2, -20), (-2, -20, -13, -35, 7, -28, -9),
-        (-2, -20, -13, -35, 8, -39, -24), (-2, -20, -13, -35, 9, -24, -50),
-        (-2, -20, -13, -35, 10, 2, -61), (-2, -20, -13, -35, 11, 13, -46),
-        (-2, -20, -13, -35, 12, -2, -20), (-2, -20, -13, -35, 255, -24, -50),
-        (-2, -20, -26, 7, 0, -2, -20), (-2, -20, -26, 7, 1, 1, 4), (-2, -20, -26, 7, 2, -23, 31),
-        (-2, -20, -26, 7, 3, -50, 34), (-2, -20, -26, 7, 4, -53, 10),
-        (-2, -20, -26, 7, 5, -29, -17), (-2, -20, -26, 7, 6, -2, -20), (-2, -20, -26, 7, 7, 1, 4),
-        (-2, -20, -26, 7, 8, -23, 31), (-2, -20, -26, 7, 9, -50, 34),
-        (-2, -20, -26, 7, 10, -53, 10), (-2, -20, -26, 7, 11, -29, -17),
-        (-2, -20, -26, 7, 12, -2, -20), (-2, -20, -26, 7, 255, -50, 34),
-        (-2, -20, 38, -1, 0, -2, -20), (-2, -20, 38, -1, 1, 57, -60), (-2, -20, 38, -1, 2, 97, -41),
-        (-2, -20, 38, -1, 3, 78, 18), (-2, -20, 38, -1, 4, 19, 58), (-2, -20, 38, -1, 5, -21, 39),
-        (-2, -20, 38, -1, 6, -2, -20), (-2, -20, 38, -1, 7, 57, -60), (-2, -20, 38, -1, 8, 97, -41),
-        (-2, -20, 38, -1, 9, 78, 18), (-2, -20, 38, -1, 10, 19, 58), (-2, -20, 38, -1, 11, -21, 39),
-        (-2, -20, 38, -1, 12, -2, -20), (-2, -20, 38, -1, 255, 78, 18),
-        (-2, -20, 33, 8, 0, -2, -20), (-2, -20, 33, 8, 1, 61, -55), (-2, -20, 33, 8, 2, 96, -27),
-        (-2, -20, 33, 8, 3, 68, 36), (-2, -20, 33, 8, 4, 5, 71), (-2, -20, 33, 8, 5, -30, 43),
-        (-2, -20, 33, 8, 6, -2, -20), (-2, -20, 33, 8, 7, 61, -55), (-2, -20, 33, 8, 8, 96, -27),
-        (-2, -20, 33, 8, 9, 68, 36), (-2, -20, 33, 8, 10, 5, 71), (-2, -20, 33, 8, 11, -30, 43),
-        (-2, -20, 33, 8, 12, -2, -20), (-2, -20, 33, 8, 255, 68, 36), (-26, 18, 31, 13, 0, -26, 18),
-        (-26, 18, 31, 13, 1, 26, -39), (-26, 18, 31, 13, 2, 83, -44), (-26, 18, 31, 13, 3, 88, 8),
-        (-26, 18, 31, 13, 4, 36, 65), (-26, 18, 31, 13, 5, -21, 70), (-26, 18, 31, 13, 6, -26, 18),
-        (-26, 18, 31, 13, 7, 26, -39), (-26, 18, 31, 13, 8, 83, -44), (-26, 18, 31, 13, 9, 88, 8),
-        (-26, 18, 31, 13, 10, 36, 65), (-26, 18, 31, 13, 11, -21, 70),
-        (-26, 18, 31, 13, 12, -26, 18), (-26, 18, 31, 13, 255, 88, 8),
-        (-26, 18, 27, 39, 0, -26, 18), (-26, 18, 27, 39, 1, 48, -35),
-        (-26, 18, 27, 39, 2, 101, -14), (-26, 18, 27, 39, 3, 80, 60), (-26, 18, 27, 39, 4, 6, 113),
-        (-26, 18, 27, 39, 5, -47, 92), (-26, 18, 27, 39, 6, -26, 18), (-26, 18, 27, 39, 7, 48, -35),
-        (-26, 18, 27, 39, 8, 101, -14), (-26, 18, 27, 39, 9, 80, 60), (-26, 18, 27, 39, 10, 6, 113),
-        (-26, 18, 27, 39, 11, -47, 92), (-26, 18, 27, 39, 12, -26, 18),
-        (-26, 18, 27, 39, 255, 80, 60), (-26, 18, 24, 1, 0, -26, 18), (-26, 18, 24, 1, 1, 7, -32),
-        (-26, 18, 24, 1, 2, 57, -49), (-26, 18, 24, 1, 3, 74, -16), (-26, 18, 24, 1, 4, 41, 34),
-        (-26, 18, 24, 1, 5, -9, 51), (-26, 18, 24, 1, 6, -26, 18), (-26, 18, 24, 1, 7, 7, -32),
-        (-26, 18, 24, 1, 8, 57, -49), (-26, 18, 24, 1, 9, 74, -16), (-26, 18, 24, 1, 10, 41, 34),
-        (-26, 18, 24, 1, 11, -9, 51), (-26, 18, 24, 1, 12, -26, 18), (-26, 18, 24, 1, 255, 74, -16),
-        (-26, 18, -21, -18, 0, -26, 18), (-26, 18, -21, -18, 1, -57, 13),
-        (-26, 18, -21, -18, 2, -52, -23), (-26, 18, -21, -18, 3, -16, -54),
-        (-26, 18, -21, -18, 4, 15, -49), (-26, 18, -21, -18, 5, 10, -13),
-        (-26, 18, -21, -18, 6, -26, 18), (-26, 18, -21, -18, 7, -57, 13),
-        (-26, 18, -21, -18, 8, -52, -23), (-26, 18, -21, -18, 9, -16, -54),
-        (-26, 18, -21, -18, 10, 15, -49), (-26, 18, -21, -18, 11, 10, -13),
-        (-26, 18, -21, -18, 12, -26, 18), (-26, 18, -21, -18, 255, -16, -54),
-        (-26, 18, -13, -35, 0, -26, 18), (-26, 18, -13, -35, 1, -66, 5),
-        (-26, 18, -13, -35, 2, -53, -48), (-26, 18, -13, -35, 3, 0, -88),
-        (-26, 18, -13, -35, 4, 40, -75), (-26, 18, -13, -35, 5, 27, -22),
-        (-26, 18, -13, -35, 6, -26, 18), (-26, 18, -13, -35, 7, -66, 5),
-        (-26, 18, -13, -35, 8, -53, -48), (-26, 18, -13, -35, 9, 0, -88),
-        (-26, 18, -13, -35, 10, 40, -75), (-26, 18, -13, -35, 11, 27, -22),
-        (-26, 18, -13, -35, 12, -26, 18), (-26, 18, -13, -35, 255, 0, -88),
-        (-26, 18, -26, 7, 0, -26, 18), (-26, 18, -26, 7, 1, -37, 18), (-26, 18, -26, 7, 2, -37, 7),
-        (-26, 18, -26, 7, 3, -26, -4), (-26, 18, -26, 7, 4, -15, -4), (-26, 18, -26, 7, 5, -15, 7),
-        (-26, 18, -26, 7, 6, -26, 18), (-26, 18, -26, 7, 7, -37, 18), (-26, 18, -26, 7, 8, -37, 7),
-        (-26, 18, -26, 7, 9, -26, -4), (-26, 18, -26, 7, 10, -15, -4),
-        (-26, 18, -26, 7, 11, -15, 7), (-26, 18, -26, 7, 12, -26, 18),
-        (-26, 18, -26, 7, 255, -26, -4), (-26, 18, 38, -1, 0, -26, 18),
-        (-26, 18, 38, -1, 1, 19, -46), (-26, 18, 38, -1, 2, 83, -65),
-        (-26, 18, 38, -1, 3, 102, -20), (-26, 18, 38, -1, 4, 57, 44), (-26, 18, 38, -1, 5, -7, 63),
-        (-26, 18, 38, -1, 6, -26, 18), (-26, 18, 38, -1, 7, 19, -46), (-26, 18, 38, -1, 8, 83, -65),
-        (-26, 18, 38, -1, 9, 102, -20), (-26, 18, 38, -1, 10, 57, 44),
-        (-26, 18, 38, -1, 11, -7, 63), (-26, 18, 38, -1, 12, -26, 18),
-        (-26, 18, 38, -1, 255, 102, -20), (-26, 18, 33, 8, 0, -26, 18),
-        (-26, 18, 33, 8, 1, 23, -41), (-26, 18, 33, 8, 2, 82, -51), (-26, 18, 33, 8, 3, 92, -2),
-        (-26, 18, 33, 8, 4, 43, 57), (-26, 18, 33, 8, 5, -16, 67), (-26, 18, 33, 8, 6, -26, 18),
-        (-26, 18, 33, 8, 7, 23, -41), (-26, 18, 33, 8, 8, 82, -51), (-26, 18, 33, 8, 9, 92, -2),
-        (-26, 18, 33, 8, 10, 43, 57), (-26, 18, 33, 8, 11, -16, 67), (-26, 18, 33, 8, 12, -26, 18),
-        (-26, 18, 33, 8, 255, 92, -2), (27, 39, 31, 13, 0, 27, 39), (27, 39, 31, 13, 1, 5, 35),
-        (27, 39, 31, 13, 2, 9, 9), (27, 39, 31, 13, 3, 35, -13), (27, 39, 31, 13, 4, 57, -9),
-        (27, 39, 31, 13, 5, 53, 17), (27, 39, 31, 13, 6, 27, 39), (27, 39, 31, 13, 7, 5, 35),
-        (27, 39, 31, 13, 8, 9, 9), (27, 39, 31, 13, 9, 35, -13), (27, 39, 31, 13, 10, 57, -9),
-        (27, 39, 31, 13, 11, 53, 17), (27, 39, 31, 13, 12, 27, 39), (27, 39, 31, 13, 255, 35, -13),
-        (27, 39, 27, 39, 0, 27, 39), (27, 39, 27, 39, 1, 27, 39), (27, 39, 27, 39, 2, 27, 39),
-        (27, 39, 27, 39, 3, 27, 39), (27, 39, 27, 39, 4, 27, 39), (27, 39, 27, 39, 5, 27, 39),
-        (27, 39, 27, 39, 6, 27, 39), (27, 39, 27, 39, 7, 27, 39), (27, 39, 27, 39, 8, 27, 39),
-        (27, 39, 27, 39, 9, 27, 39), (27, 39, 27, 39, 10, 27, 39), (27, 39, 27, 39, 11, 27, 39),
-        (27, 39, 27, 39, 12, 27, 39), (27, 39, 27, 39, 255, 27, 39), (27, 39, 24, 1, 0, 27, 39),
-        (27, 39, 24, 1, 1, -14, 42), (27, 39, 24, 1, 2, -17, 4), (27, 39, 24, 1, 3, 21, -37),
-        (27, 39, 24, 1, 4, 62, -40), (27, 39, 24, 1, 5, 65, -2), (27, 39, 24, 1, 6, 27, 39),
-        (27, 39, 24, 1, 7, -14, 42), (27, 39, 24, 1, 8, -17, 4), (27, 39, 24, 1, 9, 21, -37),
-        (27, 39, 24, 1, 10, 62, -40), (27, 39, 24, 1, 11, 65, -2), (27, 39, 24, 1, 12, 27, 39),
-        (27, 39, 24, 1, 255, 21, -37), (27, 39, -21, -18, 0, 27, 39),
-        (27, 39, -21, -18, 1, -78, 87), (27, 39, -21, -18, 2, -126, 30),
-        (27, 39, -21, -18, 3, -69, -75), (27, 39, -21, -18, 4, 36, -123),
-        (27, 39, -21, -18, 5, 84, -66), (27, 39, -21, -18, 6, 27, 39),
-        (27, 39, -21, -18, 7, -78, 87), (27, 39, -21, -18, 8, -126, 30),
-        (27, 39, -21, -18, 9, -69, -75), (27, 39, -21, -18, 10, 36, -123),
-        (27, 39, -21, -18, 11, 84, -66), (27, 39, -21, -18, 12, 27, 39),
-        (27, 39, -21, -18, 255, -69, -75), (27, 39, -13, -35, 0, 27, 39),
-        (27, 39, -13, -35, 1, -87, 79), (27, 39, -13, -35, 2, -127, 5),
-        (27, 39, -13, -35, 3, -53, -109), (27, 39, -13, -35, 4, 61, -149),
-        (27, 39, -13, -35, 5, 101, -75), (27, 39, -13, -35, 6, 27, 39),
-        (27, 39, -13, -35, 7, -87, 79), (27, 39, -13, -35, 8, -127, 5),
-        (27, 39, -13, -35, 9, -53, -109), (27, 39, -13, -35, 10, 61, -149),
-        (27, 39, -13, -35, 11, 101, -75), (27, 39, -13, -35, 12, 27, 39),
-        (27, 39, -13, -35, 255, -53, -109), (27, 39, -26, 7, 0, 27, 39),
-        (27, 39, -26, 7, 1, -58, 92), (27, 39, -26, 7, 2, -111, 60), (27, 39, -26, 7, 3, -79, -25),
-        (27, 39, -26, 7, 4, 6, -78), (27, 39, -26, 7, 5, 59, -46), (27, 39, -26, 7, 6, 27, 39),
-        (27, 39, -26, 7, 7, -58, 92), (27, 39, -26, 7, 8, -111, 60), (27, 39, -26, 7, 9, -79, -25),
-        (27, 39, -26, 7, 10, 6, -78), (27, 39, -26, 7, 11, 59, -46), (27, 39, -26, 7, 12, 27, 39),
-        (27, 39, -26, 7, 255, -79, -25), (27, 39, 38, -1, 0, 27, 39), (27, 39, 38, -1, 1, -2, 28),
-        (27, 39, 38, -1, 2, 9, -12), (27, 39, 38, -1, 3, 49, -41), (27, 39, 38, -1, 4, 78, -30),
-        (27, 39, 38, -1, 5, 67, 10), (27, 39, 38, -1, 6, 27, 39), (27, 39, 38, -1, 7, -2, 28),
-        (27, 39, 38, -1, 8, 9, -12), (27, 39, 38, -1, 9, 49, -41), (27, 39, 38, -1, 10, 78, -30),
-        (27, 39, 38, -1, 11, 67, 10), (27, 39, 38, -1, 12, 27, 39), (27, 39, 38, -1, 255, 49, -41),
-        (27, 39, 33, 8, 0, 27, 39), (27, 39, 33, 8, 1, 2, 33), (27, 39, 33, 8, 2, 8, 2),
-        (27, 39, 33, 8, 3, 39, -23), (27, 39, 33, 8, 4, 64, -17), (27, 39, 33, 8, 5, 58, 14),
-        (27, 39, 33, 8, 6, 27, 39), (27, 39, 33, 8, 7, 2, 33), (27, 39, 33, 8, 8, 8, 2),
-        (27, 39, 33, 8, 9, 39, -23), (27, 39, 33, 8, 10, 64, -17), (27, 39, 33, 8, 11, 58, 14),
-        (27, 39, 33, 8, 12, 27, 39), (27, 39, 33, 8, 255, 39, -23), (28, 18, 31, 13, 0, 28, 18),
-        (28, 18, 31, 13, 1, 26, 15), (28, 18, 31, 13, 2, 29, 10), (28, 18, 31, 13, 3, 34, 8),
-        (28, 18, 31, 13, 4, 36, 11), (28, 18, 31, 13, 5, 33, 16), (28, 18, 31, 13, 6, 28, 18),
-        (28, 18, 31, 13, 7, 26, 15), (28, 18, 31, 13, 8, 29, 10), (28, 18, 31, 13, 9, 34, 8),
-        (28, 18, 31, 13, 10, 36, 11), (28, 18, 31, 13, 11, 33, 16), (28, 18, 31, 13, 12, 28, 18),
-        (28, 18, 31, 13, 255, 34, 8), (28, 18, 27, 39, 0, 28, 18), (28, 18, 27, 39, 1, 48, 19),
-        (28, 18, 27, 39, 2, 47, 40), (28, 18, 27, 39, 3, 26, 60), (28, 18, 27, 39, 4, 6, 59),
-        (28, 18, 27, 39, 5, 7, 38), (28, 18, 27, 39, 6, 28, 18), (28, 18, 27, 39, 7, 48, 19),
-        (28, 18, 27, 39, 8, 47, 40), (28, 18, 27, 39, 9, 26, 60), (28, 18, 27, 39, 10, 6, 59),
-        (28, 18, 27, 39, 11, 7, 38), (28, 18, 27, 39, 12, 28, 18), (28, 18, 27, 39, 255, 26, 60),
-        (28, 18, 24, 1, 0, 28, 18), (28, 18, 24, 1, 1, 7, 22), (28, 18, 24, 1, 2, 3, 5),
-        (28, 18, 24, 1, 3, 20, -16), (28, 18, 24, 1, 4, 41, -20), (28, 18, 24, 1, 5, 45, -3),
-        (28, 18, 24, 1, 6, 28, 18), (28, 18, 24, 1, 7, 7, 22), (28, 18, 24, 1, 8, 3, 5),
-        (28, 18, 24, 1, 9, 20, -16), (28, 18, 24, 1, 10, 41, -20), (28, 18, 24, 1, 11, 45, -3),
-        (28, 18, 24, 1, 12, 28, 18), (28, 18, 24, 1, 255, 20, -16), (28, 18, -21, -18, 0, 28, 18),
-        (28, 18, -21, -18, 1, -57, 67), (28, 18, -21, -18, 2, -106, 31),
-        (28, 18, -21, -18, 3, -70, -54), (28, 18, -21, -18, 4, 15, -103),
-        (28, 18, -21, -18, 5, 64, -67), (28, 18, -21, -18, 6, 28, 18),
-        (28, 18, -21, -18, 7, -57, 67), (28, 18, -21, -18, 8, -106, 31),
-        (28, 18, -21, -18, 9, -70, -54), (28, 18, -21, -18, 10, 15, -103),
-        (28, 18, -21, -18, 11, 64, -67), (28, 18, -21, -18, 12, 28, 18),
-        (28, 18, -21, -18, 255, -70, -54), (28, 18, -13, -35, 0, 28, 18),
-        (28, 18, -13, -35, 1, -66, 59), (28, 18, -13, -35, 2, -107, 6),
-        (28, 18, -13, -35, 3, -54, -88), (28, 18, -13, -35, 4, 40, -129),
-        (28, 18, -13, -35, 5, 81, -76), (28, 18, -13, -35, 6, 28, 18),
-        (28, 18, -13, -35, 7, -66, 59), (28, 18, -13, -35, 8, -107, 6),
-        (28, 18, -13, -35, 9, -54, -88), (28, 18, -13, -35, 10, 40, -129),
-        (28, 18, -13, -35, 11, 81, -76), (28, 18, -13, -35, 12, 28, 18),
-        (28, 18, -13, -35, 255, -54, -88), (28, 18, -26, 7, 0, 28, 18),
-        (28, 18, -26, 7, 1, -37, 72), (28, 18, -26, 7, 2, -91, 61), (28, 18, -26, 7, 3, -80, -4),
-        (28, 18, -26, 7, 4, -15, -58), (28, 18, -26, 7, 5, 39, -47), (28, 18, -26, 7, 6, 28, 18),
-        (28, 18, -26, 7, 7, -37, 72), (28, 18, -26, 7, 8, -91, 61), (28, 18, -26, 7, 9, -80, -4),
-        (28, 18, -26, 7, 10, -15, -58), (28, 18, -26, 7, 11, 39, -47), (28, 18, -26, 7, 12, 28, 18),
-        (28, 18, -26, 7, 255, -80, -4), (28, 18, 38, -1, 0, 28, 18), (28, 18, 38, -1, 1, 19, 8),
-        (28, 18, 38, -1, 2, 29, -11), (28, 18, 38, -1, 3, 48, -20), (28, 18, 38, -1, 4, 57, -10),
-        (28, 18, 38, -1, 5, 47, 9), (28, 18, 38, -1, 6, 28, 18), (28, 18, 38, -1, 7, 19, 8),
-        (28, 18, 38, -1, 8, 29, -11), (28, 18, 38, -1, 9, 48, -20), (28, 18, 38, -1, 10, 57, -10),
-        (28, 18, 38, -1, 11, 47, 9), (28, 18, 38, -1, 12, 28, 18), (28, 18, 38, -1, 255, 48, -20),
-        (28, 18, 33, 8, 0, 28, 18), (28, 18, 33, 8, 1, 23, 13), (28, 18, 33, 8, 2, 28, 3),
-        (28, 18, 33, 8, 3, 38, -2), (28, 18, 33, 8, 4, 43, 3), (28, 18, 33, 8, 5, 38, 13),
-        (28, 18, 33, 8, 6, 28, 18), (28, 18, 33, 8, 7, 23, 13), (28, 18, 33, 8, 8, 28, 3),
-        (28, 18, 33, 8, 9, 38, -2), (28, 18, 33, 8, 10, 43, 3), (28, 18, 33, 8, 11, 38, 13),
-        (28, 18, 33, 8, 12, 28, 18), (28, 18, 33, 8, 255, 38, -2), (29, 5, 31, 13, 0, 29, 5),
-        (29, 5, 31, 13, 1, 39, 3), (29, 5, 31, 13, 2, 41, 11), (29, 5, 31, 13, 3, 33, 21),
-        (29, 5, 31, 13, 4, 23, 23), (29, 5, 31, 13, 5, 21, 15), (29, 5, 31, 13, 6, 29, 5),
-        (29, 5, 31, 13, 7, 39, 3), (29, 5, 31, 13, 8, 41, 11), (29, 5, 31, 13, 9, 33, 21),
-        (29, 5, 31, 13, 10, 23, 23), (29, 5, 31, 13, 11, 21, 15), (29, 5, 31, 13, 12, 29, 5),
-        (29, 5, 31, 13, 255, 33, 21), (29, 5, 27, 39, 0, 29, 5), (29, 5, 27, 39, 1, 61, 7),
-        (29, 5, 27, 39, 2, 59, 41), (29, 5, 27, 39, 3, 25, 73), (29, 5, 27, 39, 4, -7, 71),
-        (29, 5, 27, 39, 5, -5, 37), (29, 5, 27, 39, 6, 29, 5), (29, 5, 27, 39, 7, 61, 7),
-        (29, 5, 27, 39, 8, 59, 41), (29, 5, 27, 39, 9, 25, 73), (29, 5, 27, 39, 10, -7, 71),
-        (29, 5, 27, 39, 11, -5, 37), (29, 5, 27, 39, 12, 29, 5), (29, 5, 27, 39, 255, 25, 73),
-        (29, 5, 24, 1, 0, 29, 5), (29, 5, 24, 1, 1, 20, 10), (29, 5, 24, 1, 2, 15, 6),
-        (29, 5, 24, 1, 3, 19, -3), (29, 5, 24, 1, 4, 28, -8), (29, 5, 24, 1, 5, 33, -4),
-        (29, 5, 24, 1, 6, 29, 5), (29, 5, 24, 1, 7, 20, 10), (29, 5, 24, 1, 8, 15, 6),
-        (29, 5, 24, 1, 9, 19, -3), (29, 5, 24, 1, 10, 28, -8), (29, 5, 24, 1, 11, 33, -4),
-        (29, 5, 24, 1, 12, 29, 5), (29, 5, 24, 1, 255, 19, -3), (29, 5, -21, -18, 0, 29, 5),
-        (29, 5, -21, -18, 1, -44, 55), (29, 5, -21, -18, 2, -94, 32),
-        (29, 5, -21, -18, 3, -71, -41), (29, 5, -21, -18, 4, 2, -91), (29, 5, -21, -18, 5, 52, -68),
-        (29, 5, -21, -18, 6, 29, 5), (29, 5, -21, -18, 7, -44, 55), (29, 5, -21, -18, 8, -94, 32),
-        (29, 5, -21, -18, 9, -71, -41), (29, 5, -21, -18, 10, 2, -91),
-        (29, 5, -21, -18, 11, 52, -68), (29, 5, -21, -18, 12, 29, 5),
-        (29, 5, -21, -18, 255, -71, -41), (29, 5, -13, -35, 0, 29, 5),
-        (29, 5, -13, -35, 1, -53, 47), (29, 5, -13, -35, 2, -95, 7), (29, 5, -13, -35, 3, -55, -75),
-        (29, 5, -13, -35, 4, 27, -117), (29, 5, -13, -35, 5, 69, -77), (29, 5, -13, -35, 6, 29, 5),
-        (29, 5, -13, -35, 7, -53, 47), (29, 5, -13, -35, 8, -95, 7), (29, 5, -13, -35, 9, -55, -75),
-        (29, 5, -13, -35, 10, 27, -117), (29, 5, -13, -35, 11, 69, -77),
-        (29, 5, -13, -35, 12, 29, 5), (29, 5, -13, -35, 255, -55, -75), (29, 5, -26, 7, 0, 29, 5),
-        (29, 5, -26, 7, 1, -24, 60), (29, 5, -26, 7, 2, -79, 62), (29, 5, -26, 7, 3, -81, 9),
-        (29, 5, -26, 7, 4, -28, -46), (29, 5, -26, 7, 5, 27, -48), (29, 5, -26, 7, 6, 29, 5),
-        (29, 5, -26, 7, 7, -24, 60), (29, 5, -26, 7, 8, -79, 62), (29, 5, -26, 7, 9, -81, 9),
-        (29, 5, -26, 7, 10, -28, -46), (29, 5, -26, 7, 11, 27, -48), (29, 5, -26, 7, 12, 29, 5),
-        (29, 5, -26, 7, 255, -81, 9), (29, 5, 38, -1, 0, 29, 5), (29, 5, 38, -1, 1, 32, -4),
-        (29, 5, 38, -1, 2, 41, -10), (29, 5, 38, -1, 3, 47, -7), (29, 5, 38, -1, 4, 44, 2),
-        (29, 5, 38, -1, 5, 35, 8), (29, 5, 38, -1, 6, 29, 5), (29, 5, 38, -1, 7, 32, -4),
-        (29, 5, 38, -1, 8, 41, -10), (29, 5, 38, -1, 9, 47, -7), (29, 5, 38, -1, 10, 44, 2),
-        (29, 5, 38, -1, 11, 35, 8), (29, 5, 38, -1, 12, 29, 5), (29, 5, 38, -1, 255, 47, -7),
-        (29, 5, 33, 8, 0, 29, 5), (29, 5, 33, 8, 1, 36, 1), (29, 5, 33, 8, 2, 40, 4),
-        (29, 5, 33, 8, 3, 37, 11), (29, 5, 33, 8, 4, 30, 15), (29, 5, 33, 8, 5, 26, 12),
-        (29, 5, 33, 8, 6, 29, 5), (29, 5, 33, 8, 7, 36, 1), (29, 5, 33, 8, 8, 40, 4),
-        (29, 5, 33, 8, 9, 37, 11), (29, 5, 33, 8, 10, 30, 15), (29, 5, 33, 8, 11, 26, 12),
-        (29, 5, 33, 8, 12, 29, 5), (29, 5, 33, 8, 255, 37, 11), (26, -10, 31, 13, 0, 26, -10),
-        (26, -10, 31, 13, 1, 54, -15), (26, -10, 31, 13, 2, 59, 8), (26, -10, 31, 13, 3, 36, 36),
-        (26, -10, 31, 13, 4, 8, 41), (26, -10, 31, 13, 5, 3, 18), (26, -10, 31, 13, 6, 26, -10),
-        (26, -10, 31, 13, 7, 54, -15), (26, -10, 31, 13, 8, 59, 8), (26, -10, 31, 13, 9, 36, 36),
-        (26, -10, 31, 13, 10, 8, 41), (26, -10, 31, 13, 11, 3, 18), (26, -10, 31, 13, 12, 26, -10),
-        (26, -10, 31, 13, 255, 36, 36), (26, -10, 27, 39, 0, 26, -10),
-        (26, -10, 27, 39, 1, 76, -11), (26, -10, 27, 39, 2, 77, 38), (26, -10, 27, 39, 3, 28, 88),
-        (26, -10, 27, 39, 4, -22, 89), (26, -10, 27, 39, 5, -23, 40), (26, -10, 27, 39, 6, 26, -10),
-        (26, -10, 27, 39, 7, 76, -11), (26, -10, 27, 39, 8, 77, 38), (26, -10, 27, 39, 9, 28, 88),
-        (26, -10, 27, 39, 10, -22, 89), (26, -10, 27, 39, 11, -23, 40),
-        (26, -10, 27, 39, 12, 26, -10), (26, -10, 27, 39, 255, 28, 88),
-        (26, -10, 24, 1, 0, 26, -10), (26, -10, 24, 1, 1, 35, -8), (26, -10, 24, 1, 2, 33, 3),
-        (26, -10, 24, 1, 3, 22, 12), (26, -10, 24, 1, 4, 13, 10), (26, -10, 24, 1, 5, 15, -1),
-        (26, -10, 24, 1, 6, 26, -10), (26, -10, 24, 1, 7, 35, -8), (26, -10, 24, 1, 8, 33, 3),
-        (26, -10, 24, 1, 9, 22, 12), (26, -10, 24, 1, 10, 13, 10), (26, -10, 24, 1, 11, 15, -1),
-        (26, -10, 24, 1, 12, 26, -10), (26, -10, 24, 1, 255, 22, 12),
-        (26, -10, -21, -18, 0, 26, -10), (26, -10, -21, -18, 1, -29, 37),
-        (26, -10, -21, -18, 2, -76, 29), (26, -10, -21, -18, 3, -68, -26),
-        (26, -10, -21, -18, 4, -13, -73), (26, -10, -21, -18, 5, 34, -65),
-        (26, -10, -21, -18, 6, 26, -10), (26, -10, -21, -18, 7, -29, 37),
-        (26, -10, -21, -18, 8, -76, 29), (26, -10, -21, -18, 9, -68, -26),
-        (26, -10, -21, -18, 10, -13, -73), (26, -10, -21, -18, 11, 34, -65),
-        (26, -10, -21, -18, 12, 26, -10), (26, -10, -21, -18, 255, -68, -26),
-        (26, -10, -13, -35, 0, 26, -10), (26, -10, -13, -35, 1, -38, 29),
-        (26, -10, -13, -35, 2, -77, 4), (26, -10, -13, -35, 3, -52, -60),
-        (26, -10, -13, -35, 4, 12, -99), (26, -10, -13, -35, 5, 51, -74),
-        (26, -10, -13, -35, 6, 26, -10), (26, -10, -13, -35, 7, -38, 29),
-        (26, -10, -13, -35, 8, -77, 4), (26, -10, -13, -35, 9, -52, -60),
-        (26, -10, -13, -35, 10, 12, -99), (26, -10, -13, -35, 11, 51, -74),
-        (26, -10, -13, -35, 12, 26, -10), (26, -10, -13, -35, 255, -52, -60),
-        (26, -10, -26, 7, 0, 26, -10), (26, -10, -26, 7, 1, -9, 42), (26, -10, -26, 7, 2, -61, 59),
-        (26, -10, -26, 7, 3, -78, 24), (26, -10, -26, 7, 4, -43, -28), (26, -10, -26, 7, 5, 9, -45),
-        (26, -10, -26, 7, 6, 26, -10), (26, -10, -26, 7, 7, -9, 42), (26, -10, -26, 7, 8, -61, 59),
-        (26, -10, -26, 7, 9, -78, 24), (26, -10, -26, 7, 10, -43, -28),
-        (26, -10, -26, 7, 11, 9, -45), (26, -10, -26, 7, 12, 26, -10),
-        (26, -10, -26, 7, 255, -78, 24), (26, -10, 38, -1, 0, 26, -10),
-        (26, -10, 38, -1, 1, 47, -22), (26, -10, 38, -1, 2, 59, -13), (26, -10, 38, -1, 3, 50, 8),
-        (26, -10, 38, -1, 4, 29, 20), (26, -10, 38, -1, 5, 17, 11), (26, -10, 38, -1, 6, 26, -10),
-        (26, -10, 38, -1, 7, 47, -22), (26, -10, 38, -1, 8, 59, -13), (26, -10, 38, -1, 9, 50, 8),
-        (26, -10, 38, -1, 10, 29, 20), (26, -10, 38, -1, 11, 17, 11),
-        (26, -10, 38, -1, 12, 26, -10), (26, -10, 38, -1, 255, 50, 8), (26, -10, 33, 8, 0, 26, -10),
-        (26, -10, 33, 8, 1, 51, -17), (26, -10, 33, 8, 2, 58, 1), (26, -10, 33, 8, 3, 40, 26),
-        (26, -10, 33, 8, 4, 15, 33), (26, -10, 33, 8, 5, 8, 15), (26, -10, 33, 8, 6, 26, -10),
-        (26, -10, 33, 8, 7, 51, -17), (26, -10, 33, 8, 8, 58, 1), (26, -10, 33, 8, 9, 40, 26),
-        (26, -10, 33, 8, 10, 15, 33), (26, -10, 33, 8, 11, 8, 15), (26, -10, 33, 8, 12, 26, -10),
-        (26, -10, 33, 8, 255, 40, 26), (-39, -1, 31, 13, 0, -39, -1), (-39, -1, 31, 13, 1, 45, -71),
-        (-39, -1, 31, 13, 2, 115, -57), (-39, -1, 31, 13, 3, 101, 27), (-39, -1, 31, 13, 4, 17, 97),
-        (-39, -1, 31, 13, 5, -53, 83), (-39, -1, 31, 13, 6, -39, -1), (-39, -1, 31, 13, 7, 45, -71),
-        (-39, -1, 31, 13, 8, 115, -57), (-39, -1, 31, 13, 9, 101, 27),
-        (-39, -1, 31, 13, 10, 17, 97), (-39, -1, 31, 13, 11, -53, 83),
-        (-39, -1, 31, 13, 12, -39, -1), (-39, -1, 31, 13, 255, 101, 27),
-        (-39, -1, 27, 39, 0, -39, -1), (-39, -1, 27, 39, 1, 67, -67),
-        (-39, -1, 27, 39, 2, 133, -27), (-39, -1, 27, 39, 3, 93, 79),
-        (-39, -1, 27, 39, 4, -13, 145), (-39, -1, 27, 39, 5, -79, 105),
-        (-39, -1, 27, 39, 6, -39, -1), (-39, -1, 27, 39, 7, 67, -67),
-        (-39, -1, 27, 39, 8, 133, -27), (-39, -1, 27, 39, 9, 93, 79),
-        (-39, -1, 27, 39, 10, -13, 145), (-39, -1, 27, 39, 11, -79, 105),
-        (-39, -1, 27, 39, 12, -39, -1), (-39, -1, 27, 39, 255, 93, 79),
-        (-39, -1, 24, 1, 0, -39, -1), (-39, -1, 24, 1, 1, 26, -64), (-39, -1, 24, 1, 2, 89, -62),
-        (-39, -1, 24, 1, 3, 87, 3), (-39, -1, 24, 1, 4, 22, 66), (-39, -1, 24, 1, 5, -41, 64),
-        (-39, -1, 24, 1, 6, -39, -1), (-39, -1, 24, 1, 7, 26, -64), (-39, -1, 24, 1, 8, 89, -62),
-        (-39, -1, 24, 1, 9, 87, 3), (-39, -1, 24, 1, 10, 22, 66), (-39, -1, 24, 1, 11, -41, 64),
-        (-39, -1, 24, 1, 12, -39, -1), (-39, -1, 24, 1, 255, 87, 3),
-        (-39, -1, -21, -18, 0, -39, -1), (-39, -1, -21, -18, 1, -38, -19),
-        (-39, -1, -21, -18, 2, -20, -36), (-39, -1, -21, -18, 3, -3, -35),
-        (-39, -1, -21, -18, 4, -4, -17), (-39, -1, -21, -18, 5, -22, 0),
-        (-39, -1, -21, -18, 6, -39, -1), (-39, -1, -21, -18, 7, -38, -19),
-        (-39, -1, -21, -18, 8, -20, -36), (-39, -1, -21, -18, 9, -3, -35),
-        (-39, -1, -21, -18, 10, -4, -17), (-39, -1, -21, -18, 11, -22, 0),
-        (-39, -1, -21, -18, 12, -39, -1), (-39, -1, -21, -18, 255, -3, -35),
-        (-39, -1, -13, -35, 0, -39, -1), (-39, -1, -13, -35, 1, -47, -27),
-        (-39, -1, -13, -35, 2, -21, -61), (-39, -1, -13, -35, 3, 13, -69),
-        (-39, -1, -13, -35, 4, 21, -43), (-39, -1, -13, -35, 5, -5, -9),
-        (-39, -1, -13, -35, 6, -39, -1), (-39, -1, -13, -35, 7, -47, -27),
-        (-39, -1, -13, -35, 8, -21, -61), (-39, -1, -13, -35, 9, 13, -69),
-        (-39, -1, -13, -35, 10, 21, -43), (-39, -1, -13, -35, 11, -5, -9),
-        (-39, -1, -13, -35, 12, -39, -1), (-39, -1, -13, -35, 255, 13, -69),
-        (-39, -1, -26, 7, 0, -39, -1), (-39, -1, -26, 7, 1, -18, -14), (-39, -1, -26, 7, 2, -5, -6),
-        (-39, -1, -26, 7, 3, -13, 15), (-39, -1, -26, 7, 4, -34, 28), (-39, -1, -26, 7, 5, -47, 20),
-        (-39, -1, -26, 7, 6, -39, -1), (-39, -1, -26, 7, 7, -18, -14), (-39, -1, -26, 7, 8, -5, -6),
-        (-39, -1, -26, 7, 9, -13, 15), (-39, -1, -26, 7, 10, -34, 28),
-        (-39, -1, -26, 7, 11, -47, 20), (-39, -1, -26, 7, 12, -39, -1),
-        (-39, -1, -26, 7, 255, -13, 15), (-39, -1, 38, -1, 0, -39, -1),
-        (-39, -1, 38, -1, 1, 38, -78), (-39, -1, 38, -1, 2, 115, -78),
-        (-39, -1, 38, -1, 3, 115, -1), (-39, -1, 38, -1, 4, 38, 76), (-39, -1, 38, -1, 5, -39, 76),
-        (-39, -1, 38, -1, 6, -39, -1), (-39, -1, 38, -1, 7, 38, -78),
-        (-39, -1, 38, -1, 8, 115, -78), (-39, -1, 38, -1, 9, 115, -1),
-        (-39, -1, 38, -1, 10, 38, 76), (-39, -1, 38, -1, 11, -39, 76),
-        (-39, -1, 38, -1, 12, -39, -1), (-39, -1, 38, -1, 255, 115, -1),
-        (-39, -1, 33, 8, 0, -39, -1), (-39, -1, 33, 8, 1, 42, -73), (-39, -1, 33, 8, 2, 114, -64),
-        (-39, -1, 33, 8, 3, 105, 17), (-39, -1, 33, 8, 4, 24, 89), (-39, -1, 33, 8, 5, -48, 80),
-        (-39, -1, 33, 8, 6, -39, -1), (-39, -1, 33, 8, 7, 42, -73), (-39, -1, 33, 8, 8, 114, -64),
-        (-39, -1, 33, 8, 9, 105, 17), (-39, -1, 33, 8, 10, 24, 89), (-39, -1, 33, 8, 11, -48, 80),
-        (-39, -1, 33, 8, 12, -39, -1), (-39, -1, 33, 8, 255, 105, 17), (0, -20, 31, 13, 0, 0, -20),
-        (0, -20, 31, 13, 1, 64, -51), (0, -20, 31, 13, 2, 95, -18), (0, -20, 31, 13, 3, 62, 46),
-        (0, -20, 31, 13, 4, -2, 77), (0, -20, 31, 13, 5, -33, 44), (0, -20, 31, 13, 6, 0, -20),
-        (0, -20, 31, 13, 7, 64, -51), (0, -20, 31, 13, 8, 95, -18), (0, -20, 31, 13, 9, 62, 46),
-        (0, -20, 31, 13, 10, -2, 77), (0, -20, 31, 13, 11, -33, 44), (0, -20, 31, 13, 12, 0, -20),
-        (0, -20, 31, 13, 255, 62, 46), (0, -20, 27, 39, 0, 0, -20), (0, -20, 27, 39, 1, 86, -47),
-        (0, -20, 27, 39, 2, 113, 12), (0, -20, 27, 39, 3, 54, 98), (0, -20, 27, 39, 4, -32, 125),
-        (0, -20, 27, 39, 5, -59, 66), (0, -20, 27, 39, 6, 0, -20), (0, -20, 27, 39, 7, 86, -47),
-        (0, -20, 27, 39, 8, 113, 12), (0, -20, 27, 39, 9, 54, 98), (0, -20, 27, 39, 10, -32, 125),
-        (0, -20, 27, 39, 11, -59, 66), (0, -20, 27, 39, 12, 0, -20), (0, -20, 27, 39, 255, 54, 98),
-        (0, -20, 24, 1, 0, 0, -20), (0, -20, 24, 1, 1, 45, -44), (0, -20, 24, 1, 2, 69, -23),
-        (0, -20, 24, 1, 3, 48, 22), (0, -20, 24, 1, 4, 3, 46), (0, -20, 24, 1, 5, -21, 25),
-        (0, -20, 24, 1, 6, 0, -20), (0, -20, 24, 1, 7, 45, -44), (0, -20, 24, 1, 8, 69, -23),
-        (0, -20, 24, 1, 9, 48, 22), (0, -20, 24, 1, 10, 3, 46), (0, -20, 24, 1, 11, -21, 25),
-        (0, -20, 24, 1, 12, 0, -20), (0, -20, 24, 1, 255, 48, 22), (0, -20, -21, -18, 0, 0, -20),
-        (0, -20, -21, -18, 1, -19, 1), (0, -20, -21, -18, 2, -40, 3),
-        (0, -20, -21, -18, 3, -42, -16), (0, -20, -21, -18, 4, -23, -37),
-        (0, -20, -21, -18, 5, -2, -39), (0, -20, -21, -18, 6, 0, -20),
-        (0, -20, -21, -18, 7, -19, 1), (0, -20, -21, -18, 8, -40, 3),
-        (0, -20, -21, -18, 9, -42, -16), (0, -20, -21, -18, 10, -23, -37),
-        (0, -20, -21, -18, 11, -2, -39), (0, -20, -21, -18, 12, 0, -20),
-        (0, -20, -21, -18, 255, -42, -16), (0, -20, -13, -35, 0, 0, -20),
-        (0, -20, -13, -35, 1, -28, -7), (0, -20, -13, -35, 2, -41, -22),
-        (0, -20, -13, -35, 3, -26, -50), (0, -20, -13, -35, 4, 2, -63),
-        (0, -20, -13, -35, 5, 15, -48), (0, -20, -13, -35, 6, 0, -20),
-        (0, -20, -13, -35, 7, -28, -7), (0, -20, -13, -35, 8, -41, -22),
-        (0, -20, -13, -35, 9, -26, -50), (0, -20, -13, -35, 10, 2, -63),
-        (0, -20, -13, -35, 11, 15, -48), (0, -20, -13, -35, 12, 0, -20),
-        (0, -20, -13, -35, 255, -26, -50), (0, -20, -26, 7, 0, 0, -20), (0, -20, -26, 7, 1, 1, 6),
-        (0, -20, -26, 7, 2, -25, 33), (0, -20, -26, 7, 3, -52, 34), (0, -20, -26, 7, 4, -53, 8),
-        (0, -20, -26, 7, 5, -27, -19), (0, -20, -26, 7, 6, 0, -20), (0, -20, -26, 7, 7, 1, 6),
-        (0, -20, -26, 7, 8, -25, 33), (0, -20, -26, 7, 9, -52, 34), (0, -20, -26, 7, 10, -53, 8),
-        (0, -20, -26, 7, 11, -27, -19), (0, -20, -26, 7, 12, 0, -20),
-        (0, -20, -26, 7, 255, -52, 34), (0, -20, 38, -1, 0, 0, -20), (0, -20, 38, -1, 1, 57, -58),
-        (0, -20, 38, -1, 2, 95, -39), (0, -20, 38, -1, 3, 76, 18), (0, -20, 38, -1, 4, 19, 56),
-        (0, -20, 38, -1, 5, -19, 37), (0, -20, 38, -1, 6, 0, -20), (0, -20, 38, -1, 7, 57, -58),
-        (0, -20, 38, -1, 8, 95, -39), (0, -20, 38, -1, 9, 76, 18), (0, -20, 38, -1, 10, 19, 56),
-        (0, -20, 38, -1, 11, -19, 37), (0, -20, 38, -1, 12, 0, -20), (0, -20, 38, -1, 255, 76, 18),
-        (0, -20, 33, 8, 0, 0, -20), (0, -20, 33, 8, 1, 61, -53), (0, -20, 33, 8, 2, 94, -25),
-        (0, -20, 33, 8, 3, 66, 36), (0, -20, 33, 8, 4, 5, 69), (0, -20, 33, 8, 5, -28, 41),
-        (0, -20, 33, 8, 6, 0, -20), (0, -20, 33, 8, 7, 61, -53), (0, -20, 33, 8, 8, 94, -25),
-        (0, -20, 33, 8, 9, 66, 36), (0, -20, 33, 8, 10, 5, 69), (0, -20, 33, 8, 11, -28, 41),
-        (0, -20, 33, 8, 12, 0, -20), (0, -20, 33, 8, 255, 66, 36), (13, 32, 31, 13, 0, 13, 32),
-        (13, 32, 31, 13, 1, 12, 14), (13, 32, 31, 13, 2, 30, -5), (13, 32, 31, 13, 3, 49, -6),
-        (13, 32, 31, 13, 4, 50, 12), (13, 32, 31, 13, 5, 32, 31), (13, 32, 31, 13, 6, 13, 32),
-        (13, 32, 31, 13, 7, 12, 14), (13, 32, 31, 13, 8, 30, -5), (13, 32, 31, 13, 9, 49, -6),
-        (13, 32, 31, 13, 10, 50, 12), (13, 32, 31, 13, 11, 32, 31), (13, 32, 31, 13, 12, 13, 32),
-        (13, 32, 31, 13, 255, 49, -6), (13, 32, 27, 39, 0, 13, 32), (13, 32, 27, 39, 1, 34, 18),
-        (13, 32, 27, 39, 2, 48, 25), (13, 32, 27, 39, 3, 41, 46), (13, 32, 27, 39, 4, 20, 60),
-        (13, 32, 27, 39, 5, 6, 53), (13, 32, 27, 39, 6, 13, 32), (13, 32, 27, 39, 7, 34, 18),
-        (13, 32, 27, 39, 8, 48, 25), (13, 32, 27, 39, 9, 41, 46), (13, 32, 27, 39, 10, 20, 60),
-        (13, 32, 27, 39, 11, 6, 53), (13, 32, 27, 39, 12, 13, 32), (13, 32, 27, 39, 255, 41, 46),
-        (13, 32, 24, 1, 0, 13, 32), (13, 32, 24, 1, 1, -7, 21), (13, 32, 24, 1, 2, 4, -10),
-        (13, 32, 24, 1, 3, 35, -30), (13, 32, 24, 1, 4, 55, -19), (13, 32, 24, 1, 5, 44, 12),
-        (13, 32, 24, 1, 6, 13, 32), (13, 32, 24, 1, 7, -7, 21), (13, 32, 24, 1, 8, 4, -10),
-        (13, 32, 24, 1, 9, 35, -30), (13, 32, 24, 1, 10, 55, -19), (13, 32, 24, 1, 11, 44, 12),
-        (13, 32, 24, 1, 12, 13, 32), (13, 32, 24, 1, 255, 35, -30), (13, 32, -21, -18, 0, 13, 32),
-        (13, 32, -21, -18, 1, -71, 66), (13, 32, -21, -18, 2, -105, 16),
-        (13, 32, -21, -18, 3, -55, -68), (13, 32, -21, -18, 4, 29, -102),
-        (13, 32, -21, -18, 5, 63, -52), (13, 32, -21, -18, 6, 13, 32),
-        (13, 32, -21, -18, 7, -71, 66), (13, 32, -21, -18, 8, -105, 16),
-        (13, 32, -21, -18, 9, -55, -68), (13, 32, -21, -18, 10, 29, -102),
-        (13, 32, -21, -18, 11, 63, -52), (13, 32, -21, -18, 12, 13, 32),
-        (13, 32, -21, -18, 255, -55, -68), (13, 32, -13, -35, 0, 13, 32),
-        (13, 32, -13, -35, 1, -80, 58), (13, 32, -13, -35, 2, -106, -9),
-        (13, 32, -13, -35, 3, -39, -102), (13, 32, -13, -35, 4, 54, -128),
-        (13, 32, -13, -35, 5, 80, -61), (13, 32, -13, -35, 6, 13, 32),
-        (13, 32, -13, -35, 7, -80, 58), (13, 32, -13, -35, 8, -106, -9),
-        (13, 32, -13, -35, 9, -39, -102), (13, 32, -13, -35, 10, 54, -128),
-        (13, 32, -13, -35, 11, 80, -61), (13, 32, -13, -35, 12, 13, 32),
-        (13, 32, -13, -35, 255, -39, -102), (13, 32, -26, 7, 0, 13, 32),
-        (13, 32, -26, 7, 1, -51, 71), (13, 32, -26, 7, 2, -90, 46), (13, 32, -26, 7, 3, -65, -18),
-        (13, 32, -26, 7, 4, -1, -57), (13, 32, -26, 7, 5, 38, -32), (13, 32, -26, 7, 6, 13, 32),
-        (13, 32, -26, 7, 7, -51, 71), (13, 32, -26, 7, 8, -90, 46), (13, 32, -26, 7, 9, -65, -18),
-        (13, 32, -26, 7, 10, -1, -57), (13, 32, -26, 7, 11, 38, -32), (13, 32, -26, 7, 12, 13, 32),
-        (13, 32, -26, 7, 255, -65, -18), (13, 32, 38, -1, 0, 13, 32), (13, 32, 38, -1, 1, 5, 7),
-        (13, 32, 38, -1, 2, 30, -26), (13, 32, 38, -1, 3, 63, -34), (13, 32, 38, -1, 4, 71, -9),
-        (13, 32, 38, -1, 5, 46, 24), (13, 32, 38, -1, 6, 13, 32), (13, 32, 38, -1, 7, 5, 7),
-        (13, 32, 38, -1, 8, 30, -26), (13, 32, 38, -1, 9, 63, -34), (13, 32, 38, -1, 10, 71, -9),
-        (13, 32, 38, -1, 11, 46, 24), (13, 32, 38, -1, 12, 13, 32), (13, 32, 38, -1, 255, 63, -34),
-        (13, 32, 33, 8, 0, 13, 32), (13, 32, 33, 8, 1, 9, 12), (13, 32, 33, 8, 2, 29, -12),
-        (13, 32, 33, 8, 3, 53, -16), (13, 32, 33, 8, 4, 57, 4), (13, 32, 33, 8, 5, 37, 28),
-        (13, 32, 33, 8, 6, 13, 32), (13, 32, 33, 8, 7, 9, 12), (13, 32, 33, 8, 8, 29, -12),
-        (13, 32, 33, 8, 9, 53, -16), (13, 32, 33, 8, 10, 57, 4), (13, 32, 33, 8, 11, 37, 28),
-        (13, 32, 33, 8, 12, 13, 32), (13, 32, 33, 8, 255, 53, -16), (37, 33, 31, 13, 0, 37, 33),
-        (37, 33, 31, 13, 1, 11, 39), (37, 33, 31, 13, 2, 5, 19), (37, 33, 31, 13, 3, 25, -7),
-        (37, 33, 31, 13, 4, 51, -13), (37, 33, 31, 13, 5, 57, 7), (37, 33, 31, 13, 6, 37, 33),
-        (37, 33, 31, 13, 7, 11, 39), (37, 33, 31, 13, 8, 5, 19), (37, 33, 31, 13, 9, 25, -7),
-        (37, 33, 31, 13, 10, 51, -13), (37, 33, 31, 13, 11, 57, 7), (37, 33, 31, 13, 12, 37, 33),
-        (37, 33, 31, 13, 255, 25, -7), (37, 33, 27, 39, 0, 37, 33), (37, 33, 27, 39, 1, 33, 43),
-        (37, 33, 27, 39, 2, 23, 49), (37, 33, 27, 39, 3, 17, 45), (37, 33, 27, 39, 4, 21, 35),
-        (37, 33, 27, 39, 5, 31, 29), (37, 33, 27, 39, 6, 37, 33), (37, 33, 27, 39, 7, 33, 43),
-        (37, 33, 27, 39, 8, 23, 49), (37, 33, 27, 39, 9, 17, 45), (37, 33, 27, 39, 10, 21, 35),
-        (37, 33, 27, 39, 11, 31, 29), (37, 33, 27, 39, 12, 37, 33), (37, 33, 27, 39, 255, 17, 45),
-        (37, 33, 24, 1, 0, 37, 33), (37, 33, 24, 1, 1, -8, 46), (37, 33, 24, 1, 2, -21, 14),
-        (37, 33, 24, 1, 3, 11, -31), (37, 33, 24, 1, 4, 56, -44), (37, 33, 24, 1, 5, 69, -12),
-        (37, 33, 24, 1, 6, 37, 33), (37, 33, 24, 1, 7, -8, 46), (37, 33, 24, 1, 8, -21, 14),
-        (37, 33, 24, 1, 9, 11, -31), (37, 33, 24, 1, 10, 56, -44), (37, 33, 24, 1, 11, 69, -12),
-        (37, 33, 24, 1, 12, 37, 33), (37, 33, 24, 1, 255, 11, -31), (37, 33, -21, -18, 0, 37, 33),
-        (37, 33, -21, -18, 1, -72, 91), (37, 33, -21, -18, 2, -130, 40),
-        (37, 33, -21, -18, 3, -79, -69), (37, 33, -21, -18, 4, 30, -127),
-        (37, 33, -21, -18, 5, 88, -76), (37, 33, -21, -18, 6, 37, 33),
-        (37, 33, -21, -18, 7, -72, 91), (37, 33, -21, -18, 8, -130, 40),
-        (37, 33, -21, -18, 9, -79, -69), (37, 33, -21, -18, 10, 30, -127),
-        (37, 33, -21, -18, 11, 88, -76), (37, 33, -21, -18, 12, 37, 33),
-        (37, 33, -21, -18, 255, -79, -69), (37, 33, -13, -35, 0, 37, 33),
-        (37, 33, -13, -35, 1, -81, 83), (37, 33, -13, -35, 2, -131, 15),
-        (37, 33, -13, -35, 3, -63, -103), (37, 33, -13, -35, 4, 55, -153),
-        (37, 33, -13, -35, 5, 105, -85), (37, 33, -13, -35, 6, 37, 33),
-        (37, 33, -13, -35, 7, -81, 83), (37, 33, -13, -35, 8, -131, 15),
-        (37, 33, -13, -35, 9, -63, -103), (37, 33, -13, -35, 10, 55, -153),
-        (37, 33, -13, -35, 11, 105, -85), (37, 33, -13, -35, 12, 37, 33),
-        (37, 33, -13, -35, 255, -63, -103), (37, 33, -26, 7, 0, 37, 33),
-        (37, 33, -26, 7, 1, -52, 96), (37, 33, -26, 7, 2, -115, 70), (37, 33, -26, 7, 3, -89, -19),
-        (37, 33, -26, 7, 4, 0, -82), (37, 33, -26, 7, 5, 63, -56), (37, 33, -26, 7, 6, 37, 33),
-        (37, 33, -26, 7, 7, -52, 96), (37, 33, -26, 7, 8, -115, 70), (37, 33, -26, 7, 9, -89, -19),
-        (37, 33, -26, 7, 10, 0, -82), (37, 33, -26, 7, 11, 63, -56), (37, 33, -26, 7, 12, 37, 33),
-        (37, 33, -26, 7, 255, -89, -19), (37, 33, 38, -1, 0, 37, 33), (37, 33, 38, -1, 1, 4, 32),
-        (37, 33, 38, -1, 2, 5, -2), (37, 33, 38, -1, 3, 39, -35), (37, 33, 38, -1, 4, 72, -34),
-        (37, 33, 38, -1, 5, 71, 0), (37, 33, 38, -1, 6, 37, 33), (37, 33, 38, -1, 7, 4, 32),
-        (37, 33, 38, -1, 8, 5, -2), (37, 33, 38, -1, 9, 39, -35), (37, 33, 38, -1, 10, 72, -34),
-        (37, 33, 38, -1, 11, 71, 0), (37, 33, 38, -1, 12, 37, 33), (37, 33, 38, -1, 255, 39, -35),
-        (37, 33, 33, 8, 0, 37, 33), (37, 33, 33, 8, 1, 8, 37), (37, 33, 33, 8, 2, 4, 12),
-        (37, 33, 33, 8, 3, 29, -17), (37, 33, 33, 8, 4, 58, -21), (37, 33, 33, 8, 5, 62, 4),
-        (37, 33, 33, 8, 6, 37, 33), (37, 33, 33, 8, 7, 8, 37), (37, 33, 33, 8, 8, 4, 12),
-        (37, 33, 33, 8, 9, 29, -17), (37, 33, 33, 8, 10, 58, -21), (37, 33, 33, 8, 11, 62, 4),
-        (37, 33, 33, 8, 12, 37, 33), (37, 33, 33, 8, 255, 29, -17),
     ];
     let mut i = 0;
     while i < cases.len() {
@@ -34138,7 +32186,7 @@ fn golden_hex_around_0_rotate_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 76800990)]
 fn golden_hex_around_0_rotate_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (31, 13, 31, 13, 0, 31, 13), (31, 13, 31, 13, 1, 31, 13), (31, 13, 31, 13, 2, 31, 13),
@@ -34235,21 +32283,137 @@ fn golden_hex_around_0_rotate_ccw_around() {
         (-22, -26, 33, 8, 6, -22, -26), (-22, -26, 33, 8, 7, -56, 63), (-22, -26, 33, 8, 8, -1, 97),
         (-22, -26, 33, 8, 9, 88, 42), (-22, -26, 33, 8, 10, 122, -47),
         (-22, -26, 33, 8, 11, 67, -81), (-22, -26, 33, 8, 12, -22, -26),
-        (-22, -26, 33, 8, 255, 88, 42), (1, -18, 31, 13, 0, 1, -18), (1, -18, 31, 13, 1, -30, 43),
-        (1, -18, 31, 13, 2, 0, 74), (1, -18, 31, 13, 3, 61, 44), (1, -18, 31, 13, 4, 92, -17),
-        (1, -18, 31, 13, 5, 62, -48), (1, -18, 31, 13, 6, 1, -18), (1, -18, 31, 13, 7, -30, 43),
-        (1, -18, 31, 13, 8, 0, 74), (1, -18, 31, 13, 9, 61, 44), (1, -18, 31, 13, 10, 92, -17),
-        (1, -18, 31, 13, 11, 62, -48), (1, -18, 31, 13, 12, 1, -18), (1, -18, 31, 13, 255, 61, 44),
-        (1, -18, 27, 39, 0, 1, -18), (1, -18, 27, 39, 1, -56, 65), (1, -18, 27, 39, 2, -30, 122),
-        (1, -18, 27, 39, 3, 53, 96), (1, -18, 27, 39, 4, 110, 13), (1, -18, 27, 39, 5, 84, -44),
-        (1, -18, 27, 39, 6, 1, -18), (1, -18, 27, 39, 7, -56, 65), (1, -18, 27, 39, 8, -30, 122),
-        (1, -18, 27, 39, 9, 53, 96), (1, -18, 27, 39, 10, 110, 13), (1, -18, 27, 39, 11, 84, -44),
-        (1, -18, 27, 39, 12, 1, -18), (1, -18, 27, 39, 255, 53, 96), (1, -18, 24, 1, 0, 1, -18),
-        (1, -18, 24, 1, 1, -18, 24), (1, -18, 24, 1, 2, 5, 43), (1, -18, 24, 1, 3, 47, 20),
-        (1, -18, 24, 1, 4, 66, -22), (1, -18, 24, 1, 5, 43, -41), (1, -18, 24, 1, 6, 1, -18),
-        (1, -18, 24, 1, 7, -18, 24), (1, -18, 24, 1, 8, 5, 43), (1, -18, 24, 1, 9, 47, 20),
-        (1, -18, 24, 1, 10, 66, -22), (1, -18, 24, 1, 11, 43, -41), (1, -18, 24, 1, 12, 1, -18),
-        (1, -18, 24, 1, 255, 47, 20), (1, -18, -21, -18, 0, 1, -18), (1, -18, -21, -18, 1, 1, -40),
+        (-22, -26, 33, 8, 255, 88, 42),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_1_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (1, -18, 31, 13, 0, 1, -18), (1, -18, 31, 13, 1, 62, -48), (1, -18, 31, 13, 2, 92, -17),
+        (1, -18, 31, 13, 3, 61, 44), (1, -18, 31, 13, 4, 0, 74), (1, -18, 31, 13, 5, -30, 43),
+        (1, -18, 31, 13, 6, 1, -18), (1, -18, 31, 13, 7, 62, -48), (1, -18, 31, 13, 8, 92, -17),
+        (1, -18, 31, 13, 9, 61, 44), (1, -18, 31, 13, 10, 0, 74), (1, -18, 31, 13, 11, -30, 43),
+        (1, -18, 31, 13, 12, 1, -18), (1, -18, 31, 13, 255, 61, 44), (1, -18, 27, 39, 0, 1, -18),
+        (1, -18, 27, 39, 1, 84, -44), (1, -18, 27, 39, 2, 110, 13), (1, -18, 27, 39, 3, 53, 96),
+        (1, -18, 27, 39, 4, -30, 122), (1, -18, 27, 39, 5, -56, 65), (1, -18, 27, 39, 6, 1, -18),
+        (1, -18, 27, 39, 7, 84, -44), (1, -18, 27, 39, 8, 110, 13), (1, -18, 27, 39, 9, 53, 96),
+        (1, -18, 27, 39, 10, -30, 122), (1, -18, 27, 39, 11, -56, 65), (1, -18, 27, 39, 12, 1, -18),
+        (1, -18, 27, 39, 255, 53, 96), (1, -18, 24, 1, 0, 1, -18), (1, -18, 24, 1, 1, 43, -41),
+        (1, -18, 24, 1, 2, 66, -22), (1, -18, 24, 1, 3, 47, 20), (1, -18, 24, 1, 4, 5, 43),
+        (1, -18, 24, 1, 5, -18, 24), (1, -18, 24, 1, 6, 1, -18), (1, -18, 24, 1, 7, 43, -41),
+        (1, -18, 24, 1, 8, 66, -22), (1, -18, 24, 1, 9, 47, 20), (1, -18, 24, 1, 10, 5, 43),
+        (1, -18, 24, 1, 11, -18, 24), (1, -18, 24, 1, 12, 1, -18), (1, -18, 24, 1, 255, 47, 20),
+        (1, -18, -21, -18, 0, 1, -18), (1, -18, -21, -18, 1, -21, 4), (1, -18, -21, -18, 2, -43, 4),
+        (1, -18, -21, -18, 3, -43, -18), (1, -18, -21, -18, 4, -21, -40),
+        (1, -18, -21, -18, 5, 1, -40), (1, -18, -21, -18, 6, 1, -18), (1, -18, -21, -18, 7, -21, 4),
+        (1, -18, -21, -18, 8, -43, 4), (1, -18, -21, -18, 9, -43, -18),
+        (1, -18, -21, -18, 10, -21, -40), (1, -18, -21, -18, 11, 1, -40),
+        (1, -18, -21, -18, 12, 1, -18), (1, -18, -21, -18, 255, -43, -18),
+        (1, -18, -13, -35, 0, 1, -18), (1, -18, -13, -35, 1, -30, -4),
+        (1, -18, -13, -35, 2, -44, -21), (1, -18, -13, -35, 3, -27, -52),
+        (1, -18, -13, -35, 4, 4, -66), (1, -18, -13, -35, 5, 18, -49),
+        (1, -18, -13, -35, 6, 1, -18), (1, -18, -13, -35, 7, -30, -4),
+        (1, -18, -13, -35, 8, -44, -21), (1, -18, -13, -35, 9, -27, -52),
+        (1, -18, -13, -35, 10, 4, -66), (1, -18, -13, -35, 11, 18, -49),
+        (1, -18, -13, -35, 12, 1, -18), (1, -18, -13, -35, 255, -27, -52),
+        (1, -18, -26, 7, 0, 1, -18), (1, -18, -26, 7, 1, -1, 9), (1, -18, -26, 7, 2, -28, 34),
+        (1, -18, -26, 7, 3, -53, 32), (1, -18, -26, 7, 4, -51, 5), (1, -18, -26, 7, 5, -24, -20),
+        (1, -18, -26, 7, 6, 1, -18), (1, -18, -26, 7, 7, -1, 9), (1, -18, -26, 7, 8, -28, 34),
+        (1, -18, -26, 7, 9, -53, 32), (1, -18, -26, 7, 10, -51, 5), (1, -18, -26, 7, 11, -24, -20),
+        (1, -18, -26, 7, 12, 1, -18), (1, -18, -26, 7, 255, -53, 32), (1, -18, 38, -1, 0, 1, -18),
+        (1, -18, 38, -1, 1, 55, -55), (1, -18, 38, -1, 2, 92, -38), (1, -18, 38, -1, 3, 75, 16),
+        (1, -18, 38, -1, 4, 21, 53), (1, -18, 38, -1, 5, -16, 36), (1, -18, 38, -1, 6, 1, -18),
+        (1, -18, 38, -1, 7, 55, -55), (1, -18, 38, -1, 8, 92, -38), (1, -18, 38, -1, 9, 75, 16),
+        (1, -18, 38, -1, 10, 21, 53), (1, -18, 38, -1, 11, -16, 36), (1, -18, 38, -1, 12, 1, -18),
+        (1, -18, 38, -1, 255, 75, 16), (1, -18, 33, 8, 0, 1, -18), (1, -18, 33, 8, 1, 59, -50),
+        (1, -18, 33, 8, 2, 91, -24), (1, -18, 33, 8, 3, 65, 34), (1, -18, 33, 8, 4, 7, 66),
+        (1, -18, 33, 8, 5, -25, 40), (1, -18, 33, 8, 6, 1, -18), (1, -18, 33, 8, 7, 59, -50),
+        (1, -18, 33, 8, 8, 91, -24), (1, -18, 33, 8, 9, 65, 34), (1, -18, 33, 8, 10, 7, 66),
+        (1, -18, 33, 8, 11, -25, 40), (1, -18, 33, 8, 12, 1, -18), (1, -18, 33, 8, 255, 65, 34),
+        (11, 12, 31, 13, 0, 11, 12), (11, 12, 31, 13, 1, 32, -8), (11, 12, 31, 13, 2, 52, -7),
+        (11, 12, 31, 13, 3, 51, 14), (11, 12, 31, 13, 4, 30, 34), (11, 12, 31, 13, 5, 10, 33),
+        (11, 12, 31, 13, 6, 11, 12), (11, 12, 31, 13, 7, 32, -8), (11, 12, 31, 13, 8, 52, -7),
+        (11, 12, 31, 13, 9, 51, 14), (11, 12, 31, 13, 10, 30, 34), (11, 12, 31, 13, 11, 10, 33),
+        (11, 12, 31, 13, 12, 11, 12), (11, 12, 31, 13, 255, 51, 14), (11, 12, 27, 39, 0, 11, 12),
+        (11, 12, 27, 39, 1, 54, -4), (11, 12, 27, 39, 2, 70, 23), (11, 12, 27, 39, 3, 43, 66),
+        (11, 12, 27, 39, 4, 0, 82), (11, 12, 27, 39, 5, -16, 55), (11, 12, 27, 39, 6, 11, 12),
+        (11, 12, 27, 39, 7, 54, -4), (11, 12, 27, 39, 8, 70, 23), (11, 12, 27, 39, 9, 43, 66),
+        (11, 12, 27, 39, 10, 0, 82), (11, 12, 27, 39, 11, -16, 55), (11, 12, 27, 39, 12, 11, 12),
+        (11, 12, 27, 39, 255, 43, 66), (11, 12, 24, 1, 0, 11, 12), (11, 12, 24, 1, 1, 13, -1),
+        (11, 12, 24, 1, 2, 26, -12), (11, 12, 24, 1, 3, 37, -10), (11, 12, 24, 1, 4, 35, 3),
+        (11, 12, 24, 1, 5, 22, 14), (11, 12, 24, 1, 6, 11, 12), (11, 12, 24, 1, 7, 13, -1),
+        (11, 12, 24, 1, 8, 26, -12), (11, 12, 24, 1, 9, 37, -10), (11, 12, 24, 1, 10, 35, 3),
+        (11, 12, 24, 1, 11, 22, 14), (11, 12, 24, 1, 12, 11, 12), (11, 12, 24, 1, 255, 37, -10),
+        (11, 12, -21, -18, 0, 11, 12), (11, 12, -21, -18, 1, -51, 44),
+        (11, 12, -21, -18, 2, -83, 14), (11, 12, -21, -18, 3, -53, -48),
+        (11, 12, -21, -18, 4, 9, -80), (11, 12, -21, -18, 5, 41, -50),
+        (11, 12, -21, -18, 6, 11, 12), (11, 12, -21, -18, 7, -51, 44),
+        (11, 12, -21, -18, 8, -83, 14), (11, 12, -21, -18, 9, -53, -48),
+        (11, 12, -21, -18, 10, 9, -80), (11, 12, -21, -18, 11, 41, -50),
+        (11, 12, -21, -18, 12, 11, 12), (11, 12, -21, -18, 255, -53, -48),
+        (11, 12, -13, -35, 0, 11, 12), (11, 12, -13, -35, 1, -60, 36),
+        (11, 12, -13, -35, 2, -84, -11), (11, 12, -13, -35, 3, -37, -82),
+        (11, 12, -13, -35, 4, 34, -106), (11, 12, -13, -35, 5, 58, -59),
+        (11, 12, -13, -35, 6, 11, 12), (11, 12, -13, -35, 7, -60, 36),
+        (11, 12, -13, -35, 8, -84, -11), (11, 12, -13, -35, 9, -37, -82),
+        (11, 12, -13, -35, 10, 34, -106), (11, 12, -13, -35, 11, 58, -59),
+        (11, 12, -13, -35, 12, 11, 12), (11, 12, -13, -35, 255, -37, -82),
+        (11, 12, -26, 7, 0, 11, 12), (11, 12, -26, 7, 1, -31, 49), (11, 12, -26, 7, 2, -68, 44),
+        (11, 12, -26, 7, 3, -63, 2), (11, 12, -26, 7, 4, -21, -35), (11, 12, -26, 7, 5, 16, -30),
+        (11, 12, -26, 7, 6, 11, 12), (11, 12, -26, 7, 7, -31, 49), (11, 12, -26, 7, 8, -68, 44),
+        (11, 12, -26, 7, 9, -63, 2), (11, 12, -26, 7, 10, -21, -35), (11, 12, -26, 7, 11, 16, -30),
+        (11, 12, -26, 7, 12, 11, 12), (11, 12, -26, 7, 255, -63, 2), (11, 12, 38, -1, 0, 11, 12),
+        (11, 12, 38, -1, 1, 25, -15), (11, 12, 38, -1, 2, 52, -28), (11, 12, 38, -1, 3, 65, -14),
+        (11, 12, 38, -1, 4, 51, 13), (11, 12, 38, -1, 5, 24, 26), (11, 12, 38, -1, 6, 11, 12),
+        (11, 12, 38, -1, 7, 25, -15), (11, 12, 38, -1, 8, 52, -28), (11, 12, 38, -1, 9, 65, -14),
+        (11, 12, 38, -1, 10, 51, 13), (11, 12, 38, -1, 11, 24, 26), (11, 12, 38, -1, 12, 11, 12),
+        (11, 12, 38, -1, 255, 65, -14), (11, 12, 33, 8, 0, 11, 12), (11, 12, 33, 8, 1, 29, -10),
+        (11, 12, 33, 8, 2, 51, -14), (11, 12, 33, 8, 3, 55, 4), (11, 12, 33, 8, 4, 37, 26),
+        (11, 12, 33, 8, 5, 15, 30), (11, 12, 33, 8, 6, 11, 12), (11, 12, 33, 8, 7, 29, -10),
+        (11, 12, 33, 8, 8, 51, -14), (11, 12, 33, 8, 9, 55, 4), (11, 12, 33, 8, 10, 37, 26),
+        (11, 12, 33, 8, 11, 15, 30), (11, 12, 33, 8, 12, 11, 12), (11, 12, 33, 8, 255, 55, 4),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_1_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (1, -18, 31, 13, 0, 1, -18), (1, -18, 31, 13, 1, -30, 43), (1, -18, 31, 13, 2, 0, 74),
+        (1, -18, 31, 13, 3, 61, 44), (1, -18, 31, 13, 4, 92, -17), (1, -18, 31, 13, 5, 62, -48),
+        (1, -18, 31, 13, 6, 1, -18), (1, -18, 31, 13, 7, -30, 43), (1, -18, 31, 13, 8, 0, 74),
+        (1, -18, 31, 13, 9, 61, 44), (1, -18, 31, 13, 10, 92, -17), (1, -18, 31, 13, 11, 62, -48),
+        (1, -18, 31, 13, 12, 1, -18), (1, -18, 31, 13, 255, 61, 44), (1, -18, 27, 39, 0, 1, -18),
+        (1, -18, 27, 39, 1, -56, 65), (1, -18, 27, 39, 2, -30, 122), (1, -18, 27, 39, 3, 53, 96),
+        (1, -18, 27, 39, 4, 110, 13), (1, -18, 27, 39, 5, 84, -44), (1, -18, 27, 39, 6, 1, -18),
+        (1, -18, 27, 39, 7, -56, 65), (1, -18, 27, 39, 8, -30, 122), (1, -18, 27, 39, 9, 53, 96),
+        (1, -18, 27, 39, 10, 110, 13), (1, -18, 27, 39, 11, 84, -44), (1, -18, 27, 39, 12, 1, -18),
+        (1, -18, 27, 39, 255, 53, 96), (1, -18, 24, 1, 0, 1, -18), (1, -18, 24, 1, 1, -18, 24),
+        (1, -18, 24, 1, 2, 5, 43), (1, -18, 24, 1, 3, 47, 20), (1, -18, 24, 1, 4, 66, -22),
+        (1, -18, 24, 1, 5, 43, -41), (1, -18, 24, 1, 6, 1, -18), (1, -18, 24, 1, 7, -18, 24),
+        (1, -18, 24, 1, 8, 5, 43), (1, -18, 24, 1, 9, 47, 20), (1, -18, 24, 1, 10, 66, -22),
+        (1, -18, 24, 1, 11, 43, -41), (1, -18, 24, 1, 12, 1, -18), (1, -18, 24, 1, 255, 47, 20),
+        (1, -18, -21, -18, 0, 1, -18), (1, -18, -21, -18, 1, 1, -40),
         (1, -18, -21, -18, 2, -21, -40), (1, -18, -21, -18, 3, -43, -18),
         (1, -18, -21, -18, 4, -43, 4), (1, -18, -21, -18, 5, -21, 4), (1, -18, -21, -18, 6, 1, -18),
         (1, -18, -21, -18, 7, 1, -40), (1, -18, -21, -18, 8, -21, -40),
@@ -34318,24 +32482,143 @@ fn golden_hex_around_0_rotate_ccw_around() {
         (11, 12, 33, 8, 3, 55, 4), (11, 12, 33, 8, 4, 51, -14), (11, 12, 33, 8, 5, 29, -10),
         (11, 12, 33, 8, 6, 11, 12), (11, 12, 33, 8, 7, 15, 30), (11, 12, 33, 8, 8, 37, 26),
         (11, 12, 33, 8, 9, 55, 4), (11, 12, 33, 8, 10, 51, -14), (11, 12, 33, 8, 11, 29, -10),
-        (11, 12, 33, 8, 12, 11, 12), (11, 12, 33, 8, 255, 55, 4), (30, 9, 31, 13, 0, 30, 9),
-        (30, 9, 31, 13, 1, 26, 14), (30, 9, 31, 13, 2, 27, 18), (30, 9, 31, 13, 3, 32, 17),
-        (30, 9, 31, 13, 4, 36, 12), (30, 9, 31, 13, 5, 35, 8), (30, 9, 31, 13, 6, 30, 9),
-        (30, 9, 31, 13, 7, 26, 14), (30, 9, 31, 13, 8, 27, 18), (30, 9, 31, 13, 9, 32, 17),
-        (30, 9, 31, 13, 10, 36, 12), (30, 9, 31, 13, 11, 35, 8), (30, 9, 31, 13, 12, 30, 9),
-        (30, 9, 31, 13, 255, 32, 17), (30, 9, 27, 39, 0, 30, 9), (30, 9, 27, 39, 1, 0, 36),
-        (30, 9, 27, 39, 2, -3, 66), (30, 9, 27, 39, 3, 24, 69), (30, 9, 27, 39, 4, 54, 42),
-        (30, 9, 27, 39, 5, 57, 12), (30, 9, 27, 39, 6, 30, 9), (30, 9, 27, 39, 7, 0, 36),
-        (30, 9, 27, 39, 8, -3, 66), (30, 9, 27, 39, 9, 24, 69), (30, 9, 27, 39, 10, 54, 42),
-        (30, 9, 27, 39, 11, 57, 12), (30, 9, 27, 39, 12, 30, 9), (30, 9, 27, 39, 255, 24, 69),
-        (30, 9, 24, 1, 0, 30, 9), (30, 9, 24, 1, 1, 38, -5), (30, 9, 24, 1, 2, 32, -13),
-        (30, 9, 24, 1, 3, 18, -7), (30, 9, 24, 1, 4, 10, 7), (30, 9, 24, 1, 5, 16, 15),
-        (30, 9, 24, 1, 6, 30, 9), (30, 9, 24, 1, 7, 38, -5), (30, 9, 24, 1, 8, 32, -13),
-        (30, 9, 24, 1, 9, 18, -7), (30, 9, 24, 1, 10, 10, 7), (30, 9, 24, 1, 11, 16, 15),
-        (30, 9, 24, 1, 12, 30, 9), (30, 9, 24, 1, 255, 18, -7), (30, 9, -21, -18, 0, 30, 9),
-        (30, 9, -21, -18, 1, 57, -69), (30, 9, -21, -18, 2, 6, -96), (30, 9, -21, -18, 3, -72, -45),
-        (30, 9, -21, -18, 4, -99, 33), (30, 9, -21, -18, 5, -48, 60), (30, 9, -21, -18, 6, 30, 9),
-        (30, 9, -21, -18, 7, 57, -69), (30, 9, -21, -18, 8, 6, -96), (30, 9, -21, -18, 9, -72, -45),
+        (11, 12, 33, 8, 12, 11, 12), (11, 12, 33, 8, 255, 55, 4),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_2_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (30, 9, 31, 13, 0, 30, 9), (30, 9, 31, 13, 1, 35, 8), (30, 9, 31, 13, 2, 36, 12),
+        (30, 9, 31, 13, 3, 32, 17), (30, 9, 31, 13, 4, 27, 18), (30, 9, 31, 13, 5, 26, 14),
+        (30, 9, 31, 13, 6, 30, 9), (30, 9, 31, 13, 7, 35, 8), (30, 9, 31, 13, 8, 36, 12),
+        (30, 9, 31, 13, 9, 32, 17), (30, 9, 31, 13, 10, 27, 18), (30, 9, 31, 13, 11, 26, 14),
+        (30, 9, 31, 13, 12, 30, 9), (30, 9, 31, 13, 255, 32, 17), (30, 9, 27, 39, 0, 30, 9),
+        (30, 9, 27, 39, 1, 57, 12), (30, 9, 27, 39, 2, 54, 42), (30, 9, 27, 39, 3, 24, 69),
+        (30, 9, 27, 39, 4, -3, 66), (30, 9, 27, 39, 5, 0, 36), (30, 9, 27, 39, 6, 30, 9),
+        (30, 9, 27, 39, 7, 57, 12), (30, 9, 27, 39, 8, 54, 42), (30, 9, 27, 39, 9, 24, 69),
+        (30, 9, 27, 39, 10, -3, 66), (30, 9, 27, 39, 11, 0, 36), (30, 9, 27, 39, 12, 30, 9),
+        (30, 9, 27, 39, 255, 24, 69), (30, 9, 24, 1, 0, 30, 9), (30, 9, 24, 1, 1, 16, 15),
+        (30, 9, 24, 1, 2, 10, 7), (30, 9, 24, 1, 3, 18, -7), (30, 9, 24, 1, 4, 32, -13),
+        (30, 9, 24, 1, 5, 38, -5), (30, 9, 24, 1, 6, 30, 9), (30, 9, 24, 1, 7, 16, 15),
+        (30, 9, 24, 1, 8, 10, 7), (30, 9, 24, 1, 9, 18, -7), (30, 9, 24, 1, 10, 32, -13),
+        (30, 9, 24, 1, 11, 38, -5), (30, 9, 24, 1, 12, 30, 9), (30, 9, 24, 1, 255, 18, -7),
+        (30, 9, -21, -18, 0, 30, 9), (30, 9, -21, -18, 1, -48, 60), (30, 9, -21, -18, 2, -99, 33),
+        (30, 9, -21, -18, 3, -72, -45), (30, 9, -21, -18, 4, 6, -96), (30, 9, -21, -18, 5, 57, -69),
+        (30, 9, -21, -18, 6, 30, 9), (30, 9, -21, -18, 7, -48, 60), (30, 9, -21, -18, 8, -99, 33),
+        (30, 9, -21, -18, 9, -72, -45), (30, 9, -21, -18, 10, 6, -96),
+        (30, 9, -21, -18, 11, 57, -69), (30, 9, -21, -18, 12, 30, 9),
+        (30, 9, -21, -18, 255, -72, -45), (30, 9, -13, -35, 0, 30, 9),
+        (30, 9, -13, -35, 1, -57, 52), (30, 9, -13, -35, 2, -100, 8),
+        (30, 9, -13, -35, 3, -56, -79), (30, 9, -13, -35, 4, 31, -122),
+        (30, 9, -13, -35, 5, 74, -78), (30, 9, -13, -35, 6, 30, 9), (30, 9, -13, -35, 7, -57, 52),
+        (30, 9, -13, -35, 8, -100, 8), (30, 9, -13, -35, 9, -56, -79),
+        (30, 9, -13, -35, 10, 31, -122), (30, 9, -13, -35, 11, 74, -78),
+        (30, 9, -13, -35, 12, 30, 9), (30, 9, -13, -35, 255, -56, -79), (30, 9, -26, 7, 0, 30, 9),
+        (30, 9, -26, 7, 1, -28, 65), (30, 9, -26, 7, 2, -84, 63), (30, 9, -26, 7, 3, -82, 5),
+        (30, 9, -26, 7, 4, -24, -51), (30, 9, -26, 7, 5, 32, -49), (30, 9, -26, 7, 6, 30, 9),
+        (30, 9, -26, 7, 7, -28, 65), (30, 9, -26, 7, 8, -84, 63), (30, 9, -26, 7, 9, -82, 5),
+        (30, 9, -26, 7, 10, -24, -51), (30, 9, -26, 7, 11, 32, -49), (30, 9, -26, 7, 12, 30, 9),
+        (30, 9, -26, 7, 255, -82, 5), (30, 9, 38, -1, 0, 30, 9), (30, 9, 38, -1, 1, 28, 1),
+        (30, 9, 38, -1, 2, 36, -9), (30, 9, 38, -1, 3, 46, -11), (30, 9, 38, -1, 4, 48, -3),
+        (30, 9, 38, -1, 5, 40, 7), (30, 9, 38, -1, 6, 30, 9), (30, 9, 38, -1, 7, 28, 1),
+        (30, 9, 38, -1, 8, 36, -9), (30, 9, 38, -1, 9, 46, -11), (30, 9, 38, -1, 10, 48, -3),
+        (30, 9, 38, -1, 11, 40, 7), (30, 9, 38, -1, 12, 30, 9), (30, 9, 38, -1, 255, 46, -11),
+        (30, 9, 33, 8, 0, 30, 9), (30, 9, 33, 8, 1, 32, 6), (30, 9, 33, 8, 2, 35, 5),
+        (30, 9, 33, 8, 3, 36, 7), (30, 9, 33, 8, 4, 34, 10), (30, 9, 33, 8, 5, 31, 11),
+        (30, 9, 33, 8, 6, 30, 9), (30, 9, 33, 8, 7, 32, 6), (30, 9, 33, 8, 8, 35, 5),
+        (30, 9, 33, 8, 9, 36, 7), (30, 9, 33, 8, 10, 34, 10), (30, 9, 33, 8, 11, 31, 11),
+        (30, 9, 33, 8, 12, 30, 9), (30, 9, 33, 8, 255, 36, 7), (16, -33, 31, 13, 0, 16, -33),
+        (16, -33, 31, 13, 1, 77, -48), (16, -33, 31, 13, 2, 92, -2), (16, -33, 31, 13, 3, 46, 59),
+        (16, -33, 31, 13, 4, -15, 74), (16, -33, 31, 13, 5, -30, 28), (16, -33, 31, 13, 6, 16, -33),
+        (16, -33, 31, 13, 7, 77, -48), (16, -33, 31, 13, 8, 92, -2), (16, -33, 31, 13, 9, 46, 59),
+        (16, -33, 31, 13, 10, -15, 74), (16, -33, 31, 13, 11, -30, 28),
+        (16, -33, 31, 13, 12, 16, -33), (16, -33, 31, 13, 255, 46, 59),
+        (16, -33, 27, 39, 0, 16, -33), (16, -33, 27, 39, 1, 99, -44), (16, -33, 27, 39, 2, 110, 28),
+        (16, -33, 27, 39, 3, 38, 111), (16, -33, 27, 39, 4, -45, 122),
+        (16, -33, 27, 39, 5, -56, 50), (16, -33, 27, 39, 6, 16, -33), (16, -33, 27, 39, 7, 99, -44),
+        (16, -33, 27, 39, 8, 110, 28), (16, -33, 27, 39, 9, 38, 111),
+        (16, -33, 27, 39, 10, -45, 122), (16, -33, 27, 39, 11, -56, 50),
+        (16, -33, 27, 39, 12, 16, -33), (16, -33, 27, 39, 255, 38, 111),
+        (16, -33, 24, 1, 0, 16, -33), (16, -33, 24, 1, 1, 58, -41), (16, -33, 24, 1, 2, 66, -7),
+        (16, -33, 24, 1, 3, 32, 35), (16, -33, 24, 1, 4, -10, 43), (16, -33, 24, 1, 5, -18, 9),
+        (16, -33, 24, 1, 6, 16, -33), (16, -33, 24, 1, 7, 58, -41), (16, -33, 24, 1, 8, 66, -7),
+        (16, -33, 24, 1, 9, 32, 35), (16, -33, 24, 1, 10, -10, 43), (16, -33, 24, 1, 11, -18, 9),
+        (16, -33, 24, 1, 12, 16, -33), (16, -33, 24, 1, 255, 32, 35),
+        (16, -33, -21, -18, 0, 16, -33), (16, -33, -21, -18, 1, -6, 4),
+        (16, -33, -21, -18, 2, -43, 19), (16, -33, -21, -18, 3, -58, -3),
+        (16, -33, -21, -18, 4, -36, -40), (16, -33, -21, -18, 5, 1, -55),
+        (16, -33, -21, -18, 6, 16, -33), (16, -33, -21, -18, 7, -6, 4),
+        (16, -33, -21, -18, 8, -43, 19), (16, -33, -21, -18, 9, -58, -3),
+        (16, -33, -21, -18, 10, -36, -40), (16, -33, -21, -18, 11, 1, -55),
+        (16, -33, -21, -18, 12, 16, -33), (16, -33, -21, -18, 255, -58, -3),
+        (16, -33, -13, -35, 0, 16, -33), (16, -33, -13, -35, 1, -15, -4),
+        (16, -33, -13, -35, 2, -44, -6), (16, -33, -13, -35, 3, -42, -37),
+        (16, -33, -13, -35, 4, -11, -66), (16, -33, -13, -35, 5, 18, -64),
+        (16, -33, -13, -35, 6, 16, -33), (16, -33, -13, -35, 7, -15, -4),
+        (16, -33, -13, -35, 8, -44, -6), (16, -33, -13, -35, 9, -42, -37),
+        (16, -33, -13, -35, 10, -11, -66), (16, -33, -13, -35, 11, 18, -64),
+        (16, -33, -13, -35, 12, 16, -33), (16, -33, -13, -35, 255, -42, -37),
+        (16, -33, -26, 7, 0, 16, -33), (16, -33, -26, 7, 1, 14, 9), (16, -33, -26, 7, 2, -28, 49),
+        (16, -33, -26, 7, 3, -68, 47), (16, -33, -26, 7, 4, -66, 5), (16, -33, -26, 7, 5, -24, -35),
+        (16, -33, -26, 7, 6, 16, -33), (16, -33, -26, 7, 7, 14, 9), (16, -33, -26, 7, 8, -28, 49),
+        (16, -33, -26, 7, 9, -68, 47), (16, -33, -26, 7, 10, -66, 5),
+        (16, -33, -26, 7, 11, -24, -35), (16, -33, -26, 7, 12, 16, -33),
+        (16, -33, -26, 7, 255, -68, 47), (16, -33, 38, -1, 0, 16, -33),
+        (16, -33, 38, -1, 1, 70, -55), (16, -33, 38, -1, 2, 92, -23), (16, -33, 38, -1, 3, 60, 31),
+        (16, -33, 38, -1, 4, 6, 53), (16, -33, 38, -1, 5, -16, 21), (16, -33, 38, -1, 6, 16, -33),
+        (16, -33, 38, -1, 7, 70, -55), (16, -33, 38, -1, 8, 92, -23), (16, -33, 38, -1, 9, 60, 31),
+        (16, -33, 38, -1, 10, 6, 53), (16, -33, 38, -1, 11, -16, 21),
+        (16, -33, 38, -1, 12, 16, -33), (16, -33, 38, -1, 255, 60, 31),
+        (16, -33, 33, 8, 0, 16, -33), (16, -33, 33, 8, 1, 74, -50), (16, -33, 33, 8, 2, 91, -9),
+        (16, -33, 33, 8, 3, 50, 49), (16, -33, 33, 8, 4, -8, 66), (16, -33, 33, 8, 5, -25, 25),
+        (16, -33, 33, 8, 6, 16, -33), (16, -33, 33, 8, 7, 74, -50), (16, -33, 33, 8, 8, 91, -9),
+        (16, -33, 33, 8, 9, 50, 49), (16, -33, 33, 8, 10, -8, 66), (16, -33, 33, 8, 11, -25, 25),
+        (16, -33, 33, 8, 12, 16, -33), (16, -33, 33, 8, 255, 50, 49),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_2_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (30, 9, 31, 13, 0, 30, 9), (30, 9, 31, 13, 1, 26, 14), (30, 9, 31, 13, 2, 27, 18),
+        (30, 9, 31, 13, 3, 32, 17), (30, 9, 31, 13, 4, 36, 12), (30, 9, 31, 13, 5, 35, 8),
+        (30, 9, 31, 13, 6, 30, 9), (30, 9, 31, 13, 7, 26, 14), (30, 9, 31, 13, 8, 27, 18),
+        (30, 9, 31, 13, 9, 32, 17), (30, 9, 31, 13, 10, 36, 12), (30, 9, 31, 13, 11, 35, 8),
+        (30, 9, 31, 13, 12, 30, 9), (30, 9, 31, 13, 255, 32, 17), (30, 9, 27, 39, 0, 30, 9),
+        (30, 9, 27, 39, 1, 0, 36), (30, 9, 27, 39, 2, -3, 66), (30, 9, 27, 39, 3, 24, 69),
+        (30, 9, 27, 39, 4, 54, 42), (30, 9, 27, 39, 5, 57, 12), (30, 9, 27, 39, 6, 30, 9),
+        (30, 9, 27, 39, 7, 0, 36), (30, 9, 27, 39, 8, -3, 66), (30, 9, 27, 39, 9, 24, 69),
+        (30, 9, 27, 39, 10, 54, 42), (30, 9, 27, 39, 11, 57, 12), (30, 9, 27, 39, 12, 30, 9),
+        (30, 9, 27, 39, 255, 24, 69), (30, 9, 24, 1, 0, 30, 9), (30, 9, 24, 1, 1, 38, -5),
+        (30, 9, 24, 1, 2, 32, -13), (30, 9, 24, 1, 3, 18, -7), (30, 9, 24, 1, 4, 10, 7),
+        (30, 9, 24, 1, 5, 16, 15), (30, 9, 24, 1, 6, 30, 9), (30, 9, 24, 1, 7, 38, -5),
+        (30, 9, 24, 1, 8, 32, -13), (30, 9, 24, 1, 9, 18, -7), (30, 9, 24, 1, 10, 10, 7),
+        (30, 9, 24, 1, 11, 16, 15), (30, 9, 24, 1, 12, 30, 9), (30, 9, 24, 1, 255, 18, -7),
+        (30, 9, -21, -18, 0, 30, 9), (30, 9, -21, -18, 1, 57, -69), (30, 9, -21, -18, 2, 6, -96),
+        (30, 9, -21, -18, 3, -72, -45), (30, 9, -21, -18, 4, -99, 33),
+        (30, 9, -21, -18, 5, -48, 60), (30, 9, -21, -18, 6, 30, 9), (30, 9, -21, -18, 7, 57, -69),
+        (30, 9, -21, -18, 8, 6, -96), (30, 9, -21, -18, 9, -72, -45),
         (30, 9, -21, -18, 10, -99, 33), (30, 9, -21, -18, 11, -48, 60),
         (30, 9, -21, -18, 12, 30, 9), (30, 9, -21, -18, 255, -72, -45), (30, 9, -13, -35, 0, 30, 9),
         (30, 9, -13, -35, 1, 74, -78), (30, 9, -13, -35, 2, 31, -122),
@@ -34403,6 +32686,129 @@ fn golden_hex_around_0_rotate_ccw_around() {
         (16, -33, 33, 8, 5, 74, -50), (16, -33, 33, 8, 6, 16, -33), (16, -33, 33, 8, 7, -25, 25),
         (16, -33, 33, 8, 8, -8, 66), (16, -33, 33, 8, 9, 50, 49), (16, -33, 33, 8, 10, 91, -9),
         (16, -33, 33, 8, 11, 74, -50), (16, -33, 33, 8, 12, 16, -33), (16, -33, 33, 8, 255, 50, 49),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_3_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (-2, -20, 31, 13, 0, -2, -20), (-2, -20, 31, 13, 1, 64, -53), (-2, -20, 31, 13, 2, 97, -20),
+        (-2, -20, 31, 13, 3, 64, 46), (-2, -20, 31, 13, 4, -2, 79), (-2, -20, 31, 13, 5, -35, 46),
+        (-2, -20, 31, 13, 6, -2, -20), (-2, -20, 31, 13, 7, 64, -53), (-2, -20, 31, 13, 8, 97, -20),
+        (-2, -20, 31, 13, 9, 64, 46), (-2, -20, 31, 13, 10, -2, 79), (-2, -20, 31, 13, 11, -35, 46),
+        (-2, -20, 31, 13, 12, -2, -20), (-2, -20, 31, 13, 255, 64, 46),
+        (-2, -20, 27, 39, 0, -2, -20), (-2, -20, 27, 39, 1, 86, -49), (-2, -20, 27, 39, 2, 115, 10),
+        (-2, -20, 27, 39, 3, 56, 98), (-2, -20, 27, 39, 4, -32, 127), (-2, -20, 27, 39, 5, -61, 68),
+        (-2, -20, 27, 39, 6, -2, -20), (-2, -20, 27, 39, 7, 86, -49), (-2, -20, 27, 39, 8, 115, 10),
+        (-2, -20, 27, 39, 9, 56, 98), (-2, -20, 27, 39, 10, -32, 127),
+        (-2, -20, 27, 39, 11, -61, 68), (-2, -20, 27, 39, 12, -2, -20),
+        (-2, -20, 27, 39, 255, 56, 98), (-2, -20, 24, 1, 0, -2, -20), (-2, -20, 24, 1, 1, 45, -46),
+        (-2, -20, 24, 1, 2, 71, -25), (-2, -20, 24, 1, 3, 50, 22), (-2, -20, 24, 1, 4, 3, 48),
+        (-2, -20, 24, 1, 5, -23, 27), (-2, -20, 24, 1, 6, -2, -20), (-2, -20, 24, 1, 7, 45, -46),
+        (-2, -20, 24, 1, 8, 71, -25), (-2, -20, 24, 1, 9, 50, 22), (-2, -20, 24, 1, 10, 3, 48),
+        (-2, -20, 24, 1, 11, -23, 27), (-2, -20, 24, 1, 12, -2, -20), (-2, -20, 24, 1, 255, 50, 22),
+        (-2, -20, -21, -18, 0, -2, -20), (-2, -20, -21, -18, 1, -19, -1),
+        (-2, -20, -21, -18, 2, -38, 1), (-2, -20, -21, -18, 3, -40, -16),
+        (-2, -20, -21, -18, 4, -23, -35), (-2, -20, -21, -18, 5, -4, -37),
+        (-2, -20, -21, -18, 6, -2, -20), (-2, -20, -21, -18, 7, -19, -1),
+        (-2, -20, -21, -18, 8, -38, 1), (-2, -20, -21, -18, 9, -40, -16),
+        (-2, -20, -21, -18, 10, -23, -35), (-2, -20, -21, -18, 11, -4, -37),
+        (-2, -20, -21, -18, 12, -2, -20), (-2, -20, -21, -18, 255, -40, -16),
+        (-2, -20, -13, -35, 0, -2, -20), (-2, -20, -13, -35, 1, -28, -9),
+        (-2, -20, -13, -35, 2, -39, -24), (-2, -20, -13, -35, 3, -24, -50),
+        (-2, -20, -13, -35, 4, 2, -61), (-2, -20, -13, -35, 5, 13, -46),
+        (-2, -20, -13, -35, 6, -2, -20), (-2, -20, -13, -35, 7, -28, -9),
+        (-2, -20, -13, -35, 8, -39, -24), (-2, -20, -13, -35, 9, -24, -50),
+        (-2, -20, -13, -35, 10, 2, -61), (-2, -20, -13, -35, 11, 13, -46),
+        (-2, -20, -13, -35, 12, -2, -20), (-2, -20, -13, -35, 255, -24, -50),
+        (-2, -20, -26, 7, 0, -2, -20), (-2, -20, -26, 7, 1, 1, 4), (-2, -20, -26, 7, 2, -23, 31),
+        (-2, -20, -26, 7, 3, -50, 34), (-2, -20, -26, 7, 4, -53, 10),
+        (-2, -20, -26, 7, 5, -29, -17), (-2, -20, -26, 7, 6, -2, -20), (-2, -20, -26, 7, 7, 1, 4),
+        (-2, -20, -26, 7, 8, -23, 31), (-2, -20, -26, 7, 9, -50, 34),
+        (-2, -20, -26, 7, 10, -53, 10), (-2, -20, -26, 7, 11, -29, -17),
+        (-2, -20, -26, 7, 12, -2, -20), (-2, -20, -26, 7, 255, -50, 34),
+        (-2, -20, 38, -1, 0, -2, -20), (-2, -20, 38, -1, 1, 57, -60), (-2, -20, 38, -1, 2, 97, -41),
+        (-2, -20, 38, -1, 3, 78, 18), (-2, -20, 38, -1, 4, 19, 58), (-2, -20, 38, -1, 5, -21, 39),
+        (-2, -20, 38, -1, 6, -2, -20), (-2, -20, 38, -1, 7, 57, -60), (-2, -20, 38, -1, 8, 97, -41),
+        (-2, -20, 38, -1, 9, 78, 18), (-2, -20, 38, -1, 10, 19, 58), (-2, -20, 38, -1, 11, -21, 39),
+        (-2, -20, 38, -1, 12, -2, -20), (-2, -20, 38, -1, 255, 78, 18),
+        (-2, -20, 33, 8, 0, -2, -20), (-2, -20, 33, 8, 1, 61, -55), (-2, -20, 33, 8, 2, 96, -27),
+        (-2, -20, 33, 8, 3, 68, 36), (-2, -20, 33, 8, 4, 5, 71), (-2, -20, 33, 8, 5, -30, 43),
+        (-2, -20, 33, 8, 6, -2, -20), (-2, -20, 33, 8, 7, 61, -55), (-2, -20, 33, 8, 8, 96, -27),
+        (-2, -20, 33, 8, 9, 68, 36), (-2, -20, 33, 8, 10, 5, 71), (-2, -20, 33, 8, 11, -30, 43),
+        (-2, -20, 33, 8, 12, -2, -20), (-2, -20, 33, 8, 255, 68, 36), (-26, 18, 31, 13, 0, -26, 18),
+        (-26, 18, 31, 13, 1, 26, -39), (-26, 18, 31, 13, 2, 83, -44), (-26, 18, 31, 13, 3, 88, 8),
+        (-26, 18, 31, 13, 4, 36, 65), (-26, 18, 31, 13, 5, -21, 70), (-26, 18, 31, 13, 6, -26, 18),
+        (-26, 18, 31, 13, 7, 26, -39), (-26, 18, 31, 13, 8, 83, -44), (-26, 18, 31, 13, 9, 88, 8),
+        (-26, 18, 31, 13, 10, 36, 65), (-26, 18, 31, 13, 11, -21, 70),
+        (-26, 18, 31, 13, 12, -26, 18), (-26, 18, 31, 13, 255, 88, 8),
+        (-26, 18, 27, 39, 0, -26, 18), (-26, 18, 27, 39, 1, 48, -35),
+        (-26, 18, 27, 39, 2, 101, -14), (-26, 18, 27, 39, 3, 80, 60), (-26, 18, 27, 39, 4, 6, 113),
+        (-26, 18, 27, 39, 5, -47, 92), (-26, 18, 27, 39, 6, -26, 18), (-26, 18, 27, 39, 7, 48, -35),
+        (-26, 18, 27, 39, 8, 101, -14), (-26, 18, 27, 39, 9, 80, 60), (-26, 18, 27, 39, 10, 6, 113),
+        (-26, 18, 27, 39, 11, -47, 92), (-26, 18, 27, 39, 12, -26, 18),
+        (-26, 18, 27, 39, 255, 80, 60), (-26, 18, 24, 1, 0, -26, 18), (-26, 18, 24, 1, 1, 7, -32),
+        (-26, 18, 24, 1, 2, 57, -49), (-26, 18, 24, 1, 3, 74, -16), (-26, 18, 24, 1, 4, 41, 34),
+        (-26, 18, 24, 1, 5, -9, 51), (-26, 18, 24, 1, 6, -26, 18), (-26, 18, 24, 1, 7, 7, -32),
+        (-26, 18, 24, 1, 8, 57, -49), (-26, 18, 24, 1, 9, 74, -16), (-26, 18, 24, 1, 10, 41, 34),
+        (-26, 18, 24, 1, 11, -9, 51), (-26, 18, 24, 1, 12, -26, 18), (-26, 18, 24, 1, 255, 74, -16),
+        (-26, 18, -21, -18, 0, -26, 18), (-26, 18, -21, -18, 1, -57, 13),
+        (-26, 18, -21, -18, 2, -52, -23), (-26, 18, -21, -18, 3, -16, -54),
+        (-26, 18, -21, -18, 4, 15, -49), (-26, 18, -21, -18, 5, 10, -13),
+        (-26, 18, -21, -18, 6, -26, 18), (-26, 18, -21, -18, 7, -57, 13),
+        (-26, 18, -21, -18, 8, -52, -23), (-26, 18, -21, -18, 9, -16, -54),
+        (-26, 18, -21, -18, 10, 15, -49), (-26, 18, -21, -18, 11, 10, -13),
+        (-26, 18, -21, -18, 12, -26, 18), (-26, 18, -21, -18, 255, -16, -54),
+        (-26, 18, -13, -35, 0, -26, 18), (-26, 18, -13, -35, 1, -66, 5),
+        (-26, 18, -13, -35, 2, -53, -48), (-26, 18, -13, -35, 3, 0, -88),
+        (-26, 18, -13, -35, 4, 40, -75), (-26, 18, -13, -35, 5, 27, -22),
+        (-26, 18, -13, -35, 6, -26, 18), (-26, 18, -13, -35, 7, -66, 5),
+        (-26, 18, -13, -35, 8, -53, -48), (-26, 18, -13, -35, 9, 0, -88),
+        (-26, 18, -13, -35, 10, 40, -75), (-26, 18, -13, -35, 11, 27, -22),
+        (-26, 18, -13, -35, 12, -26, 18), (-26, 18, -13, -35, 255, 0, -88),
+        (-26, 18, -26, 7, 0, -26, 18), (-26, 18, -26, 7, 1, -37, 18), (-26, 18, -26, 7, 2, -37, 7),
+        (-26, 18, -26, 7, 3, -26, -4), (-26, 18, -26, 7, 4, -15, -4), (-26, 18, -26, 7, 5, -15, 7),
+        (-26, 18, -26, 7, 6, -26, 18), (-26, 18, -26, 7, 7, -37, 18), (-26, 18, -26, 7, 8, -37, 7),
+        (-26, 18, -26, 7, 9, -26, -4), (-26, 18, -26, 7, 10, -15, -4),
+        (-26, 18, -26, 7, 11, -15, 7), (-26, 18, -26, 7, 12, -26, 18),
+        (-26, 18, -26, 7, 255, -26, -4), (-26, 18, 38, -1, 0, -26, 18),
+        (-26, 18, 38, -1, 1, 19, -46), (-26, 18, 38, -1, 2, 83, -65),
+        (-26, 18, 38, -1, 3, 102, -20), (-26, 18, 38, -1, 4, 57, 44), (-26, 18, 38, -1, 5, -7, 63),
+        (-26, 18, 38, -1, 6, -26, 18), (-26, 18, 38, -1, 7, 19, -46), (-26, 18, 38, -1, 8, 83, -65),
+        (-26, 18, 38, -1, 9, 102, -20), (-26, 18, 38, -1, 10, 57, 44),
+        (-26, 18, 38, -1, 11, -7, 63), (-26, 18, 38, -1, 12, -26, 18),
+        (-26, 18, 38, -1, 255, 102, -20), (-26, 18, 33, 8, 0, -26, 18),
+        (-26, 18, 33, 8, 1, 23, -41), (-26, 18, 33, 8, 2, 82, -51), (-26, 18, 33, 8, 3, 92, -2),
+        (-26, 18, 33, 8, 4, 43, 57), (-26, 18, 33, 8, 5, -16, 67), (-26, 18, 33, 8, 6, -26, 18),
+        (-26, 18, 33, 8, 7, 23, -41), (-26, 18, 33, 8, 8, 82, -51), (-26, 18, 33, 8, 9, 92, -2),
+        (-26, 18, 33, 8, 10, 43, 57), (-26, 18, 33, 8, 11, -16, 67), (-26, 18, 33, 8, 12, -26, 18),
+        (-26, 18, 33, 8, 255, 92, -2),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_3_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (-2, -20, 31, 13, 0, -2, -20), (-2, -20, 31, 13, 1, -35, 46), (-2, -20, 31, 13, 2, -2, 79),
         (-2, -20, 31, 13, 3, 64, 46), (-2, -20, 31, 13, 4, 97, -20), (-2, -20, 31, 13, 5, 64, -53),
         (-2, -20, 31, 13, 6, -2, -20), (-2, -20, 31, 13, 7, -35, 46), (-2, -20, 31, 13, 8, -2, 79),
@@ -34493,39 +32899,156 @@ fn golden_hex_around_0_rotate_ccw_around() {
         (-26, 18, 33, 8, 3, 92, -2), (-26, 18, 33, 8, 4, 82, -51), (-26, 18, 33, 8, 5, 23, -41),
         (-26, 18, 33, 8, 6, -26, 18), (-26, 18, 33, 8, 7, -16, 67), (-26, 18, 33, 8, 8, 43, 57),
         (-26, 18, 33, 8, 9, 92, -2), (-26, 18, 33, 8, 10, 82, -51), (-26, 18, 33, 8, 11, 23, -41),
-        (-26, 18, 33, 8, 12, -26, 18), (-26, 18, 33, 8, 255, 92, -2), (27, 39, 31, 13, 0, 27, 39),
-        (27, 39, 31, 13, 1, 53, 17), (27, 39, 31, 13, 2, 57, -9), (27, 39, 31, 13, 3, 35, -13),
-        (27, 39, 31, 13, 4, 9, 9), (27, 39, 31, 13, 5, 5, 35), (27, 39, 31, 13, 6, 27, 39),
-        (27, 39, 31, 13, 7, 53, 17), (27, 39, 31, 13, 8, 57, -9), (27, 39, 31, 13, 9, 35, -13),
-        (27, 39, 31, 13, 10, 9, 9), (27, 39, 31, 13, 11, 5, 35), (27, 39, 31, 13, 12, 27, 39),
-        (27, 39, 31, 13, 255, 35, -13), (27, 39, 27, 39, 0, 27, 39), (27, 39, 27, 39, 1, 27, 39),
-        (27, 39, 27, 39, 2, 27, 39), (27, 39, 27, 39, 3, 27, 39), (27, 39, 27, 39, 4, 27, 39),
-        (27, 39, 27, 39, 5, 27, 39), (27, 39, 27, 39, 6, 27, 39), (27, 39, 27, 39, 7, 27, 39),
-        (27, 39, 27, 39, 8, 27, 39), (27, 39, 27, 39, 9, 27, 39), (27, 39, 27, 39, 10, 27, 39),
-        (27, 39, 27, 39, 11, 27, 39), (27, 39, 27, 39, 12, 27, 39), (27, 39, 27, 39, 255, 27, 39),
-        (27, 39, 24, 1, 0, 27, 39), (27, 39, 24, 1, 1, 65, -2), (27, 39, 24, 1, 2, 62, -40),
-        (27, 39, 24, 1, 3, 21, -37), (27, 39, 24, 1, 4, -17, 4), (27, 39, 24, 1, 5, -14, 42),
-        (27, 39, 24, 1, 6, 27, 39), (27, 39, 24, 1, 7, 65, -2), (27, 39, 24, 1, 8, 62, -40),
-        (27, 39, 24, 1, 9, 21, -37), (27, 39, 24, 1, 10, -17, 4), (27, 39, 24, 1, 11, -14, 42),
-        (27, 39, 24, 1, 12, 27, 39), (27, 39, 24, 1, 255, 21, -37), (27, 39, -21, -18, 0, 27, 39),
-        (27, 39, -21, -18, 1, 84, -66), (27, 39, -21, -18, 2, 36, -123),
-        (27, 39, -21, -18, 3, -69, -75), (27, 39, -21, -18, 4, -126, 30),
-        (27, 39, -21, -18, 5, -78, 87), (27, 39, -21, -18, 6, 27, 39),
-        (27, 39, -21, -18, 7, 84, -66), (27, 39, -21, -18, 8, 36, -123),
-        (27, 39, -21, -18, 9, -69, -75), (27, 39, -21, -18, 10, -126, 30),
-        (27, 39, -21, -18, 11, -78, 87), (27, 39, -21, -18, 12, 27, 39),
-        (27, 39, -21, -18, 255, -69, -75), (27, 39, -13, -35, 0, 27, 39),
-        (27, 39, -13, -35, 1, 101, -75), (27, 39, -13, -35, 2, 61, -149),
-        (27, 39, -13, -35, 3, -53, -109), (27, 39, -13, -35, 4, -127, 5),
-        (27, 39, -13, -35, 5, -87, 79), (27, 39, -13, -35, 6, 27, 39),
-        (27, 39, -13, -35, 7, 101, -75), (27, 39, -13, -35, 8, 61, -149),
-        (27, 39, -13, -35, 9, -53, -109), (27, 39, -13, -35, 10, -127, 5),
-        (27, 39, -13, -35, 11, -87, 79), (27, 39, -13, -35, 12, 27, 39),
-        (27, 39, -13, -35, 255, -53, -109), (27, 39, -26, 7, 0, 27, 39),
-        (27, 39, -26, 7, 1, 59, -46), (27, 39, -26, 7, 2, 6, -78), (27, 39, -26, 7, 3, -79, -25),
-        (27, 39, -26, 7, 4, -111, 60), (27, 39, -26, 7, 5, -58, 92), (27, 39, -26, 7, 6, 27, 39),
-        (27, 39, -26, 7, 7, 59, -46), (27, 39, -26, 7, 8, 6, -78), (27, 39, -26, 7, 9, -79, -25),
-        (27, 39, -26, 7, 10, -111, 60), (27, 39, -26, 7, 11, -58, 92), (27, 39, -26, 7, 12, 27, 39),
+        (-26, 18, 33, 8, 12, -26, 18), (-26, 18, 33, 8, 255, 92, -2),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_4_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (27, 39, 31, 13, 0, 27, 39), (27, 39, 31, 13, 1, 5, 35), (27, 39, 31, 13, 2, 9, 9),
+        (27, 39, 31, 13, 3, 35, -13), (27, 39, 31, 13, 4, 57, -9), (27, 39, 31, 13, 5, 53, 17),
+        (27, 39, 31, 13, 6, 27, 39), (27, 39, 31, 13, 7, 5, 35), (27, 39, 31, 13, 8, 9, 9),
+        (27, 39, 31, 13, 9, 35, -13), (27, 39, 31, 13, 10, 57, -9), (27, 39, 31, 13, 11, 53, 17),
+        (27, 39, 31, 13, 12, 27, 39), (27, 39, 31, 13, 255, 35, -13), (27, 39, 27, 39, 0, 27, 39),
+        (27, 39, 27, 39, 1, 27, 39), (27, 39, 27, 39, 2, 27, 39), (27, 39, 27, 39, 3, 27, 39),
+        (27, 39, 27, 39, 4, 27, 39), (27, 39, 27, 39, 5, 27, 39), (27, 39, 27, 39, 6, 27, 39),
+        (27, 39, 27, 39, 7, 27, 39), (27, 39, 27, 39, 8, 27, 39), (27, 39, 27, 39, 9, 27, 39),
+        (27, 39, 27, 39, 10, 27, 39), (27, 39, 27, 39, 11, 27, 39), (27, 39, 27, 39, 12, 27, 39),
+        (27, 39, 27, 39, 255, 27, 39), (27, 39, 24, 1, 0, 27, 39), (27, 39, 24, 1, 1, -14, 42),
+        (27, 39, 24, 1, 2, -17, 4), (27, 39, 24, 1, 3, 21, -37), (27, 39, 24, 1, 4, 62, -40),
+        (27, 39, 24, 1, 5, 65, -2), (27, 39, 24, 1, 6, 27, 39), (27, 39, 24, 1, 7, -14, 42),
+        (27, 39, 24, 1, 8, -17, 4), (27, 39, 24, 1, 9, 21, -37), (27, 39, 24, 1, 10, 62, -40),
+        (27, 39, 24, 1, 11, 65, -2), (27, 39, 24, 1, 12, 27, 39), (27, 39, 24, 1, 255, 21, -37),
+        (27, 39, -21, -18, 0, 27, 39), (27, 39, -21, -18, 1, -78, 87),
+        (27, 39, -21, -18, 2, -126, 30), (27, 39, -21, -18, 3, -69, -75),
+        (27, 39, -21, -18, 4, 36, -123), (27, 39, -21, -18, 5, 84, -66),
+        (27, 39, -21, -18, 6, 27, 39), (27, 39, -21, -18, 7, -78, 87),
+        (27, 39, -21, -18, 8, -126, 30), (27, 39, -21, -18, 9, -69, -75),
+        (27, 39, -21, -18, 10, 36, -123), (27, 39, -21, -18, 11, 84, -66),
+        (27, 39, -21, -18, 12, 27, 39), (27, 39, -21, -18, 255, -69, -75),
+        (27, 39, -13, -35, 0, 27, 39), (27, 39, -13, -35, 1, -87, 79),
+        (27, 39, -13, -35, 2, -127, 5), (27, 39, -13, -35, 3, -53, -109),
+        (27, 39, -13, -35, 4, 61, -149), (27, 39, -13, -35, 5, 101, -75),
+        (27, 39, -13, -35, 6, 27, 39), (27, 39, -13, -35, 7, -87, 79),
+        (27, 39, -13, -35, 8, -127, 5), (27, 39, -13, -35, 9, -53, -109),
+        (27, 39, -13, -35, 10, 61, -149), (27, 39, -13, -35, 11, 101, -75),
+        (27, 39, -13, -35, 12, 27, 39), (27, 39, -13, -35, 255, -53, -109),
+        (27, 39, -26, 7, 0, 27, 39), (27, 39, -26, 7, 1, -58, 92), (27, 39, -26, 7, 2, -111, 60),
+        (27, 39, -26, 7, 3, -79, -25), (27, 39, -26, 7, 4, 6, -78), (27, 39, -26, 7, 5, 59, -46),
+        (27, 39, -26, 7, 6, 27, 39), (27, 39, -26, 7, 7, -58, 92), (27, 39, -26, 7, 8, -111, 60),
+        (27, 39, -26, 7, 9, -79, -25), (27, 39, -26, 7, 10, 6, -78), (27, 39, -26, 7, 11, 59, -46),
+        (27, 39, -26, 7, 12, 27, 39), (27, 39, -26, 7, 255, -79, -25), (27, 39, 38, -1, 0, 27, 39),
+        (27, 39, 38, -1, 1, -2, 28), (27, 39, 38, -1, 2, 9, -12), (27, 39, 38, -1, 3, 49, -41),
+        (27, 39, 38, -1, 4, 78, -30), (27, 39, 38, -1, 5, 67, 10), (27, 39, 38, -1, 6, 27, 39),
+        (27, 39, 38, -1, 7, -2, 28), (27, 39, 38, -1, 8, 9, -12), (27, 39, 38, -1, 9, 49, -41),
+        (27, 39, 38, -1, 10, 78, -30), (27, 39, 38, -1, 11, 67, 10), (27, 39, 38, -1, 12, 27, 39),
+        (27, 39, 38, -1, 255, 49, -41), (27, 39, 33, 8, 0, 27, 39), (27, 39, 33, 8, 1, 2, 33),
+        (27, 39, 33, 8, 2, 8, 2), (27, 39, 33, 8, 3, 39, -23), (27, 39, 33, 8, 4, 64, -17),
+        (27, 39, 33, 8, 5, 58, 14), (27, 39, 33, 8, 6, 27, 39), (27, 39, 33, 8, 7, 2, 33),
+        (27, 39, 33, 8, 8, 8, 2), (27, 39, 33, 8, 9, 39, -23), (27, 39, 33, 8, 10, 64, -17),
+        (27, 39, 33, 8, 11, 58, 14), (27, 39, 33, 8, 12, 27, 39), (27, 39, 33, 8, 255, 39, -23),
+        (28, 18, 31, 13, 0, 28, 18), (28, 18, 31, 13, 1, 26, 15), (28, 18, 31, 13, 2, 29, 10),
+        (28, 18, 31, 13, 3, 34, 8), (28, 18, 31, 13, 4, 36, 11), (28, 18, 31, 13, 5, 33, 16),
+        (28, 18, 31, 13, 6, 28, 18), (28, 18, 31, 13, 7, 26, 15), (28, 18, 31, 13, 8, 29, 10),
+        (28, 18, 31, 13, 9, 34, 8), (28, 18, 31, 13, 10, 36, 11), (28, 18, 31, 13, 11, 33, 16),
+        (28, 18, 31, 13, 12, 28, 18), (28, 18, 31, 13, 255, 34, 8), (28, 18, 27, 39, 0, 28, 18),
+        (28, 18, 27, 39, 1, 48, 19), (28, 18, 27, 39, 2, 47, 40), (28, 18, 27, 39, 3, 26, 60),
+        (28, 18, 27, 39, 4, 6, 59), (28, 18, 27, 39, 5, 7, 38), (28, 18, 27, 39, 6, 28, 18),
+        (28, 18, 27, 39, 7, 48, 19), (28, 18, 27, 39, 8, 47, 40), (28, 18, 27, 39, 9, 26, 60),
+        (28, 18, 27, 39, 10, 6, 59), (28, 18, 27, 39, 11, 7, 38), (28, 18, 27, 39, 12, 28, 18),
+        (28, 18, 27, 39, 255, 26, 60), (28, 18, 24, 1, 0, 28, 18), (28, 18, 24, 1, 1, 7, 22),
+        (28, 18, 24, 1, 2, 3, 5), (28, 18, 24, 1, 3, 20, -16), (28, 18, 24, 1, 4, 41, -20),
+        (28, 18, 24, 1, 5, 45, -3), (28, 18, 24, 1, 6, 28, 18), (28, 18, 24, 1, 7, 7, 22),
+        (28, 18, 24, 1, 8, 3, 5), (28, 18, 24, 1, 9, 20, -16), (28, 18, 24, 1, 10, 41, -20),
+        (28, 18, 24, 1, 11, 45, -3), (28, 18, 24, 1, 12, 28, 18), (28, 18, 24, 1, 255, 20, -16),
+        (28, 18, -21, -18, 0, 28, 18), (28, 18, -21, -18, 1, -57, 67),
+        (28, 18, -21, -18, 2, -106, 31), (28, 18, -21, -18, 3, -70, -54),
+        (28, 18, -21, -18, 4, 15, -103), (28, 18, -21, -18, 5, 64, -67),
+        (28, 18, -21, -18, 6, 28, 18), (28, 18, -21, -18, 7, -57, 67),
+        (28, 18, -21, -18, 8, -106, 31), (28, 18, -21, -18, 9, -70, -54),
+        (28, 18, -21, -18, 10, 15, -103), (28, 18, -21, -18, 11, 64, -67),
+        (28, 18, -21, -18, 12, 28, 18), (28, 18, -21, -18, 255, -70, -54),
+        (28, 18, -13, -35, 0, 28, 18), (28, 18, -13, -35, 1, -66, 59),
+        (28, 18, -13, -35, 2, -107, 6), (28, 18, -13, -35, 3, -54, -88),
+        (28, 18, -13, -35, 4, 40, -129), (28, 18, -13, -35, 5, 81, -76),
+        (28, 18, -13, -35, 6, 28, 18), (28, 18, -13, -35, 7, -66, 59),
+        (28, 18, -13, -35, 8, -107, 6), (28, 18, -13, -35, 9, -54, -88),
+        (28, 18, -13, -35, 10, 40, -129), (28, 18, -13, -35, 11, 81, -76),
+        (28, 18, -13, -35, 12, 28, 18), (28, 18, -13, -35, 255, -54, -88),
+        (28, 18, -26, 7, 0, 28, 18), (28, 18, -26, 7, 1, -37, 72), (28, 18, -26, 7, 2, -91, 61),
+        (28, 18, -26, 7, 3, -80, -4), (28, 18, -26, 7, 4, -15, -58), (28, 18, -26, 7, 5, 39, -47),
+        (28, 18, -26, 7, 6, 28, 18), (28, 18, -26, 7, 7, -37, 72), (28, 18, -26, 7, 8, -91, 61),
+        (28, 18, -26, 7, 9, -80, -4), (28, 18, -26, 7, 10, -15, -58), (28, 18, -26, 7, 11, 39, -47),
+        (28, 18, -26, 7, 12, 28, 18), (28, 18, -26, 7, 255, -80, -4), (28, 18, 38, -1, 0, 28, 18),
+        (28, 18, 38, -1, 1, 19, 8), (28, 18, 38, -1, 2, 29, -11), (28, 18, 38, -1, 3, 48, -20),
+        (28, 18, 38, -1, 4, 57, -10), (28, 18, 38, -1, 5, 47, 9), (28, 18, 38, -1, 6, 28, 18),
+        (28, 18, 38, -1, 7, 19, 8), (28, 18, 38, -1, 8, 29, -11), (28, 18, 38, -1, 9, 48, -20),
+        (28, 18, 38, -1, 10, 57, -10), (28, 18, 38, -1, 11, 47, 9), (28, 18, 38, -1, 12, 28, 18),
+        (28, 18, 38, -1, 255, 48, -20), (28, 18, 33, 8, 0, 28, 18), (28, 18, 33, 8, 1, 23, 13),
+        (28, 18, 33, 8, 2, 28, 3), (28, 18, 33, 8, 3, 38, -2), (28, 18, 33, 8, 4, 43, 3),
+        (28, 18, 33, 8, 5, 38, 13), (28, 18, 33, 8, 6, 28, 18), (28, 18, 33, 8, 7, 23, 13),
+        (28, 18, 33, 8, 8, 28, 3), (28, 18, 33, 8, 9, 38, -2), (28, 18, 33, 8, 10, 43, 3),
+        (28, 18, 33, 8, 11, 38, 13), (28, 18, 33, 8, 12, 28, 18), (28, 18, 33, 8, 255, 38, -2),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_4_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (27, 39, 31, 13, 0, 27, 39), (27, 39, 31, 13, 1, 53, 17), (27, 39, 31, 13, 2, 57, -9),
+        (27, 39, 31, 13, 3, 35, -13), (27, 39, 31, 13, 4, 9, 9), (27, 39, 31, 13, 5, 5, 35),
+        (27, 39, 31, 13, 6, 27, 39), (27, 39, 31, 13, 7, 53, 17), (27, 39, 31, 13, 8, 57, -9),
+        (27, 39, 31, 13, 9, 35, -13), (27, 39, 31, 13, 10, 9, 9), (27, 39, 31, 13, 11, 5, 35),
+        (27, 39, 31, 13, 12, 27, 39), (27, 39, 31, 13, 255, 35, -13), (27, 39, 27, 39, 0, 27, 39),
+        (27, 39, 27, 39, 1, 27, 39), (27, 39, 27, 39, 2, 27, 39), (27, 39, 27, 39, 3, 27, 39),
+        (27, 39, 27, 39, 4, 27, 39), (27, 39, 27, 39, 5, 27, 39), (27, 39, 27, 39, 6, 27, 39),
+        (27, 39, 27, 39, 7, 27, 39), (27, 39, 27, 39, 8, 27, 39), (27, 39, 27, 39, 9, 27, 39),
+        (27, 39, 27, 39, 10, 27, 39), (27, 39, 27, 39, 11, 27, 39), (27, 39, 27, 39, 12, 27, 39),
+        (27, 39, 27, 39, 255, 27, 39), (27, 39, 24, 1, 0, 27, 39), (27, 39, 24, 1, 1, 65, -2),
+        (27, 39, 24, 1, 2, 62, -40), (27, 39, 24, 1, 3, 21, -37), (27, 39, 24, 1, 4, -17, 4),
+        (27, 39, 24, 1, 5, -14, 42), (27, 39, 24, 1, 6, 27, 39), (27, 39, 24, 1, 7, 65, -2),
+        (27, 39, 24, 1, 8, 62, -40), (27, 39, 24, 1, 9, 21, -37), (27, 39, 24, 1, 10, -17, 4),
+        (27, 39, 24, 1, 11, -14, 42), (27, 39, 24, 1, 12, 27, 39), (27, 39, 24, 1, 255, 21, -37),
+        (27, 39, -21, -18, 0, 27, 39), (27, 39, -21, -18, 1, 84, -66),
+        (27, 39, -21, -18, 2, 36, -123), (27, 39, -21, -18, 3, -69, -75),
+        (27, 39, -21, -18, 4, -126, 30), (27, 39, -21, -18, 5, -78, 87),
+        (27, 39, -21, -18, 6, 27, 39), (27, 39, -21, -18, 7, 84, -66),
+        (27, 39, -21, -18, 8, 36, -123), (27, 39, -21, -18, 9, -69, -75),
+        (27, 39, -21, -18, 10, -126, 30), (27, 39, -21, -18, 11, -78, 87),
+        (27, 39, -21, -18, 12, 27, 39), (27, 39, -21, -18, 255, -69, -75),
+        (27, 39, -13, -35, 0, 27, 39), (27, 39, -13, -35, 1, 101, -75),
+        (27, 39, -13, -35, 2, 61, -149), (27, 39, -13, -35, 3, -53, -109),
+        (27, 39, -13, -35, 4, -127, 5), (27, 39, -13, -35, 5, -87, 79),
+        (27, 39, -13, -35, 6, 27, 39), (27, 39, -13, -35, 7, 101, -75),
+        (27, 39, -13, -35, 8, 61, -149), (27, 39, -13, -35, 9, -53, -109),
+        (27, 39, -13, -35, 10, -127, 5), (27, 39, -13, -35, 11, -87, 79),
+        (27, 39, -13, -35, 12, 27, 39), (27, 39, -13, -35, 255, -53, -109),
+        (27, 39, -26, 7, 0, 27, 39), (27, 39, -26, 7, 1, 59, -46), (27, 39, -26, 7, 2, 6, -78),
+        (27, 39, -26, 7, 3, -79, -25), (27, 39, -26, 7, 4, -111, 60), (27, 39, -26, 7, 5, -58, 92),
+        (27, 39, -26, 7, 6, 27, 39), (27, 39, -26, 7, 7, 59, -46), (27, 39, -26, 7, 8, 6, -78),
+        (27, 39, -26, 7, 9, -79, -25), (27, 39, -26, 7, 10, -111, 60),
+        (27, 39, -26, 7, 11, -58, 92), (27, 39, -26, 7, 12, 27, 39),
         (27, 39, -26, 7, 255, -79, -25), (27, 39, 38, -1, 0, 27, 39), (27, 39, 38, -1, 1, 67, 10),
         (27, 39, 38, -1, 2, 78, -30), (27, 39, 38, -1, 3, 49, -41), (27, 39, 38, -1, 4, 9, -12),
         (27, 39, 38, -1, 5, -2, 28), (27, 39, 38, -1, 6, 27, 39), (27, 39, 38, -1, 7, 67, 10),
@@ -34577,24 +33100,141 @@ fn golden_hex_around_0_rotate_ccw_around() {
         (28, 18, 33, 8, 3, 38, -2), (28, 18, 33, 8, 4, 28, 3), (28, 18, 33, 8, 5, 23, 13),
         (28, 18, 33, 8, 6, 28, 18), (28, 18, 33, 8, 7, 38, 13), (28, 18, 33, 8, 8, 43, 3),
         (28, 18, 33, 8, 9, 38, -2), (28, 18, 33, 8, 10, 28, 3), (28, 18, 33, 8, 11, 23, 13),
-        (28, 18, 33, 8, 12, 28, 18), (28, 18, 33, 8, 255, 38, -2), (29, 5, 31, 13, 0, 29, 5),
-        (29, 5, 31, 13, 1, 21, 15), (29, 5, 31, 13, 2, 23, 23), (29, 5, 31, 13, 3, 33, 21),
-        (29, 5, 31, 13, 4, 41, 11), (29, 5, 31, 13, 5, 39, 3), (29, 5, 31, 13, 6, 29, 5),
-        (29, 5, 31, 13, 7, 21, 15), (29, 5, 31, 13, 8, 23, 23), (29, 5, 31, 13, 9, 33, 21),
-        (29, 5, 31, 13, 10, 41, 11), (29, 5, 31, 13, 11, 39, 3), (29, 5, 31, 13, 12, 29, 5),
-        (29, 5, 31, 13, 255, 33, 21), (29, 5, 27, 39, 0, 29, 5), (29, 5, 27, 39, 1, -5, 37),
-        (29, 5, 27, 39, 2, -7, 71), (29, 5, 27, 39, 3, 25, 73), (29, 5, 27, 39, 4, 59, 41),
-        (29, 5, 27, 39, 5, 61, 7), (29, 5, 27, 39, 6, 29, 5), (29, 5, 27, 39, 7, -5, 37),
-        (29, 5, 27, 39, 8, -7, 71), (29, 5, 27, 39, 9, 25, 73), (29, 5, 27, 39, 10, 59, 41),
-        (29, 5, 27, 39, 11, 61, 7), (29, 5, 27, 39, 12, 29, 5), (29, 5, 27, 39, 255, 25, 73),
-        (29, 5, 24, 1, 0, 29, 5), (29, 5, 24, 1, 1, 33, -4), (29, 5, 24, 1, 2, 28, -8),
-        (29, 5, 24, 1, 3, 19, -3), (29, 5, 24, 1, 4, 15, 6), (29, 5, 24, 1, 5, 20, 10),
-        (29, 5, 24, 1, 6, 29, 5), (29, 5, 24, 1, 7, 33, -4), (29, 5, 24, 1, 8, 28, -8),
-        (29, 5, 24, 1, 9, 19, -3), (29, 5, 24, 1, 10, 15, 6), (29, 5, 24, 1, 11, 20, 10),
-        (29, 5, 24, 1, 12, 29, 5), (29, 5, 24, 1, 255, 19, -3), (29, 5, -21, -18, 0, 29, 5),
-        (29, 5, -21, -18, 1, 52, -68), (29, 5, -21, -18, 2, 2, -91), (29, 5, -21, -18, 3, -71, -41),
-        (29, 5, -21, -18, 4, -94, 32), (29, 5, -21, -18, 5, -44, 55), (29, 5, -21, -18, 6, 29, 5),
-        (29, 5, -21, -18, 7, 52, -68), (29, 5, -21, -18, 8, 2, -91), (29, 5, -21, -18, 9, -71, -41),
+        (28, 18, 33, 8, 12, 28, 18), (28, 18, 33, 8, 255, 38, -2),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_5_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (29, 5, 31, 13, 0, 29, 5), (29, 5, 31, 13, 1, 39, 3), (29, 5, 31, 13, 2, 41, 11),
+        (29, 5, 31, 13, 3, 33, 21), (29, 5, 31, 13, 4, 23, 23), (29, 5, 31, 13, 5, 21, 15),
+        (29, 5, 31, 13, 6, 29, 5), (29, 5, 31, 13, 7, 39, 3), (29, 5, 31, 13, 8, 41, 11),
+        (29, 5, 31, 13, 9, 33, 21), (29, 5, 31, 13, 10, 23, 23), (29, 5, 31, 13, 11, 21, 15),
+        (29, 5, 31, 13, 12, 29, 5), (29, 5, 31, 13, 255, 33, 21), (29, 5, 27, 39, 0, 29, 5),
+        (29, 5, 27, 39, 1, 61, 7), (29, 5, 27, 39, 2, 59, 41), (29, 5, 27, 39, 3, 25, 73),
+        (29, 5, 27, 39, 4, -7, 71), (29, 5, 27, 39, 5, -5, 37), (29, 5, 27, 39, 6, 29, 5),
+        (29, 5, 27, 39, 7, 61, 7), (29, 5, 27, 39, 8, 59, 41), (29, 5, 27, 39, 9, 25, 73),
+        (29, 5, 27, 39, 10, -7, 71), (29, 5, 27, 39, 11, -5, 37), (29, 5, 27, 39, 12, 29, 5),
+        (29, 5, 27, 39, 255, 25, 73), (29, 5, 24, 1, 0, 29, 5), (29, 5, 24, 1, 1, 20, 10),
+        (29, 5, 24, 1, 2, 15, 6), (29, 5, 24, 1, 3, 19, -3), (29, 5, 24, 1, 4, 28, -8),
+        (29, 5, 24, 1, 5, 33, -4), (29, 5, 24, 1, 6, 29, 5), (29, 5, 24, 1, 7, 20, 10),
+        (29, 5, 24, 1, 8, 15, 6), (29, 5, 24, 1, 9, 19, -3), (29, 5, 24, 1, 10, 28, -8),
+        (29, 5, 24, 1, 11, 33, -4), (29, 5, 24, 1, 12, 29, 5), (29, 5, 24, 1, 255, 19, -3),
+        (29, 5, -21, -18, 0, 29, 5), (29, 5, -21, -18, 1, -44, 55), (29, 5, -21, -18, 2, -94, 32),
+        (29, 5, -21, -18, 3, -71, -41), (29, 5, -21, -18, 4, 2, -91), (29, 5, -21, -18, 5, 52, -68),
+        (29, 5, -21, -18, 6, 29, 5), (29, 5, -21, -18, 7, -44, 55), (29, 5, -21, -18, 8, -94, 32),
+        (29, 5, -21, -18, 9, -71, -41), (29, 5, -21, -18, 10, 2, -91),
+        (29, 5, -21, -18, 11, 52, -68), (29, 5, -21, -18, 12, 29, 5),
+        (29, 5, -21, -18, 255, -71, -41), (29, 5, -13, -35, 0, 29, 5),
+        (29, 5, -13, -35, 1, -53, 47), (29, 5, -13, -35, 2, -95, 7), (29, 5, -13, -35, 3, -55, -75),
+        (29, 5, -13, -35, 4, 27, -117), (29, 5, -13, -35, 5, 69, -77), (29, 5, -13, -35, 6, 29, 5),
+        (29, 5, -13, -35, 7, -53, 47), (29, 5, -13, -35, 8, -95, 7), (29, 5, -13, -35, 9, -55, -75),
+        (29, 5, -13, -35, 10, 27, -117), (29, 5, -13, -35, 11, 69, -77),
+        (29, 5, -13, -35, 12, 29, 5), (29, 5, -13, -35, 255, -55, -75), (29, 5, -26, 7, 0, 29, 5),
+        (29, 5, -26, 7, 1, -24, 60), (29, 5, -26, 7, 2, -79, 62), (29, 5, -26, 7, 3, -81, 9),
+        (29, 5, -26, 7, 4, -28, -46), (29, 5, -26, 7, 5, 27, -48), (29, 5, -26, 7, 6, 29, 5),
+        (29, 5, -26, 7, 7, -24, 60), (29, 5, -26, 7, 8, -79, 62), (29, 5, -26, 7, 9, -81, 9),
+        (29, 5, -26, 7, 10, -28, -46), (29, 5, -26, 7, 11, 27, -48), (29, 5, -26, 7, 12, 29, 5),
+        (29, 5, -26, 7, 255, -81, 9), (29, 5, 38, -1, 0, 29, 5), (29, 5, 38, -1, 1, 32, -4),
+        (29, 5, 38, -1, 2, 41, -10), (29, 5, 38, -1, 3, 47, -7), (29, 5, 38, -1, 4, 44, 2),
+        (29, 5, 38, -1, 5, 35, 8), (29, 5, 38, -1, 6, 29, 5), (29, 5, 38, -1, 7, 32, -4),
+        (29, 5, 38, -1, 8, 41, -10), (29, 5, 38, -1, 9, 47, -7), (29, 5, 38, -1, 10, 44, 2),
+        (29, 5, 38, -1, 11, 35, 8), (29, 5, 38, -1, 12, 29, 5), (29, 5, 38, -1, 255, 47, -7),
+        (29, 5, 33, 8, 0, 29, 5), (29, 5, 33, 8, 1, 36, 1), (29, 5, 33, 8, 2, 40, 4),
+        (29, 5, 33, 8, 3, 37, 11), (29, 5, 33, 8, 4, 30, 15), (29, 5, 33, 8, 5, 26, 12),
+        (29, 5, 33, 8, 6, 29, 5), (29, 5, 33, 8, 7, 36, 1), (29, 5, 33, 8, 8, 40, 4),
+        (29, 5, 33, 8, 9, 37, 11), (29, 5, 33, 8, 10, 30, 15), (29, 5, 33, 8, 11, 26, 12),
+        (29, 5, 33, 8, 12, 29, 5), (29, 5, 33, 8, 255, 37, 11), (26, -10, 31, 13, 0, 26, -10),
+        (26, -10, 31, 13, 1, 54, -15), (26, -10, 31, 13, 2, 59, 8), (26, -10, 31, 13, 3, 36, 36),
+        (26, -10, 31, 13, 4, 8, 41), (26, -10, 31, 13, 5, 3, 18), (26, -10, 31, 13, 6, 26, -10),
+        (26, -10, 31, 13, 7, 54, -15), (26, -10, 31, 13, 8, 59, 8), (26, -10, 31, 13, 9, 36, 36),
+        (26, -10, 31, 13, 10, 8, 41), (26, -10, 31, 13, 11, 3, 18), (26, -10, 31, 13, 12, 26, -10),
+        (26, -10, 31, 13, 255, 36, 36), (26, -10, 27, 39, 0, 26, -10),
+        (26, -10, 27, 39, 1, 76, -11), (26, -10, 27, 39, 2, 77, 38), (26, -10, 27, 39, 3, 28, 88),
+        (26, -10, 27, 39, 4, -22, 89), (26, -10, 27, 39, 5, -23, 40), (26, -10, 27, 39, 6, 26, -10),
+        (26, -10, 27, 39, 7, 76, -11), (26, -10, 27, 39, 8, 77, 38), (26, -10, 27, 39, 9, 28, 88),
+        (26, -10, 27, 39, 10, -22, 89), (26, -10, 27, 39, 11, -23, 40),
+        (26, -10, 27, 39, 12, 26, -10), (26, -10, 27, 39, 255, 28, 88),
+        (26, -10, 24, 1, 0, 26, -10), (26, -10, 24, 1, 1, 35, -8), (26, -10, 24, 1, 2, 33, 3),
+        (26, -10, 24, 1, 3, 22, 12), (26, -10, 24, 1, 4, 13, 10), (26, -10, 24, 1, 5, 15, -1),
+        (26, -10, 24, 1, 6, 26, -10), (26, -10, 24, 1, 7, 35, -8), (26, -10, 24, 1, 8, 33, 3),
+        (26, -10, 24, 1, 9, 22, 12), (26, -10, 24, 1, 10, 13, 10), (26, -10, 24, 1, 11, 15, -1),
+        (26, -10, 24, 1, 12, 26, -10), (26, -10, 24, 1, 255, 22, 12),
+        (26, -10, -21, -18, 0, 26, -10), (26, -10, -21, -18, 1, -29, 37),
+        (26, -10, -21, -18, 2, -76, 29), (26, -10, -21, -18, 3, -68, -26),
+        (26, -10, -21, -18, 4, -13, -73), (26, -10, -21, -18, 5, 34, -65),
+        (26, -10, -21, -18, 6, 26, -10), (26, -10, -21, -18, 7, -29, 37),
+        (26, -10, -21, -18, 8, -76, 29), (26, -10, -21, -18, 9, -68, -26),
+        (26, -10, -21, -18, 10, -13, -73), (26, -10, -21, -18, 11, 34, -65),
+        (26, -10, -21, -18, 12, 26, -10), (26, -10, -21, -18, 255, -68, -26),
+        (26, -10, -13, -35, 0, 26, -10), (26, -10, -13, -35, 1, -38, 29),
+        (26, -10, -13, -35, 2, -77, 4), (26, -10, -13, -35, 3, -52, -60),
+        (26, -10, -13, -35, 4, 12, -99), (26, -10, -13, -35, 5, 51, -74),
+        (26, -10, -13, -35, 6, 26, -10), (26, -10, -13, -35, 7, -38, 29),
+        (26, -10, -13, -35, 8, -77, 4), (26, -10, -13, -35, 9, -52, -60),
+        (26, -10, -13, -35, 10, 12, -99), (26, -10, -13, -35, 11, 51, -74),
+        (26, -10, -13, -35, 12, 26, -10), (26, -10, -13, -35, 255, -52, -60),
+        (26, -10, -26, 7, 0, 26, -10), (26, -10, -26, 7, 1, -9, 42), (26, -10, -26, 7, 2, -61, 59),
+        (26, -10, -26, 7, 3, -78, 24), (26, -10, -26, 7, 4, -43, -28), (26, -10, -26, 7, 5, 9, -45),
+        (26, -10, -26, 7, 6, 26, -10), (26, -10, -26, 7, 7, -9, 42), (26, -10, -26, 7, 8, -61, 59),
+        (26, -10, -26, 7, 9, -78, 24), (26, -10, -26, 7, 10, -43, -28),
+        (26, -10, -26, 7, 11, 9, -45), (26, -10, -26, 7, 12, 26, -10),
+        (26, -10, -26, 7, 255, -78, 24), (26, -10, 38, -1, 0, 26, -10),
+        (26, -10, 38, -1, 1, 47, -22), (26, -10, 38, -1, 2, 59, -13), (26, -10, 38, -1, 3, 50, 8),
+        (26, -10, 38, -1, 4, 29, 20), (26, -10, 38, -1, 5, 17, 11), (26, -10, 38, -1, 6, 26, -10),
+        (26, -10, 38, -1, 7, 47, -22), (26, -10, 38, -1, 8, 59, -13), (26, -10, 38, -1, 9, 50, 8),
+        (26, -10, 38, -1, 10, 29, 20), (26, -10, 38, -1, 11, 17, 11),
+        (26, -10, 38, -1, 12, 26, -10), (26, -10, 38, -1, 255, 50, 8), (26, -10, 33, 8, 0, 26, -10),
+        (26, -10, 33, 8, 1, 51, -17), (26, -10, 33, 8, 2, 58, 1), (26, -10, 33, 8, 3, 40, 26),
+        (26, -10, 33, 8, 4, 15, 33), (26, -10, 33, 8, 5, 8, 15), (26, -10, 33, 8, 6, 26, -10),
+        (26, -10, 33, 8, 7, 51, -17), (26, -10, 33, 8, 8, 58, 1), (26, -10, 33, 8, 9, 40, 26),
+        (26, -10, 33, 8, 10, 15, 33), (26, -10, 33, 8, 11, 8, 15), (26, -10, 33, 8, 12, 26, -10),
+        (26, -10, 33, 8, 255, 40, 26),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_5_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (29, 5, 31, 13, 0, 29, 5), (29, 5, 31, 13, 1, 21, 15), (29, 5, 31, 13, 2, 23, 23),
+        (29, 5, 31, 13, 3, 33, 21), (29, 5, 31, 13, 4, 41, 11), (29, 5, 31, 13, 5, 39, 3),
+        (29, 5, 31, 13, 6, 29, 5), (29, 5, 31, 13, 7, 21, 15), (29, 5, 31, 13, 8, 23, 23),
+        (29, 5, 31, 13, 9, 33, 21), (29, 5, 31, 13, 10, 41, 11), (29, 5, 31, 13, 11, 39, 3),
+        (29, 5, 31, 13, 12, 29, 5), (29, 5, 31, 13, 255, 33, 21), (29, 5, 27, 39, 0, 29, 5),
+        (29, 5, 27, 39, 1, -5, 37), (29, 5, 27, 39, 2, -7, 71), (29, 5, 27, 39, 3, 25, 73),
+        (29, 5, 27, 39, 4, 59, 41), (29, 5, 27, 39, 5, 61, 7), (29, 5, 27, 39, 6, 29, 5),
+        (29, 5, 27, 39, 7, -5, 37), (29, 5, 27, 39, 8, -7, 71), (29, 5, 27, 39, 9, 25, 73),
+        (29, 5, 27, 39, 10, 59, 41), (29, 5, 27, 39, 11, 61, 7), (29, 5, 27, 39, 12, 29, 5),
+        (29, 5, 27, 39, 255, 25, 73), (29, 5, 24, 1, 0, 29, 5), (29, 5, 24, 1, 1, 33, -4),
+        (29, 5, 24, 1, 2, 28, -8), (29, 5, 24, 1, 3, 19, -3), (29, 5, 24, 1, 4, 15, 6),
+        (29, 5, 24, 1, 5, 20, 10), (29, 5, 24, 1, 6, 29, 5), (29, 5, 24, 1, 7, 33, -4),
+        (29, 5, 24, 1, 8, 28, -8), (29, 5, 24, 1, 9, 19, -3), (29, 5, 24, 1, 10, 15, 6),
+        (29, 5, 24, 1, 11, 20, 10), (29, 5, 24, 1, 12, 29, 5), (29, 5, 24, 1, 255, 19, -3),
+        (29, 5, -21, -18, 0, 29, 5), (29, 5, -21, -18, 1, 52, -68), (29, 5, -21, -18, 2, 2, -91),
+        (29, 5, -21, -18, 3, -71, -41), (29, 5, -21, -18, 4, -94, 32),
+        (29, 5, -21, -18, 5, -44, 55), (29, 5, -21, -18, 6, 29, 5), (29, 5, -21, -18, 7, 52, -68),
+        (29, 5, -21, -18, 8, 2, -91), (29, 5, -21, -18, 9, -71, -41),
         (29, 5, -21, -18, 10, -94, 32), (29, 5, -21, -18, 11, -44, 55),
         (29, 5, -21, -18, 12, 29, 5), (29, 5, -21, -18, 255, -71, -41), (29, 5, -13, -35, 0, 29, 5),
         (29, 5, -13, -35, 1, 69, -77), (29, 5, -13, -35, 2, 27, -117),
@@ -34661,8 +33301,132 @@ fn golden_hex_around_0_rotate_ccw_around() {
         (26, -10, 33, 8, 4, 58, 1), (26, -10, 33, 8, 5, 51, -17), (26, -10, 33, 8, 6, 26, -10),
         (26, -10, 33, 8, 7, 8, 15), (26, -10, 33, 8, 8, 15, 33), (26, -10, 33, 8, 9, 40, 26),
         (26, -10, 33, 8, 10, 58, 1), (26, -10, 33, 8, 11, 51, -17), (26, -10, 33, 8, 12, 26, -10),
-        (26, -10, 33, 8, 255, 40, 26), (-39, -1, 31, 13, 0, -39, -1), (-39, -1, 31, 13, 1, -53, 83),
-        (-39, -1, 31, 13, 2, 17, 97), (-39, -1, 31, 13, 3, 101, 27), (-39, -1, 31, 13, 4, 115, -57),
+        (26, -10, 33, 8, 255, 40, 26),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_6_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (-39, -1, 31, 13, 0, -39, -1), (-39, -1, 31, 13, 1, 45, -71),
+        (-39, -1, 31, 13, 2, 115, -57), (-39, -1, 31, 13, 3, 101, 27), (-39, -1, 31, 13, 4, 17, 97),
+        (-39, -1, 31, 13, 5, -53, 83), (-39, -1, 31, 13, 6, -39, -1), (-39, -1, 31, 13, 7, 45, -71),
+        (-39, -1, 31, 13, 8, 115, -57), (-39, -1, 31, 13, 9, 101, 27),
+        (-39, -1, 31, 13, 10, 17, 97), (-39, -1, 31, 13, 11, -53, 83),
+        (-39, -1, 31, 13, 12, -39, -1), (-39, -1, 31, 13, 255, 101, 27),
+        (-39, -1, 27, 39, 0, -39, -1), (-39, -1, 27, 39, 1, 67, -67),
+        (-39, -1, 27, 39, 2, 133, -27), (-39, -1, 27, 39, 3, 93, 79),
+        (-39, -1, 27, 39, 4, -13, 145), (-39, -1, 27, 39, 5, -79, 105),
+        (-39, -1, 27, 39, 6, -39, -1), (-39, -1, 27, 39, 7, 67, -67),
+        (-39, -1, 27, 39, 8, 133, -27), (-39, -1, 27, 39, 9, 93, 79),
+        (-39, -1, 27, 39, 10, -13, 145), (-39, -1, 27, 39, 11, -79, 105),
+        (-39, -1, 27, 39, 12, -39, -1), (-39, -1, 27, 39, 255, 93, 79),
+        (-39, -1, 24, 1, 0, -39, -1), (-39, -1, 24, 1, 1, 26, -64), (-39, -1, 24, 1, 2, 89, -62),
+        (-39, -1, 24, 1, 3, 87, 3), (-39, -1, 24, 1, 4, 22, 66), (-39, -1, 24, 1, 5, -41, 64),
+        (-39, -1, 24, 1, 6, -39, -1), (-39, -1, 24, 1, 7, 26, -64), (-39, -1, 24, 1, 8, 89, -62),
+        (-39, -1, 24, 1, 9, 87, 3), (-39, -1, 24, 1, 10, 22, 66), (-39, -1, 24, 1, 11, -41, 64),
+        (-39, -1, 24, 1, 12, -39, -1), (-39, -1, 24, 1, 255, 87, 3),
+        (-39, -1, -21, -18, 0, -39, -1), (-39, -1, -21, -18, 1, -38, -19),
+        (-39, -1, -21, -18, 2, -20, -36), (-39, -1, -21, -18, 3, -3, -35),
+        (-39, -1, -21, -18, 4, -4, -17), (-39, -1, -21, -18, 5, -22, 0),
+        (-39, -1, -21, -18, 6, -39, -1), (-39, -1, -21, -18, 7, -38, -19),
+        (-39, -1, -21, -18, 8, -20, -36), (-39, -1, -21, -18, 9, -3, -35),
+        (-39, -1, -21, -18, 10, -4, -17), (-39, -1, -21, -18, 11, -22, 0),
+        (-39, -1, -21, -18, 12, -39, -1), (-39, -1, -21, -18, 255, -3, -35),
+        (-39, -1, -13, -35, 0, -39, -1), (-39, -1, -13, -35, 1, -47, -27),
+        (-39, -1, -13, -35, 2, -21, -61), (-39, -1, -13, -35, 3, 13, -69),
+        (-39, -1, -13, -35, 4, 21, -43), (-39, -1, -13, -35, 5, -5, -9),
+        (-39, -1, -13, -35, 6, -39, -1), (-39, -1, -13, -35, 7, -47, -27),
+        (-39, -1, -13, -35, 8, -21, -61), (-39, -1, -13, -35, 9, 13, -69),
+        (-39, -1, -13, -35, 10, 21, -43), (-39, -1, -13, -35, 11, -5, -9),
+        (-39, -1, -13, -35, 12, -39, -1), (-39, -1, -13, -35, 255, 13, -69),
+        (-39, -1, -26, 7, 0, -39, -1), (-39, -1, -26, 7, 1, -18, -14), (-39, -1, -26, 7, 2, -5, -6),
+        (-39, -1, -26, 7, 3, -13, 15), (-39, -1, -26, 7, 4, -34, 28), (-39, -1, -26, 7, 5, -47, 20),
+        (-39, -1, -26, 7, 6, -39, -1), (-39, -1, -26, 7, 7, -18, -14), (-39, -1, -26, 7, 8, -5, -6),
+        (-39, -1, -26, 7, 9, -13, 15), (-39, -1, -26, 7, 10, -34, 28),
+        (-39, -1, -26, 7, 11, -47, 20), (-39, -1, -26, 7, 12, -39, -1),
+        (-39, -1, -26, 7, 255, -13, 15), (-39, -1, 38, -1, 0, -39, -1),
+        (-39, -1, 38, -1, 1, 38, -78), (-39, -1, 38, -1, 2, 115, -78),
+        (-39, -1, 38, -1, 3, 115, -1), (-39, -1, 38, -1, 4, 38, 76), (-39, -1, 38, -1, 5, -39, 76),
+        (-39, -1, 38, -1, 6, -39, -1), (-39, -1, 38, -1, 7, 38, -78),
+        (-39, -1, 38, -1, 8, 115, -78), (-39, -1, 38, -1, 9, 115, -1),
+        (-39, -1, 38, -1, 10, 38, 76), (-39, -1, 38, -1, 11, -39, 76),
+        (-39, -1, 38, -1, 12, -39, -1), (-39, -1, 38, -1, 255, 115, -1),
+        (-39, -1, 33, 8, 0, -39, -1), (-39, -1, 33, 8, 1, 42, -73), (-39, -1, 33, 8, 2, 114, -64),
+        (-39, -1, 33, 8, 3, 105, 17), (-39, -1, 33, 8, 4, 24, 89), (-39, -1, 33, 8, 5, -48, 80),
+        (-39, -1, 33, 8, 6, -39, -1), (-39, -1, 33, 8, 7, 42, -73), (-39, -1, 33, 8, 8, 114, -64),
+        (-39, -1, 33, 8, 9, 105, 17), (-39, -1, 33, 8, 10, 24, 89), (-39, -1, 33, 8, 11, -48, 80),
+        (-39, -1, 33, 8, 12, -39, -1), (-39, -1, 33, 8, 255, 105, 17), (0, -20, 31, 13, 0, 0, -20),
+        (0, -20, 31, 13, 1, 64, -51), (0, -20, 31, 13, 2, 95, -18), (0, -20, 31, 13, 3, 62, 46),
+        (0, -20, 31, 13, 4, -2, 77), (0, -20, 31, 13, 5, -33, 44), (0, -20, 31, 13, 6, 0, -20),
+        (0, -20, 31, 13, 7, 64, -51), (0, -20, 31, 13, 8, 95, -18), (0, -20, 31, 13, 9, 62, 46),
+        (0, -20, 31, 13, 10, -2, 77), (0, -20, 31, 13, 11, -33, 44), (0, -20, 31, 13, 12, 0, -20),
+        (0, -20, 31, 13, 255, 62, 46), (0, -20, 27, 39, 0, 0, -20), (0, -20, 27, 39, 1, 86, -47),
+        (0, -20, 27, 39, 2, 113, 12), (0, -20, 27, 39, 3, 54, 98), (0, -20, 27, 39, 4, -32, 125),
+        (0, -20, 27, 39, 5, -59, 66), (0, -20, 27, 39, 6, 0, -20), (0, -20, 27, 39, 7, 86, -47),
+        (0, -20, 27, 39, 8, 113, 12), (0, -20, 27, 39, 9, 54, 98), (0, -20, 27, 39, 10, -32, 125),
+        (0, -20, 27, 39, 11, -59, 66), (0, -20, 27, 39, 12, 0, -20), (0, -20, 27, 39, 255, 54, 98),
+        (0, -20, 24, 1, 0, 0, -20), (0, -20, 24, 1, 1, 45, -44), (0, -20, 24, 1, 2, 69, -23),
+        (0, -20, 24, 1, 3, 48, 22), (0, -20, 24, 1, 4, 3, 46), (0, -20, 24, 1, 5, -21, 25),
+        (0, -20, 24, 1, 6, 0, -20), (0, -20, 24, 1, 7, 45, -44), (0, -20, 24, 1, 8, 69, -23),
+        (0, -20, 24, 1, 9, 48, 22), (0, -20, 24, 1, 10, 3, 46), (0, -20, 24, 1, 11, -21, 25),
+        (0, -20, 24, 1, 12, 0, -20), (0, -20, 24, 1, 255, 48, 22), (0, -20, -21, -18, 0, 0, -20),
+        (0, -20, -21, -18, 1, -19, 1), (0, -20, -21, -18, 2, -40, 3),
+        (0, -20, -21, -18, 3, -42, -16), (0, -20, -21, -18, 4, -23, -37),
+        (0, -20, -21, -18, 5, -2, -39), (0, -20, -21, -18, 6, 0, -20),
+        (0, -20, -21, -18, 7, -19, 1), (0, -20, -21, -18, 8, -40, 3),
+        (0, -20, -21, -18, 9, -42, -16), (0, -20, -21, -18, 10, -23, -37),
+        (0, -20, -21, -18, 11, -2, -39), (0, -20, -21, -18, 12, 0, -20),
+        (0, -20, -21, -18, 255, -42, -16), (0, -20, -13, -35, 0, 0, -20),
+        (0, -20, -13, -35, 1, -28, -7), (0, -20, -13, -35, 2, -41, -22),
+        (0, -20, -13, -35, 3, -26, -50), (0, -20, -13, -35, 4, 2, -63),
+        (0, -20, -13, -35, 5, 15, -48), (0, -20, -13, -35, 6, 0, -20),
+        (0, -20, -13, -35, 7, -28, -7), (0, -20, -13, -35, 8, -41, -22),
+        (0, -20, -13, -35, 9, -26, -50), (0, -20, -13, -35, 10, 2, -63),
+        (0, -20, -13, -35, 11, 15, -48), (0, -20, -13, -35, 12, 0, -20),
+        (0, -20, -13, -35, 255, -26, -50), (0, -20, -26, 7, 0, 0, -20), (0, -20, -26, 7, 1, 1, 6),
+        (0, -20, -26, 7, 2, -25, 33), (0, -20, -26, 7, 3, -52, 34), (0, -20, -26, 7, 4, -53, 8),
+        (0, -20, -26, 7, 5, -27, -19), (0, -20, -26, 7, 6, 0, -20), (0, -20, -26, 7, 7, 1, 6),
+        (0, -20, -26, 7, 8, -25, 33), (0, -20, -26, 7, 9, -52, 34), (0, -20, -26, 7, 10, -53, 8),
+        (0, -20, -26, 7, 11, -27, -19), (0, -20, -26, 7, 12, 0, -20),
+        (0, -20, -26, 7, 255, -52, 34), (0, -20, 38, -1, 0, 0, -20), (0, -20, 38, -1, 1, 57, -58),
+        (0, -20, 38, -1, 2, 95, -39), (0, -20, 38, -1, 3, 76, 18), (0, -20, 38, -1, 4, 19, 56),
+        (0, -20, 38, -1, 5, -19, 37), (0, -20, 38, -1, 6, 0, -20), (0, -20, 38, -1, 7, 57, -58),
+        (0, -20, 38, -1, 8, 95, -39), (0, -20, 38, -1, 9, 76, 18), (0, -20, 38, -1, 10, 19, 56),
+        (0, -20, 38, -1, 11, -19, 37), (0, -20, 38, -1, 12, 0, -20), (0, -20, 38, -1, 255, 76, 18),
+        (0, -20, 33, 8, 0, 0, -20), (0, -20, 33, 8, 1, 61, -53), (0, -20, 33, 8, 2, 94, -25),
+        (0, -20, 33, 8, 3, 66, 36), (0, -20, 33, 8, 4, 5, 69), (0, -20, 33, 8, 5, -28, 41),
+        (0, -20, 33, 8, 6, 0, -20), (0, -20, 33, 8, 7, 61, -53), (0, -20, 33, 8, 8, 94, -25),
+        (0, -20, 33, 8, 9, 66, 36), (0, -20, 33, 8, 10, 5, 69), (0, -20, 33, 8, 11, -28, 41),
+        (0, -20, 33, 8, 12, 0, -20), (0, -20, 33, 8, 255, 66, 36),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_6_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (-39, -1, 31, 13, 0, -39, -1), (-39, -1, 31, 13, 1, -53, 83), (-39, -1, 31, 13, 2, 17, 97),
+        (-39, -1, 31, 13, 3, 101, 27), (-39, -1, 31, 13, 4, 115, -57),
         (-39, -1, 31, 13, 5, 45, -71), (-39, -1, 31, 13, 6, -39, -1), (-39, -1, 31, 13, 7, -53, 83),
         (-39, -1, 31, 13, 8, 17, 97), (-39, -1, 31, 13, 9, 101, 27),
         (-39, -1, 31, 13, 10, 115, -57), (-39, -1, 31, 13, 11, 45, -71),
@@ -34750,81 +33514,198 @@ fn golden_hex_around_0_rotate_ccw_around() {
         (0, -20, 33, 8, 3, 66, 36), (0, -20, 33, 8, 4, 94, -25), (0, -20, 33, 8, 5, 61, -53),
         (0, -20, 33, 8, 6, 0, -20), (0, -20, 33, 8, 7, -28, 41), (0, -20, 33, 8, 8, 5, 69),
         (0, -20, 33, 8, 9, 66, 36), (0, -20, 33, 8, 10, 94, -25), (0, -20, 33, 8, 11, 61, -53),
-        (0, -20, 33, 8, 12, 0, -20), (0, -20, 33, 8, 255, 66, 36), (13, 32, 31, 13, 0, 13, 32),
-        (13, 32, 31, 13, 1, 32, 31), (13, 32, 31, 13, 2, 50, 12), (13, 32, 31, 13, 3, 49, -6),
-        (13, 32, 31, 13, 4, 30, -5), (13, 32, 31, 13, 5, 12, 14), (13, 32, 31, 13, 6, 13, 32),
-        (13, 32, 31, 13, 7, 32, 31), (13, 32, 31, 13, 8, 50, 12), (13, 32, 31, 13, 9, 49, -6),
-        (13, 32, 31, 13, 10, 30, -5), (13, 32, 31, 13, 11, 12, 14), (13, 32, 31, 13, 12, 13, 32),
-        (13, 32, 31, 13, 255, 49, -6), (13, 32, 27, 39, 0, 13, 32), (13, 32, 27, 39, 1, 6, 53),
-        (13, 32, 27, 39, 2, 20, 60), (13, 32, 27, 39, 3, 41, 46), (13, 32, 27, 39, 4, 48, 25),
-        (13, 32, 27, 39, 5, 34, 18), (13, 32, 27, 39, 6, 13, 32), (13, 32, 27, 39, 7, 6, 53),
-        (13, 32, 27, 39, 8, 20, 60), (13, 32, 27, 39, 9, 41, 46), (13, 32, 27, 39, 10, 48, 25),
-        (13, 32, 27, 39, 11, 34, 18), (13, 32, 27, 39, 12, 13, 32), (13, 32, 27, 39, 255, 41, 46),
-        (13, 32, 24, 1, 0, 13, 32), (13, 32, 24, 1, 1, 44, 12), (13, 32, 24, 1, 2, 55, -19),
-        (13, 32, 24, 1, 3, 35, -30), (13, 32, 24, 1, 4, 4, -10), (13, 32, 24, 1, 5, -7, 21),
-        (13, 32, 24, 1, 6, 13, 32), (13, 32, 24, 1, 7, 44, 12), (13, 32, 24, 1, 8, 55, -19),
-        (13, 32, 24, 1, 9, 35, -30), (13, 32, 24, 1, 10, 4, -10), (13, 32, 24, 1, 11, -7, 21),
-        (13, 32, 24, 1, 12, 13, 32), (13, 32, 24, 1, 255, 35, -30), (13, 32, -21, -18, 0, 13, 32),
-        (13, 32, -21, -18, 1, 63, -52), (13, 32, -21, -18, 2, 29, -102),
-        (13, 32, -21, -18, 3, -55, -68), (13, 32, -21, -18, 4, -105, 16),
-        (13, 32, -21, -18, 5, -71, 66), (13, 32, -21, -18, 6, 13, 32),
-        (13, 32, -21, -18, 7, 63, -52), (13, 32, -21, -18, 8, 29, -102),
-        (13, 32, -21, -18, 9, -55, -68), (13, 32, -21, -18, 10, -105, 16),
-        (13, 32, -21, -18, 11, -71, 66), (13, 32, -21, -18, 12, 13, 32),
-        (13, 32, -21, -18, 255, -55, -68), (13, 32, -13, -35, 0, 13, 32),
-        (13, 32, -13, -35, 1, 80, -61), (13, 32, -13, -35, 2, 54, -128),
-        (13, 32, -13, -35, 3, -39, -102), (13, 32, -13, -35, 4, -106, -9),
-        (13, 32, -13, -35, 5, -80, 58), (13, 32, -13, -35, 6, 13, 32),
-        (13, 32, -13, -35, 7, 80, -61), (13, 32, -13, -35, 8, 54, -128),
-        (13, 32, -13, -35, 9, -39, -102), (13, 32, -13, -35, 10, -106, -9),
-        (13, 32, -13, -35, 11, -80, 58), (13, 32, -13, -35, 12, 13, 32),
-        (13, 32, -13, -35, 255, -39, -102), (13, 32, -26, 7, 0, 13, 32),
-        (13, 32, -26, 7, 1, 38, -32), (13, 32, -26, 7, 2, -1, -57), (13, 32, -26, 7, 3, -65, -18),
-        (13, 32, -26, 7, 4, -90, 46), (13, 32, -26, 7, 5, -51, 71), (13, 32, -26, 7, 6, 13, 32),
-        (13, 32, -26, 7, 7, 38, -32), (13, 32, -26, 7, 8, -1, -57), (13, 32, -26, 7, 9, -65, -18),
-        (13, 32, -26, 7, 10, -90, 46), (13, 32, -26, 7, 11, -51, 71), (13, 32, -26, 7, 12, 13, 32),
-        (13, 32, -26, 7, 255, -65, -18), (13, 32, 38, -1, 0, 13, 32), (13, 32, 38, -1, 1, 46, 24),
-        (13, 32, 38, -1, 2, 71, -9), (13, 32, 38, -1, 3, 63, -34), (13, 32, 38, -1, 4, 30, -26),
-        (13, 32, 38, -1, 5, 5, 7), (13, 32, 38, -1, 6, 13, 32), (13, 32, 38, -1, 7, 46, 24),
-        (13, 32, 38, -1, 8, 71, -9), (13, 32, 38, -1, 9, 63, -34), (13, 32, 38, -1, 10, 30, -26),
-        (13, 32, 38, -1, 11, 5, 7), (13, 32, 38, -1, 12, 13, 32), (13, 32, 38, -1, 255, 63, -34),
-        (13, 32, 33, 8, 0, 13, 32), (13, 32, 33, 8, 1, 37, 28), (13, 32, 33, 8, 2, 57, 4),
-        (13, 32, 33, 8, 3, 53, -16), (13, 32, 33, 8, 4, 29, -12), (13, 32, 33, 8, 5, 9, 12),
-        (13, 32, 33, 8, 6, 13, 32), (13, 32, 33, 8, 7, 37, 28), (13, 32, 33, 8, 8, 57, 4),
-        (13, 32, 33, 8, 9, 53, -16), (13, 32, 33, 8, 10, 29, -12), (13, 32, 33, 8, 11, 9, 12),
-        (13, 32, 33, 8, 12, 13, 32), (13, 32, 33, 8, 255, 53, -16), (37, 33, 31, 13, 0, 37, 33),
-        (37, 33, 31, 13, 1, 57, 7), (37, 33, 31, 13, 2, 51, -13), (37, 33, 31, 13, 3, 25, -7),
-        (37, 33, 31, 13, 4, 5, 19), (37, 33, 31, 13, 5, 11, 39), (37, 33, 31, 13, 6, 37, 33),
-        (37, 33, 31, 13, 7, 57, 7), (37, 33, 31, 13, 8, 51, -13), (37, 33, 31, 13, 9, 25, -7),
-        (37, 33, 31, 13, 10, 5, 19), (37, 33, 31, 13, 11, 11, 39), (37, 33, 31, 13, 12, 37, 33),
-        (37, 33, 31, 13, 255, 25, -7), (37, 33, 27, 39, 0, 37, 33), (37, 33, 27, 39, 1, 31, 29),
-        (37, 33, 27, 39, 2, 21, 35), (37, 33, 27, 39, 3, 17, 45), (37, 33, 27, 39, 4, 23, 49),
-        (37, 33, 27, 39, 5, 33, 43), (37, 33, 27, 39, 6, 37, 33), (37, 33, 27, 39, 7, 31, 29),
-        (37, 33, 27, 39, 8, 21, 35), (37, 33, 27, 39, 9, 17, 45), (37, 33, 27, 39, 10, 23, 49),
-        (37, 33, 27, 39, 11, 33, 43), (37, 33, 27, 39, 12, 37, 33), (37, 33, 27, 39, 255, 17, 45),
-        (37, 33, 24, 1, 0, 37, 33), (37, 33, 24, 1, 1, 69, -12), (37, 33, 24, 1, 2, 56, -44),
-        (37, 33, 24, 1, 3, 11, -31), (37, 33, 24, 1, 4, -21, 14), (37, 33, 24, 1, 5, -8, 46),
-        (37, 33, 24, 1, 6, 37, 33), (37, 33, 24, 1, 7, 69, -12), (37, 33, 24, 1, 8, 56, -44),
-        (37, 33, 24, 1, 9, 11, -31), (37, 33, 24, 1, 10, -21, 14), (37, 33, 24, 1, 11, -8, 46),
-        (37, 33, 24, 1, 12, 37, 33), (37, 33, 24, 1, 255, 11, -31), (37, 33, -21, -18, 0, 37, 33),
-        (37, 33, -21, -18, 1, 88, -76), (37, 33, -21, -18, 2, 30, -127),
-        (37, 33, -21, -18, 3, -79, -69), (37, 33, -21, -18, 4, -130, 40),
-        (37, 33, -21, -18, 5, -72, 91), (37, 33, -21, -18, 6, 37, 33),
-        (37, 33, -21, -18, 7, 88, -76), (37, 33, -21, -18, 8, 30, -127),
-        (37, 33, -21, -18, 9, -79, -69), (37, 33, -21, -18, 10, -130, 40),
-        (37, 33, -21, -18, 11, -72, 91), (37, 33, -21, -18, 12, 37, 33),
-        (37, 33, -21, -18, 255, -79, -69), (37, 33, -13, -35, 0, 37, 33),
-        (37, 33, -13, -35, 1, 105, -85), (37, 33, -13, -35, 2, 55, -153),
-        (37, 33, -13, -35, 3, -63, -103), (37, 33, -13, -35, 4, -131, 15),
-        (37, 33, -13, -35, 5, -81, 83), (37, 33, -13, -35, 6, 37, 33),
-        (37, 33, -13, -35, 7, 105, -85), (37, 33, -13, -35, 8, 55, -153),
-        (37, 33, -13, -35, 9, -63, -103), (37, 33, -13, -35, 10, -131, 15),
-        (37, 33, -13, -35, 11, -81, 83), (37, 33, -13, -35, 12, 37, 33),
-        (37, 33, -13, -35, 255, -63, -103), (37, 33, -26, 7, 0, 37, 33),
-        (37, 33, -26, 7, 1, 63, -56), (37, 33, -26, 7, 2, 0, -82), (37, 33, -26, 7, 3, -89, -19),
-        (37, 33, -26, 7, 4, -115, 70), (37, 33, -26, 7, 5, -52, 96), (37, 33, -26, 7, 6, 37, 33),
-        (37, 33, -26, 7, 7, 63, -56), (37, 33, -26, 7, 8, 0, -82), (37, 33, -26, 7, 9, -89, -19),
-        (37, 33, -26, 7, 10, -115, 70), (37, 33, -26, 7, 11, -52, 96), (37, 33, -26, 7, 12, 37, 33),
+        (0, -20, 33, 8, 12, 0, -20), (0, -20, 33, 8, 255, 66, 36),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_7_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (13, 32, 31, 13, 0, 13, 32), (13, 32, 31, 13, 1, 12, 14), (13, 32, 31, 13, 2, 30, -5),
+        (13, 32, 31, 13, 3, 49, -6), (13, 32, 31, 13, 4, 50, 12), (13, 32, 31, 13, 5, 32, 31),
+        (13, 32, 31, 13, 6, 13, 32), (13, 32, 31, 13, 7, 12, 14), (13, 32, 31, 13, 8, 30, -5),
+        (13, 32, 31, 13, 9, 49, -6), (13, 32, 31, 13, 10, 50, 12), (13, 32, 31, 13, 11, 32, 31),
+        (13, 32, 31, 13, 12, 13, 32), (13, 32, 31, 13, 255, 49, -6), (13, 32, 27, 39, 0, 13, 32),
+        (13, 32, 27, 39, 1, 34, 18), (13, 32, 27, 39, 2, 48, 25), (13, 32, 27, 39, 3, 41, 46),
+        (13, 32, 27, 39, 4, 20, 60), (13, 32, 27, 39, 5, 6, 53), (13, 32, 27, 39, 6, 13, 32),
+        (13, 32, 27, 39, 7, 34, 18), (13, 32, 27, 39, 8, 48, 25), (13, 32, 27, 39, 9, 41, 46),
+        (13, 32, 27, 39, 10, 20, 60), (13, 32, 27, 39, 11, 6, 53), (13, 32, 27, 39, 12, 13, 32),
+        (13, 32, 27, 39, 255, 41, 46), (13, 32, 24, 1, 0, 13, 32), (13, 32, 24, 1, 1, -7, 21),
+        (13, 32, 24, 1, 2, 4, -10), (13, 32, 24, 1, 3, 35, -30), (13, 32, 24, 1, 4, 55, -19),
+        (13, 32, 24, 1, 5, 44, 12), (13, 32, 24, 1, 6, 13, 32), (13, 32, 24, 1, 7, -7, 21),
+        (13, 32, 24, 1, 8, 4, -10), (13, 32, 24, 1, 9, 35, -30), (13, 32, 24, 1, 10, 55, -19),
+        (13, 32, 24, 1, 11, 44, 12), (13, 32, 24, 1, 12, 13, 32), (13, 32, 24, 1, 255, 35, -30),
+        (13, 32, -21, -18, 0, 13, 32), (13, 32, -21, -18, 1, -71, 66),
+        (13, 32, -21, -18, 2, -105, 16), (13, 32, -21, -18, 3, -55, -68),
+        (13, 32, -21, -18, 4, 29, -102), (13, 32, -21, -18, 5, 63, -52),
+        (13, 32, -21, -18, 6, 13, 32), (13, 32, -21, -18, 7, -71, 66),
+        (13, 32, -21, -18, 8, -105, 16), (13, 32, -21, -18, 9, -55, -68),
+        (13, 32, -21, -18, 10, 29, -102), (13, 32, -21, -18, 11, 63, -52),
+        (13, 32, -21, -18, 12, 13, 32), (13, 32, -21, -18, 255, -55, -68),
+        (13, 32, -13, -35, 0, 13, 32), (13, 32, -13, -35, 1, -80, 58),
+        (13, 32, -13, -35, 2, -106, -9), (13, 32, -13, -35, 3, -39, -102),
+        (13, 32, -13, -35, 4, 54, -128), (13, 32, -13, -35, 5, 80, -61),
+        (13, 32, -13, -35, 6, 13, 32), (13, 32, -13, -35, 7, -80, 58),
+        (13, 32, -13, -35, 8, -106, -9), (13, 32, -13, -35, 9, -39, -102),
+        (13, 32, -13, -35, 10, 54, -128), (13, 32, -13, -35, 11, 80, -61),
+        (13, 32, -13, -35, 12, 13, 32), (13, 32, -13, -35, 255, -39, -102),
+        (13, 32, -26, 7, 0, 13, 32), (13, 32, -26, 7, 1, -51, 71), (13, 32, -26, 7, 2, -90, 46),
+        (13, 32, -26, 7, 3, -65, -18), (13, 32, -26, 7, 4, -1, -57), (13, 32, -26, 7, 5, 38, -32),
+        (13, 32, -26, 7, 6, 13, 32), (13, 32, -26, 7, 7, -51, 71), (13, 32, -26, 7, 8, -90, 46),
+        (13, 32, -26, 7, 9, -65, -18), (13, 32, -26, 7, 10, -1, -57), (13, 32, -26, 7, 11, 38, -32),
+        (13, 32, -26, 7, 12, 13, 32), (13, 32, -26, 7, 255, -65, -18), (13, 32, 38, -1, 0, 13, 32),
+        (13, 32, 38, -1, 1, 5, 7), (13, 32, 38, -1, 2, 30, -26), (13, 32, 38, -1, 3, 63, -34),
+        (13, 32, 38, -1, 4, 71, -9), (13, 32, 38, -1, 5, 46, 24), (13, 32, 38, -1, 6, 13, 32),
+        (13, 32, 38, -1, 7, 5, 7), (13, 32, 38, -1, 8, 30, -26), (13, 32, 38, -1, 9, 63, -34),
+        (13, 32, 38, -1, 10, 71, -9), (13, 32, 38, -1, 11, 46, 24), (13, 32, 38, -1, 12, 13, 32),
+        (13, 32, 38, -1, 255, 63, -34), (13, 32, 33, 8, 0, 13, 32), (13, 32, 33, 8, 1, 9, 12),
+        (13, 32, 33, 8, 2, 29, -12), (13, 32, 33, 8, 3, 53, -16), (13, 32, 33, 8, 4, 57, 4),
+        (13, 32, 33, 8, 5, 37, 28), (13, 32, 33, 8, 6, 13, 32), (13, 32, 33, 8, 7, 9, 12),
+        (13, 32, 33, 8, 8, 29, -12), (13, 32, 33, 8, 9, 53, -16), (13, 32, 33, 8, 10, 57, 4),
+        (13, 32, 33, 8, 11, 37, 28), (13, 32, 33, 8, 12, 13, 32), (13, 32, 33, 8, 255, 53, -16),
+        (37, 33, 31, 13, 0, 37, 33), (37, 33, 31, 13, 1, 11, 39), (37, 33, 31, 13, 2, 5, 19),
+        (37, 33, 31, 13, 3, 25, -7), (37, 33, 31, 13, 4, 51, -13), (37, 33, 31, 13, 5, 57, 7),
+        (37, 33, 31, 13, 6, 37, 33), (37, 33, 31, 13, 7, 11, 39), (37, 33, 31, 13, 8, 5, 19),
+        (37, 33, 31, 13, 9, 25, -7), (37, 33, 31, 13, 10, 51, -13), (37, 33, 31, 13, 11, 57, 7),
+        (37, 33, 31, 13, 12, 37, 33), (37, 33, 31, 13, 255, 25, -7), (37, 33, 27, 39, 0, 37, 33),
+        (37, 33, 27, 39, 1, 33, 43), (37, 33, 27, 39, 2, 23, 49), (37, 33, 27, 39, 3, 17, 45),
+        (37, 33, 27, 39, 4, 21, 35), (37, 33, 27, 39, 5, 31, 29), (37, 33, 27, 39, 6, 37, 33),
+        (37, 33, 27, 39, 7, 33, 43), (37, 33, 27, 39, 8, 23, 49), (37, 33, 27, 39, 9, 17, 45),
+        (37, 33, 27, 39, 10, 21, 35), (37, 33, 27, 39, 11, 31, 29), (37, 33, 27, 39, 12, 37, 33),
+        (37, 33, 27, 39, 255, 17, 45), (37, 33, 24, 1, 0, 37, 33), (37, 33, 24, 1, 1, -8, 46),
+        (37, 33, 24, 1, 2, -21, 14), (37, 33, 24, 1, 3, 11, -31), (37, 33, 24, 1, 4, 56, -44),
+        (37, 33, 24, 1, 5, 69, -12), (37, 33, 24, 1, 6, 37, 33), (37, 33, 24, 1, 7, -8, 46),
+        (37, 33, 24, 1, 8, -21, 14), (37, 33, 24, 1, 9, 11, -31), (37, 33, 24, 1, 10, 56, -44),
+        (37, 33, 24, 1, 11, 69, -12), (37, 33, 24, 1, 12, 37, 33), (37, 33, 24, 1, 255, 11, -31),
+        (37, 33, -21, -18, 0, 37, 33), (37, 33, -21, -18, 1, -72, 91),
+        (37, 33, -21, -18, 2, -130, 40), (37, 33, -21, -18, 3, -79, -69),
+        (37, 33, -21, -18, 4, 30, -127), (37, 33, -21, -18, 5, 88, -76),
+        (37, 33, -21, -18, 6, 37, 33), (37, 33, -21, -18, 7, -72, 91),
+        (37, 33, -21, -18, 8, -130, 40), (37, 33, -21, -18, 9, -79, -69),
+        (37, 33, -21, -18, 10, 30, -127), (37, 33, -21, -18, 11, 88, -76),
+        (37, 33, -21, -18, 12, 37, 33), (37, 33, -21, -18, 255, -79, -69),
+        (37, 33, -13, -35, 0, 37, 33), (37, 33, -13, -35, 1, -81, 83),
+        (37, 33, -13, -35, 2, -131, 15), (37, 33, -13, -35, 3, -63, -103),
+        (37, 33, -13, -35, 4, 55, -153), (37, 33, -13, -35, 5, 105, -85),
+        (37, 33, -13, -35, 6, 37, 33), (37, 33, -13, -35, 7, -81, 83),
+        (37, 33, -13, -35, 8, -131, 15), (37, 33, -13, -35, 9, -63, -103),
+        (37, 33, -13, -35, 10, 55, -153), (37, 33, -13, -35, 11, 105, -85),
+        (37, 33, -13, -35, 12, 37, 33), (37, 33, -13, -35, 255, -63, -103),
+        (37, 33, -26, 7, 0, 37, 33), (37, 33, -26, 7, 1, -52, 96), (37, 33, -26, 7, 2, -115, 70),
+        (37, 33, -26, 7, 3, -89, -19), (37, 33, -26, 7, 4, 0, -82), (37, 33, -26, 7, 5, 63, -56),
+        (37, 33, -26, 7, 6, 37, 33), (37, 33, -26, 7, 7, -52, 96), (37, 33, -26, 7, 8, -115, 70),
+        (37, 33, -26, 7, 9, -89, -19), (37, 33, -26, 7, 10, 0, -82), (37, 33, -26, 7, 11, 63, -56),
+        (37, 33, -26, 7, 12, 37, 33), (37, 33, -26, 7, 255, -89, -19), (37, 33, 38, -1, 0, 37, 33),
+        (37, 33, 38, -1, 1, 4, 32), (37, 33, 38, -1, 2, 5, -2), (37, 33, 38, -1, 3, 39, -35),
+        (37, 33, 38, -1, 4, 72, -34), (37, 33, 38, -1, 5, 71, 0), (37, 33, 38, -1, 6, 37, 33),
+        (37, 33, 38, -1, 7, 4, 32), (37, 33, 38, -1, 8, 5, -2), (37, 33, 38, -1, 9, 39, -35),
+        (37, 33, 38, -1, 10, 72, -34), (37, 33, 38, -1, 11, 71, 0), (37, 33, 38, -1, 12, 37, 33),
+        (37, 33, 38, -1, 255, 39, -35), (37, 33, 33, 8, 0, 37, 33), (37, 33, 33, 8, 1, 8, 37),
+        (37, 33, 33, 8, 2, 4, 12), (37, 33, 33, 8, 3, 29, -17), (37, 33, 33, 8, 4, 58, -21),
+        (37, 33, 33, 8, 5, 62, 4), (37, 33, 33, 8, 6, 37, 33), (37, 33, 33, 8, 7, 8, 37),
+        (37, 33, 33, 8, 8, 4, 12), (37, 33, 33, 8, 9, 29, -17), (37, 33, 33, 8, 10, 58, -21),
+        (37, 33, 33, 8, 11, 62, 4), (37, 33, 33, 8, 12, 37, 33), (37, 33, 33, 8, 255, 29, -17),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_7_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (13, 32, 31, 13, 0, 13, 32), (13, 32, 31, 13, 1, 32, 31), (13, 32, 31, 13, 2, 50, 12),
+        (13, 32, 31, 13, 3, 49, -6), (13, 32, 31, 13, 4, 30, -5), (13, 32, 31, 13, 5, 12, 14),
+        (13, 32, 31, 13, 6, 13, 32), (13, 32, 31, 13, 7, 32, 31), (13, 32, 31, 13, 8, 50, 12),
+        (13, 32, 31, 13, 9, 49, -6), (13, 32, 31, 13, 10, 30, -5), (13, 32, 31, 13, 11, 12, 14),
+        (13, 32, 31, 13, 12, 13, 32), (13, 32, 31, 13, 255, 49, -6), (13, 32, 27, 39, 0, 13, 32),
+        (13, 32, 27, 39, 1, 6, 53), (13, 32, 27, 39, 2, 20, 60), (13, 32, 27, 39, 3, 41, 46),
+        (13, 32, 27, 39, 4, 48, 25), (13, 32, 27, 39, 5, 34, 18), (13, 32, 27, 39, 6, 13, 32),
+        (13, 32, 27, 39, 7, 6, 53), (13, 32, 27, 39, 8, 20, 60), (13, 32, 27, 39, 9, 41, 46),
+        (13, 32, 27, 39, 10, 48, 25), (13, 32, 27, 39, 11, 34, 18), (13, 32, 27, 39, 12, 13, 32),
+        (13, 32, 27, 39, 255, 41, 46), (13, 32, 24, 1, 0, 13, 32), (13, 32, 24, 1, 1, 44, 12),
+        (13, 32, 24, 1, 2, 55, -19), (13, 32, 24, 1, 3, 35, -30), (13, 32, 24, 1, 4, 4, -10),
+        (13, 32, 24, 1, 5, -7, 21), (13, 32, 24, 1, 6, 13, 32), (13, 32, 24, 1, 7, 44, 12),
+        (13, 32, 24, 1, 8, 55, -19), (13, 32, 24, 1, 9, 35, -30), (13, 32, 24, 1, 10, 4, -10),
+        (13, 32, 24, 1, 11, -7, 21), (13, 32, 24, 1, 12, 13, 32), (13, 32, 24, 1, 255, 35, -30),
+        (13, 32, -21, -18, 0, 13, 32), (13, 32, -21, -18, 1, 63, -52),
+        (13, 32, -21, -18, 2, 29, -102), (13, 32, -21, -18, 3, -55, -68),
+        (13, 32, -21, -18, 4, -105, 16), (13, 32, -21, -18, 5, -71, 66),
+        (13, 32, -21, -18, 6, 13, 32), (13, 32, -21, -18, 7, 63, -52),
+        (13, 32, -21, -18, 8, 29, -102), (13, 32, -21, -18, 9, -55, -68),
+        (13, 32, -21, -18, 10, -105, 16), (13, 32, -21, -18, 11, -71, 66),
+        (13, 32, -21, -18, 12, 13, 32), (13, 32, -21, -18, 255, -55, -68),
+        (13, 32, -13, -35, 0, 13, 32), (13, 32, -13, -35, 1, 80, -61),
+        (13, 32, -13, -35, 2, 54, -128), (13, 32, -13, -35, 3, -39, -102),
+        (13, 32, -13, -35, 4, -106, -9), (13, 32, -13, -35, 5, -80, 58),
+        (13, 32, -13, -35, 6, 13, 32), (13, 32, -13, -35, 7, 80, -61),
+        (13, 32, -13, -35, 8, 54, -128), (13, 32, -13, -35, 9, -39, -102),
+        (13, 32, -13, -35, 10, -106, -9), (13, 32, -13, -35, 11, -80, 58),
+        (13, 32, -13, -35, 12, 13, 32), (13, 32, -13, -35, 255, -39, -102),
+        (13, 32, -26, 7, 0, 13, 32), (13, 32, -26, 7, 1, 38, -32), (13, 32, -26, 7, 2, -1, -57),
+        (13, 32, -26, 7, 3, -65, -18), (13, 32, -26, 7, 4, -90, 46), (13, 32, -26, 7, 5, -51, 71),
+        (13, 32, -26, 7, 6, 13, 32), (13, 32, -26, 7, 7, 38, -32), (13, 32, -26, 7, 8, -1, -57),
+        (13, 32, -26, 7, 9, -65, -18), (13, 32, -26, 7, 10, -90, 46), (13, 32, -26, 7, 11, -51, 71),
+        (13, 32, -26, 7, 12, 13, 32), (13, 32, -26, 7, 255, -65, -18), (13, 32, 38, -1, 0, 13, 32),
+        (13, 32, 38, -1, 1, 46, 24), (13, 32, 38, -1, 2, 71, -9), (13, 32, 38, -1, 3, 63, -34),
+        (13, 32, 38, -1, 4, 30, -26), (13, 32, 38, -1, 5, 5, 7), (13, 32, 38, -1, 6, 13, 32),
+        (13, 32, 38, -1, 7, 46, 24), (13, 32, 38, -1, 8, 71, -9), (13, 32, 38, -1, 9, 63, -34),
+        (13, 32, 38, -1, 10, 30, -26), (13, 32, 38, -1, 11, 5, 7), (13, 32, 38, -1, 12, 13, 32),
+        (13, 32, 38, -1, 255, 63, -34), (13, 32, 33, 8, 0, 13, 32), (13, 32, 33, 8, 1, 37, 28),
+        (13, 32, 33, 8, 2, 57, 4), (13, 32, 33, 8, 3, 53, -16), (13, 32, 33, 8, 4, 29, -12),
+        (13, 32, 33, 8, 5, 9, 12), (13, 32, 33, 8, 6, 13, 32), (13, 32, 33, 8, 7, 37, 28),
+        (13, 32, 33, 8, 8, 57, 4), (13, 32, 33, 8, 9, 53, -16), (13, 32, 33, 8, 10, 29, -12),
+        (13, 32, 33, 8, 11, 9, 12), (13, 32, 33, 8, 12, 13, 32), (13, 32, 33, 8, 255, 53, -16),
+        (37, 33, 31, 13, 0, 37, 33), (37, 33, 31, 13, 1, 57, 7), (37, 33, 31, 13, 2, 51, -13),
+        (37, 33, 31, 13, 3, 25, -7), (37, 33, 31, 13, 4, 5, 19), (37, 33, 31, 13, 5, 11, 39),
+        (37, 33, 31, 13, 6, 37, 33), (37, 33, 31, 13, 7, 57, 7), (37, 33, 31, 13, 8, 51, -13),
+        (37, 33, 31, 13, 9, 25, -7), (37, 33, 31, 13, 10, 5, 19), (37, 33, 31, 13, 11, 11, 39),
+        (37, 33, 31, 13, 12, 37, 33), (37, 33, 31, 13, 255, 25, -7), (37, 33, 27, 39, 0, 37, 33),
+        (37, 33, 27, 39, 1, 31, 29), (37, 33, 27, 39, 2, 21, 35), (37, 33, 27, 39, 3, 17, 45),
+        (37, 33, 27, 39, 4, 23, 49), (37, 33, 27, 39, 5, 33, 43), (37, 33, 27, 39, 6, 37, 33),
+        (37, 33, 27, 39, 7, 31, 29), (37, 33, 27, 39, 8, 21, 35), (37, 33, 27, 39, 9, 17, 45),
+        (37, 33, 27, 39, 10, 23, 49), (37, 33, 27, 39, 11, 33, 43), (37, 33, 27, 39, 12, 37, 33),
+        (37, 33, 27, 39, 255, 17, 45), (37, 33, 24, 1, 0, 37, 33), (37, 33, 24, 1, 1, 69, -12),
+        (37, 33, 24, 1, 2, 56, -44), (37, 33, 24, 1, 3, 11, -31), (37, 33, 24, 1, 4, -21, 14),
+        (37, 33, 24, 1, 5, -8, 46), (37, 33, 24, 1, 6, 37, 33), (37, 33, 24, 1, 7, 69, -12),
+        (37, 33, 24, 1, 8, 56, -44), (37, 33, 24, 1, 9, 11, -31), (37, 33, 24, 1, 10, -21, 14),
+        (37, 33, 24, 1, 11, -8, 46), (37, 33, 24, 1, 12, 37, 33), (37, 33, 24, 1, 255, 11, -31),
+        (37, 33, -21, -18, 0, 37, 33), (37, 33, -21, -18, 1, 88, -76),
+        (37, 33, -21, -18, 2, 30, -127), (37, 33, -21, -18, 3, -79, -69),
+        (37, 33, -21, -18, 4, -130, 40), (37, 33, -21, -18, 5, -72, 91),
+        (37, 33, -21, -18, 6, 37, 33), (37, 33, -21, -18, 7, 88, -76),
+        (37, 33, -21, -18, 8, 30, -127), (37, 33, -21, -18, 9, -79, -69),
+        (37, 33, -21, -18, 10, -130, 40), (37, 33, -21, -18, 11, -72, 91),
+        (37, 33, -21, -18, 12, 37, 33), (37, 33, -21, -18, 255, -79, -69),
+        (37, 33, -13, -35, 0, 37, 33), (37, 33, -13, -35, 1, 105, -85),
+        (37, 33, -13, -35, 2, 55, -153), (37, 33, -13, -35, 3, -63, -103),
+        (37, 33, -13, -35, 4, -131, 15), (37, 33, -13, -35, 5, -81, 83),
+        (37, 33, -13, -35, 6, 37, 33), (37, 33, -13, -35, 7, 105, -85),
+        (37, 33, -13, -35, 8, 55, -153), (37, 33, -13, -35, 9, -63, -103),
+        (37, 33, -13, -35, 10, -131, 15), (37, 33, -13, -35, 11, -81, 83),
+        (37, 33, -13, -35, 12, 37, 33), (37, 33, -13, -35, 255, -63, -103),
+        (37, 33, -26, 7, 0, 37, 33), (37, 33, -26, 7, 1, 63, -56), (37, 33, -26, 7, 2, 0, -82),
+        (37, 33, -26, 7, 3, -89, -19), (37, 33, -26, 7, 4, -115, 70), (37, 33, -26, 7, 5, -52, 96),
+        (37, 33, -26, 7, 6, 37, 33), (37, 33, -26, 7, 7, 63, -56), (37, 33, -26, 7, 8, 0, -82),
+        (37, 33, -26, 7, 9, -89, -19), (37, 33, -26, 7, 10, -115, 70),
+        (37, 33, -26, 7, 11, -52, 96), (37, 33, -26, 7, 12, 37, 33),
         (37, 33, -26, 7, 255, -89, -19), (37, 33, 38, -1, 0, 37, 33), (37, 33, 38, -1, 1, 71, 0),
         (37, 33, 38, -1, 2, 72, -34), (37, 33, 38, -1, 3, 39, -35), (37, 33, 38, -1, 4, 5, -2),
         (37, 33, 38, -1, 5, 4, 32), (37, 33, 38, -1, 6, 37, 33), (37, 33, 38, -1, 7, 71, 0),
@@ -34848,8 +33729,8 @@ fn golden_hex_around_0_rotate_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_hex_around_1_rotate_cw_around() {
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_8_rotate_cw_around() {
     let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (24, 1, 31, 13, 0, 24, 1), (24, 1, 31, 13, 1, 43, -6), (24, 1, 31, 13, 2, 50, 6),
         (24, 1, 31, 13, 3, 38, 25), (24, 1, 31, 13, 4, 19, 32), (24, 1, 31, 13, 5, 12, 20),
@@ -34931,24 +33812,137 @@ fn golden_hex_around_1_rotate_cw_around() {
         (33, -8, 33, 8, 3, 33, 24), (33, -8, 33, 8, 4, 17, 24), (33, -8, 33, 8, 5, 17, 8),
         (33, -8, 33, 8, 6, 33, -8), (33, -8, 33, 8, 7, 49, -8), (33, -8, 33, 8, 8, 49, 8),
         (33, -8, 33, 8, 9, 33, 24), (33, -8, 33, 8, 10, 17, 24), (33, -8, 33, 8, 11, 17, 8),
-        (33, -8, 33, 8, 12, 33, -8), (33, -8, 33, 8, 255, 33, 24), (-20, 9, 31, 13, 0, -20, 9),
-        (-20, 9, 31, 13, 1, 35, -42), (-20, 9, 31, 13, 2, 86, -38), (-20, 9, 31, 13, 3, 82, 17),
-        (-20, 9, 31, 13, 4, 27, 68), (-20, 9, 31, 13, 5, -24, 64), (-20, 9, 31, 13, 6, -20, 9),
-        (-20, 9, 31, 13, 7, 35, -42), (-20, 9, 31, 13, 8, 86, -38), (-20, 9, 31, 13, 9, 82, 17),
-        (-20, 9, 31, 13, 10, 27, 68), (-20, 9, 31, 13, 11, -24, 64), (-20, 9, 31, 13, 12, -20, 9),
-        (-20, 9, 31, 13, 255, 82, 17), (-20, 9, 27, 39, 0, -20, 9), (-20, 9, 27, 39, 1, 57, -38),
-        (-20, 9, 27, 39, 2, 104, -8), (-20, 9, 27, 39, 3, 74, 69), (-20, 9, 27, 39, 4, -3, 116),
-        (-20, 9, 27, 39, 5, -50, 86), (-20, 9, 27, 39, 6, -20, 9), (-20, 9, 27, 39, 7, 57, -38),
-        (-20, 9, 27, 39, 8, 104, -8), (-20, 9, 27, 39, 9, 74, 69), (-20, 9, 27, 39, 10, -3, 116),
-        (-20, 9, 27, 39, 11, -50, 86), (-20, 9, 27, 39, 12, -20, 9), (-20, 9, 27, 39, 255, 74, 69),
-        (-20, 9, 24, 1, 0, -20, 9), (-20, 9, 24, 1, 1, 16, -35), (-20, 9, 24, 1, 2, 60, -43),
-        (-20, 9, 24, 1, 3, 68, -7), (-20, 9, 24, 1, 4, 32, 37), (-20, 9, 24, 1, 5, -12, 45),
-        (-20, 9, 24, 1, 6, -20, 9), (-20, 9, 24, 1, 7, 16, -35), (-20, 9, 24, 1, 8, 60, -43),
-        (-20, 9, 24, 1, 9, 68, -7), (-20, 9, 24, 1, 10, 32, 37), (-20, 9, 24, 1, 11, -12, 45),
-        (-20, 9, 24, 1, 12, -20, 9), (-20, 9, 24, 1, 255, 68, -7), (-20, 9, -21, -18, 0, -20, 9),
-        (-20, 9, -21, -18, 1, -48, 10), (-20, 9, -21, -18, 2, -49, -17),
-        (-20, 9, -21, -18, 3, -22, -45), (-20, 9, -21, -18, 4, 6, -46),
-        (-20, 9, -21, -18, 5, 7, -19), (-20, 9, -21, -18, 6, -20, 9),
+        (33, -8, 33, 8, 12, 33, -8), (33, -8, 33, 8, 255, 33, 24),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_8_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (24, 1, 31, 13, 0, 24, 1), (24, 1, 31, 13, 1, 12, 20), (24, 1, 31, 13, 2, 19, 32),
+        (24, 1, 31, 13, 3, 38, 25), (24, 1, 31, 13, 4, 50, 6), (24, 1, 31, 13, 5, 43, -6),
+        (24, 1, 31, 13, 6, 24, 1), (24, 1, 31, 13, 7, 12, 20), (24, 1, 31, 13, 8, 19, 32),
+        (24, 1, 31, 13, 9, 38, 25), (24, 1, 31, 13, 10, 50, 6), (24, 1, 31, 13, 11, 43, -6),
+        (24, 1, 31, 13, 12, 24, 1), (24, 1, 31, 13, 255, 38, 25), (24, 1, 27, 39, 0, 24, 1),
+        (24, 1, 27, 39, 1, -14, 42), (24, 1, 27, 39, 2, -11, 80), (24, 1, 27, 39, 3, 30, 77),
+        (24, 1, 27, 39, 4, 68, 36), (24, 1, 27, 39, 5, 65, -2), (24, 1, 27, 39, 6, 24, 1),
+        (24, 1, 27, 39, 7, -14, 42), (24, 1, 27, 39, 8, -11, 80), (24, 1, 27, 39, 9, 30, 77),
+        (24, 1, 27, 39, 10, 68, 36), (24, 1, 27, 39, 11, 65, -2), (24, 1, 27, 39, 12, 24, 1),
+        (24, 1, 27, 39, 255, 30, 77), (24, 1, 24, 1, 0, 24, 1), (24, 1, 24, 1, 1, 24, 1),
+        (24, 1, 24, 1, 2, 24, 1), (24, 1, 24, 1, 3, 24, 1), (24, 1, 24, 1, 4, 24, 1),
+        (24, 1, 24, 1, 5, 24, 1), (24, 1, 24, 1, 6, 24, 1), (24, 1, 24, 1, 7, 24, 1),
+        (24, 1, 24, 1, 8, 24, 1), (24, 1, 24, 1, 9, 24, 1), (24, 1, 24, 1, 10, 24, 1),
+        (24, 1, 24, 1, 11, 24, 1), (24, 1, 24, 1, 12, 24, 1), (24, 1, 24, 1, 255, 24, 1),
+        (24, 1, -21, -18, 0, 24, 1), (24, 1, -21, -18, 1, 43, -63), (24, 1, -21, -18, 2, -2, -82),
+        (24, 1, -21, -18, 3, -66, -37), (24, 1, -21, -18, 4, -85, 27),
+        (24, 1, -21, -18, 5, -40, 46), (24, 1, -21, -18, 6, 24, 1), (24, 1, -21, -18, 7, 43, -63),
+        (24, 1, -21, -18, 8, -2, -82), (24, 1, -21, -18, 9, -66, -37),
+        (24, 1, -21, -18, 10, -85, 27), (24, 1, -21, -18, 11, -40, 46),
+        (24, 1, -21, -18, 12, 24, 1), (24, 1, -21, -18, 255, -66, -37), (24, 1, -13, -35, 0, 24, 1),
+        (24, 1, -13, -35, 1, 60, -72), (24, 1, -13, -35, 2, 23, -108),
+        (24, 1, -13, -35, 3, -50, -71), (24, 1, -13, -35, 4, -86, 2), (24, 1, -13, -35, 5, -49, 38),
+        (24, 1, -13, -35, 6, 24, 1), (24, 1, -13, -35, 7, 60, -72), (24, 1, -13, -35, 8, 23, -108),
+        (24, 1, -13, -35, 9, -50, -71), (24, 1, -13, -35, 10, -86, 2),
+        (24, 1, -13, -35, 11, -49, 38), (24, 1, -13, -35, 12, 24, 1),
+        (24, 1, -13, -35, 255, -50, -71), (24, 1, -26, 7, 0, 24, 1), (24, 1, -26, 7, 1, 18, -43),
+        (24, 1, -26, 7, 2, -32, -37), (24, 1, -26, 7, 3, -76, 13), (24, 1, -26, 7, 4, -70, 57),
+        (24, 1, -26, 7, 5, -20, 51), (24, 1, -26, 7, 6, 24, 1), (24, 1, -26, 7, 7, 18, -43),
+        (24, 1, -26, 7, 8, -32, -37), (24, 1, -26, 7, 9, -76, 13), (24, 1, -26, 7, 10, -70, 57),
+        (24, 1, -26, 7, 11, -20, 51), (24, 1, -26, 7, 12, 24, 1), (24, 1, -26, 7, 255, -76, 13),
+        (24, 1, 38, -1, 0, 24, 1), (24, 1, 38, -1, 1, 26, 13), (24, 1, 38, -1, 2, 40, 11),
+        (24, 1, 38, -1, 3, 52, -3), (24, 1, 38, -1, 4, 50, -15), (24, 1, 38, -1, 5, 36, -13),
+        (24, 1, 38, -1, 6, 24, 1), (24, 1, 38, -1, 7, 26, 13), (24, 1, 38, -1, 8, 40, 11),
+        (24, 1, 38, -1, 9, 52, -3), (24, 1, 38, -1, 10, 50, -15), (24, 1, 38, -1, 11, 36, -13),
+        (24, 1, 38, -1, 12, 24, 1), (24, 1, 38, -1, 255, 52, -3), (24, 1, 33, 8, 0, 24, 1),
+        (24, 1, 33, 8, 1, 17, 17), (24, 1, 33, 8, 2, 26, 24), (24, 1, 33, 8, 3, 42, 15),
+        (24, 1, 33, 8, 4, 49, -1), (24, 1, 33, 8, 5, 40, -8), (24, 1, 33, 8, 6, 24, 1),
+        (24, 1, 33, 8, 7, 17, 17), (24, 1, 33, 8, 8, 26, 24), (24, 1, 33, 8, 9, 42, 15),
+        (24, 1, 33, 8, 10, 49, -1), (24, 1, 33, 8, 11, 40, -8), (24, 1, 33, 8, 12, 24, 1),
+        (24, 1, 33, 8, 255, 42, 15), (33, -8, 31, 13, 0, 33, -8), (33, -8, 31, 13, 1, 12, 11),
+        (33, -8, 31, 13, 2, 10, 32), (33, -8, 31, 13, 3, 29, 34), (33, -8, 31, 13, 4, 50, 15),
+        (33, -8, 31, 13, 5, 52, -6), (33, -8, 31, 13, 6, 33, -8), (33, -8, 31, 13, 7, 12, 11),
+        (33, -8, 31, 13, 8, 10, 32), (33, -8, 31, 13, 9, 29, 34), (33, -8, 31, 13, 10, 50, 15),
+        (33, -8, 31, 13, 11, 52, -6), (33, -8, 31, 13, 12, 33, -8), (33, -8, 31, 13, 255, 29, 34),
+        (33, -8, 27, 39, 0, 33, -8), (33, -8, 27, 39, 1, -14, 33), (33, -8, 27, 39, 2, -20, 80),
+        (33, -8, 27, 39, 3, 21, 86), (33, -8, 27, 39, 4, 68, 45), (33, -8, 27, 39, 5, 74, -2),
+        (33, -8, 27, 39, 6, 33, -8), (33, -8, 27, 39, 7, -14, 33), (33, -8, 27, 39, 8, -20, 80),
+        (33, -8, 27, 39, 9, 21, 86), (33, -8, 27, 39, 10, 68, 45), (33, -8, 27, 39, 11, 74, -2),
+        (33, -8, 27, 39, 12, 33, -8), (33, -8, 27, 39, 255, 21, 86), (33, -8, 24, 1, 0, 33, -8),
+        (33, -8, 24, 1, 1, 24, -8), (33, -8, 24, 1, 2, 15, 1), (33, -8, 24, 1, 3, 15, 10),
+        (33, -8, 24, 1, 4, 24, 10), (33, -8, 24, 1, 5, 33, 1), (33, -8, 24, 1, 6, 33, -8),
+        (33, -8, 24, 1, 7, 24, -8), (33, -8, 24, 1, 8, 15, 1), (33, -8, 24, 1, 9, 15, 10),
+        (33, -8, 24, 1, 10, 24, 10), (33, -8, 24, 1, 11, 33, 1), (33, -8, 24, 1, 12, 33, -8),
+        (33, -8, 24, 1, 255, 15, 10), (33, -8, -21, -18, 0, 33, -8), (33, -8, -21, -18, 1, 43, -72),
+        (33, -8, -21, -18, 2, -11, -82), (33, -8, -21, -18, 3, -75, -28),
+        (33, -8, -21, -18, 4, -85, 36), (33, -8, -21, -18, 5, -31, 46),
+        (33, -8, -21, -18, 6, 33, -8), (33, -8, -21, -18, 7, 43, -72),
+        (33, -8, -21, -18, 8, -11, -82), (33, -8, -21, -18, 9, -75, -28),
+        (33, -8, -21, -18, 10, -85, 36), (33, -8, -21, -18, 11, -31, 46),
+        (33, -8, -21, -18, 12, 33, -8), (33, -8, -21, -18, 255, -75, -28),
+        (33, -8, -13, -35, 0, 33, -8), (33, -8, -13, -35, 1, 60, -81),
+        (33, -8, -13, -35, 2, 14, -108), (33, -8, -13, -35, 3, -59, -62),
+        (33, -8, -13, -35, 4, -86, 11), (33, -8, -13, -35, 5, -40, 38),
+        (33, -8, -13, -35, 6, 33, -8), (33, -8, -13, -35, 7, 60, -81),
+        (33, -8, -13, -35, 8, 14, -108), (33, -8, -13, -35, 9, -59, -62),
+        (33, -8, -13, -35, 10, -86, 11), (33, -8, -13, -35, 11, -40, 38),
+        (33, -8, -13, -35, 12, 33, -8), (33, -8, -13, -35, 255, -59, -62),
+        (33, -8, -26, 7, 0, 33, -8), (33, -8, -26, 7, 1, 18, -52), (33, -8, -26, 7, 2, -41, -37),
+        (33, -8, -26, 7, 3, -85, 22), (33, -8, -26, 7, 4, -70, 66), (33, -8, -26, 7, 5, -11, 51),
+        (33, -8, -26, 7, 6, 33, -8), (33, -8, -26, 7, 7, 18, -52), (33, -8, -26, 7, 8, -41, -37),
+        (33, -8, -26, 7, 9, -85, 22), (33, -8, -26, 7, 10, -70, 66), (33, -8, -26, 7, 11, -11, 51),
+        (33, -8, -26, 7, 12, 33, -8), (33, -8, -26, 7, 255, -85, 22), (33, -8, 38, -1, 0, 33, -8),
+        (33, -8, 38, -1, 1, 26, 4), (33, -8, 38, -1, 2, 31, 11), (33, -8, 38, -1, 3, 43, 6),
+        (33, -8, 38, -1, 4, 50, -6), (33, -8, 38, -1, 5, 45, -13), (33, -8, 38, -1, 6, 33, -8),
+        (33, -8, 38, -1, 7, 26, 4), (33, -8, 38, -1, 8, 31, 11), (33, -8, 38, -1, 9, 43, 6),
+        (33, -8, 38, -1, 10, 50, -6), (33, -8, 38, -1, 11, 45, -13), (33, -8, 38, -1, 12, 33, -8),
+        (33, -8, 38, -1, 255, 43, 6), (33, -8, 33, 8, 0, 33, -8), (33, -8, 33, 8, 1, 17, 8),
+        (33, -8, 33, 8, 2, 17, 24), (33, -8, 33, 8, 3, 33, 24), (33, -8, 33, 8, 4, 49, 8),
+        (33, -8, 33, 8, 5, 49, -8), (33, -8, 33, 8, 6, 33, -8), (33, -8, 33, 8, 7, 17, 8),
+        (33, -8, 33, 8, 8, 17, 24), (33, -8, 33, 8, 9, 33, 24), (33, -8, 33, 8, 10, 49, 8),
+        (33, -8, 33, 8, 11, 49, -8), (33, -8, 33, 8, 12, 33, -8), (33, -8, 33, 8, 255, 33, 24),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_9_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (-20, 9, 31, 13, 0, -20, 9), (-20, 9, 31, 13, 1, 35, -42), (-20, 9, 31, 13, 2, 86, -38),
+        (-20, 9, 31, 13, 3, 82, 17), (-20, 9, 31, 13, 4, 27, 68), (-20, 9, 31, 13, 5, -24, 64),
+        (-20, 9, 31, 13, 6, -20, 9), (-20, 9, 31, 13, 7, 35, -42), (-20, 9, 31, 13, 8, 86, -38),
+        (-20, 9, 31, 13, 9, 82, 17), (-20, 9, 31, 13, 10, 27, 68), (-20, 9, 31, 13, 11, -24, 64),
+        (-20, 9, 31, 13, 12, -20, 9), (-20, 9, 31, 13, 255, 82, 17), (-20, 9, 27, 39, 0, -20, 9),
+        (-20, 9, 27, 39, 1, 57, -38), (-20, 9, 27, 39, 2, 104, -8), (-20, 9, 27, 39, 3, 74, 69),
+        (-20, 9, 27, 39, 4, -3, 116), (-20, 9, 27, 39, 5, -50, 86), (-20, 9, 27, 39, 6, -20, 9),
+        (-20, 9, 27, 39, 7, 57, -38), (-20, 9, 27, 39, 8, 104, -8), (-20, 9, 27, 39, 9, 74, 69),
+        (-20, 9, 27, 39, 10, -3, 116), (-20, 9, 27, 39, 11, -50, 86), (-20, 9, 27, 39, 12, -20, 9),
+        (-20, 9, 27, 39, 255, 74, 69), (-20, 9, 24, 1, 0, -20, 9), (-20, 9, 24, 1, 1, 16, -35),
+        (-20, 9, 24, 1, 2, 60, -43), (-20, 9, 24, 1, 3, 68, -7), (-20, 9, 24, 1, 4, 32, 37),
+        (-20, 9, 24, 1, 5, -12, 45), (-20, 9, 24, 1, 6, -20, 9), (-20, 9, 24, 1, 7, 16, -35),
+        (-20, 9, 24, 1, 8, 60, -43), (-20, 9, 24, 1, 9, 68, -7), (-20, 9, 24, 1, 10, 32, 37),
+        (-20, 9, 24, 1, 11, -12, 45), (-20, 9, 24, 1, 12, -20, 9), (-20, 9, 24, 1, 255, 68, -7),
+        (-20, 9, -21, -18, 0, -20, 9), (-20, 9, -21, -18, 1, -48, 10),
+        (-20, 9, -21, -18, 2, -49, -17), (-20, 9, -21, -18, 3, -22, -45),
+        (-20, 9, -21, -18, 4, 6, -46), (-20, 9, -21, -18, 5, 7, -19), (-20, 9, -21, -18, 6, -20, 9),
         (-20, 9, -21, -18, 7, -48, 10), (-20, 9, -21, -18, 8, -49, -17),
         (-20, 9, -21, -18, 9, -22, -45), (-20, 9, -21, -18, 10, 6, -46),
         (-20, 9, -21, -18, 11, 7, -19), (-20, 9, -21, -18, 12, -20, 9),
@@ -35029,6 +34023,135 @@ fn golden_hex_around_1_rotate_cw_around() {
         (-15, -40, 33, 8, 8, 129, -40), (-15, -40, 33, 8, 9, 81, 56),
         (-15, -40, 33, 8, 10, -15, 104), (-15, -40, 33, 8, 11, -63, 56),
         (-15, -40, 33, 8, 12, -15, -40), (-15, -40, 33, 8, 255, 81, 56),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_9_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (-20, 9, 31, 13, 0, -20, 9), (-20, 9, 31, 13, 1, -24, 64), (-20, 9, 31, 13, 2, 27, 68),
+        (-20, 9, 31, 13, 3, 82, 17), (-20, 9, 31, 13, 4, 86, -38), (-20, 9, 31, 13, 5, 35, -42),
+        (-20, 9, 31, 13, 6, -20, 9), (-20, 9, 31, 13, 7, -24, 64), (-20, 9, 31, 13, 8, 27, 68),
+        (-20, 9, 31, 13, 9, 82, 17), (-20, 9, 31, 13, 10, 86, -38), (-20, 9, 31, 13, 11, 35, -42),
+        (-20, 9, 31, 13, 12, -20, 9), (-20, 9, 31, 13, 255, 82, 17), (-20, 9, 27, 39, 0, -20, 9),
+        (-20, 9, 27, 39, 1, -50, 86), (-20, 9, 27, 39, 2, -3, 116), (-20, 9, 27, 39, 3, 74, 69),
+        (-20, 9, 27, 39, 4, 104, -8), (-20, 9, 27, 39, 5, 57, -38), (-20, 9, 27, 39, 6, -20, 9),
+        (-20, 9, 27, 39, 7, -50, 86), (-20, 9, 27, 39, 8, -3, 116), (-20, 9, 27, 39, 9, 74, 69),
+        (-20, 9, 27, 39, 10, 104, -8), (-20, 9, 27, 39, 11, 57, -38), (-20, 9, 27, 39, 12, -20, 9),
+        (-20, 9, 27, 39, 255, 74, 69), (-20, 9, 24, 1, 0, -20, 9), (-20, 9, 24, 1, 1, -12, 45),
+        (-20, 9, 24, 1, 2, 32, 37), (-20, 9, 24, 1, 3, 68, -7), (-20, 9, 24, 1, 4, 60, -43),
+        (-20, 9, 24, 1, 5, 16, -35), (-20, 9, 24, 1, 6, -20, 9), (-20, 9, 24, 1, 7, -12, 45),
+        (-20, 9, 24, 1, 8, 32, 37), (-20, 9, 24, 1, 9, 68, -7), (-20, 9, 24, 1, 10, 60, -43),
+        (-20, 9, 24, 1, 11, 16, -35), (-20, 9, 24, 1, 12, -20, 9), (-20, 9, 24, 1, 255, 68, -7),
+        (-20, 9, -21, -18, 0, -20, 9), (-20, 9, -21, -18, 1, 7, -19), (-20, 9, -21, -18, 2, 6, -46),
+        (-20, 9, -21, -18, 3, -22, -45), (-20, 9, -21, -18, 4, -49, -17),
+        (-20, 9, -21, -18, 5, -48, 10), (-20, 9, -21, -18, 6, -20, 9),
+        (-20, 9, -21, -18, 7, 7, -19), (-20, 9, -21, -18, 8, 6, -46),
+        (-20, 9, -21, -18, 9, -22, -45), (-20, 9, -21, -18, 10, -49, -17),
+        (-20, 9, -21, -18, 11, -48, 10), (-20, 9, -21, -18, 12, -20, 9),
+        (-20, 9, -21, -18, 255, -22, -45), (-20, 9, -13, -35, 0, -20, 9),
+        (-20, 9, -13, -35, 1, 24, -28), (-20, 9, -13, -35, 2, 31, -72),
+        (-20, 9, -13, -35, 3, -6, -79), (-20, 9, -13, -35, 4, -50, -42),
+        (-20, 9, -13, -35, 5, -57, 2), (-20, 9, -13, -35, 6, -20, 9),
+        (-20, 9, -13, -35, 7, 24, -28), (-20, 9, -13, -35, 8, 31, -72),
+        (-20, 9, -13, -35, 9, -6, -79), (-20, 9, -13, -35, 10, -50, -42),
+        (-20, 9, -13, -35, 11, -57, 2), (-20, 9, -13, -35, 12, -20, 9),
+        (-20, 9, -13, -35, 255, -6, -79), (-20, 9, -26, 7, 0, -20, 9), (-20, 9, -26, 7, 1, -18, 1),
+        (-20, 9, -26, 7, 2, -24, -1), (-20, 9, -26, 7, 3, -32, 5), (-20, 9, -26, 7, 4, -34, 13),
+        (-20, 9, -26, 7, 5, -28, 15), (-20, 9, -26, 7, 6, -20, 9), (-20, 9, -26, 7, 7, -18, 1),
+        (-20, 9, -26, 7, 8, -24, -1), (-20, 9, -26, 7, 9, -32, 5), (-20, 9, -26, 7, 10, -34, 13),
+        (-20, 9, -26, 7, 11, -28, 15), (-20, 9, -26, 7, 12, -20, 9), (-20, 9, -26, 7, 255, -32, 5),
+        (-20, 9, 38, -1, 0, -20, 9), (-20, 9, 38, -1, 1, -10, 57), (-20, 9, 38, -1, 2, 48, 47),
+        (-20, 9, 38, -1, 3, 96, -11), (-20, 9, 38, -1, 4, 86, -59), (-20, 9, 38, -1, 5, 28, -49),
+        (-20, 9, 38, -1, 6, -20, 9), (-20, 9, 38, -1, 7, -10, 57), (-20, 9, 38, -1, 8, 48, 47),
+        (-20, 9, 38, -1, 9, 96, -11), (-20, 9, 38, -1, 10, 86, -59), (-20, 9, 38, -1, 11, 28, -49),
+        (-20, 9, 38, -1, 12, -20, 9), (-20, 9, 38, -1, 255, 96, -11), (-20, 9, 33, 8, 0, -20, 9),
+        (-20, 9, 33, 8, 1, -19, 61), (-20, 9, 33, 8, 2, 34, 60), (-20, 9, 33, 8, 3, 86, 7),
+        (-20, 9, 33, 8, 4, 85, -45), (-20, 9, 33, 8, 5, 32, -44), (-20, 9, 33, 8, 6, -20, 9),
+        (-20, 9, 33, 8, 7, -19, 61), (-20, 9, 33, 8, 8, 34, 60), (-20, 9, 33, 8, 9, 86, 7),
+        (-20, 9, 33, 8, 10, 85, -45), (-20, 9, 33, 8, 11, 32, -44), (-20, 9, 33, 8, 12, -20, 9),
+        (-20, 9, 33, 8, 255, 86, 7), (-15, -40, 31, 13, 0, -15, -40),
+        (-15, -40, 31, 13, 1, -68, 59), (-15, -40, 31, 13, 2, -22, 112),
+        (-15, -40, 31, 13, 3, 77, 66), (-15, -40, 31, 13, 4, 130, -33),
+        (-15, -40, 31, 13, 5, 84, -86), (-15, -40, 31, 13, 6, -15, -40),
+        (-15, -40, 31, 13, 7, -68, 59), (-15, -40, 31, 13, 8, -22, 112),
+        (-15, -40, 31, 13, 9, 77, 66), (-15, -40, 31, 13, 10, 130, -33),
+        (-15, -40, 31, 13, 11, 84, -86), (-15, -40, 31, 13, 12, -15, -40),
+        (-15, -40, 31, 13, 255, 77, 66), (-15, -40, 27, 39, 0, -15, -40),
+        (-15, -40, 27, 39, 1, -94, 81), (-15, -40, 27, 39, 2, -52, 160),
+        (-15, -40, 27, 39, 3, 69, 118), (-15, -40, 27, 39, 4, 148, -3),
+        (-15, -40, 27, 39, 5, 106, -82), (-15, -40, 27, 39, 6, -15, -40),
+        (-15, -40, 27, 39, 7, -94, 81), (-15, -40, 27, 39, 8, -52, 160),
+        (-15, -40, 27, 39, 9, 69, 118), (-15, -40, 27, 39, 10, 148, -3),
+        (-15, -40, 27, 39, 11, 106, -82), (-15, -40, 27, 39, 12, -15, -40),
+        (-15, -40, 27, 39, 255, 69, 118), (-15, -40, 24, 1, 0, -15, -40),
+        (-15, -40, 24, 1, 1, -56, 40), (-15, -40, 24, 1, 2, -17, 81), (-15, -40, 24, 1, 3, 63, 42),
+        (-15, -40, 24, 1, 4, 104, -38), (-15, -40, 24, 1, 5, 65, -79),
+        (-15, -40, 24, 1, 6, -15, -40), (-15, -40, 24, 1, 7, -56, 40),
+        (-15, -40, 24, 1, 8, -17, 81), (-15, -40, 24, 1, 9, 63, 42),
+        (-15, -40, 24, 1, 10, 104, -38), (-15, -40, 24, 1, 11, 65, -79),
+        (-15, -40, 24, 1, 12, -15, -40), (-15, -40, 24, 1, 255, 63, 42),
+        (-15, -40, -21, -18, 0, -15, -40), (-15, -40, -21, -18, 1, -37, -24),
+        (-15, -40, -21, -18, 2, -43, -2), (-15, -40, -21, -18, 3, -27, 4),
+        (-15, -40, -21, -18, 4, -5, -12), (-15, -40, -21, -18, 5, 1, -34),
+        (-15, -40, -21, -18, 6, -15, -40), (-15, -40, -21, -18, 7, -37, -24),
+        (-15, -40, -21, -18, 8, -43, -2), (-15, -40, -21, -18, 9, -27, 4),
+        (-15, -40, -21, -18, 10, -5, -12), (-15, -40, -21, -18, 11, 1, -34),
+        (-15, -40, -21, -18, 12, -15, -40), (-15, -40, -21, -18, 255, -27, 4),
+        (-15, -40, -13, -35, 0, -15, -40), (-15, -40, -13, -35, 1, -20, -33),
+        (-15, -40, -13, -35, 2, -18, -28), (-15, -40, -13, -35, 3, -11, -30),
+        (-15, -40, -13, -35, 4, -6, -37), (-15, -40, -13, -35, 5, -8, -42),
+        (-15, -40, -13, -35, 6, -15, -40), (-15, -40, -13, -35, 7, -20, -33),
+        (-15, -40, -13, -35, 8, -18, -28), (-15, -40, -13, -35, 9, -11, -30),
+        (-15, -40, -13, -35, 10, -6, -37), (-15, -40, -13, -35, 11, -8, -42),
+        (-15, -40, -13, -35, 12, -15, -40), (-15, -40, -13, -35, 255, -11, -30),
+        (-15, -40, -26, 7, 0, -15, -40), (-15, -40, -26, 7, 1, -62, -4),
+        (-15, -40, -26, 7, 2, -73, 43), (-15, -40, -26, 7, 3, -37, 54),
+        (-15, -40, -26, 7, 4, 10, 18), (-15, -40, -26, 7, 5, 21, -29),
+        (-15, -40, -26, 7, 6, -15, -40), (-15, -40, -26, 7, 7, -62, -4),
+        (-15, -40, -26, 7, 8, -73, 43), (-15, -40, -26, 7, 9, -37, 54),
+        (-15, -40, -26, 7, 10, 10, 18), (-15, -40, -26, 7, 11, 21, -29),
+        (-15, -40, -26, 7, 12, -15, -40), (-15, -40, -26, 7, 255, -37, 54),
+        (-15, -40, 38, -1, 0, -15, -40), (-15, -40, 38, -1, 1, -54, 52),
+        (-15, -40, 38, -1, 2, -1, 91), (-15, -40, 38, -1, 3, 91, 38),
+        (-15, -40, 38, -1, 4, 130, -54), (-15, -40, 38, -1, 5, 77, -93),
+        (-15, -40, 38, -1, 6, -15, -40), (-15, -40, 38, -1, 7, -54, 52),
+        (-15, -40, 38, -1, 8, -1, 91), (-15, -40, 38, -1, 9, 91, 38),
+        (-15, -40, 38, -1, 10, 130, -54), (-15, -40, 38, -1, 11, 77, -93),
+        (-15, -40, 38, -1, 12, -15, -40), (-15, -40, 38, -1, 255, 91, 38),
+        (-15, -40, 33, 8, 0, -15, -40), (-15, -40, 33, 8, 1, -63, 56),
+        (-15, -40, 33, 8, 2, -15, 104), (-15, -40, 33, 8, 3, 81, 56),
+        (-15, -40, 33, 8, 4, 129, -40), (-15, -40, 33, 8, 5, 81, -88),
+        (-15, -40, 33, 8, 6, -15, -40), (-15, -40, 33, 8, 7, -63, 56),
+        (-15, -40, 33, 8, 8, -15, 104), (-15, -40, 33, 8, 9, 81, 56),
+        (-15, -40, 33, 8, 10, 129, -40), (-15, -40, 33, 8, 11, 81, -88),
+        (-15, -40, 33, 8, 12, -15, -40), (-15, -40, 33, 8, 255, 81, 56),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_10_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (-9, 30, 31, 13, 0, -9, 30), (-9, 30, 31, 13, 1, 14, -10), (-9, 30, 31, 13, 2, 54, -27),
         (-9, 30, 31, 13, 3, 71, -4), (-9, 30, 31, 13, 4, 48, 36), (-9, 30, 31, 13, 5, 8, 53),
         (-9, 30, 31, 13, 6, -9, 30), (-9, 30, 31, 13, 7, 14, -10), (-9, 30, 31, 13, 8, 54, -27),
@@ -35110,51 +34233,166 @@ fn golden_hex_around_1_rotate_cw_around() {
         (6, 24, 33, 8, 3, 60, -8), (6, 24, 33, 8, 4, 49, 19), (6, 24, 33, 8, 5, 22, 35),
         (6, 24, 33, 8, 6, 6, 24), (6, 24, 33, 8, 7, 17, -3), (6, 24, 33, 8, 8, 44, -19),
         (6, 24, 33, 8, 9, 60, -8), (6, 24, 33, 8, 10, 49, 19), (6, 24, 33, 8, 11, 22, 35),
-        (6, 24, 33, 8, 12, 6, 24), (6, 24, 33, 8, 255, 60, -8), (34, 22, 31, 13, 0, 34, 22),
-        (34, 22, 31, 13, 1, 22, 25), (34, 22, 31, 13, 2, 19, 16), (34, 22, 31, 13, 3, 28, 4),
-        (34, 22, 31, 13, 4, 40, 1), (34, 22, 31, 13, 5, 43, 10), (34, 22, 31, 13, 6, 34, 22),
-        (34, 22, 31, 13, 7, 22, 25), (34, 22, 31, 13, 8, 19, 16), (34, 22, 31, 13, 9, 28, 4),
-        (34, 22, 31, 13, 10, 40, 1), (34, 22, 31, 13, 11, 43, 10), (34, 22, 31, 13, 12, 34, 22),
-        (34, 22, 31, 13, 255, 28, 4), (34, 22, 27, 39, 0, 34, 22), (34, 22, 27, 39, 1, 44, 29),
-        (34, 22, 27, 39, 2, 37, 46), (34, 22, 27, 39, 3, 20, 56), (34, 22, 27, 39, 4, 10, 49),
-        (34, 22, 27, 39, 5, 17, 32), (34, 22, 27, 39, 6, 34, 22), (34, 22, 27, 39, 7, 44, 29),
-        (34, 22, 27, 39, 8, 37, 46), (34, 22, 27, 39, 9, 20, 56), (34, 22, 27, 39, 10, 10, 49),
-        (34, 22, 27, 39, 11, 17, 32), (34, 22, 27, 39, 12, 34, 22), (34, 22, 27, 39, 255, 20, 56),
-        (34, 22, 24, 1, 0, 34, 22), (34, 22, 24, 1, 1, 3, 32), (34, 22, 24, 1, 2, -7, 11),
-        (34, 22, 24, 1, 3, 14, -20), (34, 22, 24, 1, 4, 45, -30), (34, 22, 24, 1, 5, 55, -9),
-        (34, 22, 24, 1, 6, 34, 22), (34, 22, 24, 1, 7, 3, 32), (34, 22, 24, 1, 8, -7, 11),
-        (34, 22, 24, 1, 9, 14, -20), (34, 22, 24, 1, 10, 45, -30), (34, 22, 24, 1, 11, 55, -9),
-        (34, 22, 24, 1, 12, 34, 22), (34, 22, 24, 1, 255, 14, -20), (34, 22, -21, -18, 0, 34, 22),
-        (34, 22, -21, -18, 1, -61, 77), (34, 22, -21, -18, 2, -116, 37),
-        (34, 22, -21, -18, 3, -76, -58), (34, 22, -21, -18, 4, 19, -113),
-        (34, 22, -21, -18, 5, 74, -73), (34, 22, -21, -18, 6, 34, 22),
-        (34, 22, -21, -18, 7, -61, 77), (34, 22, -21, -18, 8, -116, 37),
-        (34, 22, -21, -18, 9, -76, -58), (34, 22, -21, -18, 10, 19, -113),
-        (34, 22, -21, -18, 11, 74, -73), (34, 22, -21, -18, 12, 34, 22),
-        (34, 22, -21, -18, 255, -76, -58), (34, 22, -13, -35, 0, 34, 22),
-        (34, 22, -13, -35, 1, -70, 69), (34, 22, -13, -35, 2, -117, 12),
-        (34, 22, -13, -35, 3, -60, -92), (34, 22, -13, -35, 4, 44, -139),
-        (34, 22, -13, -35, 5, 91, -82), (34, 22, -13, -35, 6, 34, 22),
-        (34, 22, -13, -35, 7, -70, 69), (34, 22, -13, -35, 8, -117, 12),
-        (34, 22, -13, -35, 9, -60, -92), (34, 22, -13, -35, 10, 44, -139),
-        (34, 22, -13, -35, 11, 91, -82), (34, 22, -13, -35, 12, 34, 22),
-        (34, 22, -13, -35, 255, -60, -92), (34, 22, -26, 7, 0, 34, 22),
-        (34, 22, -26, 7, 1, -41, 82), (34, 22, -26, 7, 2, -101, 67), (34, 22, -26, 7, 3, -86, -8),
-        (34, 22, -26, 7, 4, -11, -68), (34, 22, -26, 7, 5, 49, -53), (34, 22, -26, 7, 6, 34, 22),
-        (34, 22, -26, 7, 7, -41, 82), (34, 22, -26, 7, 8, -101, 67), (34, 22, -26, 7, 9, -86, -8),
-        (34, 22, -26, 7, 10, -11, -68), (34, 22, -26, 7, 11, 49, -53), (34, 22, -26, 7, 12, 34, 22),
-        (34, 22, -26, 7, 255, -86, -8), (34, 22, 38, -1, 0, 34, 22), (34, 22, 38, -1, 1, 15, 18),
-        (34, 22, 38, -1, 2, 19, -5), (34, 22, 38, -1, 3, 42, -24), (34, 22, 38, -1, 4, 61, -20),
-        (34, 22, 38, -1, 5, 57, 3), (34, 22, 38, -1, 6, 34, 22), (34, 22, 38, -1, 7, 15, 18),
-        (34, 22, 38, -1, 8, 19, -5), (34, 22, 38, -1, 9, 42, -24), (34, 22, 38, -1, 10, 61, -20),
-        (34, 22, 38, -1, 11, 57, 3), (34, 22, 38, -1, 12, 34, 22), (34, 22, 38, -1, 255, 42, -24),
-        (34, 22, 33, 8, 0, 34, 22), (34, 22, 33, 8, 1, 19, 23), (34, 22, 33, 8, 2, 18, 9),
-        (34, 22, 33, 8, 3, 32, -6), (34, 22, 33, 8, 4, 47, -7), (34, 22, 33, 8, 5, 48, 7),
-        (34, 22, 33, 8, 6, 34, 22), (34, 22, 33, 8, 7, 19, 23), (34, 22, 33, 8, 8, 18, 9),
-        (34, 22, 33, 8, 9, 32, -6), (34, 22, 33, 8, 10, 47, -7), (34, 22, 33, 8, 11, 48, 7),
-        (34, 22, 33, 8, 12, 34, 22), (34, 22, 33, 8, 255, 32, -6), (-15, -16, 31, 13, 0, -15, -16),
-        (-15, -16, 31, 13, 1, 60, -62), (-15, -16, 31, 13, 2, 106, -33),
-        (-15, -16, 31, 13, 3, 77, 42), (-15, -16, 31, 13, 4, 2, 88), (-15, -16, 31, 13, 5, -44, 59),
+        (6, 24, 33, 8, 12, 6, 24), (6, 24, 33, 8, 255, 60, -8),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_10_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (-9, 30, 31, 13, 0, -9, 30), (-9, 30, 31, 13, 1, 8, 53), (-9, 30, 31, 13, 2, 48, 36),
+        (-9, 30, 31, 13, 3, 71, -4), (-9, 30, 31, 13, 4, 54, -27), (-9, 30, 31, 13, 5, 14, -10),
+        (-9, 30, 31, 13, 6, -9, 30), (-9, 30, 31, 13, 7, 8, 53), (-9, 30, 31, 13, 8, 48, 36),
+        (-9, 30, 31, 13, 9, 71, -4), (-9, 30, 31, 13, 10, 54, -27), (-9, 30, 31, 13, 11, 14, -10),
+        (-9, 30, 31, 13, 12, -9, 30), (-9, 30, 31, 13, 255, 71, -4), (-9, 30, 27, 39, 0, -9, 30),
+        (-9, 30, 27, 39, 1, -18, 75), (-9, 30, 27, 39, 2, 18, 84), (-9, 30, 27, 39, 3, 63, 48),
+        (-9, 30, 27, 39, 4, 72, 3), (-9, 30, 27, 39, 5, 36, -6), (-9, 30, 27, 39, 6, -9, 30),
+        (-9, 30, 27, 39, 7, -18, 75), (-9, 30, 27, 39, 8, 18, 84), (-9, 30, 27, 39, 9, 63, 48),
+        (-9, 30, 27, 39, 10, 72, 3), (-9, 30, 27, 39, 11, 36, -6), (-9, 30, 27, 39, 12, -9, 30),
+        (-9, 30, 27, 39, 255, 63, 48), (-9, 30, 24, 1, 0, -9, 30), (-9, 30, 24, 1, 1, 20, 34),
+        (-9, 30, 24, 1, 2, 53, 5), (-9, 30, 24, 1, 3, 57, -28), (-9, 30, 24, 1, 4, 28, -32),
+        (-9, 30, 24, 1, 5, -5, -3), (-9, 30, 24, 1, 6, -9, 30), (-9, 30, 24, 1, 7, 20, 34),
+        (-9, 30, 24, 1, 8, 53, 5), (-9, 30, 24, 1, 9, 57, -28), (-9, 30, 24, 1, 10, 28, -32),
+        (-9, 30, 24, 1, 11, -5, -3), (-9, 30, 24, 1, 12, -9, 30), (-9, 30, 24, 1, 255, 57, -28),
+        (-9, 30, -21, -18, 0, -9, 30), (-9, 30, -21, -18, 1, 39, -30),
+        (-9, 30, -21, -18, 2, 27, -78), (-9, 30, -21, -18, 3, -33, -66),
+        (-9, 30, -21, -18, 4, -81, -6), (-9, 30, -21, -18, 5, -69, 42),
+        (-9, 30, -21, -18, 6, -9, 30), (-9, 30, -21, -18, 7, 39, -30),
+        (-9, 30, -21, -18, 8, 27, -78), (-9, 30, -21, -18, 9, -33, -66),
+        (-9, 30, -21, -18, 10, -81, -6), (-9, 30, -21, -18, 11, -69, 42),
+        (-9, 30, -21, -18, 12, -9, 30), (-9, 30, -21, -18, 255, -33, -66),
+        (-9, 30, -13, -35, 0, -9, 30), (-9, 30, -13, -35, 1, 56, -39),
+        (-9, 30, -13, -35, 2, 52, -104), (-9, 30, -13, -35, 3, -17, -100),
+        (-9, 30, -13, -35, 4, -82, -31), (-9, 30, -13, -35, 5, -78, 34),
+        (-9, 30, -13, -35, 6, -9, 30), (-9, 30, -13, -35, 7, 56, -39),
+        (-9, 30, -13, -35, 8, 52, -104), (-9, 30, -13, -35, 9, -17, -100),
+        (-9, 30, -13, -35, 10, -82, -31), (-9, 30, -13, -35, 11, -78, 34),
+        (-9, 30, -13, -35, 12, -9, 30), (-9, 30, -13, -35, 255, -17, -100),
+        (-9, 30, -26, 7, 0, -9, 30), (-9, 30, -26, 7, 1, 14, -10), (-9, 30, -26, 7, 2, -3, -33),
+        (-9, 30, -26, 7, 3, -43, -16), (-9, 30, -26, 7, 4, -66, 24), (-9, 30, -26, 7, 5, -49, 47),
+        (-9, 30, -26, 7, 6, -9, 30), (-9, 30, -26, 7, 7, 14, -10), (-9, 30, -26, 7, 8, -3, -33),
+        (-9, 30, -26, 7, 9, -43, -16), (-9, 30, -26, 7, 10, -66, 24), (-9, 30, -26, 7, 11, -49, 47),
+        (-9, 30, -26, 7, 12, -9, 30), (-9, 30, -26, 7, 255, -43, -16), (-9, 30, 38, -1, 0, -9, 30),
+        (-9, 30, 38, -1, 1, 22, 46), (-9, 30, 38, -1, 2, 69, 15), (-9, 30, 38, -1, 3, 85, -32),
+        (-9, 30, 38, -1, 4, 54, -48), (-9, 30, 38, -1, 5, 7, -17), (-9, 30, 38, -1, 6, -9, 30),
+        (-9, 30, 38, -1, 7, 22, 46), (-9, 30, 38, -1, 8, 69, 15), (-9, 30, 38, -1, 9, 85, -32),
+        (-9, 30, 38, -1, 10, 54, -48), (-9, 30, 38, -1, 11, 7, -17), (-9, 30, 38, -1, 12, -9, 30),
+        (-9, 30, 38, -1, 255, 85, -32), (-9, 30, 33, 8, 0, -9, 30), (-9, 30, 33, 8, 1, 13, 50),
+        (-9, 30, 33, 8, 2, 55, 28), (-9, 30, 33, 8, 3, 75, -14), (-9, 30, 33, 8, 4, 53, -34),
+        (-9, 30, 33, 8, 5, 11, -12), (-9, 30, 33, 8, 6, -9, 30), (-9, 30, 33, 8, 7, 13, 50),
+        (-9, 30, 33, 8, 8, 55, 28), (-9, 30, 33, 8, 9, 75, -14), (-9, 30, 33, 8, 10, 53, -34),
+        (-9, 30, 33, 8, 11, 11, -12), (-9, 30, 33, 8, 12, -9, 30), (-9, 30, 33, 8, 255, 75, -14),
+        (6, 24, 31, 13, 0, 6, 24), (6, 24, 31, 13, 1, 17, 38), (6, 24, 31, 13, 2, 42, 27),
+        (6, 24, 31, 13, 3, 56, 2), (6, 24, 31, 13, 4, 45, -12), (6, 24, 31, 13, 5, 20, -1),
+        (6, 24, 31, 13, 6, 6, 24), (6, 24, 31, 13, 7, 17, 38), (6, 24, 31, 13, 8, 42, 27),
+        (6, 24, 31, 13, 9, 56, 2), (6, 24, 31, 13, 10, 45, -12), (6, 24, 31, 13, 11, 20, -1),
+        (6, 24, 31, 13, 12, 6, 24), (6, 24, 31, 13, 255, 56, 2), (6, 24, 27, 39, 0, 6, 24),
+        (6, 24, 27, 39, 1, -9, 60), (6, 24, 27, 39, 2, 12, 75), (6, 24, 27, 39, 3, 48, 54),
+        (6, 24, 27, 39, 4, 63, 18), (6, 24, 27, 39, 5, 42, 3), (6, 24, 27, 39, 6, 6, 24),
+        (6, 24, 27, 39, 7, -9, 60), (6, 24, 27, 39, 8, 12, 75), (6, 24, 27, 39, 9, 48, 54),
+        (6, 24, 27, 39, 10, 63, 18), (6, 24, 27, 39, 11, 42, 3), (6, 24, 27, 39, 12, 6, 24),
+        (6, 24, 27, 39, 255, 48, 54), (6, 24, 24, 1, 0, 6, 24), (6, 24, 24, 1, 1, 29, 19),
+        (6, 24, 24, 1, 2, 47, -4), (6, 24, 24, 1, 3, 42, -22), (6, 24, 24, 1, 4, 19, -17),
+        (6, 24, 24, 1, 5, 1, 6), (6, 24, 24, 1, 6, 6, 24), (6, 24, 24, 1, 7, 29, 19),
+        (6, 24, 24, 1, 8, 47, -4), (6, 24, 24, 1, 9, 42, -22), (6, 24, 24, 1, 10, 19, -17),
+        (6, 24, 24, 1, 11, 1, 6), (6, 24, 24, 1, 12, 6, 24), (6, 24, 24, 1, 255, 42, -22),
+        (6, 24, -21, -18, 0, 6, 24), (6, 24, -21, -18, 1, 48, -45), (6, 24, -21, -18, 2, 21, -87),
+        (6, 24, -21, -18, 3, -48, -60), (6, 24, -21, -18, 4, -90, 9), (6, 24, -21, -18, 5, -63, 51),
+        (6, 24, -21, -18, 6, 6, 24), (6, 24, -21, -18, 7, 48, -45), (6, 24, -21, -18, 8, 21, -87),
+        (6, 24, -21, -18, 9, -48, -60), (6, 24, -21, -18, 10, -90, 9),
+        (6, 24, -21, -18, 11, -63, 51), (6, 24, -21, -18, 12, 6, 24),
+        (6, 24, -21, -18, 255, -48, -60), (6, 24, -13, -35, 0, 6, 24),
+        (6, 24, -13, -35, 1, 65, -54), (6, 24, -13, -35, 2, 46, -113),
+        (6, 24, -13, -35, 3, -32, -94), (6, 24, -13, -35, 4, -91, -16),
+        (6, 24, -13, -35, 5, -72, 43), (6, 24, -13, -35, 6, 6, 24), (6, 24, -13, -35, 7, 65, -54),
+        (6, 24, -13, -35, 8, 46, -113), (6, 24, -13, -35, 9, -32, -94),
+        (6, 24, -13, -35, 10, -91, -16), (6, 24, -13, -35, 11, -72, 43),
+        (6, 24, -13, -35, 12, 6, 24), (6, 24, -13, -35, 255, -32, -94), (6, 24, -26, 7, 0, 6, 24),
+        (6, 24, -26, 7, 1, 23, -25), (6, 24, -26, 7, 2, -9, -42), (6, 24, -26, 7, 3, -58, -10),
+        (6, 24, -26, 7, 4, -75, 39), (6, 24, -26, 7, 5, -43, 56), (6, 24, -26, 7, 6, 6, 24),
+        (6, 24, -26, 7, 7, 23, -25), (6, 24, -26, 7, 8, -9, -42), (6, 24, -26, 7, 9, -58, -10),
+        (6, 24, -26, 7, 10, -75, 39), (6, 24, -26, 7, 11, -43, 56), (6, 24, -26, 7, 12, 6, 24),
+        (6, 24, -26, 7, 255, -58, -10), (6, 24, 38, -1, 0, 6, 24), (6, 24, 38, -1, 1, 31, 31),
+        (6, 24, 38, -1, 2, 63, 6), (6, 24, 38, -1, 3, 70, -26), (6, 24, 38, -1, 4, 45, -33),
+        (6, 24, 38, -1, 5, 13, -8), (6, 24, 38, -1, 6, 6, 24), (6, 24, 38, -1, 7, 31, 31),
+        (6, 24, 38, -1, 8, 63, 6), (6, 24, 38, -1, 9, 70, -26), (6, 24, 38, -1, 10, 45, -33),
+        (6, 24, 38, -1, 11, 13, -8), (6, 24, 38, -1, 12, 6, 24), (6, 24, 38, -1, 255, 70, -26),
+        (6, 24, 33, 8, 0, 6, 24), (6, 24, 33, 8, 1, 22, 35), (6, 24, 33, 8, 2, 49, 19),
+        (6, 24, 33, 8, 3, 60, -8), (6, 24, 33, 8, 4, 44, -19), (6, 24, 33, 8, 5, 17, -3),
+        (6, 24, 33, 8, 6, 6, 24), (6, 24, 33, 8, 7, 22, 35), (6, 24, 33, 8, 8, 49, 19),
+        (6, 24, 33, 8, 9, 60, -8), (6, 24, 33, 8, 10, 44, -19), (6, 24, 33, 8, 11, 17, -3),
+        (6, 24, 33, 8, 12, 6, 24), (6, 24, 33, 8, 255, 60, -8),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_11_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (34, 22, 31, 13, 0, 34, 22), (34, 22, 31, 13, 1, 22, 25), (34, 22, 31, 13, 2, 19, 16),
+        (34, 22, 31, 13, 3, 28, 4), (34, 22, 31, 13, 4, 40, 1), (34, 22, 31, 13, 5, 43, 10),
+        (34, 22, 31, 13, 6, 34, 22), (34, 22, 31, 13, 7, 22, 25), (34, 22, 31, 13, 8, 19, 16),
+        (34, 22, 31, 13, 9, 28, 4), (34, 22, 31, 13, 10, 40, 1), (34, 22, 31, 13, 11, 43, 10),
+        (34, 22, 31, 13, 12, 34, 22), (34, 22, 31, 13, 255, 28, 4), (34, 22, 27, 39, 0, 34, 22),
+        (34, 22, 27, 39, 1, 44, 29), (34, 22, 27, 39, 2, 37, 46), (34, 22, 27, 39, 3, 20, 56),
+        (34, 22, 27, 39, 4, 10, 49), (34, 22, 27, 39, 5, 17, 32), (34, 22, 27, 39, 6, 34, 22),
+        (34, 22, 27, 39, 7, 44, 29), (34, 22, 27, 39, 8, 37, 46), (34, 22, 27, 39, 9, 20, 56),
+        (34, 22, 27, 39, 10, 10, 49), (34, 22, 27, 39, 11, 17, 32), (34, 22, 27, 39, 12, 34, 22),
+        (34, 22, 27, 39, 255, 20, 56), (34, 22, 24, 1, 0, 34, 22), (34, 22, 24, 1, 1, 3, 32),
+        (34, 22, 24, 1, 2, -7, 11), (34, 22, 24, 1, 3, 14, -20), (34, 22, 24, 1, 4, 45, -30),
+        (34, 22, 24, 1, 5, 55, -9), (34, 22, 24, 1, 6, 34, 22), (34, 22, 24, 1, 7, 3, 32),
+        (34, 22, 24, 1, 8, -7, 11), (34, 22, 24, 1, 9, 14, -20), (34, 22, 24, 1, 10, 45, -30),
+        (34, 22, 24, 1, 11, 55, -9), (34, 22, 24, 1, 12, 34, 22), (34, 22, 24, 1, 255, 14, -20),
+        (34, 22, -21, -18, 0, 34, 22), (34, 22, -21, -18, 1, -61, 77),
+        (34, 22, -21, -18, 2, -116, 37), (34, 22, -21, -18, 3, -76, -58),
+        (34, 22, -21, -18, 4, 19, -113), (34, 22, -21, -18, 5, 74, -73),
+        (34, 22, -21, -18, 6, 34, 22), (34, 22, -21, -18, 7, -61, 77),
+        (34, 22, -21, -18, 8, -116, 37), (34, 22, -21, -18, 9, -76, -58),
+        (34, 22, -21, -18, 10, 19, -113), (34, 22, -21, -18, 11, 74, -73),
+        (34, 22, -21, -18, 12, 34, 22), (34, 22, -21, -18, 255, -76, -58),
+        (34, 22, -13, -35, 0, 34, 22), (34, 22, -13, -35, 1, -70, 69),
+        (34, 22, -13, -35, 2, -117, 12), (34, 22, -13, -35, 3, -60, -92),
+        (34, 22, -13, -35, 4, 44, -139), (34, 22, -13, -35, 5, 91, -82),
+        (34, 22, -13, -35, 6, 34, 22), (34, 22, -13, -35, 7, -70, 69),
+        (34, 22, -13, -35, 8, -117, 12), (34, 22, -13, -35, 9, -60, -92),
+        (34, 22, -13, -35, 10, 44, -139), (34, 22, -13, -35, 11, 91, -82),
+        (34, 22, -13, -35, 12, 34, 22), (34, 22, -13, -35, 255, -60, -92),
+        (34, 22, -26, 7, 0, 34, 22), (34, 22, -26, 7, 1, -41, 82), (34, 22, -26, 7, 2, -101, 67),
+        (34, 22, -26, 7, 3, -86, -8), (34, 22, -26, 7, 4, -11, -68), (34, 22, -26, 7, 5, 49, -53),
+        (34, 22, -26, 7, 6, 34, 22), (34, 22, -26, 7, 7, -41, 82), (34, 22, -26, 7, 8, -101, 67),
+        (34, 22, -26, 7, 9, -86, -8), (34, 22, -26, 7, 10, -11, -68), (34, 22, -26, 7, 11, 49, -53),
+        (34, 22, -26, 7, 12, 34, 22), (34, 22, -26, 7, 255, -86, -8), (34, 22, 38, -1, 0, 34, 22),
+        (34, 22, 38, -1, 1, 15, 18), (34, 22, 38, -1, 2, 19, -5), (34, 22, 38, -1, 3, 42, -24),
+        (34, 22, 38, -1, 4, 61, -20), (34, 22, 38, -1, 5, 57, 3), (34, 22, 38, -1, 6, 34, 22),
+        (34, 22, 38, -1, 7, 15, 18), (34, 22, 38, -1, 8, 19, -5), (34, 22, 38, -1, 9, 42, -24),
+        (34, 22, 38, -1, 10, 61, -20), (34, 22, 38, -1, 11, 57, 3), (34, 22, 38, -1, 12, 34, 22),
+        (34, 22, 38, -1, 255, 42, -24), (34, 22, 33, 8, 0, 34, 22), (34, 22, 33, 8, 1, 19, 23),
+        (34, 22, 33, 8, 2, 18, 9), (34, 22, 33, 8, 3, 32, -6), (34, 22, 33, 8, 4, 47, -7),
+        (34, 22, 33, 8, 5, 48, 7), (34, 22, 33, 8, 6, 34, 22), (34, 22, 33, 8, 7, 19, 23),
+        (34, 22, 33, 8, 8, 18, 9), (34, 22, 33, 8, 9, 32, -6), (34, 22, 33, 8, 10, 47, -7),
+        (34, 22, 33, 8, 11, 48, 7), (34, 22, 33, 8, 12, 34, 22), (34, 22, 33, 8, 255, 32, -6),
+        (-15, -16, 31, 13, 0, -15, -16), (-15, -16, 31, 13, 1, 60, -62),
+        (-15, -16, 31, 13, 2, 106, -33), (-15, -16, 31, 13, 3, 77, 42),
+        (-15, -16, 31, 13, 4, 2, 88), (-15, -16, 31, 13, 5, -44, 59),
         (-15, -16, 31, 13, 6, -15, -16), (-15, -16, 31, 13, 7, 60, -62),
         (-15, -16, 31, 13, 8, 106, -33), (-15, -16, 31, 13, 9, 77, 42),
         (-15, -16, 31, 13, 10, 2, 88), (-15, -16, 31, 13, 11, -44, 59),
@@ -35206,6 +34444,134 @@ fn golden_hex_around_1_rotate_cw_around() {
         (-15, -16, 33, 8, 7, 57, -64), (-15, -16, 33, 8, 8, 105, -40), (-15, -16, 33, 8, 9, 81, 32),
         (-15, -16, 33, 8, 10, 9, 80), (-15, -16, 33, 8, 11, -39, 56),
         (-15, -16, 33, 8, 12, -15, -16), (-15, -16, 33, 8, 255, 81, 32),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_11_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (34, 22, 31, 13, 0, 34, 22), (34, 22, 31, 13, 1, 43, 10), (34, 22, 31, 13, 2, 40, 1),
+        (34, 22, 31, 13, 3, 28, 4), (34, 22, 31, 13, 4, 19, 16), (34, 22, 31, 13, 5, 22, 25),
+        (34, 22, 31, 13, 6, 34, 22), (34, 22, 31, 13, 7, 43, 10), (34, 22, 31, 13, 8, 40, 1),
+        (34, 22, 31, 13, 9, 28, 4), (34, 22, 31, 13, 10, 19, 16), (34, 22, 31, 13, 11, 22, 25),
+        (34, 22, 31, 13, 12, 34, 22), (34, 22, 31, 13, 255, 28, 4), (34, 22, 27, 39, 0, 34, 22),
+        (34, 22, 27, 39, 1, 17, 32), (34, 22, 27, 39, 2, 10, 49), (34, 22, 27, 39, 3, 20, 56),
+        (34, 22, 27, 39, 4, 37, 46), (34, 22, 27, 39, 5, 44, 29), (34, 22, 27, 39, 6, 34, 22),
+        (34, 22, 27, 39, 7, 17, 32), (34, 22, 27, 39, 8, 10, 49), (34, 22, 27, 39, 9, 20, 56),
+        (34, 22, 27, 39, 10, 37, 46), (34, 22, 27, 39, 11, 44, 29), (34, 22, 27, 39, 12, 34, 22),
+        (34, 22, 27, 39, 255, 20, 56), (34, 22, 24, 1, 0, 34, 22), (34, 22, 24, 1, 1, 55, -9),
+        (34, 22, 24, 1, 2, 45, -30), (34, 22, 24, 1, 3, 14, -20), (34, 22, 24, 1, 4, -7, 11),
+        (34, 22, 24, 1, 5, 3, 32), (34, 22, 24, 1, 6, 34, 22), (34, 22, 24, 1, 7, 55, -9),
+        (34, 22, 24, 1, 8, 45, -30), (34, 22, 24, 1, 9, 14, -20), (34, 22, 24, 1, 10, -7, 11),
+        (34, 22, 24, 1, 11, 3, 32), (34, 22, 24, 1, 12, 34, 22), (34, 22, 24, 1, 255, 14, -20),
+        (34, 22, -21, -18, 0, 34, 22), (34, 22, -21, -18, 1, 74, -73),
+        (34, 22, -21, -18, 2, 19, -113), (34, 22, -21, -18, 3, -76, -58),
+        (34, 22, -21, -18, 4, -116, 37), (34, 22, -21, -18, 5, -61, 77),
+        (34, 22, -21, -18, 6, 34, 22), (34, 22, -21, -18, 7, 74, -73),
+        (34, 22, -21, -18, 8, 19, -113), (34, 22, -21, -18, 9, -76, -58),
+        (34, 22, -21, -18, 10, -116, 37), (34, 22, -21, -18, 11, -61, 77),
+        (34, 22, -21, -18, 12, 34, 22), (34, 22, -21, -18, 255, -76, -58),
+        (34, 22, -13, -35, 0, 34, 22), (34, 22, -13, -35, 1, 91, -82),
+        (34, 22, -13, -35, 2, 44, -139), (34, 22, -13, -35, 3, -60, -92),
+        (34, 22, -13, -35, 4, -117, 12), (34, 22, -13, -35, 5, -70, 69),
+        (34, 22, -13, -35, 6, 34, 22), (34, 22, -13, -35, 7, 91, -82),
+        (34, 22, -13, -35, 8, 44, -139), (34, 22, -13, -35, 9, -60, -92),
+        (34, 22, -13, -35, 10, -117, 12), (34, 22, -13, -35, 11, -70, 69),
+        (34, 22, -13, -35, 12, 34, 22), (34, 22, -13, -35, 255, -60, -92),
+        (34, 22, -26, 7, 0, 34, 22), (34, 22, -26, 7, 1, 49, -53), (34, 22, -26, 7, 2, -11, -68),
+        (34, 22, -26, 7, 3, -86, -8), (34, 22, -26, 7, 4, -101, 67), (34, 22, -26, 7, 5, -41, 82),
+        (34, 22, -26, 7, 6, 34, 22), (34, 22, -26, 7, 7, 49, -53), (34, 22, -26, 7, 8, -11, -68),
+        (34, 22, -26, 7, 9, -86, -8), (34, 22, -26, 7, 10, -101, 67), (34, 22, -26, 7, 11, -41, 82),
+        (34, 22, -26, 7, 12, 34, 22), (34, 22, -26, 7, 255, -86, -8), (34, 22, 38, -1, 0, 34, 22),
+        (34, 22, 38, -1, 1, 57, 3), (34, 22, 38, -1, 2, 61, -20), (34, 22, 38, -1, 3, 42, -24),
+        (34, 22, 38, -1, 4, 19, -5), (34, 22, 38, -1, 5, 15, 18), (34, 22, 38, -1, 6, 34, 22),
+        (34, 22, 38, -1, 7, 57, 3), (34, 22, 38, -1, 8, 61, -20), (34, 22, 38, -1, 9, 42, -24),
+        (34, 22, 38, -1, 10, 19, -5), (34, 22, 38, -1, 11, 15, 18), (34, 22, 38, -1, 12, 34, 22),
+        (34, 22, 38, -1, 255, 42, -24), (34, 22, 33, 8, 0, 34, 22), (34, 22, 33, 8, 1, 48, 7),
+        (34, 22, 33, 8, 2, 47, -7), (34, 22, 33, 8, 3, 32, -6), (34, 22, 33, 8, 4, 18, 9),
+        (34, 22, 33, 8, 5, 19, 23), (34, 22, 33, 8, 6, 34, 22), (34, 22, 33, 8, 7, 48, 7),
+        (34, 22, 33, 8, 8, 47, -7), (34, 22, 33, 8, 9, 32, -6), (34, 22, 33, 8, 10, 18, 9),
+        (34, 22, 33, 8, 11, 19, 23), (34, 22, 33, 8, 12, 34, 22), (34, 22, 33, 8, 255, 32, -6),
+        (-15, -16, 31, 13, 0, -15, -16), (-15, -16, 31, 13, 1, -44, 59),
+        (-15, -16, 31, 13, 2, 2, 88), (-15, -16, 31, 13, 3, 77, 42),
+        (-15, -16, 31, 13, 4, 106, -33), (-15, -16, 31, 13, 5, 60, -62),
+        (-15, -16, 31, 13, 6, -15, -16), (-15, -16, 31, 13, 7, -44, 59),
+        (-15, -16, 31, 13, 8, 2, 88), (-15, -16, 31, 13, 9, 77, 42),
+        (-15, -16, 31, 13, 10, 106, -33), (-15, -16, 31, 13, 11, 60, -62),
+        (-15, -16, 31, 13, 12, -15, -16), (-15, -16, 31, 13, 255, 77, 42),
+        (-15, -16, 27, 39, 0, -15, -16), (-15, -16, 27, 39, 1, -70, 81),
+        (-15, -16, 27, 39, 2, -28, 136), (-15, -16, 27, 39, 3, 69, 94),
+        (-15, -16, 27, 39, 4, 124, -3), (-15, -16, 27, 39, 5, 82, -58),
+        (-15, -16, 27, 39, 6, -15, -16), (-15, -16, 27, 39, 7, -70, 81),
+        (-15, -16, 27, 39, 8, -28, 136), (-15, -16, 27, 39, 9, 69, 94),
+        (-15, -16, 27, 39, 10, 124, -3), (-15, -16, 27, 39, 11, 82, -58),
+        (-15, -16, 27, 39, 12, -15, -16), (-15, -16, 27, 39, 255, 69, 94),
+        (-15, -16, 24, 1, 0, -15, -16), (-15, -16, 24, 1, 1, -32, 40), (-15, -16, 24, 1, 2, 7, 57),
+        (-15, -16, 24, 1, 3, 63, 18), (-15, -16, 24, 1, 4, 80, -38), (-15, -16, 24, 1, 5, 41, -55),
+        (-15, -16, 24, 1, 6, -15, -16), (-15, -16, 24, 1, 7, -32, 40), (-15, -16, 24, 1, 8, 7, 57),
+        (-15, -16, 24, 1, 9, 63, 18), (-15, -16, 24, 1, 10, 80, -38),
+        (-15, -16, 24, 1, 11, 41, -55), (-15, -16, 24, 1, 12, -15, -16),
+        (-15, -16, 24, 1, 255, 63, 18), (-15, -16, -21, -18, 0, -15, -16),
+        (-15, -16, -21, -18, 1, -13, -24), (-15, -16, -21, -18, 2, -19, -26),
+        (-15, -16, -21, -18, 3, -27, -20), (-15, -16, -21, -18, 4, -29, -12),
+        (-15, -16, -21, -18, 5, -23, -10), (-15, -16, -21, -18, 6, -15, -16),
+        (-15, -16, -21, -18, 7, -13, -24), (-15, -16, -21, -18, 8, -19, -26),
+        (-15, -16, -21, -18, 9, -27, -20), (-15, -16, -21, -18, 10, -29, -12),
+        (-15, -16, -21, -18, 11, -23, -10), (-15, -16, -21, -18, 12, -15, -16),
+        (-15, -16, -21, -18, 255, -27, -20), (-15, -16, -13, -35, 0, -15, -16),
+        (-15, -16, -13, -35, 1, 4, -33), (-15, -16, -13, -35, 2, 6, -52),
+        (-15, -16, -13, -35, 3, -11, -54), (-15, -16, -13, -35, 4, -30, -37),
+        (-15, -16, -13, -35, 5, -32, -18), (-15, -16, -13, -35, 6, -15, -16),
+        (-15, -16, -13, -35, 7, 4, -33), (-15, -16, -13, -35, 8, 6, -52),
+        (-15, -16, -13, -35, 9, -11, -54), (-15, -16, -13, -35, 10, -30, -37),
+        (-15, -16, -13, -35, 11, -32, -18), (-15, -16, -13, -35, 12, -15, -16),
+        (-15, -16, -13, -35, 255, -11, -54), (-15, -16, -26, 7, 0, -15, -16),
+        (-15, -16, -26, 7, 1, -38, -4), (-15, -16, -26, 7, 2, -49, 19),
+        (-15, -16, -26, 7, 3, -37, 30), (-15, -16, -26, 7, 4, -14, 18),
+        (-15, -16, -26, 7, 5, -3, -5), (-15, -16, -26, 7, 6, -15, -16),
+        (-15, -16, -26, 7, 7, -38, -4), (-15, -16, -26, 7, 8, -49, 19),
+        (-15, -16, -26, 7, 9, -37, 30), (-15, -16, -26, 7, 10, -14, 18),
+        (-15, -16, -26, 7, 11, -3, -5), (-15, -16, -26, 7, 12, -15, -16),
+        (-15, -16, -26, 7, 255, -37, 30), (-15, -16, 38, -1, 0, -15, -16),
+        (-15, -16, 38, -1, 1, -30, 52), (-15, -16, 38, -1, 2, 23, 67),
+        (-15, -16, 38, -1, 3, 91, 14), (-15, -16, 38, -1, 4, 106, -54),
+        (-15, -16, 38, -1, 5, 53, -69), (-15, -16, 38, -1, 6, -15, -16),
+        (-15, -16, 38, -1, 7, -30, 52), (-15, -16, 38, -1, 8, 23, 67),
+        (-15, -16, 38, -1, 9, 91, 14), (-15, -16, 38, -1, 10, 106, -54),
+        (-15, -16, 38, -1, 11, 53, -69), (-15, -16, 38, -1, 12, -15, -16),
+        (-15, -16, 38, -1, 255, 91, 14), (-15, -16, 33, 8, 0, -15, -16),
+        (-15, -16, 33, 8, 1, -39, 56), (-15, -16, 33, 8, 2, 9, 80), (-15, -16, 33, 8, 3, 81, 32),
+        (-15, -16, 33, 8, 4, 105, -40), (-15, -16, 33, 8, 5, 57, -64),
+        (-15, -16, 33, 8, 6, -15, -16), (-15, -16, 33, 8, 7, -39, 56), (-15, -16, 33, 8, 8, 9, 80),
+        (-15, -16, 33, 8, 9, 81, 32), (-15, -16, 33, 8, 10, 105, -40),
+        (-15, -16, 33, 8, 11, 57, -64), (-15, -16, 33, 8, 12, -15, -16),
+        (-15, -16, 33, 8, 255, 81, 32),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_12_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (-21, -18, 31, 13, 0, -21, -18), (-21, -18, 31, 13, 1, 62, -70),
         (-21, -18, 31, 13, 2, 114, -39), (-21, -18, 31, 13, 3, 83, 44),
         (-21, -18, 31, 13, 4, 0, 96), (-21, -18, 31, 13, 5, -52, 65),
@@ -35302,6 +34668,134 @@ fn golden_hex_around_1_rotate_cw_around() {
         (31, 24, 33, 8, 5, 47, 10), (31, 24, 33, 8, 6, 31, 24), (31, 24, 33, 8, 7, 17, 22),
         (31, 24, 33, 8, 8, 19, 6), (31, 24, 33, 8, 9, 35, -8), (31, 24, 33, 8, 10, 49, -6),
         (31, 24, 33, 8, 11, 47, 10), (31, 24, 33, 8, 12, 31, 24), (31, 24, 33, 8, 255, 35, -8),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_12_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (-21, -18, 31, 13, 0, -21, -18), (-21, -18, 31, 13, 1, -52, 65),
+        (-21, -18, 31, 13, 2, 0, 96), (-21, -18, 31, 13, 3, 83, 44),
+        (-21, -18, 31, 13, 4, 114, -39), (-21, -18, 31, 13, 5, 62, -70),
+        (-21, -18, 31, 13, 6, -21, -18), (-21, -18, 31, 13, 7, -52, 65),
+        (-21, -18, 31, 13, 8, 0, 96), (-21, -18, 31, 13, 9, 83, 44),
+        (-21, -18, 31, 13, 10, 114, -39), (-21, -18, 31, 13, 11, 62, -70),
+        (-21, -18, 31, 13, 12, -21, -18), (-21, -18, 31, 13, 255, 83, 44),
+        (-21, -18, 27, 39, 0, -21, -18), (-21, -18, 27, 39, 1, -78, 87),
+        (-21, -18, 27, 39, 2, -30, 144), (-21, -18, 27, 39, 3, 75, 96),
+        (-21, -18, 27, 39, 4, 132, -9), (-21, -18, 27, 39, 5, 84, -66),
+        (-21, -18, 27, 39, 6, -21, -18), (-21, -18, 27, 39, 7, -78, 87),
+        (-21, -18, 27, 39, 8, -30, 144), (-21, -18, 27, 39, 9, 75, 96),
+        (-21, -18, 27, 39, 10, 132, -9), (-21, -18, 27, 39, 11, 84, -66),
+        (-21, -18, 27, 39, 12, -21, -18), (-21, -18, 27, 39, 255, 75, 96),
+        (-21, -18, 24, 1, 0, -21, -18), (-21, -18, 24, 1, 1, -40, 46), (-21, -18, 24, 1, 2, 5, 65),
+        (-21, -18, 24, 1, 3, 69, 20), (-21, -18, 24, 1, 4, 88, -44), (-21, -18, 24, 1, 5, 43, -63),
+        (-21, -18, 24, 1, 6, -21, -18), (-21, -18, 24, 1, 7, -40, 46), (-21, -18, 24, 1, 8, 5, 65),
+        (-21, -18, 24, 1, 9, 69, 20), (-21, -18, 24, 1, 10, 88, -44),
+        (-21, -18, 24, 1, 11, 43, -63), (-21, -18, 24, 1, 12, -21, -18),
+        (-21, -18, 24, 1, 255, 69, 20), (-21, -18, -21, -18, 0, -21, -18),
+        (-21, -18, -21, -18, 1, -21, -18), (-21, -18, -21, -18, 2, -21, -18),
+        (-21, -18, -21, -18, 3, -21, -18), (-21, -18, -21, -18, 4, -21, -18),
+        (-21, -18, -21, -18, 5, -21, -18), (-21, -18, -21, -18, 6, -21, -18),
+        (-21, -18, -21, -18, 7, -21, -18), (-21, -18, -21, -18, 8, -21, -18),
+        (-21, -18, -21, -18, 9, -21, -18), (-21, -18, -21, -18, 10, -21, -18),
+        (-21, -18, -21, -18, 11, -21, -18), (-21, -18, -21, -18, 12, -21, -18),
+        (-21, -18, -21, -18, 255, -21, -18), (-21, -18, -13, -35, 0, -21, -18),
+        (-21, -18, -13, -35, 1, -4, -27), (-21, -18, -13, -35, 2, 4, -44),
+        (-21, -18, -13, -35, 3, -5, -52), (-21, -18, -13, -35, 4, -22, -43),
+        (-21, -18, -13, -35, 5, -30, -26), (-21, -18, -13, -35, 6, -21, -18),
+        (-21, -18, -13, -35, 7, -4, -27), (-21, -18, -13, -35, 8, 4, -44),
+        (-21, -18, -13, -35, 9, -5, -52), (-21, -18, -13, -35, 10, -22, -43),
+        (-21, -18, -13, -35, 11, -30, -26), (-21, -18, -13, -35, 12, -21, -18),
+        (-21, -18, -13, -35, 255, -5, -52), (-21, -18, -26, 7, 0, -21, -18),
+        (-21, -18, -26, 7, 1, -46, 2), (-21, -18, -26, 7, 2, -51, 27),
+        (-21, -18, -26, 7, 3, -31, 32), (-21, -18, -26, 7, 4, -6, 12),
+        (-21, -18, -26, 7, 5, -1, -13), (-21, -18, -26, 7, 6, -21, -18),
+        (-21, -18, -26, 7, 7, -46, 2), (-21, -18, -26, 7, 8, -51, 27),
+        (-21, -18, -26, 7, 9, -31, 32), (-21, -18, -26, 7, 10, -6, 12),
+        (-21, -18, -26, 7, 11, -1, -13), (-21, -18, -26, 7, 12, -21, -18),
+        (-21, -18, -26, 7, 255, -31, 32), (-21, -18, 38, -1, 0, -21, -18),
+        (-21, -18, 38, -1, 1, -38, 58), (-21, -18, 38, -1, 2, 21, 75),
+        (-21, -18, 38, -1, 3, 97, 16), (-21, -18, 38, -1, 4, 114, -60),
+        (-21, -18, 38, -1, 5, 55, -77), (-21, -18, 38, -1, 6, -21, -18),
+        (-21, -18, 38, -1, 7, -38, 58), (-21, -18, 38, -1, 8, 21, 75),
+        (-21, -18, 38, -1, 9, 97, 16), (-21, -18, 38, -1, 10, 114, -60),
+        (-21, -18, 38, -1, 11, 55, -77), (-21, -18, 38, -1, 12, -21, -18),
+        (-21, -18, 38, -1, 255, 97, 16), (-21, -18, 33, 8, 0, -21, -18),
+        (-21, -18, 33, 8, 1, -47, 62), (-21, -18, 33, 8, 2, 7, 88), (-21, -18, 33, 8, 3, 87, 34),
+        (-21, -18, 33, 8, 4, 113, -46), (-21, -18, 33, 8, 5, 59, -72),
+        (-21, -18, 33, 8, 6, -21, -18), (-21, -18, 33, 8, 7, -47, 62), (-21, -18, 33, 8, 8, 7, 88),
+        (-21, -18, 33, 8, 9, 87, 34), (-21, -18, 33, 8, 10, 113, -46),
+        (-21, -18, 33, 8, 11, 59, -72), (-21, -18, 33, 8, 12, -21, -18),
+        (-21, -18, 33, 8, 255, 87, 34), (31, 24, 31, 13, 0, 31, 24), (31, 24, 31, 13, 1, 42, 13),
+        (31, 24, 31, 13, 2, 42, 2), (31, 24, 31, 13, 3, 31, 2), (31, 24, 31, 13, 4, 20, 13),
+        (31, 24, 31, 13, 5, 20, 24), (31, 24, 31, 13, 6, 31, 24), (31, 24, 31, 13, 7, 42, 13),
+        (31, 24, 31, 13, 8, 42, 2), (31, 24, 31, 13, 9, 31, 2), (31, 24, 31, 13, 10, 20, 13),
+        (31, 24, 31, 13, 11, 20, 24), (31, 24, 31, 13, 12, 31, 24), (31, 24, 31, 13, 255, 31, 2),
+        (31, 24, 27, 39, 0, 31, 24), (31, 24, 27, 39, 1, 16, 35), (31, 24, 27, 39, 2, 12, 50),
+        (31, 24, 27, 39, 3, 23, 54), (31, 24, 27, 39, 4, 38, 43), (31, 24, 27, 39, 5, 42, 28),
+        (31, 24, 27, 39, 6, 31, 24), (31, 24, 27, 39, 7, 16, 35), (31, 24, 27, 39, 8, 12, 50),
+        (31, 24, 27, 39, 9, 23, 54), (31, 24, 27, 39, 10, 38, 43), (31, 24, 27, 39, 11, 42, 28),
+        (31, 24, 27, 39, 12, 31, 24), (31, 24, 27, 39, 255, 23, 54), (31, 24, 24, 1, 0, 31, 24),
+        (31, 24, 24, 1, 1, 54, -6), (31, 24, 24, 1, 2, 47, -29), (31, 24, 24, 1, 3, 17, -22),
+        (31, 24, 24, 1, 4, -6, 8), (31, 24, 24, 1, 5, 1, 31), (31, 24, 24, 1, 6, 31, 24),
+        (31, 24, 24, 1, 7, 54, -6), (31, 24, 24, 1, 8, 47, -29), (31, 24, 24, 1, 9, 17, -22),
+        (31, 24, 24, 1, 10, -6, 8), (31, 24, 24, 1, 11, 1, 31), (31, 24, 24, 1, 12, 31, 24),
+        (31, 24, 24, 1, 255, 17, -22), (31, 24, -21, -18, 0, 31, 24),
+        (31, 24, -21, -18, 1, 73, -70), (31, 24, -21, -18, 2, 21, -112),
+        (31, 24, -21, -18, 3, -73, -60), (31, 24, -21, -18, 4, -115, 34),
+        (31, 24, -21, -18, 5, -63, 76), (31, 24, -21, -18, 6, 31, 24),
+        (31, 24, -21, -18, 7, 73, -70), (31, 24, -21, -18, 8, 21, -112),
+        (31, 24, -21, -18, 9, -73, -60), (31, 24, -21, -18, 10, -115, 34),
+        (31, 24, -21, -18, 11, -63, 76), (31, 24, -21, -18, 12, 31, 24),
+        (31, 24, -21, -18, 255, -73, -60), (31, 24, -13, -35, 0, 31, 24),
+        (31, 24, -13, -35, 1, 90, -79), (31, 24, -13, -35, 2, 46, -138),
+        (31, 24, -13, -35, 3, -57, -94), (31, 24, -13, -35, 4, -116, 9),
+        (31, 24, -13, -35, 5, -72, 68), (31, 24, -13, -35, 6, 31, 24),
+        (31, 24, -13, -35, 7, 90, -79), (31, 24, -13, -35, 8, 46, -138),
+        (31, 24, -13, -35, 9, -57, -94), (31, 24, -13, -35, 10, -116, 9),
+        (31, 24, -13, -35, 11, -72, 68), (31, 24, -13, -35, 12, 31, 24),
+        (31, 24, -13, -35, 255, -57, -94), (31, 24, -26, 7, 0, 31, 24),
+        (31, 24, -26, 7, 1, 48, -50), (31, 24, -26, 7, 2, -9, -67), (31, 24, -26, 7, 3, -83, -10),
+        (31, 24, -26, 7, 4, -100, 64), (31, 24, -26, 7, 5, -43, 81), (31, 24, -26, 7, 6, 31, 24),
+        (31, 24, -26, 7, 7, 48, -50), (31, 24, -26, 7, 8, -9, -67), (31, 24, -26, 7, 9, -83, -10),
+        (31, 24, -26, 7, 10, -100, 64), (31, 24, -26, 7, 11, -43, 81), (31, 24, -26, 7, 12, 31, 24),
+        (31, 24, -26, 7, 255, -83, -10), (31, 24, 38, -1, 0, 31, 24), (31, 24, 38, -1, 1, 56, 6),
+        (31, 24, 38, -1, 2, 63, -19), (31, 24, 38, -1, 3, 45, -26), (31, 24, 38, -1, 4, 20, -8),
+        (31, 24, 38, -1, 5, 13, 17), (31, 24, 38, -1, 6, 31, 24), (31, 24, 38, -1, 7, 56, 6),
+        (31, 24, 38, -1, 8, 63, -19), (31, 24, 38, -1, 9, 45, -26), (31, 24, 38, -1, 10, 20, -8),
+        (31, 24, 38, -1, 11, 13, 17), (31, 24, 38, -1, 12, 31, 24), (31, 24, 38, -1, 255, 45, -26),
+        (31, 24, 33, 8, 0, 31, 24), (31, 24, 33, 8, 1, 47, 10), (31, 24, 33, 8, 2, 49, -6),
+        (31, 24, 33, 8, 3, 35, -8), (31, 24, 33, 8, 4, 19, 6), (31, 24, 33, 8, 5, 17, 22),
+        (31, 24, 33, 8, 6, 31, 24), (31, 24, 33, 8, 7, 47, 10), (31, 24, 33, 8, 8, 49, -6),
+        (31, 24, 33, 8, 9, 35, -8), (31, 24, 33, 8, 10, 19, 6), (31, 24, 33, 8, 11, 17, 22),
+        (31, 24, 33, 8, 12, 31, 24), (31, 24, 33, 8, 255, 35, -8),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_13_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (24, -25, 31, 13, 0, 24, -25), (24, -25, 31, 13, 1, 69, -32), (24, -25, 31, 13, 2, 76, 6),
         (24, -25, 31, 13, 3, 38, 51), (24, -25, 31, 13, 4, -7, 58), (24, -25, 31, 13, 5, -14, 20),
         (24, -25, 31, 13, 6, 24, -25), (24, -25, 31, 13, 7, 69, -32), (24, -25, 31, 13, 8, 76, 6),
@@ -35392,6 +34886,128 @@ fn golden_hex_around_1_rotate_cw_around() {
         (28, -16, 33, 8, 5, 4, 13), (28, -16, 33, 8, 6, 28, -16), (28, -16, 33, 8, 7, 57, -21),
         (28, -16, 33, 8, 8, 62, 3), (28, -16, 33, 8, 9, 38, 32), (28, -16, 33, 8, 10, 9, 37),
         (28, -16, 33, 8, 11, 4, 13), (28, -16, 33, 8, 12, 28, -16), (28, -16, 33, 8, 255, 38, 32),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_13_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (24, -25, 31, 13, 0, 24, -25), (24, -25, 31, 13, 1, -14, 20), (24, -25, 31, 13, 2, -7, 58),
+        (24, -25, 31, 13, 3, 38, 51), (24, -25, 31, 13, 4, 76, 6), (24, -25, 31, 13, 5, 69, -32),
+        (24, -25, 31, 13, 6, 24, -25), (24, -25, 31, 13, 7, -14, 20), (24, -25, 31, 13, 8, -7, 58),
+        (24, -25, 31, 13, 9, 38, 51), (24, -25, 31, 13, 10, 76, 6), (24, -25, 31, 13, 11, 69, -32),
+        (24, -25, 31, 13, 12, 24, -25), (24, -25, 31, 13, 255, 38, 51),
+        (24, -25, 27, 39, 0, 24, -25), (24, -25, 27, 39, 1, -40, 42),
+        (24, -25, 27, 39, 2, -37, 106), (24, -25, 27, 39, 3, 30, 103), (24, -25, 27, 39, 4, 94, 36),
+        (24, -25, 27, 39, 5, 91, -28), (24, -25, 27, 39, 6, 24, -25), (24, -25, 27, 39, 7, -40, 42),
+        (24, -25, 27, 39, 8, -37, 106), (24, -25, 27, 39, 9, 30, 103),
+        (24, -25, 27, 39, 10, 94, 36), (24, -25, 27, 39, 11, 91, -28),
+        (24, -25, 27, 39, 12, 24, -25), (24, -25, 27, 39, 255, 30, 103),
+        (24, -25, 24, 1, 0, 24, -25), (24, -25, 24, 1, 1, -2, 1), (24, -25, 24, 1, 2, -2, 27),
+        (24, -25, 24, 1, 3, 24, 27), (24, -25, 24, 1, 4, 50, 1), (24, -25, 24, 1, 5, 50, -25),
+        (24, -25, 24, 1, 6, 24, -25), (24, -25, 24, 1, 7, -2, 1), (24, -25, 24, 1, 8, -2, 27),
+        (24, -25, 24, 1, 9, 24, 27), (24, -25, 24, 1, 10, 50, 1), (24, -25, 24, 1, 11, 50, -25),
+        (24, -25, 24, 1, 12, 24, -25), (24, -25, 24, 1, 255, 24, 27),
+        (24, -25, -21, -18, 0, 24, -25), (24, -25, -21, -18, 1, 17, -63),
+        (24, -25, -21, -18, 2, -28, -56), (24, -25, -21, -18, 3, -66, -11),
+        (24, -25, -21, -18, 4, -59, 27), (24, -25, -21, -18, 5, -14, 20),
+        (24, -25, -21, -18, 6, 24, -25), (24, -25, -21, -18, 7, 17, -63),
+        (24, -25, -21, -18, 8, -28, -56), (24, -25, -21, -18, 9, -66, -11),
+        (24, -25, -21, -18, 10, -59, 27), (24, -25, -21, -18, 11, -14, 20),
+        (24, -25, -21, -18, 12, 24, -25), (24, -25, -21, -18, 255, -66, -11),
+        (24, -25, -13, -35, 0, 24, -25), (24, -25, -13, -35, 1, 34, -72),
+        (24, -25, -13, -35, 2, -3, -82), (24, -25, -13, -35, 3, -50, -45),
+        (24, -25, -13, -35, 4, -60, 2), (24, -25, -13, -35, 5, -23, 12),
+        (24, -25, -13, -35, 6, 24, -25), (24, -25, -13, -35, 7, 34, -72),
+        (24, -25, -13, -35, 8, -3, -82), (24, -25, -13, -35, 9, -50, -45),
+        (24, -25, -13, -35, 10, -60, 2), (24, -25, -13, -35, 11, -23, 12),
+        (24, -25, -13, -35, 12, 24, -25), (24, -25, -13, -35, 255, -50, -45),
+        (24, -25, -26, 7, 0, 24, -25), (24, -25, -26, 7, 1, -8, -43),
+        (24, -25, -26, 7, 2, -58, -11), (24, -25, -26, 7, 3, -76, 39),
+        (24, -25, -26, 7, 4, -44, 57), (24, -25, -26, 7, 5, 6, 25), (24, -25, -26, 7, 6, 24, -25),
+        (24, -25, -26, 7, 7, -8, -43), (24, -25, -26, 7, 8, -58, -11),
+        (24, -25, -26, 7, 9, -76, 39), (24, -25, -26, 7, 10, -44, 57), (24, -25, -26, 7, 11, 6, 25),
+        (24, -25, -26, 7, 12, 24, -25), (24, -25, -26, 7, 255, -76, 39),
+        (24, -25, 38, -1, 0, 24, -25), (24, -25, 38, -1, 1, 0, 13), (24, -25, 38, -1, 2, 14, 37),
+        (24, -25, 38, -1, 3, 52, 23), (24, -25, 38, -1, 4, 76, -15), (24, -25, 38, -1, 5, 62, -39),
+        (24, -25, 38, -1, 6, 24, -25), (24, -25, 38, -1, 7, 0, 13), (24, -25, 38, -1, 8, 14, 37),
+        (24, -25, 38, -1, 9, 52, 23), (24, -25, 38, -1, 10, 76, -15),
+        (24, -25, 38, -1, 11, 62, -39), (24, -25, 38, -1, 12, 24, -25),
+        (24, -25, 38, -1, 255, 52, 23), (24, -25, 33, 8, 0, 24, -25), (24, -25, 33, 8, 1, -9, 17),
+        (24, -25, 33, 8, 2, 0, 50), (24, -25, 33, 8, 3, 42, 41), (24, -25, 33, 8, 4, 75, -1),
+        (24, -25, 33, 8, 5, 66, -34), (24, -25, 33, 8, 6, 24, -25), (24, -25, 33, 8, 7, -9, 17),
+        (24, -25, 33, 8, 8, 0, 50), (24, -25, 33, 8, 9, 42, 41), (24, -25, 33, 8, 10, 75, -1),
+        (24, -25, 33, 8, 11, 66, -34), (24, -25, 33, 8, 12, 24, -25), (24, -25, 33, 8, 255, 42, 41),
+        (28, -16, 31, 13, 0, 28, -16), (28, -16, 31, 13, 1, -1, 16), (28, -16, 31, 13, 2, 2, 45),
+        (28, -16, 31, 13, 3, 34, 42), (28, -16, 31, 13, 4, 63, 10), (28, -16, 31, 13, 5, 60, -19),
+        (28, -16, 31, 13, 6, 28, -16), (28, -16, 31, 13, 7, -1, 16), (28, -16, 31, 13, 8, 2, 45),
+        (28, -16, 31, 13, 9, 34, 42), (28, -16, 31, 13, 10, 63, 10), (28, -16, 31, 13, 11, 60, -19),
+        (28, -16, 31, 13, 12, 28, -16), (28, -16, 31, 13, 255, 34, 42),
+        (28, -16, 27, 39, 0, 28, -16), (28, -16, 27, 39, 1, -27, 38), (28, -16, 27, 39, 2, -28, 93),
+        (28, -16, 27, 39, 3, 26, 94), (28, -16, 27, 39, 4, 81, 40), (28, -16, 27, 39, 5, 82, -15),
+        (28, -16, 27, 39, 6, 28, -16), (28, -16, 27, 39, 7, -27, 38), (28, -16, 27, 39, 8, -28, 93),
+        (28, -16, 27, 39, 9, 26, 94), (28, -16, 27, 39, 10, 81, 40), (28, -16, 27, 39, 11, 82, -15),
+        (28, -16, 27, 39, 12, 28, -16), (28, -16, 27, 39, 255, 26, 94),
+        (28, -16, 24, 1, 0, 28, -16), (28, -16, 24, 1, 1, 11, -3), (28, -16, 24, 1, 2, 7, 14),
+        (28, -16, 24, 1, 3, 20, 18), (28, -16, 24, 1, 4, 37, 5), (28, -16, 24, 1, 5, 41, -12),
+        (28, -16, 24, 1, 6, 28, -16), (28, -16, 24, 1, 7, 11, -3), (28, -16, 24, 1, 8, 7, 14),
+        (28, -16, 24, 1, 9, 20, 18), (28, -16, 24, 1, 10, 37, 5), (28, -16, 24, 1, 11, 41, -12),
+        (28, -16, 24, 1, 12, 28, -16), (28, -16, 24, 1, 255, 20, 18),
+        (28, -16, -21, -18, 0, 28, -16), (28, -16, -21, -18, 1, 30, -67),
+        (28, -16, -21, -18, 2, -19, -69), (28, -16, -21, -18, 3, -70, -20),
+        (28, -16, -21, -18, 4, -72, 31), (28, -16, -21, -18, 5, -23, 33),
+        (28, -16, -21, -18, 6, 28, -16), (28, -16, -21, -18, 7, 30, -67),
+        (28, -16, -21, -18, 8, -19, -69), (28, -16, -21, -18, 9, -70, -20),
+        (28, -16, -21, -18, 10, -72, 31), (28, -16, -21, -18, 11, -23, 33),
+        (28, -16, -21, -18, 12, 28, -16), (28, -16, -21, -18, 255, -70, -20),
+        (28, -16, -13, -35, 0, 28, -16), (28, -16, -13, -35, 1, 47, -76),
+        (28, -16, -13, -35, 2, 6, -95), (28, -16, -13, -35, 3, -54, -54),
+        (28, -16, -13, -35, 4, -73, 6), (28, -16, -13, -35, 5, -32, 25),
+        (28, -16, -13, -35, 6, 28, -16), (28, -16, -13, -35, 7, 47, -76),
+        (28, -16, -13, -35, 8, 6, -95), (28, -16, -13, -35, 9, -54, -54),
+        (28, -16, -13, -35, 10, -73, 6), (28, -16, -13, -35, 11, -32, 25),
+        (28, -16, -13, -35, 12, 28, -16), (28, -16, -13, -35, 255, -54, -54),
+        (28, -16, -26, 7, 0, 28, -16), (28, -16, -26, 7, 1, 5, -47), (28, -16, -26, 7, 2, -49, -24),
+        (28, -16, -26, 7, 3, -80, 30), (28, -16, -26, 7, 4, -57, 61), (28, -16, -26, 7, 5, -3, 38),
+        (28, -16, -26, 7, 6, 28, -16), (28, -16, -26, 7, 7, 5, -47), (28, -16, -26, 7, 8, -49, -24),
+        (28, -16, -26, 7, 9, -80, 30), (28, -16, -26, 7, 10, -57, 61),
+        (28, -16, -26, 7, 11, -3, 38), (28, -16, -26, 7, 12, 28, -16),
+        (28, -16, -26, 7, 255, -80, 30), (28, -16, 38, -1, 0, 28, -16), (28, -16, 38, -1, 1, 13, 9),
+        (28, -16, 38, -1, 2, 23, 24), (28, -16, 38, -1, 3, 48, 14), (28, -16, 38, -1, 4, 63, -11),
+        (28, -16, 38, -1, 5, 53, -26), (28, -16, 38, -1, 6, 28, -16), (28, -16, 38, -1, 7, 13, 9),
+        (28, -16, 38, -1, 8, 23, 24), (28, -16, 38, -1, 9, 48, 14), (28, -16, 38, -1, 10, 63, -11),
+        (28, -16, 38, -1, 11, 53, -26), (28, -16, 38, -1, 12, 28, -16),
+        (28, -16, 38, -1, 255, 48, 14), (28, -16, 33, 8, 0, 28, -16), (28, -16, 33, 8, 1, 4, 13),
+        (28, -16, 33, 8, 2, 9, 37), (28, -16, 33, 8, 3, 38, 32), (28, -16, 33, 8, 4, 62, 3),
+        (28, -16, 33, 8, 5, 57, -21), (28, -16, 33, 8, 6, 28, -16), (28, -16, 33, 8, 7, 4, 13),
+        (28, -16, 33, 8, 8, 9, 37), (28, -16, 33, 8, 9, 38, 32), (28, -16, 33, 8, 10, 62, 3),
+        (28, -16, 33, 8, 11, 57, -21), (28, -16, 33, 8, 12, 28, -16), (28, -16, 33, 8, 255, 38, 32),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_14_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (-26, 11, 31, 13, 0, -26, 11), (-26, 11, 31, 13, 1, 33, -46), (-26, 11, 31, 13, 2, 90, -44),
         (-26, 11, 31, 13, 3, 88, 15), (-26, 11, 31, 13, 4, 29, 72), (-26, 11, 31, 13, 5, -28, 70),
         (-26, 11, 31, 13, 6, -26, 11), (-26, 11, 31, 13, 7, 33, -46), (-26, 11, 31, 13, 8, 90, -44),
@@ -35479,6 +35095,126 @@ fn golden_hex_around_1_rotate_cw_around() {
         (33, -9, 33, 8, 5, 16, 8), (33, -9, 33, 8, 6, 33, -9), (33, -9, 33, 8, 7, 50, -9),
         (33, -9, 33, 8, 8, 50, 8), (33, -9, 33, 8, 9, 33, 25), (33, -9, 33, 8, 10, 16, 25),
         (33, -9, 33, 8, 11, 16, 8), (33, -9, 33, 8, 12, 33, -9), (33, -9, 33, 8, 255, 33, 25),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_14_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (-26, 11, 31, 13, 0, -26, 11), (-26, 11, 31, 13, 1, -28, 70), (-26, 11, 31, 13, 2, 29, 72),
+        (-26, 11, 31, 13, 3, 88, 15), (-26, 11, 31, 13, 4, 90, -44), (-26, 11, 31, 13, 5, 33, -46),
+        (-26, 11, 31, 13, 6, -26, 11), (-26, 11, 31, 13, 7, -28, 70), (-26, 11, 31, 13, 8, 29, 72),
+        (-26, 11, 31, 13, 9, 88, 15), (-26, 11, 31, 13, 10, 90, -44),
+        (-26, 11, 31, 13, 11, 33, -46), (-26, 11, 31, 13, 12, -26, 11),
+        (-26, 11, 31, 13, 255, 88, 15), (-26, 11, 27, 39, 0, -26, 11),
+        (-26, 11, 27, 39, 1, -54, 92), (-26, 11, 27, 39, 2, -1, 120), (-26, 11, 27, 39, 3, 80, 67),
+        (-26, 11, 27, 39, 4, 108, -14), (-26, 11, 27, 39, 5, 55, -42),
+        (-26, 11, 27, 39, 6, -26, 11), (-26, 11, 27, 39, 7, -54, 92), (-26, 11, 27, 39, 8, -1, 120),
+        (-26, 11, 27, 39, 9, 80, 67), (-26, 11, 27, 39, 10, 108, -14),
+        (-26, 11, 27, 39, 11, 55, -42), (-26, 11, 27, 39, 12, -26, 11),
+        (-26, 11, 27, 39, 255, 80, 67), (-26, 11, 24, 1, 0, -26, 11), (-26, 11, 24, 1, 1, -16, 51),
+        (-26, 11, 24, 1, 2, 34, 41), (-26, 11, 24, 1, 3, 74, -9), (-26, 11, 24, 1, 4, 64, -49),
+        (-26, 11, 24, 1, 5, 14, -39), (-26, 11, 24, 1, 6, -26, 11), (-26, 11, 24, 1, 7, -16, 51),
+        (-26, 11, 24, 1, 8, 34, 41), (-26, 11, 24, 1, 9, 74, -9), (-26, 11, 24, 1, 10, 64, -49),
+        (-26, 11, 24, 1, 11, 14, -39), (-26, 11, 24, 1, 12, -26, 11), (-26, 11, 24, 1, 255, 74, -9),
+        (-26, 11, -21, -18, 0, -26, 11), (-26, 11, -21, -18, 1, 3, -13),
+        (-26, 11, -21, -18, 2, 8, -42), (-26, 11, -21, -18, 3, -16, -47),
+        (-26, 11, -21, -18, 4, -45, -23), (-26, 11, -21, -18, 5, -50, 6),
+        (-26, 11, -21, -18, 6, -26, 11), (-26, 11, -21, -18, 7, 3, -13),
+        (-26, 11, -21, -18, 8, 8, -42), (-26, 11, -21, -18, 9, -16, -47),
+        (-26, 11, -21, -18, 10, -45, -23), (-26, 11, -21, -18, 11, -50, 6),
+        (-26, 11, -21, -18, 12, -26, 11), (-26, 11, -21, -18, 255, -16, -47),
+        (-26, 11, -13, -35, 0, -26, 11), (-26, 11, -13, -35, 1, 20, -22),
+        (-26, 11, -13, -35, 2, 33, -68), (-26, 11, -13, -35, 3, 0, -81),
+        (-26, 11, -13, -35, 4, -46, -48), (-26, 11, -13, -35, 5, -59, -2),
+        (-26, 11, -13, -35, 6, -26, 11), (-26, 11, -13, -35, 7, 20, -22),
+        (-26, 11, -13, -35, 8, 33, -68), (-26, 11, -13, -35, 9, 0, -81),
+        (-26, 11, -13, -35, 10, -46, -48), (-26, 11, -13, -35, 11, -59, -2),
+        (-26, 11, -13, -35, 12, -26, 11), (-26, 11, -13, -35, 255, 0, -81),
+        (-26, 11, -26, 7, 0, -26, 11), (-26, 11, -26, 7, 1, -22, 7), (-26, 11, -26, 7, 2, -22, 3),
+        (-26, 11, -26, 7, 3, -26, 3), (-26, 11, -26, 7, 4, -30, 7), (-26, 11, -26, 7, 5, -30, 11),
+        (-26, 11, -26, 7, 6, -26, 11), (-26, 11, -26, 7, 7, -22, 7), (-26, 11, -26, 7, 8, -22, 3),
+        (-26, 11, -26, 7, 9, -26, 3), (-26, 11, -26, 7, 10, -30, 7), (-26, 11, -26, 7, 11, -30, 11),
+        (-26, 11, -26, 7, 12, -26, 11), (-26, 11, -26, 7, 255, -26, 3),
+        (-26, 11, 38, -1, 0, -26, 11), (-26, 11, 38, -1, 1, -14, 63), (-26, 11, 38, -1, 2, 50, 51),
+        (-26, 11, 38, -1, 3, 102, -13), (-26, 11, 38, -1, 4, 90, -65),
+        (-26, 11, 38, -1, 5, 26, -53), (-26, 11, 38, -1, 6, -26, 11), (-26, 11, 38, -1, 7, -14, 63),
+        (-26, 11, 38, -1, 8, 50, 51), (-26, 11, 38, -1, 9, 102, -13),
+        (-26, 11, 38, -1, 10, 90, -65), (-26, 11, 38, -1, 11, 26, -53),
+        (-26, 11, 38, -1, 12, -26, 11), (-26, 11, 38, -1, 255, 102, -13),
+        (-26, 11, 33, 8, 0, -26, 11), (-26, 11, 33, 8, 1, -23, 67), (-26, 11, 33, 8, 2, 36, 64),
+        (-26, 11, 33, 8, 3, 92, 5), (-26, 11, 33, 8, 4, 89, -51), (-26, 11, 33, 8, 5, 30, -48),
+        (-26, 11, 33, 8, 6, -26, 11), (-26, 11, 33, 8, 7, -23, 67), (-26, 11, 33, 8, 8, 36, 64),
+        (-26, 11, 33, 8, 9, 92, 5), (-26, 11, 33, 8, 10, 89, -51), (-26, 11, 33, 8, 11, 30, -48),
+        (-26, 11, 33, 8, 12, -26, 11), (-26, 11, 33, 8, 255, 92, 5), (33, -9, 31, 13, 0, 33, -9),
+        (33, -9, 31, 13, 1, 11, 11), (33, -9, 31, 13, 2, 9, 33), (33, -9, 31, 13, 3, 29, 35),
+        (33, -9, 31, 13, 4, 51, 15), (33, -9, 31, 13, 5, 53, -7), (33, -9, 31, 13, 6, 33, -9),
+        (33, -9, 31, 13, 7, 11, 11), (33, -9, 31, 13, 8, 9, 33), (33, -9, 31, 13, 9, 29, 35),
+        (33, -9, 31, 13, 10, 51, 15), (33, -9, 31, 13, 11, 53, -7), (33, -9, 31, 13, 12, 33, -9),
+        (33, -9, 31, 13, 255, 29, 35), (33, -9, 27, 39, 0, 33, -9), (33, -9, 27, 39, 1, -15, 33),
+        (33, -9, 27, 39, 2, -21, 81), (33, -9, 27, 39, 3, 21, 87), (33, -9, 27, 39, 4, 69, 45),
+        (33, -9, 27, 39, 5, 75, -3), (33, -9, 27, 39, 6, 33, -9), (33, -9, 27, 39, 7, -15, 33),
+        (33, -9, 27, 39, 8, -21, 81), (33, -9, 27, 39, 9, 21, 87), (33, -9, 27, 39, 10, 69, 45),
+        (33, -9, 27, 39, 11, 75, -3), (33, -9, 27, 39, 12, 33, -9), (33, -9, 27, 39, 255, 21, 87),
+        (33, -9, 24, 1, 0, 33, -9), (33, -9, 24, 1, 1, 23, -8), (33, -9, 24, 1, 2, 14, 2),
+        (33, -9, 24, 1, 3, 15, 11), (33, -9, 24, 1, 4, 25, 10), (33, -9, 24, 1, 5, 34, 0),
+        (33, -9, 24, 1, 6, 33, -9), (33, -9, 24, 1, 7, 23, -8), (33, -9, 24, 1, 8, 14, 2),
+        (33, -9, 24, 1, 9, 15, 11), (33, -9, 24, 1, 10, 25, 10), (33, -9, 24, 1, 11, 34, 0),
+        (33, -9, 24, 1, 12, 33, -9), (33, -9, 24, 1, 255, 15, 11), (33, -9, -21, -18, 0, 33, -9),
+        (33, -9, -21, -18, 1, 42, -72), (33, -9, -21, -18, 2, -12, -81),
+        (33, -9, -21, -18, 3, -75, -27), (33, -9, -21, -18, 4, -84, 36),
+        (33, -9, -21, -18, 5, -30, 45), (33, -9, -21, -18, 6, 33, -9),
+        (33, -9, -21, -18, 7, 42, -72), (33, -9, -21, -18, 8, -12, -81),
+        (33, -9, -21, -18, 9, -75, -27), (33, -9, -21, -18, 10, -84, 36),
+        (33, -9, -21, -18, 11, -30, 45), (33, -9, -21, -18, 12, 33, -9),
+        (33, -9, -21, -18, 255, -75, -27), (33, -9, -13, -35, 0, 33, -9),
+        (33, -9, -13, -35, 1, 59, -81), (33, -9, -13, -35, 2, 13, -107),
+        (33, -9, -13, -35, 3, -59, -61), (33, -9, -13, -35, 4, -85, 11),
+        (33, -9, -13, -35, 5, -39, 37), (33, -9, -13, -35, 6, 33, -9),
+        (33, -9, -13, -35, 7, 59, -81), (33, -9, -13, -35, 8, 13, -107),
+        (33, -9, -13, -35, 9, -59, -61), (33, -9, -13, -35, 10, -85, 11),
+        (33, -9, -13, -35, 11, -39, 37), (33, -9, -13, -35, 12, 33, -9),
+        (33, -9, -13, -35, 255, -59, -61), (33, -9, -26, 7, 0, 33, -9),
+        (33, -9, -26, 7, 1, 17, -52), (33, -9, -26, 7, 2, -42, -36), (33, -9, -26, 7, 3, -85, 23),
+        (33, -9, -26, 7, 4, -69, 66), (33, -9, -26, 7, 5, -10, 50), (33, -9, -26, 7, 6, 33, -9),
+        (33, -9, -26, 7, 7, 17, -52), (33, -9, -26, 7, 8, -42, -36), (33, -9, -26, 7, 9, -85, 23),
+        (33, -9, -26, 7, 10, -69, 66), (33, -9, -26, 7, 11, -10, 50), (33, -9, -26, 7, 12, 33, -9),
+        (33, -9, -26, 7, 255, -85, 23), (33, -9, 38, -1, 0, 33, -9), (33, -9, 38, -1, 1, 25, 4),
+        (33, -9, 38, -1, 2, 30, 12), (33, -9, 38, -1, 3, 43, 7), (33, -9, 38, -1, 4, 51, -6),
+        (33, -9, 38, -1, 5, 46, -14), (33, -9, 38, -1, 6, 33, -9), (33, -9, 38, -1, 7, 25, 4),
+        (33, -9, 38, -1, 8, 30, 12), (33, -9, 38, -1, 9, 43, 7), (33, -9, 38, -1, 10, 51, -6),
+        (33, -9, 38, -1, 11, 46, -14), (33, -9, 38, -1, 12, 33, -9), (33, -9, 38, -1, 255, 43, 7),
+        (33, -9, 33, 8, 0, 33, -9), (33, -9, 33, 8, 1, 16, 8), (33, -9, 33, 8, 2, 16, 25),
+        (33, -9, 33, 8, 3, 33, 25), (33, -9, 33, 8, 4, 50, 8), (33, -9, 33, 8, 5, 50, -9),
+        (33, -9, 33, 8, 6, 33, -9), (33, -9, 33, 8, 7, 16, 8), (33, -9, 33, 8, 8, 16, 25),
+        (33, -9, 33, 8, 9, 33, 25), (33, -9, 33, 8, 10, 50, 8), (33, -9, 33, 8, 11, 50, -9),
+        (33, -9, 33, 8, 12, 33, -9), (33, -9, 33, 8, 255, 33, 25),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_15_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (-20, -35, 31, 13, 0, -20, -35), (-20, -35, 31, 13, 1, 79, -86),
         (-20, -35, 31, 13, 2, 130, -38), (-20, -35, 31, 13, 3, 82, 61),
         (-20, -35, 31, 13, 4, -17, 112), (-20, -35, 31, 13, 5, -68, 64),
@@ -35589,655 +35325,27 @@ fn golden_hex_around_1_rotate_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_hex_around_1_rotate_ccw_around() {
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_15_rotate_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
-        (24, 1, 31, 13, 0, 24, 1), (24, 1, 31, 13, 1, 12, 20), (24, 1, 31, 13, 2, 19, 32),
-        (24, 1, 31, 13, 3, 38, 25), (24, 1, 31, 13, 4, 50, 6), (24, 1, 31, 13, 5, 43, -6),
-        (24, 1, 31, 13, 6, 24, 1), (24, 1, 31, 13, 7, 12, 20), (24, 1, 31, 13, 8, 19, 32),
-        (24, 1, 31, 13, 9, 38, 25), (24, 1, 31, 13, 10, 50, 6), (24, 1, 31, 13, 11, 43, -6),
-        (24, 1, 31, 13, 12, 24, 1), (24, 1, 31, 13, 255, 38, 25), (24, 1, 27, 39, 0, 24, 1),
-        (24, 1, 27, 39, 1, -14, 42), (24, 1, 27, 39, 2, -11, 80), (24, 1, 27, 39, 3, 30, 77),
-        (24, 1, 27, 39, 4, 68, 36), (24, 1, 27, 39, 5, 65, -2), (24, 1, 27, 39, 6, 24, 1),
-        (24, 1, 27, 39, 7, -14, 42), (24, 1, 27, 39, 8, -11, 80), (24, 1, 27, 39, 9, 30, 77),
-        (24, 1, 27, 39, 10, 68, 36), (24, 1, 27, 39, 11, 65, -2), (24, 1, 27, 39, 12, 24, 1),
-        (24, 1, 27, 39, 255, 30, 77), (24, 1, 24, 1, 0, 24, 1), (24, 1, 24, 1, 1, 24, 1),
-        (24, 1, 24, 1, 2, 24, 1), (24, 1, 24, 1, 3, 24, 1), (24, 1, 24, 1, 4, 24, 1),
-        (24, 1, 24, 1, 5, 24, 1), (24, 1, 24, 1, 6, 24, 1), (24, 1, 24, 1, 7, 24, 1),
-        (24, 1, 24, 1, 8, 24, 1), (24, 1, 24, 1, 9, 24, 1), (24, 1, 24, 1, 10, 24, 1),
-        (24, 1, 24, 1, 11, 24, 1), (24, 1, 24, 1, 12, 24, 1), (24, 1, 24, 1, 255, 24, 1),
-        (24, 1, -21, -18, 0, 24, 1), (24, 1, -21, -18, 1, 43, -63), (24, 1, -21, -18, 2, -2, -82),
-        (24, 1, -21, -18, 3, -66, -37), (24, 1, -21, -18, 4, -85, 27),
-        (24, 1, -21, -18, 5, -40, 46), (24, 1, -21, -18, 6, 24, 1), (24, 1, -21, -18, 7, 43, -63),
-        (24, 1, -21, -18, 8, -2, -82), (24, 1, -21, -18, 9, -66, -37),
-        (24, 1, -21, -18, 10, -85, 27), (24, 1, -21, -18, 11, -40, 46),
-        (24, 1, -21, -18, 12, 24, 1), (24, 1, -21, -18, 255, -66, -37), (24, 1, -13, -35, 0, 24, 1),
-        (24, 1, -13, -35, 1, 60, -72), (24, 1, -13, -35, 2, 23, -108),
-        (24, 1, -13, -35, 3, -50, -71), (24, 1, -13, -35, 4, -86, 2), (24, 1, -13, -35, 5, -49, 38),
-        (24, 1, -13, -35, 6, 24, 1), (24, 1, -13, -35, 7, 60, -72), (24, 1, -13, -35, 8, 23, -108),
-        (24, 1, -13, -35, 9, -50, -71), (24, 1, -13, -35, 10, -86, 2),
-        (24, 1, -13, -35, 11, -49, 38), (24, 1, -13, -35, 12, 24, 1),
-        (24, 1, -13, -35, 255, -50, -71), (24, 1, -26, 7, 0, 24, 1), (24, 1, -26, 7, 1, 18, -43),
-        (24, 1, -26, 7, 2, -32, -37), (24, 1, -26, 7, 3, -76, 13), (24, 1, -26, 7, 4, -70, 57),
-        (24, 1, -26, 7, 5, -20, 51), (24, 1, -26, 7, 6, 24, 1), (24, 1, -26, 7, 7, 18, -43),
-        (24, 1, -26, 7, 8, -32, -37), (24, 1, -26, 7, 9, -76, 13), (24, 1, -26, 7, 10, -70, 57),
-        (24, 1, -26, 7, 11, -20, 51), (24, 1, -26, 7, 12, 24, 1), (24, 1, -26, 7, 255, -76, 13),
-        (24, 1, 38, -1, 0, 24, 1), (24, 1, 38, -1, 1, 26, 13), (24, 1, 38, -1, 2, 40, 11),
-        (24, 1, 38, -1, 3, 52, -3), (24, 1, 38, -1, 4, 50, -15), (24, 1, 38, -1, 5, 36, -13),
-        (24, 1, 38, -1, 6, 24, 1), (24, 1, 38, -1, 7, 26, 13), (24, 1, 38, -1, 8, 40, 11),
-        (24, 1, 38, -1, 9, 52, -3), (24, 1, 38, -1, 10, 50, -15), (24, 1, 38, -1, 11, 36, -13),
-        (24, 1, 38, -1, 12, 24, 1), (24, 1, 38, -1, 255, 52, -3), (24, 1, 33, 8, 0, 24, 1),
-        (24, 1, 33, 8, 1, 17, 17), (24, 1, 33, 8, 2, 26, 24), (24, 1, 33, 8, 3, 42, 15),
-        (24, 1, 33, 8, 4, 49, -1), (24, 1, 33, 8, 5, 40, -8), (24, 1, 33, 8, 6, 24, 1),
-        (24, 1, 33, 8, 7, 17, 17), (24, 1, 33, 8, 8, 26, 24), (24, 1, 33, 8, 9, 42, 15),
-        (24, 1, 33, 8, 10, 49, -1), (24, 1, 33, 8, 11, 40, -8), (24, 1, 33, 8, 12, 24, 1),
-        (24, 1, 33, 8, 255, 42, 15), (33, -8, 31, 13, 0, 33, -8), (33, -8, 31, 13, 1, 12, 11),
-        (33, -8, 31, 13, 2, 10, 32), (33, -8, 31, 13, 3, 29, 34), (33, -8, 31, 13, 4, 50, 15),
-        (33, -8, 31, 13, 5, 52, -6), (33, -8, 31, 13, 6, 33, -8), (33, -8, 31, 13, 7, 12, 11),
-        (33, -8, 31, 13, 8, 10, 32), (33, -8, 31, 13, 9, 29, 34), (33, -8, 31, 13, 10, 50, 15),
-        (33, -8, 31, 13, 11, 52, -6), (33, -8, 31, 13, 12, 33, -8), (33, -8, 31, 13, 255, 29, 34),
-        (33, -8, 27, 39, 0, 33, -8), (33, -8, 27, 39, 1, -14, 33), (33, -8, 27, 39, 2, -20, 80),
-        (33, -8, 27, 39, 3, 21, 86), (33, -8, 27, 39, 4, 68, 45), (33, -8, 27, 39, 5, 74, -2),
-        (33, -8, 27, 39, 6, 33, -8), (33, -8, 27, 39, 7, -14, 33), (33, -8, 27, 39, 8, -20, 80),
-        (33, -8, 27, 39, 9, 21, 86), (33, -8, 27, 39, 10, 68, 45), (33, -8, 27, 39, 11, 74, -2),
-        (33, -8, 27, 39, 12, 33, -8), (33, -8, 27, 39, 255, 21, 86), (33, -8, 24, 1, 0, 33, -8),
-        (33, -8, 24, 1, 1, 24, -8), (33, -8, 24, 1, 2, 15, 1), (33, -8, 24, 1, 3, 15, 10),
-        (33, -8, 24, 1, 4, 24, 10), (33, -8, 24, 1, 5, 33, 1), (33, -8, 24, 1, 6, 33, -8),
-        (33, -8, 24, 1, 7, 24, -8), (33, -8, 24, 1, 8, 15, 1), (33, -8, 24, 1, 9, 15, 10),
-        (33, -8, 24, 1, 10, 24, 10), (33, -8, 24, 1, 11, 33, 1), (33, -8, 24, 1, 12, 33, -8),
-        (33, -8, 24, 1, 255, 15, 10), (33, -8, -21, -18, 0, 33, -8), (33, -8, -21, -18, 1, 43, -72),
-        (33, -8, -21, -18, 2, -11, -82), (33, -8, -21, -18, 3, -75, -28),
-        (33, -8, -21, -18, 4, -85, 36), (33, -8, -21, -18, 5, -31, 46),
-        (33, -8, -21, -18, 6, 33, -8), (33, -8, -21, -18, 7, 43, -72),
-        (33, -8, -21, -18, 8, -11, -82), (33, -8, -21, -18, 9, -75, -28),
-        (33, -8, -21, -18, 10, -85, 36), (33, -8, -21, -18, 11, -31, 46),
-        (33, -8, -21, -18, 12, 33, -8), (33, -8, -21, -18, 255, -75, -28),
-        (33, -8, -13, -35, 0, 33, -8), (33, -8, -13, -35, 1, 60, -81),
-        (33, -8, -13, -35, 2, 14, -108), (33, -8, -13, -35, 3, -59, -62),
-        (33, -8, -13, -35, 4, -86, 11), (33, -8, -13, -35, 5, -40, 38),
-        (33, -8, -13, -35, 6, 33, -8), (33, -8, -13, -35, 7, 60, -81),
-        (33, -8, -13, -35, 8, 14, -108), (33, -8, -13, -35, 9, -59, -62),
-        (33, -8, -13, -35, 10, -86, 11), (33, -8, -13, -35, 11, -40, 38),
-        (33, -8, -13, -35, 12, 33, -8), (33, -8, -13, -35, 255, -59, -62),
-        (33, -8, -26, 7, 0, 33, -8), (33, -8, -26, 7, 1, 18, -52), (33, -8, -26, 7, 2, -41, -37),
-        (33, -8, -26, 7, 3, -85, 22), (33, -8, -26, 7, 4, -70, 66), (33, -8, -26, 7, 5, -11, 51),
-        (33, -8, -26, 7, 6, 33, -8), (33, -8, -26, 7, 7, 18, -52), (33, -8, -26, 7, 8, -41, -37),
-        (33, -8, -26, 7, 9, -85, 22), (33, -8, -26, 7, 10, -70, 66), (33, -8, -26, 7, 11, -11, 51),
-        (33, -8, -26, 7, 12, 33, -8), (33, -8, -26, 7, 255, -85, 22), (33, -8, 38, -1, 0, 33, -8),
-        (33, -8, 38, -1, 1, 26, 4), (33, -8, 38, -1, 2, 31, 11), (33, -8, 38, -1, 3, 43, 6),
-        (33, -8, 38, -1, 4, 50, -6), (33, -8, 38, -1, 5, 45, -13), (33, -8, 38, -1, 6, 33, -8),
-        (33, -8, 38, -1, 7, 26, 4), (33, -8, 38, -1, 8, 31, 11), (33, -8, 38, -1, 9, 43, 6),
-        (33, -8, 38, -1, 10, 50, -6), (33, -8, 38, -1, 11, 45, -13), (33, -8, 38, -1, 12, 33, -8),
-        (33, -8, 38, -1, 255, 43, 6), (33, -8, 33, 8, 0, 33, -8), (33, -8, 33, 8, 1, 17, 8),
-        (33, -8, 33, 8, 2, 17, 24), (33, -8, 33, 8, 3, 33, 24), (33, -8, 33, 8, 4, 49, 8),
-        (33, -8, 33, 8, 5, 49, -8), (33, -8, 33, 8, 6, 33, -8), (33, -8, 33, 8, 7, 17, 8),
-        (33, -8, 33, 8, 8, 17, 24), (33, -8, 33, 8, 9, 33, 24), (33, -8, 33, 8, 10, 49, 8),
-        (33, -8, 33, 8, 11, 49, -8), (33, -8, 33, 8, 12, 33, -8), (33, -8, 33, 8, 255, 33, 24),
-        (-20, 9, 31, 13, 0, -20, 9), (-20, 9, 31, 13, 1, -24, 64), (-20, 9, 31, 13, 2, 27, 68),
-        (-20, 9, 31, 13, 3, 82, 17), (-20, 9, 31, 13, 4, 86, -38), (-20, 9, 31, 13, 5, 35, -42),
-        (-20, 9, 31, 13, 6, -20, 9), (-20, 9, 31, 13, 7, -24, 64), (-20, 9, 31, 13, 8, 27, 68),
-        (-20, 9, 31, 13, 9, 82, 17), (-20, 9, 31, 13, 10, 86, -38), (-20, 9, 31, 13, 11, 35, -42),
-        (-20, 9, 31, 13, 12, -20, 9), (-20, 9, 31, 13, 255, 82, 17), (-20, 9, 27, 39, 0, -20, 9),
-        (-20, 9, 27, 39, 1, -50, 86), (-20, 9, 27, 39, 2, -3, 116), (-20, 9, 27, 39, 3, 74, 69),
-        (-20, 9, 27, 39, 4, 104, -8), (-20, 9, 27, 39, 5, 57, -38), (-20, 9, 27, 39, 6, -20, 9),
-        (-20, 9, 27, 39, 7, -50, 86), (-20, 9, 27, 39, 8, -3, 116), (-20, 9, 27, 39, 9, 74, 69),
-        (-20, 9, 27, 39, 10, 104, -8), (-20, 9, 27, 39, 11, 57, -38), (-20, 9, 27, 39, 12, -20, 9),
-        (-20, 9, 27, 39, 255, 74, 69), (-20, 9, 24, 1, 0, -20, 9), (-20, 9, 24, 1, 1, -12, 45),
-        (-20, 9, 24, 1, 2, 32, 37), (-20, 9, 24, 1, 3, 68, -7), (-20, 9, 24, 1, 4, 60, -43),
-        (-20, 9, 24, 1, 5, 16, -35), (-20, 9, 24, 1, 6, -20, 9), (-20, 9, 24, 1, 7, -12, 45),
-        (-20, 9, 24, 1, 8, 32, 37), (-20, 9, 24, 1, 9, 68, -7), (-20, 9, 24, 1, 10, 60, -43),
-        (-20, 9, 24, 1, 11, 16, -35), (-20, 9, 24, 1, 12, -20, 9), (-20, 9, 24, 1, 255, 68, -7),
-        (-20, 9, -21, -18, 0, -20, 9), (-20, 9, -21, -18, 1, 7, -19), (-20, 9, -21, -18, 2, 6, -46),
-        (-20, 9, -21, -18, 3, -22, -45), (-20, 9, -21, -18, 4, -49, -17),
-        (-20, 9, -21, -18, 5, -48, 10), (-20, 9, -21, -18, 6, -20, 9),
-        (-20, 9, -21, -18, 7, 7, -19), (-20, 9, -21, -18, 8, 6, -46),
-        (-20, 9, -21, -18, 9, -22, -45), (-20, 9, -21, -18, 10, -49, -17),
-        (-20, 9, -21, -18, 11, -48, 10), (-20, 9, -21, -18, 12, -20, 9),
-        (-20, 9, -21, -18, 255, -22, -45), (-20, 9, -13, -35, 0, -20, 9),
-        (-20, 9, -13, -35, 1, 24, -28), (-20, 9, -13, -35, 2, 31, -72),
-        (-20, 9, -13, -35, 3, -6, -79), (-20, 9, -13, -35, 4, -50, -42),
-        (-20, 9, -13, -35, 5, -57, 2), (-20, 9, -13, -35, 6, -20, 9),
-        (-20, 9, -13, -35, 7, 24, -28), (-20, 9, -13, -35, 8, 31, -72),
-        (-20, 9, -13, -35, 9, -6, -79), (-20, 9, -13, -35, 10, -50, -42),
-        (-20, 9, -13, -35, 11, -57, 2), (-20, 9, -13, -35, 12, -20, 9),
-        (-20, 9, -13, -35, 255, -6, -79), (-20, 9, -26, 7, 0, -20, 9), (-20, 9, -26, 7, 1, -18, 1),
-        (-20, 9, -26, 7, 2, -24, -1), (-20, 9, -26, 7, 3, -32, 5), (-20, 9, -26, 7, 4, -34, 13),
-        (-20, 9, -26, 7, 5, -28, 15), (-20, 9, -26, 7, 6, -20, 9), (-20, 9, -26, 7, 7, -18, 1),
-        (-20, 9, -26, 7, 8, -24, -1), (-20, 9, -26, 7, 9, -32, 5), (-20, 9, -26, 7, 10, -34, 13),
-        (-20, 9, -26, 7, 11, -28, 15), (-20, 9, -26, 7, 12, -20, 9), (-20, 9, -26, 7, 255, -32, 5),
-        (-20, 9, 38, -1, 0, -20, 9), (-20, 9, 38, -1, 1, -10, 57), (-20, 9, 38, -1, 2, 48, 47),
-        (-20, 9, 38, -1, 3, 96, -11), (-20, 9, 38, -1, 4, 86, -59), (-20, 9, 38, -1, 5, 28, -49),
-        (-20, 9, 38, -1, 6, -20, 9), (-20, 9, 38, -1, 7, -10, 57), (-20, 9, 38, -1, 8, 48, 47),
-        (-20, 9, 38, -1, 9, 96, -11), (-20, 9, 38, -1, 10, 86, -59), (-20, 9, 38, -1, 11, 28, -49),
-        (-20, 9, 38, -1, 12, -20, 9), (-20, 9, 38, -1, 255, 96, -11), (-20, 9, 33, 8, 0, -20, 9),
-        (-20, 9, 33, 8, 1, -19, 61), (-20, 9, 33, 8, 2, 34, 60), (-20, 9, 33, 8, 3, 86, 7),
-        (-20, 9, 33, 8, 4, 85, -45), (-20, 9, 33, 8, 5, 32, -44), (-20, 9, 33, 8, 6, -20, 9),
-        (-20, 9, 33, 8, 7, -19, 61), (-20, 9, 33, 8, 8, 34, 60), (-20, 9, 33, 8, 9, 86, 7),
-        (-20, 9, 33, 8, 10, 85, -45), (-20, 9, 33, 8, 11, 32, -44), (-20, 9, 33, 8, 12, -20, 9),
-        (-20, 9, 33, 8, 255, 86, 7), (-15, -40, 31, 13, 0, -15, -40),
-        (-15, -40, 31, 13, 1, -68, 59), (-15, -40, 31, 13, 2, -22, 112),
-        (-15, -40, 31, 13, 3, 77, 66), (-15, -40, 31, 13, 4, 130, -33),
-        (-15, -40, 31, 13, 5, 84, -86), (-15, -40, 31, 13, 6, -15, -40),
-        (-15, -40, 31, 13, 7, -68, 59), (-15, -40, 31, 13, 8, -22, 112),
-        (-15, -40, 31, 13, 9, 77, 66), (-15, -40, 31, 13, 10, 130, -33),
-        (-15, -40, 31, 13, 11, 84, -86), (-15, -40, 31, 13, 12, -15, -40),
-        (-15, -40, 31, 13, 255, 77, 66), (-15, -40, 27, 39, 0, -15, -40),
-        (-15, -40, 27, 39, 1, -94, 81), (-15, -40, 27, 39, 2, -52, 160),
-        (-15, -40, 27, 39, 3, 69, 118), (-15, -40, 27, 39, 4, 148, -3),
-        (-15, -40, 27, 39, 5, 106, -82), (-15, -40, 27, 39, 6, -15, -40),
-        (-15, -40, 27, 39, 7, -94, 81), (-15, -40, 27, 39, 8, -52, 160),
-        (-15, -40, 27, 39, 9, 69, 118), (-15, -40, 27, 39, 10, 148, -3),
-        (-15, -40, 27, 39, 11, 106, -82), (-15, -40, 27, 39, 12, -15, -40),
-        (-15, -40, 27, 39, 255, 69, 118), (-15, -40, 24, 1, 0, -15, -40),
-        (-15, -40, 24, 1, 1, -56, 40), (-15, -40, 24, 1, 2, -17, 81), (-15, -40, 24, 1, 3, 63, 42),
-        (-15, -40, 24, 1, 4, 104, -38), (-15, -40, 24, 1, 5, 65, -79),
-        (-15, -40, 24, 1, 6, -15, -40), (-15, -40, 24, 1, 7, -56, 40),
-        (-15, -40, 24, 1, 8, -17, 81), (-15, -40, 24, 1, 9, 63, 42),
-        (-15, -40, 24, 1, 10, 104, -38), (-15, -40, 24, 1, 11, 65, -79),
-        (-15, -40, 24, 1, 12, -15, -40), (-15, -40, 24, 1, 255, 63, 42),
-        (-15, -40, -21, -18, 0, -15, -40), (-15, -40, -21, -18, 1, -37, -24),
-        (-15, -40, -21, -18, 2, -43, -2), (-15, -40, -21, -18, 3, -27, 4),
-        (-15, -40, -21, -18, 4, -5, -12), (-15, -40, -21, -18, 5, 1, -34),
-        (-15, -40, -21, -18, 6, -15, -40), (-15, -40, -21, -18, 7, -37, -24),
-        (-15, -40, -21, -18, 8, -43, -2), (-15, -40, -21, -18, 9, -27, 4),
-        (-15, -40, -21, -18, 10, -5, -12), (-15, -40, -21, -18, 11, 1, -34),
-        (-15, -40, -21, -18, 12, -15, -40), (-15, -40, -21, -18, 255, -27, 4),
-        (-15, -40, -13, -35, 0, -15, -40), (-15, -40, -13, -35, 1, -20, -33),
-        (-15, -40, -13, -35, 2, -18, -28), (-15, -40, -13, -35, 3, -11, -30),
-        (-15, -40, -13, -35, 4, -6, -37), (-15, -40, -13, -35, 5, -8, -42),
-        (-15, -40, -13, -35, 6, -15, -40), (-15, -40, -13, -35, 7, -20, -33),
-        (-15, -40, -13, -35, 8, -18, -28), (-15, -40, -13, -35, 9, -11, -30),
-        (-15, -40, -13, -35, 10, -6, -37), (-15, -40, -13, -35, 11, -8, -42),
-        (-15, -40, -13, -35, 12, -15, -40), (-15, -40, -13, -35, 255, -11, -30),
-        (-15, -40, -26, 7, 0, -15, -40), (-15, -40, -26, 7, 1, -62, -4),
-        (-15, -40, -26, 7, 2, -73, 43), (-15, -40, -26, 7, 3, -37, 54),
-        (-15, -40, -26, 7, 4, 10, 18), (-15, -40, -26, 7, 5, 21, -29),
-        (-15, -40, -26, 7, 6, -15, -40), (-15, -40, -26, 7, 7, -62, -4),
-        (-15, -40, -26, 7, 8, -73, 43), (-15, -40, -26, 7, 9, -37, 54),
-        (-15, -40, -26, 7, 10, 10, 18), (-15, -40, -26, 7, 11, 21, -29),
-        (-15, -40, -26, 7, 12, -15, -40), (-15, -40, -26, 7, 255, -37, 54),
-        (-15, -40, 38, -1, 0, -15, -40), (-15, -40, 38, -1, 1, -54, 52),
-        (-15, -40, 38, -1, 2, -1, 91), (-15, -40, 38, -1, 3, 91, 38),
-        (-15, -40, 38, -1, 4, 130, -54), (-15, -40, 38, -1, 5, 77, -93),
-        (-15, -40, 38, -1, 6, -15, -40), (-15, -40, 38, -1, 7, -54, 52),
-        (-15, -40, 38, -1, 8, -1, 91), (-15, -40, 38, -1, 9, 91, 38),
-        (-15, -40, 38, -1, 10, 130, -54), (-15, -40, 38, -1, 11, 77, -93),
-        (-15, -40, 38, -1, 12, -15, -40), (-15, -40, 38, -1, 255, 91, 38),
-        (-15, -40, 33, 8, 0, -15, -40), (-15, -40, 33, 8, 1, -63, 56),
-        (-15, -40, 33, 8, 2, -15, 104), (-15, -40, 33, 8, 3, 81, 56),
-        (-15, -40, 33, 8, 4, 129, -40), (-15, -40, 33, 8, 5, 81, -88),
-        (-15, -40, 33, 8, 6, -15, -40), (-15, -40, 33, 8, 7, -63, 56),
-        (-15, -40, 33, 8, 8, -15, 104), (-15, -40, 33, 8, 9, 81, 56),
-        (-15, -40, 33, 8, 10, 129, -40), (-15, -40, 33, 8, 11, 81, -88),
-        (-15, -40, 33, 8, 12, -15, -40), (-15, -40, 33, 8, 255, 81, 56),
-        (-9, 30, 31, 13, 0, -9, 30), (-9, 30, 31, 13, 1, 8, 53), (-9, 30, 31, 13, 2, 48, 36),
-        (-9, 30, 31, 13, 3, 71, -4), (-9, 30, 31, 13, 4, 54, -27), (-9, 30, 31, 13, 5, 14, -10),
-        (-9, 30, 31, 13, 6, -9, 30), (-9, 30, 31, 13, 7, 8, 53), (-9, 30, 31, 13, 8, 48, 36),
-        (-9, 30, 31, 13, 9, 71, -4), (-9, 30, 31, 13, 10, 54, -27), (-9, 30, 31, 13, 11, 14, -10),
-        (-9, 30, 31, 13, 12, -9, 30), (-9, 30, 31, 13, 255, 71, -4), (-9, 30, 27, 39, 0, -9, 30),
-        (-9, 30, 27, 39, 1, -18, 75), (-9, 30, 27, 39, 2, 18, 84), (-9, 30, 27, 39, 3, 63, 48),
-        (-9, 30, 27, 39, 4, 72, 3), (-9, 30, 27, 39, 5, 36, -6), (-9, 30, 27, 39, 6, -9, 30),
-        (-9, 30, 27, 39, 7, -18, 75), (-9, 30, 27, 39, 8, 18, 84), (-9, 30, 27, 39, 9, 63, 48),
-        (-9, 30, 27, 39, 10, 72, 3), (-9, 30, 27, 39, 11, 36, -6), (-9, 30, 27, 39, 12, -9, 30),
-        (-9, 30, 27, 39, 255, 63, 48), (-9, 30, 24, 1, 0, -9, 30), (-9, 30, 24, 1, 1, 20, 34),
-        (-9, 30, 24, 1, 2, 53, 5), (-9, 30, 24, 1, 3, 57, -28), (-9, 30, 24, 1, 4, 28, -32),
-        (-9, 30, 24, 1, 5, -5, -3), (-9, 30, 24, 1, 6, -9, 30), (-9, 30, 24, 1, 7, 20, 34),
-        (-9, 30, 24, 1, 8, 53, 5), (-9, 30, 24, 1, 9, 57, -28), (-9, 30, 24, 1, 10, 28, -32),
-        (-9, 30, 24, 1, 11, -5, -3), (-9, 30, 24, 1, 12, -9, 30), (-9, 30, 24, 1, 255, 57, -28),
-        (-9, 30, -21, -18, 0, -9, 30), (-9, 30, -21, -18, 1, 39, -30),
-        (-9, 30, -21, -18, 2, 27, -78), (-9, 30, -21, -18, 3, -33, -66),
-        (-9, 30, -21, -18, 4, -81, -6), (-9, 30, -21, -18, 5, -69, 42),
-        (-9, 30, -21, -18, 6, -9, 30), (-9, 30, -21, -18, 7, 39, -30),
-        (-9, 30, -21, -18, 8, 27, -78), (-9, 30, -21, -18, 9, -33, -66),
-        (-9, 30, -21, -18, 10, -81, -6), (-9, 30, -21, -18, 11, -69, 42),
-        (-9, 30, -21, -18, 12, -9, 30), (-9, 30, -21, -18, 255, -33, -66),
-        (-9, 30, -13, -35, 0, -9, 30), (-9, 30, -13, -35, 1, 56, -39),
-        (-9, 30, -13, -35, 2, 52, -104), (-9, 30, -13, -35, 3, -17, -100),
-        (-9, 30, -13, -35, 4, -82, -31), (-9, 30, -13, -35, 5, -78, 34),
-        (-9, 30, -13, -35, 6, -9, 30), (-9, 30, -13, -35, 7, 56, -39),
-        (-9, 30, -13, -35, 8, 52, -104), (-9, 30, -13, -35, 9, -17, -100),
-        (-9, 30, -13, -35, 10, -82, -31), (-9, 30, -13, -35, 11, -78, 34),
-        (-9, 30, -13, -35, 12, -9, 30), (-9, 30, -13, -35, 255, -17, -100),
-        (-9, 30, -26, 7, 0, -9, 30), (-9, 30, -26, 7, 1, 14, -10), (-9, 30, -26, 7, 2, -3, -33),
-        (-9, 30, -26, 7, 3, -43, -16), (-9, 30, -26, 7, 4, -66, 24), (-9, 30, -26, 7, 5, -49, 47),
-        (-9, 30, -26, 7, 6, -9, 30), (-9, 30, -26, 7, 7, 14, -10), (-9, 30, -26, 7, 8, -3, -33),
-        (-9, 30, -26, 7, 9, -43, -16), (-9, 30, -26, 7, 10, -66, 24), (-9, 30, -26, 7, 11, -49, 47),
-        (-9, 30, -26, 7, 12, -9, 30), (-9, 30, -26, 7, 255, -43, -16), (-9, 30, 38, -1, 0, -9, 30),
-        (-9, 30, 38, -1, 1, 22, 46), (-9, 30, 38, -1, 2, 69, 15), (-9, 30, 38, -1, 3, 85, -32),
-        (-9, 30, 38, -1, 4, 54, -48), (-9, 30, 38, -1, 5, 7, -17), (-9, 30, 38, -1, 6, -9, 30),
-        (-9, 30, 38, -1, 7, 22, 46), (-9, 30, 38, -1, 8, 69, 15), (-9, 30, 38, -1, 9, 85, -32),
-        (-9, 30, 38, -1, 10, 54, -48), (-9, 30, 38, -1, 11, 7, -17), (-9, 30, 38, -1, 12, -9, 30),
-        (-9, 30, 38, -1, 255, 85, -32), (-9, 30, 33, 8, 0, -9, 30), (-9, 30, 33, 8, 1, 13, 50),
-        (-9, 30, 33, 8, 2, 55, 28), (-9, 30, 33, 8, 3, 75, -14), (-9, 30, 33, 8, 4, 53, -34),
-        (-9, 30, 33, 8, 5, 11, -12), (-9, 30, 33, 8, 6, -9, 30), (-9, 30, 33, 8, 7, 13, 50),
-        (-9, 30, 33, 8, 8, 55, 28), (-9, 30, 33, 8, 9, 75, -14), (-9, 30, 33, 8, 10, 53, -34),
-        (-9, 30, 33, 8, 11, 11, -12), (-9, 30, 33, 8, 12, -9, 30), (-9, 30, 33, 8, 255, 75, -14),
-        (6, 24, 31, 13, 0, 6, 24), (6, 24, 31, 13, 1, 17, 38), (6, 24, 31, 13, 2, 42, 27),
-        (6, 24, 31, 13, 3, 56, 2), (6, 24, 31, 13, 4, 45, -12), (6, 24, 31, 13, 5, 20, -1),
-        (6, 24, 31, 13, 6, 6, 24), (6, 24, 31, 13, 7, 17, 38), (6, 24, 31, 13, 8, 42, 27),
-        (6, 24, 31, 13, 9, 56, 2), (6, 24, 31, 13, 10, 45, -12), (6, 24, 31, 13, 11, 20, -1),
-        (6, 24, 31, 13, 12, 6, 24), (6, 24, 31, 13, 255, 56, 2), (6, 24, 27, 39, 0, 6, 24),
-        (6, 24, 27, 39, 1, -9, 60), (6, 24, 27, 39, 2, 12, 75), (6, 24, 27, 39, 3, 48, 54),
-        (6, 24, 27, 39, 4, 63, 18), (6, 24, 27, 39, 5, 42, 3), (6, 24, 27, 39, 6, 6, 24),
-        (6, 24, 27, 39, 7, -9, 60), (6, 24, 27, 39, 8, 12, 75), (6, 24, 27, 39, 9, 48, 54),
-        (6, 24, 27, 39, 10, 63, 18), (6, 24, 27, 39, 11, 42, 3), (6, 24, 27, 39, 12, 6, 24),
-        (6, 24, 27, 39, 255, 48, 54), (6, 24, 24, 1, 0, 6, 24), (6, 24, 24, 1, 1, 29, 19),
-        (6, 24, 24, 1, 2, 47, -4), (6, 24, 24, 1, 3, 42, -22), (6, 24, 24, 1, 4, 19, -17),
-        (6, 24, 24, 1, 5, 1, 6), (6, 24, 24, 1, 6, 6, 24), (6, 24, 24, 1, 7, 29, 19),
-        (6, 24, 24, 1, 8, 47, -4), (6, 24, 24, 1, 9, 42, -22), (6, 24, 24, 1, 10, 19, -17),
-        (6, 24, 24, 1, 11, 1, 6), (6, 24, 24, 1, 12, 6, 24), (6, 24, 24, 1, 255, 42, -22),
-        (6, 24, -21, -18, 0, 6, 24), (6, 24, -21, -18, 1, 48, -45), (6, 24, -21, -18, 2, 21, -87),
-        (6, 24, -21, -18, 3, -48, -60), (6, 24, -21, -18, 4, -90, 9), (6, 24, -21, -18, 5, -63, 51),
-        (6, 24, -21, -18, 6, 6, 24), (6, 24, -21, -18, 7, 48, -45), (6, 24, -21, -18, 8, 21, -87),
-        (6, 24, -21, -18, 9, -48, -60), (6, 24, -21, -18, 10, -90, 9),
-        (6, 24, -21, -18, 11, -63, 51), (6, 24, -21, -18, 12, 6, 24),
-        (6, 24, -21, -18, 255, -48, -60), (6, 24, -13, -35, 0, 6, 24),
-        (6, 24, -13, -35, 1, 65, -54), (6, 24, -13, -35, 2, 46, -113),
-        (6, 24, -13, -35, 3, -32, -94), (6, 24, -13, -35, 4, -91, -16),
-        (6, 24, -13, -35, 5, -72, 43), (6, 24, -13, -35, 6, 6, 24), (6, 24, -13, -35, 7, 65, -54),
-        (6, 24, -13, -35, 8, 46, -113), (6, 24, -13, -35, 9, -32, -94),
-        (6, 24, -13, -35, 10, -91, -16), (6, 24, -13, -35, 11, -72, 43),
-        (6, 24, -13, -35, 12, 6, 24), (6, 24, -13, -35, 255, -32, -94), (6, 24, -26, 7, 0, 6, 24),
-        (6, 24, -26, 7, 1, 23, -25), (6, 24, -26, 7, 2, -9, -42), (6, 24, -26, 7, 3, -58, -10),
-        (6, 24, -26, 7, 4, -75, 39), (6, 24, -26, 7, 5, -43, 56), (6, 24, -26, 7, 6, 6, 24),
-        (6, 24, -26, 7, 7, 23, -25), (6, 24, -26, 7, 8, -9, -42), (6, 24, -26, 7, 9, -58, -10),
-        (6, 24, -26, 7, 10, -75, 39), (6, 24, -26, 7, 11, -43, 56), (6, 24, -26, 7, 12, 6, 24),
-        (6, 24, -26, 7, 255, -58, -10), (6, 24, 38, -1, 0, 6, 24), (6, 24, 38, -1, 1, 31, 31),
-        (6, 24, 38, -1, 2, 63, 6), (6, 24, 38, -1, 3, 70, -26), (6, 24, 38, -1, 4, 45, -33),
-        (6, 24, 38, -1, 5, 13, -8), (6, 24, 38, -1, 6, 6, 24), (6, 24, 38, -1, 7, 31, 31),
-        (6, 24, 38, -1, 8, 63, 6), (6, 24, 38, -1, 9, 70, -26), (6, 24, 38, -1, 10, 45, -33),
-        (6, 24, 38, -1, 11, 13, -8), (6, 24, 38, -1, 12, 6, 24), (6, 24, 38, -1, 255, 70, -26),
-        (6, 24, 33, 8, 0, 6, 24), (6, 24, 33, 8, 1, 22, 35), (6, 24, 33, 8, 2, 49, 19),
-        (6, 24, 33, 8, 3, 60, -8), (6, 24, 33, 8, 4, 44, -19), (6, 24, 33, 8, 5, 17, -3),
-        (6, 24, 33, 8, 6, 6, 24), (6, 24, 33, 8, 7, 22, 35), (6, 24, 33, 8, 8, 49, 19),
-        (6, 24, 33, 8, 9, 60, -8), (6, 24, 33, 8, 10, 44, -19), (6, 24, 33, 8, 11, 17, -3),
-        (6, 24, 33, 8, 12, 6, 24), (6, 24, 33, 8, 255, 60, -8), (34, 22, 31, 13, 0, 34, 22),
-        (34, 22, 31, 13, 1, 43, 10), (34, 22, 31, 13, 2, 40, 1), (34, 22, 31, 13, 3, 28, 4),
-        (34, 22, 31, 13, 4, 19, 16), (34, 22, 31, 13, 5, 22, 25), (34, 22, 31, 13, 6, 34, 22),
-        (34, 22, 31, 13, 7, 43, 10), (34, 22, 31, 13, 8, 40, 1), (34, 22, 31, 13, 9, 28, 4),
-        (34, 22, 31, 13, 10, 19, 16), (34, 22, 31, 13, 11, 22, 25), (34, 22, 31, 13, 12, 34, 22),
-        (34, 22, 31, 13, 255, 28, 4), (34, 22, 27, 39, 0, 34, 22), (34, 22, 27, 39, 1, 17, 32),
-        (34, 22, 27, 39, 2, 10, 49), (34, 22, 27, 39, 3, 20, 56), (34, 22, 27, 39, 4, 37, 46),
-        (34, 22, 27, 39, 5, 44, 29), (34, 22, 27, 39, 6, 34, 22), (34, 22, 27, 39, 7, 17, 32),
-        (34, 22, 27, 39, 8, 10, 49), (34, 22, 27, 39, 9, 20, 56), (34, 22, 27, 39, 10, 37, 46),
-        (34, 22, 27, 39, 11, 44, 29), (34, 22, 27, 39, 12, 34, 22), (34, 22, 27, 39, 255, 20, 56),
-        (34, 22, 24, 1, 0, 34, 22), (34, 22, 24, 1, 1, 55, -9), (34, 22, 24, 1, 2, 45, -30),
-        (34, 22, 24, 1, 3, 14, -20), (34, 22, 24, 1, 4, -7, 11), (34, 22, 24, 1, 5, 3, 32),
-        (34, 22, 24, 1, 6, 34, 22), (34, 22, 24, 1, 7, 55, -9), (34, 22, 24, 1, 8, 45, -30),
-        (34, 22, 24, 1, 9, 14, -20), (34, 22, 24, 1, 10, -7, 11), (34, 22, 24, 1, 11, 3, 32),
-        (34, 22, 24, 1, 12, 34, 22), (34, 22, 24, 1, 255, 14, -20), (34, 22, -21, -18, 0, 34, 22),
-        (34, 22, -21, -18, 1, 74, -73), (34, 22, -21, -18, 2, 19, -113),
-        (34, 22, -21, -18, 3, -76, -58), (34, 22, -21, -18, 4, -116, 37),
-        (34, 22, -21, -18, 5, -61, 77), (34, 22, -21, -18, 6, 34, 22),
-        (34, 22, -21, -18, 7, 74, -73), (34, 22, -21, -18, 8, 19, -113),
-        (34, 22, -21, -18, 9, -76, -58), (34, 22, -21, -18, 10, -116, 37),
-        (34, 22, -21, -18, 11, -61, 77), (34, 22, -21, -18, 12, 34, 22),
-        (34, 22, -21, -18, 255, -76, -58), (34, 22, -13, -35, 0, 34, 22),
-        (34, 22, -13, -35, 1, 91, -82), (34, 22, -13, -35, 2, 44, -139),
-        (34, 22, -13, -35, 3, -60, -92), (34, 22, -13, -35, 4, -117, 12),
-        (34, 22, -13, -35, 5, -70, 69), (34, 22, -13, -35, 6, 34, 22),
-        (34, 22, -13, -35, 7, 91, -82), (34, 22, -13, -35, 8, 44, -139),
-        (34, 22, -13, -35, 9, -60, -92), (34, 22, -13, -35, 10, -117, 12),
-        (34, 22, -13, -35, 11, -70, 69), (34, 22, -13, -35, 12, 34, 22),
-        (34, 22, -13, -35, 255, -60, -92), (34, 22, -26, 7, 0, 34, 22),
-        (34, 22, -26, 7, 1, 49, -53), (34, 22, -26, 7, 2, -11, -68), (34, 22, -26, 7, 3, -86, -8),
-        (34, 22, -26, 7, 4, -101, 67), (34, 22, -26, 7, 5, -41, 82), (34, 22, -26, 7, 6, 34, 22),
-        (34, 22, -26, 7, 7, 49, -53), (34, 22, -26, 7, 8, -11, -68), (34, 22, -26, 7, 9, -86, -8),
-        (34, 22, -26, 7, 10, -101, 67), (34, 22, -26, 7, 11, -41, 82), (34, 22, -26, 7, 12, 34, 22),
-        (34, 22, -26, 7, 255, -86, -8), (34, 22, 38, -1, 0, 34, 22), (34, 22, 38, -1, 1, 57, 3),
-        (34, 22, 38, -1, 2, 61, -20), (34, 22, 38, -1, 3, 42, -24), (34, 22, 38, -1, 4, 19, -5),
-        (34, 22, 38, -1, 5, 15, 18), (34, 22, 38, -1, 6, 34, 22), (34, 22, 38, -1, 7, 57, 3),
-        (34, 22, 38, -1, 8, 61, -20), (34, 22, 38, -1, 9, 42, -24), (34, 22, 38, -1, 10, 19, -5),
-        (34, 22, 38, -1, 11, 15, 18), (34, 22, 38, -1, 12, 34, 22), (34, 22, 38, -1, 255, 42, -24),
-        (34, 22, 33, 8, 0, 34, 22), (34, 22, 33, 8, 1, 48, 7), (34, 22, 33, 8, 2, 47, -7),
-        (34, 22, 33, 8, 3, 32, -6), (34, 22, 33, 8, 4, 18, 9), (34, 22, 33, 8, 5, 19, 23),
-        (34, 22, 33, 8, 6, 34, 22), (34, 22, 33, 8, 7, 48, 7), (34, 22, 33, 8, 8, 47, -7),
-        (34, 22, 33, 8, 9, 32, -6), (34, 22, 33, 8, 10, 18, 9), (34, 22, 33, 8, 11, 19, 23),
-        (34, 22, 33, 8, 12, 34, 22), (34, 22, 33, 8, 255, 32, -6), (-15, -16, 31, 13, 0, -15, -16),
-        (-15, -16, 31, 13, 1, -44, 59), (-15, -16, 31, 13, 2, 2, 88), (-15, -16, 31, 13, 3, 77, 42),
-        (-15, -16, 31, 13, 4, 106, -33), (-15, -16, 31, 13, 5, 60, -62),
-        (-15, -16, 31, 13, 6, -15, -16), (-15, -16, 31, 13, 7, -44, 59),
-        (-15, -16, 31, 13, 8, 2, 88), (-15, -16, 31, 13, 9, 77, 42),
-        (-15, -16, 31, 13, 10, 106, -33), (-15, -16, 31, 13, 11, 60, -62),
-        (-15, -16, 31, 13, 12, -15, -16), (-15, -16, 31, 13, 255, 77, 42),
-        (-15, -16, 27, 39, 0, -15, -16), (-15, -16, 27, 39, 1, -70, 81),
-        (-15, -16, 27, 39, 2, -28, 136), (-15, -16, 27, 39, 3, 69, 94),
-        (-15, -16, 27, 39, 4, 124, -3), (-15, -16, 27, 39, 5, 82, -58),
-        (-15, -16, 27, 39, 6, -15, -16), (-15, -16, 27, 39, 7, -70, 81),
-        (-15, -16, 27, 39, 8, -28, 136), (-15, -16, 27, 39, 9, 69, 94),
-        (-15, -16, 27, 39, 10, 124, -3), (-15, -16, 27, 39, 11, 82, -58),
-        (-15, -16, 27, 39, 12, -15, -16), (-15, -16, 27, 39, 255, 69, 94),
-        (-15, -16, 24, 1, 0, -15, -16), (-15, -16, 24, 1, 1, -32, 40), (-15, -16, 24, 1, 2, 7, 57),
-        (-15, -16, 24, 1, 3, 63, 18), (-15, -16, 24, 1, 4, 80, -38), (-15, -16, 24, 1, 5, 41, -55),
-        (-15, -16, 24, 1, 6, -15, -16), (-15, -16, 24, 1, 7, -32, 40), (-15, -16, 24, 1, 8, 7, 57),
-        (-15, -16, 24, 1, 9, 63, 18), (-15, -16, 24, 1, 10, 80, -38),
-        (-15, -16, 24, 1, 11, 41, -55), (-15, -16, 24, 1, 12, -15, -16),
-        (-15, -16, 24, 1, 255, 63, 18), (-15, -16, -21, -18, 0, -15, -16),
-        (-15, -16, -21, -18, 1, -13, -24), (-15, -16, -21, -18, 2, -19, -26),
-        (-15, -16, -21, -18, 3, -27, -20), (-15, -16, -21, -18, 4, -29, -12),
-        (-15, -16, -21, -18, 5, -23, -10), (-15, -16, -21, -18, 6, -15, -16),
-        (-15, -16, -21, -18, 7, -13, -24), (-15, -16, -21, -18, 8, -19, -26),
-        (-15, -16, -21, -18, 9, -27, -20), (-15, -16, -21, -18, 10, -29, -12),
-        (-15, -16, -21, -18, 11, -23, -10), (-15, -16, -21, -18, 12, -15, -16),
-        (-15, -16, -21, -18, 255, -27, -20), (-15, -16, -13, -35, 0, -15, -16),
-        (-15, -16, -13, -35, 1, 4, -33), (-15, -16, -13, -35, 2, 6, -52),
-        (-15, -16, -13, -35, 3, -11, -54), (-15, -16, -13, -35, 4, -30, -37),
-        (-15, -16, -13, -35, 5, -32, -18), (-15, -16, -13, -35, 6, -15, -16),
-        (-15, -16, -13, -35, 7, 4, -33), (-15, -16, -13, -35, 8, 6, -52),
-        (-15, -16, -13, -35, 9, -11, -54), (-15, -16, -13, -35, 10, -30, -37),
-        (-15, -16, -13, -35, 11, -32, -18), (-15, -16, -13, -35, 12, -15, -16),
-        (-15, -16, -13, -35, 255, -11, -54), (-15, -16, -26, 7, 0, -15, -16),
-        (-15, -16, -26, 7, 1, -38, -4), (-15, -16, -26, 7, 2, -49, 19),
-        (-15, -16, -26, 7, 3, -37, 30), (-15, -16, -26, 7, 4, -14, 18),
-        (-15, -16, -26, 7, 5, -3, -5), (-15, -16, -26, 7, 6, -15, -16),
-        (-15, -16, -26, 7, 7, -38, -4), (-15, -16, -26, 7, 8, -49, 19),
-        (-15, -16, -26, 7, 9, -37, 30), (-15, -16, -26, 7, 10, -14, 18),
-        (-15, -16, -26, 7, 11, -3, -5), (-15, -16, -26, 7, 12, -15, -16),
-        (-15, -16, -26, 7, 255, -37, 30), (-15, -16, 38, -1, 0, -15, -16),
-        (-15, -16, 38, -1, 1, -30, 52), (-15, -16, 38, -1, 2, 23, 67),
-        (-15, -16, 38, -1, 3, 91, 14), (-15, -16, 38, -1, 4, 106, -54),
-        (-15, -16, 38, -1, 5, 53, -69), (-15, -16, 38, -1, 6, -15, -16),
-        (-15, -16, 38, -1, 7, -30, 52), (-15, -16, 38, -1, 8, 23, 67),
-        (-15, -16, 38, -1, 9, 91, 14), (-15, -16, 38, -1, 10, 106, -54),
-        (-15, -16, 38, -1, 11, 53, -69), (-15, -16, 38, -1, 12, -15, -16),
-        (-15, -16, 38, -1, 255, 91, 14), (-15, -16, 33, 8, 0, -15, -16),
-        (-15, -16, 33, 8, 1, -39, 56), (-15, -16, 33, 8, 2, 9, 80), (-15, -16, 33, 8, 3, 81, 32),
-        (-15, -16, 33, 8, 4, 105, -40), (-15, -16, 33, 8, 5, 57, -64),
-        (-15, -16, 33, 8, 6, -15, -16), (-15, -16, 33, 8, 7, -39, 56), (-15, -16, 33, 8, 8, 9, 80),
-        (-15, -16, 33, 8, 9, 81, 32), (-15, -16, 33, 8, 10, 105, -40),
-        (-15, -16, 33, 8, 11, 57, -64), (-15, -16, 33, 8, 12, -15, -16),
-        (-15, -16, 33, 8, 255, 81, 32), (-21, -18, 31, 13, 0, -21, -18),
-        (-21, -18, 31, 13, 1, -52, 65), (-21, -18, 31, 13, 2, 0, 96), (-21, -18, 31, 13, 3, 83, 44),
-        (-21, -18, 31, 13, 4, 114, -39), (-21, -18, 31, 13, 5, 62, -70),
-        (-21, -18, 31, 13, 6, -21, -18), (-21, -18, 31, 13, 7, -52, 65),
-        (-21, -18, 31, 13, 8, 0, 96), (-21, -18, 31, 13, 9, 83, 44),
-        (-21, -18, 31, 13, 10, 114, -39), (-21, -18, 31, 13, 11, 62, -70),
-        (-21, -18, 31, 13, 12, -21, -18), (-21, -18, 31, 13, 255, 83, 44),
-        (-21, -18, 27, 39, 0, -21, -18), (-21, -18, 27, 39, 1, -78, 87),
-        (-21, -18, 27, 39, 2, -30, 144), (-21, -18, 27, 39, 3, 75, 96),
-        (-21, -18, 27, 39, 4, 132, -9), (-21, -18, 27, 39, 5, 84, -66),
-        (-21, -18, 27, 39, 6, -21, -18), (-21, -18, 27, 39, 7, -78, 87),
-        (-21, -18, 27, 39, 8, -30, 144), (-21, -18, 27, 39, 9, 75, 96),
-        (-21, -18, 27, 39, 10, 132, -9), (-21, -18, 27, 39, 11, 84, -66),
-        (-21, -18, 27, 39, 12, -21, -18), (-21, -18, 27, 39, 255, 75, 96),
-        (-21, -18, 24, 1, 0, -21, -18), (-21, -18, 24, 1, 1, -40, 46), (-21, -18, 24, 1, 2, 5, 65),
-        (-21, -18, 24, 1, 3, 69, 20), (-21, -18, 24, 1, 4, 88, -44), (-21, -18, 24, 1, 5, 43, -63),
-        (-21, -18, 24, 1, 6, -21, -18), (-21, -18, 24, 1, 7, -40, 46), (-21, -18, 24, 1, 8, 5, 65),
-        (-21, -18, 24, 1, 9, 69, 20), (-21, -18, 24, 1, 10, 88, -44),
-        (-21, -18, 24, 1, 11, 43, -63), (-21, -18, 24, 1, 12, -21, -18),
-        (-21, -18, 24, 1, 255, 69, 20), (-21, -18, -21, -18, 0, -21, -18),
-        (-21, -18, -21, -18, 1, -21, -18), (-21, -18, -21, -18, 2, -21, -18),
-        (-21, -18, -21, -18, 3, -21, -18), (-21, -18, -21, -18, 4, -21, -18),
-        (-21, -18, -21, -18, 5, -21, -18), (-21, -18, -21, -18, 6, -21, -18),
-        (-21, -18, -21, -18, 7, -21, -18), (-21, -18, -21, -18, 8, -21, -18),
-        (-21, -18, -21, -18, 9, -21, -18), (-21, -18, -21, -18, 10, -21, -18),
-        (-21, -18, -21, -18, 11, -21, -18), (-21, -18, -21, -18, 12, -21, -18),
-        (-21, -18, -21, -18, 255, -21, -18), (-21, -18, -13, -35, 0, -21, -18),
-        (-21, -18, -13, -35, 1, -4, -27), (-21, -18, -13, -35, 2, 4, -44),
-        (-21, -18, -13, -35, 3, -5, -52), (-21, -18, -13, -35, 4, -22, -43),
-        (-21, -18, -13, -35, 5, -30, -26), (-21, -18, -13, -35, 6, -21, -18),
-        (-21, -18, -13, -35, 7, -4, -27), (-21, -18, -13, -35, 8, 4, -44),
-        (-21, -18, -13, -35, 9, -5, -52), (-21, -18, -13, -35, 10, -22, -43),
-        (-21, -18, -13, -35, 11, -30, -26), (-21, -18, -13, -35, 12, -21, -18),
-        (-21, -18, -13, -35, 255, -5, -52), (-21, -18, -26, 7, 0, -21, -18),
-        (-21, -18, -26, 7, 1, -46, 2), (-21, -18, -26, 7, 2, -51, 27),
-        (-21, -18, -26, 7, 3, -31, 32), (-21, -18, -26, 7, 4, -6, 12),
-        (-21, -18, -26, 7, 5, -1, -13), (-21, -18, -26, 7, 6, -21, -18),
-        (-21, -18, -26, 7, 7, -46, 2), (-21, -18, -26, 7, 8, -51, 27),
-        (-21, -18, -26, 7, 9, -31, 32), (-21, -18, -26, 7, 10, -6, 12),
-        (-21, -18, -26, 7, 11, -1, -13), (-21, -18, -26, 7, 12, -21, -18),
-        (-21, -18, -26, 7, 255, -31, 32), (-21, -18, 38, -1, 0, -21, -18),
-        (-21, -18, 38, -1, 1, -38, 58), (-21, -18, 38, -1, 2, 21, 75),
-        (-21, -18, 38, -1, 3, 97, 16), (-21, -18, 38, -1, 4, 114, -60),
-        (-21, -18, 38, -1, 5, 55, -77), (-21, -18, 38, -1, 6, -21, -18),
-        (-21, -18, 38, -1, 7, -38, 58), (-21, -18, 38, -1, 8, 21, 75),
-        (-21, -18, 38, -1, 9, 97, 16), (-21, -18, 38, -1, 10, 114, -60),
-        (-21, -18, 38, -1, 11, 55, -77), (-21, -18, 38, -1, 12, -21, -18),
-        (-21, -18, 38, -1, 255, 97, 16), (-21, -18, 33, 8, 0, -21, -18),
-        (-21, -18, 33, 8, 1, -47, 62), (-21, -18, 33, 8, 2, 7, 88), (-21, -18, 33, 8, 3, 87, 34),
-        (-21, -18, 33, 8, 4, 113, -46), (-21, -18, 33, 8, 5, 59, -72),
-        (-21, -18, 33, 8, 6, -21, -18), (-21, -18, 33, 8, 7, -47, 62), (-21, -18, 33, 8, 8, 7, 88),
-        (-21, -18, 33, 8, 9, 87, 34), (-21, -18, 33, 8, 10, 113, -46),
-        (-21, -18, 33, 8, 11, 59, -72), (-21, -18, 33, 8, 12, -21, -18),
-        (-21, -18, 33, 8, 255, 87, 34), (31, 24, 31, 13, 0, 31, 24), (31, 24, 31, 13, 1, 42, 13),
-        (31, 24, 31, 13, 2, 42, 2), (31, 24, 31, 13, 3, 31, 2), (31, 24, 31, 13, 4, 20, 13),
-        (31, 24, 31, 13, 5, 20, 24), (31, 24, 31, 13, 6, 31, 24), (31, 24, 31, 13, 7, 42, 13),
-        (31, 24, 31, 13, 8, 42, 2), (31, 24, 31, 13, 9, 31, 2), (31, 24, 31, 13, 10, 20, 13),
-        (31, 24, 31, 13, 11, 20, 24), (31, 24, 31, 13, 12, 31, 24), (31, 24, 31, 13, 255, 31, 2),
-        (31, 24, 27, 39, 0, 31, 24), (31, 24, 27, 39, 1, 16, 35), (31, 24, 27, 39, 2, 12, 50),
-        (31, 24, 27, 39, 3, 23, 54), (31, 24, 27, 39, 4, 38, 43), (31, 24, 27, 39, 5, 42, 28),
-        (31, 24, 27, 39, 6, 31, 24), (31, 24, 27, 39, 7, 16, 35), (31, 24, 27, 39, 8, 12, 50),
-        (31, 24, 27, 39, 9, 23, 54), (31, 24, 27, 39, 10, 38, 43), (31, 24, 27, 39, 11, 42, 28),
-        (31, 24, 27, 39, 12, 31, 24), (31, 24, 27, 39, 255, 23, 54), (31, 24, 24, 1, 0, 31, 24),
-        (31, 24, 24, 1, 1, 54, -6), (31, 24, 24, 1, 2, 47, -29), (31, 24, 24, 1, 3, 17, -22),
-        (31, 24, 24, 1, 4, -6, 8), (31, 24, 24, 1, 5, 1, 31), (31, 24, 24, 1, 6, 31, 24),
-        (31, 24, 24, 1, 7, 54, -6), (31, 24, 24, 1, 8, 47, -29), (31, 24, 24, 1, 9, 17, -22),
-        (31, 24, 24, 1, 10, -6, 8), (31, 24, 24, 1, 11, 1, 31), (31, 24, 24, 1, 12, 31, 24),
-        (31, 24, 24, 1, 255, 17, -22), (31, 24, -21, -18, 0, 31, 24),
-        (31, 24, -21, -18, 1, 73, -70), (31, 24, -21, -18, 2, 21, -112),
-        (31, 24, -21, -18, 3, -73, -60), (31, 24, -21, -18, 4, -115, 34),
-        (31, 24, -21, -18, 5, -63, 76), (31, 24, -21, -18, 6, 31, 24),
-        (31, 24, -21, -18, 7, 73, -70), (31, 24, -21, -18, 8, 21, -112),
-        (31, 24, -21, -18, 9, -73, -60), (31, 24, -21, -18, 10, -115, 34),
-        (31, 24, -21, -18, 11, -63, 76), (31, 24, -21, -18, 12, 31, 24),
-        (31, 24, -21, -18, 255, -73, -60), (31, 24, -13, -35, 0, 31, 24),
-        (31, 24, -13, -35, 1, 90, -79), (31, 24, -13, -35, 2, 46, -138),
-        (31, 24, -13, -35, 3, -57, -94), (31, 24, -13, -35, 4, -116, 9),
-        (31, 24, -13, -35, 5, -72, 68), (31, 24, -13, -35, 6, 31, 24),
-        (31, 24, -13, -35, 7, 90, -79), (31, 24, -13, -35, 8, 46, -138),
-        (31, 24, -13, -35, 9, -57, -94), (31, 24, -13, -35, 10, -116, 9),
-        (31, 24, -13, -35, 11, -72, 68), (31, 24, -13, -35, 12, 31, 24),
-        (31, 24, -13, -35, 255, -57, -94), (31, 24, -26, 7, 0, 31, 24),
-        (31, 24, -26, 7, 1, 48, -50), (31, 24, -26, 7, 2, -9, -67), (31, 24, -26, 7, 3, -83, -10),
-        (31, 24, -26, 7, 4, -100, 64), (31, 24, -26, 7, 5, -43, 81), (31, 24, -26, 7, 6, 31, 24),
-        (31, 24, -26, 7, 7, 48, -50), (31, 24, -26, 7, 8, -9, -67), (31, 24, -26, 7, 9, -83, -10),
-        (31, 24, -26, 7, 10, -100, 64), (31, 24, -26, 7, 11, -43, 81), (31, 24, -26, 7, 12, 31, 24),
-        (31, 24, -26, 7, 255, -83, -10), (31, 24, 38, -1, 0, 31, 24), (31, 24, 38, -1, 1, 56, 6),
-        (31, 24, 38, -1, 2, 63, -19), (31, 24, 38, -1, 3, 45, -26), (31, 24, 38, -1, 4, 20, -8),
-        (31, 24, 38, -1, 5, 13, 17), (31, 24, 38, -1, 6, 31, 24), (31, 24, 38, -1, 7, 56, 6),
-        (31, 24, 38, -1, 8, 63, -19), (31, 24, 38, -1, 9, 45, -26), (31, 24, 38, -1, 10, 20, -8),
-        (31, 24, 38, -1, 11, 13, 17), (31, 24, 38, -1, 12, 31, 24), (31, 24, 38, -1, 255, 45, -26),
-        (31, 24, 33, 8, 0, 31, 24), (31, 24, 33, 8, 1, 47, 10), (31, 24, 33, 8, 2, 49, -6),
-        (31, 24, 33, 8, 3, 35, -8), (31, 24, 33, 8, 4, 19, 6), (31, 24, 33, 8, 5, 17, 22),
-        (31, 24, 33, 8, 6, 31, 24), (31, 24, 33, 8, 7, 47, 10), (31, 24, 33, 8, 8, 49, -6),
-        (31, 24, 33, 8, 9, 35, -8), (31, 24, 33, 8, 10, 19, 6), (31, 24, 33, 8, 11, 17, 22),
-        (31, 24, 33, 8, 12, 31, 24), (31, 24, 33, 8, 255, 35, -8), (24, -25, 31, 13, 0, 24, -25),
-        (24, -25, 31, 13, 1, -14, 20), (24, -25, 31, 13, 2, -7, 58), (24, -25, 31, 13, 3, 38, 51),
-        (24, -25, 31, 13, 4, 76, 6), (24, -25, 31, 13, 5, 69, -32), (24, -25, 31, 13, 6, 24, -25),
-        (24, -25, 31, 13, 7, -14, 20), (24, -25, 31, 13, 8, -7, 58), (24, -25, 31, 13, 9, 38, 51),
-        (24, -25, 31, 13, 10, 76, 6), (24, -25, 31, 13, 11, 69, -32),
-        (24, -25, 31, 13, 12, 24, -25), (24, -25, 31, 13, 255, 38, 51),
-        (24, -25, 27, 39, 0, 24, -25), (24, -25, 27, 39, 1, -40, 42),
-        (24, -25, 27, 39, 2, -37, 106), (24, -25, 27, 39, 3, 30, 103), (24, -25, 27, 39, 4, 94, 36),
-        (24, -25, 27, 39, 5, 91, -28), (24, -25, 27, 39, 6, 24, -25), (24, -25, 27, 39, 7, -40, 42),
-        (24, -25, 27, 39, 8, -37, 106), (24, -25, 27, 39, 9, 30, 103),
-        (24, -25, 27, 39, 10, 94, 36), (24, -25, 27, 39, 11, 91, -28),
-        (24, -25, 27, 39, 12, 24, -25), (24, -25, 27, 39, 255, 30, 103),
-        (24, -25, 24, 1, 0, 24, -25), (24, -25, 24, 1, 1, -2, 1), (24, -25, 24, 1, 2, -2, 27),
-        (24, -25, 24, 1, 3, 24, 27), (24, -25, 24, 1, 4, 50, 1), (24, -25, 24, 1, 5, 50, -25),
-        (24, -25, 24, 1, 6, 24, -25), (24, -25, 24, 1, 7, -2, 1), (24, -25, 24, 1, 8, -2, 27),
-        (24, -25, 24, 1, 9, 24, 27), (24, -25, 24, 1, 10, 50, 1), (24, -25, 24, 1, 11, 50, -25),
-        (24, -25, 24, 1, 12, 24, -25), (24, -25, 24, 1, 255, 24, 27),
-        (24, -25, -21, -18, 0, 24, -25), (24, -25, -21, -18, 1, 17, -63),
-        (24, -25, -21, -18, 2, -28, -56), (24, -25, -21, -18, 3, -66, -11),
-        (24, -25, -21, -18, 4, -59, 27), (24, -25, -21, -18, 5, -14, 20),
-        (24, -25, -21, -18, 6, 24, -25), (24, -25, -21, -18, 7, 17, -63),
-        (24, -25, -21, -18, 8, -28, -56), (24, -25, -21, -18, 9, -66, -11),
-        (24, -25, -21, -18, 10, -59, 27), (24, -25, -21, -18, 11, -14, 20),
-        (24, -25, -21, -18, 12, 24, -25), (24, -25, -21, -18, 255, -66, -11),
-        (24, -25, -13, -35, 0, 24, -25), (24, -25, -13, -35, 1, 34, -72),
-        (24, -25, -13, -35, 2, -3, -82), (24, -25, -13, -35, 3, -50, -45),
-        (24, -25, -13, -35, 4, -60, 2), (24, -25, -13, -35, 5, -23, 12),
-        (24, -25, -13, -35, 6, 24, -25), (24, -25, -13, -35, 7, 34, -72),
-        (24, -25, -13, -35, 8, -3, -82), (24, -25, -13, -35, 9, -50, -45),
-        (24, -25, -13, -35, 10, -60, 2), (24, -25, -13, -35, 11, -23, 12),
-        (24, -25, -13, -35, 12, 24, -25), (24, -25, -13, -35, 255, -50, -45),
-        (24, -25, -26, 7, 0, 24, -25), (24, -25, -26, 7, 1, -8, -43),
-        (24, -25, -26, 7, 2, -58, -11), (24, -25, -26, 7, 3, -76, 39),
-        (24, -25, -26, 7, 4, -44, 57), (24, -25, -26, 7, 5, 6, 25), (24, -25, -26, 7, 6, 24, -25),
-        (24, -25, -26, 7, 7, -8, -43), (24, -25, -26, 7, 8, -58, -11),
-        (24, -25, -26, 7, 9, -76, 39), (24, -25, -26, 7, 10, -44, 57), (24, -25, -26, 7, 11, 6, 25),
-        (24, -25, -26, 7, 12, 24, -25), (24, -25, -26, 7, 255, -76, 39),
-        (24, -25, 38, -1, 0, 24, -25), (24, -25, 38, -1, 1, 0, 13), (24, -25, 38, -1, 2, 14, 37),
-        (24, -25, 38, -1, 3, 52, 23), (24, -25, 38, -1, 4, 76, -15), (24, -25, 38, -1, 5, 62, -39),
-        (24, -25, 38, -1, 6, 24, -25), (24, -25, 38, -1, 7, 0, 13), (24, -25, 38, -1, 8, 14, 37),
-        (24, -25, 38, -1, 9, 52, 23), (24, -25, 38, -1, 10, 76, -15),
-        (24, -25, 38, -1, 11, 62, -39), (24, -25, 38, -1, 12, 24, -25),
-        (24, -25, 38, -1, 255, 52, 23), (24, -25, 33, 8, 0, 24, -25), (24, -25, 33, 8, 1, -9, 17),
-        (24, -25, 33, 8, 2, 0, 50), (24, -25, 33, 8, 3, 42, 41), (24, -25, 33, 8, 4, 75, -1),
-        (24, -25, 33, 8, 5, 66, -34), (24, -25, 33, 8, 6, 24, -25), (24, -25, 33, 8, 7, -9, 17),
-        (24, -25, 33, 8, 8, 0, 50), (24, -25, 33, 8, 9, 42, 41), (24, -25, 33, 8, 10, 75, -1),
-        (24, -25, 33, 8, 11, 66, -34), (24, -25, 33, 8, 12, 24, -25), (24, -25, 33, 8, 255, 42, 41),
-        (28, -16, 31, 13, 0, 28, -16), (28, -16, 31, 13, 1, -1, 16), (28, -16, 31, 13, 2, 2, 45),
-        (28, -16, 31, 13, 3, 34, 42), (28, -16, 31, 13, 4, 63, 10), (28, -16, 31, 13, 5, 60, -19),
-        (28, -16, 31, 13, 6, 28, -16), (28, -16, 31, 13, 7, -1, 16), (28, -16, 31, 13, 8, 2, 45),
-        (28, -16, 31, 13, 9, 34, 42), (28, -16, 31, 13, 10, 63, 10), (28, -16, 31, 13, 11, 60, -19),
-        (28, -16, 31, 13, 12, 28, -16), (28, -16, 31, 13, 255, 34, 42),
-        (28, -16, 27, 39, 0, 28, -16), (28, -16, 27, 39, 1, -27, 38), (28, -16, 27, 39, 2, -28, 93),
-        (28, -16, 27, 39, 3, 26, 94), (28, -16, 27, 39, 4, 81, 40), (28, -16, 27, 39, 5, 82, -15),
-        (28, -16, 27, 39, 6, 28, -16), (28, -16, 27, 39, 7, -27, 38), (28, -16, 27, 39, 8, -28, 93),
-        (28, -16, 27, 39, 9, 26, 94), (28, -16, 27, 39, 10, 81, 40), (28, -16, 27, 39, 11, 82, -15),
-        (28, -16, 27, 39, 12, 28, -16), (28, -16, 27, 39, 255, 26, 94),
-        (28, -16, 24, 1, 0, 28, -16), (28, -16, 24, 1, 1, 11, -3), (28, -16, 24, 1, 2, 7, 14),
-        (28, -16, 24, 1, 3, 20, 18), (28, -16, 24, 1, 4, 37, 5), (28, -16, 24, 1, 5, 41, -12),
-        (28, -16, 24, 1, 6, 28, -16), (28, -16, 24, 1, 7, 11, -3), (28, -16, 24, 1, 8, 7, 14),
-        (28, -16, 24, 1, 9, 20, 18), (28, -16, 24, 1, 10, 37, 5), (28, -16, 24, 1, 11, 41, -12),
-        (28, -16, 24, 1, 12, 28, -16), (28, -16, 24, 1, 255, 20, 18),
-        (28, -16, -21, -18, 0, 28, -16), (28, -16, -21, -18, 1, 30, -67),
-        (28, -16, -21, -18, 2, -19, -69), (28, -16, -21, -18, 3, -70, -20),
-        (28, -16, -21, -18, 4, -72, 31), (28, -16, -21, -18, 5, -23, 33),
-        (28, -16, -21, -18, 6, 28, -16), (28, -16, -21, -18, 7, 30, -67),
-        (28, -16, -21, -18, 8, -19, -69), (28, -16, -21, -18, 9, -70, -20),
-        (28, -16, -21, -18, 10, -72, 31), (28, -16, -21, -18, 11, -23, 33),
-        (28, -16, -21, -18, 12, 28, -16), (28, -16, -21, -18, 255, -70, -20),
-        (28, -16, -13, -35, 0, 28, -16), (28, -16, -13, -35, 1, 47, -76),
-        (28, -16, -13, -35, 2, 6, -95), (28, -16, -13, -35, 3, -54, -54),
-        (28, -16, -13, -35, 4, -73, 6), (28, -16, -13, -35, 5, -32, 25),
-        (28, -16, -13, -35, 6, 28, -16), (28, -16, -13, -35, 7, 47, -76),
-        (28, -16, -13, -35, 8, 6, -95), (28, -16, -13, -35, 9, -54, -54),
-        (28, -16, -13, -35, 10, -73, 6), (28, -16, -13, -35, 11, -32, 25),
-        (28, -16, -13, -35, 12, 28, -16), (28, -16, -13, -35, 255, -54, -54),
-        (28, -16, -26, 7, 0, 28, -16), (28, -16, -26, 7, 1, 5, -47), (28, -16, -26, 7, 2, -49, -24),
-        (28, -16, -26, 7, 3, -80, 30), (28, -16, -26, 7, 4, -57, 61), (28, -16, -26, 7, 5, -3, 38),
-        (28, -16, -26, 7, 6, 28, -16), (28, -16, -26, 7, 7, 5, -47), (28, -16, -26, 7, 8, -49, -24),
-        (28, -16, -26, 7, 9, -80, 30), (28, -16, -26, 7, 10, -57, 61),
-        (28, -16, -26, 7, 11, -3, 38), (28, -16, -26, 7, 12, 28, -16),
-        (28, -16, -26, 7, 255, -80, 30), (28, -16, 38, -1, 0, 28, -16), (28, -16, 38, -1, 1, 13, 9),
-        (28, -16, 38, -1, 2, 23, 24), (28, -16, 38, -1, 3, 48, 14), (28, -16, 38, -1, 4, 63, -11),
-        (28, -16, 38, -1, 5, 53, -26), (28, -16, 38, -1, 6, 28, -16), (28, -16, 38, -1, 7, 13, 9),
-        (28, -16, 38, -1, 8, 23, 24), (28, -16, 38, -1, 9, 48, 14), (28, -16, 38, -1, 10, 63, -11),
-        (28, -16, 38, -1, 11, 53, -26), (28, -16, 38, -1, 12, 28, -16),
-        (28, -16, 38, -1, 255, 48, 14), (28, -16, 33, 8, 0, 28, -16), (28, -16, 33, 8, 1, 4, 13),
-        (28, -16, 33, 8, 2, 9, 37), (28, -16, 33, 8, 3, 38, 32), (28, -16, 33, 8, 4, 62, 3),
-        (28, -16, 33, 8, 5, 57, -21), (28, -16, 33, 8, 6, 28, -16), (28, -16, 33, 8, 7, 4, 13),
-        (28, -16, 33, 8, 8, 9, 37), (28, -16, 33, 8, 9, 38, 32), (28, -16, 33, 8, 10, 62, 3),
-        (28, -16, 33, 8, 11, 57, -21), (28, -16, 33, 8, 12, 28, -16), (28, -16, 33, 8, 255, 38, 32),
-        (-26, 11, 31, 13, 0, -26, 11), (-26, 11, 31, 13, 1, -28, 70), (-26, 11, 31, 13, 2, 29, 72),
-        (-26, 11, 31, 13, 3, 88, 15), (-26, 11, 31, 13, 4, 90, -44), (-26, 11, 31, 13, 5, 33, -46),
-        (-26, 11, 31, 13, 6, -26, 11), (-26, 11, 31, 13, 7, -28, 70), (-26, 11, 31, 13, 8, 29, 72),
-        (-26, 11, 31, 13, 9, 88, 15), (-26, 11, 31, 13, 10, 90, -44),
-        (-26, 11, 31, 13, 11, 33, -46), (-26, 11, 31, 13, 12, -26, 11),
-        (-26, 11, 31, 13, 255, 88, 15), (-26, 11, 27, 39, 0, -26, 11),
-        (-26, 11, 27, 39, 1, -54, 92), (-26, 11, 27, 39, 2, -1, 120), (-26, 11, 27, 39, 3, 80, 67),
-        (-26, 11, 27, 39, 4, 108, -14), (-26, 11, 27, 39, 5, 55, -42),
-        (-26, 11, 27, 39, 6, -26, 11), (-26, 11, 27, 39, 7, -54, 92), (-26, 11, 27, 39, 8, -1, 120),
-        (-26, 11, 27, 39, 9, 80, 67), (-26, 11, 27, 39, 10, 108, -14),
-        (-26, 11, 27, 39, 11, 55, -42), (-26, 11, 27, 39, 12, -26, 11),
-        (-26, 11, 27, 39, 255, 80, 67), (-26, 11, 24, 1, 0, -26, 11), (-26, 11, 24, 1, 1, -16, 51),
-        (-26, 11, 24, 1, 2, 34, 41), (-26, 11, 24, 1, 3, 74, -9), (-26, 11, 24, 1, 4, 64, -49),
-        (-26, 11, 24, 1, 5, 14, -39), (-26, 11, 24, 1, 6, -26, 11), (-26, 11, 24, 1, 7, -16, 51),
-        (-26, 11, 24, 1, 8, 34, 41), (-26, 11, 24, 1, 9, 74, -9), (-26, 11, 24, 1, 10, 64, -49),
-        (-26, 11, 24, 1, 11, 14, -39), (-26, 11, 24, 1, 12, -26, 11), (-26, 11, 24, 1, 255, 74, -9),
-        (-26, 11, -21, -18, 0, -26, 11), (-26, 11, -21, -18, 1, 3, -13),
-        (-26, 11, -21, -18, 2, 8, -42), (-26, 11, -21, -18, 3, -16, -47),
-        (-26, 11, -21, -18, 4, -45, -23), (-26, 11, -21, -18, 5, -50, 6),
-        (-26, 11, -21, -18, 6, -26, 11), (-26, 11, -21, -18, 7, 3, -13),
-        (-26, 11, -21, -18, 8, 8, -42), (-26, 11, -21, -18, 9, -16, -47),
-        (-26, 11, -21, -18, 10, -45, -23), (-26, 11, -21, -18, 11, -50, 6),
-        (-26, 11, -21, -18, 12, -26, 11), (-26, 11, -21, -18, 255, -16, -47),
-        (-26, 11, -13, -35, 0, -26, 11), (-26, 11, -13, -35, 1, 20, -22),
-        (-26, 11, -13, -35, 2, 33, -68), (-26, 11, -13, -35, 3, 0, -81),
-        (-26, 11, -13, -35, 4, -46, -48), (-26, 11, -13, -35, 5, -59, -2),
-        (-26, 11, -13, -35, 6, -26, 11), (-26, 11, -13, -35, 7, 20, -22),
-        (-26, 11, -13, -35, 8, 33, -68), (-26, 11, -13, -35, 9, 0, -81),
-        (-26, 11, -13, -35, 10, -46, -48), (-26, 11, -13, -35, 11, -59, -2),
-        (-26, 11, -13, -35, 12, -26, 11), (-26, 11, -13, -35, 255, 0, -81),
-        (-26, 11, -26, 7, 0, -26, 11), (-26, 11, -26, 7, 1, -22, 7), (-26, 11, -26, 7, 2, -22, 3),
-        (-26, 11, -26, 7, 3, -26, 3), (-26, 11, -26, 7, 4, -30, 7), (-26, 11, -26, 7, 5, -30, 11),
-        (-26, 11, -26, 7, 6, -26, 11), (-26, 11, -26, 7, 7, -22, 7), (-26, 11, -26, 7, 8, -22, 3),
-        (-26, 11, -26, 7, 9, -26, 3), (-26, 11, -26, 7, 10, -30, 7), (-26, 11, -26, 7, 11, -30, 11),
-        (-26, 11, -26, 7, 12, -26, 11), (-26, 11, -26, 7, 255, -26, 3),
-        (-26, 11, 38, -1, 0, -26, 11), (-26, 11, 38, -1, 1, -14, 63), (-26, 11, 38, -1, 2, 50, 51),
-        (-26, 11, 38, -1, 3, 102, -13), (-26, 11, 38, -1, 4, 90, -65),
-        (-26, 11, 38, -1, 5, 26, -53), (-26, 11, 38, -1, 6, -26, 11), (-26, 11, 38, -1, 7, -14, 63),
-        (-26, 11, 38, -1, 8, 50, 51), (-26, 11, 38, -1, 9, 102, -13),
-        (-26, 11, 38, -1, 10, 90, -65), (-26, 11, 38, -1, 11, 26, -53),
-        (-26, 11, 38, -1, 12, -26, 11), (-26, 11, 38, -1, 255, 102, -13),
-        (-26, 11, 33, 8, 0, -26, 11), (-26, 11, 33, 8, 1, -23, 67), (-26, 11, 33, 8, 2, 36, 64),
-        (-26, 11, 33, 8, 3, 92, 5), (-26, 11, 33, 8, 4, 89, -51), (-26, 11, 33, 8, 5, 30, -48),
-        (-26, 11, 33, 8, 6, -26, 11), (-26, 11, 33, 8, 7, -23, 67), (-26, 11, 33, 8, 8, 36, 64),
-        (-26, 11, 33, 8, 9, 92, 5), (-26, 11, 33, 8, 10, 89, -51), (-26, 11, 33, 8, 11, 30, -48),
-        (-26, 11, 33, 8, 12, -26, 11), (-26, 11, 33, 8, 255, 92, 5), (33, -9, 31, 13, 0, 33, -9),
-        (33, -9, 31, 13, 1, 11, 11), (33, -9, 31, 13, 2, 9, 33), (33, -9, 31, 13, 3, 29, 35),
-        (33, -9, 31, 13, 4, 51, 15), (33, -9, 31, 13, 5, 53, -7), (33, -9, 31, 13, 6, 33, -9),
-        (33, -9, 31, 13, 7, 11, 11), (33, -9, 31, 13, 8, 9, 33), (33, -9, 31, 13, 9, 29, 35),
-        (33, -9, 31, 13, 10, 51, 15), (33, -9, 31, 13, 11, 53, -7), (33, -9, 31, 13, 12, 33, -9),
-        (33, -9, 31, 13, 255, 29, 35), (33, -9, 27, 39, 0, 33, -9), (33, -9, 27, 39, 1, -15, 33),
-        (33, -9, 27, 39, 2, -21, 81), (33, -9, 27, 39, 3, 21, 87), (33, -9, 27, 39, 4, 69, 45),
-        (33, -9, 27, 39, 5, 75, -3), (33, -9, 27, 39, 6, 33, -9), (33, -9, 27, 39, 7, -15, 33),
-        (33, -9, 27, 39, 8, -21, 81), (33, -9, 27, 39, 9, 21, 87), (33, -9, 27, 39, 10, 69, 45),
-        (33, -9, 27, 39, 11, 75, -3), (33, -9, 27, 39, 12, 33, -9), (33, -9, 27, 39, 255, 21, 87),
-        (33, -9, 24, 1, 0, 33, -9), (33, -9, 24, 1, 1, 23, -8), (33, -9, 24, 1, 2, 14, 2),
-        (33, -9, 24, 1, 3, 15, 11), (33, -9, 24, 1, 4, 25, 10), (33, -9, 24, 1, 5, 34, 0),
-        (33, -9, 24, 1, 6, 33, -9), (33, -9, 24, 1, 7, 23, -8), (33, -9, 24, 1, 8, 14, 2),
-        (33, -9, 24, 1, 9, 15, 11), (33, -9, 24, 1, 10, 25, 10), (33, -9, 24, 1, 11, 34, 0),
-        (33, -9, 24, 1, 12, 33, -9), (33, -9, 24, 1, 255, 15, 11), (33, -9, -21, -18, 0, 33, -9),
-        (33, -9, -21, -18, 1, 42, -72), (33, -9, -21, -18, 2, -12, -81),
-        (33, -9, -21, -18, 3, -75, -27), (33, -9, -21, -18, 4, -84, 36),
-        (33, -9, -21, -18, 5, -30, 45), (33, -9, -21, -18, 6, 33, -9),
-        (33, -9, -21, -18, 7, 42, -72), (33, -9, -21, -18, 8, -12, -81),
-        (33, -9, -21, -18, 9, -75, -27), (33, -9, -21, -18, 10, -84, 36),
-        (33, -9, -21, -18, 11, -30, 45), (33, -9, -21, -18, 12, 33, -9),
-        (33, -9, -21, -18, 255, -75, -27), (33, -9, -13, -35, 0, 33, -9),
-        (33, -9, -13, -35, 1, 59, -81), (33, -9, -13, -35, 2, 13, -107),
-        (33, -9, -13, -35, 3, -59, -61), (33, -9, -13, -35, 4, -85, 11),
-        (33, -9, -13, -35, 5, -39, 37), (33, -9, -13, -35, 6, 33, -9),
-        (33, -9, -13, -35, 7, 59, -81), (33, -9, -13, -35, 8, 13, -107),
-        (33, -9, -13, -35, 9, -59, -61), (33, -9, -13, -35, 10, -85, 11),
-        (33, -9, -13, -35, 11, -39, 37), (33, -9, -13, -35, 12, 33, -9),
-        (33, -9, -13, -35, 255, -59, -61), (33, -9, -26, 7, 0, 33, -9),
-        (33, -9, -26, 7, 1, 17, -52), (33, -9, -26, 7, 2, -42, -36), (33, -9, -26, 7, 3, -85, 23),
-        (33, -9, -26, 7, 4, -69, 66), (33, -9, -26, 7, 5, -10, 50), (33, -9, -26, 7, 6, 33, -9),
-        (33, -9, -26, 7, 7, 17, -52), (33, -9, -26, 7, 8, -42, -36), (33, -9, -26, 7, 9, -85, 23),
-        (33, -9, -26, 7, 10, -69, 66), (33, -9, -26, 7, 11, -10, 50), (33, -9, -26, 7, 12, 33, -9),
-        (33, -9, -26, 7, 255, -85, 23), (33, -9, 38, -1, 0, 33, -9), (33, -9, 38, -1, 1, 25, 4),
-        (33, -9, 38, -1, 2, 30, 12), (33, -9, 38, -1, 3, 43, 7), (33, -9, 38, -1, 4, 51, -6),
-        (33, -9, 38, -1, 5, 46, -14), (33, -9, 38, -1, 6, 33, -9), (33, -9, 38, -1, 7, 25, 4),
-        (33, -9, 38, -1, 8, 30, 12), (33, -9, 38, -1, 9, 43, 7), (33, -9, 38, -1, 10, 51, -6),
-        (33, -9, 38, -1, 11, 46, -14), (33, -9, 38, -1, 12, 33, -9), (33, -9, 38, -1, 255, 43, 7),
-        (33, -9, 33, 8, 0, 33, -9), (33, -9, 33, 8, 1, 16, 8), (33, -9, 33, 8, 2, 16, 25),
-        (33, -9, 33, 8, 3, 33, 25), (33, -9, 33, 8, 4, 50, 8), (33, -9, 33, 8, 5, 50, -9),
-        (33, -9, 33, 8, 6, 33, -9), (33, -9, 33, 8, 7, 16, 8), (33, -9, 33, 8, 8, 16, 25),
-        (33, -9, 33, 8, 9, 33, 25), (33, -9, 33, 8, 10, 50, 8), (33, -9, 33, 8, 11, 50, -9),
-        (33, -9, 33, 8, 12, 33, -9), (33, -9, 33, 8, 255, 33, 25), (-20, -35, 31, 13, 0, -20, -35),
-        (-20, -35, 31, 13, 1, -68, 64), (-20, -35, 31, 13, 2, -17, 112),
-        (-20, -35, 31, 13, 3, 82, 61), (-20, -35, 31, 13, 4, 130, -38),
-        (-20, -35, 31, 13, 5, 79, -86), (-20, -35, 31, 13, 6, -20, -35),
-        (-20, -35, 31, 13, 7, -68, 64), (-20, -35, 31, 13, 8, -17, 112),
-        (-20, -35, 31, 13, 9, 82, 61), (-20, -35, 31, 13, 10, 130, -38),
-        (-20, -35, 31, 13, 11, 79, -86), (-20, -35, 31, 13, 12, -20, -35),
-        (-20, -35, 31, 13, 255, 82, 61), (-20, -35, 27, 39, 0, -20, -35),
-        (-20, -35, 27, 39, 1, -94, 86), (-20, -35, 27, 39, 2, -47, 160),
-        (-20, -35, 27, 39, 3, 74, 113), (-20, -35, 27, 39, 4, 148, -8),
-        (-20, -35, 27, 39, 5, 101, -82), (-20, -35, 27, 39, 6, -20, -35),
-        (-20, -35, 27, 39, 7, -94, 86), (-20, -35, 27, 39, 8, -47, 160),
-        (-20, -35, 27, 39, 9, 74, 113), (-20, -35, 27, 39, 10, 148, -8),
-        (-20, -35, 27, 39, 11, 101, -82), (-20, -35, 27, 39, 12, -20, -35),
-        (-20, -35, 27, 39, 255, 74, 113), (-20, -35, 24, 1, 0, -20, -35),
-        (-20, -35, 24, 1, 1, -56, 45), (-20, -35, 24, 1, 2, -12, 81), (-20, -35, 24, 1, 3, 68, 37),
-        (-20, -35, 24, 1, 4, 104, -43), (-20, -35, 24, 1, 5, 60, -79),
-        (-20, -35, 24, 1, 6, -20, -35), (-20, -35, 24, 1, 7, -56, 45),
-        (-20, -35, 24, 1, 8, -12, 81), (-20, -35, 24, 1, 9, 68, 37),
+        (-20, -35, 31, 13, 0, -20, -35), (-20, -35, 31, 13, 1, -68, 64),
+        (-20, -35, 31, 13, 2, -17, 112), (-20, -35, 31, 13, 3, 82, 61),
+        (-20, -35, 31, 13, 4, 130, -38), (-20, -35, 31, 13, 5, 79, -86),
+        (-20, -35, 31, 13, 6, -20, -35), (-20, -35, 31, 13, 7, -68, 64),
+        (-20, -35, 31, 13, 8, -17, 112), (-20, -35, 31, 13, 9, 82, 61),
+        (-20, -35, 31, 13, 10, 130, -38), (-20, -35, 31, 13, 11, 79, -86),
+        (-20, -35, 31, 13, 12, -20, -35), (-20, -35, 31, 13, 255, 82, 61),
+        (-20, -35, 27, 39, 0, -20, -35), (-20, -35, 27, 39, 1, -94, 86),
+        (-20, -35, 27, 39, 2, -47, 160), (-20, -35, 27, 39, 3, 74, 113),
+        (-20, -35, 27, 39, 4, 148, -8), (-20, -35, 27, 39, 5, 101, -82),
+        (-20, -35, 27, 39, 6, -20, -35), (-20, -35, 27, 39, 7, -94, 86),
+        (-20, -35, 27, 39, 8, -47, 160), (-20, -35, 27, 39, 9, 74, 113),
+        (-20, -35, 27, 39, 10, 148, -8), (-20, -35, 27, 39, 11, 101, -82),
+        (-20, -35, 27, 39, 12, -20, -35), (-20, -35, 27, 39, 255, 74, 113),
+        (-20, -35, 24, 1, 0, -20, -35), (-20, -35, 24, 1, 1, -56, 45),
+        (-20, -35, 24, 1, 2, -12, 81), (-20, -35, 24, 1, 3, 68, 37), (-20, -35, 24, 1, 4, 104, -43),
+        (-20, -35, 24, 1, 5, 60, -79), (-20, -35, 24, 1, 6, -20, -35),
+        (-20, -35, 24, 1, 7, -56, 45), (-20, -35, 24, 1, 8, -12, 81), (-20, -35, 24, 1, 9, 68, 37),
         (-20, -35, 24, 1, 10, 104, -43), (-20, -35, 24, 1, 11, 60, -79),
         (-20, -35, 24, 1, 12, -20, -35), (-20, -35, 24, 1, 255, 68, 37),
         (-20, -35, -21, -18, 0, -20, -35), (-20, -35, -21, -18, 1, -37, -19),
@@ -36330,8 +35438,8 @@ fn golden_hex_around_1_rotate_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_hex_around_2_rotate_cw_around() {
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_16_rotate_cw_around() {
     let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (-13, -35, 31, 13, 0, -13, -35), (-13, -35, 31, 13, 1, 79, -79),
         (-13, -35, 31, 13, 2, 123, -31), (-13, -35, 31, 13, 3, 75, 61),
@@ -36434,644 +35542,6 @@ fn golden_hex_around_2_rotate_cw_around() {
         (-6, -28, 33, 8, 5, -42, 47), (-6, -28, 33, 8, 6, -6, -28), (-6, -28, 33, 8, 7, 69, -67),
         (-6, -28, 33, 8, 8, 108, -31), (-6, -28, 33, 8, 9, 72, 44), (-6, -28, 33, 8, 10, -3, 83),
         (-6, -28, 33, 8, 11, -42, 47), (-6, -28, 33, 8, 12, -6, -28), (-6, -28, 33, 8, 255, 72, 44),
-        (22, -38, 31, 13, 0, 22, -38), (22, -38, 31, 13, 1, 82, -47), (22, -38, 31, 13, 2, 91, 4),
-        (22, -38, 31, 13, 3, 40, 64), (22, -38, 31, 13, 4, -20, 73), (22, -38, 31, 13, 5, -29, 22),
-        (22, -38, 31, 13, 6, 22, -38), (22, -38, 31, 13, 7, 82, -47), (22, -38, 31, 13, 8, 91, 4),
-        (22, -38, 31, 13, 9, 40, 64), (22, -38, 31, 13, 10, -20, 73),
-        (22, -38, 31, 13, 11, -29, 22), (22, -38, 31, 13, 12, 22, -38),
-        (22, -38, 31, 13, 255, 40, 64), (22, -38, 27, 39, 0, 22, -38),
-        (22, -38, 27, 39, 1, 104, -43), (22, -38, 27, 39, 2, 109, 34),
-        (22, -38, 27, 39, 3, 32, 116), (22, -38, 27, 39, 4, -50, 121),
-        (22, -38, 27, 39, 5, -55, 44), (22, -38, 27, 39, 6, 22, -38),
-        (22, -38, 27, 39, 7, 104, -43), (22, -38, 27, 39, 8, 109, 34),
-        (22, -38, 27, 39, 9, 32, 116), (22, -38, 27, 39, 10, -50, 121),
-        (22, -38, 27, 39, 11, -55, 44), (22, -38, 27, 39, 12, 22, -38),
-        (22, -38, 27, 39, 255, 32, 116), (22, -38, 24, 1, 0, 22, -38), (22, -38, 24, 1, 1, 63, -40),
-        (22, -38, 24, 1, 2, 65, -1), (22, -38, 24, 1, 3, 26, 40), (22, -38, 24, 1, 4, -15, 42),
-        (22, -38, 24, 1, 5, -17, 3), (22, -38, 24, 1, 6, 22, -38), (22, -38, 24, 1, 7, 63, -40),
-        (22, -38, 24, 1, 8, 65, -1), (22, -38, 24, 1, 9, 26, 40), (22, -38, 24, 1, 10, -15, 42),
-        (22, -38, 24, 1, 11, -17, 3), (22, -38, 24, 1, 12, 22, -38), (22, -38, 24, 1, 255, 26, 40),
-        (22, -38, -21, -18, 0, 22, -38), (22, -38, -21, -18, 1, -1, 5),
-        (22, -38, -21, -18, 2, -44, 25), (22, -38, -21, -18, 3, -64, 2),
-        (22, -38, -21, -18, 4, -41, -41), (22, -38, -21, -18, 5, 2, -61),
-        (22, -38, -21, -18, 6, 22, -38), (22, -38, -21, -18, 7, -1, 5),
-        (22, -38, -21, -18, 8, -44, 25), (22, -38, -21, -18, 9, -64, 2),
-        (22, -38, -21, -18, 10, -41, -41), (22, -38, -21, -18, 11, 2, -61),
-        (22, -38, -21, -18, 12, 22, -38), (22, -38, -21, -18, 255, -64, 2),
-        (22, -38, -13, -35, 0, 22, -38), (22, -38, -13, -35, 1, -10, -3),
-        (22, -38, -13, -35, 2, -45, 0), (22, -38, -13, -35, 3, -48, -32),
-        (22, -38, -13, -35, 4, -16, -67), (22, -38, -13, -35, 5, 19, -70),
-        (22, -38, -13, -35, 6, 22, -38), (22, -38, -13, -35, 7, -10, -3),
-        (22, -38, -13, -35, 8, -45, 0), (22, -38, -13, -35, 9, -48, -32),
-        (22, -38, -13, -35, 10, -16, -67), (22, -38, -13, -35, 11, 19, -70),
-        (22, -38, -13, -35, 12, 22, -38), (22, -38, -13, -35, 255, -48, -32),
-        (22, -38, -26, 7, 0, 22, -38), (22, -38, -26, 7, 1, 19, 10), (22, -38, -26, 7, 2, -29, 55),
-        (22, -38, -26, 7, 3, -74, 52), (22, -38, -26, 7, 4, -71, 4), (22, -38, -26, 7, 5, -23, -41),
-        (22, -38, -26, 7, 6, 22, -38), (22, -38, -26, 7, 7, 19, 10), (22, -38, -26, 7, 8, -29, 55),
-        (22, -38, -26, 7, 9, -74, 52), (22, -38, -26, 7, 10, -71, 4),
-        (22, -38, -26, 7, 11, -23, -41), (22, -38, -26, 7, 12, 22, -38),
-        (22, -38, -26, 7, 255, -74, 52), (22, -38, 38, -1, 0, 22, -38),
-        (22, -38, 38, -1, 1, 75, -54), (22, -38, 38, -1, 2, 91, -17), (22, -38, 38, -1, 3, 54, 36),
-        (22, -38, 38, -1, 4, 1, 52), (22, -38, 38, -1, 5, -15, 15), (22, -38, 38, -1, 6, 22, -38),
-        (22, -38, 38, -1, 7, 75, -54), (22, -38, 38, -1, 8, 91, -17), (22, -38, 38, -1, 9, 54, 36),
-        (22, -38, 38, -1, 10, 1, 52), (22, -38, 38, -1, 11, -15, 15),
-        (22, -38, 38, -1, 12, 22, -38), (22, -38, 38, -1, 255, 54, 36),
-        (22, -38, 33, 8, 0, 22, -38), (22, -38, 33, 8, 1, 79, -49), (22, -38, 33, 8, 2, 90, -3),
-        (22, -38, 33, 8, 3, 44, 54), (22, -38, 33, 8, 4, -13, 65), (22, -38, 33, 8, 5, -24, 19),
-        (22, -38, 33, 8, 6, 22, -38), (22, -38, 33, 8, 7, 79, -49), (22, -38, 33, 8, 8, 90, -3),
-        (22, -38, 33, 8, 9, 44, 54), (22, -38, 33, 8, 10, -13, 65), (22, -38, 33, 8, 11, -24, 19),
-        (22, -38, 33, 8, 12, 22, -38), (22, -38, 33, 8, 255, 44, 54), (17, -30, 31, 13, 0, 17, -30),
-        (17, -30, 31, 13, 1, 74, -44), (17, -30, 31, 13, 2, 88, -1), (17, -30, 31, 13, 3, 45, 56),
-        (17, -30, 31, 13, 4, -12, 70), (17, -30, 31, 13, 5, -26, 27), (17, -30, 31, 13, 6, 17, -30),
-        (17, -30, 31, 13, 7, 74, -44), (17, -30, 31, 13, 8, 88, -1), (17, -30, 31, 13, 9, 45, 56),
-        (17, -30, 31, 13, 10, -12, 70), (17, -30, 31, 13, 11, -26, 27),
-        (17, -30, 31, 13, 12, 17, -30), (17, -30, 31, 13, 255, 45, 56),
-        (17, -30, 27, 39, 0, 17, -30), (17, -30, 27, 39, 1, 96, -40), (17, -30, 27, 39, 2, 106, 29),
-        (17, -30, 27, 39, 3, 37, 108), (17, -30, 27, 39, 4, -42, 118),
-        (17, -30, 27, 39, 5, -52, 49), (17, -30, 27, 39, 6, 17, -30), (17, -30, 27, 39, 7, 96, -40),
-        (17, -30, 27, 39, 8, 106, 29), (17, -30, 27, 39, 9, 37, 108),
-        (17, -30, 27, 39, 10, -42, 118), (17, -30, 27, 39, 11, -52, 49),
-        (17, -30, 27, 39, 12, 17, -30), (17, -30, 27, 39, 255, 37, 108),
-        (17, -30, 24, 1, 0, 17, -30), (17, -30, 24, 1, 1, 55, -37), (17, -30, 24, 1, 2, 62, -6),
-        (17, -30, 24, 1, 3, 31, 32), (17, -30, 24, 1, 4, -7, 39), (17, -30, 24, 1, 5, -14, 8),
-        (17, -30, 24, 1, 6, 17, -30), (17, -30, 24, 1, 7, 55, -37), (17, -30, 24, 1, 8, 62, -6),
-        (17, -30, 24, 1, 9, 31, 32), (17, -30, 24, 1, 10, -7, 39), (17, -30, 24, 1, 11, -14, 8),
-        (17, -30, 24, 1, 12, 17, -30), (17, -30, 24, 1, 255, 31, 32),
-        (17, -30, -21, -18, 0, 17, -30), (17, -30, -21, -18, 1, -9, 8),
-        (17, -30, -21, -18, 2, -47, 20), (17, -30, -21, -18, 3, -59, -6),
-        (17, -30, -21, -18, 4, -33, -44), (17, -30, -21, -18, 5, 5, -56),
-        (17, -30, -21, -18, 6, 17, -30), (17, -30, -21, -18, 7, -9, 8),
-        (17, -30, -21, -18, 8, -47, 20), (17, -30, -21, -18, 9, -59, -6),
-        (17, -30, -21, -18, 10, -33, -44), (17, -30, -21, -18, 11, 5, -56),
-        (17, -30, -21, -18, 12, 17, -30), (17, -30, -21, -18, 255, -59, -6),
-        (17, -30, -13, -35, 0, 17, -30), (17, -30, -13, -35, 1, -18, 0),
-        (17, -30, -13, -35, 2, -48, -5), (17, -30, -13, -35, 3, -43, -40),
-        (17, -30, -13, -35, 4, -8, -70), (17, -30, -13, -35, 5, 22, -65),
-        (17, -30, -13, -35, 6, 17, -30), (17, -30, -13, -35, 7, -18, 0),
-        (17, -30, -13, -35, 8, -48, -5), (17, -30, -13, -35, 9, -43, -40),
-        (17, -30, -13, -35, 10, -8, -70), (17, -30, -13, -35, 11, 22, -65),
-        (17, -30, -13, -35, 12, 17, -30), (17, -30, -13, -35, 255, -43, -40),
-        (17, -30, -26, 7, 0, 17, -30), (17, -30, -26, 7, 1, 11, 13), (17, -30, -26, 7, 2, -32, 50),
-        (17, -30, -26, 7, 3, -69, 44), (17, -30, -26, 7, 4, -63, 1), (17, -30, -26, 7, 5, -20, -36),
-        (17, -30, -26, 7, 6, 17, -30), (17, -30, -26, 7, 7, 11, 13), (17, -30, -26, 7, 8, -32, 50),
-        (17, -30, -26, 7, 9, -69, 44), (17, -30, -26, 7, 10, -63, 1),
-        (17, -30, -26, 7, 11, -20, -36), (17, -30, -26, 7, 12, 17, -30),
-        (17, -30, -26, 7, 255, -69, 44), (17, -30, 38, -1, 0, 17, -30),
-        (17, -30, 38, -1, 1, 67, -51), (17, -30, 38, -1, 2, 88, -22), (17, -30, 38, -1, 3, 59, 28),
-        (17, -30, 38, -1, 4, 9, 49), (17, -30, 38, -1, 5, -12, 20), (17, -30, 38, -1, 6, 17, -30),
-        (17, -30, 38, -1, 7, 67, -51), (17, -30, 38, -1, 8, 88, -22), (17, -30, 38, -1, 9, 59, 28),
-        (17, -30, 38, -1, 10, 9, 49), (17, -30, 38, -1, 11, -12, 20),
-        (17, -30, 38, -1, 12, 17, -30), (17, -30, 38, -1, 255, 59, 28),
-        (17, -30, 33, 8, 0, 17, -30), (17, -30, 33, 8, 1, 71, -46), (17, -30, 33, 8, 2, 87, -8),
-        (17, -30, 33, 8, 3, 49, 46), (17, -30, 33, 8, 4, -5, 62), (17, -30, 33, 8, 5, -21, 24),
-        (17, -30, 33, 8, 6, 17, -30), (17, -30, 33, 8, 7, 71, -46), (17, -30, 33, 8, 8, 87, -8),
-        (17, -30, 33, 8, 9, 49, 46), (17, -30, 33, 8, 10, -5, 62), (17, -30, 33, 8, 11, -21, 24),
-        (17, -30, 33, 8, 12, 17, -30), (17, -30, 33, 8, 255, 49, 46), (36, -31, 31, 13, 0, 36, -31),
-        (36, -31, 31, 13, 1, 75, -26), (36, -31, 31, 13, 2, 70, 18), (36, -31, 31, 13, 3, 26, 57),
-        (36, -31, 31, 13, 4, -13, 52), (36, -31, 31, 13, 5, -8, 8), (36, -31, 31, 13, 6, 36, -31),
-        (36, -31, 31, 13, 7, 75, -26), (36, -31, 31, 13, 8, 70, 18), (36, -31, 31, 13, 9, 26, 57),
-        (36, -31, 31, 13, 10, -13, 52), (36, -31, 31, 13, 11, -8, 8),
-        (36, -31, 31, 13, 12, 36, -31), (36, -31, 31, 13, 255, 26, 57),
-        (36, -31, 27, 39, 0, 36, -31), (36, -31, 27, 39, 1, 97, -22), (36, -31, 27, 39, 2, 88, 48),
-        (36, -31, 27, 39, 3, 18, 109), (36, -31, 27, 39, 4, -43, 100),
-        (36, -31, 27, 39, 5, -34, 30), (36, -31, 27, 39, 6, 36, -31), (36, -31, 27, 39, 7, 97, -22),
-        (36, -31, 27, 39, 8, 88, 48), (36, -31, 27, 39, 9, 18, 109),
-        (36, -31, 27, 39, 10, -43, 100), (36, -31, 27, 39, 11, -34, 30),
-        (36, -31, 27, 39, 12, 36, -31), (36, -31, 27, 39, 255, 18, 109),
-        (36, -31, 24, 1, 0, 36, -31), (36, -31, 24, 1, 1, 56, -19), (36, -31, 24, 1, 2, 44, 13),
-        (36, -31, 24, 1, 3, 12, 33), (36, -31, 24, 1, 4, -8, 21), (36, -31, 24, 1, 5, 4, -11),
-        (36, -31, 24, 1, 6, 36, -31), (36, -31, 24, 1, 7, 56, -19), (36, -31, 24, 1, 8, 44, 13),
-        (36, -31, 24, 1, 9, 12, 33), (36, -31, 24, 1, 10, -8, 21), (36, -31, 24, 1, 11, 4, -11),
-        (36, -31, 24, 1, 12, 36, -31), (36, -31, 24, 1, 255, 12, 33),
-        (36, -31, -21, -18, 0, 36, -31), (36, -31, -21, -18, 1, -8, 26),
-        (36, -31, -21, -18, 2, -65, 39), (36, -31, -21, -18, 3, -78, -5),
-        (36, -31, -21, -18, 4, -34, -62), (36, -31, -21, -18, 5, 23, -75),
-        (36, -31, -21, -18, 6, 36, -31), (36, -31, -21, -18, 7, -8, 26),
-        (36, -31, -21, -18, 8, -65, 39), (36, -31, -21, -18, 9, -78, -5),
-        (36, -31, -21, -18, 10, -34, -62), (36, -31, -21, -18, 11, 23, -75),
-        (36, -31, -21, -18, 12, 36, -31), (36, -31, -21, -18, 255, -78, -5),
-        (36, -31, -13, -35, 0, 36, -31), (36, -31, -13, -35, 1, -17, 18),
-        (36, -31, -13, -35, 2, -66, 14), (36, -31, -13, -35, 3, -62, -39),
-        (36, -31, -13, -35, 4, -9, -88), (36, -31, -13, -35, 5, 40, -84),
-        (36, -31, -13, -35, 6, 36, -31), (36, -31, -13, -35, 7, -17, 18),
-        (36, -31, -13, -35, 8, -66, 14), (36, -31, -13, -35, 9, -62, -39),
-        (36, -31, -13, -35, 10, -9, -88), (36, -31, -13, -35, 11, 40, -84),
-        (36, -31, -13, -35, 12, 36, -31), (36, -31, -13, -35, 255, -62, -39),
-        (36, -31, -26, 7, 0, 36, -31), (36, -31, -26, 7, 1, 12, 31), (36, -31, -26, 7, 2, -50, 69),
-        (36, -31, -26, 7, 3, -88, 45), (36, -31, -26, 7, 4, -64, -17),
-        (36, -31, -26, 7, 5, -2, -55), (36, -31, -26, 7, 6, 36, -31), (36, -31, -26, 7, 7, 12, 31),
-        (36, -31, -26, 7, 8, -50, 69), (36, -31, -26, 7, 9, -88, 45),
-        (36, -31, -26, 7, 10, -64, -17), (36, -31, -26, 7, 11, -2, -55),
-        (36, -31, -26, 7, 12, 36, -31), (36, -31, -26, 7, 255, -88, 45),
-        (36, -31, 38, -1, 0, 36, -31), (36, -31, 38, -1, 1, 68, -33), (36, -31, 38, -1, 2, 70, -3),
-        (36, -31, 38, -1, 3, 40, 29), (36, -31, 38, -1, 4, 8, 31), (36, -31, 38, -1, 5, 6, 1),
-        (36, -31, 38, -1, 6, 36, -31), (36, -31, 38, -1, 7, 68, -33), (36, -31, 38, -1, 8, 70, -3),
-        (36, -31, 38, -1, 9, 40, 29), (36, -31, 38, -1, 10, 8, 31), (36, -31, 38, -1, 11, 6, 1),
-        (36, -31, 38, -1, 12, 36, -31), (36, -31, 38, -1, 255, 40, 29),
-        (36, -31, 33, 8, 0, 36, -31), (36, -31, 33, 8, 1, 72, -28), (36, -31, 33, 8, 2, 69, 11),
-        (36, -31, 33, 8, 3, 30, 47), (36, -31, 33, 8, 4, -6, 44), (36, -31, 33, 8, 5, -3, 5),
-        (36, -31, 33, 8, 6, 36, -31), (36, -31, 33, 8, 7, 72, -28), (36, -31, 33, 8, 8, 69, 11),
-        (36, -31, 33, 8, 9, 30, 47), (36, -31, 33, 8, 10, -6, 44), (36, -31, 33, 8, 11, -3, 5),
-        (36, -31, 33, 8, 12, 36, -31), (36, -31, 33, 8, 255, 30, 47), (-6, 40, 31, 13, 0, -6, 40),
-        (-6, 40, 31, 13, 1, 4, 3), (-6, 40, 31, 13, 2, 41, -24), (-6, 40, 31, 13, 3, 68, -14),
-        (-6, 40, 31, 13, 4, 58, 23), (-6, 40, 31, 13, 5, 21, 50), (-6, 40, 31, 13, 6, -6, 40),
-        (-6, 40, 31, 13, 7, 4, 3), (-6, 40, 31, 13, 8, 41, -24), (-6, 40, 31, 13, 9, 68, -14),
-        (-6, 40, 31, 13, 10, 58, 23), (-6, 40, 31, 13, 11, 21, 50), (-6, 40, 31, 13, 12, -6, 40),
-        (-6, 40, 31, 13, 255, 68, -14), (-6, 40, 27, 39, 0, -6, 40), (-6, 40, 27, 39, 1, 26, 7),
-        (-6, 40, 27, 39, 2, 59, 6), (-6, 40, 27, 39, 3, 60, 38), (-6, 40, 27, 39, 4, 28, 71),
-        (-6, 40, 27, 39, 5, -5, 72), (-6, 40, 27, 39, 6, -6, 40), (-6, 40, 27, 39, 7, 26, 7),
-        (-6, 40, 27, 39, 8, 59, 6), (-6, 40, 27, 39, 9, 60, 38), (-6, 40, 27, 39, 10, 28, 71),
-        (-6, 40, 27, 39, 11, -5, 72), (-6, 40, 27, 39, 12, -6, 40), (-6, 40, 27, 39, 255, 60, 38),
-        (-6, 40, 24, 1, 0, -6, 40), (-6, 40, 24, 1, 1, -15, 10), (-6, 40, 24, 1, 2, 15, -29),
-        (-6, 40, 24, 1, 3, 54, -38), (-6, 40, 24, 1, 4, 63, -8), (-6, 40, 24, 1, 5, 33, 31),
-        (-6, 40, 24, 1, 6, -6, 40), (-6, 40, 24, 1, 7, -15, 10), (-6, 40, 24, 1, 8, 15, -29),
-        (-6, 40, 24, 1, 9, 54, -38), (-6, 40, 24, 1, 10, 63, -8), (-6, 40, 24, 1, 11, 33, 31),
-        (-6, 40, 24, 1, 12, -6, 40), (-6, 40, 24, 1, 255, 54, -38), (-6, 40, -21, -18, 0, -6, 40),
-        (-6, 40, -21, -18, 1, -79, 55), (-6, 40, -21, -18, 2, -94, -3),
-        (-6, 40, -21, -18, 3, -36, -76), (-6, 40, -21, -18, 4, 37, -91),
-        (-6, 40, -21, -18, 5, 52, -33), (-6, 40, -21, -18, 6, -6, 40),
-        (-6, 40, -21, -18, 7, -79, 55), (-6, 40, -21, -18, 8, -94, -3),
-        (-6, 40, -21, -18, 9, -36, -76), (-6, 40, -21, -18, 10, 37, -91),
-        (-6, 40, -21, -18, 11, 52, -33), (-6, 40, -21, -18, 12, -6, 40),
-        (-6, 40, -21, -18, 255, -36, -76), (-6, 40, -13, -35, 0, -6, 40),
-        (-6, 40, -13, -35, 1, -88, 47), (-6, 40, -13, -35, 2, -95, -28),
-        (-6, 40, -13, -35, 3, -20, -110), (-6, 40, -13, -35, 4, 62, -117),
-        (-6, 40, -13, -35, 5, 69, -42), (-6, 40, -13, -35, 6, -6, 40),
-        (-6, 40, -13, -35, 7, -88, 47), (-6, 40, -13, -35, 8, -95, -28),
-        (-6, 40, -13, -35, 9, -20, -110), (-6, 40, -13, -35, 10, 62, -117),
-        (-6, 40, -13, -35, 11, 69, -42), (-6, 40, -13, -35, 12, -6, 40),
-        (-6, 40, -13, -35, 255, -20, -110), (-6, 40, -26, 7, 0, -6, 40),
-        (-6, 40, -26, 7, 1, -59, 60), (-6, 40, -26, 7, 2, -79, 27), (-6, 40, -26, 7, 3, -46, -26),
-        (-6, 40, -26, 7, 4, 7, -46), (-6, 40, -26, 7, 5, 27, -13), (-6, 40, -26, 7, 6, -6, 40),
-        (-6, 40, -26, 7, 7, -59, 60), (-6, 40, -26, 7, 8, -79, 27), (-6, 40, -26, 7, 9, -46, -26),
-        (-6, 40, -26, 7, 10, 7, -46), (-6, 40, -26, 7, 11, 27, -13), (-6, 40, -26, 7, 12, -6, 40),
-        (-6, 40, -26, 7, 255, -46, -26), (-6, 40, 38, -1, 0, -6, 40), (-6, 40, 38, -1, 1, -3, -4),
-        (-6, 40, 38, -1, 2, 41, -45), (-6, 40, 38, -1, 3, 82, -42), (-6, 40, 38, -1, 4, 79, 2),
-        (-6, 40, 38, -1, 5, 35, 43), (-6, 40, 38, -1, 6, -6, 40), (-6, 40, 38, -1, 7, -3, -4),
-        (-6, 40, 38, -1, 8, 41, -45), (-6, 40, 38, -1, 9, 82, -42), (-6, 40, 38, -1, 10, 79, 2),
-        (-6, 40, 38, -1, 11, 35, 43), (-6, 40, 38, -1, 12, -6, 40), (-6, 40, 38, -1, 255, 82, -42),
-        (-6, 40, 33, 8, 0, -6, 40), (-6, 40, 33, 8, 1, 1, 1), (-6, 40, 33, 8, 2, 40, -31),
-        (-6, 40, 33, 8, 3, 72, -24), (-6, 40, 33, 8, 4, 65, 15), (-6, 40, 33, 8, 5, 26, 47),
-        (-6, 40, 33, 8, 6, -6, 40), (-6, 40, 33, 8, 7, 1, 1), (-6, 40, 33, 8, 8, 40, -31),
-        (-6, 40, 33, 8, 9, 72, -24), (-6, 40, 33, 8, 10, 65, 15), (-6, 40, 33, 8, 11, 26, 47),
-        (-6, 40, 33, 8, 12, -6, 40), (-6, 40, 33, 8, 255, 72, -24), (-2, -14, 31, 13, 0, -2, -14),
-        (-2, -14, 31, 13, 1, 58, -47), (-2, -14, 31, 13, 2, 91, -20), (-2, -14, 31, 13, 3, 64, 40),
-        (-2, -14, 31, 13, 4, 4, 73), (-2, -14, 31, 13, 5, -29, 46), (-2, -14, 31, 13, 6, -2, -14),
-        (-2, -14, 31, 13, 7, 58, -47), (-2, -14, 31, 13, 8, 91, -20), (-2, -14, 31, 13, 9, 64, 40),
-        (-2, -14, 31, 13, 10, 4, 73), (-2, -14, 31, 13, 11, -29, 46),
-        (-2, -14, 31, 13, 12, -2, -14), (-2, -14, 31, 13, 255, 64, 40),
-        (-2, -14, 27, 39, 0, -2, -14), (-2, -14, 27, 39, 1, 80, -43), (-2, -14, 27, 39, 2, 109, 10),
-        (-2, -14, 27, 39, 3, 56, 92), (-2, -14, 27, 39, 4, -26, 121), (-2, -14, 27, 39, 5, -55, 68),
-        (-2, -14, 27, 39, 6, -2, -14), (-2, -14, 27, 39, 7, 80, -43), (-2, -14, 27, 39, 8, 109, 10),
-        (-2, -14, 27, 39, 9, 56, 92), (-2, -14, 27, 39, 10, -26, 121),
-        (-2, -14, 27, 39, 11, -55, 68), (-2, -14, 27, 39, 12, -2, -14),
-        (-2, -14, 27, 39, 255, 56, 92), (-2, -14, 24, 1, 0, -2, -14), (-2, -14, 24, 1, 1, 39, -40),
-        (-2, -14, 24, 1, 2, 65, -25), (-2, -14, 24, 1, 3, 50, 16), (-2, -14, 24, 1, 4, 9, 42),
-        (-2, -14, 24, 1, 5, -17, 27), (-2, -14, 24, 1, 6, -2, -14), (-2, -14, 24, 1, 7, 39, -40),
-        (-2, -14, 24, 1, 8, 65, -25), (-2, -14, 24, 1, 9, 50, 16), (-2, -14, 24, 1, 10, 9, 42),
-        (-2, -14, 24, 1, 11, -17, 27), (-2, -14, 24, 1, 12, -2, -14), (-2, -14, 24, 1, 255, 50, 16),
-        (-2, -14, -21, -18, 0, -2, -14), (-2, -14, -21, -18, 1, -25, 5),
-        (-2, -14, -21, -18, 2, -44, 1), (-2, -14, -21, -18, 3, -40, -22),
-        (-2, -14, -21, -18, 4, -17, -41), (-2, -14, -21, -18, 5, 2, -37),
-        (-2, -14, -21, -18, 6, -2, -14), (-2, -14, -21, -18, 7, -25, 5),
-        (-2, -14, -21, -18, 8, -44, 1), (-2, -14, -21, -18, 9, -40, -22),
-        (-2, -14, -21, -18, 10, -17, -41), (-2, -14, -21, -18, 11, 2, -37),
-        (-2, -14, -21, -18, 12, -2, -14), (-2, -14, -21, -18, 255, -40, -22),
-        (-2, -14, -13, -35, 0, -2, -14), (-2, -14, -13, -35, 1, -34, -3),
-        (-2, -14, -13, -35, 2, -45, -24), (-2, -14, -13, -35, 3, -24, -56),
-        (-2, -14, -13, -35, 4, 8, -67), (-2, -14, -13, -35, 5, 19, -46),
-        (-2, -14, -13, -35, 6, -2, -14), (-2, -14, -13, -35, 7, -34, -3),
-        (-2, -14, -13, -35, 8, -45, -24), (-2, -14, -13, -35, 9, -24, -56),
-        (-2, -14, -13, -35, 10, 8, -67), (-2, -14, -13, -35, 11, 19, -46),
-        (-2, -14, -13, -35, 12, -2, -14), (-2, -14, -13, -35, 255, -24, -56),
-        (-2, -14, -26, 7, 0, -2, -14), (-2, -14, -26, 7, 1, -5, 10), (-2, -14, -26, 7, 2, -29, 31),
-        (-2, -14, -26, 7, 3, -50, 28), (-2, -14, -26, 7, 4, -47, 4), (-2, -14, -26, 7, 5, -23, -17),
-        (-2, -14, -26, 7, 6, -2, -14), (-2, -14, -26, 7, 7, -5, 10), (-2, -14, -26, 7, 8, -29, 31),
-        (-2, -14, -26, 7, 9, -50, 28), (-2, -14, -26, 7, 10, -47, 4),
-        (-2, -14, -26, 7, 11, -23, -17), (-2, -14, -26, 7, 12, -2, -14),
-        (-2, -14, -26, 7, 255, -50, 28), (-2, -14, 38, -1, 0, -2, -14),
-        (-2, -14, 38, -1, 1, 51, -54), (-2, -14, 38, -1, 2, 91, -41), (-2, -14, 38, -1, 3, 78, 12),
-        (-2, -14, 38, -1, 4, 25, 52), (-2, -14, 38, -1, 5, -15, 39), (-2, -14, 38, -1, 6, -2, -14),
-        (-2, -14, 38, -1, 7, 51, -54), (-2, -14, 38, -1, 8, 91, -41), (-2, -14, 38, -1, 9, 78, 12),
-        (-2, -14, 38, -1, 10, 25, 52), (-2, -14, 38, -1, 11, -15, 39),
-        (-2, -14, 38, -1, 12, -2, -14), (-2, -14, 38, -1, 255, 78, 12),
-        (-2, -14, 33, 8, 0, -2, -14), (-2, -14, 33, 8, 1, 55, -49), (-2, -14, 33, 8, 2, 90, -27),
-        (-2, -14, 33, 8, 3, 68, 30), (-2, -14, 33, 8, 4, 11, 65), (-2, -14, 33, 8, 5, -24, 43),
-        (-2, -14, 33, 8, 6, -2, -14), (-2, -14, 33, 8, 7, 55, -49), (-2, -14, 33, 8, 8, 90, -27),
-        (-2, -14, 33, 8, 9, 68, 30), (-2, -14, 33, 8, 10, 11, 65), (-2, -14, 33, 8, 11, -24, 43),
-        (-2, -14, 33, 8, 12, -2, -14), (-2, -14, 33, 8, 255, 68, 30), (-9, 11, 31, 13, 0, -9, 11),
-        (-9, 11, 31, 13, 1, 33, -29), (-9, 11, 31, 13, 2, 73, -27), (-9, 11, 31, 13, 3, 71, 15),
-        (-9, 11, 31, 13, 4, 29, 55), (-9, 11, 31, 13, 5, -11, 53), (-9, 11, 31, 13, 6, -9, 11),
-        (-9, 11, 31, 13, 7, 33, -29), (-9, 11, 31, 13, 8, 73, -27), (-9, 11, 31, 13, 9, 71, 15),
-        (-9, 11, 31, 13, 10, 29, 55), (-9, 11, 31, 13, 11, -11, 53), (-9, 11, 31, 13, 12, -9, 11),
-        (-9, 11, 31, 13, 255, 71, 15), (-9, 11, 27, 39, 0, -9, 11), (-9, 11, 27, 39, 1, 55, -25),
-        (-9, 11, 27, 39, 2, 91, 3), (-9, 11, 27, 39, 3, 63, 67), (-9, 11, 27, 39, 4, -1, 103),
-        (-9, 11, 27, 39, 5, -37, 75), (-9, 11, 27, 39, 6, -9, 11), (-9, 11, 27, 39, 7, 55, -25),
-        (-9, 11, 27, 39, 8, 91, 3), (-9, 11, 27, 39, 9, 63, 67), (-9, 11, 27, 39, 10, -1, 103),
-        (-9, 11, 27, 39, 11, -37, 75), (-9, 11, 27, 39, 12, -9, 11), (-9, 11, 27, 39, 255, 63, 67),
-        (-9, 11, 24, 1, 0, -9, 11), (-9, 11, 24, 1, 1, 14, -22), (-9, 11, 24, 1, 2, 47, -32),
-        (-9, 11, 24, 1, 3, 57, -9), (-9, 11, 24, 1, 4, 34, 24), (-9, 11, 24, 1, 5, 1, 34),
-        (-9, 11, 24, 1, 6, -9, 11), (-9, 11, 24, 1, 7, 14, -22), (-9, 11, 24, 1, 8, 47, -32),
-        (-9, 11, 24, 1, 9, 57, -9), (-9, 11, 24, 1, 10, 34, 24), (-9, 11, 24, 1, 11, 1, 34),
-        (-9, 11, 24, 1, 12, -9, 11), (-9, 11, 24, 1, 255, 57, -9), (-9, 11, -21, -18, 0, -9, 11),
-        (-9, 11, -21, -18, 1, -50, 23), (-9, 11, -21, -18, 2, -62, -6),
-        (-9, 11, -21, -18, 3, -33, -47), (-9, 11, -21, -18, 4, 8, -59),
-        (-9, 11, -21, -18, 5, 20, -30), (-9, 11, -21, -18, 6, -9, 11),
-        (-9, 11, -21, -18, 7, -50, 23), (-9, 11, -21, -18, 8, -62, -6),
-        (-9, 11, -21, -18, 9, -33, -47), (-9, 11, -21, -18, 10, 8, -59),
-        (-9, 11, -21, -18, 11, 20, -30), (-9, 11, -21, -18, 12, -9, 11),
-        (-9, 11, -21, -18, 255, -33, -47), (-9, 11, -13, -35, 0, -9, 11),
-        (-9, 11, -13, -35, 1, -59, 15), (-9, 11, -13, -35, 2, -63, -31),
-        (-9, 11, -13, -35, 3, -17, -81), (-9, 11, -13, -35, 4, 33, -85),
-        (-9, 11, -13, -35, 5, 37, -39), (-9, 11, -13, -35, 6, -9, 11),
-        (-9, 11, -13, -35, 7, -59, 15), (-9, 11, -13, -35, 8, -63, -31),
-        (-9, 11, -13, -35, 9, -17, -81), (-9, 11, -13, -35, 10, 33, -85),
-        (-9, 11, -13, -35, 11, 37, -39), (-9, 11, -13, -35, 12, -9, 11),
-        (-9, 11, -13, -35, 255, -17, -81), (-9, 11, -26, 7, 0, -9, 11),
-        (-9, 11, -26, 7, 1, -30, 28), (-9, 11, -26, 7, 2, -47, 24), (-9, 11, -26, 7, 3, -43, 3),
-        (-9, 11, -26, 7, 4, -22, -14), (-9, 11, -26, 7, 5, -5, -10), (-9, 11, -26, 7, 6, -9, 11),
-        (-9, 11, -26, 7, 7, -30, 28), (-9, 11, -26, 7, 8, -47, 24), (-9, 11, -26, 7, 9, -43, 3),
-        (-9, 11, -26, 7, 10, -22, -14), (-9, 11, -26, 7, 11, -5, -10), (-9, 11, -26, 7, 12, -9, 11),
-        (-9, 11, -26, 7, 255, -43, 3), (-9, 11, 38, -1, 0, -9, 11), (-9, 11, 38, -1, 1, 26, -36),
-        (-9, 11, 38, -1, 2, 73, -48), (-9, 11, 38, -1, 3, 85, -13), (-9, 11, 38, -1, 4, 50, 34),
-        (-9, 11, 38, -1, 5, 3, 46), (-9, 11, 38, -1, 6, -9, 11), (-9, 11, 38, -1, 7, 26, -36),
-        (-9, 11, 38, -1, 8, 73, -48), (-9, 11, 38, -1, 9, 85, -13), (-9, 11, 38, -1, 10, 50, 34),
-        (-9, 11, 38, -1, 11, 3, 46), (-9, 11, 38, -1, 12, -9, 11), (-9, 11, 38, -1, 255, 85, -13),
-        (-9, 11, 33, 8, 0, -9, 11), (-9, 11, 33, 8, 1, 30, -31), (-9, 11, 33, 8, 2, 72, -34),
-        (-9, 11, 33, 8, 3, 75, 5), (-9, 11, 33, 8, 4, 36, 47), (-9, 11, 33, 8, 5, -6, 50),
-        (-9, 11, 33, 8, 6, -9, 11), (-9, 11, 33, 8, 7, 30, -31), (-9, 11, 33, 8, 8, 72, -34),
-        (-9, 11, 33, 8, 9, 75, 5), (-9, 11, 33, 8, 10, 36, 47), (-9, 11, 33, 8, 11, -6, 50),
-        (-9, 11, 33, 8, 12, -9, 11), (-9, 11, 33, 8, 255, 75, 5), (-26, 7, 31, 13, 0, -26, 7),
-        (-26, 7, 31, 13, 1, 37, -50), (-26, 7, 31, 13, 2, 94, -44), (-26, 7, 31, 13, 3, 88, 19),
-        (-26, 7, 31, 13, 4, 25, 76), (-26, 7, 31, 13, 5, -32, 70), (-26, 7, 31, 13, 6, -26, 7),
-        (-26, 7, 31, 13, 7, 37, -50), (-26, 7, 31, 13, 8, 94, -44), (-26, 7, 31, 13, 9, 88, 19),
-        (-26, 7, 31, 13, 10, 25, 76), (-26, 7, 31, 13, 11, -32, 70), (-26, 7, 31, 13, 12, -26, 7),
-        (-26, 7, 31, 13, 255, 88, 19), (-26, 7, 27, 39, 0, -26, 7), (-26, 7, 27, 39, 1, 59, -46),
-        (-26, 7, 27, 39, 2, 112, -14), (-26, 7, 27, 39, 3, 80, 71), (-26, 7, 27, 39, 4, -5, 124),
-        (-26, 7, 27, 39, 5, -58, 92), (-26, 7, 27, 39, 6, -26, 7), (-26, 7, 27, 39, 7, 59, -46),
-        (-26, 7, 27, 39, 8, 112, -14), (-26, 7, 27, 39, 9, 80, 71), (-26, 7, 27, 39, 10, -5, 124),
-        (-26, 7, 27, 39, 11, -58, 92), (-26, 7, 27, 39, 12, -26, 7), (-26, 7, 27, 39, 255, 80, 71),
-        (-26, 7, 24, 1, 0, -26, 7), (-26, 7, 24, 1, 1, 18, -43), (-26, 7, 24, 1, 2, 68, -49),
-        (-26, 7, 24, 1, 3, 74, -5), (-26, 7, 24, 1, 4, 30, 45), (-26, 7, 24, 1, 5, -20, 51),
-        (-26, 7, 24, 1, 6, -26, 7), (-26, 7, 24, 1, 7, 18, -43), (-26, 7, 24, 1, 8, 68, -49),
-        (-26, 7, 24, 1, 9, 74, -5), (-26, 7, 24, 1, 10, 30, 45), (-26, 7, 24, 1, 11, -20, 51),
-        (-26, 7, 24, 1, 12, -26, 7), (-26, 7, 24, 1, 255, 74, -5), (-26, 7, -21, -18, 0, -26, 7),
-        (-26, 7, -21, -18, 1, -46, 2), (-26, 7, -21, -18, 2, -41, -23),
-        (-26, 7, -21, -18, 3, -16, -43), (-26, 7, -21, -18, 4, 4, -38),
-        (-26, 7, -21, -18, 5, -1, -13), (-26, 7, -21, -18, 6, -26, 7),
-        (-26, 7, -21, -18, 7, -46, 2), (-26, 7, -21, -18, 8, -41, -23),
-        (-26, 7, -21, -18, 9, -16, -43), (-26, 7, -21, -18, 10, 4, -38),
-        (-26, 7, -21, -18, 11, -1, -13), (-26, 7, -21, -18, 12, -26, 7),
-        (-26, 7, -21, -18, 255, -16, -43), (-26, 7, -13, -35, 0, -26, 7),
-        (-26, 7, -13, -35, 1, -55, -6), (-26, 7, -13, -35, 2, -42, -48),
-        (-26, 7, -13, -35, 3, 0, -77), (-26, 7, -13, -35, 4, 29, -64),
-        (-26, 7, -13, -35, 5, 16, -22), (-26, 7, -13, -35, 6, -26, 7),
-        (-26, 7, -13, -35, 7, -55, -6), (-26, 7, -13, -35, 8, -42, -48),
-        (-26, 7, -13, -35, 9, 0, -77), (-26, 7, -13, -35, 10, 29, -64),
-        (-26, 7, -13, -35, 11, 16, -22), (-26, 7, -13, -35, 12, -26, 7),
-        (-26, 7, -13, -35, 255, 0, -77), (-26, 7, -26, 7, 0, -26, 7), (-26, 7, -26, 7, 1, -26, 7),
-        (-26, 7, -26, 7, 2, -26, 7), (-26, 7, -26, 7, 3, -26, 7), (-26, 7, -26, 7, 4, -26, 7),
-        (-26, 7, -26, 7, 5, -26, 7), (-26, 7, -26, 7, 6, -26, 7), (-26, 7, -26, 7, 7, -26, 7),
-        (-26, 7, -26, 7, 8, -26, 7), (-26, 7, -26, 7, 9, -26, 7), (-26, 7, -26, 7, 10, -26, 7),
-        (-26, 7, -26, 7, 11, -26, 7), (-26, 7, -26, 7, 12, -26, 7), (-26, 7, -26, 7, 255, -26, 7),
-        (-26, 7, 38, -1, 0, -26, 7), (-26, 7, 38, -1, 1, 30, -57), (-26, 7, 38, -1, 2, 94, -65),
-        (-26, 7, 38, -1, 3, 102, -9), (-26, 7, 38, -1, 4, 46, 55), (-26, 7, 38, -1, 5, -18, 63),
-        (-26, 7, 38, -1, 6, -26, 7), (-26, 7, 38, -1, 7, 30, -57), (-26, 7, 38, -1, 8, 94, -65),
-        (-26, 7, 38, -1, 9, 102, -9), (-26, 7, 38, -1, 10, 46, 55), (-26, 7, 38, -1, 11, -18, 63),
-        (-26, 7, 38, -1, 12, -26, 7), (-26, 7, 38, -1, 255, 102, -9), (-26, 7, 33, 8, 0, -26, 7),
-        (-26, 7, 33, 8, 1, 34, -52), (-26, 7, 33, 8, 2, 93, -51), (-26, 7, 33, 8, 3, 92, 9),
-        (-26, 7, 33, 8, 4, 32, 68), (-26, 7, 33, 8, 5, -27, 67), (-26, 7, 33, 8, 6, -26, 7),
-        (-26, 7, 33, 8, 7, 34, -52), (-26, 7, 33, 8, 8, 93, -51), (-26, 7, 33, 8, 9, 92, 9),
-        (-26, 7, 33, 8, 10, 32, 68), (-26, 7, 33, 8, 11, -27, 67), (-26, 7, 33, 8, 12, -26, 7),
-        (-26, 7, 33, 8, 255, 92, 9), (-36, 21, 31, 13, 0, -36, 21), (-36, 21, 31, 13, 1, 23, -46),
-        (-36, 21, 31, 13, 2, 90, -54), (-36, 21, 31, 13, 3, 98, 5), (-36, 21, 31, 13, 4, 39, 72),
-        (-36, 21, 31, 13, 5, -28, 80), (-36, 21, 31, 13, 6, -36, 21), (-36, 21, 31, 13, 7, 23, -46),
-        (-36, 21, 31, 13, 8, 90, -54), (-36, 21, 31, 13, 9, 98, 5), (-36, 21, 31, 13, 10, 39, 72),
-        (-36, 21, 31, 13, 11, -28, 80), (-36, 21, 31, 13, 12, -36, 21),
-        (-36, 21, 31, 13, 255, 98, 5), (-36, 21, 27, 39, 0, -36, 21), (-36, 21, 27, 39, 1, 45, -42),
-        (-36, 21, 27, 39, 2, 108, -24), (-36, 21, 27, 39, 3, 90, 57), (-36, 21, 27, 39, 4, 9, 120),
-        (-36, 21, 27, 39, 5, -54, 102), (-36, 21, 27, 39, 6, -36, 21),
-        (-36, 21, 27, 39, 7, 45, -42), (-36, 21, 27, 39, 8, 108, -24), (-36, 21, 27, 39, 9, 90, 57),
-        (-36, 21, 27, 39, 10, 9, 120), (-36, 21, 27, 39, 11, -54, 102),
-        (-36, 21, 27, 39, 12, -36, 21), (-36, 21, 27, 39, 255, 90, 57),
-        (-36, 21, 24, 1, 0, -36, 21), (-36, 21, 24, 1, 1, 4, -39), (-36, 21, 24, 1, 2, 64, -59),
-        (-36, 21, 24, 1, 3, 84, -19), (-36, 21, 24, 1, 4, 44, 41), (-36, 21, 24, 1, 5, -16, 61),
-        (-36, 21, 24, 1, 6, -36, 21), (-36, 21, 24, 1, 7, 4, -39), (-36, 21, 24, 1, 8, 64, -59),
-        (-36, 21, 24, 1, 9, 84, -19), (-36, 21, 24, 1, 10, 44, 41), (-36, 21, 24, 1, 11, -16, 61),
-        (-36, 21, 24, 1, 12, -36, 21), (-36, 21, 24, 1, 255, 84, -19),
-        (-36, 21, -21, -18, 0, -36, 21), (-36, 21, -21, -18, 1, -60, 6),
-        (-36, 21, -21, -18, 2, -45, -33), (-36, 21, -21, -18, 3, -6, -57),
-        (-36, 21, -21, -18, 4, 18, -42), (-36, 21, -21, -18, 5, 3, -3),
-        (-36, 21, -21, -18, 6, -36, 21), (-36, 21, -21, -18, 7, -60, 6),
-        (-36, 21, -21, -18, 8, -45, -33), (-36, 21, -21, -18, 9, -6, -57),
-        (-36, 21, -21, -18, 10, 18, -42), (-36, 21, -21, -18, 11, 3, -3),
-        (-36, 21, -21, -18, 12, -36, 21), (-36, 21, -21, -18, 255, -6, -57),
-        (-36, 21, -13, -35, 0, -36, 21), (-36, 21, -13, -35, 1, -69, -2),
-        (-36, 21, -13, -35, 2, -46, -58), (-36, 21, -13, -35, 3, 10, -91),
-        (-36, 21, -13, -35, 4, 43, -68), (-36, 21, -13, -35, 5, 20, -12),
-        (-36, 21, -13, -35, 6, -36, 21), (-36, 21, -13, -35, 7, -69, -2),
-        (-36, 21, -13, -35, 8, -46, -58), (-36, 21, -13, -35, 9, 10, -91),
-        (-36, 21, -13, -35, 10, 43, -68), (-36, 21, -13, -35, 11, 20, -12),
-        (-36, 21, -13, -35, 12, -36, 21), (-36, 21, -13, -35, 255, 10, -91),
-        (-36, 21, -26, 7, 0, -36, 21), (-36, 21, -26, 7, 1, -40, 11), (-36, 21, -26, 7, 2, -30, -3),
-        (-36, 21, -26, 7, 3, -16, -7), (-36, 21, -26, 7, 4, -12, 3), (-36, 21, -26, 7, 5, -22, 17),
-        (-36, 21, -26, 7, 6, -36, 21), (-36, 21, -26, 7, 7, -40, 11), (-36, 21, -26, 7, 8, -30, -3),
-        (-36, 21, -26, 7, 9, -16, -7), (-36, 21, -26, 7, 10, -12, 3),
-        (-36, 21, -26, 7, 11, -22, 17), (-36, 21, -26, 7, 12, -36, 21),
-        (-36, 21, -26, 7, 255, -16, -7), (-36, 21, 38, -1, 0, -36, 21),
-        (-36, 21, 38, -1, 1, 16, -53), (-36, 21, 38, -1, 2, 90, -75),
-        (-36, 21, 38, -1, 3, 112, -23), (-36, 21, 38, -1, 4, 60, 51), (-36, 21, 38, -1, 5, -14, 73),
-        (-36, 21, 38, -1, 6, -36, 21), (-36, 21, 38, -1, 7, 16, -53), (-36, 21, 38, -1, 8, 90, -75),
-        (-36, 21, 38, -1, 9, 112, -23), (-36, 21, 38, -1, 10, 60, 51),
-        (-36, 21, 38, -1, 11, -14, 73), (-36, 21, 38, -1, 12, -36, 21),
-        (-36, 21, 38, -1, 255, 112, -23), (-36, 21, 33, 8, 0, -36, 21),
-        (-36, 21, 33, 8, 1, 20, -48), (-36, 21, 33, 8, 2, 89, -61), (-36, 21, 33, 8, 3, 102, -5),
-        (-36, 21, 33, 8, 4, 46, 64), (-36, 21, 33, 8, 5, -23, 77), (-36, 21, 33, 8, 6, -36, 21),
-        (-36, 21, 33, 8, 7, 20, -48), (-36, 21, 33, 8, 8, 89, -61), (-36, 21, 33, 8, 9, 102, -5),
-        (-36, 21, 33, 8, 10, 46, 64), (-36, 21, 33, 8, 11, -23, 77), (-36, 21, 33, 8, 12, -36, 21),
-        (-36, 21, 33, 8, 255, 102, -5), (-14, -33, 31, 13, 0, -14, -33),
-        (-14, -33, 31, 13, 1, 77, -78), (-14, -33, 31, 13, 2, 122, -32),
-        (-14, -33, 31, 13, 3, 76, 59), (-14, -33, 31, 13, 4, -15, 104),
-        (-14, -33, 31, 13, 5, -60, 58), (-14, -33, 31, 13, 6, -14, -33),
-        (-14, -33, 31, 13, 7, 77, -78), (-14, -33, 31, 13, 8, 122, -32),
-        (-14, -33, 31, 13, 9, 76, 59), (-14, -33, 31, 13, 10, -15, 104),
-        (-14, -33, 31, 13, 11, -60, 58), (-14, -33, 31, 13, 12, -14, -33),
-        (-14, -33, 31, 13, 255, 76, 59), (-14, -33, 27, 39, 0, -14, -33),
-        (-14, -33, 27, 39, 1, 99, -74), (-14, -33, 27, 39, 2, 140, -2),
-        (-14, -33, 27, 39, 3, 68, 111), (-14, -33, 27, 39, 4, -45, 152),
-        (-14, -33, 27, 39, 5, -86, 80), (-14, -33, 27, 39, 6, -14, -33),
-        (-14, -33, 27, 39, 7, 99, -74), (-14, -33, 27, 39, 8, 140, -2),
-        (-14, -33, 27, 39, 9, 68, 111), (-14, -33, 27, 39, 10, -45, 152),
-        (-14, -33, 27, 39, 11, -86, 80), (-14, -33, 27, 39, 12, -14, -33),
-        (-14, -33, 27, 39, 255, 68, 111), (-14, -33, 24, 1, 0, -14, -33),
-        (-14, -33, 24, 1, 1, 58, -71), (-14, -33, 24, 1, 2, 96, -37), (-14, -33, 24, 1, 3, 62, 35),
-        (-14, -33, 24, 1, 4, -10, 73), (-14, -33, 24, 1, 5, -48, 39),
-        (-14, -33, 24, 1, 6, -14, -33), (-14, -33, 24, 1, 7, 58, -71),
-        (-14, -33, 24, 1, 8, 96, -37), (-14, -33, 24, 1, 9, 62, 35), (-14, -33, 24, 1, 10, -10, 73),
-        (-14, -33, 24, 1, 11, -48, 39), (-14, -33, 24, 1, 12, -14, -33),
-        (-14, -33, 24, 1, 255, 62, 35), (-14, -33, -21, -18, 0, -14, -33),
-        (-14, -33, -21, -18, 1, -6, -26), (-14, -33, -21, -18, 2, -13, -11),
-        (-14, -33, -21, -18, 3, -28, -3), (-14, -33, -21, -18, 4, -36, -10),
-        (-14, -33, -21, -18, 5, -29, -25), (-14, -33, -21, -18, 6, -14, -33),
-        (-14, -33, -21, -18, 7, -6, -26), (-14, -33, -21, -18, 8, -13, -11),
-        (-14, -33, -21, -18, 9, -28, -3), (-14, -33, -21, -18, 10, -36, -10),
-        (-14, -33, -21, -18, 11, -29, -25), (-14, -33, -21, -18, 12, -14, -33),
-        (-14, -33, -21, -18, 255, -28, -3), (-14, -33, -13, -35, 0, -14, -33),
-        (-14, -33, -13, -35, 1, -15, -34), (-14, -33, -13, -35, 2, -14, -36),
-        (-14, -33, -13, -35, 3, -12, -37), (-14, -33, -13, -35, 4, -11, -36),
-        (-14, -33, -13, -35, 5, -12, -34), (-14, -33, -13, -35, 6, -14, -33),
-        (-14, -33, -13, -35, 7, -15, -34), (-14, -33, -13, -35, 8, -14, -36),
-        (-14, -33, -13, -35, 9, -12, -37), (-14, -33, -13, -35, 10, -11, -36),
-        (-14, -33, -13, -35, 11, -12, -34), (-14, -33, -13, -35, 12, -14, -33),
-        (-14, -33, -13, -35, 255, -12, -37), (-14, -33, -26, 7, 0, -14, -33),
-        (-14, -33, -26, 7, 1, 14, -21), (-14, -33, -26, 7, 2, 2, 19),
-        (-14, -33, -26, 7, 3, -38, 47), (-14, -33, -26, 7, 4, -66, 35),
-        (-14, -33, -26, 7, 5, -54, -5), (-14, -33, -26, 7, 6, -14, -33),
-        (-14, -33, -26, 7, 7, 14, -21), (-14, -33, -26, 7, 8, 2, 19),
-        (-14, -33, -26, 7, 9, -38, 47), (-14, -33, -26, 7, 10, -66, 35),
-        (-14, -33, -26, 7, 11, -54, -5), (-14, -33, -26, 7, 12, -14, -33),
-        (-14, -33, -26, 7, 255, -38, 47), (-14, -33, 38, -1, 0, -14, -33),
-        (-14, -33, 38, -1, 1, 70, -85), (-14, -33, 38, -1, 2, 122, -53),
-        (-14, -33, 38, -1, 3, 90, 31), (-14, -33, 38, -1, 4, 6, 83), (-14, -33, 38, -1, 5, -46, 51),
-        (-14, -33, 38, -1, 6, -14, -33), (-14, -33, 38, -1, 7, 70, -85),
-        (-14, -33, 38, -1, 8, 122, -53), (-14, -33, 38, -1, 9, 90, 31),
-        (-14, -33, 38, -1, 10, 6, 83), (-14, -33, 38, -1, 11, -46, 51),
-        (-14, -33, 38, -1, 12, -14, -33), (-14, -33, 38, -1, 255, 90, 31),
-        (-14, -33, 33, 8, 0, -14, -33), (-14, -33, 33, 8, 1, 74, -80),
-        (-14, -33, 33, 8, 2, 121, -39), (-14, -33, 33, 8, 3, 80, 49), (-14, -33, 33, 8, 4, -8, 96),
-        (-14, -33, 33, 8, 5, -55, 55), (-14, -33, 33, 8, 6, -14, -33),
-        (-14, -33, 33, 8, 7, 74, -80), (-14, -33, 33, 8, 8, 121, -39), (-14, -33, 33, 8, 9, 80, 49),
-        (-14, -33, 33, 8, 10, -8, 96), (-14, -33, 33, 8, 11, -55, 55),
-        (-14, -33, 33, 8, 12, -14, -33), (-14, -33, 33, 8, 255, 80, 49),
-        (-39, -27, 31, 13, 0, -39, -27), (-39, -27, 31, 13, 1, 71, -97),
-        (-39, -27, 31, 13, 2, 141, -57), (-39, -27, 31, 13, 3, 101, 53),
-        (-39, -27, 31, 13, 4, -9, 123), (-39, -27, 31, 13, 5, -79, 83),
-        (-39, -27, 31, 13, 6, -39, -27), (-39, -27, 31, 13, 7, 71, -97),
-        (-39, -27, 31, 13, 8, 141, -57), (-39, -27, 31, 13, 9, 101, 53),
-        (-39, -27, 31, 13, 10, -9, 123), (-39, -27, 31, 13, 11, -79, 83),
-        (-39, -27, 31, 13, 12, -39, -27), (-39, -27, 31, 13, 255, 101, 53),
-        (-39, -27, 27, 39, 0, -39, -27), (-39, -27, 27, 39, 1, 93, -93),
-        (-39, -27, 27, 39, 2, 159, -27), (-39, -27, 27, 39, 3, 93, 105),
-        (-39, -27, 27, 39, 4, -39, 171), (-39, -27, 27, 39, 5, -105, 105),
-        (-39, -27, 27, 39, 6, -39, -27), (-39, -27, 27, 39, 7, 93, -93),
-        (-39, -27, 27, 39, 8, 159, -27), (-39, -27, 27, 39, 9, 93, 105),
-        (-39, -27, 27, 39, 10, -39, 171), (-39, -27, 27, 39, 11, -105, 105),
-        (-39, -27, 27, 39, 12, -39, -27), (-39, -27, 27, 39, 255, 93, 105),
-        (-39, -27, 24, 1, 0, -39, -27), (-39, -27, 24, 1, 1, 52, -90),
-        (-39, -27, 24, 1, 2, 115, -62), (-39, -27, 24, 1, 3, 87, 29), (-39, -27, 24, 1, 4, -4, 92),
-        (-39, -27, 24, 1, 5, -67, 64), (-39, -27, 24, 1, 6, -39, -27),
-        (-39, -27, 24, 1, 7, 52, -90), (-39, -27, 24, 1, 8, 115, -62), (-39, -27, 24, 1, 9, 87, 29),
-        (-39, -27, 24, 1, 10, -4, 92), (-39, -27, 24, 1, 11, -67, 64),
-        (-39, -27, 24, 1, 12, -39, -27), (-39, -27, 24, 1, 255, 87, 29),
-        (-39, -27, -21, -18, 0, -39, -27), (-39, -27, -21, -18, 1, -12, -45),
-        (-39, -27, -21, -18, 2, 6, -36), (-39, -27, -21, -18, 3, -3, -9),
-        (-39, -27, -21, -18, 4, -30, 9), (-39, -27, -21, -18, 5, -48, 0),
-        (-39, -27, -21, -18, 6, -39, -27), (-39, -27, -21, -18, 7, -12, -45),
-        (-39, -27, -21, -18, 8, 6, -36), (-39, -27, -21, -18, 9, -3, -9),
-        (-39, -27, -21, -18, 10, -30, 9), (-39, -27, -21, -18, 11, -48, 0),
-        (-39, -27, -21, -18, 12, -39, -27), (-39, -27, -21, -18, 255, -3, -9),
-        (-39, -27, -13, -35, 0, -39, -27), (-39, -27, -13, -35, 1, -21, -53),
-        (-39, -27, -13, -35, 2, 5, -61), (-39, -27, -13, -35, 3, 13, -43),
-        (-39, -27, -13, -35, 4, -5, -17), (-39, -27, -13, -35, 5, -31, -9),
-        (-39, -27, -13, -35, 6, -39, -27), (-39, -27, -13, -35, 7, -21, -53),
-        (-39, -27, -13, -35, 8, 5, -61), (-39, -27, -13, -35, 9, 13, -43),
-        (-39, -27, -13, -35, 10, -5, -17), (-39, -27, -13, -35, 11, -31, -9),
-        (-39, -27, -13, -35, 12, -39, -27), (-39, -27, -13, -35, 255, 13, -43),
-        (-39, -27, -26, 7, 0, -39, -27), (-39, -27, -26, 7, 1, 8, -40),
-        (-39, -27, -26, 7, 2, 21, -6), (-39, -27, -26, 7, 3, -13, 41),
-        (-39, -27, -26, 7, 4, -60, 54), (-39, -27, -26, 7, 5, -73, 20),
-        (-39, -27, -26, 7, 6, -39, -27), (-39, -27, -26, 7, 7, 8, -40),
-        (-39, -27, -26, 7, 8, 21, -6), (-39, -27, -26, 7, 9, -13, 41),
-        (-39, -27, -26, 7, 10, -60, 54), (-39, -27, -26, 7, 11, -73, 20),
-        (-39, -27, -26, 7, 12, -39, -27), (-39, -27, -26, 7, 255, -13, 41),
-        (-39, -27, 38, -1, 0, -39, -27), (-39, -27, 38, -1, 1, 64, -104),
-        (-39, -27, 38, -1, 2, 141, -78), (-39, -27, 38, -1, 3, 115, 25),
-        (-39, -27, 38, -1, 4, 12, 102), (-39, -27, 38, -1, 5, -65, 76),
-        (-39, -27, 38, -1, 6, -39, -27), (-39, -27, 38, -1, 7, 64, -104),
-        (-39, -27, 38, -1, 8, 141, -78), (-39, -27, 38, -1, 9, 115, 25),
-        (-39, -27, 38, -1, 10, 12, 102), (-39, -27, 38, -1, 11, -65, 76),
-        (-39, -27, 38, -1, 12, -39, -27), (-39, -27, 38, -1, 255, 115, 25),
-        (-39, -27, 33, 8, 0, -39, -27), (-39, -27, 33, 8, 1, 68, -99),
-        (-39, -27, 33, 8, 2, 140, -64), (-39, -27, 33, 8, 3, 105, 43),
-        (-39, -27, 33, 8, 4, -2, 115), (-39, -27, 33, 8, 5, -74, 80),
-        (-39, -27, 33, 8, 6, -39, -27), (-39, -27, 33, 8, 7, 68, -99),
-        (-39, -27, 33, 8, 8, 140, -64), (-39, -27, 33, 8, 9, 105, 43),
-        (-39, -27, 33, 8, 10, -2, 115), (-39, -27, 33, 8, 11, -74, 80),
-        (-39, -27, 33, 8, 12, -39, -27), (-39, -27, 33, 8, 255, 105, 43),
-        (27, -17, 31, 13, 0, 27, -17), (27, -17, 31, 13, 1, 61, -21), (27, -17, 31, 13, 2, 65, 9),
-        (27, -17, 31, 13, 3, 35, 43), (27, -17, 31, 13, 4, 1, 47), (27, -17, 31, 13, 5, -3, 17),
-        (27, -17, 31, 13, 6, 27, -17), (27, -17, 31, 13, 7, 61, -21), (27, -17, 31, 13, 8, 65, 9),
-        (27, -17, 31, 13, 9, 35, 43), (27, -17, 31, 13, 10, 1, 47), (27, -17, 31, 13, 11, -3, 17),
-        (27, -17, 31, 13, 12, 27, -17), (27, -17, 31, 13, 255, 35, 43),
-        (27, -17, 27, 39, 0, 27, -17), (27, -17, 27, 39, 1, 83, -17), (27, -17, 27, 39, 2, 83, 39),
-        (27, -17, 27, 39, 3, 27, 95), (27, -17, 27, 39, 4, -29, 95), (27, -17, 27, 39, 5, -29, 39),
-        (27, -17, 27, 39, 6, 27, -17), (27, -17, 27, 39, 7, 83, -17), (27, -17, 27, 39, 8, 83, 39),
-        (27, -17, 27, 39, 9, 27, 95), (27, -17, 27, 39, 10, -29, 95),
-        (27, -17, 27, 39, 11, -29, 39), (27, -17, 27, 39, 12, 27, -17),
-        (27, -17, 27, 39, 255, 27, 95), (27, -17, 24, 1, 0, 27, -17), (27, -17, 24, 1, 1, 42, -14),
-        (27, -17, 24, 1, 2, 39, 4), (27, -17, 24, 1, 3, 21, 19), (27, -17, 24, 1, 4, 6, 16),
-        (27, -17, 24, 1, 5, 9, -2), (27, -17, 24, 1, 6, 27, -17), (27, -17, 24, 1, 7, 42, -14),
-        (27, -17, 24, 1, 8, 39, 4), (27, -17, 24, 1, 9, 21, 19), (27, -17, 24, 1, 10, 6, 16),
-        (27, -17, 24, 1, 11, 9, -2), (27, -17, 24, 1, 12, 27, -17), (27, -17, 24, 1, 255, 21, 19),
-        (27, -17, -21, -18, 0, 27, -17), (27, -17, -21, -18, 1, -22, 31),
-        (27, -17, -21, -18, 2, -70, 30), (27, -17, -21, -18, 3, -69, -19),
-        (27, -17, -21, -18, 4, -20, -67), (27, -17, -21, -18, 5, 28, -66),
-        (27, -17, -21, -18, 6, 27, -17), (27, -17, -21, -18, 7, -22, 31),
-        (27, -17, -21, -18, 8, -70, 30), (27, -17, -21, -18, 9, -69, -19),
-        (27, -17, -21, -18, 10, -20, -67), (27, -17, -21, -18, 11, 28, -66),
-        (27, -17, -21, -18, 12, 27, -17), (27, -17, -21, -18, 255, -69, -19),
-        (27, -17, -13, -35, 0, 27, -17), (27, -17, -13, -35, 1, -31, 23),
-        (27, -17, -13, -35, 2, -71, 5), (27, -17, -13, -35, 3, -53, -53),
-        (27, -17, -13, -35, 4, 5, -93), (27, -17, -13, -35, 5, 45, -75),
-        (27, -17, -13, -35, 6, 27, -17), (27, -17, -13, -35, 7, -31, 23),
-        (27, -17, -13, -35, 8, -71, 5), (27, -17, -13, -35, 9, -53, -53),
-        (27, -17, -13, -35, 10, 5, -93), (27, -17, -13, -35, 11, 45, -75),
-        (27, -17, -13, -35, 12, 27, -17), (27, -17, -13, -35, 255, -53, -53),
-        (27, -17, -26, 7, 0, 27, -17), (27, -17, -26, 7, 1, -2, 36), (27, -17, -26, 7, 2, -55, 60),
-        (27, -17, -26, 7, 3, -79, 31), (27, -17, -26, 7, 4, -50, -22), (27, -17, -26, 7, 5, 3, -46),
-        (27, -17, -26, 7, 6, 27, -17), (27, -17, -26, 7, 7, -2, 36), (27, -17, -26, 7, 8, -55, 60),
-        (27, -17, -26, 7, 9, -79, 31), (27, -17, -26, 7, 10, -50, -22),
-        (27, -17, -26, 7, 11, 3, -46), (27, -17, -26, 7, 12, 27, -17),
-        (27, -17, -26, 7, 255, -79, 31), (27, -17, 38, -1, 0, 27, -17),
-        (27, -17, 38, -1, 1, 54, -28), (27, -17, 38, -1, 2, 65, -12), (27, -17, 38, -1, 3, 49, 15),
-        (27, -17, 38, -1, 4, 22, 26), (27, -17, 38, -1, 5, 11, 10), (27, -17, 38, -1, 6, 27, -17),
-        (27, -17, 38, -1, 7, 54, -28), (27, -17, 38, -1, 8, 65, -12), (27, -17, 38, -1, 9, 49, 15),
-        (27, -17, 38, -1, 10, 22, 26), (27, -17, 38, -1, 11, 11, 10),
-        (27, -17, 38, -1, 12, 27, -17), (27, -17, 38, -1, 255, 49, 15),
-        (27, -17, 33, 8, 0, 27, -17), (27, -17, 33, 8, 1, 58, -23), (27, -17, 33, 8, 2, 64, 2),
-        (27, -17, 33, 8, 3, 39, 33), (27, -17, 33, 8, 4, 8, 39), (27, -17, 33, 8, 5, 2, 14),
-        (27, -17, 33, 8, 6, 27, -17), (27, -17, 33, 8, 7, 58, -23), (27, -17, 33, 8, 8, 64, 2),
-        (27, -17, 33, 8, 9, 39, 33), (27, -17, 33, 8, 10, 8, 39), (27, -17, 33, 8, 11, 2, 14),
-        (27, -17, 33, 8, 12, 27, -17), (27, -17, 33, 8, 255, 39, 33), (24, 38, 31, 13, 0, 24, 38),
-        (24, 38, 31, 13, 1, 6, 31), (24, 38, 31, 13, 2, 13, 6), (24, 38, 31, 13, 3, 38, -12),
-        (24, 38, 31, 13, 4, 56, -5), (24, 38, 31, 13, 5, 49, 20), (24, 38, 31, 13, 6, 24, 38),
-        (24, 38, 31, 13, 7, 6, 31), (24, 38, 31, 13, 8, 13, 6), (24, 38, 31, 13, 9, 38, -12),
-        (24, 38, 31, 13, 10, 56, -5), (24, 38, 31, 13, 11, 49, 20), (24, 38, 31, 13, 12, 24, 38),
-        (24, 38, 31, 13, 255, 38, -12), (24, 38, 27, 39, 0, 24, 38), (24, 38, 27, 39, 1, 28, 35),
-        (24, 38, 27, 39, 2, 31, 36), (24, 38, 27, 39, 3, 30, 40), (24, 38, 27, 39, 4, 26, 43),
-        (24, 38, 27, 39, 5, 23, 42), (24, 38, 27, 39, 6, 24, 38), (24, 38, 27, 39, 7, 28, 35),
-        (24, 38, 27, 39, 8, 31, 36), (24, 38, 27, 39, 9, 30, 40), (24, 38, 27, 39, 10, 26, 43),
-        (24, 38, 27, 39, 11, 23, 42), (24, 38, 27, 39, 12, 24, 38), (24, 38, 27, 39, 255, 30, 40),
-        (24, 38, 24, 1, 0, 24, 38), (24, 38, 24, 1, 1, -13, 38), (24, 38, 24, 1, 2, -13, 1),
-        (24, 38, 24, 1, 3, 24, -36), (24, 38, 24, 1, 4, 61, -36), (24, 38, 24, 1, 5, 61, 1),
-        (24, 38, 24, 1, 6, 24, 38), (24, 38, 24, 1, 7, -13, 38), (24, 38, 24, 1, 8, -13, 1),
-        (24, 38, 24, 1, 9, 24, -36), (24, 38, 24, 1, 10, 61, -36), (24, 38, 24, 1, 11, 61, 1),
-        (24, 38, 24, 1, 12, 24, 38), (24, 38, 24, 1, 255, 24, -36), (24, 38, -21, -18, 0, 24, 38),
-        (24, 38, -21, -18, 1, -77, 83), (24, 38, -21, -18, 2, -122, 27),
-        (24, 38, -21, -18, 3, -66, -74), (24, 38, -21, -18, 4, 35, -119),
-        (24, 38, -21, -18, 5, 80, -63), (24, 38, -21, -18, 6, 24, 38),
-        (24, 38, -21, -18, 7, -77, 83), (24, 38, -21, -18, 8, -122, 27),
-        (24, 38, -21, -18, 9, -66, -74), (24, 38, -21, -18, 10, 35, -119),
-        (24, 38, -21, -18, 11, 80, -63), (24, 38, -21, -18, 12, 24, 38),
-        (24, 38, -21, -18, 255, -66, -74), (24, 38, -13, -35, 0, 24, 38),
-        (24, 38, -13, -35, 1, -86, 75), (24, 38, -13, -35, 2, -123, 2),
-        (24, 38, -13, -35, 3, -50, -108), (24, 38, -13, -35, 4, 60, -145),
-        (24, 38, -13, -35, 5, 97, -72), (24, 38, -13, -35, 6, 24, 38),
-        (24, 38, -13, -35, 7, -86, 75), (24, 38, -13, -35, 8, -123, 2),
-        (24, 38, -13, -35, 9, -50, -108), (24, 38, -13, -35, 10, 60, -145),
-        (24, 38, -13, -35, 11, 97, -72), (24, 38, -13, -35, 12, 24, 38),
-        (24, 38, -13, -35, 255, -50, -108), (24, 38, -26, 7, 0, 24, 38),
-        (24, 38, -26, 7, 1, -57, 88), (24, 38, -26, 7, 2, -107, 57), (24, 38, -26, 7, 3, -76, -24),
-        (24, 38, -26, 7, 4, 5, -74), (24, 38, -26, 7, 5, 55, -43), (24, 38, -26, 7, 6, 24, 38),
-        (24, 38, -26, 7, 7, -57, 88), (24, 38, -26, 7, 8, -107, 57), (24, 38, -26, 7, 9, -76, -24),
-        (24, 38, -26, 7, 10, 5, -74), (24, 38, -26, 7, 11, 55, -43), (24, 38, -26, 7, 12, 24, 38),
-        (24, 38, -26, 7, 255, -76, -24), (24, 38, 38, -1, 0, 24, 38), (24, 38, 38, -1, 1, -1, 24),
-        (24, 38, 38, -1, 2, 13, -15), (24, 38, 38, -1, 3, 52, -40), (24, 38, 38, -1, 4, 77, -26),
-        (24, 38, 38, -1, 5, 63, 13), (24, 38, 38, -1, 6, 24, 38), (24, 38, 38, -1, 7, -1, 24),
-        (24, 38, 38, -1, 8, 13, -15), (24, 38, 38, -1, 9, 52, -40), (24, 38, 38, -1, 10, 77, -26),
-        (24, 38, 38, -1, 11, 63, 13), (24, 38, 38, -1, 12, 24, 38), (24, 38, 38, -1, 255, 52, -40),
-        (24, 38, 33, 8, 0, 24, 38), (24, 38, 33, 8, 1, 3, 29), (24, 38, 33, 8, 2, 12, -1),
-        (24, 38, 33, 8, 3, 42, -22), (24, 38, 33, 8, 4, 63, -13), (24, 38, 33, 8, 5, 54, 17),
-        (24, 38, 33, 8, 6, 24, 38), (24, 38, 33, 8, 7, 3, 29), (24, 38, 33, 8, 8, 12, -1),
-        (24, 38, 33, 8, 9, 42, -22), (24, 38, 33, 8, 10, 63, -13), (24, 38, 33, 8, 11, 54, 17),
-        (24, 38, 33, 8, 12, 24, 38), (24, 38, 33, 8, 255, 42, -22), (23, -34, 31, 13, 0, 23, -34),
-        (23, -34, 31, 13, 1, 78, -42), (23, -34, 31, 13, 2, 86, 5), (23, -34, 31, 13, 3, 39, 60),
-        (23, -34, 31, 13, 4, -16, 68), (23, -34, 31, 13, 5, -24, 21), (23, -34, 31, 13, 6, 23, -34),
-        (23, -34, 31, 13, 7, 78, -42), (23, -34, 31, 13, 8, 86, 5), (23, -34, 31, 13, 9, 39, 60),
-        (23, -34, 31, 13, 10, -16, 68), (23, -34, 31, 13, 11, -24, 21),
-        (23, -34, 31, 13, 12, 23, -34), (23, -34, 31, 13, 255, 39, 60),
-        (23, -34, 27, 39, 0, 23, -34), (23, -34, 27, 39, 1, 100, -38),
-        (23, -34, 27, 39, 2, 104, 35), (23, -34, 27, 39, 3, 31, 112),
-        (23, -34, 27, 39, 4, -46, 116), (23, -34, 27, 39, 5, -50, 43),
-        (23, -34, 27, 39, 6, 23, -34), (23, -34, 27, 39, 7, 100, -38),
-        (23, -34, 27, 39, 8, 104, 35), (23, -34, 27, 39, 9, 31, 112),
-        (23, -34, 27, 39, 10, -46, 116), (23, -34, 27, 39, 11, -50, 43),
-        (23, -34, 27, 39, 12, 23, -34), (23, -34, 27, 39, 255, 31, 112),
-        (23, -34, 24, 1, 0, 23, -34), (23, -34, 24, 1, 1, 59, -35), (23, -34, 24, 1, 2, 60, 0),
-        (23, -34, 24, 1, 3, 25, 36), (23, -34, 24, 1, 4, -11, 37), (23, -34, 24, 1, 5, -12, 2),
-        (23, -34, 24, 1, 6, 23, -34), (23, -34, 24, 1, 7, 59, -35), (23, -34, 24, 1, 8, 60, 0),
-        (23, -34, 24, 1, 9, 25, 36), (23, -34, 24, 1, 10, -11, 37), (23, -34, 24, 1, 11, -12, 2),
-        (23, -34, 24, 1, 12, 23, -34), (23, -34, 24, 1, 255, 25, 36),
-        (23, -34, -21, -18, 0, 23, -34), (23, -34, -21, -18, 1, -5, 10),
-        (23, -34, -21, -18, 2, -49, 26), (23, -34, -21, -18, 3, -65, -2),
-        (23, -34, -21, -18, 4, -37, -46), (23, -34, -21, -18, 5, 7, -62),
-        (23, -34, -21, -18, 6, 23, -34), (23, -34, -21, -18, 7, -5, 10),
-        (23, -34, -21, -18, 8, -49, 26), (23, -34, -21, -18, 9, -65, -2),
-        (23, -34, -21, -18, 10, -37, -46), (23, -34, -21, -18, 11, 7, -62),
-        (23, -34, -21, -18, 12, 23, -34), (23, -34, -21, -18, 255, -65, -2),
-        (23, -34, -13, -35, 0, 23, -34), (23, -34, -13, -35, 1, -14, 2),
-        (23, -34, -13, -35, 2, -50, 1), (23, -34, -13, -35, 3, -49, -36),
-        (23, -34, -13, -35, 4, -12, -72), (23, -34, -13, -35, 5, 24, -71),
-        (23, -34, -13, -35, 6, 23, -34), (23, -34, -13, -35, 7, -14, 2),
-        (23, -34, -13, -35, 8, -50, 1), (23, -34, -13, -35, 9, -49, -36),
-        (23, -34, -13, -35, 10, -12, -72), (23, -34, -13, -35, 11, 24, -71),
-        (23, -34, -13, -35, 12, 23, -34), (23, -34, -13, -35, 255, -49, -36),
-        (23, -34, -26, 7, 0, 23, -34), (23, -34, -26, 7, 1, 15, 15), (23, -34, -26, 7, 2, -34, 56),
-        (23, -34, -26, 7, 3, -75, 48), (23, -34, -26, 7, 4, -67, -1),
-        (23, -34, -26, 7, 5, -18, -42), (23, -34, -26, 7, 6, 23, -34), (23, -34, -26, 7, 7, 15, 15),
-        (23, -34, -26, 7, 8, -34, 56), (23, -34, -26, 7, 9, -75, 48),
-        (23, -34, -26, 7, 10, -67, -1), (23, -34, -26, 7, 11, -18, -42),
-        (23, -34, -26, 7, 12, 23, -34), (23, -34, -26, 7, 255, -75, 48),
-        (23, -34, 38, -1, 0, 23, -34), (23, -34, 38, -1, 1, 71, -49), (23, -34, 38, -1, 2, 86, -16),
-        (23, -34, 38, -1, 3, 53, 32), (23, -34, 38, -1, 4, 5, 47), (23, -34, 38, -1, 5, -10, 14),
-        (23, -34, 38, -1, 6, 23, -34), (23, -34, 38, -1, 7, 71, -49), (23, -34, 38, -1, 8, 86, -16),
-        (23, -34, 38, -1, 9, 53, 32), (23, -34, 38, -1, 10, 5, 47), (23, -34, 38, -1, 11, -10, 14),
-        (23, -34, 38, -1, 12, 23, -34), (23, -34, 38, -1, 255, 53, 32),
-        (23, -34, 33, 8, 0, 23, -34), (23, -34, 33, 8, 1, 75, -44), (23, -34, 33, 8, 2, 85, -2),
-        (23, -34, 33, 8, 3, 43, 50), (23, -34, 33, 8, 4, -9, 60), (23, -34, 33, 8, 5, -19, 18),
-        (23, -34, 33, 8, 6, 23, -34), (23, -34, 33, 8, 7, 75, -44), (23, -34, 33, 8, 8, 85, -2),
-        (23, -34, 33, 8, 9, 43, 50), (23, -34, 33, 8, 10, -9, 60), (23, -34, 33, 8, 11, -19, 18),
-        (23, -34, 33, 8, 12, 23, -34), (23, -34, 33, 8, 255, 43, 50), (9, 37, 31, 13, 0, 9, 37),
-        (9, 37, 31, 13, 1, 7, 15), (9, 37, 31, 13, 2, 29, -9), (9, 37, 31, 13, 3, 53, -11),
-        (9, 37, 31, 13, 4, 55, 11), (9, 37, 31, 13, 5, 33, 35), (9, 37, 31, 13, 6, 9, 37),
-        (9, 37, 31, 13, 7, 7, 15), (9, 37, 31, 13, 8, 29, -9), (9, 37, 31, 13, 9, 53, -11),
-        (9, 37, 31, 13, 10, 55, 11), (9, 37, 31, 13, 11, 33, 35), (9, 37, 31, 13, 12, 9, 37),
-        (9, 37, 31, 13, 255, 53, -11), (9, 37, 27, 39, 0, 9, 37), (9, 37, 27, 39, 1, 29, 19),
-        (9, 37, 27, 39, 2, 47, 21), (9, 37, 27, 39, 3, 45, 41), (9, 37, 27, 39, 4, 25, 59),
-        (9, 37, 27, 39, 5, 7, 57), (9, 37, 27, 39, 6, 9, 37), (9, 37, 27, 39, 7, 29, 19),
-        (9, 37, 27, 39, 8, 47, 21), (9, 37, 27, 39, 9, 45, 41), (9, 37, 27, 39, 10, 25, 59),
-        (9, 37, 27, 39, 11, 7, 57), (9, 37, 27, 39, 12, 9, 37), (9, 37, 27, 39, 255, 45, 41),
-        (9, 37, 24, 1, 0, 9, 37), (9, 37, 24, 1, 1, -12, 22), (9, 37, 24, 1, 2, 3, -14),
-        (9, 37, 24, 1, 3, 39, -35), (9, 37, 24, 1, 4, 60, -20), (9, 37, 24, 1, 5, 45, 16),
-        (9, 37, 24, 1, 6, 9, 37), (9, 37, 24, 1, 7, -12, 22), (9, 37, 24, 1, 8, 3, -14),
-        (9, 37, 24, 1, 9, 39, -35), (9, 37, 24, 1, 10, 60, -20), (9, 37, 24, 1, 11, 45, 16),
-        (9, 37, 24, 1, 12, 9, 37), (9, 37, 24, 1, 255, 39, -35), (9, 37, -21, -18, 0, 9, 37),
-        (9, 37, -21, -18, 1, -76, 67), (9, 37, -21, -18, 2, -106, 12),
-        (9, 37, -21, -18, 3, -51, -73), (9, 37, -21, -18, 4, 34, -103),
-        (9, 37, -21, -18, 5, 64, -48), (9, 37, -21, -18, 6, 9, 37), (9, 37, -21, -18, 7, -76, 67),
-        (9, 37, -21, -18, 8, -106, 12), (9, 37, -21, -18, 9, -51, -73),
-        (9, 37, -21, -18, 10, 34, -103), (9, 37, -21, -18, 11, 64, -48),
-        (9, 37, -21, -18, 12, 9, 37), (9, 37, -21, -18, 255, -51, -73), (9, 37, -13, -35, 0, 9, 37),
-        (9, 37, -13, -35, 1, -85, 59), (9, 37, -13, -35, 2, -107, -13),
-        (9, 37, -13, -35, 3, -35, -107), (9, 37, -13, -35, 4, 59, -129),
-        (9, 37, -13, -35, 5, 81, -57), (9, 37, -13, -35, 6, 9, 37), (9, 37, -13, -35, 7, -85, 59),
-        (9, 37, -13, -35, 8, -107, -13), (9, 37, -13, -35, 9, -35, -107),
-        (9, 37, -13, -35, 10, 59, -129), (9, 37, -13, -35, 11, 81, -57),
-        (9, 37, -13, -35, 12, 9, 37), (9, 37, -13, -35, 255, -35, -107), (9, 37, -26, 7, 0, 9, 37),
-        (9, 37, -26, 7, 1, -56, 72), (9, 37, -26, 7, 2, -91, 42), (9, 37, -26, 7, 3, -61, -23),
-        (9, 37, -26, 7, 4, 4, -58), (9, 37, -26, 7, 5, 39, -28), (9, 37, -26, 7, 6, 9, 37),
-        (9, 37, -26, 7, 7, -56, 72), (9, 37, -26, 7, 8, -91, 42), (9, 37, -26, 7, 9, -61, -23),
-        (9, 37, -26, 7, 10, 4, -58), (9, 37, -26, 7, 11, 39, -28), (9, 37, -26, 7, 12, 9, 37),
-        (9, 37, -26, 7, 255, -61, -23), (9, 37, 38, -1, 0, 9, 37), (9, 37, 38, -1, 1, 0, 8),
-        (9, 37, 38, -1, 2, 29, -30), (9, 37, 38, -1, 3, 67, -39), (9, 37, 38, -1, 4, 76, -10),
-        (9, 37, 38, -1, 5, 47, 28), (9, 37, 38, -1, 6, 9, 37), (9, 37, 38, -1, 7, 0, 8),
-        (9, 37, 38, -1, 8, 29, -30), (9, 37, 38, -1, 9, 67, -39), (9, 37, 38, -1, 10, 76, -10),
-        (9, 37, 38, -1, 11, 47, 28), (9, 37, 38, -1, 12, 9, 37), (9, 37, 38, -1, 255, 67, -39),
-        (9, 37, 33, 8, 0, 9, 37), (9, 37, 33, 8, 1, 4, 13), (9, 37, 33, 8, 2, 28, -16),
-        (9, 37, 33, 8, 3, 57, -21), (9, 37, 33, 8, 4, 62, 3), (9, 37, 33, 8, 5, 38, 32),
-        (9, 37, 33, 8, 6, 9, 37), (9, 37, 33, 8, 7, 4, 13), (9, 37, 33, 8, 8, 28, -16),
-        (9, 37, 33, 8, 9, 57, -21), (9, 37, 33, 8, 10, 62, 3), (9, 37, 33, 8, 11, 38, 32),
-        (9, 37, 33, 8, 12, 9, 37), (9, 37, 33, 8, 255, 57, -21),
     ];
     let mut i = 0;
     while i < cases.len() {
@@ -37085,8 +35555,8 @@ fn golden_hex_around_2_rotate_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_hex_around_2_rotate_ccw_around() {
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_16_rotate_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (-13, -35, 31, 13, 0, -13, -35), (-13, -35, 31, 13, 1, -61, 57),
         (-13, -35, 31, 13, 2, -17, 105), (-13, -35, 31, 13, 3, 75, 61),
@@ -37189,6 +35659,131 @@ fn golden_hex_around_2_rotate_ccw_around() {
         (-6, -28, 33, 8, 5, 69, -67), (-6, -28, 33, 8, 6, -6, -28), (-6, -28, 33, 8, 7, -42, 47),
         (-6, -28, 33, 8, 8, -3, 83), (-6, -28, 33, 8, 9, 72, 44), (-6, -28, 33, 8, 10, 108, -31),
         (-6, -28, 33, 8, 11, 69, -67), (-6, -28, 33, 8, 12, -6, -28), (-6, -28, 33, 8, 255, 72, 44),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_17_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (22, -38, 31, 13, 0, 22, -38), (22, -38, 31, 13, 1, 82, -47), (22, -38, 31, 13, 2, 91, 4),
+        (22, -38, 31, 13, 3, 40, 64), (22, -38, 31, 13, 4, -20, 73), (22, -38, 31, 13, 5, -29, 22),
+        (22, -38, 31, 13, 6, 22, -38), (22, -38, 31, 13, 7, 82, -47), (22, -38, 31, 13, 8, 91, 4),
+        (22, -38, 31, 13, 9, 40, 64), (22, -38, 31, 13, 10, -20, 73),
+        (22, -38, 31, 13, 11, -29, 22), (22, -38, 31, 13, 12, 22, -38),
+        (22, -38, 31, 13, 255, 40, 64), (22, -38, 27, 39, 0, 22, -38),
+        (22, -38, 27, 39, 1, 104, -43), (22, -38, 27, 39, 2, 109, 34),
+        (22, -38, 27, 39, 3, 32, 116), (22, -38, 27, 39, 4, -50, 121),
+        (22, -38, 27, 39, 5, -55, 44), (22, -38, 27, 39, 6, 22, -38),
+        (22, -38, 27, 39, 7, 104, -43), (22, -38, 27, 39, 8, 109, 34),
+        (22, -38, 27, 39, 9, 32, 116), (22, -38, 27, 39, 10, -50, 121),
+        (22, -38, 27, 39, 11, -55, 44), (22, -38, 27, 39, 12, 22, -38),
+        (22, -38, 27, 39, 255, 32, 116), (22, -38, 24, 1, 0, 22, -38), (22, -38, 24, 1, 1, 63, -40),
+        (22, -38, 24, 1, 2, 65, -1), (22, -38, 24, 1, 3, 26, 40), (22, -38, 24, 1, 4, -15, 42),
+        (22, -38, 24, 1, 5, -17, 3), (22, -38, 24, 1, 6, 22, -38), (22, -38, 24, 1, 7, 63, -40),
+        (22, -38, 24, 1, 8, 65, -1), (22, -38, 24, 1, 9, 26, 40), (22, -38, 24, 1, 10, -15, 42),
+        (22, -38, 24, 1, 11, -17, 3), (22, -38, 24, 1, 12, 22, -38), (22, -38, 24, 1, 255, 26, 40),
+        (22, -38, -21, -18, 0, 22, -38), (22, -38, -21, -18, 1, -1, 5),
+        (22, -38, -21, -18, 2, -44, 25), (22, -38, -21, -18, 3, -64, 2),
+        (22, -38, -21, -18, 4, -41, -41), (22, -38, -21, -18, 5, 2, -61),
+        (22, -38, -21, -18, 6, 22, -38), (22, -38, -21, -18, 7, -1, 5),
+        (22, -38, -21, -18, 8, -44, 25), (22, -38, -21, -18, 9, -64, 2),
+        (22, -38, -21, -18, 10, -41, -41), (22, -38, -21, -18, 11, 2, -61),
+        (22, -38, -21, -18, 12, 22, -38), (22, -38, -21, -18, 255, -64, 2),
+        (22, -38, -13, -35, 0, 22, -38), (22, -38, -13, -35, 1, -10, -3),
+        (22, -38, -13, -35, 2, -45, 0), (22, -38, -13, -35, 3, -48, -32),
+        (22, -38, -13, -35, 4, -16, -67), (22, -38, -13, -35, 5, 19, -70),
+        (22, -38, -13, -35, 6, 22, -38), (22, -38, -13, -35, 7, -10, -3),
+        (22, -38, -13, -35, 8, -45, 0), (22, -38, -13, -35, 9, -48, -32),
+        (22, -38, -13, -35, 10, -16, -67), (22, -38, -13, -35, 11, 19, -70),
+        (22, -38, -13, -35, 12, 22, -38), (22, -38, -13, -35, 255, -48, -32),
+        (22, -38, -26, 7, 0, 22, -38), (22, -38, -26, 7, 1, 19, 10), (22, -38, -26, 7, 2, -29, 55),
+        (22, -38, -26, 7, 3, -74, 52), (22, -38, -26, 7, 4, -71, 4), (22, -38, -26, 7, 5, -23, -41),
+        (22, -38, -26, 7, 6, 22, -38), (22, -38, -26, 7, 7, 19, 10), (22, -38, -26, 7, 8, -29, 55),
+        (22, -38, -26, 7, 9, -74, 52), (22, -38, -26, 7, 10, -71, 4),
+        (22, -38, -26, 7, 11, -23, -41), (22, -38, -26, 7, 12, 22, -38),
+        (22, -38, -26, 7, 255, -74, 52), (22, -38, 38, -1, 0, 22, -38),
+        (22, -38, 38, -1, 1, 75, -54), (22, -38, 38, -1, 2, 91, -17), (22, -38, 38, -1, 3, 54, 36),
+        (22, -38, 38, -1, 4, 1, 52), (22, -38, 38, -1, 5, -15, 15), (22, -38, 38, -1, 6, 22, -38),
+        (22, -38, 38, -1, 7, 75, -54), (22, -38, 38, -1, 8, 91, -17), (22, -38, 38, -1, 9, 54, 36),
+        (22, -38, 38, -1, 10, 1, 52), (22, -38, 38, -1, 11, -15, 15),
+        (22, -38, 38, -1, 12, 22, -38), (22, -38, 38, -1, 255, 54, 36),
+        (22, -38, 33, 8, 0, 22, -38), (22, -38, 33, 8, 1, 79, -49), (22, -38, 33, 8, 2, 90, -3),
+        (22, -38, 33, 8, 3, 44, 54), (22, -38, 33, 8, 4, -13, 65), (22, -38, 33, 8, 5, -24, 19),
+        (22, -38, 33, 8, 6, 22, -38), (22, -38, 33, 8, 7, 79, -49), (22, -38, 33, 8, 8, 90, -3),
+        (22, -38, 33, 8, 9, 44, 54), (22, -38, 33, 8, 10, -13, 65), (22, -38, 33, 8, 11, -24, 19),
+        (22, -38, 33, 8, 12, 22, -38), (22, -38, 33, 8, 255, 44, 54), (17, -30, 31, 13, 0, 17, -30),
+        (17, -30, 31, 13, 1, 74, -44), (17, -30, 31, 13, 2, 88, -1), (17, -30, 31, 13, 3, 45, 56),
+        (17, -30, 31, 13, 4, -12, 70), (17, -30, 31, 13, 5, -26, 27), (17, -30, 31, 13, 6, 17, -30),
+        (17, -30, 31, 13, 7, 74, -44), (17, -30, 31, 13, 8, 88, -1), (17, -30, 31, 13, 9, 45, 56),
+        (17, -30, 31, 13, 10, -12, 70), (17, -30, 31, 13, 11, -26, 27),
+        (17, -30, 31, 13, 12, 17, -30), (17, -30, 31, 13, 255, 45, 56),
+        (17, -30, 27, 39, 0, 17, -30), (17, -30, 27, 39, 1, 96, -40), (17, -30, 27, 39, 2, 106, 29),
+        (17, -30, 27, 39, 3, 37, 108), (17, -30, 27, 39, 4, -42, 118),
+        (17, -30, 27, 39, 5, -52, 49), (17, -30, 27, 39, 6, 17, -30), (17, -30, 27, 39, 7, 96, -40),
+        (17, -30, 27, 39, 8, 106, 29), (17, -30, 27, 39, 9, 37, 108),
+        (17, -30, 27, 39, 10, -42, 118), (17, -30, 27, 39, 11, -52, 49),
+        (17, -30, 27, 39, 12, 17, -30), (17, -30, 27, 39, 255, 37, 108),
+        (17, -30, 24, 1, 0, 17, -30), (17, -30, 24, 1, 1, 55, -37), (17, -30, 24, 1, 2, 62, -6),
+        (17, -30, 24, 1, 3, 31, 32), (17, -30, 24, 1, 4, -7, 39), (17, -30, 24, 1, 5, -14, 8),
+        (17, -30, 24, 1, 6, 17, -30), (17, -30, 24, 1, 7, 55, -37), (17, -30, 24, 1, 8, 62, -6),
+        (17, -30, 24, 1, 9, 31, 32), (17, -30, 24, 1, 10, -7, 39), (17, -30, 24, 1, 11, -14, 8),
+        (17, -30, 24, 1, 12, 17, -30), (17, -30, 24, 1, 255, 31, 32),
+        (17, -30, -21, -18, 0, 17, -30), (17, -30, -21, -18, 1, -9, 8),
+        (17, -30, -21, -18, 2, -47, 20), (17, -30, -21, -18, 3, -59, -6),
+        (17, -30, -21, -18, 4, -33, -44), (17, -30, -21, -18, 5, 5, -56),
+        (17, -30, -21, -18, 6, 17, -30), (17, -30, -21, -18, 7, -9, 8),
+        (17, -30, -21, -18, 8, -47, 20), (17, -30, -21, -18, 9, -59, -6),
+        (17, -30, -21, -18, 10, -33, -44), (17, -30, -21, -18, 11, 5, -56),
+        (17, -30, -21, -18, 12, 17, -30), (17, -30, -21, -18, 255, -59, -6),
+        (17, -30, -13, -35, 0, 17, -30), (17, -30, -13, -35, 1, -18, 0),
+        (17, -30, -13, -35, 2, -48, -5), (17, -30, -13, -35, 3, -43, -40),
+        (17, -30, -13, -35, 4, -8, -70), (17, -30, -13, -35, 5, 22, -65),
+        (17, -30, -13, -35, 6, 17, -30), (17, -30, -13, -35, 7, -18, 0),
+        (17, -30, -13, -35, 8, -48, -5), (17, -30, -13, -35, 9, -43, -40),
+        (17, -30, -13, -35, 10, -8, -70), (17, -30, -13, -35, 11, 22, -65),
+        (17, -30, -13, -35, 12, 17, -30), (17, -30, -13, -35, 255, -43, -40),
+        (17, -30, -26, 7, 0, 17, -30), (17, -30, -26, 7, 1, 11, 13), (17, -30, -26, 7, 2, -32, 50),
+        (17, -30, -26, 7, 3, -69, 44), (17, -30, -26, 7, 4, -63, 1), (17, -30, -26, 7, 5, -20, -36),
+        (17, -30, -26, 7, 6, 17, -30), (17, -30, -26, 7, 7, 11, 13), (17, -30, -26, 7, 8, -32, 50),
+        (17, -30, -26, 7, 9, -69, 44), (17, -30, -26, 7, 10, -63, 1),
+        (17, -30, -26, 7, 11, -20, -36), (17, -30, -26, 7, 12, 17, -30),
+        (17, -30, -26, 7, 255, -69, 44), (17, -30, 38, -1, 0, 17, -30),
+        (17, -30, 38, -1, 1, 67, -51), (17, -30, 38, -1, 2, 88, -22), (17, -30, 38, -1, 3, 59, 28),
+        (17, -30, 38, -1, 4, 9, 49), (17, -30, 38, -1, 5, -12, 20), (17, -30, 38, -1, 6, 17, -30),
+        (17, -30, 38, -1, 7, 67, -51), (17, -30, 38, -1, 8, 88, -22), (17, -30, 38, -1, 9, 59, 28),
+        (17, -30, 38, -1, 10, 9, 49), (17, -30, 38, -1, 11, -12, 20),
+        (17, -30, 38, -1, 12, 17, -30), (17, -30, 38, -1, 255, 59, 28),
+        (17, -30, 33, 8, 0, 17, -30), (17, -30, 33, 8, 1, 71, -46), (17, -30, 33, 8, 2, 87, -8),
+        (17, -30, 33, 8, 3, 49, 46), (17, -30, 33, 8, 4, -5, 62), (17, -30, 33, 8, 5, -21, 24),
+        (17, -30, 33, 8, 6, 17, -30), (17, -30, 33, 8, 7, 71, -46), (17, -30, 33, 8, 8, 87, -8),
+        (17, -30, 33, 8, 9, 49, 46), (17, -30, 33, 8, 10, -5, 62), (17, -30, 33, 8, 11, -21, 24),
+        (17, -30, 33, 8, 12, 17, -30), (17, -30, 33, 8, 255, 49, 46),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_17_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (22, -38, 31, 13, 0, 22, -38), (22, -38, 31, 13, 1, -29, 22), (22, -38, 31, 13, 2, -20, 73),
         (22, -38, 31, 13, 3, 40, 64), (22, -38, 31, 13, 4, 91, 4), (22, -38, 31, 13, 5, 82, -47),
         (22, -38, 31, 13, 6, 22, -38), (22, -38, 31, 13, 7, -29, 22), (22, -38, 31, 13, 8, -20, 73),
@@ -37281,11 +35876,131 @@ fn golden_hex_around_2_rotate_ccw_around() {
         (17, -30, 33, 8, 3, 49, 46), (17, -30, 33, 8, 4, 87, -8), (17, -30, 33, 8, 5, 71, -46),
         (17, -30, 33, 8, 6, 17, -30), (17, -30, 33, 8, 7, -21, 24), (17, -30, 33, 8, 8, -5, 62),
         (17, -30, 33, 8, 9, 49, 46), (17, -30, 33, 8, 10, 87, -8), (17, -30, 33, 8, 11, 71, -46),
-        (17, -30, 33, 8, 12, 17, -30), (17, -30, 33, 8, 255, 49, 46), (36, -31, 31, 13, 0, 36, -31),
-        (36, -31, 31, 13, 1, -8, 8), (36, -31, 31, 13, 2, -13, 52), (36, -31, 31, 13, 3, 26, 57),
-        (36, -31, 31, 13, 4, 70, 18), (36, -31, 31, 13, 5, 75, -26), (36, -31, 31, 13, 6, 36, -31),
-        (36, -31, 31, 13, 7, -8, 8), (36, -31, 31, 13, 8, -13, 52), (36, -31, 31, 13, 9, 26, 57),
-        (36, -31, 31, 13, 10, 70, 18), (36, -31, 31, 13, 11, 75, -26),
+        (17, -30, 33, 8, 12, 17, -30), (17, -30, 33, 8, 255, 49, 46),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_18_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (36, -31, 31, 13, 0, 36, -31), (36, -31, 31, 13, 1, 75, -26), (36, -31, 31, 13, 2, 70, 18),
+        (36, -31, 31, 13, 3, 26, 57), (36, -31, 31, 13, 4, -13, 52), (36, -31, 31, 13, 5, -8, 8),
+        (36, -31, 31, 13, 6, 36, -31), (36, -31, 31, 13, 7, 75, -26), (36, -31, 31, 13, 8, 70, 18),
+        (36, -31, 31, 13, 9, 26, 57), (36, -31, 31, 13, 10, -13, 52), (36, -31, 31, 13, 11, -8, 8),
+        (36, -31, 31, 13, 12, 36, -31), (36, -31, 31, 13, 255, 26, 57),
+        (36, -31, 27, 39, 0, 36, -31), (36, -31, 27, 39, 1, 97, -22), (36, -31, 27, 39, 2, 88, 48),
+        (36, -31, 27, 39, 3, 18, 109), (36, -31, 27, 39, 4, -43, 100),
+        (36, -31, 27, 39, 5, -34, 30), (36, -31, 27, 39, 6, 36, -31), (36, -31, 27, 39, 7, 97, -22),
+        (36, -31, 27, 39, 8, 88, 48), (36, -31, 27, 39, 9, 18, 109),
+        (36, -31, 27, 39, 10, -43, 100), (36, -31, 27, 39, 11, -34, 30),
+        (36, -31, 27, 39, 12, 36, -31), (36, -31, 27, 39, 255, 18, 109),
+        (36, -31, 24, 1, 0, 36, -31), (36, -31, 24, 1, 1, 56, -19), (36, -31, 24, 1, 2, 44, 13),
+        (36, -31, 24, 1, 3, 12, 33), (36, -31, 24, 1, 4, -8, 21), (36, -31, 24, 1, 5, 4, -11),
+        (36, -31, 24, 1, 6, 36, -31), (36, -31, 24, 1, 7, 56, -19), (36, -31, 24, 1, 8, 44, 13),
+        (36, -31, 24, 1, 9, 12, 33), (36, -31, 24, 1, 10, -8, 21), (36, -31, 24, 1, 11, 4, -11),
+        (36, -31, 24, 1, 12, 36, -31), (36, -31, 24, 1, 255, 12, 33),
+        (36, -31, -21, -18, 0, 36, -31), (36, -31, -21, -18, 1, -8, 26),
+        (36, -31, -21, -18, 2, -65, 39), (36, -31, -21, -18, 3, -78, -5),
+        (36, -31, -21, -18, 4, -34, -62), (36, -31, -21, -18, 5, 23, -75),
+        (36, -31, -21, -18, 6, 36, -31), (36, -31, -21, -18, 7, -8, 26),
+        (36, -31, -21, -18, 8, -65, 39), (36, -31, -21, -18, 9, -78, -5),
+        (36, -31, -21, -18, 10, -34, -62), (36, -31, -21, -18, 11, 23, -75),
+        (36, -31, -21, -18, 12, 36, -31), (36, -31, -21, -18, 255, -78, -5),
+        (36, -31, -13, -35, 0, 36, -31), (36, -31, -13, -35, 1, -17, 18),
+        (36, -31, -13, -35, 2, -66, 14), (36, -31, -13, -35, 3, -62, -39),
+        (36, -31, -13, -35, 4, -9, -88), (36, -31, -13, -35, 5, 40, -84),
+        (36, -31, -13, -35, 6, 36, -31), (36, -31, -13, -35, 7, -17, 18),
+        (36, -31, -13, -35, 8, -66, 14), (36, -31, -13, -35, 9, -62, -39),
+        (36, -31, -13, -35, 10, -9, -88), (36, -31, -13, -35, 11, 40, -84),
+        (36, -31, -13, -35, 12, 36, -31), (36, -31, -13, -35, 255, -62, -39),
+        (36, -31, -26, 7, 0, 36, -31), (36, -31, -26, 7, 1, 12, 31), (36, -31, -26, 7, 2, -50, 69),
+        (36, -31, -26, 7, 3, -88, 45), (36, -31, -26, 7, 4, -64, -17),
+        (36, -31, -26, 7, 5, -2, -55), (36, -31, -26, 7, 6, 36, -31), (36, -31, -26, 7, 7, 12, 31),
+        (36, -31, -26, 7, 8, -50, 69), (36, -31, -26, 7, 9, -88, 45),
+        (36, -31, -26, 7, 10, -64, -17), (36, -31, -26, 7, 11, -2, -55),
+        (36, -31, -26, 7, 12, 36, -31), (36, -31, -26, 7, 255, -88, 45),
+        (36, -31, 38, -1, 0, 36, -31), (36, -31, 38, -1, 1, 68, -33), (36, -31, 38, -1, 2, 70, -3),
+        (36, -31, 38, -1, 3, 40, 29), (36, -31, 38, -1, 4, 8, 31), (36, -31, 38, -1, 5, 6, 1),
+        (36, -31, 38, -1, 6, 36, -31), (36, -31, 38, -1, 7, 68, -33), (36, -31, 38, -1, 8, 70, -3),
+        (36, -31, 38, -1, 9, 40, 29), (36, -31, 38, -1, 10, 8, 31), (36, -31, 38, -1, 11, 6, 1),
+        (36, -31, 38, -1, 12, 36, -31), (36, -31, 38, -1, 255, 40, 29),
+        (36, -31, 33, 8, 0, 36, -31), (36, -31, 33, 8, 1, 72, -28), (36, -31, 33, 8, 2, 69, 11),
+        (36, -31, 33, 8, 3, 30, 47), (36, -31, 33, 8, 4, -6, 44), (36, -31, 33, 8, 5, -3, 5),
+        (36, -31, 33, 8, 6, 36, -31), (36, -31, 33, 8, 7, 72, -28), (36, -31, 33, 8, 8, 69, 11),
+        (36, -31, 33, 8, 9, 30, 47), (36, -31, 33, 8, 10, -6, 44), (36, -31, 33, 8, 11, -3, 5),
+        (36, -31, 33, 8, 12, 36, -31), (36, -31, 33, 8, 255, 30, 47), (-6, 40, 31, 13, 0, -6, 40),
+        (-6, 40, 31, 13, 1, 4, 3), (-6, 40, 31, 13, 2, 41, -24), (-6, 40, 31, 13, 3, 68, -14),
+        (-6, 40, 31, 13, 4, 58, 23), (-6, 40, 31, 13, 5, 21, 50), (-6, 40, 31, 13, 6, -6, 40),
+        (-6, 40, 31, 13, 7, 4, 3), (-6, 40, 31, 13, 8, 41, -24), (-6, 40, 31, 13, 9, 68, -14),
+        (-6, 40, 31, 13, 10, 58, 23), (-6, 40, 31, 13, 11, 21, 50), (-6, 40, 31, 13, 12, -6, 40),
+        (-6, 40, 31, 13, 255, 68, -14), (-6, 40, 27, 39, 0, -6, 40), (-6, 40, 27, 39, 1, 26, 7),
+        (-6, 40, 27, 39, 2, 59, 6), (-6, 40, 27, 39, 3, 60, 38), (-6, 40, 27, 39, 4, 28, 71),
+        (-6, 40, 27, 39, 5, -5, 72), (-6, 40, 27, 39, 6, -6, 40), (-6, 40, 27, 39, 7, 26, 7),
+        (-6, 40, 27, 39, 8, 59, 6), (-6, 40, 27, 39, 9, 60, 38), (-6, 40, 27, 39, 10, 28, 71),
+        (-6, 40, 27, 39, 11, -5, 72), (-6, 40, 27, 39, 12, -6, 40), (-6, 40, 27, 39, 255, 60, 38),
+        (-6, 40, 24, 1, 0, -6, 40), (-6, 40, 24, 1, 1, -15, 10), (-6, 40, 24, 1, 2, 15, -29),
+        (-6, 40, 24, 1, 3, 54, -38), (-6, 40, 24, 1, 4, 63, -8), (-6, 40, 24, 1, 5, 33, 31),
+        (-6, 40, 24, 1, 6, -6, 40), (-6, 40, 24, 1, 7, -15, 10), (-6, 40, 24, 1, 8, 15, -29),
+        (-6, 40, 24, 1, 9, 54, -38), (-6, 40, 24, 1, 10, 63, -8), (-6, 40, 24, 1, 11, 33, 31),
+        (-6, 40, 24, 1, 12, -6, 40), (-6, 40, 24, 1, 255, 54, -38), (-6, 40, -21, -18, 0, -6, 40),
+        (-6, 40, -21, -18, 1, -79, 55), (-6, 40, -21, -18, 2, -94, -3),
+        (-6, 40, -21, -18, 3, -36, -76), (-6, 40, -21, -18, 4, 37, -91),
+        (-6, 40, -21, -18, 5, 52, -33), (-6, 40, -21, -18, 6, -6, 40),
+        (-6, 40, -21, -18, 7, -79, 55), (-6, 40, -21, -18, 8, -94, -3),
+        (-6, 40, -21, -18, 9, -36, -76), (-6, 40, -21, -18, 10, 37, -91),
+        (-6, 40, -21, -18, 11, 52, -33), (-6, 40, -21, -18, 12, -6, 40),
+        (-6, 40, -21, -18, 255, -36, -76), (-6, 40, -13, -35, 0, -6, 40),
+        (-6, 40, -13, -35, 1, -88, 47), (-6, 40, -13, -35, 2, -95, -28),
+        (-6, 40, -13, -35, 3, -20, -110), (-6, 40, -13, -35, 4, 62, -117),
+        (-6, 40, -13, -35, 5, 69, -42), (-6, 40, -13, -35, 6, -6, 40),
+        (-6, 40, -13, -35, 7, -88, 47), (-6, 40, -13, -35, 8, -95, -28),
+        (-6, 40, -13, -35, 9, -20, -110), (-6, 40, -13, -35, 10, 62, -117),
+        (-6, 40, -13, -35, 11, 69, -42), (-6, 40, -13, -35, 12, -6, 40),
+        (-6, 40, -13, -35, 255, -20, -110), (-6, 40, -26, 7, 0, -6, 40),
+        (-6, 40, -26, 7, 1, -59, 60), (-6, 40, -26, 7, 2, -79, 27), (-6, 40, -26, 7, 3, -46, -26),
+        (-6, 40, -26, 7, 4, 7, -46), (-6, 40, -26, 7, 5, 27, -13), (-6, 40, -26, 7, 6, -6, 40),
+        (-6, 40, -26, 7, 7, -59, 60), (-6, 40, -26, 7, 8, -79, 27), (-6, 40, -26, 7, 9, -46, -26),
+        (-6, 40, -26, 7, 10, 7, -46), (-6, 40, -26, 7, 11, 27, -13), (-6, 40, -26, 7, 12, -6, 40),
+        (-6, 40, -26, 7, 255, -46, -26), (-6, 40, 38, -1, 0, -6, 40), (-6, 40, 38, -1, 1, -3, -4),
+        (-6, 40, 38, -1, 2, 41, -45), (-6, 40, 38, -1, 3, 82, -42), (-6, 40, 38, -1, 4, 79, 2),
+        (-6, 40, 38, -1, 5, 35, 43), (-6, 40, 38, -1, 6, -6, 40), (-6, 40, 38, -1, 7, -3, -4),
+        (-6, 40, 38, -1, 8, 41, -45), (-6, 40, 38, -1, 9, 82, -42), (-6, 40, 38, -1, 10, 79, 2),
+        (-6, 40, 38, -1, 11, 35, 43), (-6, 40, 38, -1, 12, -6, 40), (-6, 40, 38, -1, 255, 82, -42),
+        (-6, 40, 33, 8, 0, -6, 40), (-6, 40, 33, 8, 1, 1, 1), (-6, 40, 33, 8, 2, 40, -31),
+        (-6, 40, 33, 8, 3, 72, -24), (-6, 40, 33, 8, 4, 65, 15), (-6, 40, 33, 8, 5, 26, 47),
+        (-6, 40, 33, 8, 6, -6, 40), (-6, 40, 33, 8, 7, 1, 1), (-6, 40, 33, 8, 8, 40, -31),
+        (-6, 40, 33, 8, 9, 72, -24), (-6, 40, 33, 8, 10, 65, 15), (-6, 40, 33, 8, 11, 26, 47),
+        (-6, 40, 33, 8, 12, -6, 40), (-6, 40, 33, 8, 255, 72, -24),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_18_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (36, -31, 31, 13, 0, 36, -31), (36, -31, 31, 13, 1, -8, 8), (36, -31, 31, 13, 2, -13, 52),
+        (36, -31, 31, 13, 3, 26, 57), (36, -31, 31, 13, 4, 70, 18), (36, -31, 31, 13, 5, 75, -26),
+        (36, -31, 31, 13, 6, 36, -31), (36, -31, 31, 13, 7, -8, 8), (36, -31, 31, 13, 8, -13, 52),
+        (36, -31, 31, 13, 9, 26, 57), (36, -31, 31, 13, 10, 70, 18), (36, -31, 31, 13, 11, 75, -26),
         (36, -31, 31, 13, 12, 36, -31), (36, -31, 31, 13, 255, 26, 57),
         (36, -31, 27, 39, 0, 36, -31), (36, -31, 27, 39, 1, -34, 30),
         (36, -31, 27, 39, 2, -43, 100), (36, -31, 27, 39, 3, 18, 109), (36, -31, 27, 39, 4, 88, 48),
@@ -37370,6 +36085,125 @@ fn golden_hex_around_2_rotate_ccw_around() {
         (-6, 40, 33, 8, 5, 1, 1), (-6, 40, 33, 8, 6, -6, 40), (-6, 40, 33, 8, 7, 26, 47),
         (-6, 40, 33, 8, 8, 65, 15), (-6, 40, 33, 8, 9, 72, -24), (-6, 40, 33, 8, 10, 40, -31),
         (-6, 40, 33, 8, 11, 1, 1), (-6, 40, 33, 8, 12, -6, 40), (-6, 40, 33, 8, 255, 72, -24),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_19_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (-2, -14, 31, 13, 0, -2, -14), (-2, -14, 31, 13, 1, 58, -47), (-2, -14, 31, 13, 2, 91, -20),
+        (-2, -14, 31, 13, 3, 64, 40), (-2, -14, 31, 13, 4, 4, 73), (-2, -14, 31, 13, 5, -29, 46),
+        (-2, -14, 31, 13, 6, -2, -14), (-2, -14, 31, 13, 7, 58, -47), (-2, -14, 31, 13, 8, 91, -20),
+        (-2, -14, 31, 13, 9, 64, 40), (-2, -14, 31, 13, 10, 4, 73), (-2, -14, 31, 13, 11, -29, 46),
+        (-2, -14, 31, 13, 12, -2, -14), (-2, -14, 31, 13, 255, 64, 40),
+        (-2, -14, 27, 39, 0, -2, -14), (-2, -14, 27, 39, 1, 80, -43), (-2, -14, 27, 39, 2, 109, 10),
+        (-2, -14, 27, 39, 3, 56, 92), (-2, -14, 27, 39, 4, -26, 121), (-2, -14, 27, 39, 5, -55, 68),
+        (-2, -14, 27, 39, 6, -2, -14), (-2, -14, 27, 39, 7, 80, -43), (-2, -14, 27, 39, 8, 109, 10),
+        (-2, -14, 27, 39, 9, 56, 92), (-2, -14, 27, 39, 10, -26, 121),
+        (-2, -14, 27, 39, 11, -55, 68), (-2, -14, 27, 39, 12, -2, -14),
+        (-2, -14, 27, 39, 255, 56, 92), (-2, -14, 24, 1, 0, -2, -14), (-2, -14, 24, 1, 1, 39, -40),
+        (-2, -14, 24, 1, 2, 65, -25), (-2, -14, 24, 1, 3, 50, 16), (-2, -14, 24, 1, 4, 9, 42),
+        (-2, -14, 24, 1, 5, -17, 27), (-2, -14, 24, 1, 6, -2, -14), (-2, -14, 24, 1, 7, 39, -40),
+        (-2, -14, 24, 1, 8, 65, -25), (-2, -14, 24, 1, 9, 50, 16), (-2, -14, 24, 1, 10, 9, 42),
+        (-2, -14, 24, 1, 11, -17, 27), (-2, -14, 24, 1, 12, -2, -14), (-2, -14, 24, 1, 255, 50, 16),
+        (-2, -14, -21, -18, 0, -2, -14), (-2, -14, -21, -18, 1, -25, 5),
+        (-2, -14, -21, -18, 2, -44, 1), (-2, -14, -21, -18, 3, -40, -22),
+        (-2, -14, -21, -18, 4, -17, -41), (-2, -14, -21, -18, 5, 2, -37),
+        (-2, -14, -21, -18, 6, -2, -14), (-2, -14, -21, -18, 7, -25, 5),
+        (-2, -14, -21, -18, 8, -44, 1), (-2, -14, -21, -18, 9, -40, -22),
+        (-2, -14, -21, -18, 10, -17, -41), (-2, -14, -21, -18, 11, 2, -37),
+        (-2, -14, -21, -18, 12, -2, -14), (-2, -14, -21, -18, 255, -40, -22),
+        (-2, -14, -13, -35, 0, -2, -14), (-2, -14, -13, -35, 1, -34, -3),
+        (-2, -14, -13, -35, 2, -45, -24), (-2, -14, -13, -35, 3, -24, -56),
+        (-2, -14, -13, -35, 4, 8, -67), (-2, -14, -13, -35, 5, 19, -46),
+        (-2, -14, -13, -35, 6, -2, -14), (-2, -14, -13, -35, 7, -34, -3),
+        (-2, -14, -13, -35, 8, -45, -24), (-2, -14, -13, -35, 9, -24, -56),
+        (-2, -14, -13, -35, 10, 8, -67), (-2, -14, -13, -35, 11, 19, -46),
+        (-2, -14, -13, -35, 12, -2, -14), (-2, -14, -13, -35, 255, -24, -56),
+        (-2, -14, -26, 7, 0, -2, -14), (-2, -14, -26, 7, 1, -5, 10), (-2, -14, -26, 7, 2, -29, 31),
+        (-2, -14, -26, 7, 3, -50, 28), (-2, -14, -26, 7, 4, -47, 4), (-2, -14, -26, 7, 5, -23, -17),
+        (-2, -14, -26, 7, 6, -2, -14), (-2, -14, -26, 7, 7, -5, 10), (-2, -14, -26, 7, 8, -29, 31),
+        (-2, -14, -26, 7, 9, -50, 28), (-2, -14, -26, 7, 10, -47, 4),
+        (-2, -14, -26, 7, 11, -23, -17), (-2, -14, -26, 7, 12, -2, -14),
+        (-2, -14, -26, 7, 255, -50, 28), (-2, -14, 38, -1, 0, -2, -14),
+        (-2, -14, 38, -1, 1, 51, -54), (-2, -14, 38, -1, 2, 91, -41), (-2, -14, 38, -1, 3, 78, 12),
+        (-2, -14, 38, -1, 4, 25, 52), (-2, -14, 38, -1, 5, -15, 39), (-2, -14, 38, -1, 6, -2, -14),
+        (-2, -14, 38, -1, 7, 51, -54), (-2, -14, 38, -1, 8, 91, -41), (-2, -14, 38, -1, 9, 78, 12),
+        (-2, -14, 38, -1, 10, 25, 52), (-2, -14, 38, -1, 11, -15, 39),
+        (-2, -14, 38, -1, 12, -2, -14), (-2, -14, 38, -1, 255, 78, 12),
+        (-2, -14, 33, 8, 0, -2, -14), (-2, -14, 33, 8, 1, 55, -49), (-2, -14, 33, 8, 2, 90, -27),
+        (-2, -14, 33, 8, 3, 68, 30), (-2, -14, 33, 8, 4, 11, 65), (-2, -14, 33, 8, 5, -24, 43),
+        (-2, -14, 33, 8, 6, -2, -14), (-2, -14, 33, 8, 7, 55, -49), (-2, -14, 33, 8, 8, 90, -27),
+        (-2, -14, 33, 8, 9, 68, 30), (-2, -14, 33, 8, 10, 11, 65), (-2, -14, 33, 8, 11, -24, 43),
+        (-2, -14, 33, 8, 12, -2, -14), (-2, -14, 33, 8, 255, 68, 30), (-9, 11, 31, 13, 0, -9, 11),
+        (-9, 11, 31, 13, 1, 33, -29), (-9, 11, 31, 13, 2, 73, -27), (-9, 11, 31, 13, 3, 71, 15),
+        (-9, 11, 31, 13, 4, 29, 55), (-9, 11, 31, 13, 5, -11, 53), (-9, 11, 31, 13, 6, -9, 11),
+        (-9, 11, 31, 13, 7, 33, -29), (-9, 11, 31, 13, 8, 73, -27), (-9, 11, 31, 13, 9, 71, 15),
+        (-9, 11, 31, 13, 10, 29, 55), (-9, 11, 31, 13, 11, -11, 53), (-9, 11, 31, 13, 12, -9, 11),
+        (-9, 11, 31, 13, 255, 71, 15), (-9, 11, 27, 39, 0, -9, 11), (-9, 11, 27, 39, 1, 55, -25),
+        (-9, 11, 27, 39, 2, 91, 3), (-9, 11, 27, 39, 3, 63, 67), (-9, 11, 27, 39, 4, -1, 103),
+        (-9, 11, 27, 39, 5, -37, 75), (-9, 11, 27, 39, 6, -9, 11), (-9, 11, 27, 39, 7, 55, -25),
+        (-9, 11, 27, 39, 8, 91, 3), (-9, 11, 27, 39, 9, 63, 67), (-9, 11, 27, 39, 10, -1, 103),
+        (-9, 11, 27, 39, 11, -37, 75), (-9, 11, 27, 39, 12, -9, 11), (-9, 11, 27, 39, 255, 63, 67),
+        (-9, 11, 24, 1, 0, -9, 11), (-9, 11, 24, 1, 1, 14, -22), (-9, 11, 24, 1, 2, 47, -32),
+        (-9, 11, 24, 1, 3, 57, -9), (-9, 11, 24, 1, 4, 34, 24), (-9, 11, 24, 1, 5, 1, 34),
+        (-9, 11, 24, 1, 6, -9, 11), (-9, 11, 24, 1, 7, 14, -22), (-9, 11, 24, 1, 8, 47, -32),
+        (-9, 11, 24, 1, 9, 57, -9), (-9, 11, 24, 1, 10, 34, 24), (-9, 11, 24, 1, 11, 1, 34),
+        (-9, 11, 24, 1, 12, -9, 11), (-9, 11, 24, 1, 255, 57, -9), (-9, 11, -21, -18, 0, -9, 11),
+        (-9, 11, -21, -18, 1, -50, 23), (-9, 11, -21, -18, 2, -62, -6),
+        (-9, 11, -21, -18, 3, -33, -47), (-9, 11, -21, -18, 4, 8, -59),
+        (-9, 11, -21, -18, 5, 20, -30), (-9, 11, -21, -18, 6, -9, 11),
+        (-9, 11, -21, -18, 7, -50, 23), (-9, 11, -21, -18, 8, -62, -6),
+        (-9, 11, -21, -18, 9, -33, -47), (-9, 11, -21, -18, 10, 8, -59),
+        (-9, 11, -21, -18, 11, 20, -30), (-9, 11, -21, -18, 12, -9, 11),
+        (-9, 11, -21, -18, 255, -33, -47), (-9, 11, -13, -35, 0, -9, 11),
+        (-9, 11, -13, -35, 1, -59, 15), (-9, 11, -13, -35, 2, -63, -31),
+        (-9, 11, -13, -35, 3, -17, -81), (-9, 11, -13, -35, 4, 33, -85),
+        (-9, 11, -13, -35, 5, 37, -39), (-9, 11, -13, -35, 6, -9, 11),
+        (-9, 11, -13, -35, 7, -59, 15), (-9, 11, -13, -35, 8, -63, -31),
+        (-9, 11, -13, -35, 9, -17, -81), (-9, 11, -13, -35, 10, 33, -85),
+        (-9, 11, -13, -35, 11, 37, -39), (-9, 11, -13, -35, 12, -9, 11),
+        (-9, 11, -13, -35, 255, -17, -81), (-9, 11, -26, 7, 0, -9, 11),
+        (-9, 11, -26, 7, 1, -30, 28), (-9, 11, -26, 7, 2, -47, 24), (-9, 11, -26, 7, 3, -43, 3),
+        (-9, 11, -26, 7, 4, -22, -14), (-9, 11, -26, 7, 5, -5, -10), (-9, 11, -26, 7, 6, -9, 11),
+        (-9, 11, -26, 7, 7, -30, 28), (-9, 11, -26, 7, 8, -47, 24), (-9, 11, -26, 7, 9, -43, 3),
+        (-9, 11, -26, 7, 10, -22, -14), (-9, 11, -26, 7, 11, -5, -10), (-9, 11, -26, 7, 12, -9, 11),
+        (-9, 11, -26, 7, 255, -43, 3), (-9, 11, 38, -1, 0, -9, 11), (-9, 11, 38, -1, 1, 26, -36),
+        (-9, 11, 38, -1, 2, 73, -48), (-9, 11, 38, -1, 3, 85, -13), (-9, 11, 38, -1, 4, 50, 34),
+        (-9, 11, 38, -1, 5, 3, 46), (-9, 11, 38, -1, 6, -9, 11), (-9, 11, 38, -1, 7, 26, -36),
+        (-9, 11, 38, -1, 8, 73, -48), (-9, 11, 38, -1, 9, 85, -13), (-9, 11, 38, -1, 10, 50, 34),
+        (-9, 11, 38, -1, 11, 3, 46), (-9, 11, 38, -1, 12, -9, 11), (-9, 11, 38, -1, 255, 85, -13),
+        (-9, 11, 33, 8, 0, -9, 11), (-9, 11, 33, 8, 1, 30, -31), (-9, 11, 33, 8, 2, 72, -34),
+        (-9, 11, 33, 8, 3, 75, 5), (-9, 11, 33, 8, 4, 36, 47), (-9, 11, 33, 8, 5, -6, 50),
+        (-9, 11, 33, 8, 6, -9, 11), (-9, 11, 33, 8, 7, 30, -31), (-9, 11, 33, 8, 8, 72, -34),
+        (-9, 11, 33, 8, 9, 75, 5), (-9, 11, 33, 8, 10, 36, 47), (-9, 11, 33, 8, 11, -6, 50),
+        (-9, 11, 33, 8, 12, -9, 11), (-9, 11, 33, 8, 255, 75, 5),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_19_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (-2, -14, 31, 13, 0, -2, -14), (-2, -14, 31, 13, 1, -29, 46), (-2, -14, 31, 13, 2, 4, 73),
         (-2, -14, 31, 13, 3, 64, 40), (-2, -14, 31, 13, 4, 91, -20), (-2, -14, 31, 13, 5, 58, -47),
         (-2, -14, 31, 13, 6, -2, -14), (-2, -14, 31, 13, 7, -29, 46), (-2, -14, 31, 13, 8, 4, 73),
@@ -37457,56 +36291,177 @@ fn golden_hex_around_2_rotate_ccw_around() {
         (-9, 11, 33, 8, 3, 75, 5), (-9, 11, 33, 8, 4, 72, -34), (-9, 11, 33, 8, 5, 30, -31),
         (-9, 11, 33, 8, 6, -9, 11), (-9, 11, 33, 8, 7, -6, 50), (-9, 11, 33, 8, 8, 36, 47),
         (-9, 11, 33, 8, 9, 75, 5), (-9, 11, 33, 8, 10, 72, -34), (-9, 11, 33, 8, 11, 30, -31),
-        (-9, 11, 33, 8, 12, -9, 11), (-9, 11, 33, 8, 255, 75, 5), (-26, 7, 31, 13, 0, -26, 7),
-        (-26, 7, 31, 13, 1, -32, 70), (-26, 7, 31, 13, 2, 25, 76), (-26, 7, 31, 13, 3, 88, 19),
-        (-26, 7, 31, 13, 4, 94, -44), (-26, 7, 31, 13, 5, 37, -50), (-26, 7, 31, 13, 6, -26, 7),
-        (-26, 7, 31, 13, 7, -32, 70), (-26, 7, 31, 13, 8, 25, 76), (-26, 7, 31, 13, 9, 88, 19),
-        (-26, 7, 31, 13, 10, 94, -44), (-26, 7, 31, 13, 11, 37, -50), (-26, 7, 31, 13, 12, -26, 7),
-        (-26, 7, 31, 13, 255, 88, 19), (-26, 7, 27, 39, 0, -26, 7), (-26, 7, 27, 39, 1, -58, 92),
-        (-26, 7, 27, 39, 2, -5, 124), (-26, 7, 27, 39, 3, 80, 71), (-26, 7, 27, 39, 4, 112, -14),
-        (-26, 7, 27, 39, 5, 59, -46), (-26, 7, 27, 39, 6, -26, 7), (-26, 7, 27, 39, 7, -58, 92),
-        (-26, 7, 27, 39, 8, -5, 124), (-26, 7, 27, 39, 9, 80, 71), (-26, 7, 27, 39, 10, 112, -14),
-        (-26, 7, 27, 39, 11, 59, -46), (-26, 7, 27, 39, 12, -26, 7), (-26, 7, 27, 39, 255, 80, 71),
-        (-26, 7, 24, 1, 0, -26, 7), (-26, 7, 24, 1, 1, -20, 51), (-26, 7, 24, 1, 2, 30, 45),
-        (-26, 7, 24, 1, 3, 74, -5), (-26, 7, 24, 1, 4, 68, -49), (-26, 7, 24, 1, 5, 18, -43),
-        (-26, 7, 24, 1, 6, -26, 7), (-26, 7, 24, 1, 7, -20, 51), (-26, 7, 24, 1, 8, 30, 45),
-        (-26, 7, 24, 1, 9, 74, -5), (-26, 7, 24, 1, 10, 68, -49), (-26, 7, 24, 1, 11, 18, -43),
-        (-26, 7, 24, 1, 12, -26, 7), (-26, 7, 24, 1, 255, 74, -5), (-26, 7, -21, -18, 0, -26, 7),
-        (-26, 7, -21, -18, 1, -1, -13), (-26, 7, -21, -18, 2, 4, -38),
-        (-26, 7, -21, -18, 3, -16, -43), (-26, 7, -21, -18, 4, -41, -23),
-        (-26, 7, -21, -18, 5, -46, 2), (-26, 7, -21, -18, 6, -26, 7),
-        (-26, 7, -21, -18, 7, -1, -13), (-26, 7, -21, -18, 8, 4, -38),
-        (-26, 7, -21, -18, 9, -16, -43), (-26, 7, -21, -18, 10, -41, -23),
-        (-26, 7, -21, -18, 11, -46, 2), (-26, 7, -21, -18, 12, -26, 7),
-        (-26, 7, -21, -18, 255, -16, -43), (-26, 7, -13, -35, 0, -26, 7),
-        (-26, 7, -13, -35, 1, 16, -22), (-26, 7, -13, -35, 2, 29, -64),
-        (-26, 7, -13, -35, 3, 0, -77), (-26, 7, -13, -35, 4, -42, -48),
-        (-26, 7, -13, -35, 5, -55, -6), (-26, 7, -13, -35, 6, -26, 7),
-        (-26, 7, -13, -35, 7, 16, -22), (-26, 7, -13, -35, 8, 29, -64),
-        (-26, 7, -13, -35, 9, 0, -77), (-26, 7, -13, -35, 10, -42, -48),
-        (-26, 7, -13, -35, 11, -55, -6), (-26, 7, -13, -35, 12, -26, 7),
-        (-26, 7, -13, -35, 255, 0, -77), (-26, 7, -26, 7, 0, -26, 7), (-26, 7, -26, 7, 1, -26, 7),
-        (-26, 7, -26, 7, 2, -26, 7), (-26, 7, -26, 7, 3, -26, 7), (-26, 7, -26, 7, 4, -26, 7),
-        (-26, 7, -26, 7, 5, -26, 7), (-26, 7, -26, 7, 6, -26, 7), (-26, 7, -26, 7, 7, -26, 7),
-        (-26, 7, -26, 7, 8, -26, 7), (-26, 7, -26, 7, 9, -26, 7), (-26, 7, -26, 7, 10, -26, 7),
-        (-26, 7, -26, 7, 11, -26, 7), (-26, 7, -26, 7, 12, -26, 7), (-26, 7, -26, 7, 255, -26, 7),
-        (-26, 7, 38, -1, 0, -26, 7), (-26, 7, 38, -1, 1, -18, 63), (-26, 7, 38, -1, 2, 46, 55),
-        (-26, 7, 38, -1, 3, 102, -9), (-26, 7, 38, -1, 4, 94, -65), (-26, 7, 38, -1, 5, 30, -57),
-        (-26, 7, 38, -1, 6, -26, 7), (-26, 7, 38, -1, 7, -18, 63), (-26, 7, 38, -1, 8, 46, 55),
-        (-26, 7, 38, -1, 9, 102, -9), (-26, 7, 38, -1, 10, 94, -65), (-26, 7, 38, -1, 11, 30, -57),
-        (-26, 7, 38, -1, 12, -26, 7), (-26, 7, 38, -1, 255, 102, -9), (-26, 7, 33, 8, 0, -26, 7),
-        (-26, 7, 33, 8, 1, -27, 67), (-26, 7, 33, 8, 2, 32, 68), (-26, 7, 33, 8, 3, 92, 9),
-        (-26, 7, 33, 8, 4, 93, -51), (-26, 7, 33, 8, 5, 34, -52), (-26, 7, 33, 8, 6, -26, 7),
-        (-26, 7, 33, 8, 7, -27, 67), (-26, 7, 33, 8, 8, 32, 68), (-26, 7, 33, 8, 9, 92, 9),
-        (-26, 7, 33, 8, 10, 93, -51), (-26, 7, 33, 8, 11, 34, -52), (-26, 7, 33, 8, 12, -26, 7),
-        (-26, 7, 33, 8, 255, 92, 9), (-36, 21, 31, 13, 0, -36, 21), (-36, 21, 31, 13, 1, -28, 80),
-        (-36, 21, 31, 13, 2, 39, 72), (-36, 21, 31, 13, 3, 98, 5), (-36, 21, 31, 13, 4, 90, -54),
-        (-36, 21, 31, 13, 5, 23, -46), (-36, 21, 31, 13, 6, -36, 21), (-36, 21, 31, 13, 7, -28, 80),
-        (-36, 21, 31, 13, 8, 39, 72), (-36, 21, 31, 13, 9, 98, 5), (-36, 21, 31, 13, 10, 90, -54),
-        (-36, 21, 31, 13, 11, 23, -46), (-36, 21, 31, 13, 12, -36, 21),
-        (-36, 21, 31, 13, 255, 98, 5), (-36, 21, 27, 39, 0, -36, 21),
-        (-36, 21, 27, 39, 1, -54, 102), (-36, 21, 27, 39, 2, 9, 120), (-36, 21, 27, 39, 3, 90, 57),
-        (-36, 21, 27, 39, 4, 108, -24), (-36, 21, 27, 39, 5, 45, -42),
+        (-9, 11, 33, 8, 12, -9, 11), (-9, 11, 33, 8, 255, 75, 5),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_20_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (-26, 7, 31, 13, 0, -26, 7), (-26, 7, 31, 13, 1, 37, -50), (-26, 7, 31, 13, 2, 94, -44),
+        (-26, 7, 31, 13, 3, 88, 19), (-26, 7, 31, 13, 4, 25, 76), (-26, 7, 31, 13, 5, -32, 70),
+        (-26, 7, 31, 13, 6, -26, 7), (-26, 7, 31, 13, 7, 37, -50), (-26, 7, 31, 13, 8, 94, -44),
+        (-26, 7, 31, 13, 9, 88, 19), (-26, 7, 31, 13, 10, 25, 76), (-26, 7, 31, 13, 11, -32, 70),
+        (-26, 7, 31, 13, 12, -26, 7), (-26, 7, 31, 13, 255, 88, 19), (-26, 7, 27, 39, 0, -26, 7),
+        (-26, 7, 27, 39, 1, 59, -46), (-26, 7, 27, 39, 2, 112, -14), (-26, 7, 27, 39, 3, 80, 71),
+        (-26, 7, 27, 39, 4, -5, 124), (-26, 7, 27, 39, 5, -58, 92), (-26, 7, 27, 39, 6, -26, 7),
+        (-26, 7, 27, 39, 7, 59, -46), (-26, 7, 27, 39, 8, 112, -14), (-26, 7, 27, 39, 9, 80, 71),
+        (-26, 7, 27, 39, 10, -5, 124), (-26, 7, 27, 39, 11, -58, 92), (-26, 7, 27, 39, 12, -26, 7),
+        (-26, 7, 27, 39, 255, 80, 71), (-26, 7, 24, 1, 0, -26, 7), (-26, 7, 24, 1, 1, 18, -43),
+        (-26, 7, 24, 1, 2, 68, -49), (-26, 7, 24, 1, 3, 74, -5), (-26, 7, 24, 1, 4, 30, 45),
+        (-26, 7, 24, 1, 5, -20, 51), (-26, 7, 24, 1, 6, -26, 7), (-26, 7, 24, 1, 7, 18, -43),
+        (-26, 7, 24, 1, 8, 68, -49), (-26, 7, 24, 1, 9, 74, -5), (-26, 7, 24, 1, 10, 30, 45),
+        (-26, 7, 24, 1, 11, -20, 51), (-26, 7, 24, 1, 12, -26, 7), (-26, 7, 24, 1, 255, 74, -5),
+        (-26, 7, -21, -18, 0, -26, 7), (-26, 7, -21, -18, 1, -46, 2),
+        (-26, 7, -21, -18, 2, -41, -23), (-26, 7, -21, -18, 3, -16, -43),
+        (-26, 7, -21, -18, 4, 4, -38), (-26, 7, -21, -18, 5, -1, -13),
+        (-26, 7, -21, -18, 6, -26, 7), (-26, 7, -21, -18, 7, -46, 2),
+        (-26, 7, -21, -18, 8, -41, -23), (-26, 7, -21, -18, 9, -16, -43),
+        (-26, 7, -21, -18, 10, 4, -38), (-26, 7, -21, -18, 11, -1, -13),
+        (-26, 7, -21, -18, 12, -26, 7), (-26, 7, -21, -18, 255, -16, -43),
+        (-26, 7, -13, -35, 0, -26, 7), (-26, 7, -13, -35, 1, -55, -6),
+        (-26, 7, -13, -35, 2, -42, -48), (-26, 7, -13, -35, 3, 0, -77),
+        (-26, 7, -13, -35, 4, 29, -64), (-26, 7, -13, -35, 5, 16, -22),
+        (-26, 7, -13, -35, 6, -26, 7), (-26, 7, -13, -35, 7, -55, -6),
+        (-26, 7, -13, -35, 8, -42, -48), (-26, 7, -13, -35, 9, 0, -77),
+        (-26, 7, -13, -35, 10, 29, -64), (-26, 7, -13, -35, 11, 16, -22),
+        (-26, 7, -13, -35, 12, -26, 7), (-26, 7, -13, -35, 255, 0, -77),
+        (-26, 7, -26, 7, 0, -26, 7), (-26, 7, -26, 7, 1, -26, 7), (-26, 7, -26, 7, 2, -26, 7),
+        (-26, 7, -26, 7, 3, -26, 7), (-26, 7, -26, 7, 4, -26, 7), (-26, 7, -26, 7, 5, -26, 7),
+        (-26, 7, -26, 7, 6, -26, 7), (-26, 7, -26, 7, 7, -26, 7), (-26, 7, -26, 7, 8, -26, 7),
+        (-26, 7, -26, 7, 9, -26, 7), (-26, 7, -26, 7, 10, -26, 7), (-26, 7, -26, 7, 11, -26, 7),
+        (-26, 7, -26, 7, 12, -26, 7), (-26, 7, -26, 7, 255, -26, 7), (-26, 7, 38, -1, 0, -26, 7),
+        (-26, 7, 38, -1, 1, 30, -57), (-26, 7, 38, -1, 2, 94, -65), (-26, 7, 38, -1, 3, 102, -9),
+        (-26, 7, 38, -1, 4, 46, 55), (-26, 7, 38, -1, 5, -18, 63), (-26, 7, 38, -1, 6, -26, 7),
+        (-26, 7, 38, -1, 7, 30, -57), (-26, 7, 38, -1, 8, 94, -65), (-26, 7, 38, -1, 9, 102, -9),
+        (-26, 7, 38, -1, 10, 46, 55), (-26, 7, 38, -1, 11, -18, 63), (-26, 7, 38, -1, 12, -26, 7),
+        (-26, 7, 38, -1, 255, 102, -9), (-26, 7, 33, 8, 0, -26, 7), (-26, 7, 33, 8, 1, 34, -52),
+        (-26, 7, 33, 8, 2, 93, -51), (-26, 7, 33, 8, 3, 92, 9), (-26, 7, 33, 8, 4, 32, 68),
+        (-26, 7, 33, 8, 5, -27, 67), (-26, 7, 33, 8, 6, -26, 7), (-26, 7, 33, 8, 7, 34, -52),
+        (-26, 7, 33, 8, 8, 93, -51), (-26, 7, 33, 8, 9, 92, 9), (-26, 7, 33, 8, 10, 32, 68),
+        (-26, 7, 33, 8, 11, -27, 67), (-26, 7, 33, 8, 12, -26, 7), (-26, 7, 33, 8, 255, 92, 9),
+        (-36, 21, 31, 13, 0, -36, 21), (-36, 21, 31, 13, 1, 23, -46), (-36, 21, 31, 13, 2, 90, -54),
+        (-36, 21, 31, 13, 3, 98, 5), (-36, 21, 31, 13, 4, 39, 72), (-36, 21, 31, 13, 5, -28, 80),
+        (-36, 21, 31, 13, 6, -36, 21), (-36, 21, 31, 13, 7, 23, -46), (-36, 21, 31, 13, 8, 90, -54),
+        (-36, 21, 31, 13, 9, 98, 5), (-36, 21, 31, 13, 10, 39, 72), (-36, 21, 31, 13, 11, -28, 80),
+        (-36, 21, 31, 13, 12, -36, 21), (-36, 21, 31, 13, 255, 98, 5),
+        (-36, 21, 27, 39, 0, -36, 21), (-36, 21, 27, 39, 1, 45, -42),
+        (-36, 21, 27, 39, 2, 108, -24), (-36, 21, 27, 39, 3, 90, 57), (-36, 21, 27, 39, 4, 9, 120),
+        (-36, 21, 27, 39, 5, -54, 102), (-36, 21, 27, 39, 6, -36, 21),
+        (-36, 21, 27, 39, 7, 45, -42), (-36, 21, 27, 39, 8, 108, -24), (-36, 21, 27, 39, 9, 90, 57),
+        (-36, 21, 27, 39, 10, 9, 120), (-36, 21, 27, 39, 11, -54, 102),
+        (-36, 21, 27, 39, 12, -36, 21), (-36, 21, 27, 39, 255, 90, 57),
+        (-36, 21, 24, 1, 0, -36, 21), (-36, 21, 24, 1, 1, 4, -39), (-36, 21, 24, 1, 2, 64, -59),
+        (-36, 21, 24, 1, 3, 84, -19), (-36, 21, 24, 1, 4, 44, 41), (-36, 21, 24, 1, 5, -16, 61),
+        (-36, 21, 24, 1, 6, -36, 21), (-36, 21, 24, 1, 7, 4, -39), (-36, 21, 24, 1, 8, 64, -59),
+        (-36, 21, 24, 1, 9, 84, -19), (-36, 21, 24, 1, 10, 44, 41), (-36, 21, 24, 1, 11, -16, 61),
+        (-36, 21, 24, 1, 12, -36, 21), (-36, 21, 24, 1, 255, 84, -19),
+        (-36, 21, -21, -18, 0, -36, 21), (-36, 21, -21, -18, 1, -60, 6),
+        (-36, 21, -21, -18, 2, -45, -33), (-36, 21, -21, -18, 3, -6, -57),
+        (-36, 21, -21, -18, 4, 18, -42), (-36, 21, -21, -18, 5, 3, -3),
+        (-36, 21, -21, -18, 6, -36, 21), (-36, 21, -21, -18, 7, -60, 6),
+        (-36, 21, -21, -18, 8, -45, -33), (-36, 21, -21, -18, 9, -6, -57),
+        (-36, 21, -21, -18, 10, 18, -42), (-36, 21, -21, -18, 11, 3, -3),
+        (-36, 21, -21, -18, 12, -36, 21), (-36, 21, -21, -18, 255, -6, -57),
+        (-36, 21, -13, -35, 0, -36, 21), (-36, 21, -13, -35, 1, -69, -2),
+        (-36, 21, -13, -35, 2, -46, -58), (-36, 21, -13, -35, 3, 10, -91),
+        (-36, 21, -13, -35, 4, 43, -68), (-36, 21, -13, -35, 5, 20, -12),
+        (-36, 21, -13, -35, 6, -36, 21), (-36, 21, -13, -35, 7, -69, -2),
+        (-36, 21, -13, -35, 8, -46, -58), (-36, 21, -13, -35, 9, 10, -91),
+        (-36, 21, -13, -35, 10, 43, -68), (-36, 21, -13, -35, 11, 20, -12),
+        (-36, 21, -13, -35, 12, -36, 21), (-36, 21, -13, -35, 255, 10, -91),
+        (-36, 21, -26, 7, 0, -36, 21), (-36, 21, -26, 7, 1, -40, 11), (-36, 21, -26, 7, 2, -30, -3),
+        (-36, 21, -26, 7, 3, -16, -7), (-36, 21, -26, 7, 4, -12, 3), (-36, 21, -26, 7, 5, -22, 17),
+        (-36, 21, -26, 7, 6, -36, 21), (-36, 21, -26, 7, 7, -40, 11), (-36, 21, -26, 7, 8, -30, -3),
+        (-36, 21, -26, 7, 9, -16, -7), (-36, 21, -26, 7, 10, -12, 3),
+        (-36, 21, -26, 7, 11, -22, 17), (-36, 21, -26, 7, 12, -36, 21),
+        (-36, 21, -26, 7, 255, -16, -7), (-36, 21, 38, -1, 0, -36, 21),
+        (-36, 21, 38, -1, 1, 16, -53), (-36, 21, 38, -1, 2, 90, -75),
+        (-36, 21, 38, -1, 3, 112, -23), (-36, 21, 38, -1, 4, 60, 51), (-36, 21, 38, -1, 5, -14, 73),
+        (-36, 21, 38, -1, 6, -36, 21), (-36, 21, 38, -1, 7, 16, -53), (-36, 21, 38, -1, 8, 90, -75),
+        (-36, 21, 38, -1, 9, 112, -23), (-36, 21, 38, -1, 10, 60, 51),
+        (-36, 21, 38, -1, 11, -14, 73), (-36, 21, 38, -1, 12, -36, 21),
+        (-36, 21, 38, -1, 255, 112, -23), (-36, 21, 33, 8, 0, -36, 21),
+        (-36, 21, 33, 8, 1, 20, -48), (-36, 21, 33, 8, 2, 89, -61), (-36, 21, 33, 8, 3, 102, -5),
+        (-36, 21, 33, 8, 4, 46, 64), (-36, 21, 33, 8, 5, -23, 77), (-36, 21, 33, 8, 6, -36, 21),
+        (-36, 21, 33, 8, 7, 20, -48), (-36, 21, 33, 8, 8, 89, -61), (-36, 21, 33, 8, 9, 102, -5),
+        (-36, 21, 33, 8, 10, 46, 64), (-36, 21, 33, 8, 11, -23, 77), (-36, 21, 33, 8, 12, -36, 21),
+        (-36, 21, 33, 8, 255, 102, -5),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_20_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (-26, 7, 31, 13, 0, -26, 7), (-26, 7, 31, 13, 1, -32, 70), (-26, 7, 31, 13, 2, 25, 76),
+        (-26, 7, 31, 13, 3, 88, 19), (-26, 7, 31, 13, 4, 94, -44), (-26, 7, 31, 13, 5, 37, -50),
+        (-26, 7, 31, 13, 6, -26, 7), (-26, 7, 31, 13, 7, -32, 70), (-26, 7, 31, 13, 8, 25, 76),
+        (-26, 7, 31, 13, 9, 88, 19), (-26, 7, 31, 13, 10, 94, -44), (-26, 7, 31, 13, 11, 37, -50),
+        (-26, 7, 31, 13, 12, -26, 7), (-26, 7, 31, 13, 255, 88, 19), (-26, 7, 27, 39, 0, -26, 7),
+        (-26, 7, 27, 39, 1, -58, 92), (-26, 7, 27, 39, 2, -5, 124), (-26, 7, 27, 39, 3, 80, 71),
+        (-26, 7, 27, 39, 4, 112, -14), (-26, 7, 27, 39, 5, 59, -46), (-26, 7, 27, 39, 6, -26, 7),
+        (-26, 7, 27, 39, 7, -58, 92), (-26, 7, 27, 39, 8, -5, 124), (-26, 7, 27, 39, 9, 80, 71),
+        (-26, 7, 27, 39, 10, 112, -14), (-26, 7, 27, 39, 11, 59, -46), (-26, 7, 27, 39, 12, -26, 7),
+        (-26, 7, 27, 39, 255, 80, 71), (-26, 7, 24, 1, 0, -26, 7), (-26, 7, 24, 1, 1, -20, 51),
+        (-26, 7, 24, 1, 2, 30, 45), (-26, 7, 24, 1, 3, 74, -5), (-26, 7, 24, 1, 4, 68, -49),
+        (-26, 7, 24, 1, 5, 18, -43), (-26, 7, 24, 1, 6, -26, 7), (-26, 7, 24, 1, 7, -20, 51),
+        (-26, 7, 24, 1, 8, 30, 45), (-26, 7, 24, 1, 9, 74, -5), (-26, 7, 24, 1, 10, 68, -49),
+        (-26, 7, 24, 1, 11, 18, -43), (-26, 7, 24, 1, 12, -26, 7), (-26, 7, 24, 1, 255, 74, -5),
+        (-26, 7, -21, -18, 0, -26, 7), (-26, 7, -21, -18, 1, -1, -13),
+        (-26, 7, -21, -18, 2, 4, -38), (-26, 7, -21, -18, 3, -16, -43),
+        (-26, 7, -21, -18, 4, -41, -23), (-26, 7, -21, -18, 5, -46, 2),
+        (-26, 7, -21, -18, 6, -26, 7), (-26, 7, -21, -18, 7, -1, -13),
+        (-26, 7, -21, -18, 8, 4, -38), (-26, 7, -21, -18, 9, -16, -43),
+        (-26, 7, -21, -18, 10, -41, -23), (-26, 7, -21, -18, 11, -46, 2),
+        (-26, 7, -21, -18, 12, -26, 7), (-26, 7, -21, -18, 255, -16, -43),
+        (-26, 7, -13, -35, 0, -26, 7), (-26, 7, -13, -35, 1, 16, -22),
+        (-26, 7, -13, -35, 2, 29, -64), (-26, 7, -13, -35, 3, 0, -77),
+        (-26, 7, -13, -35, 4, -42, -48), (-26, 7, -13, -35, 5, -55, -6),
+        (-26, 7, -13, -35, 6, -26, 7), (-26, 7, -13, -35, 7, 16, -22),
+        (-26, 7, -13, -35, 8, 29, -64), (-26, 7, -13, -35, 9, 0, -77),
+        (-26, 7, -13, -35, 10, -42, -48), (-26, 7, -13, -35, 11, -55, -6),
+        (-26, 7, -13, -35, 12, -26, 7), (-26, 7, -13, -35, 255, 0, -77),
+        (-26, 7, -26, 7, 0, -26, 7), (-26, 7, -26, 7, 1, -26, 7), (-26, 7, -26, 7, 2, -26, 7),
+        (-26, 7, -26, 7, 3, -26, 7), (-26, 7, -26, 7, 4, -26, 7), (-26, 7, -26, 7, 5, -26, 7),
+        (-26, 7, -26, 7, 6, -26, 7), (-26, 7, -26, 7, 7, -26, 7), (-26, 7, -26, 7, 8, -26, 7),
+        (-26, 7, -26, 7, 9, -26, 7), (-26, 7, -26, 7, 10, -26, 7), (-26, 7, -26, 7, 11, -26, 7),
+        (-26, 7, -26, 7, 12, -26, 7), (-26, 7, -26, 7, 255, -26, 7), (-26, 7, 38, -1, 0, -26, 7),
+        (-26, 7, 38, -1, 1, -18, 63), (-26, 7, 38, -1, 2, 46, 55), (-26, 7, 38, -1, 3, 102, -9),
+        (-26, 7, 38, -1, 4, 94, -65), (-26, 7, 38, -1, 5, 30, -57), (-26, 7, 38, -1, 6, -26, 7),
+        (-26, 7, 38, -1, 7, -18, 63), (-26, 7, 38, -1, 8, 46, 55), (-26, 7, 38, -1, 9, 102, -9),
+        (-26, 7, 38, -1, 10, 94, -65), (-26, 7, 38, -1, 11, 30, -57), (-26, 7, 38, -1, 12, -26, 7),
+        (-26, 7, 38, -1, 255, 102, -9), (-26, 7, 33, 8, 0, -26, 7), (-26, 7, 33, 8, 1, -27, 67),
+        (-26, 7, 33, 8, 2, 32, 68), (-26, 7, 33, 8, 3, 92, 9), (-26, 7, 33, 8, 4, 93, -51),
+        (-26, 7, 33, 8, 5, 34, -52), (-26, 7, 33, 8, 6, -26, 7), (-26, 7, 33, 8, 7, -27, 67),
+        (-26, 7, 33, 8, 8, 32, 68), (-26, 7, 33, 8, 9, 92, 9), (-26, 7, 33, 8, 10, 93, -51),
+        (-26, 7, 33, 8, 11, 34, -52), (-26, 7, 33, 8, 12, -26, 7), (-26, 7, 33, 8, 255, 92, 9),
+        (-36, 21, 31, 13, 0, -36, 21), (-36, 21, 31, 13, 1, -28, 80), (-36, 21, 31, 13, 2, 39, 72),
+        (-36, 21, 31, 13, 3, 98, 5), (-36, 21, 31, 13, 4, 90, -54), (-36, 21, 31, 13, 5, 23, -46),
+        (-36, 21, 31, 13, 6, -36, 21), (-36, 21, 31, 13, 7, -28, 80), (-36, 21, 31, 13, 8, 39, 72),
+        (-36, 21, 31, 13, 9, 98, 5), (-36, 21, 31, 13, 10, 90, -54), (-36, 21, 31, 13, 11, 23, -46),
+        (-36, 21, 31, 13, 12, -36, 21), (-36, 21, 31, 13, 255, 98, 5),
+        (-36, 21, 27, 39, 0, -36, 21), (-36, 21, 27, 39, 1, -54, 102), (-36, 21, 27, 39, 2, 9, 120),
+        (-36, 21, 27, 39, 3, 90, 57), (-36, 21, 27, 39, 4, 108, -24), (-36, 21, 27, 39, 5, 45, -42),
         (-36, 21, 27, 39, 6, -36, 21), (-36, 21, 27, 39, 7, -54, 102), (-36, 21, 27, 39, 8, 9, 120),
         (-36, 21, 27, 39, 9, 90, 57), (-36, 21, 27, 39, 10, 108, -24),
         (-36, 21, 27, 39, 11, 45, -42), (-36, 21, 27, 39, 12, -36, 21),
@@ -37545,6 +36500,147 @@ fn golden_hex_around_2_rotate_ccw_around() {
         (-36, 21, 33, 8, 6, -36, 21), (-36, 21, 33, 8, 7, -23, 77), (-36, 21, 33, 8, 8, 46, 64),
         (-36, 21, 33, 8, 9, 102, -5), (-36, 21, 33, 8, 10, 89, -61), (-36, 21, 33, 8, 11, 20, -48),
         (-36, 21, 33, 8, 12, -36, 21), (-36, 21, 33, 8, 255, 102, -5),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_21_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (-14, -33, 31, 13, 0, -14, -33), (-14, -33, 31, 13, 1, 77, -78),
+        (-14, -33, 31, 13, 2, 122, -32), (-14, -33, 31, 13, 3, 76, 59),
+        (-14, -33, 31, 13, 4, -15, 104), (-14, -33, 31, 13, 5, -60, 58),
+        (-14, -33, 31, 13, 6, -14, -33), (-14, -33, 31, 13, 7, 77, -78),
+        (-14, -33, 31, 13, 8, 122, -32), (-14, -33, 31, 13, 9, 76, 59),
+        (-14, -33, 31, 13, 10, -15, 104), (-14, -33, 31, 13, 11, -60, 58),
+        (-14, -33, 31, 13, 12, -14, -33), (-14, -33, 31, 13, 255, 76, 59),
+        (-14, -33, 27, 39, 0, -14, -33), (-14, -33, 27, 39, 1, 99, -74),
+        (-14, -33, 27, 39, 2, 140, -2), (-14, -33, 27, 39, 3, 68, 111),
+        (-14, -33, 27, 39, 4, -45, 152), (-14, -33, 27, 39, 5, -86, 80),
+        (-14, -33, 27, 39, 6, -14, -33), (-14, -33, 27, 39, 7, 99, -74),
+        (-14, -33, 27, 39, 8, 140, -2), (-14, -33, 27, 39, 9, 68, 111),
+        (-14, -33, 27, 39, 10, -45, 152), (-14, -33, 27, 39, 11, -86, 80),
+        (-14, -33, 27, 39, 12, -14, -33), (-14, -33, 27, 39, 255, 68, 111),
+        (-14, -33, 24, 1, 0, -14, -33), (-14, -33, 24, 1, 1, 58, -71),
+        (-14, -33, 24, 1, 2, 96, -37), (-14, -33, 24, 1, 3, 62, 35), (-14, -33, 24, 1, 4, -10, 73),
+        (-14, -33, 24, 1, 5, -48, 39), (-14, -33, 24, 1, 6, -14, -33),
+        (-14, -33, 24, 1, 7, 58, -71), (-14, -33, 24, 1, 8, 96, -37), (-14, -33, 24, 1, 9, 62, 35),
+        (-14, -33, 24, 1, 10, -10, 73), (-14, -33, 24, 1, 11, -48, 39),
+        (-14, -33, 24, 1, 12, -14, -33), (-14, -33, 24, 1, 255, 62, 35),
+        (-14, -33, -21, -18, 0, -14, -33), (-14, -33, -21, -18, 1, -6, -26),
+        (-14, -33, -21, -18, 2, -13, -11), (-14, -33, -21, -18, 3, -28, -3),
+        (-14, -33, -21, -18, 4, -36, -10), (-14, -33, -21, -18, 5, -29, -25),
+        (-14, -33, -21, -18, 6, -14, -33), (-14, -33, -21, -18, 7, -6, -26),
+        (-14, -33, -21, -18, 8, -13, -11), (-14, -33, -21, -18, 9, -28, -3),
+        (-14, -33, -21, -18, 10, -36, -10), (-14, -33, -21, -18, 11, -29, -25),
+        (-14, -33, -21, -18, 12, -14, -33), (-14, -33, -21, -18, 255, -28, -3),
+        (-14, -33, -13, -35, 0, -14, -33), (-14, -33, -13, -35, 1, -15, -34),
+        (-14, -33, -13, -35, 2, -14, -36), (-14, -33, -13, -35, 3, -12, -37),
+        (-14, -33, -13, -35, 4, -11, -36), (-14, -33, -13, -35, 5, -12, -34),
+        (-14, -33, -13, -35, 6, -14, -33), (-14, -33, -13, -35, 7, -15, -34),
+        (-14, -33, -13, -35, 8, -14, -36), (-14, -33, -13, -35, 9, -12, -37),
+        (-14, -33, -13, -35, 10, -11, -36), (-14, -33, -13, -35, 11, -12, -34),
+        (-14, -33, -13, -35, 12, -14, -33), (-14, -33, -13, -35, 255, -12, -37),
+        (-14, -33, -26, 7, 0, -14, -33), (-14, -33, -26, 7, 1, 14, -21),
+        (-14, -33, -26, 7, 2, 2, 19), (-14, -33, -26, 7, 3, -38, 47),
+        (-14, -33, -26, 7, 4, -66, 35), (-14, -33, -26, 7, 5, -54, -5),
+        (-14, -33, -26, 7, 6, -14, -33), (-14, -33, -26, 7, 7, 14, -21),
+        (-14, -33, -26, 7, 8, 2, 19), (-14, -33, -26, 7, 9, -38, 47),
+        (-14, -33, -26, 7, 10, -66, 35), (-14, -33, -26, 7, 11, -54, -5),
+        (-14, -33, -26, 7, 12, -14, -33), (-14, -33, -26, 7, 255, -38, 47),
+        (-14, -33, 38, -1, 0, -14, -33), (-14, -33, 38, -1, 1, 70, -85),
+        (-14, -33, 38, -1, 2, 122, -53), (-14, -33, 38, -1, 3, 90, 31),
+        (-14, -33, 38, -1, 4, 6, 83), (-14, -33, 38, -1, 5, -46, 51),
+        (-14, -33, 38, -1, 6, -14, -33), (-14, -33, 38, -1, 7, 70, -85),
+        (-14, -33, 38, -1, 8, 122, -53), (-14, -33, 38, -1, 9, 90, 31),
+        (-14, -33, 38, -1, 10, 6, 83), (-14, -33, 38, -1, 11, -46, 51),
+        (-14, -33, 38, -1, 12, -14, -33), (-14, -33, 38, -1, 255, 90, 31),
+        (-14, -33, 33, 8, 0, -14, -33), (-14, -33, 33, 8, 1, 74, -80),
+        (-14, -33, 33, 8, 2, 121, -39), (-14, -33, 33, 8, 3, 80, 49), (-14, -33, 33, 8, 4, -8, 96),
+        (-14, -33, 33, 8, 5, -55, 55), (-14, -33, 33, 8, 6, -14, -33),
+        (-14, -33, 33, 8, 7, 74, -80), (-14, -33, 33, 8, 8, 121, -39), (-14, -33, 33, 8, 9, 80, 49),
+        (-14, -33, 33, 8, 10, -8, 96), (-14, -33, 33, 8, 11, -55, 55),
+        (-14, -33, 33, 8, 12, -14, -33), (-14, -33, 33, 8, 255, 80, 49),
+        (-39, -27, 31, 13, 0, -39, -27), (-39, -27, 31, 13, 1, 71, -97),
+        (-39, -27, 31, 13, 2, 141, -57), (-39, -27, 31, 13, 3, 101, 53),
+        (-39, -27, 31, 13, 4, -9, 123), (-39, -27, 31, 13, 5, -79, 83),
+        (-39, -27, 31, 13, 6, -39, -27), (-39, -27, 31, 13, 7, 71, -97),
+        (-39, -27, 31, 13, 8, 141, -57), (-39, -27, 31, 13, 9, 101, 53),
+        (-39, -27, 31, 13, 10, -9, 123), (-39, -27, 31, 13, 11, -79, 83),
+        (-39, -27, 31, 13, 12, -39, -27), (-39, -27, 31, 13, 255, 101, 53),
+        (-39, -27, 27, 39, 0, -39, -27), (-39, -27, 27, 39, 1, 93, -93),
+        (-39, -27, 27, 39, 2, 159, -27), (-39, -27, 27, 39, 3, 93, 105),
+        (-39, -27, 27, 39, 4, -39, 171), (-39, -27, 27, 39, 5, -105, 105),
+        (-39, -27, 27, 39, 6, -39, -27), (-39, -27, 27, 39, 7, 93, -93),
+        (-39, -27, 27, 39, 8, 159, -27), (-39, -27, 27, 39, 9, 93, 105),
+        (-39, -27, 27, 39, 10, -39, 171), (-39, -27, 27, 39, 11, -105, 105),
+        (-39, -27, 27, 39, 12, -39, -27), (-39, -27, 27, 39, 255, 93, 105),
+        (-39, -27, 24, 1, 0, -39, -27), (-39, -27, 24, 1, 1, 52, -90),
+        (-39, -27, 24, 1, 2, 115, -62), (-39, -27, 24, 1, 3, 87, 29), (-39, -27, 24, 1, 4, -4, 92),
+        (-39, -27, 24, 1, 5, -67, 64), (-39, -27, 24, 1, 6, -39, -27),
+        (-39, -27, 24, 1, 7, 52, -90), (-39, -27, 24, 1, 8, 115, -62), (-39, -27, 24, 1, 9, 87, 29),
+        (-39, -27, 24, 1, 10, -4, 92), (-39, -27, 24, 1, 11, -67, 64),
+        (-39, -27, 24, 1, 12, -39, -27), (-39, -27, 24, 1, 255, 87, 29),
+        (-39, -27, -21, -18, 0, -39, -27), (-39, -27, -21, -18, 1, -12, -45),
+        (-39, -27, -21, -18, 2, 6, -36), (-39, -27, -21, -18, 3, -3, -9),
+        (-39, -27, -21, -18, 4, -30, 9), (-39, -27, -21, -18, 5, -48, 0),
+        (-39, -27, -21, -18, 6, -39, -27), (-39, -27, -21, -18, 7, -12, -45),
+        (-39, -27, -21, -18, 8, 6, -36), (-39, -27, -21, -18, 9, -3, -9),
+        (-39, -27, -21, -18, 10, -30, 9), (-39, -27, -21, -18, 11, -48, 0),
+        (-39, -27, -21, -18, 12, -39, -27), (-39, -27, -21, -18, 255, -3, -9),
+        (-39, -27, -13, -35, 0, -39, -27), (-39, -27, -13, -35, 1, -21, -53),
+        (-39, -27, -13, -35, 2, 5, -61), (-39, -27, -13, -35, 3, 13, -43),
+        (-39, -27, -13, -35, 4, -5, -17), (-39, -27, -13, -35, 5, -31, -9),
+        (-39, -27, -13, -35, 6, -39, -27), (-39, -27, -13, -35, 7, -21, -53),
+        (-39, -27, -13, -35, 8, 5, -61), (-39, -27, -13, -35, 9, 13, -43),
+        (-39, -27, -13, -35, 10, -5, -17), (-39, -27, -13, -35, 11, -31, -9),
+        (-39, -27, -13, -35, 12, -39, -27), (-39, -27, -13, -35, 255, 13, -43),
+        (-39, -27, -26, 7, 0, -39, -27), (-39, -27, -26, 7, 1, 8, -40),
+        (-39, -27, -26, 7, 2, 21, -6), (-39, -27, -26, 7, 3, -13, 41),
+        (-39, -27, -26, 7, 4, -60, 54), (-39, -27, -26, 7, 5, -73, 20),
+        (-39, -27, -26, 7, 6, -39, -27), (-39, -27, -26, 7, 7, 8, -40),
+        (-39, -27, -26, 7, 8, 21, -6), (-39, -27, -26, 7, 9, -13, 41),
+        (-39, -27, -26, 7, 10, -60, 54), (-39, -27, -26, 7, 11, -73, 20),
+        (-39, -27, -26, 7, 12, -39, -27), (-39, -27, -26, 7, 255, -13, 41),
+        (-39, -27, 38, -1, 0, -39, -27), (-39, -27, 38, -1, 1, 64, -104),
+        (-39, -27, 38, -1, 2, 141, -78), (-39, -27, 38, -1, 3, 115, 25),
+        (-39, -27, 38, -1, 4, 12, 102), (-39, -27, 38, -1, 5, -65, 76),
+        (-39, -27, 38, -1, 6, -39, -27), (-39, -27, 38, -1, 7, 64, -104),
+        (-39, -27, 38, -1, 8, 141, -78), (-39, -27, 38, -1, 9, 115, 25),
+        (-39, -27, 38, -1, 10, 12, 102), (-39, -27, 38, -1, 11, -65, 76),
+        (-39, -27, 38, -1, 12, -39, -27), (-39, -27, 38, -1, 255, 115, 25),
+        (-39, -27, 33, 8, 0, -39, -27), (-39, -27, 33, 8, 1, 68, -99),
+        (-39, -27, 33, 8, 2, 140, -64), (-39, -27, 33, 8, 3, 105, 43),
+        (-39, -27, 33, 8, 4, -2, 115), (-39, -27, 33, 8, 5, -74, 80),
+        (-39, -27, 33, 8, 6, -39, -27), (-39, -27, 33, 8, 7, 68, -99),
+        (-39, -27, 33, 8, 8, 140, -64), (-39, -27, 33, 8, 9, 105, 43),
+        (-39, -27, 33, 8, 10, -2, 115), (-39, -27, 33, 8, 11, -74, 80),
+        (-39, -27, 33, 8, 12, -39, -27), (-39, -27, 33, 8, 255, 105, 43),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_21_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (-14, -33, 31, 13, 0, -14, -33), (-14, -33, 31, 13, 1, -60, 58),
         (-14, -33, 31, 13, 2, -15, 104), (-14, -33, 31, 13, 3, 76, 59),
         (-14, -33, 31, 13, 4, 122, -32), (-14, -33, 31, 13, 5, 77, -78),
@@ -37653,6 +36749,125 @@ fn golden_hex_around_2_rotate_ccw_around() {
         (-39, -27, 33, 8, 8, -2, 115), (-39, -27, 33, 8, 9, 105, 43),
         (-39, -27, 33, 8, 10, 140, -64), (-39, -27, 33, 8, 11, 68, -99),
         (-39, -27, 33, 8, 12, -39, -27), (-39, -27, 33, 8, 255, 105, 43),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_22_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (27, -17, 31, 13, 0, 27, -17), (27, -17, 31, 13, 1, 61, -21), (27, -17, 31, 13, 2, 65, 9),
+        (27, -17, 31, 13, 3, 35, 43), (27, -17, 31, 13, 4, 1, 47), (27, -17, 31, 13, 5, -3, 17),
+        (27, -17, 31, 13, 6, 27, -17), (27, -17, 31, 13, 7, 61, -21), (27, -17, 31, 13, 8, 65, 9),
+        (27, -17, 31, 13, 9, 35, 43), (27, -17, 31, 13, 10, 1, 47), (27, -17, 31, 13, 11, -3, 17),
+        (27, -17, 31, 13, 12, 27, -17), (27, -17, 31, 13, 255, 35, 43),
+        (27, -17, 27, 39, 0, 27, -17), (27, -17, 27, 39, 1, 83, -17), (27, -17, 27, 39, 2, 83, 39),
+        (27, -17, 27, 39, 3, 27, 95), (27, -17, 27, 39, 4, -29, 95), (27, -17, 27, 39, 5, -29, 39),
+        (27, -17, 27, 39, 6, 27, -17), (27, -17, 27, 39, 7, 83, -17), (27, -17, 27, 39, 8, 83, 39),
+        (27, -17, 27, 39, 9, 27, 95), (27, -17, 27, 39, 10, -29, 95),
+        (27, -17, 27, 39, 11, -29, 39), (27, -17, 27, 39, 12, 27, -17),
+        (27, -17, 27, 39, 255, 27, 95), (27, -17, 24, 1, 0, 27, -17), (27, -17, 24, 1, 1, 42, -14),
+        (27, -17, 24, 1, 2, 39, 4), (27, -17, 24, 1, 3, 21, 19), (27, -17, 24, 1, 4, 6, 16),
+        (27, -17, 24, 1, 5, 9, -2), (27, -17, 24, 1, 6, 27, -17), (27, -17, 24, 1, 7, 42, -14),
+        (27, -17, 24, 1, 8, 39, 4), (27, -17, 24, 1, 9, 21, 19), (27, -17, 24, 1, 10, 6, 16),
+        (27, -17, 24, 1, 11, 9, -2), (27, -17, 24, 1, 12, 27, -17), (27, -17, 24, 1, 255, 21, 19),
+        (27, -17, -21, -18, 0, 27, -17), (27, -17, -21, -18, 1, -22, 31),
+        (27, -17, -21, -18, 2, -70, 30), (27, -17, -21, -18, 3, -69, -19),
+        (27, -17, -21, -18, 4, -20, -67), (27, -17, -21, -18, 5, 28, -66),
+        (27, -17, -21, -18, 6, 27, -17), (27, -17, -21, -18, 7, -22, 31),
+        (27, -17, -21, -18, 8, -70, 30), (27, -17, -21, -18, 9, -69, -19),
+        (27, -17, -21, -18, 10, -20, -67), (27, -17, -21, -18, 11, 28, -66),
+        (27, -17, -21, -18, 12, 27, -17), (27, -17, -21, -18, 255, -69, -19),
+        (27, -17, -13, -35, 0, 27, -17), (27, -17, -13, -35, 1, -31, 23),
+        (27, -17, -13, -35, 2, -71, 5), (27, -17, -13, -35, 3, -53, -53),
+        (27, -17, -13, -35, 4, 5, -93), (27, -17, -13, -35, 5, 45, -75),
+        (27, -17, -13, -35, 6, 27, -17), (27, -17, -13, -35, 7, -31, 23),
+        (27, -17, -13, -35, 8, -71, 5), (27, -17, -13, -35, 9, -53, -53),
+        (27, -17, -13, -35, 10, 5, -93), (27, -17, -13, -35, 11, 45, -75),
+        (27, -17, -13, -35, 12, 27, -17), (27, -17, -13, -35, 255, -53, -53),
+        (27, -17, -26, 7, 0, 27, -17), (27, -17, -26, 7, 1, -2, 36), (27, -17, -26, 7, 2, -55, 60),
+        (27, -17, -26, 7, 3, -79, 31), (27, -17, -26, 7, 4, -50, -22), (27, -17, -26, 7, 5, 3, -46),
+        (27, -17, -26, 7, 6, 27, -17), (27, -17, -26, 7, 7, -2, 36), (27, -17, -26, 7, 8, -55, 60),
+        (27, -17, -26, 7, 9, -79, 31), (27, -17, -26, 7, 10, -50, -22),
+        (27, -17, -26, 7, 11, 3, -46), (27, -17, -26, 7, 12, 27, -17),
+        (27, -17, -26, 7, 255, -79, 31), (27, -17, 38, -1, 0, 27, -17),
+        (27, -17, 38, -1, 1, 54, -28), (27, -17, 38, -1, 2, 65, -12), (27, -17, 38, -1, 3, 49, 15),
+        (27, -17, 38, -1, 4, 22, 26), (27, -17, 38, -1, 5, 11, 10), (27, -17, 38, -1, 6, 27, -17),
+        (27, -17, 38, -1, 7, 54, -28), (27, -17, 38, -1, 8, 65, -12), (27, -17, 38, -1, 9, 49, 15),
+        (27, -17, 38, -1, 10, 22, 26), (27, -17, 38, -1, 11, 11, 10),
+        (27, -17, 38, -1, 12, 27, -17), (27, -17, 38, -1, 255, 49, 15),
+        (27, -17, 33, 8, 0, 27, -17), (27, -17, 33, 8, 1, 58, -23), (27, -17, 33, 8, 2, 64, 2),
+        (27, -17, 33, 8, 3, 39, 33), (27, -17, 33, 8, 4, 8, 39), (27, -17, 33, 8, 5, 2, 14),
+        (27, -17, 33, 8, 6, 27, -17), (27, -17, 33, 8, 7, 58, -23), (27, -17, 33, 8, 8, 64, 2),
+        (27, -17, 33, 8, 9, 39, 33), (27, -17, 33, 8, 10, 8, 39), (27, -17, 33, 8, 11, 2, 14),
+        (27, -17, 33, 8, 12, 27, -17), (27, -17, 33, 8, 255, 39, 33), (24, 38, 31, 13, 0, 24, 38),
+        (24, 38, 31, 13, 1, 6, 31), (24, 38, 31, 13, 2, 13, 6), (24, 38, 31, 13, 3, 38, -12),
+        (24, 38, 31, 13, 4, 56, -5), (24, 38, 31, 13, 5, 49, 20), (24, 38, 31, 13, 6, 24, 38),
+        (24, 38, 31, 13, 7, 6, 31), (24, 38, 31, 13, 8, 13, 6), (24, 38, 31, 13, 9, 38, -12),
+        (24, 38, 31, 13, 10, 56, -5), (24, 38, 31, 13, 11, 49, 20), (24, 38, 31, 13, 12, 24, 38),
+        (24, 38, 31, 13, 255, 38, -12), (24, 38, 27, 39, 0, 24, 38), (24, 38, 27, 39, 1, 28, 35),
+        (24, 38, 27, 39, 2, 31, 36), (24, 38, 27, 39, 3, 30, 40), (24, 38, 27, 39, 4, 26, 43),
+        (24, 38, 27, 39, 5, 23, 42), (24, 38, 27, 39, 6, 24, 38), (24, 38, 27, 39, 7, 28, 35),
+        (24, 38, 27, 39, 8, 31, 36), (24, 38, 27, 39, 9, 30, 40), (24, 38, 27, 39, 10, 26, 43),
+        (24, 38, 27, 39, 11, 23, 42), (24, 38, 27, 39, 12, 24, 38), (24, 38, 27, 39, 255, 30, 40),
+        (24, 38, 24, 1, 0, 24, 38), (24, 38, 24, 1, 1, -13, 38), (24, 38, 24, 1, 2, -13, 1),
+        (24, 38, 24, 1, 3, 24, -36), (24, 38, 24, 1, 4, 61, -36), (24, 38, 24, 1, 5, 61, 1),
+        (24, 38, 24, 1, 6, 24, 38), (24, 38, 24, 1, 7, -13, 38), (24, 38, 24, 1, 8, -13, 1),
+        (24, 38, 24, 1, 9, 24, -36), (24, 38, 24, 1, 10, 61, -36), (24, 38, 24, 1, 11, 61, 1),
+        (24, 38, 24, 1, 12, 24, 38), (24, 38, 24, 1, 255, 24, -36), (24, 38, -21, -18, 0, 24, 38),
+        (24, 38, -21, -18, 1, -77, 83), (24, 38, -21, -18, 2, -122, 27),
+        (24, 38, -21, -18, 3, -66, -74), (24, 38, -21, -18, 4, 35, -119),
+        (24, 38, -21, -18, 5, 80, -63), (24, 38, -21, -18, 6, 24, 38),
+        (24, 38, -21, -18, 7, -77, 83), (24, 38, -21, -18, 8, -122, 27),
+        (24, 38, -21, -18, 9, -66, -74), (24, 38, -21, -18, 10, 35, -119),
+        (24, 38, -21, -18, 11, 80, -63), (24, 38, -21, -18, 12, 24, 38),
+        (24, 38, -21, -18, 255, -66, -74), (24, 38, -13, -35, 0, 24, 38),
+        (24, 38, -13, -35, 1, -86, 75), (24, 38, -13, -35, 2, -123, 2),
+        (24, 38, -13, -35, 3, -50, -108), (24, 38, -13, -35, 4, 60, -145),
+        (24, 38, -13, -35, 5, 97, -72), (24, 38, -13, -35, 6, 24, 38),
+        (24, 38, -13, -35, 7, -86, 75), (24, 38, -13, -35, 8, -123, 2),
+        (24, 38, -13, -35, 9, -50, -108), (24, 38, -13, -35, 10, 60, -145),
+        (24, 38, -13, -35, 11, 97, -72), (24, 38, -13, -35, 12, 24, 38),
+        (24, 38, -13, -35, 255, -50, -108), (24, 38, -26, 7, 0, 24, 38),
+        (24, 38, -26, 7, 1, -57, 88), (24, 38, -26, 7, 2, -107, 57), (24, 38, -26, 7, 3, -76, -24),
+        (24, 38, -26, 7, 4, 5, -74), (24, 38, -26, 7, 5, 55, -43), (24, 38, -26, 7, 6, 24, 38),
+        (24, 38, -26, 7, 7, -57, 88), (24, 38, -26, 7, 8, -107, 57), (24, 38, -26, 7, 9, -76, -24),
+        (24, 38, -26, 7, 10, 5, -74), (24, 38, -26, 7, 11, 55, -43), (24, 38, -26, 7, 12, 24, 38),
+        (24, 38, -26, 7, 255, -76, -24), (24, 38, 38, -1, 0, 24, 38), (24, 38, 38, -1, 1, -1, 24),
+        (24, 38, 38, -1, 2, 13, -15), (24, 38, 38, -1, 3, 52, -40), (24, 38, 38, -1, 4, 77, -26),
+        (24, 38, 38, -1, 5, 63, 13), (24, 38, 38, -1, 6, 24, 38), (24, 38, 38, -1, 7, -1, 24),
+        (24, 38, 38, -1, 8, 13, -15), (24, 38, 38, -1, 9, 52, -40), (24, 38, 38, -1, 10, 77, -26),
+        (24, 38, 38, -1, 11, 63, 13), (24, 38, 38, -1, 12, 24, 38), (24, 38, 38, -1, 255, 52, -40),
+        (24, 38, 33, 8, 0, 24, 38), (24, 38, 33, 8, 1, 3, 29), (24, 38, 33, 8, 2, 12, -1),
+        (24, 38, 33, 8, 3, 42, -22), (24, 38, 33, 8, 4, 63, -13), (24, 38, 33, 8, 5, 54, 17),
+        (24, 38, 33, 8, 6, 24, 38), (24, 38, 33, 8, 7, 3, 29), (24, 38, 33, 8, 8, 12, -1),
+        (24, 38, 33, 8, 9, 42, -22), (24, 38, 33, 8, 10, 63, -13), (24, 38, 33, 8, 11, 54, 17),
+        (24, 38, 33, 8, 12, 24, 38), (24, 38, 33, 8, 255, 42, -22),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_22_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (27, -17, 31, 13, 0, 27, -17), (27, -17, 31, 13, 1, -3, 17), (27, -17, 31, 13, 2, 1, 47),
         (27, -17, 31, 13, 3, 35, 43), (27, -17, 31, 13, 4, 65, 9), (27, -17, 31, 13, 5, 61, -21),
         (27, -17, 31, 13, 6, 27, -17), (27, -17, 31, 13, 7, -3, 17), (27, -17, 31, 13, 8, 1, 47),
@@ -37739,11 +36954,130 @@ fn golden_hex_around_2_rotate_ccw_around() {
         (24, 38, 33, 8, 3, 42, -22), (24, 38, 33, 8, 4, 12, -1), (24, 38, 33, 8, 5, 3, 29),
         (24, 38, 33, 8, 6, 24, 38), (24, 38, 33, 8, 7, 54, 17), (24, 38, 33, 8, 8, 63, -13),
         (24, 38, 33, 8, 9, 42, -22), (24, 38, 33, 8, 10, 12, -1), (24, 38, 33, 8, 11, 3, 29),
-        (24, 38, 33, 8, 12, 24, 38), (24, 38, 33, 8, 255, 42, -22), (23, -34, 31, 13, 0, 23, -34),
-        (23, -34, 31, 13, 1, -24, 21), (23, -34, 31, 13, 2, -16, 68), (23, -34, 31, 13, 3, 39, 60),
-        (23, -34, 31, 13, 4, 86, 5), (23, -34, 31, 13, 5, 78, -42), (23, -34, 31, 13, 6, 23, -34),
-        (23, -34, 31, 13, 7, -24, 21), (23, -34, 31, 13, 8, -16, 68), (23, -34, 31, 13, 9, 39, 60),
-        (23, -34, 31, 13, 10, 86, 5), (23, -34, 31, 13, 11, 78, -42),
+        (24, 38, 33, 8, 12, 24, 38), (24, 38, 33, 8, 255, 42, -22),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_23_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (23, -34, 31, 13, 0, 23, -34), (23, -34, 31, 13, 1, 78, -42), (23, -34, 31, 13, 2, 86, 5),
+        (23, -34, 31, 13, 3, 39, 60), (23, -34, 31, 13, 4, -16, 68), (23, -34, 31, 13, 5, -24, 21),
+        (23, -34, 31, 13, 6, 23, -34), (23, -34, 31, 13, 7, 78, -42), (23, -34, 31, 13, 8, 86, 5),
+        (23, -34, 31, 13, 9, 39, 60), (23, -34, 31, 13, 10, -16, 68),
+        (23, -34, 31, 13, 11, -24, 21), (23, -34, 31, 13, 12, 23, -34),
+        (23, -34, 31, 13, 255, 39, 60), (23, -34, 27, 39, 0, 23, -34),
+        (23, -34, 27, 39, 1, 100, -38), (23, -34, 27, 39, 2, 104, 35),
+        (23, -34, 27, 39, 3, 31, 112), (23, -34, 27, 39, 4, -46, 116),
+        (23, -34, 27, 39, 5, -50, 43), (23, -34, 27, 39, 6, 23, -34),
+        (23, -34, 27, 39, 7, 100, -38), (23, -34, 27, 39, 8, 104, 35),
+        (23, -34, 27, 39, 9, 31, 112), (23, -34, 27, 39, 10, -46, 116),
+        (23, -34, 27, 39, 11, -50, 43), (23, -34, 27, 39, 12, 23, -34),
+        (23, -34, 27, 39, 255, 31, 112), (23, -34, 24, 1, 0, 23, -34), (23, -34, 24, 1, 1, 59, -35),
+        (23, -34, 24, 1, 2, 60, 0), (23, -34, 24, 1, 3, 25, 36), (23, -34, 24, 1, 4, -11, 37),
+        (23, -34, 24, 1, 5, -12, 2), (23, -34, 24, 1, 6, 23, -34), (23, -34, 24, 1, 7, 59, -35),
+        (23, -34, 24, 1, 8, 60, 0), (23, -34, 24, 1, 9, 25, 36), (23, -34, 24, 1, 10, -11, 37),
+        (23, -34, 24, 1, 11, -12, 2), (23, -34, 24, 1, 12, 23, -34), (23, -34, 24, 1, 255, 25, 36),
+        (23, -34, -21, -18, 0, 23, -34), (23, -34, -21, -18, 1, -5, 10),
+        (23, -34, -21, -18, 2, -49, 26), (23, -34, -21, -18, 3, -65, -2),
+        (23, -34, -21, -18, 4, -37, -46), (23, -34, -21, -18, 5, 7, -62),
+        (23, -34, -21, -18, 6, 23, -34), (23, -34, -21, -18, 7, -5, 10),
+        (23, -34, -21, -18, 8, -49, 26), (23, -34, -21, -18, 9, -65, -2),
+        (23, -34, -21, -18, 10, -37, -46), (23, -34, -21, -18, 11, 7, -62),
+        (23, -34, -21, -18, 12, 23, -34), (23, -34, -21, -18, 255, -65, -2),
+        (23, -34, -13, -35, 0, 23, -34), (23, -34, -13, -35, 1, -14, 2),
+        (23, -34, -13, -35, 2, -50, 1), (23, -34, -13, -35, 3, -49, -36),
+        (23, -34, -13, -35, 4, -12, -72), (23, -34, -13, -35, 5, 24, -71),
+        (23, -34, -13, -35, 6, 23, -34), (23, -34, -13, -35, 7, -14, 2),
+        (23, -34, -13, -35, 8, -50, 1), (23, -34, -13, -35, 9, -49, -36),
+        (23, -34, -13, -35, 10, -12, -72), (23, -34, -13, -35, 11, 24, -71),
+        (23, -34, -13, -35, 12, 23, -34), (23, -34, -13, -35, 255, -49, -36),
+        (23, -34, -26, 7, 0, 23, -34), (23, -34, -26, 7, 1, 15, 15), (23, -34, -26, 7, 2, -34, 56),
+        (23, -34, -26, 7, 3, -75, 48), (23, -34, -26, 7, 4, -67, -1),
+        (23, -34, -26, 7, 5, -18, -42), (23, -34, -26, 7, 6, 23, -34), (23, -34, -26, 7, 7, 15, 15),
+        (23, -34, -26, 7, 8, -34, 56), (23, -34, -26, 7, 9, -75, 48),
+        (23, -34, -26, 7, 10, -67, -1), (23, -34, -26, 7, 11, -18, -42),
+        (23, -34, -26, 7, 12, 23, -34), (23, -34, -26, 7, 255, -75, 48),
+        (23, -34, 38, -1, 0, 23, -34), (23, -34, 38, -1, 1, 71, -49), (23, -34, 38, -1, 2, 86, -16),
+        (23, -34, 38, -1, 3, 53, 32), (23, -34, 38, -1, 4, 5, 47), (23, -34, 38, -1, 5, -10, 14),
+        (23, -34, 38, -1, 6, 23, -34), (23, -34, 38, -1, 7, 71, -49), (23, -34, 38, -1, 8, 86, -16),
+        (23, -34, 38, -1, 9, 53, 32), (23, -34, 38, -1, 10, 5, 47), (23, -34, 38, -1, 11, -10, 14),
+        (23, -34, 38, -1, 12, 23, -34), (23, -34, 38, -1, 255, 53, 32),
+        (23, -34, 33, 8, 0, 23, -34), (23, -34, 33, 8, 1, 75, -44), (23, -34, 33, 8, 2, 85, -2),
+        (23, -34, 33, 8, 3, 43, 50), (23, -34, 33, 8, 4, -9, 60), (23, -34, 33, 8, 5, -19, 18),
+        (23, -34, 33, 8, 6, 23, -34), (23, -34, 33, 8, 7, 75, -44), (23, -34, 33, 8, 8, 85, -2),
+        (23, -34, 33, 8, 9, 43, 50), (23, -34, 33, 8, 10, -9, 60), (23, -34, 33, 8, 11, -19, 18),
+        (23, -34, 33, 8, 12, 23, -34), (23, -34, 33, 8, 255, 43, 50), (9, 37, 31, 13, 0, 9, 37),
+        (9, 37, 31, 13, 1, 7, 15), (9, 37, 31, 13, 2, 29, -9), (9, 37, 31, 13, 3, 53, -11),
+        (9, 37, 31, 13, 4, 55, 11), (9, 37, 31, 13, 5, 33, 35), (9, 37, 31, 13, 6, 9, 37),
+        (9, 37, 31, 13, 7, 7, 15), (9, 37, 31, 13, 8, 29, -9), (9, 37, 31, 13, 9, 53, -11),
+        (9, 37, 31, 13, 10, 55, 11), (9, 37, 31, 13, 11, 33, 35), (9, 37, 31, 13, 12, 9, 37),
+        (9, 37, 31, 13, 255, 53, -11), (9, 37, 27, 39, 0, 9, 37), (9, 37, 27, 39, 1, 29, 19),
+        (9, 37, 27, 39, 2, 47, 21), (9, 37, 27, 39, 3, 45, 41), (9, 37, 27, 39, 4, 25, 59),
+        (9, 37, 27, 39, 5, 7, 57), (9, 37, 27, 39, 6, 9, 37), (9, 37, 27, 39, 7, 29, 19),
+        (9, 37, 27, 39, 8, 47, 21), (9, 37, 27, 39, 9, 45, 41), (9, 37, 27, 39, 10, 25, 59),
+        (9, 37, 27, 39, 11, 7, 57), (9, 37, 27, 39, 12, 9, 37), (9, 37, 27, 39, 255, 45, 41),
+        (9, 37, 24, 1, 0, 9, 37), (9, 37, 24, 1, 1, -12, 22), (9, 37, 24, 1, 2, 3, -14),
+        (9, 37, 24, 1, 3, 39, -35), (9, 37, 24, 1, 4, 60, -20), (9, 37, 24, 1, 5, 45, 16),
+        (9, 37, 24, 1, 6, 9, 37), (9, 37, 24, 1, 7, -12, 22), (9, 37, 24, 1, 8, 3, -14),
+        (9, 37, 24, 1, 9, 39, -35), (9, 37, 24, 1, 10, 60, -20), (9, 37, 24, 1, 11, 45, 16),
+        (9, 37, 24, 1, 12, 9, 37), (9, 37, 24, 1, 255, 39, -35), (9, 37, -21, -18, 0, 9, 37),
+        (9, 37, -21, -18, 1, -76, 67), (9, 37, -21, -18, 2, -106, 12),
+        (9, 37, -21, -18, 3, -51, -73), (9, 37, -21, -18, 4, 34, -103),
+        (9, 37, -21, -18, 5, 64, -48), (9, 37, -21, -18, 6, 9, 37), (9, 37, -21, -18, 7, -76, 67),
+        (9, 37, -21, -18, 8, -106, 12), (9, 37, -21, -18, 9, -51, -73),
+        (9, 37, -21, -18, 10, 34, -103), (9, 37, -21, -18, 11, 64, -48),
+        (9, 37, -21, -18, 12, 9, 37), (9, 37, -21, -18, 255, -51, -73), (9, 37, -13, -35, 0, 9, 37),
+        (9, 37, -13, -35, 1, -85, 59), (9, 37, -13, -35, 2, -107, -13),
+        (9, 37, -13, -35, 3, -35, -107), (9, 37, -13, -35, 4, 59, -129),
+        (9, 37, -13, -35, 5, 81, -57), (9, 37, -13, -35, 6, 9, 37), (9, 37, -13, -35, 7, -85, 59),
+        (9, 37, -13, -35, 8, -107, -13), (9, 37, -13, -35, 9, -35, -107),
+        (9, 37, -13, -35, 10, 59, -129), (9, 37, -13, -35, 11, 81, -57),
+        (9, 37, -13, -35, 12, 9, 37), (9, 37, -13, -35, 255, -35, -107), (9, 37, -26, 7, 0, 9, 37),
+        (9, 37, -26, 7, 1, -56, 72), (9, 37, -26, 7, 2, -91, 42), (9, 37, -26, 7, 3, -61, -23),
+        (9, 37, -26, 7, 4, 4, -58), (9, 37, -26, 7, 5, 39, -28), (9, 37, -26, 7, 6, 9, 37),
+        (9, 37, -26, 7, 7, -56, 72), (9, 37, -26, 7, 8, -91, 42), (9, 37, -26, 7, 9, -61, -23),
+        (9, 37, -26, 7, 10, 4, -58), (9, 37, -26, 7, 11, 39, -28), (9, 37, -26, 7, 12, 9, 37),
+        (9, 37, -26, 7, 255, -61, -23), (9, 37, 38, -1, 0, 9, 37), (9, 37, 38, -1, 1, 0, 8),
+        (9, 37, 38, -1, 2, 29, -30), (9, 37, 38, -1, 3, 67, -39), (9, 37, 38, -1, 4, 76, -10),
+        (9, 37, 38, -1, 5, 47, 28), (9, 37, 38, -1, 6, 9, 37), (9, 37, 38, -1, 7, 0, 8),
+        (9, 37, 38, -1, 8, 29, -30), (9, 37, 38, -1, 9, 67, -39), (9, 37, 38, -1, 10, 76, -10),
+        (9, 37, 38, -1, 11, 47, 28), (9, 37, 38, -1, 12, 9, 37), (9, 37, 38, -1, 255, 67, -39),
+        (9, 37, 33, 8, 0, 9, 37), (9, 37, 33, 8, 1, 4, 13), (9, 37, 33, 8, 2, 28, -16),
+        (9, 37, 33, 8, 3, 57, -21), (9, 37, 33, 8, 4, 62, 3), (9, 37, 33, 8, 5, 38, 32),
+        (9, 37, 33, 8, 6, 9, 37), (9, 37, 33, 8, 7, 4, 13), (9, 37, 33, 8, 8, 28, -16),
+        (9, 37, 33, 8, 9, 57, -21), (9, 37, 33, 8, 10, 62, 3), (9, 37, 33, 8, 11, 38, 32),
+        (9, 37, 33, 8, 12, 9, 37), (9, 37, 33, 8, 255, 57, -21),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_23_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (23, -34, 31, 13, 0, 23, -34), (23, -34, 31, 13, 1, -24, 21), (23, -34, 31, 13, 2, -16, 68),
+        (23, -34, 31, 13, 3, 39, 60), (23, -34, 31, 13, 4, 86, 5), (23, -34, 31, 13, 5, 78, -42),
+        (23, -34, 31, 13, 6, 23, -34), (23, -34, 31, 13, 7, -24, 21), (23, -34, 31, 13, 8, -16, 68),
+        (23, -34, 31, 13, 9, 39, 60), (23, -34, 31, 13, 10, 86, 5), (23, -34, 31, 13, 11, 78, -42),
         (23, -34, 31, 13, 12, 23, -34), (23, -34, 31, 13, 255, 39, 60),
         (23, -34, 27, 39, 0, 23, -34), (23, -34, 27, 39, 1, -50, 43),
         (23, -34, 27, 39, 2, -46, 116), (23, -34, 27, 39, 3, 31, 112),
@@ -37840,8 +37174,8 @@ fn golden_hex_around_2_rotate_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_hex_around_3_rotate_cw_around() {
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_24_rotate_cw_around() {
     let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (38, -1, 31, 13, 0, 38, -1), (38, -1, 31, 13, 1, 45, 6), (38, -1, 31, 13, 2, 38, 20),
         (38, -1, 31, 13, 3, 24, 27), (38, -1, 31, 13, 4, 17, 20), (38, -1, 31, 13, 5, 24, 6),
@@ -37922,14 +37256,126 @@ fn golden_hex_around_3_rotate_cw_around() {
         (6, 3, 33, 8, 4, 28, 40), (6, 3, 33, 8, 5, 1, 35), (6, 3, 33, 8, 6, 6, 3),
         (6, 3, 33, 8, 7, 38, -24), (6, 3, 33, 8, 8, 65, -19), (6, 3, 33, 8, 9, 60, 13),
         (6, 3, 33, 8, 10, 28, 40), (6, 3, 33, 8, 11, 1, 35), (6, 3, 33, 8, 12, 6, 3),
-        (6, 3, 33, 8, 255, 60, 13), (-7, -12, 31, 13, 0, -7, -12), (-7, -12, 31, 13, 1, 56, -50),
-        (-7, -12, 31, 13, 2, 94, -25), (-7, -12, 31, 13, 3, 69, 38), (-7, -12, 31, 13, 4, 6, 76),
-        (-7, -12, 31, 13, 5, -32, 51), (-7, -12, 31, 13, 6, -7, -12), (-7, -12, 31, 13, 7, 56, -50),
-        (-7, -12, 31, 13, 8, 94, -25), (-7, -12, 31, 13, 9, 69, 38), (-7, -12, 31, 13, 10, 6, 76),
-        (-7, -12, 31, 13, 11, -32, 51), (-7, -12, 31, 13, 12, -7, -12),
-        (-7, -12, 31, 13, 255, 69, 38), (-7, -12, 27, 39, 0, -7, -12),
-        (-7, -12, 27, 39, 1, 78, -46), (-7, -12, 27, 39, 2, 112, 5), (-7, -12, 27, 39, 3, 61, 90),
-        (-7, -12, 27, 39, 4, -24, 124), (-7, -12, 27, 39, 5, -58, 73),
+        (6, 3, 33, 8, 255, 60, 13),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_24_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (38, -1, 31, 13, 0, 38, -1), (38, -1, 31, 13, 1, 24, 6), (38, -1, 31, 13, 2, 17, 20),
+        (38, -1, 31, 13, 3, 24, 27), (38, -1, 31, 13, 4, 38, 20), (38, -1, 31, 13, 5, 45, 6),
+        (38, -1, 31, 13, 6, 38, -1), (38, -1, 31, 13, 7, 24, 6), (38, -1, 31, 13, 8, 17, 20),
+        (38, -1, 31, 13, 9, 24, 27), (38, -1, 31, 13, 10, 38, 20), (38, -1, 31, 13, 11, 45, 6),
+        (38, -1, 31, 13, 12, 38, -1), (38, -1, 31, 13, 255, 24, 27), (38, -1, 27, 39, 0, 38, -1),
+        (38, -1, 27, 39, 1, -2, 28), (38, -1, 27, 39, 2, -13, 68), (38, -1, 27, 39, 3, 16, 79),
+        (38, -1, 27, 39, 4, 56, 50), (38, -1, 27, 39, 5, 67, 10), (38, -1, 27, 39, 6, 38, -1),
+        (38, -1, 27, 39, 7, -2, 28), (38, -1, 27, 39, 8, -13, 68), (38, -1, 27, 39, 9, 16, 79),
+        (38, -1, 27, 39, 10, 56, 50), (38, -1, 27, 39, 11, 67, 10), (38, -1, 27, 39, 12, 38, -1),
+        (38, -1, 27, 39, 255, 16, 79), (38, -1, 24, 1, 0, 38, -1), (38, -1, 24, 1, 1, 36, -13),
+        (38, -1, 24, 1, 2, 22, -11), (38, -1, 24, 1, 3, 10, 3), (38, -1, 24, 1, 4, 12, 15),
+        (38, -1, 24, 1, 5, 26, 13), (38, -1, 24, 1, 6, 38, -1), (38, -1, 24, 1, 7, 36, -13),
+        (38, -1, 24, 1, 8, 22, -11), (38, -1, 24, 1, 9, 10, 3), (38, -1, 24, 1, 10, 12, 15),
+        (38, -1, 24, 1, 11, 26, 13), (38, -1, 24, 1, 12, 38, -1), (38, -1, 24, 1, 255, 10, 3),
+        (38, -1, -21, -18, 0, 38, -1), (38, -1, -21, -18, 1, 55, -77),
+        (38, -1, -21, -18, 2, -4, -94), (38, -1, -21, -18, 3, -80, -35),
+        (38, -1, -21, -18, 4, -97, 41), (38, -1, -21, -18, 5, -38, 58),
+        (38, -1, -21, -18, 6, 38, -1), (38, -1, -21, -18, 7, 55, -77),
+        (38, -1, -21, -18, 8, -4, -94), (38, -1, -21, -18, 9, -80, -35),
+        (38, -1, -21, -18, 10, -97, 41), (38, -1, -21, -18, 11, -38, 58),
+        (38, -1, -21, -18, 12, 38, -1), (38, -1, -21, -18, 255, -80, -35),
+        (38, -1, -13, -35, 0, 38, -1), (38, -1, -13, -35, 1, 72, -86),
+        (38, -1, -13, -35, 2, 21, -120), (38, -1, -13, -35, 3, -64, -69),
+        (38, -1, -13, -35, 4, -98, 16), (38, -1, -13, -35, 5, -47, 50),
+        (38, -1, -13, -35, 6, 38, -1), (38, -1, -13, -35, 7, 72, -86),
+        (38, -1, -13, -35, 8, 21, -120), (38, -1, -13, -35, 9, -64, -69),
+        (38, -1, -13, -35, 10, -98, 16), (38, -1, -13, -35, 11, -47, 50),
+        (38, -1, -13, -35, 12, 38, -1), (38, -1, -13, -35, 255, -64, -69),
+        (38, -1, -26, 7, 0, 38, -1), (38, -1, -26, 7, 1, 30, -57), (38, -1, -26, 7, 2, -34, -49),
+        (38, -1, -26, 7, 3, -90, 15), (38, -1, -26, 7, 4, -82, 71), (38, -1, -26, 7, 5, -18, 63),
+        (38, -1, -26, 7, 6, 38, -1), (38, -1, -26, 7, 7, 30, -57), (38, -1, -26, 7, 8, -34, -49),
+        (38, -1, -26, 7, 9, -90, 15), (38, -1, -26, 7, 10, -82, 71), (38, -1, -26, 7, 11, -18, 63),
+        (38, -1, -26, 7, 12, 38, -1), (38, -1, -26, 7, 255, -90, 15), (38, -1, 38, -1, 0, 38, -1),
+        (38, -1, 38, -1, 1, 38, -1), (38, -1, 38, -1, 2, 38, -1), (38, -1, 38, -1, 3, 38, -1),
+        (38, -1, 38, -1, 4, 38, -1), (38, -1, 38, -1, 5, 38, -1), (38, -1, 38, -1, 6, 38, -1),
+        (38, -1, 38, -1, 7, 38, -1), (38, -1, 38, -1, 8, 38, -1), (38, -1, 38, -1, 9, 38, -1),
+        (38, -1, 38, -1, 10, 38, -1), (38, -1, 38, -1, 11, 38, -1), (38, -1, 38, -1, 12, 38, -1),
+        (38, -1, 38, -1, 255, 38, -1), (38, -1, 33, 8, 0, 38, -1), (38, -1, 33, 8, 1, 29, 3),
+        (38, -1, 33, 8, 2, 24, 12), (38, -1, 33, 8, 3, 28, 17), (38, -1, 33, 8, 4, 37, 13),
+        (38, -1, 33, 8, 5, 42, 4), (38, -1, 33, 8, 6, 38, -1), (38, -1, 33, 8, 7, 29, 3),
+        (38, -1, 33, 8, 8, 24, 12), (38, -1, 33, 8, 9, 28, 17), (38, -1, 33, 8, 10, 37, 13),
+        (38, -1, 33, 8, 11, 42, 4), (38, -1, 33, 8, 12, 38, -1), (38, -1, 33, 8, 255, 28, 17),
+        (6, 3, 31, 13, 0, 6, 3), (6, 3, 31, 13, 1, -4, 38), (6, 3, 31, 13, 2, 21, 48),
+        (6, 3, 31, 13, 3, 56, 23), (6, 3, 31, 13, 4, 66, -12), (6, 3, 31, 13, 5, 41, -22),
+        (6, 3, 31, 13, 6, 6, 3), (6, 3, 31, 13, 7, -4, 38), (6, 3, 31, 13, 8, 21, 48),
+        (6, 3, 31, 13, 9, 56, 23), (6, 3, 31, 13, 10, 66, -12), (6, 3, 31, 13, 11, 41, -22),
+        (6, 3, 31, 13, 12, 6, 3), (6, 3, 31, 13, 255, 56, 23), (6, 3, 27, 39, 0, 6, 3),
+        (6, 3, 27, 39, 1, -30, 60), (6, 3, 27, 39, 2, -9, 96), (6, 3, 27, 39, 3, 48, 75),
+        (6, 3, 27, 39, 4, 84, 18), (6, 3, 27, 39, 5, 63, -18), (6, 3, 27, 39, 6, 6, 3),
+        (6, 3, 27, 39, 7, -30, 60), (6, 3, 27, 39, 8, -9, 96), (6, 3, 27, 39, 9, 48, 75),
+        (6, 3, 27, 39, 10, 84, 18), (6, 3, 27, 39, 11, 63, -18), (6, 3, 27, 39, 12, 6, 3),
+        (6, 3, 27, 39, 255, 48, 75), (6, 3, 24, 1, 0, 6, 3), (6, 3, 24, 1, 1, 8, 19),
+        (6, 3, 24, 1, 2, 26, 17), (6, 3, 24, 1, 3, 42, -1), (6, 3, 24, 1, 4, 40, -17),
+        (6, 3, 24, 1, 5, 22, -15), (6, 3, 24, 1, 6, 6, 3), (6, 3, 24, 1, 7, 8, 19),
+        (6, 3, 24, 1, 8, 26, 17), (6, 3, 24, 1, 9, 42, -1), (6, 3, 24, 1, 10, 40, -17),
+        (6, 3, 24, 1, 11, 22, -15), (6, 3, 24, 1, 12, 6, 3), (6, 3, 24, 1, 255, 42, -1),
+        (6, 3, -21, -18, 0, 6, 3), (6, 3, -21, -18, 1, 27, -45), (6, 3, -21, -18, 2, 0, -66),
+        (6, 3, -21, -18, 3, -48, -39), (6, 3, -21, -18, 4, -69, 9), (6, 3, -21, -18, 5, -42, 30),
+        (6, 3, -21, -18, 6, 6, 3), (6, 3, -21, -18, 7, 27, -45), (6, 3, -21, -18, 8, 0, -66),
+        (6, 3, -21, -18, 9, -48, -39), (6, 3, -21, -18, 10, -69, 9), (6, 3, -21, -18, 11, -42, 30),
+        (6, 3, -21, -18, 12, 6, 3), (6, 3, -21, -18, 255, -48, -39), (6, 3, -13, -35, 0, 6, 3),
+        (6, 3, -13, -35, 1, 44, -54), (6, 3, -13, -35, 2, 25, -92), (6, 3, -13, -35, 3, -32, -73),
+        (6, 3, -13, -35, 4, -70, -16), (6, 3, -13, -35, 5, -51, 22), (6, 3, -13, -35, 6, 6, 3),
+        (6, 3, -13, -35, 7, 44, -54), (6, 3, -13, -35, 8, 25, -92), (6, 3, -13, -35, 9, -32, -73),
+        (6, 3, -13, -35, 10, -70, -16), (6, 3, -13, -35, 11, -51, 22), (6, 3, -13, -35, 12, 6, 3),
+        (6, 3, -13, -35, 255, -32, -73), (6, 3, -26, 7, 0, 6, 3), (6, 3, -26, 7, 1, 2, -25),
+        (6, 3, -26, 7, 2, -30, -21), (6, 3, -26, 7, 3, -58, 11), (6, 3, -26, 7, 4, -54, 39),
+        (6, 3, -26, 7, 5, -22, 35), (6, 3, -26, 7, 6, 6, 3), (6, 3, -26, 7, 7, 2, -25),
+        (6, 3, -26, 7, 8, -30, -21), (6, 3, -26, 7, 9, -58, 11), (6, 3, -26, 7, 10, -54, 39),
+        (6, 3, -26, 7, 11, -22, 35), (6, 3, -26, 7, 12, 6, 3), (6, 3, -26, 7, 255, -58, 11),
+        (6, 3, 38, -1, 0, 6, 3), (6, 3, 38, -1, 1, 10, 31), (6, 3, 38, -1, 2, 42, 27),
+        (6, 3, 38, -1, 3, 70, -5), (6, 3, 38, -1, 4, 66, -33), (6, 3, 38, -1, 5, 34, -29),
+        (6, 3, 38, -1, 6, 6, 3), (6, 3, 38, -1, 7, 10, 31), (6, 3, 38, -1, 8, 42, 27),
+        (6, 3, 38, -1, 9, 70, -5), (6, 3, 38, -1, 10, 66, -33), (6, 3, 38, -1, 11, 34, -29),
+        (6, 3, 38, -1, 12, 6, 3), (6, 3, 38, -1, 255, 70, -5), (6, 3, 33, 8, 0, 6, 3),
+        (6, 3, 33, 8, 1, 1, 35), (6, 3, 33, 8, 2, 28, 40), (6, 3, 33, 8, 3, 60, 13),
+        (6, 3, 33, 8, 4, 65, -19), (6, 3, 33, 8, 5, 38, -24), (6, 3, 33, 8, 6, 6, 3),
+        (6, 3, 33, 8, 7, 1, 35), (6, 3, 33, 8, 8, 28, 40), (6, 3, 33, 8, 9, 60, 13),
+        (6, 3, 33, 8, 10, 65, -19), (6, 3, 33, 8, 11, 38, -24), (6, 3, 33, 8, 12, 6, 3),
+        (6, 3, 33, 8, 255, 60, 13),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_25_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (-7, -12, 31, 13, 0, -7, -12), (-7, -12, 31, 13, 1, 56, -50), (-7, -12, 31, 13, 2, 94, -25),
+        (-7, -12, 31, 13, 3, 69, 38), (-7, -12, 31, 13, 4, 6, 76), (-7, -12, 31, 13, 5, -32, 51),
+        (-7, -12, 31, 13, 6, -7, -12), (-7, -12, 31, 13, 7, 56, -50), (-7, -12, 31, 13, 8, 94, -25),
+        (-7, -12, 31, 13, 9, 69, 38), (-7, -12, 31, 13, 10, 6, 76), (-7, -12, 31, 13, 11, -32, 51),
+        (-7, -12, 31, 13, 12, -7, -12), (-7, -12, 31, 13, 255, 69, 38),
+        (-7, -12, 27, 39, 0, -7, -12), (-7, -12, 27, 39, 1, 78, -46), (-7, -12, 27, 39, 2, 112, 5),
+        (-7, -12, 27, 39, 3, 61, 90), (-7, -12, 27, 39, 4, -24, 124), (-7, -12, 27, 39, 5, -58, 73),
         (-7, -12, 27, 39, 6, -7, -12), (-7, -12, 27, 39, 7, 78, -46), (-7, -12, 27, 39, 8, 112, 5),
         (-7, -12, 27, 39, 9, 61, 90), (-7, -12, 27, 39, 10, -24, 124),
         (-7, -12, 27, 39, 11, -58, 73), (-7, -12, 27, 39, 12, -7, -12),
@@ -38023,6 +37469,137 @@ fn golden_hex_around_3_rotate_cw_around() {
         (-35, -32, 33, 8, 8, 141, -60), (-35, -32, 33, 8, 9, 101, 48),
         (-35, -32, 33, 8, 10, -7, 116), (-35, -32, 33, 8, 11, -75, 76),
         (-35, -32, 33, 8, 12, -35, -32), (-35, -32, 33, 8, 255, 101, 48),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_25_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (-7, -12, 31, 13, 0, -7, -12), (-7, -12, 31, 13, 1, -32, 51), (-7, -12, 31, 13, 2, 6, 76),
+        (-7, -12, 31, 13, 3, 69, 38), (-7, -12, 31, 13, 4, 94, -25), (-7, -12, 31, 13, 5, 56, -50),
+        (-7, -12, 31, 13, 6, -7, -12), (-7, -12, 31, 13, 7, -32, 51), (-7, -12, 31, 13, 8, 6, 76),
+        (-7, -12, 31, 13, 9, 69, 38), (-7, -12, 31, 13, 10, 94, -25),
+        (-7, -12, 31, 13, 11, 56, -50), (-7, -12, 31, 13, 12, -7, -12),
+        (-7, -12, 31, 13, 255, 69, 38), (-7, -12, 27, 39, 0, -7, -12),
+        (-7, -12, 27, 39, 1, -58, 73), (-7, -12, 27, 39, 2, -24, 124), (-7, -12, 27, 39, 3, 61, 90),
+        (-7, -12, 27, 39, 4, 112, 5), (-7, -12, 27, 39, 5, 78, -46), (-7, -12, 27, 39, 6, -7, -12),
+        (-7, -12, 27, 39, 7, -58, 73), (-7, -12, 27, 39, 8, -24, 124), (-7, -12, 27, 39, 9, 61, 90),
+        (-7, -12, 27, 39, 10, 112, 5), (-7, -12, 27, 39, 11, 78, -46),
+        (-7, -12, 27, 39, 12, -7, -12), (-7, -12, 27, 39, 255, 61, 90),
+        (-7, -12, 24, 1, 0, -7, -12), (-7, -12, 24, 1, 1, -20, 32), (-7, -12, 24, 1, 2, 11, 45),
+        (-7, -12, 24, 1, 3, 55, 14), (-7, -12, 24, 1, 4, 68, -30), (-7, -12, 24, 1, 5, 37, -43),
+        (-7, -12, 24, 1, 6, -7, -12), (-7, -12, 24, 1, 7, -20, 32), (-7, -12, 24, 1, 8, 11, 45),
+        (-7, -12, 24, 1, 9, 55, 14), (-7, -12, 24, 1, 10, 68, -30), (-7, -12, 24, 1, 11, 37, -43),
+        (-7, -12, 24, 1, 12, -7, -12), (-7, -12, 24, 1, 255, 55, 14),
+        (-7, -12, -21, -18, 0, -7, -12), (-7, -12, -21, -18, 1, -1, -32),
+        (-7, -12, -21, -18, 2, -15, -38), (-7, -12, -21, -18, 3, -35, -24),
+        (-7, -12, -21, -18, 4, -41, -4), (-7, -12, -21, -18, 5, -27, 2),
+        (-7, -12, -21, -18, 6, -7, -12), (-7, -12, -21, -18, 7, -1, -32),
+        (-7, -12, -21, -18, 8, -15, -38), (-7, -12, -21, -18, 9, -35, -24),
+        (-7, -12, -21, -18, 10, -41, -4), (-7, -12, -21, -18, 11, -27, 2),
+        (-7, -12, -21, -18, 12, -7, -12), (-7, -12, -21, -18, 255, -35, -24),
+        (-7, -12, -13, -35, 0, -7, -12), (-7, -12, -13, -35, 1, 16, -41),
+        (-7, -12, -13, -35, 2, 10, -64), (-7, -12, -13, -35, 3, -19, -58),
+        (-7, -12, -13, -35, 4, -42, -29), (-7, -12, -13, -35, 5, -36, -6),
+        (-7, -12, -13, -35, 6, -7, -12), (-7, -12, -13, -35, 7, 16, -41),
+        (-7, -12, -13, -35, 8, 10, -64), (-7, -12, -13, -35, 9, -19, -58),
+        (-7, -12, -13, -35, 10, -42, -29), (-7, -12, -13, -35, 11, -36, -6),
+        (-7, -12, -13, -35, 12, -7, -12), (-7, -12, -13, -35, 255, -19, -58),
+        (-7, -12, -26, 7, 0, -7, -12), (-7, -12, -26, 7, 1, -26, -12), (-7, -12, -26, 7, 2, -45, 7),
+        (-7, -12, -26, 7, 3, -45, 26), (-7, -12, -26, 7, 4, -26, 26), (-7, -12, -26, 7, 5, -7, 7),
+        (-7, -12, -26, 7, 6, -7, -12), (-7, -12, -26, 7, 7, -26, -12), (-7, -12, -26, 7, 8, -45, 7),
+        (-7, -12, -26, 7, 9, -45, 26), (-7, -12, -26, 7, 10, -26, 26), (-7, -12, -26, 7, 11, -7, 7),
+        (-7, -12, -26, 7, 12, -7, -12), (-7, -12, -26, 7, 255, -45, 26),
+        (-7, -12, 38, -1, 0, -7, -12), (-7, -12, 38, -1, 1, -18, 44), (-7, -12, 38, -1, 2, 27, 55),
+        (-7, -12, 38, -1, 3, 83, 10), (-7, -12, 38, -1, 4, 94, -46), (-7, -12, 38, -1, 5, 49, -57),
+        (-7, -12, 38, -1, 6, -7, -12), (-7, -12, 38, -1, 7, -18, 44), (-7, -12, 38, -1, 8, 27, 55),
+        (-7, -12, 38, -1, 9, 83, 10), (-7, -12, 38, -1, 10, 94, -46),
+        (-7, -12, 38, -1, 11, 49, -57), (-7, -12, 38, -1, 12, -7, -12),
+        (-7, -12, 38, -1, 255, 83, 10), (-7, -12, 33, 8, 0, -7, -12), (-7, -12, 33, 8, 1, -27, 48),
+        (-7, -12, 33, 8, 2, 13, 68), (-7, -12, 33, 8, 3, 73, 28), (-7, -12, 33, 8, 4, 93, -32),
+        (-7, -12, 33, 8, 5, 53, -52), (-7, -12, 33, 8, 6, -7, -12), (-7, -12, 33, 8, 7, -27, 48),
+        (-7, -12, 33, 8, 8, 13, 68), (-7, -12, 33, 8, 9, 73, 28), (-7, -12, 33, 8, 10, 93, -32),
+        (-7, -12, 33, 8, 11, 53, -52), (-7, -12, 33, 8, 12, -7, -12), (-7, -12, 33, 8, 255, 73, 28),
+        (-35, -32, 31, 13, 0, -35, -32), (-35, -32, 31, 13, 1, -80, 79),
+        (-35, -32, 31, 13, 2, -14, 124), (-35, -32, 31, 13, 3, 97, 58),
+        (-35, -32, 31, 13, 4, 142, -53), (-35, -32, 31, 13, 5, 76, -98),
+        (-35, -32, 31, 13, 6, -35, -32), (-35, -32, 31, 13, 7, -80, 79),
+        (-35, -32, 31, 13, 8, -14, 124), (-35, -32, 31, 13, 9, 97, 58),
+        (-35, -32, 31, 13, 10, 142, -53), (-35, -32, 31, 13, 11, 76, -98),
+        (-35, -32, 31, 13, 12, -35, -32), (-35, -32, 31, 13, 255, 97, 58),
+        (-35, -32, 27, 39, 0, -35, -32), (-35, -32, 27, 39, 1, -106, 101),
+        (-35, -32, 27, 39, 2, -44, 172), (-35, -32, 27, 39, 3, 89, 110),
+        (-35, -32, 27, 39, 4, 160, -23), (-35, -32, 27, 39, 5, 98, -94),
+        (-35, -32, 27, 39, 6, -35, -32), (-35, -32, 27, 39, 7, -106, 101),
+        (-35, -32, 27, 39, 8, -44, 172), (-35, -32, 27, 39, 9, 89, 110),
+        (-35, -32, 27, 39, 10, 160, -23), (-35, -32, 27, 39, 11, 98, -94),
+        (-35, -32, 27, 39, 12, -35, -32), (-35, -32, 27, 39, 255, 89, 110),
+        (-35, -32, 24, 1, 0, -35, -32), (-35, -32, 24, 1, 1, -68, 60), (-35, -32, 24, 1, 2, -9, 93),
+        (-35, -32, 24, 1, 3, 83, 34), (-35, -32, 24, 1, 4, 116, -58), (-35, -32, 24, 1, 5, 57, -91),
+        (-35, -32, 24, 1, 6, -35, -32), (-35, -32, 24, 1, 7, -68, 60), (-35, -32, 24, 1, 8, -9, 93),
+        (-35, -32, 24, 1, 9, 83, 34), (-35, -32, 24, 1, 10, 116, -58),
+        (-35, -32, 24, 1, 11, 57, -91), (-35, -32, 24, 1, 12, -35, -32),
+        (-35, -32, 24, 1, 255, 83, 34), (-35, -32, -21, -18, 0, -35, -32),
+        (-35, -32, -21, -18, 1, -49, -4), (-35, -32, -21, -18, 2, -35, 10),
+        (-35, -32, -21, -18, 3, -7, -4), (-35, -32, -21, -18, 4, 7, -32),
+        (-35, -32, -21, -18, 5, -7, -46), (-35, -32, -21, -18, 6, -35, -32),
+        (-35, -32, -21, -18, 7, -49, -4), (-35, -32, -21, -18, 8, -35, 10),
+        (-35, -32, -21, -18, 9, -7, -4), (-35, -32, -21, -18, 10, 7, -32),
+        (-35, -32, -21, -18, 11, -7, -46), (-35, -32, -21, -18, 12, -35, -32),
+        (-35, -32, -21, -18, 255, -7, -4), (-35, -32, -13, -35, 0, -35, -32),
+        (-35, -32, -13, -35, 1, -32, -13), (-35, -32, -13, -35, 2, -10, -16),
+        (-35, -32, -13, -35, 3, 9, -38), (-35, -32, -13, -35, 4, 6, -57),
+        (-35, -32, -13, -35, 5, -16, -54), (-35, -32, -13, -35, 6, -35, -32),
+        (-35, -32, -13, -35, 7, -32, -13), (-35, -32, -13, -35, 8, -10, -16),
+        (-35, -32, -13, -35, 9, 9, -38), (-35, -32, -13, -35, 10, 6, -57),
+        (-35, -32, -13, -35, 11, -16, -54), (-35, -32, -13, -35, 12, -35, -32),
+        (-35, -32, -13, -35, 255, 9, -38), (-35, -32, -26, 7, 0, -35, -32),
+        (-35, -32, -26, 7, 1, -74, 16), (-35, -32, -26, 7, 2, -65, 55),
+        (-35, -32, -26, 7, 3, -17, 46), (-35, -32, -26, 7, 4, 22, -2),
+        (-35, -32, -26, 7, 5, 13, -41), (-35, -32, -26, 7, 6, -35, -32),
+        (-35, -32, -26, 7, 7, -74, 16), (-35, -32, -26, 7, 8, -65, 55),
+        (-35, -32, -26, 7, 9, -17, 46), (-35, -32, -26, 7, 10, 22, -2),
+        (-35, -32, -26, 7, 11, 13, -41), (-35, -32, -26, 7, 12, -35, -32),
+        (-35, -32, -26, 7, 255, -17, 46), (-35, -32, 38, -1, 0, -35, -32),
+        (-35, -32, 38, -1, 1, -66, 72), (-35, -32, 38, -1, 2, 7, 103),
+        (-35, -32, 38, -1, 3, 111, 30), (-35, -32, 38, -1, 4, 142, -74),
+        (-35, -32, 38, -1, 5, 69, -105), (-35, -32, 38, -1, 6, -35, -32),
+        (-35, -32, 38, -1, 7, -66, 72), (-35, -32, 38, -1, 8, 7, 103),
+        (-35, -32, 38, -1, 9, 111, 30), (-35, -32, 38, -1, 10, 142, -74),
+        (-35, -32, 38, -1, 11, 69, -105), (-35, -32, 38, -1, 12, -35, -32),
+        (-35, -32, 38, -1, 255, 111, 30), (-35, -32, 33, 8, 0, -35, -32),
+        (-35, -32, 33, 8, 1, -75, 76), (-35, -32, 33, 8, 2, -7, 116), (-35, -32, 33, 8, 3, 101, 48),
+        (-35, -32, 33, 8, 4, 141, -60), (-35, -32, 33, 8, 5, 73, -100),
+        (-35, -32, 33, 8, 6, -35, -32), (-35, -32, 33, 8, 7, -75, 76),
+        (-35, -32, 33, 8, 8, -7, 116), (-35, -32, 33, 8, 9, 101, 48),
+        (-35, -32, 33, 8, 10, 141, -60), (-35, -32, 33, 8, 11, 73, -100),
+        (-35, -32, 33, 8, 12, -35, -32), (-35, -32, 33, 8, 255, 101, 48),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_26_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (10, -16, 31, 13, 0, 10, -16), (10, -16, 31, 13, 1, 60, -37), (10, -16, 31, 13, 2, 81, -8),
         (10, -16, 31, 13, 3, 52, 42), (10, -16, 31, 13, 4, 2, 63), (10, -16, 31, 13, 5, -19, 34),
         (10, -16, 31, 13, 6, 10, -16), (10, -16, 31, 13, 7, 60, -37), (10, -16, 31, 13, 8, 81, -8),
@@ -38109,22 +37686,141 @@ fn golden_hex_around_3_rotate_cw_around() {
         (1, -31, 33, 8, 3, 65, 47), (1, -31, 33, 8, 4, -6, 79), (1, -31, 33, 8, 5, -38, 40),
         (1, -31, 33, 8, 6, 1, -31), (1, -31, 33, 8, 7, 72, -63), (1, -31, 33, 8, 8, 104, -24),
         (1, -31, 33, 8, 9, 65, 47), (1, -31, 33, 8, 10, -6, 79), (1, -31, 33, 8, 11, -38, 40),
-        (1, -31, 33, 8, 12, 1, -31), (1, -31, 33, 8, 255, 65, 47), (37, 0, 31, 13, 0, 37, 0),
-        (37, 0, 31, 13, 1, 44, 6), (37, 0, 31, 13, 2, 38, 19), (37, 0, 31, 13, 3, 25, 26),
-        (37, 0, 31, 13, 4, 18, 20), (37, 0, 31, 13, 5, 24, 7), (37, 0, 31, 13, 6, 37, 0),
-        (37, 0, 31, 13, 7, 44, 6), (37, 0, 31, 13, 8, 38, 19), (37, 0, 31, 13, 9, 25, 26),
-        (37, 0, 31, 13, 10, 18, 20), (37, 0, 31, 13, 11, 24, 7), (37, 0, 31, 13, 12, 37, 0),
-        (37, 0, 31, 13, 255, 25, 26), (37, 0, 27, 39, 0, 37, 0), (37, 0, 27, 39, 1, 66, 10),
-        (37, 0, 27, 39, 2, 56, 49), (37, 0, 27, 39, 3, 17, 78), (37, 0, 27, 39, 4, -12, 68),
-        (37, 0, 27, 39, 5, -2, 29), (37, 0, 27, 39, 6, 37, 0), (37, 0, 27, 39, 7, 66, 10),
-        (37, 0, 27, 39, 8, 56, 49), (37, 0, 27, 39, 9, 17, 78), (37, 0, 27, 39, 10, -12, 68),
-        (37, 0, 27, 39, 11, -2, 29), (37, 0, 27, 39, 12, 37, 0), (37, 0, 27, 39, 255, 17, 78),
-        (37, 0, 24, 1, 0, 37, 0), (37, 0, 24, 1, 1, 25, 13), (37, 0, 24, 1, 2, 12, 14),
-        (37, 0, 24, 1, 3, 11, 2), (37, 0, 24, 1, 4, 23, -11), (37, 0, 24, 1, 5, 36, -12),
-        (37, 0, 24, 1, 6, 37, 0), (37, 0, 24, 1, 7, 25, 13), (37, 0, 24, 1, 8, 12, 14),
-        (37, 0, 24, 1, 9, 11, 2), (37, 0, 24, 1, 10, 23, -11), (37, 0, 24, 1, 11, 36, -12),
-        (37, 0, 24, 1, 12, 37, 0), (37, 0, 24, 1, 255, 11, 2), (37, 0, -21, -18, 0, 37, 0),
-        (37, 0, -21, -18, 1, -39, 58), (37, 0, -21, -18, 2, -97, 40),
+        (1, -31, 33, 8, 12, 1, -31), (1, -31, 33, 8, 255, 65, 47),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_26_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (10, -16, 31, 13, 0, 10, -16), (10, -16, 31, 13, 1, -19, 34), (10, -16, 31, 13, 2, 2, 63),
+        (10, -16, 31, 13, 3, 52, 42), (10, -16, 31, 13, 4, 81, -8), (10, -16, 31, 13, 5, 60, -37),
+        (10, -16, 31, 13, 6, 10, -16), (10, -16, 31, 13, 7, -19, 34), (10, -16, 31, 13, 8, 2, 63),
+        (10, -16, 31, 13, 9, 52, 42), (10, -16, 31, 13, 10, 81, -8), (10, -16, 31, 13, 11, 60, -37),
+        (10, -16, 31, 13, 12, 10, -16), (10, -16, 31, 13, 255, 52, 42),
+        (10, -16, 27, 39, 0, 10, -16), (10, -16, 27, 39, 1, -45, 56),
+        (10, -16, 27, 39, 2, -28, 111), (10, -16, 27, 39, 3, 44, 94), (10, -16, 27, 39, 4, 99, 22),
+        (10, -16, 27, 39, 5, 82, -33), (10, -16, 27, 39, 6, 10, -16), (10, -16, 27, 39, 7, -45, 56),
+        (10, -16, 27, 39, 8, -28, 111), (10, -16, 27, 39, 9, 44, 94), (10, -16, 27, 39, 10, 99, 22),
+        (10, -16, 27, 39, 11, 82, -33), (10, -16, 27, 39, 12, 10, -16),
+        (10, -16, 27, 39, 255, 44, 94), (10, -16, 24, 1, 0, 10, -16), (10, -16, 24, 1, 1, -7, 15),
+        (10, -16, 24, 1, 2, 7, 32), (10, -16, 24, 1, 3, 38, 18), (10, -16, 24, 1, 4, 55, -13),
+        (10, -16, 24, 1, 5, 41, -30), (10, -16, 24, 1, 6, 10, -16), (10, -16, 24, 1, 7, -7, 15),
+        (10, -16, 24, 1, 8, 7, 32), (10, -16, 24, 1, 9, 38, 18), (10, -16, 24, 1, 10, 55, -13),
+        (10, -16, 24, 1, 11, 41, -30), (10, -16, 24, 1, 12, 10, -16), (10, -16, 24, 1, 255, 38, 18),
+        (10, -16, -21, -18, 0, 10, -16), (10, -16, -21, -18, 1, 12, -49),
+        (10, -16, -21, -18, 2, -19, -51), (10, -16, -21, -18, 3, -52, -20),
+        (10, -16, -21, -18, 4, -54, 13), (10, -16, -21, -18, 5, -23, 15),
+        (10, -16, -21, -18, 6, 10, -16), (10, -16, -21, -18, 7, 12, -49),
+        (10, -16, -21, -18, 8, -19, -51), (10, -16, -21, -18, 9, -52, -20),
+        (10, -16, -21, -18, 10, -54, 13), (10, -16, -21, -18, 11, -23, 15),
+        (10, -16, -21, -18, 12, 10, -16), (10, -16, -21, -18, 255, -52, -20),
+        (10, -16, -13, -35, 0, 10, -16), (10, -16, -13, -35, 1, 29, -58),
+        (10, -16, -13, -35, 2, 6, -77), (10, -16, -13, -35, 3, -36, -54),
+        (10, -16, -13, -35, 4, -55, -12), (10, -16, -13, -35, 5, -32, 7),
+        (10, -16, -13, -35, 6, 10, -16), (10, -16, -13, -35, 7, 29, -58),
+        (10, -16, -13, -35, 8, 6, -77), (10, -16, -13, -35, 9, -36, -54),
+        (10, -16, -13, -35, 10, -55, -12), (10, -16, -13, -35, 11, -32, 7),
+        (10, -16, -13, -35, 12, 10, -16), (10, -16, -13, -35, 255, -36, -54),
+        (10, -16, -26, 7, 0, 10, -16), (10, -16, -26, 7, 1, -13, -29),
+        (10, -16, -26, 7, 2, -49, -6), (10, -16, -26, 7, 3, -62, 30), (10, -16, -26, 7, 4, -39, 43),
+        (10, -16, -26, 7, 5, -3, 20), (10, -16, -26, 7, 6, 10, -16), (10, -16, -26, 7, 7, -13, -29),
+        (10, -16, -26, 7, 8, -49, -6), (10, -16, -26, 7, 9, -62, 30),
+        (10, -16, -26, 7, 10, -39, 43), (10, -16, -26, 7, 11, -3, 20),
+        (10, -16, -26, 7, 12, 10, -16), (10, -16, -26, 7, 255, -62, 30),
+        (10, -16, 38, -1, 0, 10, -16), (10, -16, 38, -1, 1, -5, 27), (10, -16, 38, -1, 2, 23, 42),
+        (10, -16, 38, -1, 3, 66, 14), (10, -16, 38, -1, 4, 81, -29), (10, -16, 38, -1, 5, 53, -44),
+        (10, -16, 38, -1, 6, 10, -16), (10, -16, 38, -1, 7, -5, 27), (10, -16, 38, -1, 8, 23, 42),
+        (10, -16, 38, -1, 9, 66, 14), (10, -16, 38, -1, 10, 81, -29),
+        (10, -16, 38, -1, 11, 53, -44), (10, -16, 38, -1, 12, 10, -16),
+        (10, -16, 38, -1, 255, 66, 14), (10, -16, 33, 8, 0, 10, -16), (10, -16, 33, 8, 1, -14, 31),
+        (10, -16, 33, 8, 2, 9, 55), (10, -16, 33, 8, 3, 56, 32), (10, -16, 33, 8, 4, 80, -15),
+        (10, -16, 33, 8, 5, 57, -39), (10, -16, 33, 8, 6, 10, -16), (10, -16, 33, 8, 7, -14, 31),
+        (10, -16, 33, 8, 8, 9, 55), (10, -16, 33, 8, 9, 56, 32), (10, -16, 33, 8, 10, 80, -15),
+        (10, -16, 33, 8, 11, 57, -39), (10, -16, 33, 8, 12, 10, -16), (10, -16, 33, 8, 255, 56, 32),
+        (1, -31, 31, 13, 0, 1, -31), (1, -31, 31, 13, 1, -43, 43), (1, -31, 31, 13, 2, -13, 87),
+        (1, -31, 31, 13, 3, 61, 57), (1, -31, 31, 13, 4, 105, -17), (1, -31, 31, 13, 5, 75, -61),
+        (1, -31, 31, 13, 6, 1, -31), (1, -31, 31, 13, 7, -43, 43), (1, -31, 31, 13, 8, -13, 87),
+        (1, -31, 31, 13, 9, 61, 57), (1, -31, 31, 13, 10, 105, -17), (1, -31, 31, 13, 11, 75, -61),
+        (1, -31, 31, 13, 12, 1, -31), (1, -31, 31, 13, 255, 61, 57), (1, -31, 27, 39, 0, 1, -31),
+        (1, -31, 27, 39, 1, -69, 65), (1, -31, 27, 39, 2, -43, 135), (1, -31, 27, 39, 3, 53, 109),
+        (1, -31, 27, 39, 4, 123, 13), (1, -31, 27, 39, 5, 97, -57), (1, -31, 27, 39, 6, 1, -31),
+        (1, -31, 27, 39, 7, -69, 65), (1, -31, 27, 39, 8, -43, 135), (1, -31, 27, 39, 9, 53, 109),
+        (1, -31, 27, 39, 10, 123, 13), (1, -31, 27, 39, 11, 97, -57), (1, -31, 27, 39, 12, 1, -31),
+        (1, -31, 27, 39, 255, 53, 109), (1, -31, 24, 1, 0, 1, -31), (1, -31, 24, 1, 1, -31, 24),
+        (1, -31, 24, 1, 2, -8, 56), (1, -31, 24, 1, 3, 47, 33), (1, -31, 24, 1, 4, 79, -22),
+        (1, -31, 24, 1, 5, 56, -54), (1, -31, 24, 1, 6, 1, -31), (1, -31, 24, 1, 7, -31, 24),
+        (1, -31, 24, 1, 8, -8, 56), (1, -31, 24, 1, 9, 47, 33), (1, -31, 24, 1, 10, 79, -22),
+        (1, -31, 24, 1, 11, 56, -54), (1, -31, 24, 1, 12, 1, -31), (1, -31, 24, 1, 255, 47, 33),
+        (1, -31, -21, -18, 0, 1, -31), (1, -31, -21, -18, 1, -12, -40),
+        (1, -31, -21, -18, 2, -34, -27), (1, -31, -21, -18, 3, -43, -5),
+        (1, -31, -21, -18, 4, -30, 4), (1, -31, -21, -18, 5, -8, -9), (1, -31, -21, -18, 6, 1, -31),
+        (1, -31, -21, -18, 7, -12, -40), (1, -31, -21, -18, 8, -34, -27),
+        (1, -31, -21, -18, 9, -43, -5), (1, -31, -21, -18, 10, -30, 4),
+        (1, -31, -21, -18, 11, -8, -9), (1, -31, -21, -18, 12, 1, -31),
+        (1, -31, -21, -18, 255, -43, -5), (1, -31, -13, -35, 0, 1, -31),
+        (1, -31, -13, -35, 1, 5, -49), (1, -31, -13, -35, 2, -9, -53),
+        (1, -31, -13, -35, 3, -27, -39), (1, -31, -13, -35, 4, -31, -21),
+        (1, -31, -13, -35, 5, -17, -17), (1, -31, -13, -35, 6, 1, -31),
+        (1, -31, -13, -35, 7, 5, -49), (1, -31, -13, -35, 8, -9, -53),
+        (1, -31, -13, -35, 9, -27, -39), (1, -31, -13, -35, 10, -31, -21),
+        (1, -31, -13, -35, 11, -17, -17), (1, -31, -13, -35, 12, 1, -31),
+        (1, -31, -13, -35, 255, -27, -39), (1, -31, -26, 7, 0, 1, -31),
+        (1, -31, -26, 7, 1, -37, -20), (1, -31, -26, 7, 2, -64, 18), (1, -31, -26, 7, 3, -53, 45),
+        (1, -31, -26, 7, 4, -15, 34), (1, -31, -26, 7, 5, 12, -4), (1, -31, -26, 7, 6, 1, -31),
+        (1, -31, -26, 7, 7, -37, -20), (1, -31, -26, 7, 8, -64, 18), (1, -31, -26, 7, 9, -53, 45),
+        (1, -31, -26, 7, 10, -15, 34), (1, -31, -26, 7, 11, 12, -4), (1, -31, -26, 7, 12, 1, -31),
+        (1, -31, -26, 7, 255, -53, 45), (1, -31, 38, -1, 0, 1, -31), (1, -31, 38, -1, 1, -29, 36),
+        (1, -31, 38, -1, 2, 8, 66), (1, -31, 38, -1, 3, 75, 29), (1, -31, 38, -1, 4, 105, -38),
+        (1, -31, 38, -1, 5, 68, -68), (1, -31, 38, -1, 6, 1, -31), (1, -31, 38, -1, 7, -29, 36),
+        (1, -31, 38, -1, 8, 8, 66), (1, -31, 38, -1, 9, 75, 29), (1, -31, 38, -1, 10, 105, -38),
+        (1, -31, 38, -1, 11, 68, -68), (1, -31, 38, -1, 12, 1, -31), (1, -31, 38, -1, 255, 75, 29),
+        (1, -31, 33, 8, 0, 1, -31), (1, -31, 33, 8, 1, -38, 40), (1, -31, 33, 8, 2, -6, 79),
+        (1, -31, 33, 8, 3, 65, 47), (1, -31, 33, 8, 4, 104, -24), (1, -31, 33, 8, 5, 72, -63),
+        (1, -31, 33, 8, 6, 1, -31), (1, -31, 33, 8, 7, -38, 40), (1, -31, 33, 8, 8, -6, 79),
+        (1, -31, 33, 8, 9, 65, 47), (1, -31, 33, 8, 10, 104, -24), (1, -31, 33, 8, 11, 72, -63),
+        (1, -31, 33, 8, 12, 1, -31), (1, -31, 33, 8, 255, 65, 47),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_27_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (37, 0, 31, 13, 0, 37, 0), (37, 0, 31, 13, 1, 44, 6), (37, 0, 31, 13, 2, 38, 19),
+        (37, 0, 31, 13, 3, 25, 26), (37, 0, 31, 13, 4, 18, 20), (37, 0, 31, 13, 5, 24, 7),
+        (37, 0, 31, 13, 6, 37, 0), (37, 0, 31, 13, 7, 44, 6), (37, 0, 31, 13, 8, 38, 19),
+        (37, 0, 31, 13, 9, 25, 26), (37, 0, 31, 13, 10, 18, 20), (37, 0, 31, 13, 11, 24, 7),
+        (37, 0, 31, 13, 12, 37, 0), (37, 0, 31, 13, 255, 25, 26), (37, 0, 27, 39, 0, 37, 0),
+        (37, 0, 27, 39, 1, 66, 10), (37, 0, 27, 39, 2, 56, 49), (37, 0, 27, 39, 3, 17, 78),
+        (37, 0, 27, 39, 4, -12, 68), (37, 0, 27, 39, 5, -2, 29), (37, 0, 27, 39, 6, 37, 0),
+        (37, 0, 27, 39, 7, 66, 10), (37, 0, 27, 39, 8, 56, 49), (37, 0, 27, 39, 9, 17, 78),
+        (37, 0, 27, 39, 10, -12, 68), (37, 0, 27, 39, 11, -2, 29), (37, 0, 27, 39, 12, 37, 0),
+        (37, 0, 27, 39, 255, 17, 78), (37, 0, 24, 1, 0, 37, 0), (37, 0, 24, 1, 1, 25, 13),
+        (37, 0, 24, 1, 2, 12, 14), (37, 0, 24, 1, 3, 11, 2), (37, 0, 24, 1, 4, 23, -11),
+        (37, 0, 24, 1, 5, 36, -12), (37, 0, 24, 1, 6, 37, 0), (37, 0, 24, 1, 7, 25, 13),
+        (37, 0, 24, 1, 8, 12, 14), (37, 0, 24, 1, 9, 11, 2), (37, 0, 24, 1, 10, 23, -11),
+        (37, 0, 24, 1, 11, 36, -12), (37, 0, 24, 1, 12, 37, 0), (37, 0, 24, 1, 255, 11, 2),
+        (37, 0, -21, -18, 0, 37, 0), (37, 0, -21, -18, 1, -39, 58), (37, 0, -21, -18, 2, -97, 40),
         (37, 0, -21, -18, 3, -79, -36), (37, 0, -21, -18, 4, -3, -94),
         (37, 0, -21, -18, 5, 55, -76), (37, 0, -21, -18, 6, 37, 0), (37, 0, -21, -18, 7, -39, 58),
         (37, 0, -21, -18, 8, -97, 40), (37, 0, -21, -18, 9, -79, -36),
@@ -38189,22 +37885,134 @@ fn golden_hex_around_3_rotate_cw_around() {
         (-6, 2, 33, 8, 3, 72, 14), (-6, 2, 33, 8, 4, 27, 53), (-6, 2, 33, 8, 5, -12, 47),
         (-6, 2, 33, 8, 6, -6, 2), (-6, 2, 33, 8, 7, 39, -37), (-6, 2, 33, 8, 8, 78, -31),
         (-6, 2, 33, 8, 9, 72, 14), (-6, 2, 33, 8, 10, 27, 53), (-6, 2, 33, 8, 11, -12, 47),
-        (-6, 2, 33, 8, 12, -6, 2), (-6, 2, 33, 8, 255, 72, 14), (33, 8, 31, 13, 0, 33, 8),
-        (33, 8, 31, 13, 1, 36, 10), (33, 8, 31, 13, 2, 34, 15), (33, 8, 31, 13, 3, 29, 18),
-        (33, 8, 31, 13, 4, 26, 16), (33, 8, 31, 13, 5, 28, 11), (33, 8, 31, 13, 6, 33, 8),
-        (33, 8, 31, 13, 7, 36, 10), (33, 8, 31, 13, 8, 34, 15), (33, 8, 31, 13, 9, 29, 18),
-        (33, 8, 31, 13, 10, 26, 16), (33, 8, 31, 13, 11, 28, 11), (33, 8, 31, 13, 12, 33, 8),
-        (33, 8, 31, 13, 255, 29, 18), (33, 8, 27, 39, 0, 33, 8), (33, 8, 27, 39, 1, 58, 14),
-        (33, 8, 27, 39, 2, 52, 45), (33, 8, 27, 39, 3, 21, 70), (33, 8, 27, 39, 4, -4, 64),
-        (33, 8, 27, 39, 5, 2, 33), (33, 8, 27, 39, 6, 33, 8), (33, 8, 27, 39, 7, 58, 14),
-        (33, 8, 27, 39, 8, 52, 45), (33, 8, 27, 39, 9, 21, 70), (33, 8, 27, 39, 10, -4, 64),
-        (33, 8, 27, 39, 11, 2, 33), (33, 8, 27, 39, 12, 33, 8), (33, 8, 27, 39, 255, 21, 70),
-        (33, 8, 24, 1, 0, 33, 8), (33, 8, 24, 1, 1, 17, 17), (33, 8, 24, 1, 2, 8, 10),
-        (33, 8, 24, 1, 3, 15, -6), (33, 8, 24, 1, 4, 31, -15), (33, 8, 24, 1, 5, 40, -8),
-        (33, 8, 24, 1, 6, 33, 8), (33, 8, 24, 1, 7, 17, 17), (33, 8, 24, 1, 8, 8, 10),
-        (33, 8, 24, 1, 9, 15, -6), (33, 8, 24, 1, 10, 31, -15), (33, 8, 24, 1, 11, 40, -8),
-        (33, 8, 24, 1, 12, 33, 8), (33, 8, 24, 1, 255, 15, -6), (33, 8, -21, -18, 0, 33, 8),
-        (33, 8, -21, -18, 1, -47, 62), (33, 8, -21, -18, 2, -101, 36),
+        (-6, 2, 33, 8, 12, -6, 2), (-6, 2, 33, 8, 255, 72, 14),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_27_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (37, 0, 31, 13, 0, 37, 0), (37, 0, 31, 13, 1, 24, 7), (37, 0, 31, 13, 2, 18, 20),
+        (37, 0, 31, 13, 3, 25, 26), (37, 0, 31, 13, 4, 38, 19), (37, 0, 31, 13, 5, 44, 6),
+        (37, 0, 31, 13, 6, 37, 0), (37, 0, 31, 13, 7, 24, 7), (37, 0, 31, 13, 8, 18, 20),
+        (37, 0, 31, 13, 9, 25, 26), (37, 0, 31, 13, 10, 38, 19), (37, 0, 31, 13, 11, 44, 6),
+        (37, 0, 31, 13, 12, 37, 0), (37, 0, 31, 13, 255, 25, 26), (37, 0, 27, 39, 0, 37, 0),
+        (37, 0, 27, 39, 1, -2, 29), (37, 0, 27, 39, 2, -12, 68), (37, 0, 27, 39, 3, 17, 78),
+        (37, 0, 27, 39, 4, 56, 49), (37, 0, 27, 39, 5, 66, 10), (37, 0, 27, 39, 6, 37, 0),
+        (37, 0, 27, 39, 7, -2, 29), (37, 0, 27, 39, 8, -12, 68), (37, 0, 27, 39, 9, 17, 78),
+        (37, 0, 27, 39, 10, 56, 49), (37, 0, 27, 39, 11, 66, 10), (37, 0, 27, 39, 12, 37, 0),
+        (37, 0, 27, 39, 255, 17, 78), (37, 0, 24, 1, 0, 37, 0), (37, 0, 24, 1, 1, 36, -12),
+        (37, 0, 24, 1, 2, 23, -11), (37, 0, 24, 1, 3, 11, 2), (37, 0, 24, 1, 4, 12, 14),
+        (37, 0, 24, 1, 5, 25, 13), (37, 0, 24, 1, 6, 37, 0), (37, 0, 24, 1, 7, 36, -12),
+        (37, 0, 24, 1, 8, 23, -11), (37, 0, 24, 1, 9, 11, 2), (37, 0, 24, 1, 10, 12, 14),
+        (37, 0, 24, 1, 11, 25, 13), (37, 0, 24, 1, 12, 37, 0), (37, 0, 24, 1, 255, 11, 2),
+        (37, 0, -21, -18, 0, 37, 0), (37, 0, -21, -18, 1, 55, -76), (37, 0, -21, -18, 2, -3, -94),
+        (37, 0, -21, -18, 3, -79, -36), (37, 0, -21, -18, 4, -97, 40),
+        (37, 0, -21, -18, 5, -39, 58), (37, 0, -21, -18, 6, 37, 0), (37, 0, -21, -18, 7, 55, -76),
+        (37, 0, -21, -18, 8, -3, -94), (37, 0, -21, -18, 9, -79, -36),
+        (37, 0, -21, -18, 10, -97, 40), (37, 0, -21, -18, 11, -39, 58),
+        (37, 0, -21, -18, 12, 37, 0), (37, 0, -21, -18, 255, -79, -36), (37, 0, -13, -35, 0, 37, 0),
+        (37, 0, -13, -35, 1, 72, -85), (37, 0, -13, -35, 2, 22, -120),
+        (37, 0, -13, -35, 3, -63, -70), (37, 0, -13, -35, 4, -98, 15),
+        (37, 0, -13, -35, 5, -48, 50), (37, 0, -13, -35, 6, 37, 0), (37, 0, -13, -35, 7, 72, -85),
+        (37, 0, -13, -35, 8, 22, -120), (37, 0, -13, -35, 9, -63, -70),
+        (37, 0, -13, -35, 10, -98, 15), (37, 0, -13, -35, 11, -48, 50),
+        (37, 0, -13, -35, 12, 37, 0), (37, 0, -13, -35, 255, -63, -70), (37, 0, -26, 7, 0, 37, 0),
+        (37, 0, -26, 7, 1, 30, -56), (37, 0, -26, 7, 2, -33, -49), (37, 0, -26, 7, 3, -89, 14),
+        (37, 0, -26, 7, 4, -82, 70), (37, 0, -26, 7, 5, -19, 63), (37, 0, -26, 7, 6, 37, 0),
+        (37, 0, -26, 7, 7, 30, -56), (37, 0, -26, 7, 8, -33, -49), (37, 0, -26, 7, 9, -89, 14),
+        (37, 0, -26, 7, 10, -82, 70), (37, 0, -26, 7, 11, -19, 63), (37, 0, -26, 7, 12, 37, 0),
+        (37, 0, -26, 7, 255, -89, 14), (37, 0, 38, -1, 0, 37, 0), (37, 0, 38, -1, 1, 38, 0),
+        (37, 0, 38, -1, 2, 39, -1), (37, 0, 38, -1, 3, 39, -2), (37, 0, 38, -1, 4, 38, -2),
+        (37, 0, 38, -1, 5, 37, -1), (37, 0, 38, -1, 6, 37, 0), (37, 0, 38, -1, 7, 38, 0),
+        (37, 0, 38, -1, 8, 39, -1), (37, 0, 38, -1, 9, 39, -2), (37, 0, 38, -1, 10, 38, -2),
+        (37, 0, 38, -1, 11, 37, -1), (37, 0, 38, -1, 12, 37, 0), (37, 0, 38, -1, 255, 39, -2),
+        (37, 0, 33, 8, 0, 37, 0), (37, 0, 33, 8, 1, 29, 4), (37, 0, 33, 8, 2, 25, 12),
+        (37, 0, 33, 8, 3, 29, 16), (37, 0, 33, 8, 4, 37, 12), (37, 0, 33, 8, 5, 41, 4),
+        (37, 0, 33, 8, 6, 37, 0), (37, 0, 33, 8, 7, 29, 4), (37, 0, 33, 8, 8, 25, 12),
+        (37, 0, 33, 8, 9, 29, 16), (37, 0, 33, 8, 10, 37, 12), (37, 0, 33, 8, 11, 41, 4),
+        (37, 0, 33, 8, 12, 37, 0), (37, 0, 33, 8, 255, 29, 16), (-6, 2, 31, 13, 0, -6, 2),
+        (-6, 2, 31, 13, 1, -17, 50), (-6, 2, 31, 13, 2, 20, 61), (-6, 2, 31, 13, 3, 68, 24),
+        (-6, 2, 31, 13, 4, 79, -24), (-6, 2, 31, 13, 5, 42, -35), (-6, 2, 31, 13, 6, -6, 2),
+        (-6, 2, 31, 13, 7, -17, 50), (-6, 2, 31, 13, 8, 20, 61), (-6, 2, 31, 13, 9, 68, 24),
+        (-6, 2, 31, 13, 10, 79, -24), (-6, 2, 31, 13, 11, 42, -35), (-6, 2, 31, 13, 12, -6, 2),
+        (-6, 2, 31, 13, 255, 68, 24), (-6, 2, 27, 39, 0, -6, 2), (-6, 2, 27, 39, 1, -43, 72),
+        (-6, 2, 27, 39, 2, -10, 109), (-6, 2, 27, 39, 3, 60, 76), (-6, 2, 27, 39, 4, 97, 6),
+        (-6, 2, 27, 39, 5, 64, -31), (-6, 2, 27, 39, 6, -6, 2), (-6, 2, 27, 39, 7, -43, 72),
+        (-6, 2, 27, 39, 8, -10, 109), (-6, 2, 27, 39, 9, 60, 76), (-6, 2, 27, 39, 10, 97, 6),
+        (-6, 2, 27, 39, 11, 64, -31), (-6, 2, 27, 39, 12, -6, 2), (-6, 2, 27, 39, 255, 60, 76),
+        (-6, 2, 24, 1, 0, -6, 2), (-6, 2, 24, 1, 1, -5, 31), (-6, 2, 24, 1, 2, 25, 30),
+        (-6, 2, 24, 1, 3, 54, 0), (-6, 2, 24, 1, 4, 53, -29), (-6, 2, 24, 1, 5, 23, -28),
+        (-6, 2, 24, 1, 6, -6, 2), (-6, 2, 24, 1, 7, -5, 31), (-6, 2, 24, 1, 8, 25, 30),
+        (-6, 2, 24, 1, 9, 54, 0), (-6, 2, 24, 1, 10, 53, -29), (-6, 2, 24, 1, 11, 23, -28),
+        (-6, 2, 24, 1, 12, -6, 2), (-6, 2, 24, 1, 255, 54, 0), (-6, 2, -21, -18, 0, -6, 2),
+        (-6, 2, -21, -18, 1, 14, -33), (-6, 2, -21, -18, 2, -1, -53),
+        (-6, 2, -21, -18, 3, -36, -38), (-6, 2, -21, -18, 4, -56, -3),
+        (-6, 2, -21, -18, 5, -41, 17), (-6, 2, -21, -18, 6, -6, 2), (-6, 2, -21, -18, 7, 14, -33),
+        (-6, 2, -21, -18, 8, -1, -53), (-6, 2, -21, -18, 9, -36, -38),
+        (-6, 2, -21, -18, 10, -56, -3), (-6, 2, -21, -18, 11, -41, 17),
+        (-6, 2, -21, -18, 12, -6, 2), (-6, 2, -21, -18, 255, -36, -38), (-6, 2, -13, -35, 0, -6, 2),
+        (-6, 2, -13, -35, 1, 31, -42), (-6, 2, -13, -35, 2, 24, -79),
+        (-6, 2, -13, -35, 3, -20, -72), (-6, 2, -13, -35, 4, -57, -28),
+        (-6, 2, -13, -35, 5, -50, 9), (-6, 2, -13, -35, 6, -6, 2), (-6, 2, -13, -35, 7, 31, -42),
+        (-6, 2, -13, -35, 8, 24, -79), (-6, 2, -13, -35, 9, -20, -72),
+        (-6, 2, -13, -35, 10, -57, -28), (-6, 2, -13, -35, 11, -50, 9),
+        (-6, 2, -13, -35, 12, -6, 2), (-6, 2, -13, -35, 255, -20, -72), (-6, 2, -26, 7, 0, -6, 2),
+        (-6, 2, -26, 7, 1, -11, -13), (-6, 2, -26, 7, 2, -31, -8), (-6, 2, -26, 7, 3, -46, 12),
+        (-6, 2, -26, 7, 4, -41, 27), (-6, 2, -26, 7, 5, -21, 22), (-6, 2, -26, 7, 6, -6, 2),
+        (-6, 2, -26, 7, 7, -11, -13), (-6, 2, -26, 7, 8, -31, -8), (-6, 2, -26, 7, 9, -46, 12),
+        (-6, 2, -26, 7, 10, -41, 27), (-6, 2, -26, 7, 11, -21, 22), (-6, 2, -26, 7, 12, -6, 2),
+        (-6, 2, -26, 7, 255, -46, 12), (-6, 2, 38, -1, 0, -6, 2), (-6, 2, 38, -1, 1, -3, 43),
+        (-6, 2, 38, -1, 2, 41, 40), (-6, 2, 38, -1, 3, 82, -4), (-6, 2, 38, -1, 4, 79, -45),
+        (-6, 2, 38, -1, 5, 35, -42), (-6, 2, 38, -1, 6, -6, 2), (-6, 2, 38, -1, 7, -3, 43),
+        (-6, 2, 38, -1, 8, 41, 40), (-6, 2, 38, -1, 9, 82, -4), (-6, 2, 38, -1, 10, 79, -45),
+        (-6, 2, 38, -1, 11, 35, -42), (-6, 2, 38, -1, 12, -6, 2), (-6, 2, 38, -1, 255, 82, -4),
+        (-6, 2, 33, 8, 0, -6, 2), (-6, 2, 33, 8, 1, -12, 47), (-6, 2, 33, 8, 2, 27, 53),
+        (-6, 2, 33, 8, 3, 72, 14), (-6, 2, 33, 8, 4, 78, -31), (-6, 2, 33, 8, 5, 39, -37),
+        (-6, 2, 33, 8, 6, -6, 2), (-6, 2, 33, 8, 7, -12, 47), (-6, 2, 33, 8, 8, 27, 53),
+        (-6, 2, 33, 8, 9, 72, 14), (-6, 2, 33, 8, 10, 78, -31), (-6, 2, 33, 8, 11, 39, -37),
+        (-6, 2, 33, 8, 12, -6, 2), (-6, 2, 33, 8, 255, 72, 14),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_28_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (33, 8, 31, 13, 0, 33, 8), (33, 8, 31, 13, 1, 36, 10), (33, 8, 31, 13, 2, 34, 15),
+        (33, 8, 31, 13, 3, 29, 18), (33, 8, 31, 13, 4, 26, 16), (33, 8, 31, 13, 5, 28, 11),
+        (33, 8, 31, 13, 6, 33, 8), (33, 8, 31, 13, 7, 36, 10), (33, 8, 31, 13, 8, 34, 15),
+        (33, 8, 31, 13, 9, 29, 18), (33, 8, 31, 13, 10, 26, 16), (33, 8, 31, 13, 11, 28, 11),
+        (33, 8, 31, 13, 12, 33, 8), (33, 8, 31, 13, 255, 29, 18), (33, 8, 27, 39, 0, 33, 8),
+        (33, 8, 27, 39, 1, 58, 14), (33, 8, 27, 39, 2, 52, 45), (33, 8, 27, 39, 3, 21, 70),
+        (33, 8, 27, 39, 4, -4, 64), (33, 8, 27, 39, 5, 2, 33), (33, 8, 27, 39, 6, 33, 8),
+        (33, 8, 27, 39, 7, 58, 14), (33, 8, 27, 39, 8, 52, 45), (33, 8, 27, 39, 9, 21, 70),
+        (33, 8, 27, 39, 10, -4, 64), (33, 8, 27, 39, 11, 2, 33), (33, 8, 27, 39, 12, 33, 8),
+        (33, 8, 27, 39, 255, 21, 70), (33, 8, 24, 1, 0, 33, 8), (33, 8, 24, 1, 1, 17, 17),
+        (33, 8, 24, 1, 2, 8, 10), (33, 8, 24, 1, 3, 15, -6), (33, 8, 24, 1, 4, 31, -15),
+        (33, 8, 24, 1, 5, 40, -8), (33, 8, 24, 1, 6, 33, 8), (33, 8, 24, 1, 7, 17, 17),
+        (33, 8, 24, 1, 8, 8, 10), (33, 8, 24, 1, 9, 15, -6), (33, 8, 24, 1, 10, 31, -15),
+        (33, 8, 24, 1, 11, 40, -8), (33, 8, 24, 1, 12, 33, 8), (33, 8, 24, 1, 255, 15, -6),
+        (33, 8, -21, -18, 0, 33, 8), (33, 8, -21, -18, 1, -47, 62), (33, 8, -21, -18, 2, -101, 36),
         (33, 8, -21, -18, 3, -75, -44), (33, 8, -21, -18, 4, 5, -98), (33, 8, -21, -18, 5, 59, -72),
         (33, 8, -21, -18, 6, 33, 8), (33, 8, -21, -18, 7, -47, 62), (33, 8, -21, -18, 8, -101, 36),
         (33, 8, -21, -18, 9, -75, -44), (33, 8, -21, -18, 10, 5, -98),
@@ -38268,24 +38076,136 @@ fn golden_hex_around_3_rotate_cw_around() {
         (3, -4, 33, 8, 3, 63, 20), (3, -4, 33, 8, 4, 21, 50), (3, -4, 33, 8, 5, -9, 38),
         (3, -4, 33, 8, 6, 3, -4), (3, -4, 33, 8, 7, 45, -34), (3, -4, 33, 8, 8, 75, -22),
         (3, -4, 33, 8, 9, 63, 20), (3, -4, 33, 8, 10, 21, 50), (3, -4, 33, 8, 11, -9, 38),
-        (3, -4, 33, 8, 12, 3, -4), (3, -4, 33, 8, 255, 63, 20), (14, -36, 31, 13, 0, 14, -36),
-        (14, -36, 31, 13, 1, 80, -53), (14, -36, 31, 13, 2, 97, -4), (14, -36, 31, 13, 3, 48, 62),
-        (14, -36, 31, 13, 4, -18, 79), (14, -36, 31, 13, 5, -35, 30), (14, -36, 31, 13, 6, 14, -36),
-        (14, -36, 31, 13, 7, 80, -53), (14, -36, 31, 13, 8, 97, -4), (14, -36, 31, 13, 9, 48, 62),
-        (14, -36, 31, 13, 10, -18, 79), (14, -36, 31, 13, 11, -35, 30),
-        (14, -36, 31, 13, 12, 14, -36), (14, -36, 31, 13, 255, 48, 62),
-        (14, -36, 27, 39, 0, 14, -36), (14, -36, 27, 39, 1, 102, -49),
-        (14, -36, 27, 39, 2, 115, 26), (14, -36, 27, 39, 3, 40, 114),
-        (14, -36, 27, 39, 4, -48, 127), (14, -36, 27, 39, 5, -61, 52),
-        (14, -36, 27, 39, 6, 14, -36), (14, -36, 27, 39, 7, 102, -49),
-        (14, -36, 27, 39, 8, 115, 26), (14, -36, 27, 39, 9, 40, 114),
-        (14, -36, 27, 39, 10, -48, 127), (14, -36, 27, 39, 11, -61, 52),
-        (14, -36, 27, 39, 12, 14, -36), (14, -36, 27, 39, 255, 40, 114),
-        (14, -36, 24, 1, 0, 14, -36), (14, -36, 24, 1, 1, 61, -46), (14, -36, 24, 1, 2, 71, -9),
-        (14, -36, 24, 1, 3, 34, 38), (14, -36, 24, 1, 4, -13, 48), (14, -36, 24, 1, 5, -23, 11),
-        (14, -36, 24, 1, 6, 14, -36), (14, -36, 24, 1, 7, 61, -46), (14, -36, 24, 1, 8, 71, -9),
-        (14, -36, 24, 1, 9, 34, 38), (14, -36, 24, 1, 10, -13, 48), (14, -36, 24, 1, 11, -23, 11),
-        (14, -36, 24, 1, 12, 14, -36), (14, -36, 24, 1, 255, 34, 38),
+        (3, -4, 33, 8, 12, 3, -4), (3, -4, 33, 8, 255, 63, 20),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_28_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (33, 8, 31, 13, 0, 33, 8), (33, 8, 31, 13, 1, 28, 11), (33, 8, 31, 13, 2, 26, 16),
+        (33, 8, 31, 13, 3, 29, 18), (33, 8, 31, 13, 4, 34, 15), (33, 8, 31, 13, 5, 36, 10),
+        (33, 8, 31, 13, 6, 33, 8), (33, 8, 31, 13, 7, 28, 11), (33, 8, 31, 13, 8, 26, 16),
+        (33, 8, 31, 13, 9, 29, 18), (33, 8, 31, 13, 10, 34, 15), (33, 8, 31, 13, 11, 36, 10),
+        (33, 8, 31, 13, 12, 33, 8), (33, 8, 31, 13, 255, 29, 18), (33, 8, 27, 39, 0, 33, 8),
+        (33, 8, 27, 39, 1, 2, 33), (33, 8, 27, 39, 2, -4, 64), (33, 8, 27, 39, 3, 21, 70),
+        (33, 8, 27, 39, 4, 52, 45), (33, 8, 27, 39, 5, 58, 14), (33, 8, 27, 39, 6, 33, 8),
+        (33, 8, 27, 39, 7, 2, 33), (33, 8, 27, 39, 8, -4, 64), (33, 8, 27, 39, 9, 21, 70),
+        (33, 8, 27, 39, 10, 52, 45), (33, 8, 27, 39, 11, 58, 14), (33, 8, 27, 39, 12, 33, 8),
+        (33, 8, 27, 39, 255, 21, 70), (33, 8, 24, 1, 0, 33, 8), (33, 8, 24, 1, 1, 40, -8),
+        (33, 8, 24, 1, 2, 31, -15), (33, 8, 24, 1, 3, 15, -6), (33, 8, 24, 1, 4, 8, 10),
+        (33, 8, 24, 1, 5, 17, 17), (33, 8, 24, 1, 6, 33, 8), (33, 8, 24, 1, 7, 40, -8),
+        (33, 8, 24, 1, 8, 31, -15), (33, 8, 24, 1, 9, 15, -6), (33, 8, 24, 1, 10, 8, 10),
+        (33, 8, 24, 1, 11, 17, 17), (33, 8, 24, 1, 12, 33, 8), (33, 8, 24, 1, 255, 15, -6),
+        (33, 8, -21, -18, 0, 33, 8), (33, 8, -21, -18, 1, 59, -72), (33, 8, -21, -18, 2, 5, -98),
+        (33, 8, -21, -18, 3, -75, -44), (33, 8, -21, -18, 4, -101, 36),
+        (33, 8, -21, -18, 5, -47, 62), (33, 8, -21, -18, 6, 33, 8), (33, 8, -21, -18, 7, 59, -72),
+        (33, 8, -21, -18, 8, 5, -98), (33, 8, -21, -18, 9, -75, -44),
+        (33, 8, -21, -18, 10, -101, 36), (33, 8, -21, -18, 11, -47, 62),
+        (33, 8, -21, -18, 12, 33, 8), (33, 8, -21, -18, 255, -75, -44), (33, 8, -13, -35, 0, 33, 8),
+        (33, 8, -13, -35, 1, 76, -81), (33, 8, -13, -35, 2, 30, -124),
+        (33, 8, -13, -35, 3, -59, -78), (33, 8, -13, -35, 4, -102, 11),
+        (33, 8, -13, -35, 5, -56, 54), (33, 8, -13, -35, 6, 33, 8), (33, 8, -13, -35, 7, 76, -81),
+        (33, 8, -13, -35, 8, 30, -124), (33, 8, -13, -35, 9, -59, -78),
+        (33, 8, -13, -35, 10, -102, 11), (33, 8, -13, -35, 11, -56, 54),
+        (33, 8, -13, -35, 12, 33, 8), (33, 8, -13, -35, 255, -59, -78), (33, 8, -26, 7, 0, 33, 8),
+        (33, 8, -26, 7, 1, 34, -52), (33, 8, -26, 7, 2, -25, -53), (33, 8, -26, 7, 3, -85, 6),
+        (33, 8, -26, 7, 4, -86, 66), (33, 8, -26, 7, 5, -27, 67), (33, 8, -26, 7, 6, 33, 8),
+        (33, 8, -26, 7, 7, 34, -52), (33, 8, -26, 7, 8, -25, -53), (33, 8, -26, 7, 9, -85, 6),
+        (33, 8, -26, 7, 10, -86, 66), (33, 8, -26, 7, 11, -27, 67), (33, 8, -26, 7, 12, 33, 8),
+        (33, 8, -26, 7, 255, -85, 6), (33, 8, 38, -1, 0, 33, 8), (33, 8, 38, -1, 1, 42, 4),
+        (33, 8, 38, -1, 2, 47, -5), (33, 8, 38, -1, 3, 43, -10), (33, 8, 38, -1, 4, 34, -6),
+        (33, 8, 38, -1, 5, 29, 3), (33, 8, 38, -1, 6, 33, 8), (33, 8, 38, -1, 7, 42, 4),
+        (33, 8, 38, -1, 8, 47, -5), (33, 8, 38, -1, 9, 43, -10), (33, 8, 38, -1, 10, 34, -6),
+        (33, 8, 38, -1, 11, 29, 3), (33, 8, 38, -1, 12, 33, 8), (33, 8, 38, -1, 255, 43, -10),
+        (33, 8, 33, 8, 0, 33, 8), (33, 8, 33, 8, 1, 33, 8), (33, 8, 33, 8, 2, 33, 8),
+        (33, 8, 33, 8, 3, 33, 8), (33, 8, 33, 8, 4, 33, 8), (33, 8, 33, 8, 5, 33, 8),
+        (33, 8, 33, 8, 6, 33, 8), (33, 8, 33, 8, 7, 33, 8), (33, 8, 33, 8, 8, 33, 8),
+        (33, 8, 33, 8, 9, 33, 8), (33, 8, 33, 8, 10, 33, 8), (33, 8, 33, 8, 11, 33, 8),
+        (33, 8, 33, 8, 12, 33, 8), (33, 8, 33, 8, 255, 33, 8), (3, -4, 31, 13, 0, 3, -4),
+        (3, -4, 31, 13, 1, -14, 41), (3, -4, 31, 13, 2, 14, 58), (3, -4, 31, 13, 3, 59, 30),
+        (3, -4, 31, 13, 4, 76, -15), (3, -4, 31, 13, 5, 48, -32), (3, -4, 31, 13, 6, 3, -4),
+        (3, -4, 31, 13, 7, -14, 41), (3, -4, 31, 13, 8, 14, 58), (3, -4, 31, 13, 9, 59, 30),
+        (3, -4, 31, 13, 10, 76, -15), (3, -4, 31, 13, 11, 48, -32), (3, -4, 31, 13, 12, 3, -4),
+        (3, -4, 31, 13, 255, 59, 30), (3, -4, 27, 39, 0, 3, -4), (3, -4, 27, 39, 1, -40, 63),
+        (3, -4, 27, 39, 2, -16, 106), (3, -4, 27, 39, 3, 51, 82), (3, -4, 27, 39, 4, 94, 15),
+        (3, -4, 27, 39, 5, 70, -28), (3, -4, 27, 39, 6, 3, -4), (3, -4, 27, 39, 7, -40, 63),
+        (3, -4, 27, 39, 8, -16, 106), (3, -4, 27, 39, 9, 51, 82), (3, -4, 27, 39, 10, 94, 15),
+        (3, -4, 27, 39, 11, 70, -28), (3, -4, 27, 39, 12, 3, -4), (3, -4, 27, 39, 255, 51, 82),
+        (3, -4, 24, 1, 0, 3, -4), (3, -4, 24, 1, 1, -2, 22), (3, -4, 24, 1, 2, 19, 27),
+        (3, -4, 24, 1, 3, 45, 6), (3, -4, 24, 1, 4, 50, -20), (3, -4, 24, 1, 5, 29, -25),
+        (3, -4, 24, 1, 6, 3, -4), (3, -4, 24, 1, 7, -2, 22), (3, -4, 24, 1, 8, 19, 27),
+        (3, -4, 24, 1, 9, 45, 6), (3, -4, 24, 1, 10, 50, -20), (3, -4, 24, 1, 11, 29, -25),
+        (3, -4, 24, 1, 12, 3, -4), (3, -4, 24, 1, 255, 45, 6), (3, -4, -21, -18, 0, 3, -4),
+        (3, -4, -21, -18, 1, 17, -42), (3, -4, -21, -18, 2, -7, -56),
+        (3, -4, -21, -18, 3, -45, -32), (3, -4, -21, -18, 4, -59, 6), (3, -4, -21, -18, 5, -35, 20),
+        (3, -4, -21, -18, 6, 3, -4), (3, -4, -21, -18, 7, 17, -42), (3, -4, -21, -18, 8, -7, -56),
+        (3, -4, -21, -18, 9, -45, -32), (3, -4, -21, -18, 10, -59, 6),
+        (3, -4, -21, -18, 11, -35, 20), (3, -4, -21, -18, 12, 3, -4),
+        (3, -4, -21, -18, 255, -45, -32), (3, -4, -13, -35, 0, 3, -4),
+        (3, -4, -13, -35, 1, 34, -51), (3, -4, -13, -35, 2, 18, -82),
+        (3, -4, -13, -35, 3, -29, -66), (3, -4, -13, -35, 4, -60, -19),
+        (3, -4, -13, -35, 5, -44, 12), (3, -4, -13, -35, 6, 3, -4), (3, -4, -13, -35, 7, 34, -51),
+        (3, -4, -13, -35, 8, 18, -82), (3, -4, -13, -35, 9, -29, -66),
+        (3, -4, -13, -35, 10, -60, -19), (3, -4, -13, -35, 11, -44, 12),
+        (3, -4, -13, -35, 12, 3, -4), (3, -4, -13, -35, 255, -29, -66), (3, -4, -26, 7, 0, 3, -4),
+        (3, -4, -26, 7, 1, -8, -22), (3, -4, -26, 7, 2, -37, -11), (3, -4, -26, 7, 3, -55, 18),
+        (3, -4, -26, 7, 4, -44, 36), (3, -4, -26, 7, 5, -15, 25), (3, -4, -26, 7, 6, 3, -4),
+        (3, -4, -26, 7, 7, -8, -22), (3, -4, -26, 7, 8, -37, -11), (3, -4, -26, 7, 9, -55, 18),
+        (3, -4, -26, 7, 10, -44, 36), (3, -4, -26, 7, 11, -15, 25), (3, -4, -26, 7, 12, 3, -4),
+        (3, -4, -26, 7, 255, -55, 18), (3, -4, 38, -1, 0, 3, -4), (3, -4, 38, -1, 1, 0, 34),
+        (3, -4, 38, -1, 2, 35, 37), (3, -4, 38, -1, 3, 73, 2), (3, -4, 38, -1, 4, 76, -36),
+        (3, -4, 38, -1, 5, 41, -39), (3, -4, 38, -1, 6, 3, -4), (3, -4, 38, -1, 7, 0, 34),
+        (3, -4, 38, -1, 8, 35, 37), (3, -4, 38, -1, 9, 73, 2), (3, -4, 38, -1, 10, 76, -36),
+        (3, -4, 38, -1, 11, 41, -39), (3, -4, 38, -1, 12, 3, -4), (3, -4, 38, -1, 255, 73, 2),
+        (3, -4, 33, 8, 0, 3, -4), (3, -4, 33, 8, 1, -9, 38), (3, -4, 33, 8, 2, 21, 50),
+        (3, -4, 33, 8, 3, 63, 20), (3, -4, 33, 8, 4, 75, -22), (3, -4, 33, 8, 5, 45, -34),
+        (3, -4, 33, 8, 6, 3, -4), (3, -4, 33, 8, 7, -9, 38), (3, -4, 33, 8, 8, 21, 50),
+        (3, -4, 33, 8, 9, 63, 20), (3, -4, 33, 8, 10, 75, -22), (3, -4, 33, 8, 11, 45, -34),
+        (3, -4, 33, 8, 12, 3, -4), (3, -4, 33, 8, 255, 63, 20),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_29_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (14, -36, 31, 13, 0, 14, -36), (14, -36, 31, 13, 1, 80, -53), (14, -36, 31, 13, 2, 97, -4),
+        (14, -36, 31, 13, 3, 48, 62), (14, -36, 31, 13, 4, -18, 79), (14, -36, 31, 13, 5, -35, 30),
+        (14, -36, 31, 13, 6, 14, -36), (14, -36, 31, 13, 7, 80, -53), (14, -36, 31, 13, 8, 97, -4),
+        (14, -36, 31, 13, 9, 48, 62), (14, -36, 31, 13, 10, -18, 79),
+        (14, -36, 31, 13, 11, -35, 30), (14, -36, 31, 13, 12, 14, -36),
+        (14, -36, 31, 13, 255, 48, 62), (14, -36, 27, 39, 0, 14, -36),
+        (14, -36, 27, 39, 1, 102, -49), (14, -36, 27, 39, 2, 115, 26),
+        (14, -36, 27, 39, 3, 40, 114), (14, -36, 27, 39, 4, -48, 127),
+        (14, -36, 27, 39, 5, -61, 52), (14, -36, 27, 39, 6, 14, -36),
+        (14, -36, 27, 39, 7, 102, -49), (14, -36, 27, 39, 8, 115, 26),
+        (14, -36, 27, 39, 9, 40, 114), (14, -36, 27, 39, 10, -48, 127),
+        (14, -36, 27, 39, 11, -61, 52), (14, -36, 27, 39, 12, 14, -36),
+        (14, -36, 27, 39, 255, 40, 114), (14, -36, 24, 1, 0, 14, -36), (14, -36, 24, 1, 1, 61, -46),
+        (14, -36, 24, 1, 2, 71, -9), (14, -36, 24, 1, 3, 34, 38), (14, -36, 24, 1, 4, -13, 48),
+        (14, -36, 24, 1, 5, -23, 11), (14, -36, 24, 1, 6, 14, -36), (14, -36, 24, 1, 7, 61, -46),
+        (14, -36, 24, 1, 8, 71, -9), (14, -36, 24, 1, 9, 34, 38), (14, -36, 24, 1, 10, -13, 48),
+        (14, -36, 24, 1, 11, -23, 11), (14, -36, 24, 1, 12, 14, -36), (14, -36, 24, 1, 255, 34, 38),
         (14, -36, -21, -18, 0, 14, -36), (14, -36, -21, -18, 1, -3, -1),
         (14, -36, -21, -18, 2, -38, 17), (14, -36, -21, -18, 3, -56, 0),
         (14, -36, -21, -18, 4, -39, -35), (14, -36, -21, -18, 5, -4, -53),
@@ -38354,23 +38274,143 @@ fn golden_hex_around_3_rotate_cw_around() {
         (4, 27, 33, 8, 3, 62, -11), (4, 27, 33, 8, 4, 52, 18), (4, 27, 33, 8, 5, 23, 37),
         (4, 27, 33, 8, 6, 4, 27), (4, 27, 33, 8, 7, 14, -2), (4, 27, 33, 8, 8, 43, -21),
         (4, 27, 33, 8, 9, 62, -11), (4, 27, 33, 8, 10, 52, 18), (4, 27, 33, 8, 11, 23, 37),
-        (4, 27, 33, 8, 12, 4, 27), (4, 27, 33, 8, 255, 62, -11), (-39, -38, 31, 13, 0, -39, -38),
-        (-39, -38, 31, 13, 1, 82, -108), (-39, -38, 31, 13, 2, 152, -57),
-        (-39, -38, 31, 13, 3, 101, 64), (-39, -38, 31, 13, 4, -20, 134),
-        (-39, -38, 31, 13, 5, -90, 83), (-39, -38, 31, 13, 6, -39, -38),
-        (-39, -38, 31, 13, 7, 82, -108), (-39, -38, 31, 13, 8, 152, -57),
-        (-39, -38, 31, 13, 9, 101, 64), (-39, -38, 31, 13, 10, -20, 134),
-        (-39, -38, 31, 13, 11, -90, 83), (-39, -38, 31, 13, 12, -39, -38),
-        (-39, -38, 31, 13, 255, 101, 64), (-39, -38, 27, 39, 0, -39, -38),
-        (-39, -38, 27, 39, 1, 104, -104), (-39, -38, 27, 39, 2, 170, -27),
-        (-39, -38, 27, 39, 3, 93, 116), (-39, -38, 27, 39, 4, -50, 182),
-        (-39, -38, 27, 39, 5, -116, 105), (-39, -38, 27, 39, 6, -39, -38),
-        (-39, -38, 27, 39, 7, 104, -104), (-39, -38, 27, 39, 8, 170, -27),
-        (-39, -38, 27, 39, 9, 93, 116), (-39, -38, 27, 39, 10, -50, 182),
-        (-39, -38, 27, 39, 11, -116, 105), (-39, -38, 27, 39, 12, -39, -38),
-        (-39, -38, 27, 39, 255, 93, 116), (-39, -38, 24, 1, 0, -39, -38),
-        (-39, -38, 24, 1, 1, 63, -101), (-39, -38, 24, 1, 2, 126, -62),
-        (-39, -38, 24, 1, 3, 87, 40), (-39, -38, 24, 1, 4, -15, 103), (-39, -38, 24, 1, 5, -78, 64),
+        (4, 27, 33, 8, 12, 4, 27), (4, 27, 33, 8, 255, 62, -11),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_29_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (14, -36, 31, 13, 0, 14, -36), (14, -36, 31, 13, 1, -35, 30), (14, -36, 31, 13, 2, -18, 79),
+        (14, -36, 31, 13, 3, 48, 62), (14, -36, 31, 13, 4, 97, -4), (14, -36, 31, 13, 5, 80, -53),
+        (14, -36, 31, 13, 6, 14, -36), (14, -36, 31, 13, 7, -35, 30), (14, -36, 31, 13, 8, -18, 79),
+        (14, -36, 31, 13, 9, 48, 62), (14, -36, 31, 13, 10, 97, -4), (14, -36, 31, 13, 11, 80, -53),
+        (14, -36, 31, 13, 12, 14, -36), (14, -36, 31, 13, 255, 48, 62),
+        (14, -36, 27, 39, 0, 14, -36), (14, -36, 27, 39, 1, -61, 52),
+        (14, -36, 27, 39, 2, -48, 127), (14, -36, 27, 39, 3, 40, 114),
+        (14, -36, 27, 39, 4, 115, 26), (14, -36, 27, 39, 5, 102, -49),
+        (14, -36, 27, 39, 6, 14, -36), (14, -36, 27, 39, 7, -61, 52),
+        (14, -36, 27, 39, 8, -48, 127), (14, -36, 27, 39, 9, 40, 114),
+        (14, -36, 27, 39, 10, 115, 26), (14, -36, 27, 39, 11, 102, -49),
+        (14, -36, 27, 39, 12, 14, -36), (14, -36, 27, 39, 255, 40, 114),
+        (14, -36, 24, 1, 0, 14, -36), (14, -36, 24, 1, 1, -23, 11), (14, -36, 24, 1, 2, -13, 48),
+        (14, -36, 24, 1, 3, 34, 38), (14, -36, 24, 1, 4, 71, -9), (14, -36, 24, 1, 5, 61, -46),
+        (14, -36, 24, 1, 6, 14, -36), (14, -36, 24, 1, 7, -23, 11), (14, -36, 24, 1, 8, -13, 48),
+        (14, -36, 24, 1, 9, 34, 38), (14, -36, 24, 1, 10, 71, -9), (14, -36, 24, 1, 11, 61, -46),
+        (14, -36, 24, 1, 12, 14, -36), (14, -36, 24, 1, 255, 34, 38),
+        (14, -36, -21, -18, 0, 14, -36), (14, -36, -21, -18, 1, -4, -53),
+        (14, -36, -21, -18, 2, -39, -35), (14, -36, -21, -18, 3, -56, 0),
+        (14, -36, -21, -18, 4, -38, 17), (14, -36, -21, -18, 5, -3, -1),
+        (14, -36, -21, -18, 6, 14, -36), (14, -36, -21, -18, 7, -4, -53),
+        (14, -36, -21, -18, 8, -39, -35), (14, -36, -21, -18, 9, -56, 0),
+        (14, -36, -21, -18, 10, -38, 17), (14, -36, -21, -18, 11, -3, -1),
+        (14, -36, -21, -18, 12, 14, -36), (14, -36, -21, -18, 255, -56, 0),
+        (14, -36, -13, -35, 0, 14, -36), (14, -36, -13, -35, 1, 13, -62),
+        (14, -36, -13, -35, 2, -14, -61), (14, -36, -13, -35, 3, -40, -34),
+        (14, -36, -13, -35, 4, -39, -8), (14, -36, -13, -35, 5, -12, -9),
+        (14, -36, -13, -35, 6, 14, -36), (14, -36, -13, -35, 7, 13, -62),
+        (14, -36, -13, -35, 8, -14, -61), (14, -36, -13, -35, 9, -40, -34),
+        (14, -36, -13, -35, 10, -39, -8), (14, -36, -13, -35, 11, -12, -9),
+        (14, -36, -13, -35, 12, 14, -36), (14, -36, -13, -35, 255, -40, -34),
+        (14, -36, -26, 7, 0, 14, -36), (14, -36, -26, 7, 1, -29, -33),
+        (14, -36, -26, 7, 2, -69, 10), (14, -36, -26, 7, 3, -66, 50), (14, -36, -26, 7, 4, -23, 47),
+        (14, -36, -26, 7, 5, 17, 4), (14, -36, -26, 7, 6, 14, -36), (14, -36, -26, 7, 7, -29, -33),
+        (14, -36, -26, 7, 8, -69, 10), (14, -36, -26, 7, 9, -66, 50),
+        (14, -36, -26, 7, 10, -23, 47), (14, -36, -26, 7, 11, 17, 4),
+        (14, -36, -26, 7, 12, 14, -36), (14, -36, -26, 7, 255, -66, 50),
+        (14, -36, 38, -1, 0, 14, -36), (14, -36, 38, -1, 1, -21, 23), (14, -36, 38, -1, 2, 3, 58),
+        (14, -36, 38, -1, 3, 62, 34), (14, -36, 38, -1, 4, 97, -25), (14, -36, 38, -1, 5, 73, -60),
+        (14, -36, 38, -1, 6, 14, -36), (14, -36, 38, -1, 7, -21, 23), (14, -36, 38, -1, 8, 3, 58),
+        (14, -36, 38, -1, 9, 62, 34), (14, -36, 38, -1, 10, 97, -25),
+        (14, -36, 38, -1, 11, 73, -60), (14, -36, 38, -1, 12, 14, -36),
+        (14, -36, 38, -1, 255, 62, 34), (14, -36, 33, 8, 0, 14, -36), (14, -36, 33, 8, 1, -30, 27),
+        (14, -36, 33, 8, 2, -11, 71), (14, -36, 33, 8, 3, 52, 52), (14, -36, 33, 8, 4, 96, -11),
+        (14, -36, 33, 8, 5, 77, -55), (14, -36, 33, 8, 6, 14, -36), (14, -36, 33, 8, 7, -30, 27),
+        (14, -36, 33, 8, 8, -11, 71), (14, -36, 33, 8, 9, 52, 52), (14, -36, 33, 8, 10, 96, -11),
+        (14, -36, 33, 8, 11, 77, -55), (14, -36, 33, 8, 12, 14, -36), (14, -36, 33, 8, 255, 52, 52),
+        (4, 27, 31, 13, 0, 4, 27), (4, 27, 31, 13, 1, 18, 40), (4, 27, 31, 13, 2, 45, 26),
+        (4, 27, 31, 13, 3, 58, -1), (4, 27, 31, 13, 4, 44, -14), (4, 27, 31, 13, 5, 17, 0),
+        (4, 27, 31, 13, 6, 4, 27), (4, 27, 31, 13, 7, 18, 40), (4, 27, 31, 13, 8, 45, 26),
+        (4, 27, 31, 13, 9, 58, -1), (4, 27, 31, 13, 10, 44, -14), (4, 27, 31, 13, 11, 17, 0),
+        (4, 27, 31, 13, 12, 4, 27), (4, 27, 31, 13, 255, 58, -1), (4, 27, 27, 39, 0, 4, 27),
+        (4, 27, 27, 39, 1, -8, 62), (4, 27, 27, 39, 2, 15, 74), (4, 27, 27, 39, 3, 50, 51),
+        (4, 27, 27, 39, 4, 62, 16), (4, 27, 27, 39, 5, 39, 4), (4, 27, 27, 39, 6, 4, 27),
+        (4, 27, 27, 39, 7, -8, 62), (4, 27, 27, 39, 8, 15, 74), (4, 27, 27, 39, 9, 50, 51),
+        (4, 27, 27, 39, 10, 62, 16), (4, 27, 27, 39, 11, 39, 4), (4, 27, 27, 39, 12, 4, 27),
+        (4, 27, 27, 39, 255, 50, 51), (4, 27, 24, 1, 0, 4, 27), (4, 27, 24, 1, 1, 30, 21),
+        (4, 27, 24, 1, 2, 50, -5), (4, 27, 24, 1, 3, 44, -25), (4, 27, 24, 1, 4, 18, -19),
+        (4, 27, 24, 1, 5, -2, 7), (4, 27, 24, 1, 6, 4, 27), (4, 27, 24, 1, 7, 30, 21),
+        (4, 27, 24, 1, 8, 50, -5), (4, 27, 24, 1, 9, 44, -25), (4, 27, 24, 1, 10, 18, -19),
+        (4, 27, 24, 1, 11, -2, 7), (4, 27, 24, 1, 12, 4, 27), (4, 27, 24, 1, 255, 44, -25),
+        (4, 27, -21, -18, 0, 4, 27), (4, 27, -21, -18, 1, 49, -43), (4, 27, -21, -18, 2, 24, -88),
+        (4, 27, -21, -18, 3, -46, -63), (4, 27, -21, -18, 4, -91, 7), (4, 27, -21, -18, 5, -66, 52),
+        (4, 27, -21, -18, 6, 4, 27), (4, 27, -21, -18, 7, 49, -43), (4, 27, -21, -18, 8, 24, -88),
+        (4, 27, -21, -18, 9, -46, -63), (4, 27, -21, -18, 10, -91, 7),
+        (4, 27, -21, -18, 11, -66, 52), (4, 27, -21, -18, 12, 4, 27),
+        (4, 27, -21, -18, 255, -46, -63), (4, 27, -13, -35, 0, 4, 27),
+        (4, 27, -13, -35, 1, 66, -52), (4, 27, -13, -35, 2, 49, -114),
+        (4, 27, -13, -35, 3, -30, -97), (4, 27, -13, -35, 4, -92, -18),
+        (4, 27, -13, -35, 5, -75, 44), (4, 27, -13, -35, 6, 4, 27), (4, 27, -13, -35, 7, 66, -52),
+        (4, 27, -13, -35, 8, 49, -114), (4, 27, -13, -35, 9, -30, -97),
+        (4, 27, -13, -35, 10, -92, -18), (4, 27, -13, -35, 11, -75, 44),
+        (4, 27, -13, -35, 12, 4, 27), (4, 27, -13, -35, 255, -30, -97), (4, 27, -26, 7, 0, 4, 27),
+        (4, 27, -26, 7, 1, 24, -23), (4, 27, -26, 7, 2, -6, -43), (4, 27, -26, 7, 3, -56, -13),
+        (4, 27, -26, 7, 4, -76, 37), (4, 27, -26, 7, 5, -46, 57), (4, 27, -26, 7, 6, 4, 27),
+        (4, 27, -26, 7, 7, 24, -23), (4, 27, -26, 7, 8, -6, -43), (4, 27, -26, 7, 9, -56, -13),
+        (4, 27, -26, 7, 10, -76, 37), (4, 27, -26, 7, 11, -46, 57), (4, 27, -26, 7, 12, 4, 27),
+        (4, 27, -26, 7, 255, -56, -13), (4, 27, 38, -1, 0, 4, 27), (4, 27, 38, -1, 1, 32, 33),
+        (4, 27, 38, -1, 2, 66, 5), (4, 27, 38, -1, 3, 72, -29), (4, 27, 38, -1, 4, 44, -35),
+        (4, 27, 38, -1, 5, 10, -7), (4, 27, 38, -1, 6, 4, 27), (4, 27, 38, -1, 7, 32, 33),
+        (4, 27, 38, -1, 8, 66, 5), (4, 27, 38, -1, 9, 72, -29), (4, 27, 38, -1, 10, 44, -35),
+        (4, 27, 38, -1, 11, 10, -7), (4, 27, 38, -1, 12, 4, 27), (4, 27, 38, -1, 255, 72, -29),
+        (4, 27, 33, 8, 0, 4, 27), (4, 27, 33, 8, 1, 23, 37), (4, 27, 33, 8, 2, 52, 18),
+        (4, 27, 33, 8, 3, 62, -11), (4, 27, 33, 8, 4, 43, -21), (4, 27, 33, 8, 5, 14, -2),
+        (4, 27, 33, 8, 6, 4, 27), (4, 27, 33, 8, 7, 23, 37), (4, 27, 33, 8, 8, 52, 18),
+        (4, 27, 33, 8, 9, 62, -11), (4, 27, 33, 8, 10, 43, -21), (4, 27, 33, 8, 11, 14, -2),
+        (4, 27, 33, 8, 12, 4, 27), (4, 27, 33, 8, 255, 62, -11),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_30_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (-39, -38, 31, 13, 0, -39, -38), (-39, -38, 31, 13, 1, 82, -108),
+        (-39, -38, 31, 13, 2, 152, -57), (-39, -38, 31, 13, 3, 101, 64),
+        (-39, -38, 31, 13, 4, -20, 134), (-39, -38, 31, 13, 5, -90, 83),
+        (-39, -38, 31, 13, 6, -39, -38), (-39, -38, 31, 13, 7, 82, -108),
+        (-39, -38, 31, 13, 8, 152, -57), (-39, -38, 31, 13, 9, 101, 64),
+        (-39, -38, 31, 13, 10, -20, 134), (-39, -38, 31, 13, 11, -90, 83),
+        (-39, -38, 31, 13, 12, -39, -38), (-39, -38, 31, 13, 255, 101, 64),
+        (-39, -38, 27, 39, 0, -39, -38), (-39, -38, 27, 39, 1, 104, -104),
+        (-39, -38, 27, 39, 2, 170, -27), (-39, -38, 27, 39, 3, 93, 116),
+        (-39, -38, 27, 39, 4, -50, 182), (-39, -38, 27, 39, 5, -116, 105),
+        (-39, -38, 27, 39, 6, -39, -38), (-39, -38, 27, 39, 7, 104, -104),
+        (-39, -38, 27, 39, 8, 170, -27), (-39, -38, 27, 39, 9, 93, 116),
+        (-39, -38, 27, 39, 10, -50, 182), (-39, -38, 27, 39, 11, -116, 105),
+        (-39, -38, 27, 39, 12, -39, -38), (-39, -38, 27, 39, 255, 93, 116),
+        (-39, -38, 24, 1, 0, -39, -38), (-39, -38, 24, 1, 1, 63, -101),
+        (-39, -38, 24, 1, 2, 126, -62), (-39, -38, 24, 1, 3, 87, 40),
+        (-39, -38, 24, 1, 4, -15, 103), (-39, -38, 24, 1, 5, -78, 64),
         (-39, -38, 24, 1, 6, -39, -38), (-39, -38, 24, 1, 7, 63, -101),
         (-39, -38, 24, 1, 8, 126, -62), (-39, -38, 24, 1, 9, 87, 40),
         (-39, -38, 24, 1, 10, -15, 103), (-39, -38, 24, 1, 11, -78, 64),
@@ -38452,6 +38492,136 @@ fn golden_hex_around_3_rotate_cw_around() {
         (-5, 21, 33, 8, 5, 8, 46), (-5, 21, 33, 8, 6, -5, 21), (-5, 21, 33, 8, 7, 20, -17),
         (-5, 21, 33, 8, 8, 58, -30), (-5, 21, 33, 8, 9, 71, -5), (-5, 21, 33, 8, 10, 46, 33),
         (-5, 21, 33, 8, 11, 8, 46), (-5, 21, 33, 8, 12, -5, 21), (-5, 21, 33, 8, 255, 71, -5),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_cw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_cw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_30_rotate_ccw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
+        (-39, -38, 31, 13, 0, -39, -38), (-39, -38, 31, 13, 1, -90, 83),
+        (-39, -38, 31, 13, 2, -20, 134), (-39, -38, 31, 13, 3, 101, 64),
+        (-39, -38, 31, 13, 4, 152, -57), (-39, -38, 31, 13, 5, 82, -108),
+        (-39, -38, 31, 13, 6, -39, -38), (-39, -38, 31, 13, 7, -90, 83),
+        (-39, -38, 31, 13, 8, -20, 134), (-39, -38, 31, 13, 9, 101, 64),
+        (-39, -38, 31, 13, 10, 152, -57), (-39, -38, 31, 13, 11, 82, -108),
+        (-39, -38, 31, 13, 12, -39, -38), (-39, -38, 31, 13, 255, 101, 64),
+        (-39, -38, 27, 39, 0, -39, -38), (-39, -38, 27, 39, 1, -116, 105),
+        (-39, -38, 27, 39, 2, -50, 182), (-39, -38, 27, 39, 3, 93, 116),
+        (-39, -38, 27, 39, 4, 170, -27), (-39, -38, 27, 39, 5, 104, -104),
+        (-39, -38, 27, 39, 6, -39, -38), (-39, -38, 27, 39, 7, -116, 105),
+        (-39, -38, 27, 39, 8, -50, 182), (-39, -38, 27, 39, 9, 93, 116),
+        (-39, -38, 27, 39, 10, 170, -27), (-39, -38, 27, 39, 11, 104, -104),
+        (-39, -38, 27, 39, 12, -39, -38), (-39, -38, 27, 39, 255, 93, 116),
+        (-39, -38, 24, 1, 0, -39, -38), (-39, -38, 24, 1, 1, -78, 64),
+        (-39, -38, 24, 1, 2, -15, 103), (-39, -38, 24, 1, 3, 87, 40),
+        (-39, -38, 24, 1, 4, 126, -62), (-39, -38, 24, 1, 5, 63, -101),
+        (-39, -38, 24, 1, 6, -39, -38), (-39, -38, 24, 1, 7, -78, 64),
+        (-39, -38, 24, 1, 8, -15, 103), (-39, -38, 24, 1, 9, 87, 40),
+        (-39, -38, 24, 1, 10, 126, -62), (-39, -38, 24, 1, 11, 63, -101),
+        (-39, -38, 24, 1, 12, -39, -38), (-39, -38, 24, 1, 255, 87, 40),
+        (-39, -38, -21, -18, 0, -39, -38), (-39, -38, -21, -18, 1, -59, 0),
+        (-39, -38, -21, -18, 2, -41, 20), (-39, -38, -21, -18, 3, -3, 2),
+        (-39, -38, -21, -18, 4, 17, -36), (-39, -38, -21, -18, 5, -1, -56),
+        (-39, -38, -21, -18, 6, -39, -38), (-39, -38, -21, -18, 7, -59, 0),
+        (-39, -38, -21, -18, 8, -41, 20), (-39, -38, -21, -18, 9, -3, 2),
+        (-39, -38, -21, -18, 10, 17, -36), (-39, -38, -21, -18, 11, -1, -56),
+        (-39, -38, -21, -18, 12, -39, -38), (-39, -38, -21, -18, 255, -3, 2),
+        (-39, -38, -13, -35, 0, -39, -38), (-39, -38, -13, -35, 1, -42, -9),
+        (-39, -38, -13, -35, 2, -16, -6), (-39, -38, -13, -35, 3, 13, -32),
+        (-39, -38, -13, -35, 4, 16, -61), (-39, -38, -13, -35, 5, -10, -64),
+        (-39, -38, -13, -35, 6, -39, -38), (-39, -38, -13, -35, 7, -42, -9),
+        (-39, -38, -13, -35, 8, -16, -6), (-39, -38, -13, -35, 9, 13, -32),
+        (-39, -38, -13, -35, 10, 16, -61), (-39, -38, -13, -35, 11, -10, -64),
+        (-39, -38, -13, -35, 12, -39, -38), (-39, -38, -13, -35, 255, 13, -32),
+        (-39, -38, -26, 7, 0, -39, -38), (-39, -38, -26, 7, 1, -84, 20),
+        (-39, -38, -26, 7, 2, -71, 65), (-39, -38, -26, 7, 3, -13, 52),
+        (-39, -38, -26, 7, 4, 32, -6), (-39, -38, -26, 7, 5, 19, -51),
+        (-39, -38, -26, 7, 6, -39, -38), (-39, -38, -26, 7, 7, -84, 20),
+        (-39, -38, -26, 7, 8, -71, 65), (-39, -38, -26, 7, 9, -13, 52),
+        (-39, -38, -26, 7, 10, 32, -6), (-39, -38, -26, 7, 11, 19, -51),
+        (-39, -38, -26, 7, 12, -39, -38), (-39, -38, -26, 7, 255, -13, 52),
+        (-39, -38, 38, -1, 0, -39, -38), (-39, -38, 38, -1, 1, -76, 76),
+        (-39, -38, 38, -1, 2, 1, 113), (-39, -38, 38, -1, 3, 115, 36),
+        (-39, -38, 38, -1, 4, 152, -78), (-39, -38, 38, -1, 5, 75, -115),
+        (-39, -38, 38, -1, 6, -39, -38), (-39, -38, 38, -1, 7, -76, 76),
+        (-39, -38, 38, -1, 8, 1, 113), (-39, -38, 38, -1, 9, 115, 36),
+        (-39, -38, 38, -1, 10, 152, -78), (-39, -38, 38, -1, 11, 75, -115),
+        (-39, -38, 38, -1, 12, -39, -38), (-39, -38, 38, -1, 255, 115, 36),
+        (-39, -38, 33, 8, 0, -39, -38), (-39, -38, 33, 8, 1, -85, 80),
+        (-39, -38, 33, 8, 2, -13, 126), (-39, -38, 33, 8, 3, 105, 54),
+        (-39, -38, 33, 8, 4, 151, -64), (-39, -38, 33, 8, 5, 79, -110),
+        (-39, -38, 33, 8, 6, -39, -38), (-39, -38, 33, 8, 7, -85, 80),
+        (-39, -38, 33, 8, 8, -13, 126), (-39, -38, 33, 8, 9, 105, 54),
+        (-39, -38, 33, 8, 10, 151, -64), (-39, -38, 33, 8, 11, 79, -110),
+        (-39, -38, 33, 8, 12, -39, -38), (-39, -38, 33, 8, 255, 105, 54),
+        (-5, 21, 31, 13, 0, -5, 21), (-5, 21, 31, 13, 1, 3, 49), (-5, 21, 31, 13, 2, 39, 41),
+        (-5, 21, 31, 13, 3, 67, 5), (-5, 21, 31, 13, 4, 59, -23), (-5, 21, 31, 13, 5, 23, -15),
+        (-5, 21, 31, 13, 6, -5, 21), (-5, 21, 31, 13, 7, 3, 49), (-5, 21, 31, 13, 8, 39, 41),
+        (-5, 21, 31, 13, 9, 67, 5), (-5, 21, 31, 13, 10, 59, -23), (-5, 21, 31, 13, 11, 23, -15),
+        (-5, 21, 31, 13, 12, -5, 21), (-5, 21, 31, 13, 255, 67, 5), (-5, 21, 27, 39, 0, -5, 21),
+        (-5, 21, 27, 39, 1, -23, 71), (-5, 21, 27, 39, 2, 9, 89), (-5, 21, 27, 39, 3, 59, 57),
+        (-5, 21, 27, 39, 4, 77, 7), (-5, 21, 27, 39, 5, 45, -11), (-5, 21, 27, 39, 6, -5, 21),
+        (-5, 21, 27, 39, 7, -23, 71), (-5, 21, 27, 39, 8, 9, 89), (-5, 21, 27, 39, 9, 59, 57),
+        (-5, 21, 27, 39, 10, 77, 7), (-5, 21, 27, 39, 11, 45, -11), (-5, 21, 27, 39, 12, -5, 21),
+        (-5, 21, 27, 39, 255, 59, 57), (-5, 21, 24, 1, 0, -5, 21), (-5, 21, 24, 1, 1, 15, 30),
+        (-5, 21, 24, 1, 2, 44, 10), (-5, 21, 24, 1, 3, 53, -19), (-5, 21, 24, 1, 4, 33, -28),
+        (-5, 21, 24, 1, 5, 4, -8), (-5, 21, 24, 1, 6, -5, 21), (-5, 21, 24, 1, 7, 15, 30),
+        (-5, 21, 24, 1, 8, 44, 10), (-5, 21, 24, 1, 9, 53, -19), (-5, 21, 24, 1, 10, 33, -28),
+        (-5, 21, 24, 1, 11, 4, -8), (-5, 21, 24, 1, 12, -5, 21), (-5, 21, 24, 1, 255, 53, -19),
+        (-5, 21, -21, -18, 0, -5, 21), (-5, 21, -21, -18, 1, 34, -34),
+        (-5, 21, -21, -18, 2, 18, -73), (-5, 21, -21, -18, 3, -37, -57),
+        (-5, 21, -21, -18, 4, -76, -2), (-5, 21, -21, -18, 5, -60, 37),
+        (-5, 21, -21, -18, 6, -5, 21), (-5, 21, -21, -18, 7, 34, -34),
+        (-5, 21, -21, -18, 8, 18, -73), (-5, 21, -21, -18, 9, -37, -57),
+        (-5, 21, -21, -18, 10, -76, -2), (-5, 21, -21, -18, 11, -60, 37),
+        (-5, 21, -21, -18, 12, -5, 21), (-5, 21, -21, -18, 255, -37, -57),
+        (-5, 21, -13, -35, 0, -5, 21), (-5, 21, -13, -35, 1, 51, -43),
+        (-5, 21, -13, -35, 2, 43, -99), (-5, 21, -13, -35, 3, -21, -91),
+        (-5, 21, -13, -35, 4, -77, -27), (-5, 21, -13, -35, 5, -69, 29),
+        (-5, 21, -13, -35, 6, -5, 21), (-5, 21, -13, -35, 7, 51, -43),
+        (-5, 21, -13, -35, 8, 43, -99), (-5, 21, -13, -35, 9, -21, -91),
+        (-5, 21, -13, -35, 10, -77, -27), (-5, 21, -13, -35, 11, -69, 29),
+        (-5, 21, -13, -35, 12, -5, 21), (-5, 21, -13, -35, 255, -21, -91),
+        (-5, 21, -26, 7, 0, -5, 21), (-5, 21, -26, 7, 1, 9, -14), (-5, 21, -26, 7, 2, -12, -28),
+        (-5, 21, -26, 7, 3, -47, -7), (-5, 21, -26, 7, 4, -61, 28), (-5, 21, -26, 7, 5, -40, 42),
+        (-5, 21, -26, 7, 6, -5, 21), (-5, 21, -26, 7, 7, 9, -14), (-5, 21, -26, 7, 8, -12, -28),
+        (-5, 21, -26, 7, 9, -47, -7), (-5, 21, -26, 7, 10, -61, 28), (-5, 21, -26, 7, 11, -40, 42),
+        (-5, 21, -26, 7, 12, -5, 21), (-5, 21, -26, 7, 255, -47, -7), (-5, 21, 38, -1, 0, -5, 21),
+        (-5, 21, 38, -1, 1, 17, 42), (-5, 21, 38, -1, 2, 60, 20), (-5, 21, 38, -1, 3, 81, -23),
+        (-5, 21, 38, -1, 4, 59, -44), (-5, 21, 38, -1, 5, 16, -22), (-5, 21, 38, -1, 6, -5, 21),
+        (-5, 21, 38, -1, 7, 17, 42), (-5, 21, 38, -1, 8, 60, 20), (-5, 21, 38, -1, 9, 81, -23),
+        (-5, 21, 38, -1, 10, 59, -44), (-5, 21, 38, -1, 11, 16, -22), (-5, 21, 38, -1, 12, -5, 21),
+        (-5, 21, 38, -1, 255, 81, -23), (-5, 21, 33, 8, 0, -5, 21), (-5, 21, 33, 8, 1, 8, 46),
+        (-5, 21, 33, 8, 2, 46, 33), (-5, 21, 33, 8, 3, 71, -5), (-5, 21, 33, 8, 4, 58, -30),
+        (-5, 21, 33, 8, 5, 20, -17), (-5, 21, 33, 8, 6, -5, 21), (-5, 21, 33, 8, 7, 8, 46),
+        (-5, 21, 33, 8, 8, 46, 33), (-5, 21, 33, 8, 9, 71, -5), (-5, 21, 33, 8, 10, 58, -30),
+        (-5, 21, 33, 8, 11, 20, -17), (-5, 21, 33, 8, 12, -5, 21), (-5, 21, 33, 8, 255, 71, -5),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (x1, y1, x2, y2, m, ex, ey) = *cases.at(i);
+        let a = HexTrait::new(x1, y1);
+        let b = HexTrait::new(x2, y2);
+        let r = a.rotate_ccw_around(b, m);
+        assert(r == HexTrait::new(ex, ey), 'rotate_ccw_around');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_31_rotate_cw_around() {
+    let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (29, 39, 31, 13, 0, 29, 39), (29, 39, 31, 13, 1, 5, 37), (29, 39, 31, 13, 2, 7, 11),
         (29, 39, 31, 13, 3, 33, -13), (29, 39, 31, 13, 4, 57, -11), (29, 39, 31, 13, 5, 55, 15),
         (29, 39, 31, 13, 6, 29, 39), (29, 39, 31, 13, 7, 5, 37), (29, 39, 31, 13, 8, 7, 11),
@@ -38549,617 +38719,9 @@ fn golden_hex_around_3_rotate_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
-fn golden_hex_around_3_rotate_ccw_around() {
+#[available_gas(l2_gas: 76800990)]
+fn golden_hex_around_31_rotate_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
-        (38, -1, 31, 13, 0, 38, -1), (38, -1, 31, 13, 1, 24, 6), (38, -1, 31, 13, 2, 17, 20),
-        (38, -1, 31, 13, 3, 24, 27), (38, -1, 31, 13, 4, 38, 20), (38, -1, 31, 13, 5, 45, 6),
-        (38, -1, 31, 13, 6, 38, -1), (38, -1, 31, 13, 7, 24, 6), (38, -1, 31, 13, 8, 17, 20),
-        (38, -1, 31, 13, 9, 24, 27), (38, -1, 31, 13, 10, 38, 20), (38, -1, 31, 13, 11, 45, 6),
-        (38, -1, 31, 13, 12, 38, -1), (38, -1, 31, 13, 255, 24, 27), (38, -1, 27, 39, 0, 38, -1),
-        (38, -1, 27, 39, 1, -2, 28), (38, -1, 27, 39, 2, -13, 68), (38, -1, 27, 39, 3, 16, 79),
-        (38, -1, 27, 39, 4, 56, 50), (38, -1, 27, 39, 5, 67, 10), (38, -1, 27, 39, 6, 38, -1),
-        (38, -1, 27, 39, 7, -2, 28), (38, -1, 27, 39, 8, -13, 68), (38, -1, 27, 39, 9, 16, 79),
-        (38, -1, 27, 39, 10, 56, 50), (38, -1, 27, 39, 11, 67, 10), (38, -1, 27, 39, 12, 38, -1),
-        (38, -1, 27, 39, 255, 16, 79), (38, -1, 24, 1, 0, 38, -1), (38, -1, 24, 1, 1, 36, -13),
-        (38, -1, 24, 1, 2, 22, -11), (38, -1, 24, 1, 3, 10, 3), (38, -1, 24, 1, 4, 12, 15),
-        (38, -1, 24, 1, 5, 26, 13), (38, -1, 24, 1, 6, 38, -1), (38, -1, 24, 1, 7, 36, -13),
-        (38, -1, 24, 1, 8, 22, -11), (38, -1, 24, 1, 9, 10, 3), (38, -1, 24, 1, 10, 12, 15),
-        (38, -1, 24, 1, 11, 26, 13), (38, -1, 24, 1, 12, 38, -1), (38, -1, 24, 1, 255, 10, 3),
-        (38, -1, -21, -18, 0, 38, -1), (38, -1, -21, -18, 1, 55, -77),
-        (38, -1, -21, -18, 2, -4, -94), (38, -1, -21, -18, 3, -80, -35),
-        (38, -1, -21, -18, 4, -97, 41), (38, -1, -21, -18, 5, -38, 58),
-        (38, -1, -21, -18, 6, 38, -1), (38, -1, -21, -18, 7, 55, -77),
-        (38, -1, -21, -18, 8, -4, -94), (38, -1, -21, -18, 9, -80, -35),
-        (38, -1, -21, -18, 10, -97, 41), (38, -1, -21, -18, 11, -38, 58),
-        (38, -1, -21, -18, 12, 38, -1), (38, -1, -21, -18, 255, -80, -35),
-        (38, -1, -13, -35, 0, 38, -1), (38, -1, -13, -35, 1, 72, -86),
-        (38, -1, -13, -35, 2, 21, -120), (38, -1, -13, -35, 3, -64, -69),
-        (38, -1, -13, -35, 4, -98, 16), (38, -1, -13, -35, 5, -47, 50),
-        (38, -1, -13, -35, 6, 38, -1), (38, -1, -13, -35, 7, 72, -86),
-        (38, -1, -13, -35, 8, 21, -120), (38, -1, -13, -35, 9, -64, -69),
-        (38, -1, -13, -35, 10, -98, 16), (38, -1, -13, -35, 11, -47, 50),
-        (38, -1, -13, -35, 12, 38, -1), (38, -1, -13, -35, 255, -64, -69),
-        (38, -1, -26, 7, 0, 38, -1), (38, -1, -26, 7, 1, 30, -57), (38, -1, -26, 7, 2, -34, -49),
-        (38, -1, -26, 7, 3, -90, 15), (38, -1, -26, 7, 4, -82, 71), (38, -1, -26, 7, 5, -18, 63),
-        (38, -1, -26, 7, 6, 38, -1), (38, -1, -26, 7, 7, 30, -57), (38, -1, -26, 7, 8, -34, -49),
-        (38, -1, -26, 7, 9, -90, 15), (38, -1, -26, 7, 10, -82, 71), (38, -1, -26, 7, 11, -18, 63),
-        (38, -1, -26, 7, 12, 38, -1), (38, -1, -26, 7, 255, -90, 15), (38, -1, 38, -1, 0, 38, -1),
-        (38, -1, 38, -1, 1, 38, -1), (38, -1, 38, -1, 2, 38, -1), (38, -1, 38, -1, 3, 38, -1),
-        (38, -1, 38, -1, 4, 38, -1), (38, -1, 38, -1, 5, 38, -1), (38, -1, 38, -1, 6, 38, -1),
-        (38, -1, 38, -1, 7, 38, -1), (38, -1, 38, -1, 8, 38, -1), (38, -1, 38, -1, 9, 38, -1),
-        (38, -1, 38, -1, 10, 38, -1), (38, -1, 38, -1, 11, 38, -1), (38, -1, 38, -1, 12, 38, -1),
-        (38, -1, 38, -1, 255, 38, -1), (38, -1, 33, 8, 0, 38, -1), (38, -1, 33, 8, 1, 29, 3),
-        (38, -1, 33, 8, 2, 24, 12), (38, -1, 33, 8, 3, 28, 17), (38, -1, 33, 8, 4, 37, 13),
-        (38, -1, 33, 8, 5, 42, 4), (38, -1, 33, 8, 6, 38, -1), (38, -1, 33, 8, 7, 29, 3),
-        (38, -1, 33, 8, 8, 24, 12), (38, -1, 33, 8, 9, 28, 17), (38, -1, 33, 8, 10, 37, 13),
-        (38, -1, 33, 8, 11, 42, 4), (38, -1, 33, 8, 12, 38, -1), (38, -1, 33, 8, 255, 28, 17),
-        (6, 3, 31, 13, 0, 6, 3), (6, 3, 31, 13, 1, -4, 38), (6, 3, 31, 13, 2, 21, 48),
-        (6, 3, 31, 13, 3, 56, 23), (6, 3, 31, 13, 4, 66, -12), (6, 3, 31, 13, 5, 41, -22),
-        (6, 3, 31, 13, 6, 6, 3), (6, 3, 31, 13, 7, -4, 38), (6, 3, 31, 13, 8, 21, 48),
-        (6, 3, 31, 13, 9, 56, 23), (6, 3, 31, 13, 10, 66, -12), (6, 3, 31, 13, 11, 41, -22),
-        (6, 3, 31, 13, 12, 6, 3), (6, 3, 31, 13, 255, 56, 23), (6, 3, 27, 39, 0, 6, 3),
-        (6, 3, 27, 39, 1, -30, 60), (6, 3, 27, 39, 2, -9, 96), (6, 3, 27, 39, 3, 48, 75),
-        (6, 3, 27, 39, 4, 84, 18), (6, 3, 27, 39, 5, 63, -18), (6, 3, 27, 39, 6, 6, 3),
-        (6, 3, 27, 39, 7, -30, 60), (6, 3, 27, 39, 8, -9, 96), (6, 3, 27, 39, 9, 48, 75),
-        (6, 3, 27, 39, 10, 84, 18), (6, 3, 27, 39, 11, 63, -18), (6, 3, 27, 39, 12, 6, 3),
-        (6, 3, 27, 39, 255, 48, 75), (6, 3, 24, 1, 0, 6, 3), (6, 3, 24, 1, 1, 8, 19),
-        (6, 3, 24, 1, 2, 26, 17), (6, 3, 24, 1, 3, 42, -1), (6, 3, 24, 1, 4, 40, -17),
-        (6, 3, 24, 1, 5, 22, -15), (6, 3, 24, 1, 6, 6, 3), (6, 3, 24, 1, 7, 8, 19),
-        (6, 3, 24, 1, 8, 26, 17), (6, 3, 24, 1, 9, 42, -1), (6, 3, 24, 1, 10, 40, -17),
-        (6, 3, 24, 1, 11, 22, -15), (6, 3, 24, 1, 12, 6, 3), (6, 3, 24, 1, 255, 42, -1),
-        (6, 3, -21, -18, 0, 6, 3), (6, 3, -21, -18, 1, 27, -45), (6, 3, -21, -18, 2, 0, -66),
-        (6, 3, -21, -18, 3, -48, -39), (6, 3, -21, -18, 4, -69, 9), (6, 3, -21, -18, 5, -42, 30),
-        (6, 3, -21, -18, 6, 6, 3), (6, 3, -21, -18, 7, 27, -45), (6, 3, -21, -18, 8, 0, -66),
-        (6, 3, -21, -18, 9, -48, -39), (6, 3, -21, -18, 10, -69, 9), (6, 3, -21, -18, 11, -42, 30),
-        (6, 3, -21, -18, 12, 6, 3), (6, 3, -21, -18, 255, -48, -39), (6, 3, -13, -35, 0, 6, 3),
-        (6, 3, -13, -35, 1, 44, -54), (6, 3, -13, -35, 2, 25, -92), (6, 3, -13, -35, 3, -32, -73),
-        (6, 3, -13, -35, 4, -70, -16), (6, 3, -13, -35, 5, -51, 22), (6, 3, -13, -35, 6, 6, 3),
-        (6, 3, -13, -35, 7, 44, -54), (6, 3, -13, -35, 8, 25, -92), (6, 3, -13, -35, 9, -32, -73),
-        (6, 3, -13, -35, 10, -70, -16), (6, 3, -13, -35, 11, -51, 22), (6, 3, -13, -35, 12, 6, 3),
-        (6, 3, -13, -35, 255, -32, -73), (6, 3, -26, 7, 0, 6, 3), (6, 3, -26, 7, 1, 2, -25),
-        (6, 3, -26, 7, 2, -30, -21), (6, 3, -26, 7, 3, -58, 11), (6, 3, -26, 7, 4, -54, 39),
-        (6, 3, -26, 7, 5, -22, 35), (6, 3, -26, 7, 6, 6, 3), (6, 3, -26, 7, 7, 2, -25),
-        (6, 3, -26, 7, 8, -30, -21), (6, 3, -26, 7, 9, -58, 11), (6, 3, -26, 7, 10, -54, 39),
-        (6, 3, -26, 7, 11, -22, 35), (6, 3, -26, 7, 12, 6, 3), (6, 3, -26, 7, 255, -58, 11),
-        (6, 3, 38, -1, 0, 6, 3), (6, 3, 38, -1, 1, 10, 31), (6, 3, 38, -1, 2, 42, 27),
-        (6, 3, 38, -1, 3, 70, -5), (6, 3, 38, -1, 4, 66, -33), (6, 3, 38, -1, 5, 34, -29),
-        (6, 3, 38, -1, 6, 6, 3), (6, 3, 38, -1, 7, 10, 31), (6, 3, 38, -1, 8, 42, 27),
-        (6, 3, 38, -1, 9, 70, -5), (6, 3, 38, -1, 10, 66, -33), (6, 3, 38, -1, 11, 34, -29),
-        (6, 3, 38, -1, 12, 6, 3), (6, 3, 38, -1, 255, 70, -5), (6, 3, 33, 8, 0, 6, 3),
-        (6, 3, 33, 8, 1, 1, 35), (6, 3, 33, 8, 2, 28, 40), (6, 3, 33, 8, 3, 60, 13),
-        (6, 3, 33, 8, 4, 65, -19), (6, 3, 33, 8, 5, 38, -24), (6, 3, 33, 8, 6, 6, 3),
-        (6, 3, 33, 8, 7, 1, 35), (6, 3, 33, 8, 8, 28, 40), (6, 3, 33, 8, 9, 60, 13),
-        (6, 3, 33, 8, 10, 65, -19), (6, 3, 33, 8, 11, 38, -24), (6, 3, 33, 8, 12, 6, 3),
-        (6, 3, 33, 8, 255, 60, 13), (-7, -12, 31, 13, 0, -7, -12), (-7, -12, 31, 13, 1, -32, 51),
-        (-7, -12, 31, 13, 2, 6, 76), (-7, -12, 31, 13, 3, 69, 38), (-7, -12, 31, 13, 4, 94, -25),
-        (-7, -12, 31, 13, 5, 56, -50), (-7, -12, 31, 13, 6, -7, -12), (-7, -12, 31, 13, 7, -32, 51),
-        (-7, -12, 31, 13, 8, 6, 76), (-7, -12, 31, 13, 9, 69, 38), (-7, -12, 31, 13, 10, 94, -25),
-        (-7, -12, 31, 13, 11, 56, -50), (-7, -12, 31, 13, 12, -7, -12),
-        (-7, -12, 31, 13, 255, 69, 38), (-7, -12, 27, 39, 0, -7, -12),
-        (-7, -12, 27, 39, 1, -58, 73), (-7, -12, 27, 39, 2, -24, 124), (-7, -12, 27, 39, 3, 61, 90),
-        (-7, -12, 27, 39, 4, 112, 5), (-7, -12, 27, 39, 5, 78, -46), (-7, -12, 27, 39, 6, -7, -12),
-        (-7, -12, 27, 39, 7, -58, 73), (-7, -12, 27, 39, 8, -24, 124), (-7, -12, 27, 39, 9, 61, 90),
-        (-7, -12, 27, 39, 10, 112, 5), (-7, -12, 27, 39, 11, 78, -46),
-        (-7, -12, 27, 39, 12, -7, -12), (-7, -12, 27, 39, 255, 61, 90),
-        (-7, -12, 24, 1, 0, -7, -12), (-7, -12, 24, 1, 1, -20, 32), (-7, -12, 24, 1, 2, 11, 45),
-        (-7, -12, 24, 1, 3, 55, 14), (-7, -12, 24, 1, 4, 68, -30), (-7, -12, 24, 1, 5, 37, -43),
-        (-7, -12, 24, 1, 6, -7, -12), (-7, -12, 24, 1, 7, -20, 32), (-7, -12, 24, 1, 8, 11, 45),
-        (-7, -12, 24, 1, 9, 55, 14), (-7, -12, 24, 1, 10, 68, -30), (-7, -12, 24, 1, 11, 37, -43),
-        (-7, -12, 24, 1, 12, -7, -12), (-7, -12, 24, 1, 255, 55, 14),
-        (-7, -12, -21, -18, 0, -7, -12), (-7, -12, -21, -18, 1, -1, -32),
-        (-7, -12, -21, -18, 2, -15, -38), (-7, -12, -21, -18, 3, -35, -24),
-        (-7, -12, -21, -18, 4, -41, -4), (-7, -12, -21, -18, 5, -27, 2),
-        (-7, -12, -21, -18, 6, -7, -12), (-7, -12, -21, -18, 7, -1, -32),
-        (-7, -12, -21, -18, 8, -15, -38), (-7, -12, -21, -18, 9, -35, -24),
-        (-7, -12, -21, -18, 10, -41, -4), (-7, -12, -21, -18, 11, -27, 2),
-        (-7, -12, -21, -18, 12, -7, -12), (-7, -12, -21, -18, 255, -35, -24),
-        (-7, -12, -13, -35, 0, -7, -12), (-7, -12, -13, -35, 1, 16, -41),
-        (-7, -12, -13, -35, 2, 10, -64), (-7, -12, -13, -35, 3, -19, -58),
-        (-7, -12, -13, -35, 4, -42, -29), (-7, -12, -13, -35, 5, -36, -6),
-        (-7, -12, -13, -35, 6, -7, -12), (-7, -12, -13, -35, 7, 16, -41),
-        (-7, -12, -13, -35, 8, 10, -64), (-7, -12, -13, -35, 9, -19, -58),
-        (-7, -12, -13, -35, 10, -42, -29), (-7, -12, -13, -35, 11, -36, -6),
-        (-7, -12, -13, -35, 12, -7, -12), (-7, -12, -13, -35, 255, -19, -58),
-        (-7, -12, -26, 7, 0, -7, -12), (-7, -12, -26, 7, 1, -26, -12), (-7, -12, -26, 7, 2, -45, 7),
-        (-7, -12, -26, 7, 3, -45, 26), (-7, -12, -26, 7, 4, -26, 26), (-7, -12, -26, 7, 5, -7, 7),
-        (-7, -12, -26, 7, 6, -7, -12), (-7, -12, -26, 7, 7, -26, -12), (-7, -12, -26, 7, 8, -45, 7),
-        (-7, -12, -26, 7, 9, -45, 26), (-7, -12, -26, 7, 10, -26, 26), (-7, -12, -26, 7, 11, -7, 7),
-        (-7, -12, -26, 7, 12, -7, -12), (-7, -12, -26, 7, 255, -45, 26),
-        (-7, -12, 38, -1, 0, -7, -12), (-7, -12, 38, -1, 1, -18, 44), (-7, -12, 38, -1, 2, 27, 55),
-        (-7, -12, 38, -1, 3, 83, 10), (-7, -12, 38, -1, 4, 94, -46), (-7, -12, 38, -1, 5, 49, -57),
-        (-7, -12, 38, -1, 6, -7, -12), (-7, -12, 38, -1, 7, -18, 44), (-7, -12, 38, -1, 8, 27, 55),
-        (-7, -12, 38, -1, 9, 83, 10), (-7, -12, 38, -1, 10, 94, -46),
-        (-7, -12, 38, -1, 11, 49, -57), (-7, -12, 38, -1, 12, -7, -12),
-        (-7, -12, 38, -1, 255, 83, 10), (-7, -12, 33, 8, 0, -7, -12), (-7, -12, 33, 8, 1, -27, 48),
-        (-7, -12, 33, 8, 2, 13, 68), (-7, -12, 33, 8, 3, 73, 28), (-7, -12, 33, 8, 4, 93, -32),
-        (-7, -12, 33, 8, 5, 53, -52), (-7, -12, 33, 8, 6, -7, -12), (-7, -12, 33, 8, 7, -27, 48),
-        (-7, -12, 33, 8, 8, 13, 68), (-7, -12, 33, 8, 9, 73, 28), (-7, -12, 33, 8, 10, 93, -32),
-        (-7, -12, 33, 8, 11, 53, -52), (-7, -12, 33, 8, 12, -7, -12), (-7, -12, 33, 8, 255, 73, 28),
-        (-35, -32, 31, 13, 0, -35, -32), (-35, -32, 31, 13, 1, -80, 79),
-        (-35, -32, 31, 13, 2, -14, 124), (-35, -32, 31, 13, 3, 97, 58),
-        (-35, -32, 31, 13, 4, 142, -53), (-35, -32, 31, 13, 5, 76, -98),
-        (-35, -32, 31, 13, 6, -35, -32), (-35, -32, 31, 13, 7, -80, 79),
-        (-35, -32, 31, 13, 8, -14, 124), (-35, -32, 31, 13, 9, 97, 58),
-        (-35, -32, 31, 13, 10, 142, -53), (-35, -32, 31, 13, 11, 76, -98),
-        (-35, -32, 31, 13, 12, -35, -32), (-35, -32, 31, 13, 255, 97, 58),
-        (-35, -32, 27, 39, 0, -35, -32), (-35, -32, 27, 39, 1, -106, 101),
-        (-35, -32, 27, 39, 2, -44, 172), (-35, -32, 27, 39, 3, 89, 110),
-        (-35, -32, 27, 39, 4, 160, -23), (-35, -32, 27, 39, 5, 98, -94),
-        (-35, -32, 27, 39, 6, -35, -32), (-35, -32, 27, 39, 7, -106, 101),
-        (-35, -32, 27, 39, 8, -44, 172), (-35, -32, 27, 39, 9, 89, 110),
-        (-35, -32, 27, 39, 10, 160, -23), (-35, -32, 27, 39, 11, 98, -94),
-        (-35, -32, 27, 39, 12, -35, -32), (-35, -32, 27, 39, 255, 89, 110),
-        (-35, -32, 24, 1, 0, -35, -32), (-35, -32, 24, 1, 1, -68, 60), (-35, -32, 24, 1, 2, -9, 93),
-        (-35, -32, 24, 1, 3, 83, 34), (-35, -32, 24, 1, 4, 116, -58), (-35, -32, 24, 1, 5, 57, -91),
-        (-35, -32, 24, 1, 6, -35, -32), (-35, -32, 24, 1, 7, -68, 60), (-35, -32, 24, 1, 8, -9, 93),
-        (-35, -32, 24, 1, 9, 83, 34), (-35, -32, 24, 1, 10, 116, -58),
-        (-35, -32, 24, 1, 11, 57, -91), (-35, -32, 24, 1, 12, -35, -32),
-        (-35, -32, 24, 1, 255, 83, 34), (-35, -32, -21, -18, 0, -35, -32),
-        (-35, -32, -21, -18, 1, -49, -4), (-35, -32, -21, -18, 2, -35, 10),
-        (-35, -32, -21, -18, 3, -7, -4), (-35, -32, -21, -18, 4, 7, -32),
-        (-35, -32, -21, -18, 5, -7, -46), (-35, -32, -21, -18, 6, -35, -32),
-        (-35, -32, -21, -18, 7, -49, -4), (-35, -32, -21, -18, 8, -35, 10),
-        (-35, -32, -21, -18, 9, -7, -4), (-35, -32, -21, -18, 10, 7, -32),
-        (-35, -32, -21, -18, 11, -7, -46), (-35, -32, -21, -18, 12, -35, -32),
-        (-35, -32, -21, -18, 255, -7, -4), (-35, -32, -13, -35, 0, -35, -32),
-        (-35, -32, -13, -35, 1, -32, -13), (-35, -32, -13, -35, 2, -10, -16),
-        (-35, -32, -13, -35, 3, 9, -38), (-35, -32, -13, -35, 4, 6, -57),
-        (-35, -32, -13, -35, 5, -16, -54), (-35, -32, -13, -35, 6, -35, -32),
-        (-35, -32, -13, -35, 7, -32, -13), (-35, -32, -13, -35, 8, -10, -16),
-        (-35, -32, -13, -35, 9, 9, -38), (-35, -32, -13, -35, 10, 6, -57),
-        (-35, -32, -13, -35, 11, -16, -54), (-35, -32, -13, -35, 12, -35, -32),
-        (-35, -32, -13, -35, 255, 9, -38), (-35, -32, -26, 7, 0, -35, -32),
-        (-35, -32, -26, 7, 1, -74, 16), (-35, -32, -26, 7, 2, -65, 55),
-        (-35, -32, -26, 7, 3, -17, 46), (-35, -32, -26, 7, 4, 22, -2),
-        (-35, -32, -26, 7, 5, 13, -41), (-35, -32, -26, 7, 6, -35, -32),
-        (-35, -32, -26, 7, 7, -74, 16), (-35, -32, -26, 7, 8, -65, 55),
-        (-35, -32, -26, 7, 9, -17, 46), (-35, -32, -26, 7, 10, 22, -2),
-        (-35, -32, -26, 7, 11, 13, -41), (-35, -32, -26, 7, 12, -35, -32),
-        (-35, -32, -26, 7, 255, -17, 46), (-35, -32, 38, -1, 0, -35, -32),
-        (-35, -32, 38, -1, 1, -66, 72), (-35, -32, 38, -1, 2, 7, 103),
-        (-35, -32, 38, -1, 3, 111, 30), (-35, -32, 38, -1, 4, 142, -74),
-        (-35, -32, 38, -1, 5, 69, -105), (-35, -32, 38, -1, 6, -35, -32),
-        (-35, -32, 38, -1, 7, -66, 72), (-35, -32, 38, -1, 8, 7, 103),
-        (-35, -32, 38, -1, 9, 111, 30), (-35, -32, 38, -1, 10, 142, -74),
-        (-35, -32, 38, -1, 11, 69, -105), (-35, -32, 38, -1, 12, -35, -32),
-        (-35, -32, 38, -1, 255, 111, 30), (-35, -32, 33, 8, 0, -35, -32),
-        (-35, -32, 33, 8, 1, -75, 76), (-35, -32, 33, 8, 2, -7, 116), (-35, -32, 33, 8, 3, 101, 48),
-        (-35, -32, 33, 8, 4, 141, -60), (-35, -32, 33, 8, 5, 73, -100),
-        (-35, -32, 33, 8, 6, -35, -32), (-35, -32, 33, 8, 7, -75, 76),
-        (-35, -32, 33, 8, 8, -7, 116), (-35, -32, 33, 8, 9, 101, 48),
-        (-35, -32, 33, 8, 10, 141, -60), (-35, -32, 33, 8, 11, 73, -100),
-        (-35, -32, 33, 8, 12, -35, -32), (-35, -32, 33, 8, 255, 101, 48),
-        (10, -16, 31, 13, 0, 10, -16), (10, -16, 31, 13, 1, -19, 34), (10, -16, 31, 13, 2, 2, 63),
-        (10, -16, 31, 13, 3, 52, 42), (10, -16, 31, 13, 4, 81, -8), (10, -16, 31, 13, 5, 60, -37),
-        (10, -16, 31, 13, 6, 10, -16), (10, -16, 31, 13, 7, -19, 34), (10, -16, 31, 13, 8, 2, 63),
-        (10, -16, 31, 13, 9, 52, 42), (10, -16, 31, 13, 10, 81, -8), (10, -16, 31, 13, 11, 60, -37),
-        (10, -16, 31, 13, 12, 10, -16), (10, -16, 31, 13, 255, 52, 42),
-        (10, -16, 27, 39, 0, 10, -16), (10, -16, 27, 39, 1, -45, 56),
-        (10, -16, 27, 39, 2, -28, 111), (10, -16, 27, 39, 3, 44, 94), (10, -16, 27, 39, 4, 99, 22),
-        (10, -16, 27, 39, 5, 82, -33), (10, -16, 27, 39, 6, 10, -16), (10, -16, 27, 39, 7, -45, 56),
-        (10, -16, 27, 39, 8, -28, 111), (10, -16, 27, 39, 9, 44, 94), (10, -16, 27, 39, 10, 99, 22),
-        (10, -16, 27, 39, 11, 82, -33), (10, -16, 27, 39, 12, 10, -16),
-        (10, -16, 27, 39, 255, 44, 94), (10, -16, 24, 1, 0, 10, -16), (10, -16, 24, 1, 1, -7, 15),
-        (10, -16, 24, 1, 2, 7, 32), (10, -16, 24, 1, 3, 38, 18), (10, -16, 24, 1, 4, 55, -13),
-        (10, -16, 24, 1, 5, 41, -30), (10, -16, 24, 1, 6, 10, -16), (10, -16, 24, 1, 7, -7, 15),
-        (10, -16, 24, 1, 8, 7, 32), (10, -16, 24, 1, 9, 38, 18), (10, -16, 24, 1, 10, 55, -13),
-        (10, -16, 24, 1, 11, 41, -30), (10, -16, 24, 1, 12, 10, -16), (10, -16, 24, 1, 255, 38, 18),
-        (10, -16, -21, -18, 0, 10, -16), (10, -16, -21, -18, 1, 12, -49),
-        (10, -16, -21, -18, 2, -19, -51), (10, -16, -21, -18, 3, -52, -20),
-        (10, -16, -21, -18, 4, -54, 13), (10, -16, -21, -18, 5, -23, 15),
-        (10, -16, -21, -18, 6, 10, -16), (10, -16, -21, -18, 7, 12, -49),
-        (10, -16, -21, -18, 8, -19, -51), (10, -16, -21, -18, 9, -52, -20),
-        (10, -16, -21, -18, 10, -54, 13), (10, -16, -21, -18, 11, -23, 15),
-        (10, -16, -21, -18, 12, 10, -16), (10, -16, -21, -18, 255, -52, -20),
-        (10, -16, -13, -35, 0, 10, -16), (10, -16, -13, -35, 1, 29, -58),
-        (10, -16, -13, -35, 2, 6, -77), (10, -16, -13, -35, 3, -36, -54),
-        (10, -16, -13, -35, 4, -55, -12), (10, -16, -13, -35, 5, -32, 7),
-        (10, -16, -13, -35, 6, 10, -16), (10, -16, -13, -35, 7, 29, -58),
-        (10, -16, -13, -35, 8, 6, -77), (10, -16, -13, -35, 9, -36, -54),
-        (10, -16, -13, -35, 10, -55, -12), (10, -16, -13, -35, 11, -32, 7),
-        (10, -16, -13, -35, 12, 10, -16), (10, -16, -13, -35, 255, -36, -54),
-        (10, -16, -26, 7, 0, 10, -16), (10, -16, -26, 7, 1, -13, -29),
-        (10, -16, -26, 7, 2, -49, -6), (10, -16, -26, 7, 3, -62, 30), (10, -16, -26, 7, 4, -39, 43),
-        (10, -16, -26, 7, 5, -3, 20), (10, -16, -26, 7, 6, 10, -16), (10, -16, -26, 7, 7, -13, -29),
-        (10, -16, -26, 7, 8, -49, -6), (10, -16, -26, 7, 9, -62, 30),
-        (10, -16, -26, 7, 10, -39, 43), (10, -16, -26, 7, 11, -3, 20),
-        (10, -16, -26, 7, 12, 10, -16), (10, -16, -26, 7, 255, -62, 30),
-        (10, -16, 38, -1, 0, 10, -16), (10, -16, 38, -1, 1, -5, 27), (10, -16, 38, -1, 2, 23, 42),
-        (10, -16, 38, -1, 3, 66, 14), (10, -16, 38, -1, 4, 81, -29), (10, -16, 38, -1, 5, 53, -44),
-        (10, -16, 38, -1, 6, 10, -16), (10, -16, 38, -1, 7, -5, 27), (10, -16, 38, -1, 8, 23, 42),
-        (10, -16, 38, -1, 9, 66, 14), (10, -16, 38, -1, 10, 81, -29),
-        (10, -16, 38, -1, 11, 53, -44), (10, -16, 38, -1, 12, 10, -16),
-        (10, -16, 38, -1, 255, 66, 14), (10, -16, 33, 8, 0, 10, -16), (10, -16, 33, 8, 1, -14, 31),
-        (10, -16, 33, 8, 2, 9, 55), (10, -16, 33, 8, 3, 56, 32), (10, -16, 33, 8, 4, 80, -15),
-        (10, -16, 33, 8, 5, 57, -39), (10, -16, 33, 8, 6, 10, -16), (10, -16, 33, 8, 7, -14, 31),
-        (10, -16, 33, 8, 8, 9, 55), (10, -16, 33, 8, 9, 56, 32), (10, -16, 33, 8, 10, 80, -15),
-        (10, -16, 33, 8, 11, 57, -39), (10, -16, 33, 8, 12, 10, -16), (10, -16, 33, 8, 255, 56, 32),
-        (1, -31, 31, 13, 0, 1, -31), (1, -31, 31, 13, 1, -43, 43), (1, -31, 31, 13, 2, -13, 87),
-        (1, -31, 31, 13, 3, 61, 57), (1, -31, 31, 13, 4, 105, -17), (1, -31, 31, 13, 5, 75, -61),
-        (1, -31, 31, 13, 6, 1, -31), (1, -31, 31, 13, 7, -43, 43), (1, -31, 31, 13, 8, -13, 87),
-        (1, -31, 31, 13, 9, 61, 57), (1, -31, 31, 13, 10, 105, -17), (1, -31, 31, 13, 11, 75, -61),
-        (1, -31, 31, 13, 12, 1, -31), (1, -31, 31, 13, 255, 61, 57), (1, -31, 27, 39, 0, 1, -31),
-        (1, -31, 27, 39, 1, -69, 65), (1, -31, 27, 39, 2, -43, 135), (1, -31, 27, 39, 3, 53, 109),
-        (1, -31, 27, 39, 4, 123, 13), (1, -31, 27, 39, 5, 97, -57), (1, -31, 27, 39, 6, 1, -31),
-        (1, -31, 27, 39, 7, -69, 65), (1, -31, 27, 39, 8, -43, 135), (1, -31, 27, 39, 9, 53, 109),
-        (1, -31, 27, 39, 10, 123, 13), (1, -31, 27, 39, 11, 97, -57), (1, -31, 27, 39, 12, 1, -31),
-        (1, -31, 27, 39, 255, 53, 109), (1, -31, 24, 1, 0, 1, -31), (1, -31, 24, 1, 1, -31, 24),
-        (1, -31, 24, 1, 2, -8, 56), (1, -31, 24, 1, 3, 47, 33), (1, -31, 24, 1, 4, 79, -22),
-        (1, -31, 24, 1, 5, 56, -54), (1, -31, 24, 1, 6, 1, -31), (1, -31, 24, 1, 7, -31, 24),
-        (1, -31, 24, 1, 8, -8, 56), (1, -31, 24, 1, 9, 47, 33), (1, -31, 24, 1, 10, 79, -22),
-        (1, -31, 24, 1, 11, 56, -54), (1, -31, 24, 1, 12, 1, -31), (1, -31, 24, 1, 255, 47, 33),
-        (1, -31, -21, -18, 0, 1, -31), (1, -31, -21, -18, 1, -12, -40),
-        (1, -31, -21, -18, 2, -34, -27), (1, -31, -21, -18, 3, -43, -5),
-        (1, -31, -21, -18, 4, -30, 4), (1, -31, -21, -18, 5, -8, -9), (1, -31, -21, -18, 6, 1, -31),
-        (1, -31, -21, -18, 7, -12, -40), (1, -31, -21, -18, 8, -34, -27),
-        (1, -31, -21, -18, 9, -43, -5), (1, -31, -21, -18, 10, -30, 4),
-        (1, -31, -21, -18, 11, -8, -9), (1, -31, -21, -18, 12, 1, -31),
-        (1, -31, -21, -18, 255, -43, -5), (1, -31, -13, -35, 0, 1, -31),
-        (1, -31, -13, -35, 1, 5, -49), (1, -31, -13, -35, 2, -9, -53),
-        (1, -31, -13, -35, 3, -27, -39), (1, -31, -13, -35, 4, -31, -21),
-        (1, -31, -13, -35, 5, -17, -17), (1, -31, -13, -35, 6, 1, -31),
-        (1, -31, -13, -35, 7, 5, -49), (1, -31, -13, -35, 8, -9, -53),
-        (1, -31, -13, -35, 9, -27, -39), (1, -31, -13, -35, 10, -31, -21),
-        (1, -31, -13, -35, 11, -17, -17), (1, -31, -13, -35, 12, 1, -31),
-        (1, -31, -13, -35, 255, -27, -39), (1, -31, -26, 7, 0, 1, -31),
-        (1, -31, -26, 7, 1, -37, -20), (1, -31, -26, 7, 2, -64, 18), (1, -31, -26, 7, 3, -53, 45),
-        (1, -31, -26, 7, 4, -15, 34), (1, -31, -26, 7, 5, 12, -4), (1, -31, -26, 7, 6, 1, -31),
-        (1, -31, -26, 7, 7, -37, -20), (1, -31, -26, 7, 8, -64, 18), (1, -31, -26, 7, 9, -53, 45),
-        (1, -31, -26, 7, 10, -15, 34), (1, -31, -26, 7, 11, 12, -4), (1, -31, -26, 7, 12, 1, -31),
-        (1, -31, -26, 7, 255, -53, 45), (1, -31, 38, -1, 0, 1, -31), (1, -31, 38, -1, 1, -29, 36),
-        (1, -31, 38, -1, 2, 8, 66), (1, -31, 38, -1, 3, 75, 29), (1, -31, 38, -1, 4, 105, -38),
-        (1, -31, 38, -1, 5, 68, -68), (1, -31, 38, -1, 6, 1, -31), (1, -31, 38, -1, 7, -29, 36),
-        (1, -31, 38, -1, 8, 8, 66), (1, -31, 38, -1, 9, 75, 29), (1, -31, 38, -1, 10, 105, -38),
-        (1, -31, 38, -1, 11, 68, -68), (1, -31, 38, -1, 12, 1, -31), (1, -31, 38, -1, 255, 75, 29),
-        (1, -31, 33, 8, 0, 1, -31), (1, -31, 33, 8, 1, -38, 40), (1, -31, 33, 8, 2, -6, 79),
-        (1, -31, 33, 8, 3, 65, 47), (1, -31, 33, 8, 4, 104, -24), (1, -31, 33, 8, 5, 72, -63),
-        (1, -31, 33, 8, 6, 1, -31), (1, -31, 33, 8, 7, -38, 40), (1, -31, 33, 8, 8, -6, 79),
-        (1, -31, 33, 8, 9, 65, 47), (1, -31, 33, 8, 10, 104, -24), (1, -31, 33, 8, 11, 72, -63),
-        (1, -31, 33, 8, 12, 1, -31), (1, -31, 33, 8, 255, 65, 47), (37, 0, 31, 13, 0, 37, 0),
-        (37, 0, 31, 13, 1, 24, 7), (37, 0, 31, 13, 2, 18, 20), (37, 0, 31, 13, 3, 25, 26),
-        (37, 0, 31, 13, 4, 38, 19), (37, 0, 31, 13, 5, 44, 6), (37, 0, 31, 13, 6, 37, 0),
-        (37, 0, 31, 13, 7, 24, 7), (37, 0, 31, 13, 8, 18, 20), (37, 0, 31, 13, 9, 25, 26),
-        (37, 0, 31, 13, 10, 38, 19), (37, 0, 31, 13, 11, 44, 6), (37, 0, 31, 13, 12, 37, 0),
-        (37, 0, 31, 13, 255, 25, 26), (37, 0, 27, 39, 0, 37, 0), (37, 0, 27, 39, 1, -2, 29),
-        (37, 0, 27, 39, 2, -12, 68), (37, 0, 27, 39, 3, 17, 78), (37, 0, 27, 39, 4, 56, 49),
-        (37, 0, 27, 39, 5, 66, 10), (37, 0, 27, 39, 6, 37, 0), (37, 0, 27, 39, 7, -2, 29),
-        (37, 0, 27, 39, 8, -12, 68), (37, 0, 27, 39, 9, 17, 78), (37, 0, 27, 39, 10, 56, 49),
-        (37, 0, 27, 39, 11, 66, 10), (37, 0, 27, 39, 12, 37, 0), (37, 0, 27, 39, 255, 17, 78),
-        (37, 0, 24, 1, 0, 37, 0), (37, 0, 24, 1, 1, 36, -12), (37, 0, 24, 1, 2, 23, -11),
-        (37, 0, 24, 1, 3, 11, 2), (37, 0, 24, 1, 4, 12, 14), (37, 0, 24, 1, 5, 25, 13),
-        (37, 0, 24, 1, 6, 37, 0), (37, 0, 24, 1, 7, 36, -12), (37, 0, 24, 1, 8, 23, -11),
-        (37, 0, 24, 1, 9, 11, 2), (37, 0, 24, 1, 10, 12, 14), (37, 0, 24, 1, 11, 25, 13),
-        (37, 0, 24, 1, 12, 37, 0), (37, 0, 24, 1, 255, 11, 2), (37, 0, -21, -18, 0, 37, 0),
-        (37, 0, -21, -18, 1, 55, -76), (37, 0, -21, -18, 2, -3, -94),
-        (37, 0, -21, -18, 3, -79, -36), (37, 0, -21, -18, 4, -97, 40),
-        (37, 0, -21, -18, 5, -39, 58), (37, 0, -21, -18, 6, 37, 0), (37, 0, -21, -18, 7, 55, -76),
-        (37, 0, -21, -18, 8, -3, -94), (37, 0, -21, -18, 9, -79, -36),
-        (37, 0, -21, -18, 10, -97, 40), (37, 0, -21, -18, 11, -39, 58),
-        (37, 0, -21, -18, 12, 37, 0), (37, 0, -21, -18, 255, -79, -36), (37, 0, -13, -35, 0, 37, 0),
-        (37, 0, -13, -35, 1, 72, -85), (37, 0, -13, -35, 2, 22, -120),
-        (37, 0, -13, -35, 3, -63, -70), (37, 0, -13, -35, 4, -98, 15),
-        (37, 0, -13, -35, 5, -48, 50), (37, 0, -13, -35, 6, 37, 0), (37, 0, -13, -35, 7, 72, -85),
-        (37, 0, -13, -35, 8, 22, -120), (37, 0, -13, -35, 9, -63, -70),
-        (37, 0, -13, -35, 10, -98, 15), (37, 0, -13, -35, 11, -48, 50),
-        (37, 0, -13, -35, 12, 37, 0), (37, 0, -13, -35, 255, -63, -70), (37, 0, -26, 7, 0, 37, 0),
-        (37, 0, -26, 7, 1, 30, -56), (37, 0, -26, 7, 2, -33, -49), (37, 0, -26, 7, 3, -89, 14),
-        (37, 0, -26, 7, 4, -82, 70), (37, 0, -26, 7, 5, -19, 63), (37, 0, -26, 7, 6, 37, 0),
-        (37, 0, -26, 7, 7, 30, -56), (37, 0, -26, 7, 8, -33, -49), (37, 0, -26, 7, 9, -89, 14),
-        (37, 0, -26, 7, 10, -82, 70), (37, 0, -26, 7, 11, -19, 63), (37, 0, -26, 7, 12, 37, 0),
-        (37, 0, -26, 7, 255, -89, 14), (37, 0, 38, -1, 0, 37, 0), (37, 0, 38, -1, 1, 38, 0),
-        (37, 0, 38, -1, 2, 39, -1), (37, 0, 38, -1, 3, 39, -2), (37, 0, 38, -1, 4, 38, -2),
-        (37, 0, 38, -1, 5, 37, -1), (37, 0, 38, -1, 6, 37, 0), (37, 0, 38, -1, 7, 38, 0),
-        (37, 0, 38, -1, 8, 39, -1), (37, 0, 38, -1, 9, 39, -2), (37, 0, 38, -1, 10, 38, -2),
-        (37, 0, 38, -1, 11, 37, -1), (37, 0, 38, -1, 12, 37, 0), (37, 0, 38, -1, 255, 39, -2),
-        (37, 0, 33, 8, 0, 37, 0), (37, 0, 33, 8, 1, 29, 4), (37, 0, 33, 8, 2, 25, 12),
-        (37, 0, 33, 8, 3, 29, 16), (37, 0, 33, 8, 4, 37, 12), (37, 0, 33, 8, 5, 41, 4),
-        (37, 0, 33, 8, 6, 37, 0), (37, 0, 33, 8, 7, 29, 4), (37, 0, 33, 8, 8, 25, 12),
-        (37, 0, 33, 8, 9, 29, 16), (37, 0, 33, 8, 10, 37, 12), (37, 0, 33, 8, 11, 41, 4),
-        (37, 0, 33, 8, 12, 37, 0), (37, 0, 33, 8, 255, 29, 16), (-6, 2, 31, 13, 0, -6, 2),
-        (-6, 2, 31, 13, 1, -17, 50), (-6, 2, 31, 13, 2, 20, 61), (-6, 2, 31, 13, 3, 68, 24),
-        (-6, 2, 31, 13, 4, 79, -24), (-6, 2, 31, 13, 5, 42, -35), (-6, 2, 31, 13, 6, -6, 2),
-        (-6, 2, 31, 13, 7, -17, 50), (-6, 2, 31, 13, 8, 20, 61), (-6, 2, 31, 13, 9, 68, 24),
-        (-6, 2, 31, 13, 10, 79, -24), (-6, 2, 31, 13, 11, 42, -35), (-6, 2, 31, 13, 12, -6, 2),
-        (-6, 2, 31, 13, 255, 68, 24), (-6, 2, 27, 39, 0, -6, 2), (-6, 2, 27, 39, 1, -43, 72),
-        (-6, 2, 27, 39, 2, -10, 109), (-6, 2, 27, 39, 3, 60, 76), (-6, 2, 27, 39, 4, 97, 6),
-        (-6, 2, 27, 39, 5, 64, -31), (-6, 2, 27, 39, 6, -6, 2), (-6, 2, 27, 39, 7, -43, 72),
-        (-6, 2, 27, 39, 8, -10, 109), (-6, 2, 27, 39, 9, 60, 76), (-6, 2, 27, 39, 10, 97, 6),
-        (-6, 2, 27, 39, 11, 64, -31), (-6, 2, 27, 39, 12, -6, 2), (-6, 2, 27, 39, 255, 60, 76),
-        (-6, 2, 24, 1, 0, -6, 2), (-6, 2, 24, 1, 1, -5, 31), (-6, 2, 24, 1, 2, 25, 30),
-        (-6, 2, 24, 1, 3, 54, 0), (-6, 2, 24, 1, 4, 53, -29), (-6, 2, 24, 1, 5, 23, -28),
-        (-6, 2, 24, 1, 6, -6, 2), (-6, 2, 24, 1, 7, -5, 31), (-6, 2, 24, 1, 8, 25, 30),
-        (-6, 2, 24, 1, 9, 54, 0), (-6, 2, 24, 1, 10, 53, -29), (-6, 2, 24, 1, 11, 23, -28),
-        (-6, 2, 24, 1, 12, -6, 2), (-6, 2, 24, 1, 255, 54, 0), (-6, 2, -21, -18, 0, -6, 2),
-        (-6, 2, -21, -18, 1, 14, -33), (-6, 2, -21, -18, 2, -1, -53),
-        (-6, 2, -21, -18, 3, -36, -38), (-6, 2, -21, -18, 4, -56, -3),
-        (-6, 2, -21, -18, 5, -41, 17), (-6, 2, -21, -18, 6, -6, 2), (-6, 2, -21, -18, 7, 14, -33),
-        (-6, 2, -21, -18, 8, -1, -53), (-6, 2, -21, -18, 9, -36, -38),
-        (-6, 2, -21, -18, 10, -56, -3), (-6, 2, -21, -18, 11, -41, 17),
-        (-6, 2, -21, -18, 12, -6, 2), (-6, 2, -21, -18, 255, -36, -38), (-6, 2, -13, -35, 0, -6, 2),
-        (-6, 2, -13, -35, 1, 31, -42), (-6, 2, -13, -35, 2, 24, -79),
-        (-6, 2, -13, -35, 3, -20, -72), (-6, 2, -13, -35, 4, -57, -28),
-        (-6, 2, -13, -35, 5, -50, 9), (-6, 2, -13, -35, 6, -6, 2), (-6, 2, -13, -35, 7, 31, -42),
-        (-6, 2, -13, -35, 8, 24, -79), (-6, 2, -13, -35, 9, -20, -72),
-        (-6, 2, -13, -35, 10, -57, -28), (-6, 2, -13, -35, 11, -50, 9),
-        (-6, 2, -13, -35, 12, -6, 2), (-6, 2, -13, -35, 255, -20, -72), (-6, 2, -26, 7, 0, -6, 2),
-        (-6, 2, -26, 7, 1, -11, -13), (-6, 2, -26, 7, 2, -31, -8), (-6, 2, -26, 7, 3, -46, 12),
-        (-6, 2, -26, 7, 4, -41, 27), (-6, 2, -26, 7, 5, -21, 22), (-6, 2, -26, 7, 6, -6, 2),
-        (-6, 2, -26, 7, 7, -11, -13), (-6, 2, -26, 7, 8, -31, -8), (-6, 2, -26, 7, 9, -46, 12),
-        (-6, 2, -26, 7, 10, -41, 27), (-6, 2, -26, 7, 11, -21, 22), (-6, 2, -26, 7, 12, -6, 2),
-        (-6, 2, -26, 7, 255, -46, 12), (-6, 2, 38, -1, 0, -6, 2), (-6, 2, 38, -1, 1, -3, 43),
-        (-6, 2, 38, -1, 2, 41, 40), (-6, 2, 38, -1, 3, 82, -4), (-6, 2, 38, -1, 4, 79, -45),
-        (-6, 2, 38, -1, 5, 35, -42), (-6, 2, 38, -1, 6, -6, 2), (-6, 2, 38, -1, 7, -3, 43),
-        (-6, 2, 38, -1, 8, 41, 40), (-6, 2, 38, -1, 9, 82, -4), (-6, 2, 38, -1, 10, 79, -45),
-        (-6, 2, 38, -1, 11, 35, -42), (-6, 2, 38, -1, 12, -6, 2), (-6, 2, 38, -1, 255, 82, -4),
-        (-6, 2, 33, 8, 0, -6, 2), (-6, 2, 33, 8, 1, -12, 47), (-6, 2, 33, 8, 2, 27, 53),
-        (-6, 2, 33, 8, 3, 72, 14), (-6, 2, 33, 8, 4, 78, -31), (-6, 2, 33, 8, 5, 39, -37),
-        (-6, 2, 33, 8, 6, -6, 2), (-6, 2, 33, 8, 7, -12, 47), (-6, 2, 33, 8, 8, 27, 53),
-        (-6, 2, 33, 8, 9, 72, 14), (-6, 2, 33, 8, 10, 78, -31), (-6, 2, 33, 8, 11, 39, -37),
-        (-6, 2, 33, 8, 12, -6, 2), (-6, 2, 33, 8, 255, 72, 14), (33, 8, 31, 13, 0, 33, 8),
-        (33, 8, 31, 13, 1, 28, 11), (33, 8, 31, 13, 2, 26, 16), (33, 8, 31, 13, 3, 29, 18),
-        (33, 8, 31, 13, 4, 34, 15), (33, 8, 31, 13, 5, 36, 10), (33, 8, 31, 13, 6, 33, 8),
-        (33, 8, 31, 13, 7, 28, 11), (33, 8, 31, 13, 8, 26, 16), (33, 8, 31, 13, 9, 29, 18),
-        (33, 8, 31, 13, 10, 34, 15), (33, 8, 31, 13, 11, 36, 10), (33, 8, 31, 13, 12, 33, 8),
-        (33, 8, 31, 13, 255, 29, 18), (33, 8, 27, 39, 0, 33, 8), (33, 8, 27, 39, 1, 2, 33),
-        (33, 8, 27, 39, 2, -4, 64), (33, 8, 27, 39, 3, 21, 70), (33, 8, 27, 39, 4, 52, 45),
-        (33, 8, 27, 39, 5, 58, 14), (33, 8, 27, 39, 6, 33, 8), (33, 8, 27, 39, 7, 2, 33),
-        (33, 8, 27, 39, 8, -4, 64), (33, 8, 27, 39, 9, 21, 70), (33, 8, 27, 39, 10, 52, 45),
-        (33, 8, 27, 39, 11, 58, 14), (33, 8, 27, 39, 12, 33, 8), (33, 8, 27, 39, 255, 21, 70),
-        (33, 8, 24, 1, 0, 33, 8), (33, 8, 24, 1, 1, 40, -8), (33, 8, 24, 1, 2, 31, -15),
-        (33, 8, 24, 1, 3, 15, -6), (33, 8, 24, 1, 4, 8, 10), (33, 8, 24, 1, 5, 17, 17),
-        (33, 8, 24, 1, 6, 33, 8), (33, 8, 24, 1, 7, 40, -8), (33, 8, 24, 1, 8, 31, -15),
-        (33, 8, 24, 1, 9, 15, -6), (33, 8, 24, 1, 10, 8, 10), (33, 8, 24, 1, 11, 17, 17),
-        (33, 8, 24, 1, 12, 33, 8), (33, 8, 24, 1, 255, 15, -6), (33, 8, -21, -18, 0, 33, 8),
-        (33, 8, -21, -18, 1, 59, -72), (33, 8, -21, -18, 2, 5, -98), (33, 8, -21, -18, 3, -75, -44),
-        (33, 8, -21, -18, 4, -101, 36), (33, 8, -21, -18, 5, -47, 62), (33, 8, -21, -18, 6, 33, 8),
-        (33, 8, -21, -18, 7, 59, -72), (33, 8, -21, -18, 8, 5, -98), (33, 8, -21, -18, 9, -75, -44),
-        (33, 8, -21, -18, 10, -101, 36), (33, 8, -21, -18, 11, -47, 62),
-        (33, 8, -21, -18, 12, 33, 8), (33, 8, -21, -18, 255, -75, -44), (33, 8, -13, -35, 0, 33, 8),
-        (33, 8, -13, -35, 1, 76, -81), (33, 8, -13, -35, 2, 30, -124),
-        (33, 8, -13, -35, 3, -59, -78), (33, 8, -13, -35, 4, -102, 11),
-        (33, 8, -13, -35, 5, -56, 54), (33, 8, -13, -35, 6, 33, 8), (33, 8, -13, -35, 7, 76, -81),
-        (33, 8, -13, -35, 8, 30, -124), (33, 8, -13, -35, 9, -59, -78),
-        (33, 8, -13, -35, 10, -102, 11), (33, 8, -13, -35, 11, -56, 54),
-        (33, 8, -13, -35, 12, 33, 8), (33, 8, -13, -35, 255, -59, -78), (33, 8, -26, 7, 0, 33, 8),
-        (33, 8, -26, 7, 1, 34, -52), (33, 8, -26, 7, 2, -25, -53), (33, 8, -26, 7, 3, -85, 6),
-        (33, 8, -26, 7, 4, -86, 66), (33, 8, -26, 7, 5, -27, 67), (33, 8, -26, 7, 6, 33, 8),
-        (33, 8, -26, 7, 7, 34, -52), (33, 8, -26, 7, 8, -25, -53), (33, 8, -26, 7, 9, -85, 6),
-        (33, 8, -26, 7, 10, -86, 66), (33, 8, -26, 7, 11, -27, 67), (33, 8, -26, 7, 12, 33, 8),
-        (33, 8, -26, 7, 255, -85, 6), (33, 8, 38, -1, 0, 33, 8), (33, 8, 38, -1, 1, 42, 4),
-        (33, 8, 38, -1, 2, 47, -5), (33, 8, 38, -1, 3, 43, -10), (33, 8, 38, -1, 4, 34, -6),
-        (33, 8, 38, -1, 5, 29, 3), (33, 8, 38, -1, 6, 33, 8), (33, 8, 38, -1, 7, 42, 4),
-        (33, 8, 38, -1, 8, 47, -5), (33, 8, 38, -1, 9, 43, -10), (33, 8, 38, -1, 10, 34, -6),
-        (33, 8, 38, -1, 11, 29, 3), (33, 8, 38, -1, 12, 33, 8), (33, 8, 38, -1, 255, 43, -10),
-        (33, 8, 33, 8, 0, 33, 8), (33, 8, 33, 8, 1, 33, 8), (33, 8, 33, 8, 2, 33, 8),
-        (33, 8, 33, 8, 3, 33, 8), (33, 8, 33, 8, 4, 33, 8), (33, 8, 33, 8, 5, 33, 8),
-        (33, 8, 33, 8, 6, 33, 8), (33, 8, 33, 8, 7, 33, 8), (33, 8, 33, 8, 8, 33, 8),
-        (33, 8, 33, 8, 9, 33, 8), (33, 8, 33, 8, 10, 33, 8), (33, 8, 33, 8, 11, 33, 8),
-        (33, 8, 33, 8, 12, 33, 8), (33, 8, 33, 8, 255, 33, 8), (3, -4, 31, 13, 0, 3, -4),
-        (3, -4, 31, 13, 1, -14, 41), (3, -4, 31, 13, 2, 14, 58), (3, -4, 31, 13, 3, 59, 30),
-        (3, -4, 31, 13, 4, 76, -15), (3, -4, 31, 13, 5, 48, -32), (3, -4, 31, 13, 6, 3, -4),
-        (3, -4, 31, 13, 7, -14, 41), (3, -4, 31, 13, 8, 14, 58), (3, -4, 31, 13, 9, 59, 30),
-        (3, -4, 31, 13, 10, 76, -15), (3, -4, 31, 13, 11, 48, -32), (3, -4, 31, 13, 12, 3, -4),
-        (3, -4, 31, 13, 255, 59, 30), (3, -4, 27, 39, 0, 3, -4), (3, -4, 27, 39, 1, -40, 63),
-        (3, -4, 27, 39, 2, -16, 106), (3, -4, 27, 39, 3, 51, 82), (3, -4, 27, 39, 4, 94, 15),
-        (3, -4, 27, 39, 5, 70, -28), (3, -4, 27, 39, 6, 3, -4), (3, -4, 27, 39, 7, -40, 63),
-        (3, -4, 27, 39, 8, -16, 106), (3, -4, 27, 39, 9, 51, 82), (3, -4, 27, 39, 10, 94, 15),
-        (3, -4, 27, 39, 11, 70, -28), (3, -4, 27, 39, 12, 3, -4), (3, -4, 27, 39, 255, 51, 82),
-        (3, -4, 24, 1, 0, 3, -4), (3, -4, 24, 1, 1, -2, 22), (3, -4, 24, 1, 2, 19, 27),
-        (3, -4, 24, 1, 3, 45, 6), (3, -4, 24, 1, 4, 50, -20), (3, -4, 24, 1, 5, 29, -25),
-        (3, -4, 24, 1, 6, 3, -4), (3, -4, 24, 1, 7, -2, 22), (3, -4, 24, 1, 8, 19, 27),
-        (3, -4, 24, 1, 9, 45, 6), (3, -4, 24, 1, 10, 50, -20), (3, -4, 24, 1, 11, 29, -25),
-        (3, -4, 24, 1, 12, 3, -4), (3, -4, 24, 1, 255, 45, 6), (3, -4, -21, -18, 0, 3, -4),
-        (3, -4, -21, -18, 1, 17, -42), (3, -4, -21, -18, 2, -7, -56),
-        (3, -4, -21, -18, 3, -45, -32), (3, -4, -21, -18, 4, -59, 6), (3, -4, -21, -18, 5, -35, 20),
-        (3, -4, -21, -18, 6, 3, -4), (3, -4, -21, -18, 7, 17, -42), (3, -4, -21, -18, 8, -7, -56),
-        (3, -4, -21, -18, 9, -45, -32), (3, -4, -21, -18, 10, -59, 6),
-        (3, -4, -21, -18, 11, -35, 20), (3, -4, -21, -18, 12, 3, -4),
-        (3, -4, -21, -18, 255, -45, -32), (3, -4, -13, -35, 0, 3, -4),
-        (3, -4, -13, -35, 1, 34, -51), (3, -4, -13, -35, 2, 18, -82),
-        (3, -4, -13, -35, 3, -29, -66), (3, -4, -13, -35, 4, -60, -19),
-        (3, -4, -13, -35, 5, -44, 12), (3, -4, -13, -35, 6, 3, -4), (3, -4, -13, -35, 7, 34, -51),
-        (3, -4, -13, -35, 8, 18, -82), (3, -4, -13, -35, 9, -29, -66),
-        (3, -4, -13, -35, 10, -60, -19), (3, -4, -13, -35, 11, -44, 12),
-        (3, -4, -13, -35, 12, 3, -4), (3, -4, -13, -35, 255, -29, -66), (3, -4, -26, 7, 0, 3, -4),
-        (3, -4, -26, 7, 1, -8, -22), (3, -4, -26, 7, 2, -37, -11), (3, -4, -26, 7, 3, -55, 18),
-        (3, -4, -26, 7, 4, -44, 36), (3, -4, -26, 7, 5, -15, 25), (3, -4, -26, 7, 6, 3, -4),
-        (3, -4, -26, 7, 7, -8, -22), (3, -4, -26, 7, 8, -37, -11), (3, -4, -26, 7, 9, -55, 18),
-        (3, -4, -26, 7, 10, -44, 36), (3, -4, -26, 7, 11, -15, 25), (3, -4, -26, 7, 12, 3, -4),
-        (3, -4, -26, 7, 255, -55, 18), (3, -4, 38, -1, 0, 3, -4), (3, -4, 38, -1, 1, 0, 34),
-        (3, -4, 38, -1, 2, 35, 37), (3, -4, 38, -1, 3, 73, 2), (3, -4, 38, -1, 4, 76, -36),
-        (3, -4, 38, -1, 5, 41, -39), (3, -4, 38, -1, 6, 3, -4), (3, -4, 38, -1, 7, 0, 34),
-        (3, -4, 38, -1, 8, 35, 37), (3, -4, 38, -1, 9, 73, 2), (3, -4, 38, -1, 10, 76, -36),
-        (3, -4, 38, -1, 11, 41, -39), (3, -4, 38, -1, 12, 3, -4), (3, -4, 38, -1, 255, 73, 2),
-        (3, -4, 33, 8, 0, 3, -4), (3, -4, 33, 8, 1, -9, 38), (3, -4, 33, 8, 2, 21, 50),
-        (3, -4, 33, 8, 3, 63, 20), (3, -4, 33, 8, 4, 75, -22), (3, -4, 33, 8, 5, 45, -34),
-        (3, -4, 33, 8, 6, 3, -4), (3, -4, 33, 8, 7, -9, 38), (3, -4, 33, 8, 8, 21, 50),
-        (3, -4, 33, 8, 9, 63, 20), (3, -4, 33, 8, 10, 75, -22), (3, -4, 33, 8, 11, 45, -34),
-        (3, -4, 33, 8, 12, 3, -4), (3, -4, 33, 8, 255, 63, 20), (14, -36, 31, 13, 0, 14, -36),
-        (14, -36, 31, 13, 1, -35, 30), (14, -36, 31, 13, 2, -18, 79), (14, -36, 31, 13, 3, 48, 62),
-        (14, -36, 31, 13, 4, 97, -4), (14, -36, 31, 13, 5, 80, -53), (14, -36, 31, 13, 6, 14, -36),
-        (14, -36, 31, 13, 7, -35, 30), (14, -36, 31, 13, 8, -18, 79), (14, -36, 31, 13, 9, 48, 62),
-        (14, -36, 31, 13, 10, 97, -4), (14, -36, 31, 13, 11, 80, -53),
-        (14, -36, 31, 13, 12, 14, -36), (14, -36, 31, 13, 255, 48, 62),
-        (14, -36, 27, 39, 0, 14, -36), (14, -36, 27, 39, 1, -61, 52),
-        (14, -36, 27, 39, 2, -48, 127), (14, -36, 27, 39, 3, 40, 114),
-        (14, -36, 27, 39, 4, 115, 26), (14, -36, 27, 39, 5, 102, -49),
-        (14, -36, 27, 39, 6, 14, -36), (14, -36, 27, 39, 7, -61, 52),
-        (14, -36, 27, 39, 8, -48, 127), (14, -36, 27, 39, 9, 40, 114),
-        (14, -36, 27, 39, 10, 115, 26), (14, -36, 27, 39, 11, 102, -49),
-        (14, -36, 27, 39, 12, 14, -36), (14, -36, 27, 39, 255, 40, 114),
-        (14, -36, 24, 1, 0, 14, -36), (14, -36, 24, 1, 1, -23, 11), (14, -36, 24, 1, 2, -13, 48),
-        (14, -36, 24, 1, 3, 34, 38), (14, -36, 24, 1, 4, 71, -9), (14, -36, 24, 1, 5, 61, -46),
-        (14, -36, 24, 1, 6, 14, -36), (14, -36, 24, 1, 7, -23, 11), (14, -36, 24, 1, 8, -13, 48),
-        (14, -36, 24, 1, 9, 34, 38), (14, -36, 24, 1, 10, 71, -9), (14, -36, 24, 1, 11, 61, -46),
-        (14, -36, 24, 1, 12, 14, -36), (14, -36, 24, 1, 255, 34, 38),
-        (14, -36, -21, -18, 0, 14, -36), (14, -36, -21, -18, 1, -4, -53),
-        (14, -36, -21, -18, 2, -39, -35), (14, -36, -21, -18, 3, -56, 0),
-        (14, -36, -21, -18, 4, -38, 17), (14, -36, -21, -18, 5, -3, -1),
-        (14, -36, -21, -18, 6, 14, -36), (14, -36, -21, -18, 7, -4, -53),
-        (14, -36, -21, -18, 8, -39, -35), (14, -36, -21, -18, 9, -56, 0),
-        (14, -36, -21, -18, 10, -38, 17), (14, -36, -21, -18, 11, -3, -1),
-        (14, -36, -21, -18, 12, 14, -36), (14, -36, -21, -18, 255, -56, 0),
-        (14, -36, -13, -35, 0, 14, -36), (14, -36, -13, -35, 1, 13, -62),
-        (14, -36, -13, -35, 2, -14, -61), (14, -36, -13, -35, 3, -40, -34),
-        (14, -36, -13, -35, 4, -39, -8), (14, -36, -13, -35, 5, -12, -9),
-        (14, -36, -13, -35, 6, 14, -36), (14, -36, -13, -35, 7, 13, -62),
-        (14, -36, -13, -35, 8, -14, -61), (14, -36, -13, -35, 9, -40, -34),
-        (14, -36, -13, -35, 10, -39, -8), (14, -36, -13, -35, 11, -12, -9),
-        (14, -36, -13, -35, 12, 14, -36), (14, -36, -13, -35, 255, -40, -34),
-        (14, -36, -26, 7, 0, 14, -36), (14, -36, -26, 7, 1, -29, -33),
-        (14, -36, -26, 7, 2, -69, 10), (14, -36, -26, 7, 3, -66, 50), (14, -36, -26, 7, 4, -23, 47),
-        (14, -36, -26, 7, 5, 17, 4), (14, -36, -26, 7, 6, 14, -36), (14, -36, -26, 7, 7, -29, -33),
-        (14, -36, -26, 7, 8, -69, 10), (14, -36, -26, 7, 9, -66, 50),
-        (14, -36, -26, 7, 10, -23, 47), (14, -36, -26, 7, 11, 17, 4),
-        (14, -36, -26, 7, 12, 14, -36), (14, -36, -26, 7, 255, -66, 50),
-        (14, -36, 38, -1, 0, 14, -36), (14, -36, 38, -1, 1, -21, 23), (14, -36, 38, -1, 2, 3, 58),
-        (14, -36, 38, -1, 3, 62, 34), (14, -36, 38, -1, 4, 97, -25), (14, -36, 38, -1, 5, 73, -60),
-        (14, -36, 38, -1, 6, 14, -36), (14, -36, 38, -1, 7, -21, 23), (14, -36, 38, -1, 8, 3, 58),
-        (14, -36, 38, -1, 9, 62, 34), (14, -36, 38, -1, 10, 97, -25),
-        (14, -36, 38, -1, 11, 73, -60), (14, -36, 38, -1, 12, 14, -36),
-        (14, -36, 38, -1, 255, 62, 34), (14, -36, 33, 8, 0, 14, -36), (14, -36, 33, 8, 1, -30, 27),
-        (14, -36, 33, 8, 2, -11, 71), (14, -36, 33, 8, 3, 52, 52), (14, -36, 33, 8, 4, 96, -11),
-        (14, -36, 33, 8, 5, 77, -55), (14, -36, 33, 8, 6, 14, -36), (14, -36, 33, 8, 7, -30, 27),
-        (14, -36, 33, 8, 8, -11, 71), (14, -36, 33, 8, 9, 52, 52), (14, -36, 33, 8, 10, 96, -11),
-        (14, -36, 33, 8, 11, 77, -55), (14, -36, 33, 8, 12, 14, -36), (14, -36, 33, 8, 255, 52, 52),
-        (4, 27, 31, 13, 0, 4, 27), (4, 27, 31, 13, 1, 18, 40), (4, 27, 31, 13, 2, 45, 26),
-        (4, 27, 31, 13, 3, 58, -1), (4, 27, 31, 13, 4, 44, -14), (4, 27, 31, 13, 5, 17, 0),
-        (4, 27, 31, 13, 6, 4, 27), (4, 27, 31, 13, 7, 18, 40), (4, 27, 31, 13, 8, 45, 26),
-        (4, 27, 31, 13, 9, 58, -1), (4, 27, 31, 13, 10, 44, -14), (4, 27, 31, 13, 11, 17, 0),
-        (4, 27, 31, 13, 12, 4, 27), (4, 27, 31, 13, 255, 58, -1), (4, 27, 27, 39, 0, 4, 27),
-        (4, 27, 27, 39, 1, -8, 62), (4, 27, 27, 39, 2, 15, 74), (4, 27, 27, 39, 3, 50, 51),
-        (4, 27, 27, 39, 4, 62, 16), (4, 27, 27, 39, 5, 39, 4), (4, 27, 27, 39, 6, 4, 27),
-        (4, 27, 27, 39, 7, -8, 62), (4, 27, 27, 39, 8, 15, 74), (4, 27, 27, 39, 9, 50, 51),
-        (4, 27, 27, 39, 10, 62, 16), (4, 27, 27, 39, 11, 39, 4), (4, 27, 27, 39, 12, 4, 27),
-        (4, 27, 27, 39, 255, 50, 51), (4, 27, 24, 1, 0, 4, 27), (4, 27, 24, 1, 1, 30, 21),
-        (4, 27, 24, 1, 2, 50, -5), (4, 27, 24, 1, 3, 44, -25), (4, 27, 24, 1, 4, 18, -19),
-        (4, 27, 24, 1, 5, -2, 7), (4, 27, 24, 1, 6, 4, 27), (4, 27, 24, 1, 7, 30, 21),
-        (4, 27, 24, 1, 8, 50, -5), (4, 27, 24, 1, 9, 44, -25), (4, 27, 24, 1, 10, 18, -19),
-        (4, 27, 24, 1, 11, -2, 7), (4, 27, 24, 1, 12, 4, 27), (4, 27, 24, 1, 255, 44, -25),
-        (4, 27, -21, -18, 0, 4, 27), (4, 27, -21, -18, 1, 49, -43), (4, 27, -21, -18, 2, 24, -88),
-        (4, 27, -21, -18, 3, -46, -63), (4, 27, -21, -18, 4, -91, 7), (4, 27, -21, -18, 5, -66, 52),
-        (4, 27, -21, -18, 6, 4, 27), (4, 27, -21, -18, 7, 49, -43), (4, 27, -21, -18, 8, 24, -88),
-        (4, 27, -21, -18, 9, -46, -63), (4, 27, -21, -18, 10, -91, 7),
-        (4, 27, -21, -18, 11, -66, 52), (4, 27, -21, -18, 12, 4, 27),
-        (4, 27, -21, -18, 255, -46, -63), (4, 27, -13, -35, 0, 4, 27),
-        (4, 27, -13, -35, 1, 66, -52), (4, 27, -13, -35, 2, 49, -114),
-        (4, 27, -13, -35, 3, -30, -97), (4, 27, -13, -35, 4, -92, -18),
-        (4, 27, -13, -35, 5, -75, 44), (4, 27, -13, -35, 6, 4, 27), (4, 27, -13, -35, 7, 66, -52),
-        (4, 27, -13, -35, 8, 49, -114), (4, 27, -13, -35, 9, -30, -97),
-        (4, 27, -13, -35, 10, -92, -18), (4, 27, -13, -35, 11, -75, 44),
-        (4, 27, -13, -35, 12, 4, 27), (4, 27, -13, -35, 255, -30, -97), (4, 27, -26, 7, 0, 4, 27),
-        (4, 27, -26, 7, 1, 24, -23), (4, 27, -26, 7, 2, -6, -43), (4, 27, -26, 7, 3, -56, -13),
-        (4, 27, -26, 7, 4, -76, 37), (4, 27, -26, 7, 5, -46, 57), (4, 27, -26, 7, 6, 4, 27),
-        (4, 27, -26, 7, 7, 24, -23), (4, 27, -26, 7, 8, -6, -43), (4, 27, -26, 7, 9, -56, -13),
-        (4, 27, -26, 7, 10, -76, 37), (4, 27, -26, 7, 11, -46, 57), (4, 27, -26, 7, 12, 4, 27),
-        (4, 27, -26, 7, 255, -56, -13), (4, 27, 38, -1, 0, 4, 27), (4, 27, 38, -1, 1, 32, 33),
-        (4, 27, 38, -1, 2, 66, 5), (4, 27, 38, -1, 3, 72, -29), (4, 27, 38, -1, 4, 44, -35),
-        (4, 27, 38, -1, 5, 10, -7), (4, 27, 38, -1, 6, 4, 27), (4, 27, 38, -1, 7, 32, 33),
-        (4, 27, 38, -1, 8, 66, 5), (4, 27, 38, -1, 9, 72, -29), (4, 27, 38, -1, 10, 44, -35),
-        (4, 27, 38, -1, 11, 10, -7), (4, 27, 38, -1, 12, 4, 27), (4, 27, 38, -1, 255, 72, -29),
-        (4, 27, 33, 8, 0, 4, 27), (4, 27, 33, 8, 1, 23, 37), (4, 27, 33, 8, 2, 52, 18),
-        (4, 27, 33, 8, 3, 62, -11), (4, 27, 33, 8, 4, 43, -21), (4, 27, 33, 8, 5, 14, -2),
-        (4, 27, 33, 8, 6, 4, 27), (4, 27, 33, 8, 7, 23, 37), (4, 27, 33, 8, 8, 52, 18),
-        (4, 27, 33, 8, 9, 62, -11), (4, 27, 33, 8, 10, 43, -21), (4, 27, 33, 8, 11, 14, -2),
-        (4, 27, 33, 8, 12, 4, 27), (4, 27, 33, 8, 255, 62, -11), (-39, -38, 31, 13, 0, -39, -38),
-        (-39, -38, 31, 13, 1, -90, 83), (-39, -38, 31, 13, 2, -20, 134),
-        (-39, -38, 31, 13, 3, 101, 64), (-39, -38, 31, 13, 4, 152, -57),
-        (-39, -38, 31, 13, 5, 82, -108), (-39, -38, 31, 13, 6, -39, -38),
-        (-39, -38, 31, 13, 7, -90, 83), (-39, -38, 31, 13, 8, -20, 134),
-        (-39, -38, 31, 13, 9, 101, 64), (-39, -38, 31, 13, 10, 152, -57),
-        (-39, -38, 31, 13, 11, 82, -108), (-39, -38, 31, 13, 12, -39, -38),
-        (-39, -38, 31, 13, 255, 101, 64), (-39, -38, 27, 39, 0, -39, -38),
-        (-39, -38, 27, 39, 1, -116, 105), (-39, -38, 27, 39, 2, -50, 182),
-        (-39, -38, 27, 39, 3, 93, 116), (-39, -38, 27, 39, 4, 170, -27),
-        (-39, -38, 27, 39, 5, 104, -104), (-39, -38, 27, 39, 6, -39, -38),
-        (-39, -38, 27, 39, 7, -116, 105), (-39, -38, 27, 39, 8, -50, 182),
-        (-39, -38, 27, 39, 9, 93, 116), (-39, -38, 27, 39, 10, 170, -27),
-        (-39, -38, 27, 39, 11, 104, -104), (-39, -38, 27, 39, 12, -39, -38),
-        (-39, -38, 27, 39, 255, 93, 116), (-39, -38, 24, 1, 0, -39, -38),
-        (-39, -38, 24, 1, 1, -78, 64), (-39, -38, 24, 1, 2, -15, 103), (-39, -38, 24, 1, 3, 87, 40),
-        (-39, -38, 24, 1, 4, 126, -62), (-39, -38, 24, 1, 5, 63, -101),
-        (-39, -38, 24, 1, 6, -39, -38), (-39, -38, 24, 1, 7, -78, 64),
-        (-39, -38, 24, 1, 8, -15, 103), (-39, -38, 24, 1, 9, 87, 40),
-        (-39, -38, 24, 1, 10, 126, -62), (-39, -38, 24, 1, 11, 63, -101),
-        (-39, -38, 24, 1, 12, -39, -38), (-39, -38, 24, 1, 255, 87, 40),
-        (-39, -38, -21, -18, 0, -39, -38), (-39, -38, -21, -18, 1, -59, 0),
-        (-39, -38, -21, -18, 2, -41, 20), (-39, -38, -21, -18, 3, -3, 2),
-        (-39, -38, -21, -18, 4, 17, -36), (-39, -38, -21, -18, 5, -1, -56),
-        (-39, -38, -21, -18, 6, -39, -38), (-39, -38, -21, -18, 7, -59, 0),
-        (-39, -38, -21, -18, 8, -41, 20), (-39, -38, -21, -18, 9, -3, 2),
-        (-39, -38, -21, -18, 10, 17, -36), (-39, -38, -21, -18, 11, -1, -56),
-        (-39, -38, -21, -18, 12, -39, -38), (-39, -38, -21, -18, 255, -3, 2),
-        (-39, -38, -13, -35, 0, -39, -38), (-39, -38, -13, -35, 1, -42, -9),
-        (-39, -38, -13, -35, 2, -16, -6), (-39, -38, -13, -35, 3, 13, -32),
-        (-39, -38, -13, -35, 4, 16, -61), (-39, -38, -13, -35, 5, -10, -64),
-        (-39, -38, -13, -35, 6, -39, -38), (-39, -38, -13, -35, 7, -42, -9),
-        (-39, -38, -13, -35, 8, -16, -6), (-39, -38, -13, -35, 9, 13, -32),
-        (-39, -38, -13, -35, 10, 16, -61), (-39, -38, -13, -35, 11, -10, -64),
-        (-39, -38, -13, -35, 12, -39, -38), (-39, -38, -13, -35, 255, 13, -32),
-        (-39, -38, -26, 7, 0, -39, -38), (-39, -38, -26, 7, 1, -84, 20),
-        (-39, -38, -26, 7, 2, -71, 65), (-39, -38, -26, 7, 3, -13, 52),
-        (-39, -38, -26, 7, 4, 32, -6), (-39, -38, -26, 7, 5, 19, -51),
-        (-39, -38, -26, 7, 6, -39, -38), (-39, -38, -26, 7, 7, -84, 20),
-        (-39, -38, -26, 7, 8, -71, 65), (-39, -38, -26, 7, 9, -13, 52),
-        (-39, -38, -26, 7, 10, 32, -6), (-39, -38, -26, 7, 11, 19, -51),
-        (-39, -38, -26, 7, 12, -39, -38), (-39, -38, -26, 7, 255, -13, 52),
-        (-39, -38, 38, -1, 0, -39, -38), (-39, -38, 38, -1, 1, -76, 76),
-        (-39, -38, 38, -1, 2, 1, 113), (-39, -38, 38, -1, 3, 115, 36),
-        (-39, -38, 38, -1, 4, 152, -78), (-39, -38, 38, -1, 5, 75, -115),
-        (-39, -38, 38, -1, 6, -39, -38), (-39, -38, 38, -1, 7, -76, 76),
-        (-39, -38, 38, -1, 8, 1, 113), (-39, -38, 38, -1, 9, 115, 36),
-        (-39, -38, 38, -1, 10, 152, -78), (-39, -38, 38, -1, 11, 75, -115),
-        (-39, -38, 38, -1, 12, -39, -38), (-39, -38, 38, -1, 255, 115, 36),
-        (-39, -38, 33, 8, 0, -39, -38), (-39, -38, 33, 8, 1, -85, 80),
-        (-39, -38, 33, 8, 2, -13, 126), (-39, -38, 33, 8, 3, 105, 54),
-        (-39, -38, 33, 8, 4, 151, -64), (-39, -38, 33, 8, 5, 79, -110),
-        (-39, -38, 33, 8, 6, -39, -38), (-39, -38, 33, 8, 7, -85, 80),
-        (-39, -38, 33, 8, 8, -13, 126), (-39, -38, 33, 8, 9, 105, 54),
-        (-39, -38, 33, 8, 10, 151, -64), (-39, -38, 33, 8, 11, 79, -110),
-        (-39, -38, 33, 8, 12, -39, -38), (-39, -38, 33, 8, 255, 105, 54),
-        (-5, 21, 31, 13, 0, -5, 21), (-5, 21, 31, 13, 1, 3, 49), (-5, 21, 31, 13, 2, 39, 41),
-        (-5, 21, 31, 13, 3, 67, 5), (-5, 21, 31, 13, 4, 59, -23), (-5, 21, 31, 13, 5, 23, -15),
-        (-5, 21, 31, 13, 6, -5, 21), (-5, 21, 31, 13, 7, 3, 49), (-5, 21, 31, 13, 8, 39, 41),
-        (-5, 21, 31, 13, 9, 67, 5), (-5, 21, 31, 13, 10, 59, -23), (-5, 21, 31, 13, 11, 23, -15),
-        (-5, 21, 31, 13, 12, -5, 21), (-5, 21, 31, 13, 255, 67, 5), (-5, 21, 27, 39, 0, -5, 21),
-        (-5, 21, 27, 39, 1, -23, 71), (-5, 21, 27, 39, 2, 9, 89), (-5, 21, 27, 39, 3, 59, 57),
-        (-5, 21, 27, 39, 4, 77, 7), (-5, 21, 27, 39, 5, 45, -11), (-5, 21, 27, 39, 6, -5, 21),
-        (-5, 21, 27, 39, 7, -23, 71), (-5, 21, 27, 39, 8, 9, 89), (-5, 21, 27, 39, 9, 59, 57),
-        (-5, 21, 27, 39, 10, 77, 7), (-5, 21, 27, 39, 11, 45, -11), (-5, 21, 27, 39, 12, -5, 21),
-        (-5, 21, 27, 39, 255, 59, 57), (-5, 21, 24, 1, 0, -5, 21), (-5, 21, 24, 1, 1, 15, 30),
-        (-5, 21, 24, 1, 2, 44, 10), (-5, 21, 24, 1, 3, 53, -19), (-5, 21, 24, 1, 4, 33, -28),
-        (-5, 21, 24, 1, 5, 4, -8), (-5, 21, 24, 1, 6, -5, 21), (-5, 21, 24, 1, 7, 15, 30),
-        (-5, 21, 24, 1, 8, 44, 10), (-5, 21, 24, 1, 9, 53, -19), (-5, 21, 24, 1, 10, 33, -28),
-        (-5, 21, 24, 1, 11, 4, -8), (-5, 21, 24, 1, 12, -5, 21), (-5, 21, 24, 1, 255, 53, -19),
-        (-5, 21, -21, -18, 0, -5, 21), (-5, 21, -21, -18, 1, 34, -34),
-        (-5, 21, -21, -18, 2, 18, -73), (-5, 21, -21, -18, 3, -37, -57),
-        (-5, 21, -21, -18, 4, -76, -2), (-5, 21, -21, -18, 5, -60, 37),
-        (-5, 21, -21, -18, 6, -5, 21), (-5, 21, -21, -18, 7, 34, -34),
-        (-5, 21, -21, -18, 8, 18, -73), (-5, 21, -21, -18, 9, -37, -57),
-        (-5, 21, -21, -18, 10, -76, -2), (-5, 21, -21, -18, 11, -60, 37),
-        (-5, 21, -21, -18, 12, -5, 21), (-5, 21, -21, -18, 255, -37, -57),
-        (-5, 21, -13, -35, 0, -5, 21), (-5, 21, -13, -35, 1, 51, -43),
-        (-5, 21, -13, -35, 2, 43, -99), (-5, 21, -13, -35, 3, -21, -91),
-        (-5, 21, -13, -35, 4, -77, -27), (-5, 21, -13, -35, 5, -69, 29),
-        (-5, 21, -13, -35, 6, -5, 21), (-5, 21, -13, -35, 7, 51, -43),
-        (-5, 21, -13, -35, 8, 43, -99), (-5, 21, -13, -35, 9, -21, -91),
-        (-5, 21, -13, -35, 10, -77, -27), (-5, 21, -13, -35, 11, -69, 29),
-        (-5, 21, -13, -35, 12, -5, 21), (-5, 21, -13, -35, 255, -21, -91),
-        (-5, 21, -26, 7, 0, -5, 21), (-5, 21, -26, 7, 1, 9, -14), (-5, 21, -26, 7, 2, -12, -28),
-        (-5, 21, -26, 7, 3, -47, -7), (-5, 21, -26, 7, 4, -61, 28), (-5, 21, -26, 7, 5, -40, 42),
-        (-5, 21, -26, 7, 6, -5, 21), (-5, 21, -26, 7, 7, 9, -14), (-5, 21, -26, 7, 8, -12, -28),
-        (-5, 21, -26, 7, 9, -47, -7), (-5, 21, -26, 7, 10, -61, 28), (-5, 21, -26, 7, 11, -40, 42),
-        (-5, 21, -26, 7, 12, -5, 21), (-5, 21, -26, 7, 255, -47, -7), (-5, 21, 38, -1, 0, -5, 21),
-        (-5, 21, 38, -1, 1, 17, 42), (-5, 21, 38, -1, 2, 60, 20), (-5, 21, 38, -1, 3, 81, -23),
-        (-5, 21, 38, -1, 4, 59, -44), (-5, 21, 38, -1, 5, 16, -22), (-5, 21, 38, -1, 6, -5, 21),
-        (-5, 21, 38, -1, 7, 17, 42), (-5, 21, 38, -1, 8, 60, 20), (-5, 21, 38, -1, 9, 81, -23),
-        (-5, 21, 38, -1, 10, 59, -44), (-5, 21, 38, -1, 11, 16, -22), (-5, 21, 38, -1, 12, -5, 21),
-        (-5, 21, 38, -1, 255, 81, -23), (-5, 21, 33, 8, 0, -5, 21), (-5, 21, 33, 8, 1, 8, 46),
-        (-5, 21, 33, 8, 2, 46, 33), (-5, 21, 33, 8, 3, 71, -5), (-5, 21, 33, 8, 4, 58, -30),
-        (-5, 21, 33, 8, 5, 20, -17), (-5, 21, 33, 8, 6, -5, 21), (-5, 21, 33, 8, 7, 8, 46),
-        (-5, 21, 33, 8, 8, 46, 33), (-5, 21, 33, 8, 9, 71, -5), (-5, 21, 33, 8, 10, 58, -30),
-        (-5, 21, 33, 8, 11, 20, -17), (-5, 21, 33, 8, 12, -5, 21), (-5, 21, 33, 8, 255, 71, -5),
         (29, 39, 31, 13, 0, 29, 39), (29, 39, 31, 13, 1, 55, 15), (29, 39, 31, 13, 2, 57, -11),
         (29, 39, 31, 13, 3, 33, -13), (29, 39, 31, 13, 4, 7, 11), (29, 39, 31, 13, 5, 5, 37),
         (29, 39, 31, 13, 6, 29, 39), (29, 39, 31, 13, 7, 55, 15), (29, 39, 31, 13, 8, 57, -11),
@@ -39258,7 +38820,7 @@ fn golden_hex_around_3_rotate_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 41762910)]
 fn golden_hex_bounds_around_rotate_cw_around() {
     let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (2147483647, 0, 2147483647, 0, 1, 2147483647, 0),
@@ -39384,7 +38946,7 @@ fn golden_hex_bounds_around_rotate_cw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_around_rotate_cw_around_panics_0() {
     let (x1, y1, x2, y2, m): (i32, i32, i32, i32, u32) = (2147483647, 0, -2147483648, 0, 1);
@@ -39394,7 +38956,7 @@ fn golden_hex_bounds_around_rotate_cw_around_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_around_rotate_cw_around_panics_1() {
     let (x1, y1, x2, y2, m): (i32, i32, i32, i32, u32) = (
@@ -39406,7 +38968,7 @@ fn golden_hex_bounds_around_rotate_cw_around_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_around_rotate_cw_around_panics_2() {
     let (x1, y1, x2, y2, m): (i32, i32, i32, i32, u32) = (-1, 0, 2147483647, 0, 4);
@@ -39416,7 +38978,7 @@ fn golden_hex_bounds_around_rotate_cw_around_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_around_rotate_cw_around_panics_3() {
     let (x1, y1, x2, y2, m): (i32, i32, i32, i32, u32) = (0, 0, -2147483648, -2147483648, 4);
@@ -39426,7 +38988,7 @@ fn golden_hex_bounds_around_rotate_cw_around_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 41268612)]
 fn golden_hex_bounds_around_rotate_ccw_around() {
     let cases: Array<(i32, i32, i32, i32, u32, i32, i32)> = array![
         (2147483647, 0, 2147483647, 0, 1, 2147483647, 0),
@@ -39560,7 +39122,7 @@ fn golden_hex_bounds_around_rotate_ccw_around() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_around_rotate_ccw_around_panics_0() {
     let (x1, y1, x2, y2, m): (i32, i32, i32, i32, u32) = (2147483647, 0, -2147483648, 0, 1);
@@ -39570,7 +39132,7 @@ fn golden_hex_bounds_around_rotate_ccw_around_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_around_rotate_ccw_around_panics_1() {
     let (x1, y1, x2, y2, m): (i32, i32, i32, i32, u32) = (
@@ -39582,7 +39144,7 @@ fn golden_hex_bounds_around_rotate_ccw_around_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_around_rotate_ccw_around_panics_2() {
     let (x1, y1, x2, y2, m): (i32, i32, i32, i32, u32) = (-1, 0, 2147483647, -2147483648, 4);
@@ -39592,7 +39154,7 @@ fn golden_hex_bounds_around_rotate_ccw_around_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_around_rotate_ccw_around_panics_3() {
     let (x1, y1, x2, y2, m): (i32, i32, i32, i32, u32) = (0, 0, 1073741824, 0, 4);
@@ -39602,7 +39164,7 @@ fn golden_hex_bounds_around_rotate_ccw_around_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 168630651)]
 fn golden_hex_resolution_to_lower_res() {
     let cases: Array<(i32, i32, u32, i32, i32)> = array![
         (31, 13, 1, 7, 10), (31, 13, 2, 3, 7), (31, 13, 3, 2, 5), (31, 13, 4, 2, 4),
@@ -39712,7 +39274,7 @@ fn golden_hex_resolution_to_lower_res() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 172756710)]
 fn golden_hex_resolution_to_local() {
     let cases: Array<(i32, i32, u32, i32, i32)> = array![
         (31, 13, 1, 0, 0), (31, 13, 2, 2, -2), (31, 13, 3, 2, -1), (31, 13, 4, -3, 1),
@@ -39822,7 +39384,7 @@ fn golden_hex_resolution_to_local() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 172756710)]
 fn golden_hex_resolution_wrap_in_range() {
     let cases: Array<(i32, i32, u32, i32, i32)> = array![
         (31, 13, 1, 0, 0), (31, 13, 2, 2, -2), (31, 13, 3, 2, -1), (31, 13, 4, -3, 1),
@@ -39932,7 +39494,7 @@ fn golden_hex_resolution_wrap_in_range() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 159256535)]
 fn golden_hex_resolution_to_higher_res() {
     let cases: Array<(i32, i32, u32, i32, i32)> = array![
         (31, 13, 1, 106, -5), (31, 13, 2, 181, -23), (31, 13, 3, 256, -41), (31, 13, 4, 331, -59),
@@ -40059,7 +39621,7 @@ fn golden_hex_resolution_to_higher_res() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 13106331)]
 fn golden_hex_big_to_lower_res() {
     let cases: Array<(i32, i32, u32, i32, i32)> = array![
         (1444356, -1813840, 1, 671793, -571023), (1351934, 2176537, 1, 75333, 1125935),
@@ -40122,7 +39684,7 @@ fn golden_hex_big_to_lower_res() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 14129766)]
 fn golden_hex_big_to_local() {
     let cases: Array<(i32, i32, u32, i32, i32)> = array![
         (1444356, -1813840, 1, 0, -1), (1351934, 2176537, 1, 0, 0), (-2356359, -134034, 1, 1, 0),
@@ -40169,7 +39731,7 @@ fn golden_hex_big_to_local() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 14129766)]
 fn golden_hex_big_wrap_in_range() {
     let cases: Array<(i32, i32, u32, i32, i32)> = array![
         (1444356, -1813840, 1, 0, -1), (1351934, 2176537, 1, 0, 0), (-2356359, -134034, 1, 1, 0),
@@ -40216,7 +39778,7 @@ fn golden_hex_big_wrap_in_range() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 10781159)]
 fn golden_hex_big_to_higher_res() {
     let cases: Array<(i32, i32, u32, i32, i32)> = array![
         (1444356, -1813840, 1, 2519228, -5072036), (1351934, 2176537, 1, 6232339, 3001140),
@@ -40279,7 +39841,7 @@ fn golden_hex_big_to_higher_res() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 960561)]
 fn golden_hex_bounds_resolution_to_lower_res() {
     let cases: Array<(i32, i32, u32, i32, i32)> = array![
         (-1, -1, 1, 0, -1), (-1, -1, 6, 0, 0), (-1, 0, 1, 0, 0), (-1, 0, 6, 0, 0), (-1, 1, 1, 0, 0),
@@ -40298,7 +39860,7 @@ fn golden_hex_bounds_resolution_to_lower_res() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_resolution_to_lower_res_panics_0() {
     let (x, y, radius): (i32, i32, u32) = (-2147483648, -2147483648, 1);
@@ -40307,7 +39869,7 @@ fn golden_hex_bounds_resolution_to_lower_res_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_resolution_to_lower_res_panics_1() {
     let (x, y, radius): (i32, i32, u32) = (-1073741824, -1, 1);
@@ -40316,7 +39878,7 @@ fn golden_hex_bounds_resolution_to_lower_res_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_resolution_to_lower_res_panics_2() {
     let (x, y, radius): (i32, i32, u32) = (1073741823, 1, 1);
@@ -40325,7 +39887,7 @@ fn golden_hex_bounds_resolution_to_lower_res_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_resolution_to_lower_res_panics_3() {
     let (x, y, radius): (i32, i32, u32) = (2147483647, 2147483647, 6);
@@ -40334,7 +39896,7 @@ fn golden_hex_bounds_resolution_to_lower_res_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1143702)]
 fn golden_hex_bounds_resolution_to_local() {
     let cases: Array<(i32, i32, u32, i32, i32)> = array![
         (-1, -1, 1, 0, 1), (-1, -1, 6, -1, -1), (-1, 0, 1, -1, 0), (-1, 0, 6, -1, 0),
@@ -40353,7 +39915,7 @@ fn golden_hex_bounds_resolution_to_local() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_resolution_to_local_panics_0() {
     let (x, y, radius): (i32, i32, u32) = (-2147483648, -2147483648, 1);
@@ -40362,7 +39924,7 @@ fn golden_hex_bounds_resolution_to_local_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_resolution_to_local_panics_1() {
     let (x, y, radius): (i32, i32, u32) = (-1073741824, -1, 1);
@@ -40371,7 +39933,7 @@ fn golden_hex_bounds_resolution_to_local_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_resolution_to_local_panics_2() {
     let (x, y, radius): (i32, i32, u32) = (1073741823, 1, 1);
@@ -40380,7 +39942,7 @@ fn golden_hex_bounds_resolution_to_local_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_resolution_to_local_panics_3() {
     let (x, y, radius): (i32, i32, u32) = (2147483647, 2147483647, 6);
@@ -40389,7 +39951,7 @@ fn golden_hex_bounds_resolution_to_local_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 1143702)]
 fn golden_hex_bounds_resolution_wrap_in_range() {
     let cases: Array<(i32, i32, u32, i32, i32)> = array![
         (-1, -1, 1, 0, 1), (-1, -1, 6, -1, -1), (-1, 0, 1, -1, 0), (-1, 0, 6, -1, 0),
@@ -40408,7 +39970,7 @@ fn golden_hex_bounds_resolution_wrap_in_range() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_resolution_wrap_in_range_panics_0() {
     let (x, y, radius): (i32, i32, u32) = (-2147483648, -2147483648, 1);
@@ -40417,7 +39979,7 @@ fn golden_hex_bounds_resolution_wrap_in_range_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_resolution_wrap_in_range_panics_1() {
     let (x, y, radius): (i32, i32, u32) = (-1073741824, -1, 1);
@@ -40426,7 +39988,7 @@ fn golden_hex_bounds_resolution_wrap_in_range_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_resolution_wrap_in_range_panics_2() {
     let (x, y, radius): (i32, i32, u32) = (1073741823, 1, 1);
@@ -40435,7 +39997,7 @@ fn golden_hex_bounds_resolution_wrap_in_range_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_resolution_wrap_in_range_panics_3() {
     let (x, y, radius): (i32, i32, u32) = (2147483647, 2147483647, 6);
@@ -40444,7 +40006,7 @@ fn golden_hex_bounds_resolution_wrap_in_range_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 817425)]
 fn golden_hex_bounds_resolution_to_higher_res() {
     let cases: Array<(i32, i32, u32, i32, i32)> = array![
         (-1, -1073741824, 1, -1073741827, -2147483647), (-1, -1, 1, -4, -1), (-1, -1, 6, -19, -1),
@@ -40466,7 +40028,7 @@ fn golden_hex_bounds_resolution_to_higher_res() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_resolution_to_higher_res_panics_0() {
     let (x, y, radius): (i32, i32, u32) = (-2147483648, -2147483648, 1);
@@ -40475,7 +40037,7 @@ fn golden_hex_bounds_resolution_to_higher_res_panics_0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_resolution_to_higher_res_panics_1() {
     let (x, y, radius): (i32, i32, u32) = (-1073741824, -1073741824, 1);
@@ -40484,7 +40046,7 @@ fn golden_hex_bounds_resolution_to_higher_res_panics_1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_resolution_to_higher_res_panics_2() {
     let (x, y, radius): (i32, i32, u32) = (1073741823, 1073741823, 1);
@@ -40493,7 +40055,7 @@ fn golden_hex_bounds_resolution_to_higher_res_panics_2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_hex_bounds_resolution_to_higher_res_panics_3() {
     let (x, y, radius): (i32, i32, u32) = (2147483647, 2147483647, 6);
@@ -40502,7 +40064,7 @@ fn golden_hex_bounds_resolution_to_higher_res_panics_3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 77083556)]
 fn golden_hex_range() {
     let cases: Array<(i32, i32, u32)> = array![
         (31, 13, 0), (31, 13, 1), (31, 13, 2), (31, 13, 3), (31, 13, 4), (31, 13, 5), (31, 13, 6),
@@ -40857,7 +40419,7 @@ fn golden_hex_range() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 76031445)]
 fn golden_hex_xrange() {
     let cases: Array<(i32, i32, u32)> = array![
         (31, 13, 0), (31, 13, 1), (31, 13, 2), (31, 13, 3), (31, 13, 4), (31, 13, 5), (31, 13, 6),
@@ -41206,7 +40768,7 @@ fn golden_hex_xrange() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 6839480)]
 fn golden_hex_debug() {
     assert!(format!("{:?}", HexTrait::new(31, 13)) == "Hex { x: 31, y: 13, z: -44 }");
     assert!(format!("{:?}", HexTrait::new(-22, -26)) == "Hex { x: -22, y: -26, z: 48 }");

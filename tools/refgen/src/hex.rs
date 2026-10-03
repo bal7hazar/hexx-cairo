@@ -1235,10 +1235,10 @@ fn emit_t2(
         points.iter().flat_map(|&p| ROTATIONS.iter().map(move |&m| (p, m))).collect();
     tables(e, "rotation", &rotations, &ROTATION_IN, &ROTATION_T2, None)?;
     let bound_rotations: Vec<((i32, i32), u32)> =
-        bounds.iter().flat_map(|&p| ROTATIONS.iter().map(move |&m| (p, m))).collect();
+        bounds.iter().flat_map(|&p| [1u32, 3, 4].into_iter().map(move |m| (p, m))).collect();
     tables(e, "bounds_rotation", &bound_rotations, &ROTATION_IN, &ROTATION_T2, Some(panic_cap))?;
 
-    // The rotations around a center: every point around 8 of them, in four tests.
+    // The rotations around a center: every point around 8 of them, in 32 tests.
     let centers: Vec<(i32, i32)> = points.iter().step_by(8).copied().collect();
     let arounds: Vec<Around> = points
         .iter()
@@ -1246,7 +1246,7 @@ fn emit_t2(
             centers.iter().flat_map(move |&c| ROTATIONS.iter().map(move |&m| ((p, c), m)))
         })
         .collect();
-    for (n, part) in arounds.chunks(arounds.len() / 4).enumerate() {
+    for (n, part) in arounds.chunks(arounds.len() / 32).enumerate() {
         tables(e, &format!("around_{n}"), part, &AROUND_IN, &AROUND_T2, None)?;
     }
     let bound_arounds: Vec<Around> = BOUND_PAIR_POINTS

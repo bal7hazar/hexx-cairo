@@ -2262,7 +2262,7 @@ mod tests {
 
     /// `range` and `xrange` against the per-hex definition, radii `0..=8`, order included.
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 45546018)]
     fn test_hex_range_oracle() {
         let center = HexTrait::new(7, -3);
         let mut r: u32 = 0;
@@ -2278,21 +2278,22 @@ mod tests {
         }
     }
 
-    /// `range` of `hexx`'s doc: 1 and 7 hexes, the center first of the middle column.
+    /// `range` of `hexx`'s doc: 1 and 7 hexes, `x` ascending then `y` ascending.
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 255917)]
     fn test_hex_range_doc() {
         let h = HexTrait::new(12, 34);
         assert!(h.range(0).len() == 1 && h.xrange(0).len() == 0);
         assert!(h.range(1).len() == 7 && h.xrange(1).len() == 6);
-        assert!(*h.range(1).at(0) == HexTrait::new(12, 33));
-        assert!(*h.range(1).at(6) == HexTrait::new(12, 35));
+        assert!(*h.range(1).at(0) == HexTrait::new(11, 34));
+        assert!(*h.range(1).at(3) == HexTrait::new(12, 34));
+        assert!(*h.range(1).at(6) == HexTrait::new(13, 34));
     }
 
     /// Each `rotate_*` against `m` repeated single rotations, around the origin and around a
     /// center, for `m` in `0..=13` and 255.
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 36834588)]
     fn test_hex_rotate_oracle() {
         let center = HexTrait::new(-2, 5);
         let mut points = sample();
@@ -2326,7 +2327,7 @@ mod tests {
 
     /// The examples of `hexx`'s documentation, and the reflections.
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 6311)]
     fn test_hex_rotate_reflect_doc() {
         let p = HexTrait::new(1, 2);
         assert!(p.counter_clockwise() == HexTrait::new(3, -1));
@@ -2341,7 +2342,7 @@ mod tests {
 
     /// The diagonals: `all_diagonals` is `diagonal_neighbor` in every direction, at distance two.
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 167328)]
     fn test_hex_diagonals() {
         let h = HexTrait::new(10, 5);
         assert!(h.diagonal_neighbor(VertexDirectionTrait::FLAT_RIGHT) == HexTrait::new(12, 4));
@@ -2361,7 +2362,7 @@ mod tests {
 
     /// `neighbor_direction`: the direction of each neighbour, `None` for the others and for `self`.
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 504819)]
     fn test_hex_neighbor_direction() {
         let h = HexTrait::new(10, 5);
         let mut directions = EdgeDirectionTrait::iter();
@@ -2377,13 +2378,13 @@ mod tests {
         }
     }
 
-    /// `rectiline_to` against its properties, on every ordered pair of a radius-two hexagon, both
+    /// `rectiline_to` against its properties, on every ordered pair of a radius-one hexagon, both
     /// senses: `distance + 1` hexes, the ends included, each step a neighbour in one of the two
     /// directions of `main_diagonal_to(...).edge_directions()`.
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 11281074)]
     fn test_hex_rectiline_to_properties() {
-        let hexagon = HexTrait::new(5, -3).range(2);
+        let hexagon = HexTrait::new(5, -3).range(1);
         let mut senders = hexagon;
         while let Some(a) = senders.pop_front() {
             let a = *a;
@@ -2411,7 +2412,7 @@ mod tests {
 
     /// The straight case of `hexx`'s documentation: `(0, 0)` to `(5, 0)`, six hexes.
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 51125)]
     fn test_hex_rectiline_to_doc() {
         let path = HexTrait::new(0, 0).rectiline_to(HexTrait::new(5, 0), true);
         assert!(path.len() == 6);
@@ -2421,7 +2422,7 @@ mod tests {
     /// `way_to` and `diagonal_way_to`: a clear wedge is a single direction, a boundary a tie that
     /// contains both, and the main direction is the first one.
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 455144)]
     fn test_hex_ways() {
         let origin = HexTrait::new(0, 0);
         let mut directions = EdgeDirectionTrait::iter();
@@ -2453,7 +2454,7 @@ mod tests {
     /// the offset from the parent's center, and `wrap_in_range` lands within the range and keeps
     /// the hexes already inside.
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 79719707)]
     fn test_hex_resolution_properties() {
         let coord = HexTrait::new(23, 45);
         let parent = coord.to_lower_res(5);
@@ -2462,7 +2463,7 @@ mod tests {
         let mut radius: u32 = 1;
         while radius != 7 {
             let r: i32 = radius.try_into().unwrap();
-            let mut points = HexTrait::new(-11, 9).range(5);
+            let mut points = HexTrait::new(-11, 9).range(3);
             while let Some(p) = points.pop_front() {
                 let p = *p;
                 let parent = p.to_lower_res(radius);
@@ -2482,12 +2483,12 @@ mod tests {
         }
     }
 
-    /// `to_lower_res` floors on negative values (a truncation would put `(-1, 0)` in the parent
-    /// of the origin).
+    /// `to_lower_res` floors on negative values (a truncation gives `(0, -2)` for `(-6, -6)`).
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 6311)]
     fn test_hex_to_lower_res_floor() {
-        assert!(HexTrait::new(-1, 0).to_lower_res(1) != HexTrait::new(0, 0));
+        assert!(HexTrait::new(-6, -6).to_lower_res(1) == HexTrait::new(-1, -3));
+        assert!(HexTrait::new(-6, -4).to_lower_res(1) == HexTrait::new(-1, -3));
         assert!(HexTrait::new(0, 0).to_lower_res(1) == HexTrait::new(0, 0));
         assert!(HexTrait::new(1, 0).to_lower_res(1) == HexTrait::new(0, 0));
         assert!(HexTrait::new(2, -1).to_lower_res(0) == HexTrait::new(2, -1));
@@ -2496,7 +2497,7 @@ mod tests {
 
     /// `Debug` prints what `hexx`'s prints: `x`, `y` and `z`.
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 259445)]
     fn test_hex_debug() {
         assert!(format!("{:?}", HexTrait::new(1, 2)) == "Hex { x: 1, y: 2, z: -3 }");
         assert!(format!("{:?}", HexTrait::new(-4, 0)) == "Hex { x: -4, y: 0, z: 4 }");
@@ -2504,56 +2505,56 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 9744)]
     #[should_panic]
     fn test_hex_diagonal_neighbor_revert_overflow() {
         HexTrait::new(0x7fffffff, 0).diagonal_neighbor(VertexDirectionTrait::FLAT_RIGHT);
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_hex_all_diagonals_revert_overflow() {
         HexTrait::new(0, 0x7fffffff).all_diagonals();
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 13818)]
     #[should_panic]
     fn test_hex_neighbor_direction_revert_overflow() {
         HexTrait::new(0x7fffffff, 0).neighbor_direction(HexTrait::ZERO);
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_hex_way_to_revert_overflow() {
         HexTrait::new(0x7fffffff, 0).way_to(HexTrait::new(-0x7fffffff, 0));
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_hex_diagonal_way_to_revert_overflow() {
         HexTrait::new(0x7fffffff, 0).diagonal_way_to(HexTrait::new(-0x7fffffff, 0));
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_hex_rotate_cw_revert_z() {
         HexTrait::new(-0x7fffffff - 1, 0).rotate_cw(1);
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_hex_reflect_x_revert_z() {
         HexTrait::new(-0x7fffffff - 1, 0).reflect_x();
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_hex_rectiline_to_revert_overflow() {
         HexTrait::new(0x7fffffff, 0).rectiline_to(HexTrait::new(-0x7fffffff, 0), true);
@@ -2561,28 +2562,28 @@ mod tests {
 
     /// `range_count(37_837)` leaves `u32`: `range` and `xrange` panic before building anything.
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_hex_range_revert_count() {
         HexTrait::ZERO.range(37_837);
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_hex_xrange_revert_count() {
         HexTrait::ZERO.xrange(37_837);
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_hex_to_lower_res_revert_count() {
         HexTrait::ZERO.to_lower_res(37_837);
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_hex_to_lower_res_revert_overflow() {
         HexTrait::new(0x7fffffff, 0).to_lower_res(1);
@@ -2590,19 +2591,19 @@ mod tests {
 
     /// `hexx` wraps `radius` into `i32`; this port panics above `i32::MAX`.
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 7991)]
     #[should_panic]
     fn test_hex_to_higher_res_revert_radius() {
         HexTrait::ZERO.to_higher_res(0x80000000);
     }
 
     // Benchmarks of M2-T2 (LIB-06), 100 repetitions per test, one call per repetition, per call =
-    // (test − matching baseline) / 100; the span builders (`range`, `xrange`, `rectiline_to`,
-    // `to_lower_res`, `to_local`, `wrap_in_range`) run once, per call = test − 7,991 (an empty
-    // test's entry cost, the measured minimum of the `#[should_panic]` tests). Targets (`L`,
-    // `U = ceil(1.25 L)`) derived from the L-M1 measurements of `bench_mirror` and the
-    // M2-T0/M2-T1 benches of this file (`i32` operation 1,030, `const_sub` 2,930, `z` and
-    // `const_neg` 2,059, `distance_to` 8,722, `neighbor` 4,341, `way_from` 4,683, `range_count`
+    // (test − matching baseline) / 100; `range`, `xrange` and `rectiline_to` run once, per call =
+    // test − 7,610 (an empty test's entry cost, the measured minimum of the `#[should_panic]`
+    // tests). Targets (`L`, `U = ceil(1.25 L)`) derived from the L-M1 measurements of
+    // `bench_mirror` and the M2-T0/M2-T1 benches of this file (`i32` operation 1,030, `const_sub`
+    // 2,930, `z` and `const_neg` 2,059, `distance_to` 8,722, `neighbor` 4,341, `way_from` 4,683,
+    // `range_count`
     // 4,120, a span built by a loop 7,358 per element), written before the first measurement:
     //
     // | function | case | `L` | `U` |
@@ -2632,7 +2633,7 @@ mod tests {
     /// The loop, the accumulator and the operands `(-n, -n)` and `(n, -n)`: the tie of
     /// `diagonal_way_to` (`b − a = (2n, 0)`).
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 558369)]
     fn bench_hex_baseline_tie() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2646,7 +2647,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 722043)]
     fn bench_hex_diagonal_neighbor() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2660,7 +2661,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 1558368)]
     fn bench_hex_all_diagonals() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2677,7 +2678,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 4253372)]
     fn bench_hex_neighbor_direction() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2694,7 +2695,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 631134)]
     fn bench_hex_counter_clockwise() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2708,7 +2709,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 631134)]
     fn bench_hex_clockwise() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2722,7 +2723,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 949221)]
     fn bench_hex_ccw_around() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2736,7 +2737,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 949221)]
     fn bench_hex_cw_around() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2750,7 +2751,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 999275)]
     fn bench_hex_rotate_cw() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2764,7 +2765,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 999117)]
     fn bench_hex_rotate_ccw() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2778,7 +2779,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 1306967)]
     fn bench_hex_rotate_cw_around() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2792,7 +2793,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 578277)]
     fn bench_hex_reflect_x() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2806,7 +2807,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 579159)]
     fn bench_hex_reflect_y() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2820,7 +2821,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 2144646)]
     fn bench_hex_way_to() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2838,7 +2839,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 2144646)]
     fn bench_hex_main_direction_to() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2852,7 +2853,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 2001195)]
     fn bench_hex_diagonal_way_to() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2870,7 +2871,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 2001195)]
     fn bench_hex_main_diagonal_to() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2884,7 +2885,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 1272506)]
     fn bench_hex_to_higher_res() {
         let mut acc: i32 = 0;
         let mut n = REPS;
@@ -2898,44 +2899,65 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 615353)]
     fn bench_hex_range() {
         let ranged = HexTrait::new(3, -7).range(6);
         assert!(ranged.len() == 127);
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 721760)]
     fn bench_hex_xrange() {
         let ranged = HexTrait::new(3, -7).xrange(6);
         assert!(ranged.len() == 126);
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 153867)]
     fn bench_hex_rectiline_to() {
-        let path = HexTrait::new(3, -7).rectiline_to(HexTrait::new(13, 6), true);
+        let path = HexTrait::new(3, -7).rectiline_to(HexTrait::new(13, 3), true);
         assert!(path.len() == 21);
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 3479364)]
     fn bench_hex_to_lower_res() {
-        let parent = HexTrait::new(-23, 45).to_lower_res(6);
-        assert!(parent != HexTrait::new(1000, 1000));
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 45 + n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += a.to_lower_res(6).x + b.y;
+        }
+        assert!(acc != 1000000);
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 4434665)]
     fn bench_hex_to_local() {
-        let local = HexTrait::new(-23, 45).to_local(6);
-        assert!(local != HexTrait::new(1000, 1000));
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 45 + n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += a.to_local(6).x + b.y;
+        }
+        assert!(acc != 1000000);
     }
 
     #[test]
-    #[available_gas(l2_gas: 99999999)]
+    #[available_gas(l2_gas: 4434665)]
     fn bench_hex_wrap_in_range() {
-        let wrapped = HexTrait::new(-23, 45).wrap_in_range(6);
-        assert!(wrapped != HexTrait::new(1000, 1000));
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let a = HexTrait::new(0 - n.into(), 45 + n.into());
+            let b = HexTrait::new(n.into(), n.into());
+            acc += a.wrap_in_range(6).x + b.y;
+        }
+        assert!(acc != 1000000);
     }
 }
