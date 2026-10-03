@@ -81,27 +81,15 @@ OWN_FILES: tuple[str, ...] = (
     "src/tests/test_conversions.cairo",
     "src/tests/test_edge_direction.cairo",
     "src/tests/test_hex.cairo",
-    "tests/golden_conversions.cairo",
-    "tests/golden_direction.cairo",
-    "tests/golden_hex.cairo",
     # M1-T6, N-5: the line
     "src/board/line.cairo",
-    "tests/golden_line.cairo",
     # M1-T7, N-2
     "src/board/seams.cairo",
     # M1-T5, N-6
     "src/board/hexagon.cairo",
-    # L-M2 (LIB-06): golden vectors
-    "tests/golden_impls.cairo",
-    "tests/golden_swizzle.cairo",
-    "tests/golden_euclidean.cairo",
-    "tests/golden_convert.cairo",
-    "tests/golden_rings.cairo",
-    "tests/golden_bounds.cairo",
-    "tests/golden_iter.cairo",
-    "tests/golden_shapes.cairo",
-    "tests/golden_grid.cairo",
 )
+# The golden vectors of tools/refgen are not files of `crates/hexx`: they live in the packages
+# `crates/golden_*` (LIB-04h, AGENTS.md "Golden tests"), so a golden file under `tests/` is an error.
 
 # Moved files that a task of L-M1 has EXTENDED: they are checked in additions-only mode. Every
 # line of the (rewritten, formatted) source must appear in the destination, in the same order;

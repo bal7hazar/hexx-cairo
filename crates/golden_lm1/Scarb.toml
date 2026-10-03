@@ -1,0 +1,17 @@
+[package]
+name = "golden_lm1"
+version.workspace = true
+edition.workspace = true
+cairo-version.workspace = true
+license.workspace = true
+publish = false
+description = "Golden vectors of hexx 0.25.0 against the Cairo port (tools/refgen). Never published."
+
+[dependencies]
+hexx = { path = "../hexx" }
+
+[dev-dependencies]
+snforge_std.workspace = true
+
+[tool.fmt]
+sort-module-level-items = true

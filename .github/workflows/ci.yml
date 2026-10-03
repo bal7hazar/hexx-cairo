@@ -146,6 +146,12 @@ jobs:
           - { package: hexx, partition: "6/6" }
           - { package: takeover_tests, partition: "1/1" }
           - { package: consumer, partition: "1/1" }
+          # The golden vectors of tools/refgen (LIB-04h): one package per test target, so that no
+          # compile needs more than ~8 GB (AGENTS.md, "Golden tests").
+          - { package: golden_hex, partition: "1/1" }
+          - { package: golden_impls, partition: "1/1" }
+          - { package: golden_lm1, partition: "1/1" }
+          - { package: golden_lm2, partition: "1/1" }
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
@@ -227,6 +233,10 @@ jobs:
           - {package: hexx, scope: ignored, partition: "3/3", tag: -p3of3, label: hexx ignored 3/3}
           - {package: takeover_tests, scope: all, label: takeover_tests}
           - {package: consumer, scope: all, label: consumer}
+          - {package: golden_hex, scope: all, label: golden_hex}
+          - {package: golden_impls, scope: all, label: golden_impls}
+          - {package: golden_lm1, scope: all, label: golden_lm1}
+          - {package: golden_lm2, scope: all, label: golden_lm2}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
@@ -256,11 +266,12 @@ jobs:
           python3 scripts/bench.py check --package "$PACKAGE" --scope "$SCOPE" ${PARTITION:+--partition "$PARTITION"} | tee gas_report.md
       # The tests of Digger, twice in the same job on the same compiled code: two measurements
       # that differ fail the job (the drift seen in two runs went through Digger::dig). It runs
-      # even when the check failed, the second measurement being evidence. `consumer` has none,
-      # and the ignored tests of `hexx` are not Digger's. In a partition it runs the Digger tests
-      # of that share, so that each runs twice once over the partitions.
+      # even when the check failed, the second measurement being evidence. `consumer` and the
+      # golden packages have none, and the ignored tests of `hexx` are not Digger's. In a
+      # partition it runs the Digger tests of that share, so that each runs twice once over the
+      # partitions.
       - name: Double run of the Digger tests
-        if: ${{ !cancelled() && matrix.package != 'consumer' && matrix.scope != 'ignored' }}
+        if: ${{ !cancelled() && matrix.package != 'consumer' && !startsWith(matrix.package, 'golden_') && matrix.scope != 'ignored' }}
         env:
           PACKAGE: ${{ matrix.package }}
           PARTITION: ${{ matrix.partition }}
@@ -373,7 +384,7 @@ jobs:
           key: refgen-${{ runner.os }}-${{ hashFiles('tools/refgen/Cargo.lock') }}
       - name: Build against hexx = "=0.25.0"
         run: cargo build --locked --manifest-path tools/refgen/Cargo.toml
-      # Fails when a committed crates/hexx/tests/golden_*.cairo differs from the generator output.
+      # Fails when a committed crates/golden_*/tests/golden_*.cairo differs from the generator output.
       - name: Check golden vectors
         run: cargo run --locked --manifest-path tools/refgen/Cargo.toml -- check
 

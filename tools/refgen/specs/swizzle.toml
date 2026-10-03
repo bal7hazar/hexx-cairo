@@ -1,7 +1,7 @@
 # The swizzles of `Hex` (plan §4.3, brief LIB-06 M2-T3): the seeded points and the i32 values
 # near the bounds (tools/refgen/src/swizzle.rs).
 module = "swizzle"
-package = "hexx"
+package = "golden_lm2"
 
 seed = "swizzle::points"
 points = 64

@@ -923,7 +923,7 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
         .collect();
     tables(&mut e, "bounds_scalar", &bound_div, &DIV_SCALAR, Some(panic_cap))?;
 
-    let golden = root.join("crates").join("hexx").join("tests").join("golden_impls.cairo");
+    let golden = crate::target(root, spec);
     let deviations = root.join("docs").join("deviations").join("div_scalar.md");
     Ok(vec![(golden, e.finish()?), (deviations, doc)])
 }

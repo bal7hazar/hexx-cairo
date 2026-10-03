@@ -41,7 +41,7 @@ GROUPS: dict[str, str] = {
     ),
     # job `golden`.
     "golden": (
-        r"(tools/refgen/.*|crates/hexx/tests/golden_[^/]*\.cairo"
+        r"(tools/refgen/.*|crates/golden_[^/]+/tests/golden_[^/]*\.cairo"
         r"|crates/hexx/src/board/(line|tables|hexagon)\.cairo|docs/deviations/line_ties\.md)"
     ),
 }

@@ -21,6 +21,7 @@ over the whole stated domain before keeping any optimisation, and may replace it
 |---|---|
 | `crates/hexx` | the `hexx` port: published. One module per `hexx` source file, same names (plan §2.2) |
 | `crates/takeover_tests` | unpublished: equality tests of `board` against the published `origami_hexmap` 1.8.0 it takes over (`origami_hexmap` dependency, plan §5.4) |
+| `crates/golden_*` | unpublished: the golden tests of `tools/refgen` (`tests/golden_<module>.cairo`), one test target per package, `hexx` by path (see *Golden tests* below) |
 | `crates/consumer` | unpublished: a minimal Starknet contract fixture, class size tracked in `gas/bytecode.size` |
 | `gas/*.snap` | committed gas snapshots, one file per package (`scripts/bench.py`) |
 | `gas/bytecode.size` | committed class-size snapshot of `crates/consumer` (`scripts/bytecode_size.py`) |
@@ -48,6 +49,23 @@ over the whole stated domain before keeping any optimisation, and may replace it
 | Heavy commands (build, test) | Through the build lock, `scripts/lock.sh scarb build`, `scripts/lock.sh snforge test <filter>` (`COMMON.md` §3) |
 
 Toolchain versions live in `.tool-versions` only (Scarb 2.20.1, starknet-foundry 0.64.0).
+
+### Golden tests
+
+Scarb compiles every file under a package's `tests/` into one target, whose peak memory follows its
+line count (LIB-04h, measured on the VPS, single-threaded, capped at 8 GB: 3,241 lines 1.6 GB,
+5,119 lines 2.0 GB, 11,156 lines 5.0 GB, 13,765 lines 6.0 GB). So the golden files live in the
+unpublished packages `crates/golden_*`, never in `crates/hexx/tests/` (`scripts/takeover_check.py`
+rejects one there): `golden_hex` (hex), `golden_impls` (impls), `golden_lm1` (conversions,
+direction, line; closed), `golden_lm2` (euclidean, swizzle, convert). Budget: the `tests/` of a
+package holds at most 8,000 lines, for a peak under ~4 GB; one generated file above that takes a
+package of its own and never exceeds 14,000 lines (split its generator's output first). A new
+golden file goes into `golden_lm2` while its total stays within 8,000 lines (room for about 4,700
+lines of M2-T4 to M2-T7), else into a new package `crates/golden_<module>`. Its spec's
+`package` names the package (`tools/refgen`). A new package is added to the root `Scarb.toml`,
+the `test` and `gas` matrices of `.github/workflows/ci.yml`, `gas/<package>.snap` and the
+package-list test of `scripts/tests/test_bench_gate_split.py`, in the same change. A new build is
+measured under `prlimit --as=8589934592` only, never uncapped.
 
 ## Before you push
 
