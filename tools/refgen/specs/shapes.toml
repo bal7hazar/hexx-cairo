@@ -1,0 +1,41 @@
+# The six shapes of `hexx::shapes` and the `Default` of each struct (tools/refgen/src/shapes.rs):
+# sizes 0..=radius_max around eight centres, the rectangles at bounds that make `y >> 1` and
+# `x >> 1` floor a negative odd value, the crossing bounds, and rows or columns of 0.
+module = "shapes"
+package = "golden_shapes"
+
+radius_max = 6        # the sizes of the hexagon, parallelogram, rombus and rectangles
+triangle_max = 10     # the sizes of the triangle (10 is its `Default`)
+hexes_per_test = 300  # a test holds whole cases up to this many hexes
+
+# budgets: ceil(1.05 * measured)
+gas.golden_shapes_default = 314039429
+gas.golden_shapes_flat_rectangle_0 = 7539378
+gas.golden_shapes_flat_rectangle_1 = 8941349
+gas.golden_shapes_flat_rectangle_2 = 1912901
+gas.golden_shapes_hexagon_0 = 3318095
+gas.golden_shapes_hexagon_1 = 16833926
+gas.golden_shapes_hexagon_10 = 10894895
+gas.golden_shapes_hexagon_2 = 14748248
+gas.golden_shapes_hexagon_3 = 11278470
+gas.golden_shapes_hexagon_4 = 4516502
+gas.golden_shapes_hexagon_5 = 17051528
+gas.golden_shapes_hexagon_6 = 14828258
+gas.golden_shapes_hexagon_7 = 11327862
+gas.golden_shapes_hexagon_8 = 4499996
+gas.golden_shapes_hexagon_9 = 16939766
+gas.golden_shapes_parallelogram_0 = 5235846
+gas.golden_shapes_parallelogram_1 = 8119272
+gas.golden_shapes_parallelogram_2 = 10988334
+gas.golden_shapes_parallelogram_3 = 7585179
+gas.golden_shapes_parallelogram_4 = 5745600
+gas.golden_shapes_parallelogram_5 = 8119272
+gas.golden_shapes_parallelogram_6 = 4606056
+gas.golden_shapes_pointy_rectangle_0 = 7643486
+gas.golden_shapes_pointy_rectangle_1 = 8883326
+gas.golden_shapes_pointy_rectangle_2 = 1867992
+gas.golden_shapes_rombus_0 = 9063485
+gas.golden_shapes_rombus_1 = 9343331
+gas.golden_shapes_rombus_2 = 10599866
+gas.golden_shapes_rombus_3 = 5563772
+gas.golden_shapes_triangle_0 = 3973053

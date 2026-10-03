@@ -709,6 +709,42 @@ class ExtensionInventory(FixtureTreeCase):
         self.assertIn(("board", "trait", "HexMapTrait"), keys)
         self.assertIn(("board", "method", "HexMap.new_empty"), keys)
 
+    def test_multi_type_owner_scopes_its_cairo_items_by_type(self) -> None:
+        # M2-T6: `shapes` is a `MULTI_TYPE_OWNERS` owner, whose Rust items are `Type.name`; the
+        # Cairo side scopes them the same way (fields, methods, `Default`, derived or written), so
+        # the two sides match, and `parse_cairo` does not list the owner as a bare one.
+        self.assertNotIn("shapes", set(ap.CAIRO_MODULE_OWNER.values()) - ap.MULTI_TYPE_OWNERS)
+        nodes, reachable, bridged, globs = self.build_cairo(
+            root_text="pub mod shapes;\n",
+            files={
+                "shapes.cairo": (
+                    "#[derive(Copy, Drop, Default)]\n"
+                    "pub struct Triangle {\n    pub size: u32,\n}\n"
+                    "#[derive(Copy, Drop)]\n"
+                    "pub struct Hexagon {\n    pub radius: u32,\n}\n"
+                    "pub impl HexagonDefault of Default<Hexagon> {\n"
+                    "    fn default() -> Hexagon { Hexagon { radius: 10 } }\n"
+                    "}\n"
+                    "pub trait HexagonTrait {\n    fn new(radius: u32) -> Hexagon;\n}\n"
+                    "pub fn hexagon(radius: u32) -> Span<Hex> { array![].span() }\n"
+                ),
+            },
+        )
+
+        def owner_of(path, name):
+            return "shapes" if path == ("shapes",) else None
+
+        bare = frozenset({"shapes"}) - ap.MULTI_TYPE_OWNERS
+        items = ap.scan_cairo_tree(nodes, reachable, bridged, globs, owner_of, bare_owners=bare)
+        keys = {i.key for i in items}
+        self.assertIn(("shapes", "field", "Triangle.size"), keys)
+        self.assertIn(("shapes", "field", "Hexagon.radius"), keys)
+        self.assertIn(("shapes", "method", "Hexagon.new"), keys)
+        self.assertIn(("shapes", "impl", "Triangle.Default for Triangle"), keys)
+        self.assertIn(("shapes", "impl", "Hexagon.Default for Hexagon"), keys)
+        # A free function keeps its bare name, as on the Rust side.
+        self.assertIn(("shapes", "method", "hexagon"), keys)
+
     def test_generate_trait_impl_produces_the_trait_item_too(self) -> None:
         # Fix loop 3 finding P2-14: `#[generate_trait]` synthesizes the trait from the impl; no
         # `pub trait HexMapTrait { ... }` text ever exists for `CAIRO_TRAIT_RE` to match.

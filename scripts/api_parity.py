@@ -1436,6 +1436,15 @@ def ops_type_name(owner: str, type_name: str) -> str:
     return owner if type_name == owner + "Ops" else type_name
 
 
+def scope_impl(item: Item, prefix: bool, type_name: str) -> Item:
+    """An `impl` item of a Cairo type named `Type.<impl>` when its owner scopes its members by type
+    (`MULTI_TYPE_OWNERS`, as `scan_impls` does on the Rust side: `FlatRectangle.Default for
+    FlatRectangle`)."""
+    if not prefix:
+        return item
+    return Item(item.owner, item.kind, f"{type_name}.{item.name}", item.source)
+
+
 def scan_cairo_tree(
     nodes: dict[tuple[str, ...], ModuleNode], reachable: set[tuple[str, ...]],
     bridged: dict[tuple[str, ...], dict[str, str]], glob_targets: set[tuple[str, ...]],
@@ -1491,7 +1500,8 @@ def scan_cairo_tree(
                         items.add(Item(owner, "variant",
                                        scoped(pfx(owner, name), name, variant_m.group(1)), source))
                 # A derived `Default` is an impl item, as on the Rust side (`derived_impl_items`).
-                items.update(derived_impl_items(text, match.start(), owner, name, source))
+                for derived in derived_impl_items(text, match.start(), owner, name, source):
+                    items.add(scope_impl(derived, owner in MULTI_TYPE_OWNERS and pfx(owner, name), name))
 
         for match, opening, end in blocks(text, CAIRO_TRAIT_RE):
             if not cfg_ok(match.start()):
@@ -1586,7 +1596,8 @@ def scan_cairo_tree(
                     "private")
             if built is None:
                 raise SystemExit(f"{where}: cannot name the impl of {trait} for {name}")
-            items.add(Item(built.owner, built.kind, built.name, source))
+            items.add(scope_impl(Item(built.owner, built.kind, built.name, source),
+                                 built.owner in MULTI_TYPE_OWNERS and pfx(built.owner, name), name))
 
         free_text = mask_impl_bodies(text)
         for match in CAIRO_FREE_FN_RE.finditer(free_text):
@@ -1624,7 +1635,7 @@ def parse_cairo() -> list[Item]:
     nodes, reachable, bridged, glob_targets = tree
 
     return scan_cairo_tree(nodes, reachable, bridged, glob_targets, cairo_owner_of,
-                           bare_owners=frozenset(CAIRO_MODULE_OWNER.values()))
+                           bare_owners=frozenset(CAIRO_MODULE_OWNER.values()) - MULTI_TYPE_OWNERS)
 
 
 def unique_items(items: set[Item] | list[Item]) -> list[Item]:

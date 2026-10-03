@@ -13,6 +13,7 @@ members = [
     "crates/golden_lm1",
     "crates/golden_lm2",
     "crates/golden_rings",
+    "crates/golden_shapes",
 ]
 
 [workspace.package]
