@@ -8318,9 +8318,9 @@ fn golden_impls_direction_add_direction() {
     ];
     let mut i = 0;
     while i < cases.len() {
-        let (x, y, i, ex, ey) = *cases.at(i);
+        let (x, y, di, ex, ey) = *cases.at(i);
         let h = HexTrait::new(x, y);
-        let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+        let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
         assert(h.add_direction(d) == HexTrait::new(ex, ey), 'add_direction');
         i += 1;
     }
@@ -8432,9 +8432,9 @@ fn golden_impls_direction_sub_direction() {
     ];
     let mut i = 0;
     while i < cases.len() {
-        let (x, y, i, ex, ey) = *cases.at(i);
+        let (x, y, di, ex, ey) = *cases.at(i);
         let h = HexTrait::new(x, y);
-        let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+        let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
         assert(h.sub_direction(d) == HexTrait::new(ex, ey), 'sub_direction');
         i += 1;
     }
@@ -8546,9 +8546,9 @@ fn golden_impls_direction_add_diagonal() {
     ];
     let mut i = 0;
     while i < cases.len() {
-        let (x, y, i, ex, ey) = *cases.at(i);
+        let (x, y, di, ex, ey) = *cases.at(i);
         let h = HexTrait::new(x, y);
-        let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+        let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
         assert(h.add_diagonal(d) == HexTrait::new(ex, ey), 'add_diagonal');
         i += 1;
     }
@@ -8660,9 +8660,9 @@ fn golden_impls_direction_sub_diagonal() {
     ];
     let mut i = 0;
     while i < cases.len() {
-        let (x, y, i, ex, ey) = *cases.at(i);
+        let (x, y, di, ex, ey) = *cases.at(i);
         let h = HexTrait::new(x, y);
-        let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+        let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
         assert(h.sub_diagonal(d) == HexTrait::new(ex, ey), 'sub_diagonal');
         i += 1;
     }
@@ -9136,9 +9136,9 @@ fn golden_impls_bounds_direction_add_direction() {
     ];
     let mut i = 0;
     while i < cases.len() {
-        let (x, y, i, ex, ey) = *cases.at(i);
+        let (x, y, di, ex, ey) = *cases.at(i);
         let h = HexTrait::new(x, y);
-        let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+        let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
         assert(h.add_direction(d) == HexTrait::new(ex, ey), 'add_direction');
         i += 1;
     }
@@ -9148,9 +9148,9 @@ fn golden_impls_bounds_direction_add_direction() {
 #[available_gas(l2_gas: 1000000000)]
 #[should_panic]
 fn golden_impls_bounds_direction_add_direction_panics_0() {
-    let (x, y, i): (i32, i32, u8) = (-2147483648, -2147483648, 2);
+    let (x, y, di): (i32, i32, u8) = (-2147483648, -2147483648, 2);
     let h = HexTrait::new(x, y);
-    let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+    let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
     let _ = h.add_direction(d);
 }
 
@@ -9158,9 +9158,9 @@ fn golden_impls_bounds_direction_add_direction_panics_0() {
 #[available_gas(l2_gas: 1000000000)]
 #[should_panic]
 fn golden_impls_bounds_direction_add_direction_panics_1() {
-    let (x, y, i): (i32, i32, u8) = (2147483647, 2147483647, 5);
+    let (x, y, di): (i32, i32, u8) = (2147483647, 2147483647, 5);
     let h = HexTrait::new(x, y);
-    let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+    let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
     let _ = h.add_direction(d);
 }
 
@@ -9632,9 +9632,9 @@ fn golden_impls_bounds_direction_sub_direction() {
     ];
     let mut i = 0;
     while i < cases.len() {
-        let (x, y, i, ex, ey) = *cases.at(i);
+        let (x, y, di, ex, ey) = *cases.at(i);
         let h = HexTrait::new(x, y);
-        let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+        let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
         assert(h.sub_direction(d) == HexTrait::new(ex, ey), 'sub_direction');
         i += 1;
     }
@@ -9644,9 +9644,9 @@ fn golden_impls_bounds_direction_sub_direction() {
 #[available_gas(l2_gas: 1000000000)]
 #[should_panic]
 fn golden_impls_bounds_direction_sub_direction_panics_0() {
-    let (x, y, i): (i32, i32, u8) = (-2147483648, -2147483648, 0);
+    let (x, y, di): (i32, i32, u8) = (-2147483648, -2147483648, 0);
     let h = HexTrait::new(x, y);
-    let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+    let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
     let _ = h.sub_direction(d);
 }
 
@@ -9654,9 +9654,9 @@ fn golden_impls_bounds_direction_sub_direction_panics_0() {
 #[available_gas(l2_gas: 1000000000)]
 #[should_panic]
 fn golden_impls_bounds_direction_sub_direction_panics_1() {
-    let (x, y, i): (i32, i32, u8) = (2147483647, 2147483647, 5);
+    let (x, y, di): (i32, i32, u8) = (2147483647, 2147483647, 5);
     let h = HexTrait::new(x, y);
-    let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+    let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
     let _ = h.sub_direction(d);
 }
 
@@ -10060,9 +10060,9 @@ fn golden_impls_bounds_direction_add_diagonal() {
     ];
     let mut i = 0;
     while i < cases.len() {
-        let (x, y, i, ex, ey) = *cases.at(i);
+        let (x, y, di, ex, ey) = *cases.at(i);
         let h = HexTrait::new(x, y);
-        let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+        let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
         assert(h.add_diagonal(d) == HexTrait::new(ex, ey), 'add_diagonal');
         i += 1;
     }
@@ -10072,9 +10072,9 @@ fn golden_impls_bounds_direction_add_diagonal() {
 #[available_gas(l2_gas: 1000000000)]
 #[should_panic]
 fn golden_impls_bounds_direction_add_diagonal_panics_0() {
-    let (x, y, i): (i32, i32, u8) = (-2147483648, -2147483648, 0);
+    let (x, y, di): (i32, i32, u8) = (-2147483648, -2147483648, 0);
     let h = HexTrait::new(x, y);
-    let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+    let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
     let _ = h.add_diagonal(d);
 }
 
@@ -10082,9 +10082,9 @@ fn golden_impls_bounds_direction_add_diagonal_panics_0() {
 #[available_gas(l2_gas: 1000000000)]
 #[should_panic]
 fn golden_impls_bounds_direction_add_diagonal_panics_1() {
-    let (x, y, i): (i32, i32, u8) = (2147483647, 2147483647, 5);
+    let (x, y, di): (i32, i32, u8) = (2147483647, 2147483647, 5);
     let h = HexTrait::new(x, y);
-    let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+    let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
     let _ = h.add_diagonal(d);
 }
 
@@ -10488,9 +10488,9 @@ fn golden_impls_bounds_direction_sub_diagonal() {
     ];
     let mut i = 0;
     while i < cases.len() {
-        let (x, y, i, ex, ey) = *cases.at(i);
+        let (x, y, di, ex, ey) = *cases.at(i);
         let h = HexTrait::new(x, y);
-        let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+        let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
         assert(h.sub_diagonal(d) == HexTrait::new(ex, ey), 'sub_diagonal');
         i += 1;
     }
@@ -10500,9 +10500,9 @@ fn golden_impls_bounds_direction_sub_diagonal() {
 #[available_gas(l2_gas: 1000000000)]
 #[should_panic]
 fn golden_impls_bounds_direction_sub_diagonal_panics_0() {
-    let (x, y, i): (i32, i32, u8) = (-2147483648, -2147483648, 0);
+    let (x, y, di): (i32, i32, u8) = (-2147483648, -2147483648, 0);
     let h = HexTrait::new(x, y);
-    let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+    let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
     let _ = h.sub_diagonal(d);
 }
 
@@ -10510,9 +10510,9 @@ fn golden_impls_bounds_direction_sub_diagonal_panics_0() {
 #[available_gas(l2_gas: 1000000000)]
 #[should_panic]
 fn golden_impls_bounds_direction_sub_diagonal_panics_1() {
-    let (x, y, i): (i32, i32, u8) = (2147483647, 2147483647, 5);
+    let (x, y, di): (i32, i32, u8) = (2147483647, 2147483647, 5);
     let h = HexTrait::new(x, y);
-    let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+    let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
     let _ = h.sub_diagonal(d);
 }
 

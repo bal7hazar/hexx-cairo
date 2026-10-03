@@ -584,9 +584,9 @@ const DIRECTIONS: [Op<((i32, i32), usize)>; 4] = [
     Op {
         name: "add_direction",
         types: "i32, i32, u8",
-        vars: "x, y, i",
+        vars: "x, y, di",
         setup: "        let h = HexTrait::new(x, y);
-        let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+        let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
 ",
         call: "h.add_direction(d)",
         eval: |p| probe(|| hx(p.0) + EdgeDirection::ALL_DIRECTIONS[p.1]),
@@ -595,9 +595,9 @@ const DIRECTIONS: [Op<((i32, i32), usize)>; 4] = [
     Op {
         name: "sub_direction",
         types: "i32, i32, u8",
-        vars: "x, y, i",
+        vars: "x, y, di",
         setup: "        let h = HexTrait::new(x, y);
-        let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+        let d = *EdgeDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
 ",
         call: "h.sub_direction(d)",
         eval: |p| probe(|| hx(p.0) - EdgeDirection::ALL_DIRECTIONS[p.1]),
@@ -606,9 +606,9 @@ const DIRECTIONS: [Op<((i32, i32), usize)>; 4] = [
     Op {
         name: "add_diagonal",
         types: "i32, i32, u8",
-        vars: "x, y, i",
+        vars: "x, y, di",
         setup: "        let h = HexTrait::new(x, y);
-        let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+        let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
 ",
         call: "h.add_diagonal(d)",
         eval: |p| probe(|| hx(p.0) + VertexDirection::ALL_DIRECTIONS[p.1]),
@@ -617,9 +617,9 @@ const DIRECTIONS: [Op<((i32, i32), usize)>; 4] = [
     Op {
         name: "sub_diagonal",
         types: "i32, i32, u8",
-        vars: "x, y, i",
+        vars: "x, y, di",
         setup: "        let h = HexTrait::new(x, y);
-        let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(i.into());
+        let d = *VertexDirectionTrait::ALL_DIRECTIONS.span().at(di.into());
 ",
         call: "h.sub_diagonal(d)",
         eval: |p| probe(|| hx(p.0) - VertexDirection::ALL_DIRECTIONS[p.1]),
