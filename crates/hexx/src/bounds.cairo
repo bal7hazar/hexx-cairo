@@ -789,4 +789,151 @@ mod tests {
             }
         }
     }
+
+    // Benchmarks of M2-T5 (LIB-06): per call = (test - baseline) / reps. Targets (`L`, `U =
+    // ceil(1.25 L)`, the brief's table, written before the first measurement; the budgets of these
+    // tests are placeholders until CI's artefact pins them, LIB-04i):
+    //
+    // | function | case | `L` | `U` |
+    // |---|---|---|---|
+    // | `is_in_bounds` | any | 12,073 | 15,092 |
+    // | `hex_count`, `hex_count32` | radius 64 | 4,120 | 5,150 |
+    // | `wrap`, `wrap_local` | radius 6 | 39,688 | 49,610 |
+    // | `from_min_max` | any | 42,930 | 53,663 |
+    // | `corners` | radius 6 | 43,626 | 54,533 |
+    // | `all_coords` | radius 6 | 934,466 | 1,168,083 |
+    // | `intersecting_with` | radii 6 and 6 | 2,467,737 | 3,084,672 |
+    // | `from_span` | 16 points | 168,904 | 211,130 |
+
+    const REPS: u8 = 10;
+
+    #[test]
+    #[available_gas(l2_gas: 20000000)]
+    fn bench_bounds_baseline() {
+        let bounds = HexBoundsTrait::new(HexTrait::new(2, -3), 6);
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let h = HexTrait::new(n.into(), 2);
+            acc += h.x + bounds.center.y;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 20000000)]
+    fn bench_bounds_is_in_bounds() {
+        let bounds = HexBoundsTrait::new(HexTrait::new(2, -3), 6);
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let h = HexTrait::new(n.into(), 2);
+            if bounds.is_in_bounds(h) {
+                acc += 1;
+            }
+            acc += h.x + bounds.center.y;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 20000000)]
+    fn bench_bounds_hex_count() {
+        let bounds = HexBoundsTrait::from_radius(64);
+        let mut acc: u32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            acc += bounds.hex_count() + bounds.hex_count32();
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 20000000)]
+    fn bench_bounds_wrap() {
+        let bounds = HexBoundsTrait::new(HexTrait::new(2, -3), 6);
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let h = bounds.wrap(HexTrait::new(30 + n.into(), -25));
+            acc += h.x + bounds.center.y;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 20000000)]
+    fn bench_bounds_wrap_local() {
+        let bounds = HexBoundsTrait::new(HexTrait::new(2, -3), 6);
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let h = bounds.wrap_local(HexTrait::new(30 + n.into(), -25));
+            acc += h.x + bounds.center.y;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 20000000)]
+    fn bench_bounds_from_min_max() {
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let b = HexBoundsTrait::from_min_max(HexTrait::new(-9, 4), HexTrait::new(n.into(), 7));
+            acc += b.center.x;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 20000000)]
+    fn bench_bounds_corners() {
+        let bounds = HexBoundsTrait::new(HexTrait::new(2, -3), 6);
+        let mut acc: i32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let [c0, _, _, _, _, _] = bounds.corners();
+            acc += c0.x + bounds.center.y;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 20000000)]
+    fn bench_bounds_all_coords() {
+        let bounds = HexBoundsTrait::new(HexTrait::new(2, -3), 6);
+        assert!(bounds.all_coords().len() == 127);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 20000000)]
+    fn bench_bounds_intersecting_with() {
+        let a = HexBoundsTrait::new(HexTrait::new(2, -3), 6);
+        let b = HexBoundsTrait::new(HexTrait::new(-1, 2), 6);
+        assert!(a.intersecting_with(b).len() > 0);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 20000000)]
+    fn bench_bounds_from_span_baseline() {
+        let mut seed: u64 = 99;
+        let span = OracleTrait::points(ref seed, 16, 20);
+        assert!(span.len() == 16);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 20000000)]
+    fn bench_bounds_from_span() {
+        let mut seed: u64 = 99;
+        let span = OracleTrait::points(ref seed, 16, 20);
+        assert!(HexBoundsTrait::from_span(span).radius > 0);
+    }
 }

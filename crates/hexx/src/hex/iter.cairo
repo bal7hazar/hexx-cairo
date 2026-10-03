@@ -86,3 +86,84 @@ pub impl HexSpanExtImpl of HexSpanExt {
         HexBoundsTrait::from_span(self)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    // Local imports
+
+    use crate::bounds::HexBoundsTrait;
+    use crate::hex::{Hex, HexTrait};
+    use super::HexSpanExt;
+
+    /// `hexx`'s documented examples: the average, centre and bounds of `ZERO.range(10)`; the
+    /// empty span gives the origin.
+    #[test]
+    #[available_gas(l2_gas: 100000000)]
+    fn test_span_ext() {
+        let span = HexTrait::ZERO.range(10);
+        assert!(span.average() == HexTrait::ZERO);
+        assert!(span.center() == HexTrait::ZERO);
+        let bounds = span.bounds();
+        assert!(bounds.center == HexTrait::ZERO && bounds.radius == 10);
+
+        let empty: Span<Hex> = array![].span();
+        assert!(empty.average() == HexTrait::ZERO);
+        assert!(empty.center() == HexTrait::ZERO);
+        assert!(empty.bounds() == HexBoundsTrait::from_radius(0));
+
+        let one = array![HexTrait::new(3, -5)].span();
+        assert!(one.average() == HexTrait::new(3, -5));
+    }
+
+    /// Oracle: the span of a bounds' corners has those bounds, and the centre of a symmetric span
+    /// is its centre.
+    #[test]
+    #[available_gas(l2_gas: 100000000)]
+    fn test_span_ext_oracle() {
+        let bounds = HexBoundsTrait::new(HexTrait::new(7, -4), 5);
+        let corners = bounds.corners();
+        assert!(corners.span().bounds() == bounds);
+        assert!(corners.span().center() == bounds.center);
+    }
+
+    // Benchmarks of M2-T5 (LIB-06), budgets placeholders until CI pins them (LIB-04i). Targets
+    // (`L`, `U = ceil(1.25 L)`), 16 points: `bounds` and `center` 168,904 / 211,130, `average`
+    // 92,317 / 115,397.
+
+    #[generate_trait]
+    impl FixtureImpl of FixtureTrait {
+        fn span16() -> Span<Hex> {
+            let mut hexes = array![];
+            let mut i: i32 = 0;
+            while i < 16 {
+                hexes.append(HexTrait::new(i * 3 - 20, 17 - i * 2));
+                i += 1;
+            }
+            hexes.span()
+        }
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 20000000)]
+    fn bench_iter_baseline() {
+        assert!(FixtureTrait::span16().len() == 16);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 20000000)]
+    fn bench_iter_average() {
+        assert!(FixtureTrait::span16().average().x != 1000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 20000000)]
+    fn bench_iter_center() {
+        assert!(FixtureTrait::span16().center().x != 1000);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 20000000)]
+    fn bench_iter_bounds() {
+        assert!(FixtureTrait::span16().bounds().radius != 1000);
+    }
+}
