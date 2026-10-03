@@ -11,3 +11,6 @@ points = 64
 spans = 16
 span_domain = 20
 span_max = 32
+
+# budgets: ceil(1.05 * measured)
+gas.golden_iter_spans = 20853084

@@ -13,7 +13,7 @@ use hexx::hex::iter::HexSpanExt;
 // `average`: the port's result equals `hexx`'s on every span.
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 20853084)]
 fn golden_iter_spans() {
     let lens: Array<u32> = array![
         0, 1, 64, 15, 14, 15, 7, 28, 10, 19, 2, 13, 7, 30, 18, 5, 28, 31, 4, 3, 6, 10, 15, 21, 28,

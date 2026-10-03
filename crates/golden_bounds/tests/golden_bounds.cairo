@@ -12,7 +12,7 @@ use hexx::{HexBounds, HexBoundsTrait};
 
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 2198459)]
 fn golden_bounds_constructors() {
     let cases: Array<(i32, i32, u32)> = array![
         (0, 0, 0), (-27, -14, 0), (-37, 37, 0), (-18, 36, 0), (7, 5, 0), (-7, -35, 0), (6, 27, 0),
@@ -37,7 +37,7 @@ fn golden_bounds_constructors() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 151851)]
 fn golden_bounds_hex_count() {
     let cases: Array<(u32, u32, usize)> = array![
         (0, 1, 1), (1, 7, 7), (2, 19, 19), (3, 37, 37), (4, 61, 61), (5, 91, 91), (6, 127, 127),
@@ -55,14 +55,14 @@ fn golden_bounds_hex_count() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_bounds_hex_count_overflow() {
     let _ = HexBoundsTrait::from_radius(37837).hex_count32();
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 126546)]
 fn golden_bounds_positive_radius() {
     let cases: Array<(u32, i32, i32)> = array![
         (0, 0, 0), (1, 1, 1), (2, 2, 2), (3, 3, 3), (4, 4, 4), (5, 5, 5), (6, 6, 6), (64, 64, 64),
@@ -78,14 +78,14 @@ fn golden_bounds_positive_radius() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 7991)]
 #[should_panic]
 fn golden_bounds_positive_radius_above_i32() {
     let _ = HexBoundsTrait::positive_radius(2147483648);
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 181986)]
 fn golden_bounds_all_coords_r0() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -111,7 +111,7 @@ fn golden_bounds_all_coords_r0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 467376)]
 fn golden_bounds_corners_r0() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -142,7 +142,7 @@ fn golden_bounds_corners_r0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12583589)]
 fn golden_bounds_is_in_bounds_r0() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -175,7 +175,7 @@ fn golden_bounds_is_in_bounds_r0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 36246179)]
 fn golden_bounds_wrap_r0() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -267,7 +267,7 @@ fn golden_bounds_wrap_r0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 35457377)]
 fn golden_bounds_wrap_local_r0() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -347,7 +347,7 @@ fn golden_bounds_wrap_local_r0() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 948171)]
 fn golden_bounds_all_coords_r1() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -379,7 +379,7 @@ fn golden_bounds_all_coords_r1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 734118)]
 fn golden_bounds_corners_r1() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -410,7 +410,7 @@ fn golden_bounds_corners_r1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12748796)]
 fn golden_bounds_is_in_bounds_r1() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -443,7 +443,7 @@ fn golden_bounds_is_in_bounds_r1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 37160813)]
 fn golden_bounds_wrap_r1() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -535,7 +535,7 @@ fn golden_bounds_wrap_r1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 35754611)]
 fn golden_bounds_wrap_local_r1() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -618,7 +618,7 @@ fn golden_bounds_wrap_local_r1() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 3084438)]
 fn golden_bounds_all_coords_r2() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -661,7 +661,7 @@ fn golden_bounds_all_coords_r2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 734118)]
 fn golden_bounds_corners_r2() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -692,7 +692,7 @@ fn golden_bounds_corners_r2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12747200)]
 fn golden_bounds_is_in_bounds_r2() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -728,7 +728,7 @@ fn golden_bounds_is_in_bounds_r2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 38439713)]
 fn golden_bounds_wrap_r2() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -820,7 +820,7 @@ fn golden_bounds_wrap_r2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 35931011)]
 fn golden_bounds_wrap_local_r2() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -904,7 +904,7 @@ fn golden_bounds_wrap_local_r2() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 8041215)]
 fn golden_bounds_all_coords_r3() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -964,7 +964,7 @@ fn golden_bounds_all_coords_r3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 734118)]
 fn golden_bounds_corners_r3() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -995,7 +995,7 @@ fn golden_bounds_corners_r3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12742412)]
 fn golden_bounds_is_in_bounds_r3() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -1031,7 +1031,7 @@ fn golden_bounds_is_in_bounds_r3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 39914123)]
 fn golden_bounds_wrap_r3() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -1123,7 +1123,7 @@ fn golden_bounds_wrap_r3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 36195611)]
 fn golden_bounds_wrap_local_r3() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -1208,7 +1208,7 @@ fn golden_bounds_wrap_local_r3() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 17995782)]
 fn golden_bounds_all_coords_r4() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -1290,7 +1290,7 @@ fn golden_bounds_all_coords_r4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 734118)]
 fn golden_bounds_corners_r4() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -1321,7 +1321,7 @@ fn golden_bounds_corners_r4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12728048)]
 fn golden_bounds_is_in_bounds_r4() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -1357,7 +1357,7 @@ fn golden_bounds_is_in_bounds_r4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 41160683)]
 fn golden_bounds_wrap_r4() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -1449,7 +1449,7 @@ fn golden_bounds_wrap_r4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 36533711)]
 fn golden_bounds_wrap_local_r4() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -1534,7 +1534,7 @@ fn golden_bounds_wrap_local_r4() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 35851179)]
 fn golden_bounds_all_coords_r5() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -1644,7 +1644,7 @@ fn golden_bounds_all_coords_r5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 734118)]
 fn golden_bounds_corners_r5() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -1675,7 +1675,7 @@ fn golden_bounds_corners_r5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12713684)]
 fn golden_bounds_is_in_bounds_r5() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -1711,7 +1711,7 @@ fn golden_bounds_is_in_bounds_r5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 41488493)]
 fn golden_bounds_wrap_r5() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -1803,7 +1803,7 @@ fn golden_bounds_wrap_r5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 36974711)]
 fn golden_bounds_wrap_local_r5() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -1888,7 +1888,7 @@ fn golden_bounds_wrap_local_r5() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 65068626)]
 fn golden_bounds_all_coords_r6() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -2032,7 +2032,7 @@ fn golden_bounds_all_coords_r6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 734118)]
 fn golden_bounds_corners_r6() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -2063,7 +2063,7 @@ fn golden_bounds_corners_r6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12704108)]
 fn golden_bounds_is_in_bounds_r6() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -2099,7 +2099,7 @@ fn golden_bounds_is_in_bounds_r6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 42022103)]
 fn golden_bounds_wrap_r6() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -2192,7 +2192,7 @@ fn golden_bounds_wrap_r6() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 37489211)]
 fn golden_bounds_wrap_local_r6() {
     let centers: Array<(i32, i32)> = array![
         (0, 0), (-27, -14), (-37, 37), (-18, 36), (7, 5), (-7, -35), (6, 27), (27, -2),
@@ -2279,7 +2279,7 @@ fn golden_bounds_wrap_local_r6() {
 // `from_min_max`: 0 of the 256 pairs hit a deviation of `div_scalar`.
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 112399896)]
 fn golden_bounds_from_min_max() {
     let cases: Array<(i32, i32, i32, i32, i32, i32, u32)> = array![
         (-27, -13, -27, -13, -27, -13, 0), (-27, -13, -11, -30, -19, -21, 9),
@@ -2403,7 +2403,7 @@ fn golden_bounds_from_min_max() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 75864485)]
 fn golden_bounds_intersecting_with() {
     let all: Array<(i32, i32, u32)> = array![
         (-6, -1, 3), (-5, 1, 3), (-6, 4, 6), (2, -3, 0), (3, 6, 5), (2, -5, 5), (1, -1, 2),
@@ -2555,7 +2555,7 @@ fn golden_bounds_intersecting_with() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 12796088)]
 fn golden_bounds_from_span() {
     let lens: Array<u32> = array![
         0, 1, 64, 15, 14, 15, 7, 28, 10, 19, 2, 13, 7, 30, 18, 5, 28, 31, 4, 3, 6, 10, 15, 21, 28,
