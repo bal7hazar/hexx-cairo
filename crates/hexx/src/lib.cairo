@@ -14,6 +14,7 @@ pub use board::direction::{Arc, Direction};
 pub use board::map::{HexMap, HexMapTrait};
 
 pub mod bounds;
+pub use bounds::{HexBounds, HexBoundsTrait};
 
 pub mod conversions;
 pub use conversions::{DoubledHexMode, HexConversionsTrait, OffsetHexMode};
@@ -30,6 +31,8 @@ pub mod generators;
 // The free function `hex` is `hexx::hex::hex`: the root cannot re-export it, a module and a
 // function cannot share the name `hex` there (E2118, plan §2.4); see the deviation of `hex`.
 pub mod hex;
+pub use hex::grid::edge::{GridEdge, GridEdgeTrait};
+pub use hex::grid::vertex::{GridVertex, GridVertexTrait};
 pub use hex::{Hex, HexTrait};
 
 pub mod orientation;

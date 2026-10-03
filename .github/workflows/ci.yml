@@ -148,6 +148,8 @@ jobs:
           - { package: consumer, partition: "1/1" }
           # The golden vectors of tools/refgen (LIB-04h): one package per test target, so that no
           # compile needs more than ~8 GB (AGENTS.md, "Golden tests").
+          - { package: golden_bounds, partition: "1/1" }
+          - { package: golden_grid, partition: "1/1" }
           - { package: golden_hex, partition: "1/1" }
           - { package: golden_hex_t2, partition: "1/1" }
           - { package: golden_impls, partition: "1/1" }
@@ -235,7 +237,9 @@ jobs:
           - {package: hexx, scope: ignored, partition: "3/3", tag: -p3of3, label: hexx ignored 3/3}
           - {package: takeover_tests, scope: all, label: takeover_tests}
           - {package: consumer, scope: all, label: consumer}
+          - {package: golden_grid, scope: all, label: golden_grid}
           - {package: golden_hex, scope: all, label: golden_hex}
+          - {package: golden_bounds, scope: all, label: golden_bounds}
           - {package: golden_hex_t2, scope: all, label: golden_hex_t2}
           - {package: golden_impls, scope: all, label: golden_impls}
           - {package: golden_lm1, scope: all, label: golden_lm1}
