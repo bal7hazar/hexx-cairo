@@ -67,6 +67,23 @@ the `test` and `gas` matrices of `.github/workflows/ci.yml`, `gas/<package>.snap
 package-list test of `scripts/tests/test_bench_gate_split.py`, in the same change. A new build is
 measured under `prlimit --as=8589934592` only, never uncapped.
 
+### Gas pins from CI
+
+The pins of `hexx` (`gas/hexx.snap`, its budgets) are never built uncapped on the VPS, and its test
+target fails there under the cap: CI's Linux run is their source (LIB-04i). Every CI run that
+measures gas publishes the artefact `gas-pins-<head sha>` (job `Gas completeness hexx regular`),
+even when the gas check failed: the regenerated `gas/*.snap` of every package measured completely,
+`gas/bytecode.size`, `budgets.json` (each test whose `#[available_gas(l2_gas: N)]` is missing or
+outside the rule, with `ceil(1.05 × measured)`) and `manifest.json` (head, merge commit and base
+measured; packages not assembled; tests that ran with no measurement). Push the change with no
+budget on a new test (or a generous one: a budget too low fails the test before it is measured),
+then `gh run download <run-id> -n gas-pins-<head sha> -D <scratch dir>`, `python3 scripts/bench.py
+apply-pins <scratch dir>` (writes `gas/` and the budgets; prints those of the generated
+`crates/golden_*` files for the spec of `tools/refgen`, and exits 1 on anything left to do),
+`python3 scripts/gas_tables.py`, `scarb fmt --workspace`, commit and push: CI then confirms. The
+figures are of the merge of the head into the base named in the manifest: if `main` moved since,
+the confirming run says whether they still hold.
+
 ## Before you push
 
 | When | Run |

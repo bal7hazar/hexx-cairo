@@ -8,7 +8,9 @@ usage:
   scripts/bytecode_size.py [table]    build crates/consumer (release), print the size table
   scripts/bytecode_size.py snapshot   same, then write gas/bytecode.size
   scripts/bytecode_size.py check      same, then diff against gas/bytecode.size; exit 1 on ANY
-                                       difference
+                                       difference. It first writes what it measured to
+                                       target/gas-artifacts/consumer/bytecode.size (`MEASURED`),
+                                       which CI publishes as the pin of the run (LIB-04i)
 
 Measured quantities, per contract (see the `LIMITS` block for their source):
   sierra_felts  length of `sierra_program` in `*.contract_class.json`
@@ -31,6 +33,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PACKAGE = "consumer"
 SNAPSHOT = ROOT / "gas" / "bytecode.size"
+MEASURED = ROOT / "target" / "gas-artifacts" / PACKAGE / "bytecode.size"
 METRICS = ["sierra_felts", "casm_felts", "sierra_bytes", "casm_bytes"]
 HEADER = "# contract: " + " ".join(METRICS)
 
@@ -118,11 +121,11 @@ def read_snapshot() -> dict[str, dict[str, int]]:
     return snap
 
 
-def write_snapshot(rows: dict[str, dict[str, int]]) -> None:
-    SNAPSHOT.parent.mkdir(exist_ok=True)
+def write_snapshot(rows: dict[str, dict[str, int]], path: Path = SNAPSHOT) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
     lines = [HEADER] + [f"{n}: " + " ".join(str(rows[n][m]) for m in METRICS) for n in sorted(rows)]
-    SNAPSHOT.write_text("\n".join(lines) + "\n")
-    print(f"wrote {SNAPSHOT.relative_to(ROOT)}", file=sys.stderr)
+    path.write_text("\n".join(lines) + "\n")
+    print(f"wrote {path.relative_to(ROOT)}", file=sys.stderr)
 
 
 def fixtures() -> dict[str, dict[str, int]]:
@@ -140,6 +143,7 @@ def main() -> int:
     if a.cmd == "snapshot":
         write_snapshot(rows)
     elif a.cmd == "check":
+        write_snapshot(rows, MEASURED)
         snap, bad = read_snapshot(), []
         for name in sorted(set(rows) | set(snap)):
             new, old = rows.get(name), snap.get(name)
