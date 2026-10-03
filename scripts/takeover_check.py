@@ -91,6 +91,16 @@ OWN_FILES: tuple[str, ...] = (
     "src/board/seams.cairo",
     # M1-T5, N-6
     "src/board/hexagon.cairo",
+    # L-M2 (LIB-06): golden vectors
+    "tests/golden_impls.cairo",
+    "tests/golden_swizzle.cairo",
+    "tests/golden_euclidean.cairo",
+    "tests/golden_convert.cairo",
+    "tests/golden_rings.cairo",
+    "tests/golden_bounds.cairo",
+    "tests/golden_iter.cairo",
+    "tests/golden_shapes.cairo",
+    "tests/golden_grid.cairo",
 )
 
 # Moved files that a task of L-M1 has EXTENDED: they are checked in additions-only mode. Every

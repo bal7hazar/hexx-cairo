@@ -9,13 +9,22 @@
 //! `specs/*.toml` here is a deliberately small, flat format (`key = value` lines, no nesting),
 //! parsed by `spec::load` without an external crate.
 
+mod bounds;
 mod cairo;
 mod conversions;
+mod convert;
 mod direction;
+mod euclidean;
+mod grid;
 mod hex;
 mod hexagon;
+mod impls;
+mod iter;
 mod line;
+mod rings;
+mod shapes;
 mod spec;
+mod swizzle;
 
 use std::env;
 use std::fs;
@@ -99,6 +108,18 @@ fn run() -> Result<bool, String> {
                     "line" => line::emit(spec, &root)?,
                     // The tables of `board/hexagon.cairo` and the band `ROW_FROM_16` of `board/tables.cairo`
                     "hexagon" => hexagon::emit(spec, &root)?,
+                    // The generators of L-M2 (LIB-06): registered here by M2-T0, filled by the
+                    // task that owns the module (M2-T3: impls, swizzle, euclidean, convert;
+                    // M2-T4: rings; M2-T5: bounds, iter; M2-T6: shapes; M2-T7: grid)
+                    "impls" => impls::emit(spec, &root)?,
+                    "swizzle" => swizzle::emit(spec, &root)?,
+                    "euclidean" => euclidean::emit(spec, &root)?,
+                    "convert" => convert::emit(spec, &root)?,
+                    "rings" => rings::emit(spec, &root)?,
+                    "bounds" => bounds::emit(spec, &root)?,
+                    "iter" => iter::emit(spec, &root)?,
+                    "shapes" => shapes::emit(spec, &root)?,
+                    "grid" => grid::emit(spec, &root)?,
                     other => return Err(format!("no generator registered for module {other:?}")),
                 };
                 for (path, text) in outputs {

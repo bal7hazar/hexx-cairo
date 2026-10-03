@@ -13,6 +13,8 @@ pub mod board;
 pub use board::direction::{Arc, Direction};
 pub use board::map::{HexMap, HexMapTrait};
 
+pub mod bounds;
+
 pub mod conversions;
 pub use conversions::{HexConversionsTrait, OffsetHexMode};
 
@@ -20,13 +22,18 @@ pub mod direction;
 pub use direction::edge_direction::{EdgeDirection, EdgeDirectionTrait};
 
 pub mod finders;
+
 pub mod generators;
 
+// The free function `hex` is `hexx::hex::hex`: the root cannot re-export it, a module and a
+// function cannot share the name `hex` there (E2118, plan §2.4); see the deviation of `hex`.
 pub mod hex;
 pub use hex::{Hex, HexTrait};
 
 pub mod orientation;
 pub use orientation::HexOrientation;
+
+pub mod shapes;
 
 #[cfg(test)]
 pub mod tests;

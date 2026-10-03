@@ -229,6 +229,15 @@ RULES = (
          "one (reversible, plan §12)."),
     rule("Hex", r"impl:Sh[lr]<(?:i8|i16|i32|u8|u16|u32|Hex)>$", "dropped",
          "same reason: no shifts on signed integers in the corelib."),
+    # The two rows the generated table schedules for L-M2 although plan §4.4 excludes them.
+    rule("Hex", r"impl:Shl$", "dropped",
+         "same reason: no shifts on signed integers in the corelib."),
+    rule("Hex", r"method:lerp$", "dropped", "`f32` parameter."),
+    # `DirectionWay`'s `PartialEq<T>` (src/direction/way.rs:42) is `self.contains(other)`;
+    # Cairo's `PartialEq` is homogeneous.
+    rule("DirectionWay", r"impl:PartialEq<T>$", "renamed",
+         "Cairo's PartialEq is homogeneous; the named contains(direction) is the operator's "
+         "body — nothing to add.", replacement=("method", "contains")),
     # direction: f32 angle functions (both EdgeDirection and VertexDirection carry the same 18
     # names, src/direction/edge_direction.rs, vertex_direction.rs).
     rule("EdgeDirection|VertexDirection",
@@ -1377,7 +1386,24 @@ CAIRO_BINARY_TRAITS = ("Add", "Sub", "Mul", "Div", "Rem", "AddAssign", "SubAssig
 # Cairo module path -> the owner of *every* declaration of that module file, with bare
 # (unscoped) member names: `conversions.rs` is `impl Hex` blocks, and the parity table groups it
 # under the owner `conversions` (`MODULE_OWNER`), so its Cairo counterpart module does too.
-CAIRO_MODULE_OWNER: dict[tuple[str, ...], str] = {("conversions",): "conversions"}
+CAIRO_MODULE_OWNER: dict[tuple[str, ...], str] = {
+    ("conversions",): "conversions",
+    # L-M2 (LIB-06 M2-T0): `hex.cairo` and its children hold the `impl Hex` blocks of
+    # `src/hex/{mod,impls,rings,swizzle,euclidean,convert}.rs`, so a trait such as
+    # `HexRingsTrait` and the free function `hex` count for their owner, whatever the trait is
+    # called (`owner_of` otherwise drops a trait whose name minus `Trait` is not an owner).
+    ("hex",): "Hex",
+    ("hex", "impls"): "Hex",
+    ("hex", "rings"): "Hex",
+    ("hex", "swizzle"): "Hex",
+    ("hex", "euclidean"): "Hex",
+    ("hex", "convert"): "Hex",
+    ("hex", "iter"): "HexSpanExt",
+    ("hex", "grid", "edge"): "GridEdge",
+    ("hex", "grid", "vertex"): "GridVertex",
+    ("bounds",): "HexBounds",
+    ("shapes",): "shapes",
+}
 
 
 def build_cairo_tree():

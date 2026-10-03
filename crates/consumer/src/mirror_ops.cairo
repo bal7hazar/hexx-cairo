@@ -1,0 +1,1 @@
+//! The call sites of the operators, swizzles and conversions of `Hex` (`hexx::hex::{impls, swizzle, euclidean, convert}`, `hexx::conversions`), written by M2-T3 (LIB-06): one per public item, so that the tracked class size follows them. Empty until then.
