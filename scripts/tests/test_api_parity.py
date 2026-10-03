@@ -1129,12 +1129,7 @@ class CairoImplItemsAndConversionsOwner(FixtureTreeCase):
         reachable = ap.compute_reachable_modules(nodes, cfg_exempt=frozenset())
         bridged, globs, _used = ap.collect_use_statements(nodes, reachable)
 
-        def owner_of(path, name):
-            if path in ap.CAIRO_MODULE_OWNER:
-                return ap.CAIRO_MODULE_OWNER[path]
-            return name if name in ap.OWNERS else None
-
-        return ap.scan_cairo_tree(nodes, reachable, bridged, globs, owner_of,
+        return ap.scan_cairo_tree(nodes, reachable, bridged, globs, ap.cairo_owner_of,
                                   bare_owners=frozenset(ap.CAIRO_MODULE_OWNER.values()))
 
     ORIENTATION = (
@@ -1216,6 +1211,60 @@ class CairoImplItemsAndConversionsOwner(FixtureTreeCase):
                 "pub impl HexOther of HexTrait {\n    fn b(self: Hex) -> i32 { 1 }\n}\n")
         keys = {i.key for i in self.scan({"orientation.cairo": text})}
         self.assertIn(("Hex", "method", "b"), keys)
+
+
+class CairoDirectionFormsOfL_M2(FixtureTreeCase):
+    """M2-T1: the forms of `direction` that the scan had to learn: an `impl` head with a generic
+    first argument (`Into<T, DirectionWay<T>>`), a method whose generics hold a tuple
+    (`DirectionWayTrait::map`), `Debug` as a unary trait, and the `<Type>OpsTrait` owner."""
+
+    scan = CairoImplItemsAndConversionsOwner.scan
+
+    def keys(self, text: str, module: str = "direction"):
+        return {i.key for i in self.scan({module + ".cairo": text}, root_text=f"pub mod {module};\n")}
+
+    def test_generic_into_belongs_to_its_target(self) -> None:
+        keys = self.keys(
+            "pub enum DirectionWay<T> {\n    Single: T,\n    Tie: [T; 2],\n}\n"
+            "pub impl DirectionWayFromSingle<T> of Into<T, DirectionWay<T>> {\n"
+            "    fn into(self: T) -> DirectionWay<T> { DirectionWay::Single(self) }\n}\n"
+            "pub impl DirectionWayFromTie<T> of Into<[T; 2], DirectionWay<T>> {\n"
+            "    fn into(self: [T; 2]) -> DirectionWay<T> { DirectionWay::Tie(self) }\n}\n")
+        self.assertIn(("DirectionWay", "impl", "From<T> for DirectionWay"), keys)
+        self.assertIn(("DirectionWay", "impl", "From<[T;2]> for DirectionWay"), keys)
+
+    def test_a_concrete_into_still_belongs_to_its_source(self) -> None:
+        keys = self.keys("pub struct EdgeDirection {\n    index: u8,\n}\n"
+                         "pub impl EdgeDirectionIntoHex of Into<EdgeDirection, Hex> {\n"
+                         "    fn into(self: EdgeDirection) -> Hex { Hex {} }\n}\n")
+        self.assertIn(("EdgeDirection", "impl", "From<EdgeDirection> for Hex"), keys)
+
+    def test_a_method_with_a_tuple_in_its_generics_is_found(self) -> None:
+        keys = self.keys(
+            "pub trait DirectionWayTrait<T> {\n"
+            "    fn map<F, +Drop<F>, impl Func: core::ops::Fn<F, (T,)>, +Drop<Func::Output>>(\n"
+            "        self: DirectionWay<T>, func: F,\n    ) -> DirectionWay<Func::Output>;\n"
+            "    fn unwrap<+Drop<T>>(self: DirectionWay<T>) -> T;\n}\n")
+        self.assertIn(("DirectionWay", "method", "map"), keys)
+        self.assertIn(("DirectionWay", "method", "unwrap"), keys)
+
+    def test_a_public_debug_impl_is_read_not_an_abort(self) -> None:
+        keys = self.keys("pub struct VertexDirection {\n    index: u8,\n}\n"
+                         "pub impl VertexDirectionDebug of Debug<VertexDirection> {\n"
+                         "    fn fmt(self: @VertexDirection, ref f: Formatter) -> Result<(), Error> {"
+                         " Ok(()) }\n}\n")
+        self.assertIn(("VertexDirection", "impl", "Debug"), keys)
+
+    def test_an_ops_trait_counts_for_its_type_with_bare_names(self) -> None:
+        text = ("pub trait EdgeDirectionOpsTrait {\n"
+                "    fn mul_scalar(self: EdgeDirection, rhs: i32) -> Hex;\n}\n"
+                "pub impl EdgeDirectionOpsImpl of EdgeDirectionOpsTrait {\n"
+                "    fn mul_scalar(self: EdgeDirection, rhs: i32) -> Hex { Hex {} }\n}\n")
+        keys = self.keys(text)
+        self.assertIn(("EdgeDirection", "method", "mul_scalar"), keys)
+        self.assertEqual("EdgeDirection", ap.cairo_owner_of(("direction", "impls"), "EdgeDirectionOps"))
+        self.assertEqual("VertexDirection", ap.cairo_owner_of(("x",), "VertexDirectionOps"))
+        self.assertIsNone(ap.cairo_owner_of(("x",), "FooOps"))
 
 
 class CairoModuleOwnersOfL_M2(FixtureTreeCase):

@@ -26,6 +26,7 @@
 //! `hexx`'s iterator (`iter`, `impl ExactSizeIterator`) is an eager `Span` here: a `Span` is the
 //! iterator of Cairo (plan §4.4, "Span" counterparts).
 
+use core::fmt::{Debug, Error, Formatter};
 use crate::direction::vertex_direction::{VertexDirection, VertexDirectionIndexTrait};
 use crate::hex::{Hex, HexTrait};
 
@@ -788,8 +789,8 @@ pub(crate) impl EdgeDirectionIndexImpl of EdgeDirectionIndexTrait {
 /// `Debug` of `EdgeDirection`, as `hexx`'s: `EdgeDirection { index: 0, x: 1, y: 0, z: -1 }`.
 ///
 /// Mirrors `impl Debug for EdgeDirection` (`src/direction/edge_direction.rs:635`).
-impl EdgeDirectionDebug of core::fmt::Debug<EdgeDirection> {
-    fn fmt(self: @EdgeDirection, ref f: core::fmt::Formatter) -> Result<(), core::fmt::Error> {
+pub impl EdgeDirectionDebug of Debug<EdgeDirection> {
+    fn fmt(self: @EdgeDirection, ref f: Formatter) -> Result<(), Error> {
         let c = (*self).into_hex();
         write!(
             f, "EdgeDirection {{ index: {}, x: {}, y: {}, z: {} }}", *self.index, c.x, c.y, c.z(),

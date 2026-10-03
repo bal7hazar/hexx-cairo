@@ -16,7 +16,9 @@ use crate::hex::{Hex, HexTrait};
 ///
 /// #### Deviations
 ///
-/// None.
+/// The operator is a trait impl that Cairo resolves from the scope: a consumer imports
+/// `EdgeDirectionNeg`
+/// (`use hexx::direction::impls::EdgeDirectionNeg;`) to write `-direction`.
 pub impl EdgeDirectionNeg of Neg<EdgeDirection> {
     #[inline]
     fn neg(a: EdgeDirection) -> EdgeDirection {
@@ -34,7 +36,9 @@ pub impl EdgeDirectionNeg of Neg<EdgeDirection> {
 ///
 /// #### Deviations
 ///
-/// None.
+/// The operator is a trait impl that Cairo resolves from the scope: a consumer imports
+/// `VertexDirectionNeg`
+/// (`use hexx::direction::impls::VertexDirectionNeg;`) to write `-direction`.
 pub impl VertexDirectionNeg of Neg<VertexDirection> {
     #[inline]
     fn neg(a: VertexDirection) -> VertexDirection {

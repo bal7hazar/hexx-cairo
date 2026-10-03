@@ -13,6 +13,7 @@
 //! iterator of Cairo (plan §4.4, "Span" counterparts). The 18 angle functions of `hexx` (`f32`)
 //! are excluded (plan §4.4).
 
+use core::fmt::{Debug, Error, Formatter};
 use crate::direction::edge_direction::{EdgeDirection, EdgeDirectionIndexTrait};
 use crate::hex::{Hex, HexTrait};
 
@@ -61,8 +62,8 @@ impl VertexDirectionSerde of Serde<VertexDirection> {
 /// `Debug` of `VertexDirection`, as `hexx`'s: `VertexDirection { index: 0, x: 2, y: -1, z: -1 }`.
 ///
 /// Mirrors `impl Debug for VertexDirection` (`src/direction/vertex_direction.rs:637`).
-impl VertexDirectionDebug of core::fmt::Debug<VertexDirection> {
-    fn fmt(self: @VertexDirection, ref f: core::fmt::Formatter) -> Result<(), core::fmt::Error> {
+pub impl VertexDirectionDebug of Debug<VertexDirection> {
+    fn fmt(self: @VertexDirection, ref f: Formatter) -> Result<(), Error> {
         let c = (*self).into_hex();
         write!(
             f, "VertexDirection {{ index: {}, x: {}, y: {}, z: {} }}", *self.index, c.x, c.y, c.z(),
