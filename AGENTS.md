@@ -57,8 +57,8 @@ line count (LIB-04h, measured on the VPS, single-threaded, capped at 8 GB: 3,241
 5,119 lines 2.0 GB, 11,156 lines 5.0 GB, 13,765 lines 6.0 GB). So the golden files live in the
 unpublished packages `crates/golden_*`, never in `crates/hexx/tests/` (`scripts/takeover_check.py`
 rejects one there): `golden_hex` (hex), `golden_impls` (impls), `golden_lm1` (conversions,
-direction, line; closed), `golden_lm2` (euclidean, swizzle, convert). Budget: the `tests/` of a
-package holds at most 8,000 lines, for a peak under ~4 GB; one generated file above that takes a
+direction, line; closed), `golden_lm2` (euclidean, swizzle, convert), `golden_hex_t2` (the M2-T2 vectors of `hex`).
+Budget: the `tests/` of a package holds at most 8,000 lines, for a peak under ~4 GB; one generated file above that takes a
 package of its own and never exceeds 14,000 lines (split its generator's output first). A new
 golden file goes into `golden_lm2` while its total stays within 8,000 lines (room for about 4,700
 lines of M2-T4 to M2-T7), else into a new package `crates/golden_<module>`. Its spec's
@@ -66,6 +66,24 @@ lines of M2-T4 to M2-T7), else into a new package `crates/golden_<module>`. Its 
 the `test` and `gas` matrices of `.github/workflows/ci.yml`, `gas/<package>.snap` and the
 package-list test of `scripts/tests/test_bench_gate_split.py`, in the same change. A new build is
 measured under `prlimit --as=8589934592` only, never uncapped.
+
+### Gas pins from CI
+
+The pins of `hexx` (`gas/hexx.snap`, its budgets) are never built uncapped on the VPS, and its test
+target fails there under the cap: CI's Linux run is their source (LIB-04i). Every CI run that
+measures gas publishes the artefact `gas-pins-<head sha>` (job `Gas completeness hexx regular`),
+even when the gas check failed: the regenerated `gas/*.snap` of every package measured completely,
+`gas/bytecode.size`, `budgets.json` (each test whose `#[available_gas(l2_gas: N)]` is missing or
+outside the rule, with `ceil(1.05 × measured)`) and `manifest.json` (head, merge commit and base
+measured; packages not assembled; tests that failed or ran with no measurement). Push the change with no
+budget on a new test (or a generous one: a budget too low fails the test before it is measured),
+then `gh run download <run-id> -n gas-pins-<head sha> -D <scratch dir>`, `python3 scripts/bench.py
+apply-pins <scratch dir>` (writes `gas/` and the budgets; prints those of the generated
+`crates/golden_*` files for the spec of `tools/refgen`, and exits 1 on anything left to do),
+`python3 scripts/gas_tables.py`, `scarb fmt --workspace`, commit and push: CI then confirms. The
+figures are of the merge of the head into the base named in the manifest: `apply-pins` refuses
+pins of another head than `HEAD`, and prints a `WARNING` line when that base is not `origin/main`;
+read it, and on a stale base re-run CI on the head before applying.
 
 ## Before you push
 
