@@ -32,12 +32,14 @@ const SIX: NonZero<u8> = 6;
 /// #### Deviations
 ///
 /// Cairo has no tuple structs: the field is named `index`. It stays private so that `index()` is
-/// the only reader, as `pub(crate)` is in `hexx` (plan §3.2). `Hash` is derived as a matter of
-/// course (plan §2.3). `Debug` is written by hand and prints what `hexx`'s does
-/// (`VertexDirection { index: 0, x: 2, y: -1, z: -1 }`, `src/direction/vertex_direction.rs:637`).
-/// `Serde` is written by hand: `deserialize` returns `None` for an index above 5, so that a value
-/// read from calldata is always one of the six directions (a derived `Serde` would accept any
-/// `u8`, and `rotate_cw` and `into_hex` would leave `0..=5`).
+/// the only reader, as `pub(crate)` is in `hexx` (plan §3.2). `Default` (index 0) and `Hash` are
+/// derived, as in `hexx` (`src/direction/vertex_direction.rs:67-68`). `Debug` is written by hand
+/// and prints what `hexx`'s does (`VertexDirection { index: 0, x: 2, y: -1, z: -1 }`,
+/// `src/direction/vertex_direction.rs:637`). `Serde` is written by hand: `deserialize` returns
+/// `None` for an index above 5, so that a value read from calldata is always one of the six
+/// directions. A derived `Serde` would accept any `u8`, as `hexx`'s `serde` derive does (feature
+/// `serde`); `into_hex` would then panic on its table of six entries, and `rotate_cw` could return
+/// an index outside `0..=5`.
 #[derive(Copy, Drop, PartialEq, Default, Hash)]
 pub struct VertexDirection {
     index: u8,
@@ -740,7 +742,7 @@ pub trait VertexDirectionTrait {
     ///
     /// #### Deviations
     ///
-    /// `hexx` returns `[EdgeDirection; 2]`; so does this port (a fixed-size array).
+    /// None.
     fn edge_directions(self: VertexDirection) -> [EdgeDirection; 2];
 }
 
