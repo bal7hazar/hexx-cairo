@@ -75,10 +75,10 @@ pub trait ParallelogramTrait {
     /// #### Deviations
     ///
     /// A `Span<Hex>` instead of an `ExactSizeIterator`, whose length is always the number of hexes:
-    /// `hexx` reports the count `(max.x − min.x + 1) · (max.y − min.y + 1)` that it computes up
-    /// front in `i32` (`src/shapes.rs:46`), which is false on crossed bounds (4 for the 0 hexes of
-    /// `parallelogram((3, 3), (0, 0))`). Crossed bounds (`max.x < min.x` or `max.y < min.y`) give
-    /// an empty span here, with no arithmetic, as they give no hex in `hexx`'s release build;
+    /// `hexx` reports the count `(max.x − min.x + 1) · (max.y − min.y + 1)` that it computes
+    /// up front in `i32` (`src/shapes.rs:46`), which is false on crossed bounds (4 for the 0 hexes
+    /// of `parallelogram((3, 3), (0, 0))`). Crossed bounds (`max.x < min.x` or `max.y < min.y`)
+    /// give an empty span here, with no arithmetic, as they give no hex in `hexx`'s release build;
     /// `hexx`'s debug build panics there instead when that count leaves `i32`
     /// (`parallelogram((0, 0), (-46342, -46342))`: `(−46,341)² > i32::MAX`).
     fn coords(self: Parallelogram) -> Span<Hex>;
@@ -114,8 +114,8 @@ pub impl ParallelogramImpl of ParallelogramTrait {
 /// #### Deviations
 ///
 /// A `Span<Hex>` instead of an `ExactSizeIterator`, whose length is always the number of hexes:
-/// `hexx` reports the count `(max.x − min.x + 1) · (max.y − min.y + 1)` that it computes up front
-/// in `i32` (`src/shapes.rs:46`), which is false on crossed bounds (4 for the 0 hexes of
+/// `hexx` reports the count `(max.x − min.x + 1) · (max.y − min.y + 1)` that it computes up
+/// front in `i32` (`src/shapes.rs:46`), which is false on crossed bounds (4 for the 0 hexes of
 /// `parallelogram((3, 3), (0, 0))`). Crossed bounds (`max.x < min.x` or `max.y < min.y`) give an
 /// empty span here, with no arithmetic, as they give no hex in `hexx`'s release build; `hexx`'s
 /// debug build panics there instead when that count leaves `i32`
@@ -247,11 +247,12 @@ pub impl TriangleImpl of TriangleTrait {
 /// #### Deviations
 ///
 /// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` never casts `size`: it casts only the
-/// loop indices, `Hex::new(x as i32, y as i32)` with `x, y ≤ size` (`src/shapes.rs:98`), which wrap
-/// above `i32::MAX` in either build, and it computes the length `wedge_count(size)` in `u32` up
-/// front (`:99`), on which its debug build panics from `size = 65,535` (its release build wraps
+/// loop indices, `Hex::new(x as i32, y as i32)` with `x, y ≤ size` (`src/shapes.rs:98`), which
+/// wrap above `i32::MAX` in either build, and it computes the length `wedge_count(size)` in `u32`
+/// up front (`:99`), on which its debug build panics from `size = 65,535` (its release build wraps
 /// that length and yields the hexes). This port converts `size` to `i32` up front and panics above
-/// `i32::MAX`; for `65,535 ≤ size ≤ i32::MAX` it runs out of gas where `hexx`'s debug build panics.
+/// `i32::MAX`; for `65,535 ≤ size ≤ i32::MAX` it runs out of gas where `hexx`'s debug build
+/// panics.
 pub fn triangle(size: u32) -> Span<Hex> {
     let size: i32 = size.try_into().unwrap();
     let mut out = array![];
@@ -572,8 +573,8 @@ pub trait PointyRectangleTrait {
     /// #### Deviations
     ///
     /// A `Span<Hex>` instead of an `ExactSizeIterator`, whose length is always the number of hexes:
-    /// `hexx` reports the count `(right − left + 1) · (bottom − top + 1)` that it computes up front
-    /// in `i32` (`src/shapes.rs:246`), which is false on crossed bounds. Crossed bounds
+    /// `hexx` reports the count `(right − left + 1) · (bottom − top + 1)` that it computes up
+    /// front in `i32` (`src/shapes.rs:246`), which is false on crossed bounds. Crossed bounds
     /// (`right < left` or `bottom < top`) give an empty span here, with no arithmetic. On them
     /// `hexx`'s debug build panics when that count leaves `i32`
     /// (`pointy_rectangle([0, -46342, 0, -46342])`: `(−46,341)² > i32::MAX`) or when a row bound
@@ -614,13 +615,13 @@ pub impl PointyRectangleImpl of PointyRectangleTrait {
 /// #### Deviations
 ///
 /// A `Span<Hex>` instead of an `ExactSizeIterator`, whose length is always the number of hexes:
-/// `hexx` reports the count `(right − left + 1) · (bottom − top + 1)` that it computes up front in
-/// `i32` (`src/shapes.rs:246`), which is false on crossed bounds. Crossed bounds (`right < left` or
-/// `bottom < top`) give an empty span here, with no arithmetic. On them `hexx`'s debug build panics
-/// when that count leaves `i32` (`pointy_rectangle([0, -46342, 0, -46342])`:
-/// `(−46,341)² > i32::MAX`) or when a row bound `left − (y >> 1)` or `right − (y >> 1)` leaves
-/// `i32`; its release build yields no hex either, except where only one of the two bounds of a row
-/// wraps, which turns that row into about `2^32` hexes
+/// `hexx` reports the count `(right − left + 1) · (bottom − top + 1)` that it computes up
+/// front in `i32` (`src/shapes.rs:246`), which is false on crossed bounds. Crossed bounds
+/// (`right < left` or `bottom < top`) give an empty span here, with no arithmetic. On them `hexx`'s
+/// debug build panics when that count leaves `i32` (`pointy_rectangle([0, -46342, 0, -46342])`:
+/// `(−46,341)² > i32::MAX`) or when a row bound `left − (y >> 1)` or `right − (y >> 1)`
+/// leaves `i32`; its release build yields no hex either, except where only one of the two bounds of
+/// a row wraps, which turns that row into about `2^32` hexes
 /// (`pointy_rectangle([i32::MIN + 15, i32::MIN + 5, 20, 20])`). On other bounds `hexx` wraps in a
 /// release build and panics in a debug build (plan §3.1): this port panics where the debug build
 /// panics on a coordinate, and runs out of gas where it panics only on the count (more than
@@ -704,17 +705,17 @@ pub trait FlatRectangleTrait {
     /// #### Deviations
     ///
     /// A `Span<Hex>` instead of an `ExactSizeIterator`, whose length is always the number of hexes:
-    /// `hexx` reports the count `(right − left + 1) · (bottom − top + 1)` that it computes up front
-    /// in `i32` (`src/shapes.rs:304`), which is false on crossed bounds. Crossed bounds
+    /// `hexx` reports the count `(right − left + 1) · (bottom − top + 1)` that it computes up
+    /// front in `i32` (`src/shapes.rs:304`), which is false on crossed bounds. Crossed bounds
     /// (`right < left` or `bottom < top`) give an empty span here, with no arithmetic. On them
     /// `hexx`'s debug build panics when that count leaves `i32`
-    /// (`flat_rectangle([0, -46342, 0, -46342])`: `(−46,341)² > i32::MAX`) or when a column bound
-    /// `top − (x >> 1)` or `bottom − (x >> 1)` leaves `i32`; its release build yields no hex
-    /// either, except where only one of the two bounds of a column wraps, which turns that column
-    /// into about `2^32` hexes (`flat_rectangle([20, 20, i32::MIN + 15, i32::MIN + 5])`). On other
-    /// bounds `hexx` wraps in a release build and panics in a debug build (plan §3.1): this port
-    /// panics where the debug build panics on a coordinate, and runs out of gas where it panics
-    /// only on the count (more than `i32::MAX` hexes).
+    /// (`flat_rectangle([0, -46342, 0, -46342])`: `(−46,341)² > i32::MAX`) or when a column
+    /// bound `top − (x >> 1)` or `bottom − (x >> 1)` leaves `i32`; its release build yields no
+    /// hex either, except where only one of the two bounds of a column wraps, which turns that
+    /// column into about `2^32` hexes (`flat_rectangle([20, 20, i32::MIN + 15, i32::MIN + 5])`). On
+    /// other bounds `hexx` wraps in a release build and panics in a debug build (plan §3.1): this
+    /// port panics where the debug build panics on a coordinate, and runs out of gas where it
+    /// panics only on the count (more than `i32::MAX` hexes).
     fn coords(self: FlatRectangle) -> Span<Hex>;
 }
 
@@ -746,18 +747,18 @@ pub impl FlatRectangleImpl of FlatRectangleTrait {
 /// #### Deviations
 ///
 /// A `Span<Hex>` instead of an `ExactSizeIterator`, whose length is always the number of hexes:
-/// `hexx` reports the count `(right − left + 1) · (bottom − top + 1)` that it computes up front in
-/// `i32` (`src/shapes.rs:304`), which is false on crossed bounds. Crossed bounds (`right < left` or
-/// `bottom < top`) give an empty span here, with no arithmetic. On them `hexx`'s debug build panics
-/// when that count leaves `i32` (`flat_rectangle([0, -46342, 0, -46342])`: `(−46,341)² > i32::MAX`)
-/// or when a column bound `top − (x >> 1)` or `bottom − (x >> 1)` leaves `i32`; its release build
-/// yields no hex either, except where only one of the two bounds of a column wraps, which turns
-/// that column into about `2^32` hexes (`flat_rectangle([20, 20, i32::MIN + 15, i32::MIN + 5])`).
-/// On other bounds `hexx` wraps in a release build and panics in a debug build (plan §3.1): this
-/// port panics where the debug build panics on a coordinate, and runs out of gas where it panics
-/// only on the count (more than `i32::MAX` hexes). The array is one parameter `bounds`,
-/// destructured in the body: Cairo has no array pattern in a parameter (`hexx` takes
-/// `[left, right, top, bottom]: [i32; 4]`).
+/// `hexx` reports the count `(right − left + 1) · (bottom − top + 1)` that it computes up
+/// front in `i32` (`src/shapes.rs:304`), which is false on crossed bounds. Crossed bounds
+/// (`right < left` or `bottom < top`) give an empty span here, with no arithmetic. On them `hexx`'s
+/// debug build panics when that count leaves `i32` (`flat_rectangle([0, -46342, 0, -46342])`:
+/// `(−46,341)² > i32::MAX`) or when a column bound `top − (x >> 1)` or `bottom − (x >> 1)`
+/// leaves `i32`; its release build yields no hex either, except where only one of the two bounds of
+/// a column wraps, which turns that column into about `2^32` hexes
+/// (`flat_rectangle([20, 20, i32::MIN + 15, i32::MIN + 5])`). On other bounds `hexx` wraps in a
+/// release build and panics in a debug build (plan §3.1): this port panics where the debug build
+/// panics on a coordinate, and runs out of gas where it panics only on the count (more than
+/// `i32::MAX` hexes). The array is one parameter `bounds`, destructured in the body: Cairo has no
+/// array pattern in a parameter (`hexx` takes `[left, right, top, bottom]: [i32; 4]`).
 pub fn flat_rectangle(bounds: [i32; 4]) -> Span<Hex> {
     let [left, right, top, bottom] = bounds;
     let mut out = array![];

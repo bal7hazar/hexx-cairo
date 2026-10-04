@@ -156,8 +156,8 @@ pub impl HexConversionsImpl of HexConversionsTrait {
     /// `26,755 ≤ range ≤ 37,836` the area fits `u32` but not `i32`, and the cast gives
     /// `area − 2^32`, a negative divisor: `rem_euclid` then reduces `y + shift·x` modulo
     /// `2^32 − area`, which is smaller than `area`, so `hexx` returns an index of the hexagon in
-    /// both builds, the right one where `0 ≤ y + shift·x < 2^32 − area` (`Hex(0, 0)` gives 0) and a
-    /// wrong one elsewhere (`Hex(0, -1)` gives `2^32 − area − 1`, not `area − 1`). From
+    /// both builds, the right one where `0 ≤ y + shift·x < 2^32 − area` (`Hex(0, 0)` gives 0)
+    /// and a wrong one elsewhere (`Hex(0, -1)` gives `2^32 − area − 1`, not `area − 1`). From
     /// `range = 37,837` `range_count` leaves `u32`: `hexx`'s debug build panics there and its
     /// release build wraps. This port panics on the whole of `range ≥ 26,755`. Elsewhere `hexx`
     /// wraps in a release build and panics in a debug build (plan §3.1); this port panics exactly

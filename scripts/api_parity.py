@@ -1098,6 +1098,9 @@ def scan_declarations(node: ModuleNode, owner: str, name_ok, prefix: bool) -> li
         for index, part in enumerate(split_top_level(match.group(2))):
             if re.match(r"^pub\s+(?!\()", part):
                 items.append(Item(owner, "field", scoped(prefix, name, str(index)), source))
+        # A tuple struct derives too (`EdgeDirection(pub(crate) u8)`, `VertexDirection`: audit
+        # t-0092, finding 11): without this, their derived `Default` was missing from the inventory.
+        items.extend(derived_impl_items(text, match.start(), owner, name, source))
 
     for match in ENUM_HEAD_RE.finditer(text):
         if not cfg_ok_at(node, match.start()):
@@ -1651,6 +1654,21 @@ def unique_items(items: set[Item] | list[Item]) -> list[Item]:
 # does, since a dropped item has no Cairo target by definition)
 
 
+# Notes on items found under the same name (audit t-0092, findings 9 and 11): a direct name match
+# reads `ported`, and its row says "Same public name." unless a note here says what the name alone
+# does not (a path that differs, a derive). Keyed by (owner, kind, name), as COUNTERPARTS.
+PORTED_NOTES: dict[tuple[str, str, str], str] = {
+    ("Hex", "method", "hex"): (
+        "The free function, at hexx::hex::hex, its path in hexx too (src/hex/mod.rs:89); hexx's "
+        "root re-export hexx::hex (src/lib.rs:306) has no counterpart: Cairo refuses "
+        "`pub use hex::hex` beside `pub mod hex` (E2118)."),
+    ("EdgeDirection", "impl", "Default"): (
+        "Derived, as in hexx (src/direction/edge_direction.rs:68): index 0."),
+    ("VertexDirection", "impl", "Default"): (
+        "Derived, as in hexx (src/direction/vertex_direction.rs:67): index 0."),
+}
+
+
 def rendered(item: Item) -> str:
     return f"{item.kind}:{item.name}"
 
@@ -1669,7 +1687,7 @@ def classify(hexx: list[Item], cairo: list[Item]) -> tuple[dict[Item, tuple[str,
     result: dict[Item, tuple[str, str]] = {}
     for item in hexx:
         if item.key in cairo_by_key:
-            result[item] = ("ported", "")
+            result[item] = ("ported", PORTED_NOTES.get(item.key, ""))
             consumed.add(item.key)
             continue
         counterpart = COUNTERPARTS.get(item.key)

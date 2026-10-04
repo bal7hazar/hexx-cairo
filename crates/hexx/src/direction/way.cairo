@@ -26,8 +26,8 @@ use crate::direction::vertex_direction::{VertexDirection, VertexDirectionTrait};
 /// (`src/direction/way.rs:29`) by the type prefix of the variant: this port prints
 /// `DirectionWay::Single(EdgeDirection { index: 0, x: 1, y: 0, z: -1 })` and
 /// `DirectionWay::Tie([…, …])` where `hexx` prints
-/// `Single(EdgeDirection { index: 0, x: 1, y: 0, z: -1 })` and `Tie([…, …])`; the directions inside
-/// print as in `hexx`.
+/// `Single(EdgeDirection { index: 0, x: 1, y: 0, z: -1 })` and `Tie([…, …])`; the directions
+/// inside print as in `hexx`.
 #[derive(Copy, Drop, Debug)]
 pub enum DirectionWay<T> {
     Single: T,

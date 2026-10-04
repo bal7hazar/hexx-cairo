@@ -362,10 +362,10 @@ pub trait HexRingsTrait {
     ///
     /// #### Panics
     ///
-    /// When `x² + y²`, the first sum of the squared distance `x² + y² + x·y` of an offset `(x, y)`
-    /// of the search, leaves `i32`: from a search radius of 32,768 (`range_squared ≥ 805,306,368`,
-    /// far beyond gas, the cost being that of the `range` of that radius); or when a hex of the
-    /// circle leaves `i32`. A hex outside the circle is never built.
+    /// When `x² + y²`, the first sum of the squared distance `x² + y² + x·y` of an offset
+    /// `(x, y)` of the search, leaves `i32`: from a search radius of 32,768
+    /// (`range_squared ≥ 805,306,368`, far beyond gas, the cost being that of the `range` of that
+    /// radius); or when a hex of the circle leaves `i32`. A hex outside the circle is never built.
     ///
     /// #### Deviations
     ///

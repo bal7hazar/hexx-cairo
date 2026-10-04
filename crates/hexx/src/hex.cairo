@@ -47,8 +47,9 @@ pub mod errors {
 ///
 /// #### Deviations
 ///
-/// The path is `hexx::hex::hex`, not `hexx::hex` as in hexx 0.25.0: the root cannot re-export it,
-/// because Cairo refuses `pub use hex::hex` beside `pub mod hex` (E2118).
+/// The path is `hexx::hex::hex` only: `hexx` 0.25.0 has it there too and re-exports it at its root
+/// as `hexx::hex` (`src/lib.rs:306`), which this root cannot do, because Cairo refuses
+/// `pub use hex::hex` beside `pub mod hex` (E2118).
 #[inline]
 pub fn hex(x: i32, y: i32) -> Hex {
     Hex { x, y }
