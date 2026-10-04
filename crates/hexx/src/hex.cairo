@@ -26,6 +26,7 @@ pub mod impls;
 pub mod iter;
 pub mod rings;
 pub mod swizzle;
+pub use iter::HexSpanExt;
 
 /// Errors module.
 pub mod errors {
@@ -67,6 +68,21 @@ pub fn hex(x: i32, y: i32) -> Hex {
 /// printing what `hexx`'s does (`src/hex/mod.rs:1189`), `Hex { x: 1, y: 2, z: -3 }`: it panics
 /// where `z` does (a component of `i32::MIN`), as `hexx` does in a debug build; the single-line
 /// form is the only one (Cairo has no `{:#?}` pretty form).
+///
+/// Every item of this port that returns a `Span<Hex>` (`range`, `xrange`, `line_to`,
+/// `rectiline_to`, the rings and wedges, `HexBounds::all_coords` and `intersecting_with`, the
+/// shapes) builds the whole span before it returns, where `hexx` returns a lazy iterator: an `i32`
+/// overflow on any element panics at the call here, where `hexx`'s debug build panics only when
+/// that element is consumed (`HexBounds::new(Hex(i32::MAX, 0), 1).all_coords().next()` is
+/// `Some((i32::MAX − 1, 0))` in `hexx`; the call panics here).
+///
+/// Only `Hex`, `HexTrait` and `HexSpanExt` are re-exported at the crate root with `Hex`. The other
+/// traits of its methods (`HexOpsTrait` of `hex::impls`, `HexRingsTrait`, `HexEuclideanTrait`,
+/// `HexSwizzleTrait`, `HexConvertTrait`, `HexEdgesTrait` and `HexVerticesTrait` of `hex::grid`) and
+/// its operator impls (`HexAdd`, `HexSub`, `HexMul`, `HexDiv`, `HexRem`, `HexNeg` and the
+/// assignment forms, in `hex::impls`) are imported from their modules, where `hexx`'s methods and
+/// operator impls come with `Hex`: in Cairo a method is called through a trait in scope, and an
+/// impl is found where its trait or its type is declared, or where it is imported.
 #[derive(Copy, Drop, Serde, PartialEq, Default, Hash)]
 pub struct Hex {
     pub x: i32,
@@ -629,8 +645,9 @@ pub trait HexTrait {
     ///
     /// #### Deviations
     ///
-    /// Returns a `u32`, where `hexx` returns a `usize` (Cairo has no `usize`); `hexx` on a 64-bit
-    /// host never overflows there, this port panics from `range = 715_827_883`.
+    /// Returns a `u32` where `hexx` returns a `usize`, and `usize` is `u32` in Cairo: `hexx`
+    /// computes `6 * range as usize`, which a 64-bit host never overflows; this port panics from
+    /// `range = 715,827,883`, where `6 * range` leaves `u32`.
     fn ring_count(range: u32) -> u32;
 
     /// The number of coordinates in a wedge of the given `range`: `range * (range + 3) / 2 + 1`.
@@ -685,8 +702,12 @@ pub trait HexTrait {
     ///
     /// #### Deviations
     ///
-    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
-    /// exactly where the debug build does.
+    /// Public here, on `HexTrait`, where `hexx` keeps it `pub(crate)`: a widening, not the port of
+    /// a public item. The golden tests of `tools/refgen` (package `golden_hex`) and the class-size
+    /// fixture `crates/consumer` call it from outside the crate, so it stays public; it computes
+    /// what `neighbor` computes, `self + neighbor_coord(direction)`, which is the public form to
+    /// call. `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port
+    /// panics exactly where the debug build does.
     fn add_dir(self: Hex, direction: EdgeDirection) -> Hex;
 
     /// The neighbour of `self` in the given direction.
@@ -740,8 +761,12 @@ pub trait HexTrait {
     ///
     /// #### Deviations
     ///
-    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
-    /// exactly where the debug build does.
+    /// Public here, on `HexTrait`, where `hexx` keeps it `pub(crate)`: a widening, not the port of
+    /// a public item. The golden tests of `tools/refgen` (package `golden_hex_t2`) and the
+    /// class-size fixture `crates/consumer` call it from outside the crate, so it stays public; it
+    /// computes what `diagonal_neighbor` computes, `self + diagonal_neighbor_coord(direction)`,
+    /// which is the public form to call. `hexx` wraps in a release build and panics in a debug
+    /// build (plan §3.1); this port panics exactly where the debug build does.
     fn add_diag_dir(self: Hex, direction: VertexDirection) -> Hex;
 
     /// The diagonal neighbour of `self` in the given direction.
@@ -1017,7 +1042,11 @@ pub trait HexTrait {
     /// #### Deviations
     ///
     /// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` wraps in a release build and panics
-    /// in a debug build (plan §3.1); this port panics exactly where the debug build does.
+    /// in a debug build (plan §3.1); this port panics exactly where the debug build does on the
+    /// terms above. `hexx` also computes its reported length `count + 1` up front
+    /// (`src/hex/mod.rs:960`), on which its debug build panics when `count = i32::MAX` (from
+    /// `(0, 0)` to `(i32::MAX, 0)`); this port does not compute that length, and runs out of gas on
+    /// such a path instead.
     fn rectiline_to(self: Hex, other: Hex, clockwise: bool) -> Span<Hex>;
 
     /// Every coordinate within `range` of `self`, `range_count(range)` of them, in the order of
@@ -1069,8 +1098,11 @@ pub trait HexTrait {
     /// `f32`
     /// like the exact one when `|n| < 2^24`). Beyond, `hexx`'s result depends on the rounding of
     /// its `f32`; this port's is exact. `to_local` and `wrap_in_range` inherit it. `hexx` wraps in
-    /// a release build and panics in a debug build (plan §3.1); this port panics exactly where the
-    /// debug build does.
+    /// a release build and panics in a debug build (plan §3.1). On `range_count(radius)`, `z` and
+    /// the three numerators, computed before any `f32` conversion, this port panics exactly where
+    /// the debug build does; `1 + x − y` and `1 + y − z` are computed from the quotients, which
+    /// agree within the bound above, so beyond it the two may panic on different inputs there (no
+    /// such input has been found).
     fn to_lower_res(self: Hex, radius: u32) -> Hex;
 
     /// The center of `self` in the higher resolution system of radius `radius`: its first

@@ -1,7 +1,7 @@
 //! `hex/iter`: the extension of a span of `Hex` (`src/hex/iter.rs`), the counterpart of `hexx`'s
-//! `HexIterExt` on `Iterator<Item = Hex>`: Cairo has no iterator trait, so it is implemented for
-//! `Span<Hex>`. The private `ExactSizeHexIterator` of `hexx` has no counterpart: a `Span` knows
-//! its length.
+//! `HexIterExt` on `Iterator<Item = Hex>`: the functions of this port return a `Span<Hex>`, not an
+//! iterator, so it is implemented for `Span<Hex>`. The private `ExactSizeHexIterator` of `hexx` has
+//! no counterpart: a `Span` knows its length.
 
 use crate::bounds::{HexBounds, HexBoundsTrait};
 use crate::hex::impls::HexOpsTrait;
@@ -9,7 +9,21 @@ use crate::hex::{Hex, HexTrait};
 
 /// Extension trait for a span of `Hex`.
 ///
-/// Counterpart of `HexIterExt` (`src/hex/iter.rs:4`), the name `HexSpanExt` of the parity table.
+/// Mirrors `hexx::HexIterExt` (`src/hex/iter.rs:4`), re-exported by `hexx` as
+/// `hexx::hex::HexIterExt` (`src/hex/mod.rs:24`) and `hexx::HexIterExt` (`src/lib.rs:306`).
+///
+/// #### Panics
+///
+/// None: a trait; each method says where it panics.
+///
+/// #### Deviations
+///
+/// Renamed `HexSpanExt` (the name of the parity table), and implemented for `Span<Hex>` only, where
+/// `hexx` implements `HexIterExt` for every `Iterator<Item = Hex>`: the functions of this port
+/// return a `Span<Hex>`, so a span is the receiver, and a caller with another sequence of hexes
+/// collects it into a span first. Declared at `hexx::hex::iter::HexSpanExt` and re-exported at
+/// `hexx::hex::HexSpanExt` and `hexx::HexSpanExt`, the two paths of `hexx`'s `HexIterExt` under the
+/// new name.
 pub trait HexSpanExt {
     /// The mean (average) value of the span: the sum of its hexes divided by their count (at
     /// least 1), `Hex::ZERO` for the empty span.

@@ -33,7 +33,7 @@ pub mod generators;
 pub mod hex;
 pub use hex::grid::edge::{GridEdge, GridEdgeTrait};
 pub use hex::grid::vertex::{GridVertex, GridVertexTrait};
-pub use hex::{Hex, HexTrait};
+pub use hex::{Hex, HexSpanExt, HexTrait};
 
 pub mod orientation;
 pub use orientation::HexOrientation;
