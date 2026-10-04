@@ -21,6 +21,13 @@ use crate::direction::vertex_direction::{VertexDirection, VertexDirectionTrait};
 /// no `PartialEq` between a way and its direction: `PartialEq` is homogeneous in Cairo, and
 /// `hexx`'s `PartialEq<T> for DirectionWay<T>` is `contains`
 /// (`src/direction/way.rs:42`), which `DirectionWayTrait::contains` is.
+///
+/// `Debug` is Cairo's derived one, which differs from `hexx`'s derived one
+/// (`src/direction/way.rs:29`) by the type prefix of the variant: this port prints
+/// `DirectionWay::Single(EdgeDirection { index: 0, x: 1, y: 0, z: -1 })` and
+/// `DirectionWay::Tie([…, …])` where `hexx` prints
+/// `Single(EdgeDirection { index: 0, x: 1, y: 0, z: -1 })` and `Tie([…, …])`; the directions
+/// inside print as in `hexx`.
 #[derive(Copy, Drop, Debug)]
 pub enum DirectionWay<T> {
     Single: T,
@@ -54,7 +61,9 @@ pub trait DirectionWayTrait<T> {
     ///
     /// #### Deviations
     ///
-    /// None.
+    /// Requires `T: Copy + Drop + PartialEq` where `hexx` requires `T: PartialEq` only: the
+    /// directions are copied out of the snapshot to be compared. Both direction types are `Copy`
+    /// and `Drop`.
     fn contains<+Copy<T>, +Drop<T>, +PartialEq<T>>(self: @DirectionWay<T>, dir: @T) -> bool;
 
     /// Applies `func` to the direction, or to both directions of a tie, first then second.
@@ -67,10 +76,15 @@ pub trait DirectionWayTrait<T> {
     ///
     /// #### Deviations
     ///
-    /// `func` is a closure, with the bound of corelib's `Option::map` (`Fn`, not `FnOnce`: a tie
-    /// calls it twice), spelled `impl Func: Fn<F, (T,)>` and `Func::Output` for the result: the
-    /// constraint form `Fn<F, (T,)>[Output: U]` needs the experimental feature
-    /// `associated_item_constraints`, which the manifest of this package does not enable.
+    /// `func` is a closure bound by `Fn`, where `hexx`'s bound is `FnMut`
+    /// (`mut func: impl FnMut(T) -> U`, `src/direction/way.rs:75`). Cairo's corelib has `FnOnce`
+    /// and `Fn` but no `FnMut`, and `FnOnce` (the bound of corelib's `Option::map`) cannot serve a
+    /// tie, which calls `func` twice. So a closure that `hexx` accepts only as `FnMut`, one that
+    /// changes its captured state from one call to the next, has no counterpart here: each call of
+    /// a tie sees the same captures. The bound is spelled `impl Func: Fn<F, (T,)>`, with
+    /// `Func::Output` for the result: the constraint form `Fn<F, (T,)>[Output: U]` needs the
+    /// experimental feature `associated_item_constraints`, which the manifest of this package does
+    /// not enable.
     ///
     /// **Cost to the consumer: a closure in a library function puts a closure type into every
     /// consumer class that calls `DirectionWay::map`, so the class hash of such a class depends on

@@ -69,12 +69,18 @@ pub trait ParallelogramTrait {
     ///
     /// #### Panics
     ///
-    /// None for any bounds a span can hold: a span of more than a few thousand hexes runs out of
-    /// gas first.
+    /// None, on crossed bounds included, for any bounds a span can hold: a span of more than a few
+    /// thousand hexes runs out of gas first.
     ///
     /// #### Deviations
     ///
-    /// A `Span<Hex>` instead of an `ExactSizeIterator`.
+    /// A `Span<Hex>` instead of an `ExactSizeIterator`, whose length is always the number of hexes:
+    /// `hexx` reports the count `(max.x − min.x + 1) · (max.y − min.y + 1)` that it computes
+    /// up front in `i32` (`src/shapes.rs:46`), which is false on crossed bounds (4 for the 0 hexes
+    /// of `parallelogram((3, 3), (0, 0))`). Crossed bounds (`max.x < min.x` or `max.y < min.y`)
+    /// give an empty span here, with no arithmetic, as they give no hex in `hexx`'s release build;
+    /// `hexx`'s debug build panics there instead when that count leaves `i32`
+    /// (`parallelogram((0, 0), (-46342, -46342))`: `(−46,341)² > i32::MAX`).
     fn coords(self: Parallelogram) -> Span<Hex>;
 }
 
@@ -102,13 +108,19 @@ pub impl ParallelogramImpl of ParallelogramTrait {
 ///
 /// #### Panics
 ///
-/// None for any bounds a span can hold: a span of more than a few thousand hexes runs out of gas
-/// first.
+/// None, on crossed bounds included, for any bounds a span can hold: a span of more than a few
+/// thousand hexes runs out of gas first.
 ///
 /// #### Deviations
 ///
-/// A `Span<Hex>` instead of an `ExactSizeIterator`. The loops stop at the bound without stepping
-/// past it, so a bound of `i32::MAX` is served, as in `hexx`.
+/// A `Span<Hex>` instead of an `ExactSizeIterator`, whose length is always the number of hexes:
+/// `hexx` reports the count `(max.x − min.x + 1) · (max.y − min.y + 1)` that it computes up
+/// front in `i32` (`src/shapes.rs:46`), which is false on crossed bounds (4 for the 0 hexes of
+/// `parallelogram((3, 3), (0, 0))`). Crossed bounds (`max.x < min.x` or `max.y < min.y`) give an
+/// empty span here, with no arithmetic, as they give no hex in `hexx`'s release build; `hexx`'s
+/// debug build panics there instead when that count leaves `i32`
+/// (`parallelogram((0, 0), (-46342, -46342))`: `(−46,341)² > i32::MAX`). The loops stop at the
+/// bound without stepping past it, so a bound of `i32::MAX` is served, as in `hexx`.
 pub fn parallelogram(min: Hex, max: Hex) -> Span<Hex> {
     let mut out = array![];
     if max.x < min.x || max.y < min.y {
@@ -192,12 +204,17 @@ pub trait TriangleTrait {
     ///
     /// #### Panics
     ///
-    /// When `size` is above `i32::MAX`.
+    /// When `size` is above `i32::MAX`, before any hex is built.
     ///
     /// #### Deviations
     ///
-    /// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` casts `size` with `as i32`, which
-    /// wraps above `i32::MAX`; this port panics (a span of that size runs out of gas first).
+    /// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` never casts `size`: it casts only
+    /// the loop indices, `Hex::new(x as i32, y as i32)` with `x, y ≤ size` (`src/shapes.rs:98`),
+    /// which wrap above `i32::MAX` in either build, and it computes the length `wedge_count(size)`
+    /// in `u32` up front (`:99`), on which its debug build panics from `size = 65,535` (its release
+    /// build wraps that length and yields the hexes). This port converts `size` to `i32` up front
+    /// and panics above `i32::MAX`; for `65,535 ≤ size ≤ i32::MAX` it runs out of gas where
+    /// `hexx`'s debug build panics.
     fn coords(self: Triangle) -> Span<Hex>;
 }
 
@@ -225,12 +242,17 @@ pub impl TriangleImpl of TriangleTrait {
 ///
 /// #### Panics
 ///
-/// When `size` is above `i32::MAX`.
+/// When `size` is above `i32::MAX`, before any hex is built.
 ///
 /// #### Deviations
 ///
-/// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` casts `size` with `as i32`, which
-/// wraps above `i32::MAX`; this port panics (a span of that size runs out of gas first).
+/// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` never casts `size`: it casts only the
+/// loop indices, `Hex::new(x as i32, y as i32)` with `x, y ≤ size` (`src/shapes.rs:98`), which
+/// wrap above `i32::MAX` in either build, and it computes the length `wedge_count(size)` in `u32`
+/// up front (`:99`), on which its debug build panics from `size = 65,535` (its release build wraps
+/// that length and yields the hexes). This port converts `size` to `i32` up front and panics above
+/// `i32::MAX`; for `65,535 ≤ size ≤ i32::MAX` it runs out of gas where `hexx`'s debug build
+/// panics.
 pub fn triangle(size: u32) -> Span<Hex> {
     let size: i32 = size.try_into().unwrap();
     let mut out = array![];
@@ -411,13 +433,20 @@ pub trait RombusTrait {
     ///
     /// #### Panics
     ///
-    /// When `rows` or `columns` is above `i32::MAX`, or a coordinate leaves `i32`.
+    /// When `rows` or `columns` is above `i32::MAX` while both are non-zero (before any hex is
+    /// built), or a coordinate leaves `i32`.
     ///
     /// #### Deviations
     ///
-    /// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` casts `rows` and `columns` with
-    /// `as i32`, which wraps above `i32::MAX`; this port panics (as `triangle` does). A
-    /// coordinate leaving `i32` panics as in `hexx`'s debug build.
+    /// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` never casts `rows` or `columns`: it
+    /// casts only the loop indices, `Hex::new(x as i32, y as i32)` with `x < columns` and
+    /// `y < rows` (`src/shapes.rs:189`), which wrap above `i32::MAX` in either build, and it
+    /// computes the length `rows * columns` in `u32` up front (`:191`), on which its debug build
+    /// panics when the product leaves `u32`. This port converts `rows` and `columns` to `i32` up
+    /// front and panics when either is above `i32::MAX` while both are non-zero: where the product
+    /// stays in `u32` (`rows = 2^31`, `columns = 1`) `hexx` yields hexes, a span of that size being
+    /// beyond gas here anyway. A coordinate leaving `i32` (`point + (x, y)`) panics as in `hexx`'s
+    /// debug build.
     fn coords(self: Rombus) -> Span<Hex>;
 }
 
@@ -440,14 +469,19 @@ pub impl RombusImpl of RombusTrait {
 ///
 /// #### Panics
 ///
-/// When `rows` or `columns` is above `i32::MAX` while both are non-zero, or a coordinate leaves
-/// `i32`.
+/// When `rows` or `columns` is above `i32::MAX` while both are non-zero (before any hex is built),
+/// or a coordinate leaves `i32`.
 ///
 /// #### Deviations
 ///
-/// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` casts `rows` and `columns` with
-/// `as i32`, which wraps above `i32::MAX`; this port panics (as `triangle` does). A coordinate
-/// leaving `i32` panics as in `hexx`'s debug build.
+/// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` never casts `rows` or `columns`: it
+/// casts only the loop indices, `Hex::new(x as i32, y as i32)` with `x < columns` and `y < rows`
+/// (`src/shapes.rs:189`), which wrap above `i32::MAX` in either build, and it computes the length
+/// `rows * columns` in `u32` up front (`:191`), on which its debug build panics when the product
+/// leaves `u32`. This port converts `rows` and `columns` to `i32` up front and panics when either
+/// is above `i32::MAX` while both are non-zero: where the product stays in `u32` (`rows = 2^31`,
+/// `columns = 1`) `hexx` yields hexes, a span of that size being beyond gas here anyway. A
+/// coordinate leaving `i32` (`point + (x, y)`) panics as in `hexx`'s debug build.
 pub fn rombus(point: Hex, rows: u32, columns: u32) -> Span<Hex> {
     let mut out = array![];
     if rows == 0 || columns == 0 {
@@ -534,12 +568,22 @@ pub trait PointyRectangleTrait {
     ///
     /// #### Panics
     ///
-    /// When a coordinate leaves `i32`.
+    /// When a coordinate leaves `i32`; never on crossed bounds.
     ///
     /// #### Deviations
     ///
-    /// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` wraps in a release build and
-    /// panics in a debug build (plan §3.1); this port panics where the debug build does.
+    /// A `Span<Hex>` instead of an `ExactSizeIterator`, whose length is always the number of hexes:
+    /// `hexx` reports the count `(right − left + 1) · (bottom − top + 1)` that it computes up
+    /// front in `i32` (`src/shapes.rs:246`), which is false on crossed bounds. Crossed bounds
+    /// (`right < left` or `bottom < top`) give an empty span here, with no arithmetic. On them
+    /// `hexx`'s debug build panics when that count leaves `i32`
+    /// (`pointy_rectangle([0, -46342, 0, -46342])`: `(−46,341)² > i32::MAX`) or when a row bound
+    /// `left − (y >> 1)` or `right − (y >> 1)` leaves `i32`; its release build yields no hex
+    /// either, except where only one of the two bounds of a row wraps, which turns that row into
+    /// about `2^32` hexes (`pointy_rectangle([i32::MIN + 15, i32::MIN + 5, 20, 20])`). On other
+    /// bounds `hexx` wraps in a release build and panics in a debug build (plan §3.1): this port
+    /// panics where the debug build panics on a coordinate, and runs out of gas where it panics
+    /// only on the count (more than `i32::MAX` hexes).
     fn coords(self: PointyRectangle) -> Span<Hex>;
 }
 
@@ -566,14 +610,23 @@ pub impl PointyRectangleImpl of PointyRectangleTrait {
 ///
 /// #### Panics
 ///
-/// When a coordinate leaves `i32`.
+/// When a coordinate leaves `i32`; never on crossed bounds.
 ///
 /// #### Deviations
 ///
-/// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` wraps in a release build and panics in
-/// a debug build (plan §3.1); this port panics where the debug build does. The array is
-/// one parameter `bounds`, destructured in the body: Cairo has no array pattern in a parameter
-/// (`hexx` takes `[left, right, top, bottom]: [i32; 4]`).
+/// A `Span<Hex>` instead of an `ExactSizeIterator`, whose length is always the number of hexes:
+/// `hexx` reports the count `(right − left + 1) · (bottom − top + 1)` that it computes up
+/// front in `i32` (`src/shapes.rs:246`), which is false on crossed bounds. Crossed bounds
+/// (`right < left` or `bottom < top`) give an empty span here, with no arithmetic. On them `hexx`'s
+/// debug build panics when that count leaves `i32` (`pointy_rectangle([0, -46342, 0, -46342])`:
+/// `(−46,341)² > i32::MAX`) or when a row bound `left − (y >> 1)` or `right − (y >> 1)`
+/// leaves `i32`; its release build yields no hex either, except where only one of the two bounds of
+/// a row wraps, which turns that row into about `2^32` hexes
+/// (`pointy_rectangle([i32::MIN + 15, i32::MIN + 5, 20, 20])`). On other bounds `hexx` wraps in a
+/// release build and panics in a debug build (plan §3.1): this port panics where the debug build
+/// panics on a coordinate, and runs out of gas where it panics only on the count (more than
+/// `i32::MAX` hexes). The array is one parameter `bounds`, destructured in the body: Cairo has no
+/// array pattern in a parameter (`hexx` takes `[left, right, top, bottom]: [i32; 4]`).
 pub fn pointy_rectangle(bounds: [i32; 4]) -> Span<Hex> {
     let [left, right, top, bottom] = bounds;
     let mut out = array![];
@@ -647,12 +700,22 @@ pub trait FlatRectangleTrait {
     ///
     /// #### Panics
     ///
-    /// When a coordinate leaves `i32`.
+    /// When a coordinate leaves `i32`; never on crossed bounds.
     ///
     /// #### Deviations
     ///
-    /// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` wraps in a release build and
-    /// panics in a debug build (plan §3.1); this port panics where the debug build does.
+    /// A `Span<Hex>` instead of an `ExactSizeIterator`, whose length is always the number of hexes:
+    /// `hexx` reports the count `(right − left + 1) · (bottom − top + 1)` that it computes up
+    /// front in `i32` (`src/shapes.rs:304`), which is false on crossed bounds. Crossed bounds
+    /// (`right < left` or `bottom < top`) give an empty span here, with no arithmetic. On them
+    /// `hexx`'s debug build panics when that count leaves `i32`
+    /// (`flat_rectangle([0, -46342, 0, -46342])`: `(−46,341)² > i32::MAX`) or when a column
+    /// bound `top − (x >> 1)` or `bottom − (x >> 1)` leaves `i32`; its release build yields no
+    /// hex either, except where only one of the two bounds of a column wraps, which turns that
+    /// column into about `2^32` hexes (`flat_rectangle([20, 20, i32::MIN + 15, i32::MIN + 5])`). On
+    /// other bounds `hexx` wraps in a release build and panics in a debug build (plan §3.1): this
+    /// port panics where the debug build panics on a coordinate, and runs out of gas where it
+    /// panics only on the count (more than `i32::MAX` hexes).
     fn coords(self: FlatRectangle) -> Span<Hex>;
 }
 
@@ -679,14 +742,23 @@ pub impl FlatRectangleImpl of FlatRectangleTrait {
 ///
 /// #### Panics
 ///
-/// When a coordinate leaves `i32`.
+/// When a coordinate leaves `i32`; never on crossed bounds.
 ///
 /// #### Deviations
 ///
-/// A `Span<Hex>` instead of an `ExactSizeIterator`. `hexx` wraps in a release build and panics in
-/// a debug build (plan §3.1); this port panics where the debug build does. The array is
-/// one parameter `bounds`, destructured in the body: Cairo has no array pattern in a parameter
-/// (`hexx` takes `[left, right, top, bottom]: [i32; 4]`).
+/// A `Span<Hex>` instead of an `ExactSizeIterator`, whose length is always the number of hexes:
+/// `hexx` reports the count `(right − left + 1) · (bottom − top + 1)` that it computes up
+/// front in `i32` (`src/shapes.rs:304`), which is false on crossed bounds. Crossed bounds
+/// (`right < left` or `bottom < top`) give an empty span here, with no arithmetic. On them `hexx`'s
+/// debug build panics when that count leaves `i32` (`flat_rectangle([0, -46342, 0, -46342])`:
+/// `(−46,341)² > i32::MAX`) or when a column bound `top − (x >> 1)` or `bottom − (x >> 1)`
+/// leaves `i32`; its release build yields no hex either, except where only one of the two bounds of
+/// a column wraps, which turns that column into about `2^32` hexes
+/// (`flat_rectangle([20, 20, i32::MIN + 15, i32::MIN + 5])`). On other bounds `hexx` wraps in a
+/// release build and panics in a debug build (plan §3.1): this port panics where the debug build
+/// panics on a coordinate, and runs out of gas where it panics only on the count (more than
+/// `i32::MAX` hexes). The array is one parameter `bounds`, destructured in the body: Cairo has no
+/// array pattern in a parameter (`hexx` takes `[left, right, top, bottom]: [i32; 4]`).
 pub fn flat_rectangle(bounds: [i32; 4]) -> Span<Hex> {
     let [left, right, top, bottom] = bounds;
     let mut out = array![];
