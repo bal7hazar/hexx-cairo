@@ -19,7 +19,7 @@ owner's go (D-132 as narrowed, `docs/RELEASING.md`).
 
 ### Parity
 
-342 items of `hexx` 0.25.0 ported and 19 renamed counterparts, 52.2 % of its 692 items
+344 items of `hexx` 0.25.0 ported and 19 renamed counterparts, 52.3 % of its 694 items
 (`python3 scripts/api_parity.py --check`, `docs/API_PARITY.md`), against 67 and 2, 10.0 %, in
 `0.1.0-rc.2`; 322 items are `dropped`, each with its reason in the table. 9 items are `missing`,
 all of L-M3 (`hexx_glam` interop, the algorithms: `python3 scripts/api_parity.py --check-release
@@ -28,7 +28,7 @@ L-M2` passes). Added, by module:
 - `hex`: the rest of `HexTrait` (M2-T2), the operators, swizzles, euclidean and convert items
   (M2-T3), the rings and wedges (`hex/rings`, M2-T4) and the grid edges and vertices
   (`hex/grid/{edge,vertex}`, M2-T7: `GridEdge`, `GridVertex`).
-- `direction`: `VertexDirection` (almost all of it), `DirectionWay` and the rest of
+- `direction`: `VertexDirection` (all of it), `DirectionWay` and the rest of
   `EdgeDirection` (L-M1 carried its core), with their impls and rotations (M2-T1).
 - `conversions`: `DoubledHexMode` and the doubled and hexmod conversions (M2-T3); the offset ones
   are L-M1's.
@@ -47,12 +47,14 @@ or enabled by decision.
 
 240 extension items listed in `docs/EXTENSIONS.md` (`python3 scripts/api_parity.py --extensions`),
 the same as `0.1.0-rc.2`. L-M2 adds no extension of `docs/EXTENSIONS.md`; its Cairo-only items
-are the 48 extra items of `docs/API_PARITY.md`, 43 more than the 5 of `0.1.0-rc.2`.
+are the 46 extra items of `docs/API_PARITY.md`, 41 more than the 5 of `0.1.0-rc.2`.
 
 ### Deviations
 
-319 documented deviations (`python3 scripts/deviations.py --check`, `docs/DEVIATIONS.md`), 260
-more than the 59 of `0.1.0-rc.2`: see that file for the new rows. Two are of consumer interest:
+320 documented deviations (`python3 scripts/deviations.py --check`, `docs/DEVIATIONS.md`), 261
+more than the 59 of `0.1.0-rc.2`: see that file for the new rows. The texts of the deviations were
+corrected after the parity audit of L-M2, and `HexSpanExt` is re-exported at `hexx::hex` and at
+the crate root (#118). Two are of consumer interest:
 
 - `DirectionWay::map` takes a closure (`Fn`, the bound of corelib's `Option::map`: a `Tie` calls it
   twice). **A closure in a library function puts a closure type into every consumer class that
