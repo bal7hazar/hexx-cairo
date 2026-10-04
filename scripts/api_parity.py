@@ -232,6 +232,10 @@ RULES = (
     # The two rows the generated table schedules for L-M2 although plan §4.4 excludes them.
     rule("Hex", r"impl:Shl$", "dropped",
          "same reason: no shifts on signed integers in the corelib."),
+    rule("Hex", r"impl:(?:Sum|Product)(?:<Hex>)?$", "dropped",
+         "Deferred (M2-T3, #107; PLAN.md, Deferred): corelib's `core::iter::Sum` and `Product` "
+         "need the experimental feature `associated_item_constraints` in the published manifest; "
+         "reversible when it is stabilised or enabled by decision."),
     rule("Hex", r"method:lerp$", "dropped", "`f32` parameter."),
     # `DirectionWay`'s `PartialEq<T>` (src/direction/way.rs:42) is `self.contains(other)`;
     # Cairo's `PartialEq` is homogeneous.
