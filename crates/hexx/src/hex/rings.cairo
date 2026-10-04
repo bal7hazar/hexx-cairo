@@ -162,7 +162,9 @@ pub trait HexRingsTrait {
     ///
     /// #### Panics
     ///
-    /// As `custom_full_wedge`, or when the distance leaves `u32`.
+    /// As `custom_full_wedge`, or when `self − rhs` leaves `i32`, the difference that
+    /// `unsigned_distance_to` computes first (`Hex(i32::MAX, 0).wedge_to(Hex(-1, 0))`), as in
+    /// `hexx`'s debug build; the distance itself, at most `2^31`, always fits `u32`.
     ///
     /// #### Deviations
     ///
@@ -247,7 +249,9 @@ pub trait HexRingsTrait {
     ///
     /// #### Panics
     ///
-    /// As `corner_wedge`, or when the distance leaves `u32`.
+    /// As `corner_wedge`, or when `self − rhs` leaves `i32`, the difference that
+    /// `unsigned_distance_to` computes first (`Hex(i32::MAX, 0).corner_wedge_to(Hex(-1, 0))`), as
+    /// in `hexx`'s debug build; the distance itself, at most `2^31`, always fits `u32`.
     ///
     /// #### Deviations
     ///
@@ -265,8 +269,8 @@ pub trait HexRingsTrait {
     ///
     /// #### Deviations
     ///
-    /// The const generic `RANGE` is the runtime `range: u32` (Cairo has no `usize`), and the
-    /// array of vectors is a `Span<Span<Hex>>` of `range` edges.
+    /// The const generic `RANGE: usize` is a runtime `range: u32` (`usize` is `u32` in Cairo),
+    /// and the array of vectors is a `Span<Span<Hex>>` of `range` edges.
     fn cached_custom_ring_edges(
         self: Hex, range: u32, direction: VertexDirection, clockwise: bool,
     ) -> Span<Span<Hex>>;
@@ -358,7 +362,10 @@ pub trait HexRingsTrait {
     ///
     /// #### Panics
     ///
-    /// When the hexes of the search leave `i32` (the cost is that of the `range` of that radius).
+    /// When `x² + y²`, the first sum of the squared distance `x² + y² + x·y` of an offset `(x, y)`
+    /// of the search, leaves `i32`: from a search radius of 32,768 (`range_squared ≥ 805,306,368`,
+    /// far beyond gas, the cost being that of the `range` of that radius); or when a hex of the
+    /// circle leaves `i32`. A hex outside the circle is never built.
     ///
     /// #### Deviations
     ///
