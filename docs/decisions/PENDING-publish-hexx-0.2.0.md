@@ -17,7 +17,7 @@ here.** No agent publishes, tags or releases (COMMON.md §6).
 
 ## What changed
 
-Milestone L-M2 (#92, #105..#115, #116), on top of `0.1.0-rc.2`. See the
+Milestone L-M2 (#92, #105, #107, #108, #110, #111, #112, #114, #115, #116), on top of `0.1.0-rc.2`. See the
 [CHANGELOG](../../CHANGELOG.md) section `[0.2.0]`.
 
 - Parity: 342 items ported and 19 renamed, 52.2 % of the 692 items of `hexx` 0.25.0 (10.0 % in

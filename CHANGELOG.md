@@ -28,11 +28,13 @@ L-M2` passes). Added, by module:
 - `hex`: the rest of `HexTrait` (M2-T2), the operators, swizzles, euclidean and convert items
   (M2-T3), the rings and wedges (`hex/rings`, M2-T4) and the grid edges and vertices
   (`hex/grid/{edge,vertex}`, M2-T7: `GridEdge`, `GridVertex`).
-- `direction`: `EdgeDirection`, `VertexDirection`, `DirectionWay` with their impls and rotations
-  (M2-T1).
-- `conversions`: the conversions of `hex` to and from offset, doubled, hexmod and axial
-  coordinates (M2-T3).
-- `bounds`: `HexBounds` and its iterator (`hex/iter`, M2-T5).
+- `direction`: `VertexDirection` (almost all of it), `DirectionWay` and the rest of
+  `EdgeDirection` (L-M1 carried its core), with their impls and rotations (M2-T1).
+- `conversions`: `DoubledHexMode` and the doubled and hexmod conversions (M2-T3); the offset ones
+  are L-M1's.
+- `bounds`: `HexBounds` (M2-T5).
+- `HexSpanExt` (`average`, `bounds`, `center`, the mirror of hexx's `HexIterExt`, `hex/iter`,
+  M2-T5).
 - `shapes`: the shape generators (M2-T6).
 
 **Not ported, deferred:** `impl Sum`, `impl Sum<Hex>`, `impl Product`, `impl Product<Hex>` of
@@ -44,8 +46,8 @@ or enabled by decision.
 ### Extensions
 
 240 extension items listed in `docs/EXTENSIONS.md` (`python3 scripts/api_parity.py --extensions`),
-the same as `0.1.0-rc.2`. The extra items of L-M2 (counterparts without a `hexx` item, 48 in
-`docs/API_PARITY.md`) are listed per module there.
+the same as `0.1.0-rc.2`. L-M2 adds no extension of `docs/EXTENSIONS.md`; its Cairo-only items
+are the 48 extra items of `docs/API_PARITY.md`, 43 more than the 5 of `0.1.0-rc.2`.
 
 ### Deviations
 
