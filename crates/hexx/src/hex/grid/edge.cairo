@@ -372,6 +372,18 @@ mod tests {
         }
     }
 
+    /// The short-circuit of `equivalent`: an edge is equivalent to itself without computing its
+    /// destination, which would leave `i32` (`add_dir`) at `i32::MAX`.
+    #[test]
+    #[available_gas(l2_gas: 1000000)]
+    fn test_grid_edge_equivalent_short_circuit_at_max() {
+        let max: i32 = 2147483647;
+        let a = GridEdge { origin: HexTrait::new(max, 0), direction: EdgeDirectionTrait::X };
+        assert!(a.equivalent(a));
+        let b = GridEdge { origin: HexTrait::new(-max, 0), direction: EdgeDirectionTrait::NEG_X };
+        assert!(b.equivalent(b));
+    }
+
     /// `-edge` is `const_neg`, and negating twice gives the edge back, the origin is unchanged.
     #[test]
     #[available_gas(l2_gas: 118619)]
@@ -500,7 +512,7 @@ mod tests {
     // | `rotate_cw`, `rotate_ccw` (255 steps) | 2,217 | 2,772 |
     // | `const_neg` | 1,785 | 2,232 |
     // | `clockwise`, `counter_clockwise` | 1,868 | 2,335 |
-    // | `Hex::all_edges` | 6 x 1,030 = 6,180 | 7,725 |
+    // | `Hex::all_edges` | 0 (struct construction only, no arithmetic: costs its baseline) | n/a |
     //
     // `equivalent` is measured on the pairs (edge, its flipped form); `all_edges` on 102 calls.
 

@@ -7,7 +7,7 @@ use crate::direction::vertex_direction::{VertexDirection, VertexDirectionTrait};
 
 /// A direction, or a tie between two adjacent directions.
 ///
-/// Mirrors `hexx::DirectionWay` (`src/direction/way.rs:8`), an `enum DirectionWay<T>`.
+/// Mirrors `hexx::DirectionWay` (`src/direction/way.rs:30`), an `enum DirectionWay<T>`.
 ///
 /// #### Panics
 ///
@@ -315,6 +315,26 @@ mod tests {
             .into();
         assert(ShapeTrait::shape(single.map(|d: EdgeDirection| d.index())) == (0, 1, 0), 'single');
         assert(ShapeTrait::shape(tie.map(|d: EdgeDirection| d.index())) == (1, 1, 4), 'tie');
+    }
+
+    /// The printed form of the two variants, as the `#### Deviations` of `DirectionWay` states it:
+    /// the type prefix of the variant, the directions as in `hexx`.
+    #[test]
+    #[available_gas(l2_gas: 5000000)]
+    fn test_direction_way_debug() {
+        let single: DirectionWay<EdgeDirection> = EdgeDirectionTrait::X.into();
+        assert!(
+            format!(
+                "{:?}", single,
+            ) == "DirectionWay::Single(EdgeDirection { index: 0, x: 1, y: 0, z: -1 })",
+        );
+        let tie: DirectionWay<EdgeDirection> = [EdgeDirectionTrait::X, EdgeDirectionTrait::Y]
+            .into();
+        assert!(
+            format!(
+                "{:?}", tie,
+            ) == "DirectionWay::Tie([EdgeDirection { index: 0, x: 1, y: 0, z: -1 }, EdgeDirection { index: 1, x: 0, y: 1, z: -1 }])",
+        );
     }
 
     /// A closure that captures: `map` is `Fn`, called once for `Single` and twice for `Tie`.

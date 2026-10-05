@@ -2,10 +2,10 @@
 // Do not edit by hand; edit tools/refgen/specs/impls.toml instead.
 //
 // Oracle: hexx 0.25.0, the operators of `Hex` (src/hex/impls.rs): `Add` :16, `AddAssign` :55,
-// `Sub` :96, `SubAssign` :135, `Mul` :164, `MulAssign` :196, `Div` :230,
-// `DivAssign` :265, `Rem` :286, `RemAssign` :304, `Neg` :318; the counterparts
-// `Add<i32>` :25, `Add<EdgeDirection>` :38, `Add<VertexDirection>` :46, `Sub<i32>` :105,
-// `Sub<EdgeDirection>` :117, `Sub<VertexDirection>` :125, `Div<i32>` :241, `Rem<i32>` :295
+// `Sub` :95, `SubAssign` :134, `Mul` :162, `MulAssign` :196, `Div` :229,
+// `DivAssign` :268, `Rem` :289, `RemAssign` :307, `Neg` :321; the counterparts
+// `Add<i32>` :25, `Add<EdgeDirection>` :37, `Add<VertexDirection>` :46, `Sub<i32>` :104,
+// `Sub<EdgeDirection>` :116, `Sub<VertexDirection>` :125, `Div<i32>` :241, `Rem<i32>` :298
 // (pinned checkout sources/hexx, tag 0.25.0,
 // commit b6b9afb1a6d413817509d00ce9ec6b9d52339a7c).
 //

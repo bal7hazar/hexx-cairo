@@ -43,7 +43,7 @@ pub impl HexAdd of Add<Hex> {
 
 /// `self - rhs`, component by component.
 ///
-/// Mirrors `impl Sub<Self> for Hex` (`src/hex/impls.rs:96`).
+/// Mirrors `impl Sub<Self> for Hex` (`src/hex/impls.rs:95`).
 ///
 /// #### Panics
 ///
@@ -62,7 +62,7 @@ pub impl HexSub of Sub<Hex> {
 
 /// `self * rhs`, component by component.
 ///
-/// Mirrors `impl Mul<Self> for Hex` (`src/hex/impls.rs:164`).
+/// Mirrors `impl Mul<Self> for Hex` (`src/hex/impls.rs:162`).
 ///
 /// #### Panics
 ///
@@ -81,7 +81,7 @@ pub impl HexMul of Mul<Hex> {
 
 /// `self / rhs`, component by component, truncated toward zero as Rust's integer division.
 ///
-/// Mirrors `impl Div<Self> for Hex` (`src/hex/impls.rs:230`).
+/// Mirrors `impl Div<Self> for Hex` (`src/hex/impls.rs:229`).
 ///
 /// #### Panics
 ///
@@ -100,7 +100,7 @@ pub impl HexDiv of Div<Hex> {
 /// `self - (self / rhs) * rhs`, component by component: the remainder of the truncated division,
 /// with the sign of `self`.
 ///
-/// Mirrors `impl Rem<Self> for Hex` (`src/hex/impls.rs:286`).
+/// Mirrors `impl Rem<Self> for Hex` (`src/hex/impls.rs:289`).
 ///
 /// #### Panics
 ///
@@ -118,7 +118,7 @@ pub impl HexRem of Rem<Hex> {
 
 /// `-self`.
 ///
-/// Mirrors `impl Neg for Hex` (`src/hex/impls.rs:318`).
+/// Mirrors `impl Neg for Hex` (`src/hex/impls.rs:321`).
 ///
 /// #### Panics
 ///
@@ -156,7 +156,7 @@ pub impl HexAddAssign of AddAssign<Hex, Hex> {
 
 /// `self -= rhs`.
 ///
-/// Mirrors `impl SubAssign for Hex` (`src/hex/impls.rs:135`).
+/// Mirrors `impl SubAssign for Hex` (`src/hex/impls.rs:134`).
 ///
 /// #### Panics
 ///
@@ -194,7 +194,7 @@ pub impl HexMulAssign of MulAssign<Hex, Hex> {
 
 /// `self /= rhs`.
 ///
-/// Mirrors `impl DivAssign for Hex` (`src/hex/impls.rs:265`).
+/// Mirrors `impl DivAssign for Hex` (`src/hex/impls.rs:268`).
 ///
 /// #### Panics
 ///
@@ -212,7 +212,7 @@ pub impl HexDivAssign of DivAssign<Hex, Hex> {
 
 /// `self %= rhs`.
 ///
-/// Mirrors `impl RemAssign for Hex` (`src/hex/impls.rs:304`).
+/// Mirrors `impl RemAssign for Hex` (`src/hex/impls.rs:307`).
 ///
 /// #### Panics
 ///
@@ -247,7 +247,7 @@ pub trait HexOpsTrait {
 
     /// Subtracts `rhs` from both components.
     ///
-    /// Mirrors `impl Sub<i32> for Hex` (`src/hex/impls.rs:105`).
+    /// Mirrors `impl Sub<i32> for Hex` (`src/hex/impls.rs:104`).
     ///
     /// #### Panics
     ///
@@ -261,7 +261,7 @@ pub trait HexOpsTrait {
 
     /// The neighbour coordinates of `rhs` added to `self`.
     ///
-    /// Mirrors `impl Add<EdgeDirection> for Hex` (`src/hex/impls.rs:38`).
+    /// Mirrors `impl Add<EdgeDirection> for Hex` (`src/hex/impls.rs:37`).
     ///
     /// #### Panics
     ///
@@ -275,7 +275,7 @@ pub trait HexOpsTrait {
 
     /// The neighbour coordinates of `rhs` subtracted from `self`.
     ///
-    /// Mirrors `impl Sub<EdgeDirection> for Hex` (`src/hex/impls.rs:117`).
+    /// Mirrors `impl Sub<EdgeDirection> for Hex` (`src/hex/impls.rs:116`).
     ///
     /// #### Panics
     ///
@@ -341,7 +341,7 @@ pub trait HexOpsTrait {
 
     /// `self - self.div_scalar(rhs).mul_scalar(rhs)`.
     ///
-    /// Mirrors `impl Rem<i32> for Hex` (`src/hex/impls.rs:295`).
+    /// Mirrors `impl Rem<i32> for Hex` (`src/hex/impls.rs:298`).
     ///
     /// #### Panics
     ///
