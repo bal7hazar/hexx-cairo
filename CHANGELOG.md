@@ -10,7 +10,7 @@ move. Versions before `0.1.0` are pre-releases (`0.1.0-rc.N`); nothing is publis
 
 ## [Unreleased]
 
-## [0.2.0] — unreleased (dated at publication)
+## [0.2.0] — 2026-10-05
 
 The second published line of `hexx`: milestone L-M2, the mirror of `hexx` 0.25.0 beyond what
 L-M1 needed (`Hex`, the directions, the conversions, rings, bounds, shapes and the grid edges and
