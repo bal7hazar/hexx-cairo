@@ -89,6 +89,7 @@ Decisions of the milestone:
 - L-M2 gas: ranges from the L-M1 measurements; the track stops at 2× the upper bound of a range.
 - Moving the old mirror tests is deferred until after M2-T7.
 - L-M2 starts after LIB-04f; the rc.2 release commit is fixed before the first L-M2 merge, 0.1.0 is cut from that content, and a later 0.1.0 fix goes on a release branch from it (project manager, option b, 2026-10-02).
+- 2026-10-05 — D-212 (project manager, 2026-10-05): D-167 stays: tests live beside the code. Rule (c) of LIB-04i becomes permanent for `hexx`: its unit and integration test targets (`scarb build --test -p hexx`, `snforge test -p hexx`) are built only by CI, and by the Mac when it is offered and its billing allowed; VPS threads never build them, take the gas pins of `hexx` from CI's artefact (AGENTS.md "Gas pins from CI"), and keep the in-module tests. Measured need (Mac, uncapped, single-threaded, 2026-10-05): 9,471,639,552 B peak RSS (8.82 GiB) at `a045239` (hexx 0.2.0), 8,301,543,424 B at `v0.1.0-rc.2`; the VPS budget is about 8 GB. What would reverse it: the measured need falling well under 8 GB, or a task that cannot proceed without a local `hexx` test build (then a cfg split of the tests goes to the project manager).
 
 ## Deferred (orchestrator)
 

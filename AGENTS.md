@@ -39,7 +39,7 @@ over the whole stated domain before keeping any optimisation, and may replace it
 |---|---|
 | Full local gate (CI runs it on every pull request) | `scripts/check.sh` |
 | Format | `scarb fmt --check --workspace` |
-| Build / test one package | `scarb build -p hexx`, `snforge test -p hexx` |
+| Build / test one package | `scarb build -p hexx` (the build only); `snforge test -p <package>` for the other packages. The test targets of `hexx` are CI-only on the VPS (D-212, *Gas pins from CI*) |
 | Parity table (`docs/API_PARITY.md`, `docs/EXTENSIONS.md`) | `python3 scripts/api_parity.py --check`; `--refresh --hexx /path/to/hexx` to regenerate the embedded `hexx` inventory from a pinned checkout; `--extensions` for `docs/EXTENSIONS.md` |
 | Deviations (`docs/DEVIATIONS.md`) | `python3 scripts/deviations.py --check` |
 | Gas budgets and snapshots | `python3 scripts/bench.py check`; `snapshot` to rewrite `gas/*.snap` after a deliberate change |
@@ -69,8 +69,16 @@ measured under `prlimit --as=8589934592` only, never uncapped.
 
 ### Gas pins from CI
 
-The pins of `hexx` (`gas/hexx.snap`, its budgets) are never built uncapped on the VPS, and its test
-target fails there under the cap: CI's Linux run is their source (LIB-04i). Every CI run that
+The unit and integration test targets of `hexx` (`scarb build --test -p hexx`, `snforge test -p hexx`)
+are built only by CI, and by the Mac when it is offered and its billing allowed; VPS threads never
+build them (the target needs more than the VPS's ~8 GB, and fails there under the cap), so the pins
+of `hexx` (`gas/hexx.snap`, its budgets) come from CI's Linux run (LIB-04i), never from a local build.
+D-212 (project manager, 2026-10-05): D-167 stays, tests live beside the code, and rule (c) of LIB-04i
+is permanent for `hexx`; VPS threads keep the in-module tests. Measured need (Mac, uncapped,
+single-threaded, 2026-10-05): 9,471,639,552 B peak RSS (8.82 GiB) at `a045239` (hexx 0.2.0),
+8,301,543,424 B at `v0.1.0-rc.2`. What would reverse it: the measured need falling well under 8 GB,
+or a task that cannot proceed without a local `hexx` test build (then a cfg split of the tests goes
+to the project manager). Every CI run that
 measures gas publishes the artefact `gas-pins-<head sha>` (job `Gas completeness hexx regular`),
 even when the gas check failed: the regenerated `gas/*.snap` of every package measured completely,
 `gas/bytecode.size`, `budgets.json` (each test whose `#[available_gas(l2_gas: N)]` is missing or
