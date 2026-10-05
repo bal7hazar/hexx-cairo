@@ -79,7 +79,7 @@ Briefs: [index](docs/briefs/LIB-06-L-M2.md). Release 0.2.0 closes the milestone 
 | M2-T5 | `HexBounds`, `HexSpanExt`. Brief: [M2-T5](docs/briefs/LIB-06-M2-T5-bounds.md) | §8 L-M2, M2-T5 | M2-T1, M2-T2, M2-T3 | Sonnet 5.5 | none (D-177); review Opus | todo |
 | M2-T6 | `shapes`: six structs, `coords`, six free functions (D-143 reason written). Brief: [M2-T6](docs/briefs/LIB-06-M2-T6-shapes.md) | §8 L-M2, M2-T6 | M2-T2 | Sonnet 5.5 | none (D-177); review Opus | todo |
 | M2-T7 | `GridEdge`, `GridVertex`, `Hex::all_edges`, `all_vertices`. Brief: [M2-T7](docs/briefs/LIB-06-M2-T7-grid.md) | §8 L-M2, M2-T7 | M2-T1 (scheduled with M2-T4 to M2-T6) | Sonnet 5.5 | none (D-177); review Opus | todo |
-| M2-R | Release 0.2.0: `--check-release L-M2` passes, changelog (`Results changed` empty), one parity audit of the published interface (D-177), then publication after the owner's go. Index: [LIB-06 L-M2](docs/briefs/LIB-06-L-M2.md) | §8 L-M2 exit, §9 | all of L-M2 | Orchestrator | parity audit (D-177: published interface) | todo |
+| M2-R | Release 0.2.0: `--check-release L-M2` passes, changelog (`Results changed` empty), one parity audit of the published interface (D-177), then publication after the owner's go. Index: [LIB-06 L-M2](docs/briefs/LIB-06-L-M2.md) | §8 L-M2 exit, §9 | all of L-M2 | Orchestrator | parity audit (D-177: published interface) | done 2026-10-05 (published, D-211) |
 
 Decisions of the milestone:
 
