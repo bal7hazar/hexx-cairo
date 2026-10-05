@@ -221,8 +221,30 @@ fn fmt_f32(v: f32) -> String {
     format!("{v:?}")
 }
 
+/// One pair at the `i32` bounds that the golden vectors drop: `hexx` and the rule differ there.
+struct BoundPair {
+    x: i32,
+    y: i32,
+    rhs: i32,
+    hexx: Option<(i32, i32)>,
+    rule: Option<(i32, i32)>,
+}
+
+/// The pairs of `points` by `BOUND_VALUES` where `hexx`'s `Div<i32>` and the rule differ: the
+/// golden vectors keep only the pairs where they agree.
+fn dropped_pairs(points: &[(i32, i32)]) -> Vec<BoundPair> {
+    points
+        .iter()
+        .flat_map(|&p| BOUND_VALUES.iter().map(move |&k| (p, k)))
+        .filter_map(|((x, y), rhs)| {
+            let (hexx, rule) = (hexx_div(x, y, rhs), exact::div_scalar(x, y, rhs));
+            (hexx != rule).then_some(BoundPair { x, y, rhs, hexx, rule })
+        })
+        .collect()
+}
+
 /// `docs/deviations/div_scalar.md`.
-fn deviations_doc(sets: &[(&str, &Compared)]) -> String {
+fn deviations_doc(sets: &[(&str, &Compared)], dropped: &[BoundPair]) -> String {
     let mut out = String::new();
     out.push_str("# `div_scalar`: where this port and `hexx` 0.25.0 differ\n\n");
     out.push_str(
@@ -282,6 +304,22 @@ fn deviations_doc(sets: &[(&str, &Compared)]) -> String {
                 fmt_f32(py)
             );
         }
+    }
+    out.push_str(
+        "\n## The pairs at the `i32` bounds that the golden vectors drop\n\nThe golden vectors of \
+         `div_scalar` and `rem_scalar` near the bounds (`Hex` of the bound points by `rhs` of the \
+         bound values) keep the pairs where `hexx` and the rule agree; these are the ones that \
+         differ (a `panics` cell is a panic of a debug build, which wraps in a release build). \
+         `hexx` computes the point in `f32` (`i32::MAX as f32` is `2^31`): it is off by the `f32` \
+         error, or leaves the `i32` range, where the port's exact point does not.\n\n",
+    );
+    out.push_str("| Hex | rhs | hexx | port |\n|---|---|---|---|\n");
+    let show = |r: Option<(i32, i32)>| match r {
+        Some((a, b)) => format!("`({a}, {b})`"),
+        None => "panics".to_string(),
+    };
+    for d in dropped {
+        let _ = writeln!(out, "| `({}, {})` | {} | {} | {} |", d.x, d.y, d.rhs, show(d.hexx), show(d.rule));
     }
     out
 }
@@ -816,11 +854,12 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
         (format!("exhaustive, every `Hex` of `[-{d}, {d}]²` by every `rhs` of `[-{k}, {k}] \\ {{0}}`"), &full),
         (format!("seeded, `2^20 ≤ L < 2^31`, `rhs` in `[-{k}, {k}] \\ {{0}}`"), &big),
     ];
-    let doc = deviations_doc(&names.iter().map(|(n, c)| (n.as_str(), *c)).collect::<Vec<_>>());
+    let dropped = dropped_pairs(&crate::cairo::bound_points());
+    let doc = deviations_doc(&names.iter().map(|(n, c)| (n.as_str(), *c)).collect::<Vec<_>>(), &dropped);
 
     let mut e = Emitter::new(
         spec,
-        "the operators of `Hex` (src/hex/impls.rs): `Add` :16, `AddAssign` :55,\n// `Sub` :96, `SubAssign` :135, `Mul` :164, `MulAssign` :196, `Div` :230,\n// `DivAssign` :265, `Rem` :286, `RemAssign` :304, `Neg` :318; the counterparts\n// `Add<i32>` :25, `Add<EdgeDirection>` :38, `Add<VertexDirection>` :46, `Sub<i32>` :105,\n// `Sub<EdgeDirection>` :117, `Sub<VertexDirection>` :125, `Div<i32>` :241, `Rem<i32>` :295",
+        "the operators of `Hex` (src/hex/impls.rs): `Add` :16, `AddAssign` :55,\n// `Sub` :95, `SubAssign` :134, `Mul` :162, `MulAssign` :196, `Div` :229,\n// `DivAssign` :268, `Rem` :289, `RemAssign` :307, `Neg` :321; the counterparts\n// `Add<i32>` :25, `Add<EdgeDirection>` :37, `Add<VertexDirection>` :46, `Sub<i32>` :104,\n// `Sub<EdgeDirection>` :116, `Sub<VertexDirection>` :125, `Div<i32>` :241, `Rem<i32>` :298",
         "use hexx::direction::edge_direction::EdgeDirectionTrait;\nuse hexx::direction::vertex_direction::VertexDirectionTrait;\nuse hexx::hex::HexTrait;\nuse hexx::hex::impls::{\n    HexAdd, HexAddAssign, HexDiv, HexDivAssign, HexMul, HexMulAssign, HexNeg, HexOpsTrait, HexRem,\n    HexRemAssign, HexSub, HexSubAssign,\n};\n",
     );
 

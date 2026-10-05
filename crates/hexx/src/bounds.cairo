@@ -483,11 +483,12 @@ mod tests {
         }
     }
 
-    // ----- the tests of `hexx` (`src/bounds.rs:241-455`) -----
+    // ----- the tests of `hexx` (`src/bounds.rs:277-432`) -----
 
     #[test]
     #[available_gas(l2_gas: 2412522)]
     fn test_in_bounds_work() {
+        // Radius 6 where `hexx` uses 34, for the gas of the test.
         let bounds = HexBoundsTrait::new(HexTrait::new(-4, 23), 6);
         let mut coords = bounds.all_coords();
         assert!(coords.len() == 127);
@@ -545,6 +546,7 @@ mod tests {
     #[test]
     #[available_gas(l2_gas: 5174568)]
     fn test_bounds_hexagon() {
+        // Radii `0..5` where `hexx` uses `0..8`, for the gas of the test.
         let mut centers = array![HexTrait::ZERO, HexTrait::new(15, -19)].span();
         while let Some(center) = centers.pop_front() {
             let mut radius = 0;
@@ -838,27 +840,42 @@ mod tests {
         assert!(acc != 1);
     }
 
+    /// The loop of `bench_bounds_hex_count` and `bench_bounds_hex_count32` without the call: the
+    /// radius comes from the loop so that the compiler cannot fold the count.
     #[test]
-    #[available_gas(l2_gas: 25526)]
-    fn bench_bounds_hex_count() {
-        let bounds = HexBoundsTrait::from_radius(64);
+    #[available_gas(l2_gas: 29967)]
+    fn bench_bounds_baseline_radius() {
         let mut acc: u32 = 0;
         let mut n = REPS;
         while n != 0 {
             n -= 1;
+            let bounds = HexBoundsTrait::from_radius(64 - n.into());
+            acc += bounds.radius;
+        }
+        assert!(acc != 1);
+    }
+
+    #[test]
+    #[available_gas(l2_gas: 45465)]
+    fn bench_bounds_hex_count() {
+        let mut acc: u32 = 0;
+        let mut n = REPS;
+        while n != 0 {
+            n -= 1;
+            let bounds = HexBoundsTrait::from_radius(64 - n.into());
             acc += bounds.hex_count();
         }
         assert!(acc != 1);
     }
 
     #[test]
-    #[available_gas(l2_gas: 25526)]
+    #[available_gas(l2_gas: 45465)]
     fn bench_bounds_hex_count32() {
-        let bounds = HexBoundsTrait::from_radius(64);
         let mut acc: u32 = 0;
         let mut n = REPS;
         while n != 0 {
             n -= 1;
+            let bounds = HexBoundsTrait::from_radius(64 - n.into());
             acc += bounds.hex_count32();
         }
         assert!(acc != 1);

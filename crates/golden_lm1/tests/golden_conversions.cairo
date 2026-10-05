@@ -1674,3 +1674,72 @@ fn golden_conversions_bounds_from_hexmod_panics_1() {
     let h = HexConversionsTrait::from_hexmod_coordinates(c, r);
     let _ = h;
 }
+
+#[test]
+#[available_gas(l2_gas: 102617)]
+fn golden_conversions_shift_from_hexmod() {
+    let cases: Array<(u32, u32, i32, i32)> = array![
+        (0, 0, 0, 0), (0, 715827881, 0, 0), (12, 0, 6, -6), (12, 715827881, 0, 12),
+    ];
+    let mut i = 0;
+    while i < cases.len() {
+        let (c, r, ex, ey) = *cases.at(i);
+        let h = HexConversionsTrait::from_hexmod_coordinates(c, r);
+        assert(h == HexTrait::new(ex, ey), 'from_hexmod');
+        i += 1;
+    }
+}
+
+#[test]
+#[available_gas(l2_gas: 7991)]
+#[should_panic]
+fn golden_conversions_shift_from_hexmod_panics_0() {
+    let (c, r): (u32, u32) = (0, 715827882);
+    let h = HexConversionsTrait::from_hexmod_coordinates(c, r);
+    let _ = h;
+}
+
+#[test]
+#[available_gas(l2_gas: 7991)]
+#[should_panic]
+fn golden_conversions_shift_from_hexmod_panics_1() {
+    let (c, r): (u32, u32) = (0, 1431655764);
+    let h = HexConversionsTrait::from_hexmod_coordinates(c, r);
+    let _ = h;
+}
+
+#[test]
+#[available_gas(l2_gas: 7991)]
+#[should_panic]
+fn golden_conversions_shift_from_hexmod_panics_2() {
+    let (c, r): (u32, u32) = (0, 1431655765);
+    let h = HexConversionsTrait::from_hexmod_coordinates(c, r);
+    let _ = h;
+}
+
+#[test]
+#[available_gas(l2_gas: 7991)]
+#[should_panic]
+fn golden_conversions_shift_from_hexmod_panics_3() {
+    let (c, r): (u32, u32) = (12, 715827882);
+    let h = HexConversionsTrait::from_hexmod_coordinates(c, r);
+    let _ = h;
+}
+
+#[test]
+#[available_gas(l2_gas: 7991)]
+#[should_panic]
+fn golden_conversions_shift_from_hexmod_panics_4() {
+    let (c, r): (u32, u32) = (12, 1431655764);
+    let h = HexConversionsTrait::from_hexmod_coordinates(c, r);
+    let _ = h;
+}
+
+#[test]
+#[available_gas(l2_gas: 7991)]
+#[should_panic]
+fn golden_conversions_shift_from_hexmod_panics_5() {
+    let (c, r): (u32, u32) = (12, 1431655765);
+    let h = HexConversionsTrait::from_hexmod_coordinates(c, r);
+    let _ = h;
+}

@@ -536,7 +536,8 @@ mod tests {
     // | `rotate_cw`, `rotate_ccw` (255 steps) | 2,217 | 2,772 |
     // | `const_neg` | 1,785 | 2,232 |
     // | `clockwise`, `counter_clockwise` | 1,868 | 2,335 |
-    // | `Hex::all_vertices` | 6 x 1,030 = 6,180 | 7,725 |
+    // | `Hex::all_vertices` | 0 (struct construction only, no arithmetic: costs its baseline) | n/a
+    // |
     //
     // `equivalent` is measured on the pairs (vertex, its form on the `direction_ccw` neighbour);
     // `all_vertices` on 102 calls.

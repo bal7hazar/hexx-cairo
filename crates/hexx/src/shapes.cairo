@@ -822,16 +822,16 @@ mod tests {
     // Oracles (D-167): each `coords` as a set against its per-hex definition. A span whose every
     // element satisfies the definition, whose elements are strictly increasing in the order of
     // `hexx` (so all distinct) and whose length is the closed form of the definition's size is
-    // exactly the set of the definition. The sizes stay small (radius 4, boxes of 5 × 5, 4 × 4
-    // rectangles): the golden vectors hold radii and boxes up to 6 against `hexx`.
+    // exactly the set of the definition. The domain is `0..7` on every side of every shape; the
+    // golden vectors hold radii and boxes up to 6 against `hexx`.
 
     #[test]
-    #[available_gas(l2_gas: 42844893)]
+    #[available_gas(l2_gas: 112239561)]
     fn test_shapes_hexagon_oracle() {
         for anchor in anchors() {
             let (cx, cy) = *anchor;
             let center = HexTrait::new(cx, cy);
-            for radius in 0..5_u32 {
+            for radius in 0..7_u32 {
                 let span = hexagon(center, radius);
                 assert!(span.len() == HexTrait::range_count(radius));
                 assert!(span == center.range(radius));
@@ -851,12 +851,12 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 33546261)]
+    #[available_gas(l2_gas: 110350065)]
     fn test_shapes_parallelogram_oracle() {
         for anchor in anchors() {
             let (mx, my) = *anchor;
-            for dx in 0..5_i32 {
-                for dy in 0..5_i32 {
+            for dx in 0..7_i32 {
+                for dy in 0..7_i32 {
                     let min = HexTrait::new(mx, my);
                     let max = HexTrait::new(mx + dx, my + dy);
                     let span = parallelogram(min, max);
@@ -897,13 +897,13 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 47747637)]
+    #[available_gas(l2_gas: 90497001)]
     fn test_shapes_rombus_oracle() {
         for anchor in anchors() {
             let (ox, oy) = *anchor;
             let origin = HexTrait::new(ox, oy);
-            for rows in 0..6_u32 {
-                for columns in 0..6_u32 {
+            for rows in 0..7_u32 {
+                for columns in 0..7_u32 {
                     let span = rombus(origin, rows, columns);
                     assert!(span.len() == rows * columns);
                     assert!(Rombus { origin, rows, columns }.coords() == span);
@@ -924,12 +924,12 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 25613217)]
+    #[available_gas(l2_gas: 176018787)]
     fn test_shapes_pointy_rectangle_oracle() {
         for anchor in anchors() {
             let (left, top) = *anchor;
-            for width in 0..4_i32 {
-                for height in 0..4_i32 {
+            for width in 0..7_i32 {
+                for height in 0..7_i32 {
                     let (right, bottom) = (left + width, top + height);
                     let span = pointy_rectangle([left, right, top, bottom]);
                     assert!(span.len() == ((width + 1) * (height + 1)).try_into().unwrap());
@@ -952,12 +952,12 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 25613217)]
+    #[available_gas(l2_gas: 176002029)]
     fn test_shapes_flat_rectangle_oracle() {
         for anchor in anchors() {
             let (left, top) = *anchor;
-            for width in 0..4_i32 {
-                for height in 0..4_i32 {
+            for width in 0..7_i32 {
+                for height in 0..7_i32 {
                     let (right, bottom) = (left + width, top + height);
                     let span = flat_rectangle([left, right, top, bottom]);
                     assert!(span.len() == ((width + 1) * (height + 1)).try_into().unwrap());

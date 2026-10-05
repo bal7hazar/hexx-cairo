@@ -311,5 +311,14 @@ fn emit_l_m2(
         .flat_map(|c| [1, max].into_iter().map(move |r| (c, r)))
         .collect();
     fun_tables(e, "conversions", "bounds", &bound_coords, &FROM_HEXMOD, Some(panic_cap))?;
+    // `range = 0` (`shift = 2`), and `shift(range) = 3 * range + 2` at and above `i32::MAX`:
+    // `715827881` is the largest range whose shift fits, `715827882` has `shift = 2^31` (`as i32`
+    // wraps to `i32::MIN`, then `shift - 1` overflows), `1431655764` has `shift = 2^32 - 2`, and
+    // `1431655765` overflows `3 * range + 2` itself. Every panicking pair gets its own test.
+    let shifts: Vec<(u32, u32)> = [0, 12]
+        .into_iter()
+        .flat_map(|c| [0, 715_827_881, 715_827_882, 1_431_655_764, 1_431_655_765].into_iter().map(move |r| (c, r)))
+        .collect();
+    fun_tables(e, "conversions", "shift", &shifts, &FROM_HEXMOD, Some(shifts.len()))?;
     Ok(())
 }

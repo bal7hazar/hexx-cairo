@@ -554,6 +554,13 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `golden_lm1_integrationtest::golden_conversions::golden_conversions_seeded_from_doubled` | 17,217,170 | 18,078,029 | 5.0 % |
 | `golden_lm1_integrationtest::golden_conversions::golden_conversions_seeded_to_doubled` | 17,238,760 | 18,100,698 | 5.0 % |
 | `golden_lm1_integrationtest::golden_conversions::golden_conversions_seeded_to_hexmod` | 124,104,550 | 130,309,778 | 5.0 % |
+| `golden_lm1_integrationtest::golden_conversions::golden_conversions_shift_from_hexmod` | 97,730 | 102,617 | 5.0 % |
+| `golden_lm1_integrationtest::golden_conversions::golden_conversions_shift_from_hexmod_panics_0` | 7,610 | 7,991 | 5.0 % |
+| `golden_lm1_integrationtest::golden_conversions::golden_conversions_shift_from_hexmod_panics_1` | 7,610 | 7,991 | 5.0 % |
+| `golden_lm1_integrationtest::golden_conversions::golden_conversions_shift_from_hexmod_panics_2` | 7,610 | 7,991 | 5.0 % |
+| `golden_lm1_integrationtest::golden_conversions::golden_conversions_shift_from_hexmod_panics_3` | 7,610 | 7,991 | 5.0 % |
+| `golden_lm1_integrationtest::golden_conversions::golden_conversions_shift_from_hexmod_panics_4` | 7,610 | 7,991 | 5.0 % |
+| `golden_lm1_integrationtest::golden_conversions::golden_conversions_shift_from_hexmod_panics_5` | 7,610 | 7,991 | 5.0 % |
 | `golden_lm1_integrationtest::golden_conversions::golden_doubled_default` | 6,010 | 6,311 | 5.0 % |
 | `golden_lm1_integrationtest::golden_conversions::golden_hexmod_round_trip` | 13,617,090 | 14,297,945 | 5.0 % |
 | `golden_lm1_integrationtest::golden_conversions::golden_offset_bounds_from_even_flat` | 9,342,130 | 9,809,237 | 5.0 % |
@@ -1030,12 +1037,13 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::board::tables::tests::test_tables_rows_16` | 731,130 | 767,687 | 5.0 % |
 | `hexx::bounds::tests::bench_bounds_all_coords` | 586,050 | 615,353 | 5.0 % |
 | `hexx::bounds::tests::bench_bounds_baseline` | 34,300 | 36,015 | 5.0 % |
+| `hexx::bounds::tests::bench_bounds_baseline_radius` | 28,540 | 29,967 | 5.0 % |
 | `hexx::bounds::tests::bench_bounds_corners` | 324,640 | 340,872 | 5.0 % |
 | `hexx::bounds::tests::bench_bounds_from_min_max` | 534,490 | 561,215 | 5.0 % |
 | `hexx::bounds::tests::bench_bounds_from_span` | 405,730 | 426,017 | 5.0 % |
 | `hexx::bounds::tests::bench_bounds_from_span_baseline` | 257,920 | 270,816 | 5.0 % |
-| `hexx::bounds::tests::bench_bounds_hex_count` | 24,310 | 25,526 | 5.0 % |
-| `hexx::bounds::tests::bench_bounds_hex_count32` | 24,310 | 25,526 | 5.0 % |
+| `hexx::bounds::tests::bench_bounds_hex_count` | 43,300 | 45,465 | 5.0 % |
+| `hexx::bounds::tests::bench_bounds_hex_count32` | 43,300 | 45,465 | 5.0 % |
 | `hexx::bounds::tests::bench_bounds_intersecting_with` | 2,414,390 | 2,535,110 | 5.0 % |
 | `hexx::bounds::tests::bench_bounds_is_in_bounds` | 125,690 | 131,975 | 5.0 % |
 | `hexx::bounds::tests::bench_bounds_wrap` | 402,850 | 422,993 | 5.0 % |
@@ -1104,6 +1112,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::direction::way::tests::bench_direction_way_from_baseline` | 680,118 | 714,124 | 5.0 % |
 | `hexx::direction::way::tests::bench_direction_way_map` | 512,752 | 538,390 | 5.0 % |
 | `hexx::direction::way::tests::bench_direction_way_unwrap` | 512,752 | 538,390 | 5.0 % |
+| `hexx::direction::way::tests::test_direction_way_debug` | 458,920 | 481,866 | 5.0 % |
 | `hexx::direction::way::tests::test_direction_way_from_oracle` | 822,870 | 864,014 | 5.0 % |
 | `hexx::direction::way::tests::test_direction_way_into` | 6,010 | 6,311 | 5.0 % |
 | `hexx::direction::way::tests::test_direction_way_map_captures` | 6,010 | 6,311 | 5.0 % |
@@ -1305,6 +1314,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::hex::grid::edge::tests::test_grid_edge_equivalent_oracle_at_the_origin` | 37,430,730 | 39,302,267 | 5.0 % |
 | `hexx::hex::grid::edge::tests::test_grid_edge_equivalent_oracle_elsewhere` | 74,854,650 | 78,597,383 | 5.0 % |
 | `hexx::hex::grid::edge::tests::test_grid_edge_equivalent_overflow_panics` | 9,280 | 9,744 | 5.0 % |
+| `hexx::hex::grid::edge::tests::test_grid_edge_equivalent_short_circuit_at_max` | 6,010 | 6,311 | 5.0 % |
 | `hexx::hex::grid::edge::tests::test_grid_edge_flipped` | 1,912,860 | 2,008,503 | 5.0 % |
 | `hexx::hex::grid::edge::tests::test_grid_edge_from_edge_direction` | 17,600 | 18,480 | 5.0 % |
 | `hexx::hex::grid::edge::tests::test_grid_edge_neg` | 112,970 | 118,619 | 5.0 % |
@@ -1481,12 +1491,12 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::shapes::tests::test_shapes_default` | 4,335,910 | 4,552,706 | 5.0 % |
 | `hexx::shapes::tests::test_shapes_empty` | 29,400 | 30,870 | 5.0 % |
 | `hexx::shapes::tests::test_shapes_flat_rectangle_negative_left` | 39,390 | 41,360 | 5.0 % |
-| `hexx::shapes::tests::test_shapes_flat_rectangle_oracle` | 24,393,540 | 25,613,217 | 5.0 % |
-| `hexx::shapes::tests::test_shapes_hexagon_oracle` | 40,804,660 | 42,844,893 | 5.0 % |
-| `hexx::shapes::tests::test_shapes_parallelogram_oracle` | 31,948,820 | 33,546,261 | 5.0 % |
+| `hexx::shapes::tests::test_shapes_flat_rectangle_oracle` | 167,620,980 | 176,002,029 | 5.0 % |
+| `hexx::shapes::tests::test_shapes_hexagon_oracle` | 106,894,820 | 112,239,561 | 5.0 % |
+| `hexx::shapes::tests::test_shapes_parallelogram_oracle` | 105,095,300 | 110,350,065 | 5.0 % |
 | `hexx::shapes::tests::test_shapes_pointy_rectangle_negative_top` | 39,390 | 41,360 | 5.0 % |
-| `hexx::shapes::tests::test_shapes_pointy_rectangle_oracle` | 24,393,540 | 25,613,217 | 5.0 % |
-| `hexx::shapes::tests::test_shapes_rombus_oracle` | 45,473,940 | 47,747,637 | 5.0 % |
+| `hexx::shapes::tests::test_shapes_pointy_rectangle_oracle` | 167,636,940 | 176,018,787 | 5.0 % |
+| `hexx::shapes::tests::test_shapes_rombus_oracle` | 86,187,620 | 90,497,001 | 5.0 % |
 | `hexx::shapes::tests::test_shapes_rombus_revert_overflow` | 14,660 | 15,393 | 5.0 % |
 | `hexx::shapes::tests::test_shapes_triangle_oracle` | 4,701,170 | 4,936,229 | 5.0 % |
 | `hexx::shapes::tests::test_shapes_triangle_revert_size` | 7,610 | 7,991 | 5.0 % |
@@ -2941,7 +2951,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 7,810 | 8,201 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 7,810 | 8,201 | 5.0 % |
 
-2934 measured test(s).
+2944 measured test(s).
 
 ## Figures accepted above their range
 

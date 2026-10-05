@@ -11,7 +11,7 @@
 // `clockwise` :268, `counter_clockwise` :286, `rotate_ccw` :300, `rotate_cw` :314,
 // `direction_ccw` :573, `edge_ccw` :588, `direction_cw` :603, `edge_cw` :618,
 // `edge_directions` :625, `From<VertexDirection> for Hex` :630, `Debug` :637;
-// `DirectionWay` (src/direction/way.rs:8), `contains` :62 (and `PartialEq<T>` :42),
+// `DirectionWay` (src/direction/way.rs:30), `contains` :62 (and `PartialEq<T>` :42),
 // `unwrap` :53, `map` :75, `From<T>` :95, `From<[T; 2]>` :102;
 // the operators (src/direction/impls.rs), `Neg` :5 :13, `Mul<i32>` :53 :61
 // (pinned checkout sources/hexx, tag 0.25.0,
