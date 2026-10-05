@@ -744,6 +744,8 @@ class ExtensionInventory(FixtureTreeCase):
         self.assertIn(("shapes", "impl", "Hexagon.Default for Hexagon"), keys)
         # A free function keeps its bare name, as on the Rust side.
         self.assertIn(("shapes", "method", "hexagon"), keys)
+        # The `fn default` of a hand-written `Default` is the impl's, not a Cairo-only method.
+        self.assertFalse([k for k in keys if k[1] == "method" and k[2].startswith("Default")])
 
     def test_generate_trait_impl_produces_the_trait_item_too(self) -> None:
         # Fix loop 3 finding P2-14: `#[generate_trait]` synthesizes the trait from the impl; no

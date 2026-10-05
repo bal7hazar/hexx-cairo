@@ -893,8 +893,9 @@ def assemble_pins(reports: list[dict], expected: Iterable[str] = ()) -> dict:
     package measured completely, `declared` being the budget after `apply-pins`), `budgets` (test
     -> new budget, for the tests whose budget changes), `incomplete` (package -> why its snapshot
     is not assembled; a package of `expected` with no report at all is one: "no report"),
-    `empty` (the packages measured completely with no test: their snapshot is removed, as
-    `write_snapshots` does), `unmeasured` (the tests that ran with no measurement: no row) and
+    `empty` (the packages measured completely with no test at all, no `unmeasured` one either:
+    their snapshot is removed, as `write_snapshots` does; a package whose tests all ran with no
+    measurement keeps its snapshot), `unmeasured` (the tests that ran with no measurement: no row) and
     `failed` (the tests measured but failed: their row is the figure of a failing run)."""
     by_package: dict[str, list[dict]] = {package: [] for package in expected}
     for report in reports:
@@ -907,8 +908,10 @@ def assemble_pins(reports: list[dict], expected: Iterable[str] = ()) -> dict:
             continue
         problems = shares_problems(found)
         merged: dict[str, dict] = {}
+        skipped = False
         for report in found:
             result["unmeasured"].extend(report.get("unmeasured", []))
+            skipped = skipped or bool(report.get("unmeasured"))
             for name, row in report["rows"].items():
                 if name in merged and merged[name] != row:
                     problems.append(f"{name}: measured twice, differently")
@@ -918,7 +921,8 @@ def assemble_pins(reports: list[dict], expected: Iterable[str] = ()) -> dict:
             result["incomplete"][package] = problems
             continue
         if not merged:
-            result["empty"].append(package)
+            if not skipped:
+                result["empty"].append(package)
             continue
         rows = result["rows"][package] = {}
         for name, row in sorted(merged.items()):
@@ -1036,7 +1040,8 @@ def apply_pins(directory: Path) -> int:
         print(f"apply-pins: WARNING: the run measured the merge into base {manifest['base']}, "
               f"origin/main is now {main_rev}"
               + ("" if git_is_ancestor(manifest["base"], main_rev or "") else
-                 " (and the base is not one of its ancestors)")
+                 " (and the base is not one of its ancestors; git fetch first: your origin/main may be "
+                 "older than the run)")
               + ": main moved since the run; re-run CI on this head before applying, or let the "
               "confirming run decide.", file=sys.stderr)
     for path in sorted((directory / "gas").glob("*")):

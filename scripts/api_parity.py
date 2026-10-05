@@ -1551,6 +1551,11 @@ def scan_cairo_tree(
             owner = owner_of(path, type_name) if trait_name else None
             if owner is None:
                 continue
+            if literal_trait_name == "Default" and owner in MULTI_TYPE_OWNERS:
+                # A hand-written `impl XDefault of Default<X>`: its `fn default` is the trait's own,
+                # not a member of a type `Default` (a false Cairo-only `method Default.default`);
+                # the impl item itself comes from `CAIRO_IMPL_HEAD_RE` below.
+                continue
             type_name = ops_type_name(owner, type_name)
             # `#[generate_trait] pub impl XImpl of XTrait { ... }`: the trait itself has no other
             # text anywhere, so the block that introduces it is also where its own "trait" item

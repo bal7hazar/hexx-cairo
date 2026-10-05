@@ -114,6 +114,12 @@ class Assembly(unittest.TestCase):
         self.assertEqual((result["rows"], result["incomplete"], result["empty"]),
                          ({}, {}, ["consumer"]))
 
+    def test_a_package_whose_tests_all_ran_unmeasured_is_not_empty(self) -> None:
+        result = bench.assemble_pins(
+            [report("p", "all", 1, 1, {}, unmeasured=["p::slow"])], ["p"])
+        self.assertEqual((result["rows"], result["incomplete"], result["empty"]), ({}, {}, []))
+        self.assertEqual(result["unmeasured"], ["p::slow"])
+
     def test_a_repeated_partition_is_incomplete(self) -> None:
         reports = [report("p", "all", 1, 1, {"p::a": (1, 1)}),
                    report("p", "all", 1, 1, {"p::a": (2, 2)})]
@@ -293,7 +299,8 @@ class ApplyPins(Scratch):
                       err)
         self.assertNotIn("not one of its ancestors", err)
         _, err = self.run_apply(self.artefact({}), main="elsewhere", ancestor=False)
-        self.assertIn("(and the base is not one of its ancestors)", err)
+        self.assertIn("(and the base is not one of its ancestors; git fetch first: your "
+                      "origin/main may be older than the run)", err)
 
     def test_left_to_do_exits_1_and_an_empty_package_loses_its_snapshot(self) -> None:
         self.write("crates/pkg/src/lib.cairo", SOURCE)
@@ -303,7 +310,8 @@ class ApplyPins(Scratch):
         status, err = self.run_apply(art)
         self.assertEqual(status, 1)
         self.assertFalse((self.dir / "gas" / "consumer.snap").exists())
-        for line in ("golden_lm2: not measured completely by the run (no report)"[:30],
+        for line in ("golden_lm2: not measured completely by the run, gas/golden_lm2.snap left as it is "
+                     "(no report)",
                      "pkg::tests::slow: ran with no measurement", "pkg::tests::bad: failed"):
             self.assertIn(line, err)
 
