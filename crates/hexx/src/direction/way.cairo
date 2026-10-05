@@ -320,7 +320,7 @@ mod tests {
     /// The printed form of the two variants, as the `#### Deviations` of `DirectionWay` states it:
     /// the type prefix of the variant, the directions as in `hexx`.
     #[test]
-    #[available_gas(l2_gas: 5000000)]
+    #[available_gas(l2_gas: 481866)]
     fn test_direction_way_debug() {
         let single: DirectionWay<EdgeDirection> = EdgeDirectionTrait::X.into();
         assert!(

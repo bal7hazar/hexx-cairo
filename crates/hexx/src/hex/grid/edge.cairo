@@ -375,7 +375,7 @@ mod tests {
     /// The short-circuit of `equivalent`: an edge is equivalent to itself without computing its
     /// destination, which would leave `i32` (`add_dir`) at `i32::MAX`.
     #[test]
-    #[available_gas(l2_gas: 1000000)]
+    #[available_gas(l2_gas: 6311)]
     fn test_grid_edge_equivalent_short_circuit_at_max() {
         let max: i32 = 2147483647;
         let a = GridEdge { origin: HexTrait::new(max, 0), direction: EdgeDirectionTrait::X };

@@ -826,7 +826,7 @@ mod tests {
     // golden vectors hold radii and boxes up to 6 against `hexx`.
 
     #[test]
-    #[available_gas(l2_gas: 150000000)]
+    #[available_gas(l2_gas: 112239561)]
     fn test_shapes_hexagon_oracle() {
         for anchor in anchors() {
             let (cx, cy) = *anchor;
@@ -851,7 +851,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 150000000)]
+    #[available_gas(l2_gas: 110350065)]
     fn test_shapes_parallelogram_oracle() {
         for anchor in anchors() {
             let (mx, my) = *anchor;
@@ -897,7 +897,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 150000000)]
+    #[available_gas(l2_gas: 90497001)]
     fn test_shapes_rombus_oracle() {
         for anchor in anchors() {
             let (ox, oy) = *anchor;
@@ -924,7 +924,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 400000000)]
+    #[available_gas(l2_gas: 176018787)]
     fn test_shapes_pointy_rectangle_oracle() {
         for anchor in anchors() {
             let (left, top) = *anchor;
@@ -952,7 +952,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 400000000)]
+    #[available_gas(l2_gas: 176002029)]
     fn test_shapes_flat_rectangle_oracle() {
         for anchor in anchors() {
             let (left, top) = *anchor;

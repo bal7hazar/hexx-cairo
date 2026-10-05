@@ -843,7 +843,7 @@ mod tests {
     /// The loop of `bench_bounds_hex_count` and `bench_bounds_hex_count32` without the call: the
     /// radius comes from the loop so that the compiler cannot fold the count.
     #[test]
-    #[available_gas(l2_gas: 200000)]
+    #[available_gas(l2_gas: 29967)]
     fn bench_bounds_baseline_radius() {
         let mut acc: u32 = 0;
         let mut n = REPS;
@@ -856,7 +856,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 200000)]
+    #[available_gas(l2_gas: 45465)]
     fn bench_bounds_hex_count() {
         let mut acc: u32 = 0;
         let mut n = REPS;
@@ -869,7 +869,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 200000)]
+    #[available_gas(l2_gas: 45465)]
     fn bench_bounds_hex_count32() {
         let mut acc: u32 = 0;
         let mut n = REPS;
