@@ -93,6 +93,28 @@ figures are of the merge of the head into the base named in the manifest: `apply
 pins of another head than `HEAD`, and prints a `WARNING` line when that base is not `origin/main`;
 read it, and on a stale base re-run CI on the head before applying.
 
+## How tests are scoped
+
+A thread runs locally only the tests of the parts it touched, never the whole suite at every step.
+The whole suite is CI's on the pull request, gated by changed paths (`scripts/ci_changes.py`).
+Peaks are the ones recorded in this file ("Golden tests", "Gas pins from CI"); any other part is
+**measure first**: capped (`prlimit --as=8589934592 -- /usr/bin/time -v …`) or on the Mac, never
+uncapped on the VPS.
+
+| Part | Local test command | Known memory peak |
+|---|---|---|
+| `crates/hexx` | none locally: test targets are CI-only (D-212); `scarb build -p hexx` is the local check | 9.47 GB (8.82 GiB, Mac, `a045239`): over 8 GB |
+| `crates/takeover_tests`, `crates/consumer` | `snforge test -p <package>` | not recorded: measure first |
+| `crates/golden_lm2` / `golden_impls` / `golden_hex` | `snforge test -p <package>` | 1.6 GB (3,241 lines) / 5.0 GB (11,156) / 6.0 GB (13,765) |
+| `crates/golden_lm1` | `snforge test -p golden_lm1` | 2.0 GB (5,119 lines; now 5,188) |
+| `crates/golden_bounds`, `golden_grid`, `golden_hex_t2`, `golden_rings`, `golden_shapes` | `snforge test -p <package>` | not recorded; the 8,000-line budget gives under ~4 GB: measure first |
+| `tools/refgen` (golden vectors) | `cd tools/refgen && cargo run -- check` | not recorded: measure first |
+| `tools/consumer_check` | `tools/consumer_check/run.sh [version]` (builds and tests against the registry) | not recorded: measure first |
+| `scripts/` | `python3 -m unittest discover -s scripts/tests` | not recorded: measure first |
+
+There is no Node package in this repository. The pre-push hook stays minimal (2026-10-02 rule) and
+is not a substitute for the scoped tests above.
+
 ## Before you push
 
 | When | Run |
