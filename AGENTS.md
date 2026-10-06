@@ -93,6 +93,33 @@ figures are of the merge of the head into the base named in the manifest: `apply
 pins of another head than `HEAD`, and prints a `WARNING` line when that base is not `origin/main`;
 read it, and on a stale base re-run CI on the head before applying.
 
+## How tests are scoped
+
+A thread runs locally only the tests of the parts it touched, never the whole suite at every step.
+The whole suite is CI's on the pull request, gated by changed paths (`scripts/ci_changes.py`).
+Peaks are the ones recorded in this file ("Golden tests", "Gas pins from CI"); any other part is
+**measure first**: capped (`prlimit --as=8589934592 -- /usr/bin/time -v …`) or on the Mac, never
+uncapped on the VPS.
+
+| Part | Local test command | Known memory peak |
+|---|---|---|
+| `crates/hexx` | `scarb build -p hexx` (library alone, ~0.7 GB) is the only hexx build on the VPS. `snforge test -p hexx <filter>` still compiles the whole test target (unit + integration), so a filter scopes nothing: CI or the Mac only (D-212) | 9,471,639,552 B (8.82 GiB), Mac, 2026-10-05, `a045239`: over 8 GB |
+| `crates/takeover_tests`, `crates/consumer` | `snforge test -p <package>` | not recorded: measure first |
+| `crates/golden_lm2` / `golden_impls` / `golden_hex` | `snforge test -p <package>` | 1.6 GB (3,241 lines) / 5.0 GB (11,156) / 6.0 GB (13,765) |
+| `crates/golden_lm1` | `snforge test -p golden_lm1` | 2.0 GB (5,119 lines; now 5,188) |
+| `crates/golden_bounds`, `golden_grid`, `golden_hex_t2`, `golden_rings`, `golden_shapes` | `snforge test -p <package>` | not recorded; the 8,000-line budget gives under ~4 GB: measure first |
+| `tools/refgen` (golden vectors) | `cargo run --manifest-path tools/refgen/Cargo.toml -- check` | not recorded: measure first |
+| `tools/consumer_check` | `tools/consumer_check/run.sh [version]` (builds and tests against the registry) | not recorded: measure first |
+| `scripts/`, generated docs | `python3 -m unittest discover -s scripts/tests`; `python3 scripts/{api_parity,deviations,gas_tables}.py --check` | not recorded: measure first |
+
+There is no Node package in this repository. Each golden package stays under 8,000 lines and is run
+alone (`snforge test -p golden_<x>`) for the one a change touches. The `hexx` gas pins come from
+CI's artefact (`gas-pins-<head sha>`, `bench.py apply-pins`, "Gas pins from CI"), never from a local
+run; pins and `gas/bytecode.size` are Linux-only (D-182). Builds run single-threaded
+(`RAYON_NUM_THREADS=1`, D-176). The pre-push hook stays minimal (2026-10-02 rule): it checks only
+the changed set, skips its Cairo compile after 90 s of build lock, and is not a substitute for the
+scoped tests above.
+
 ## Before you push
 
 | When | Run |
