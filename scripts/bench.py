@@ -672,6 +672,13 @@ def snapshot_differences(packages: dict[str, dict[str, dict]], infos: dict[str, 
     return bad
 
 
+# The packages that hold Digger tests (the double run of `repeat`, filter `digger`). A package
+# outside the set (`consumer`, the `golden_*` packages, `hexx_glam`) has none: `repeat` then has
+# nothing to repeat and succeeds, where a whole package of the set with no match is an error (the
+# tests were renamed or removed).
+DIGGER_PACKAGES = {"hexx", "takeover_tests"}
+
+
 def repeat(package: str, test_filter: str, partition: tuple[int, int] | None = None) -> int:
     """Runs the tests matching `test_filter` twice, back to back, and fails if the compiled files
     of a run are not those of the check (or of the other repeat), if the two runs measure any of
@@ -701,6 +708,9 @@ def repeat(package: str, test_filter: str, partition: tuple[int, int] | None = N
             if (reference or {}).get(path) != (hashes or {}).get(path):
                 print(f"  {path}: {reference_label} {(reference or {}).get(path)}, "
                       f"{label} {(hashes or {}).get(path)}", file=sys.stderr)
+    if not first and package not in DIGGER_PACKAGES:
+        print(f"repeat: {package} has no Digger test: nothing to repeat", file=sys.stderr)
+        return status
     if not first:
         print(f"repeat: no test of {package} matches {test_filter!r}"
               + (f" in partition {partition[0]}/{partition[1]}" if partition else ""),

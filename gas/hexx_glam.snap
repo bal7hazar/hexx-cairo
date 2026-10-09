@@ -1,6 +1,6 @@
 # gas: measured budget
 hexx_glam::tests::test_as_ivec3_extremes_in_range: 6010 6311
-hexx_glam::tests::test_as_ivec3_panics_at_min_x: 7610 7991
+hexx_glam::tests::test_as_ivec3_panics_at_min_x: 7810 8201
 hexx_glam::tests::test_conversions_oracle: 63403830 66573022
-hexx_glam::tests::test_into_ivec3_panics_at_min_y: 7610 7991
+hexx_glam::tests::test_into_ivec3_panics_at_min_y: 7810 8201
 hexx_glam::tests::test_ivec2_extremes: 29400 30870

@@ -221,6 +221,20 @@ class Repeat(Scratch):
                 contextlib.redirect_stderr(io.StringIO()):
             self.assertEqual(bench.repeat("hexx", "nothing"), 1)
 
+    def test_no_test_matched_in_a_package_without_digger_tests_succeeds(self) -> None:
+        art = self.dir / "art"
+        (art / "hexx_glam").mkdir(parents=True)
+        self.assertNotIn("hexx_glam", bench.DIGGER_PACKAGES)
+        err = io.StringIO()
+        with mock.patch.object(bench, "ARTIFACTS", art), mock.patch.object(bench, "ROOT", self.dir), \
+                mock.patch.object(bench, "run_snforge", lambda *a, **k: "Collected 0 test(s)\n"), \
+                contextlib.redirect_stderr(err):
+            self.assertEqual(bench.repeat("hexx_glam", "digger"), 0)
+        self.assertIn("repeat: hexx_glam has no Digger test: nothing to repeat", err.getvalue())
+
+    def test_the_digger_packages_are_those_that_have_digger_tests(self) -> None:
+        self.assertEqual(bench.DIGGER_PACKAGES, {"hexx", "takeover_tests"})
+
 
 class Scopes(Scratch):
     """`hexx` is measured in two CI jobs, the tests without `#[ignore]` and the ignored ones."""

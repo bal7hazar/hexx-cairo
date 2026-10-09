@@ -1506,7 +1506,10 @@ class GlamInteropScan(unittest.TestCase):
     def test_absent_items_are_not_found(self) -> None:
         self.assertEqual(set(), self.scan("pub trait HexGlamTrait {\n}\n"))
         self.assertEqual({("Hex", "impl", "Into<IVec2, Hex>")},
-                         self.scan("impl A of Into<IVec2, Hex> { }"))
+                         self.scan("pub impl A of Into<IVec2, Hex> { }"))
+
+    def test_a_non_pub_trait_or_impl_does_not_count(self) -> None:
+        self.assertEqual(set(), self.scan(self.FULL.replace("pub ", "")))
 
     def test_a_missing_directory_gives_no_item(self) -> None:
         self.assertEqual([], ap.parse_glam(Path("/nonexistent/hexx_glam/src")))

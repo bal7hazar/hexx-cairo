@@ -1654,13 +1654,13 @@ def parse_glam(src: Path | None = None) -> list[Item]:
         return []
     text = "\n".join(re.sub(r"//.*", "", path.read_text()) for path in sorted(src.rglob("*.cairo")))
     found: list[Item] = []
-    trait = re.search(r"\btrait\s+HexGlamTrait\s*\{(.*?)\n\s*\}", text, re.S)
+    trait = re.search(r"\bpub\s+trait\s+HexGlamTrait\s*\{(.*?)\n\s*\}", text, re.S)
     if trait:
         for name in re.findall(r"\bfn\s+(\w+)\s*\(", trait.group(1)):
             if ("Hex", "method", name) in _INTEROP_ITEMS:
                 found.append(Item("Hex", "method", name, "crates/hexx_glam/src"))
     for left, right in (("Hex", "IVec2"), ("Hex", "IVec3"), ("IVec2", "Hex")):
-        if re.search(rf"\bimpl\s+\w+\s+of\s+Into\s*<\s*{left}\s*,\s*{right}\s*>", text):
+        if re.search(rf"\bpub\s+impl\s+\w+\s+of\s+Into\s*<\s*{left}\s*,\s*{right}\s*>", text):
             found.append(Item("Hex", "impl", f"Into<{left}, {right}>", "crates/hexx_glam/src"))
     return found
 

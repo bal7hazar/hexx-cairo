@@ -26,7 +26,7 @@ use hexx::hex::{Hex, HexTrait};
 pub trait HexGlamTrait {
     /// Converts to an `IVec2`: `IVec2 { x, y }`.
     ///
-    /// Mirrors `Hex::as_ivec2` (`src/hex/mod.rs:365`).
+    /// Mirrors `Hex::as_ivec2` (`src/hex/mod.rs:375`).
     ///
     /// #### Panics
     ///
@@ -86,7 +86,7 @@ pub impl HexIntoIVec2 of Into<Hex, IVec2> {
 
 /// Converts a `Hex` into an `IVec3`: `IVec3 { x, y, z }`, `z` being `HexTrait::z`.
 ///
-/// Mirrors `impl From<Hex> for IVec3` (`src/hex/convert.rs:42`).
+/// Mirrors `impl From<Hex> for IVec3` (`src/hex/convert.rs:46`).
 ///
 /// #### Panics
 ///
@@ -105,7 +105,7 @@ pub impl HexIntoIVec3 of Into<Hex, IVec3> {
 
 /// Converts an `IVec2` into a `Hex`: `Hex { x, y }`.
 ///
-/// Mirrors `impl From<IVec2> for Hex` (`src/hex/convert.rs:52`).
+/// Mirrors `impl From<IVec2> for Hex` (`src/hex/convert.rs:53`).
 ///
 /// #### Panics
 ///
@@ -187,16 +187,16 @@ mod tests {
 
     /// `z` leaves `i32` at `x = i32::MIN`: `as_ivec3` panics where `HexTrait::z` does.
     #[test]
-    #[available_gas(l2_gas: 7991)]
-    #[should_panic]
+    #[available_gas(l2_gas: 8201)]
+    #[should_panic(expected: 'i32_neg Underflow')]
     fn test_as_ivec3_panics_at_min_x() {
         let _ = HexTrait::new(MIN, 0).as_ivec3();
     }
 
     /// `z` leaves `i32` at `x = 0, y = i32::MIN`.
     #[test]
-    #[available_gas(l2_gas: 7991)]
-    #[should_panic]
+    #[available_gas(l2_gas: 8201)]
+    #[should_panic(expected: 'i32_sub Overflow')]
     fn test_into_ivec3_panics_at_min_y() {
         let _: IVec3 = HexTrait::new(0, MIN).into();
     }
