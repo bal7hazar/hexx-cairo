@@ -17,7 +17,8 @@ const MAX_CLASSES: u32 = 3;
 ///
 /// `costs[k]` is the bitmap of the tiles of entry cost `k + 2`, the other walkable tiles cost 1.
 /// The closure of `hexx` is `cost(_, b) = None` if `b` is off the board, a wall, or an edge tile
-/// other than `to` (a path of the board never crosses an edge tile), else `Some(c)` with `c` the
+/// other than `from` and `to` (a path of the board never crosses an edge tile; `hexx` evaluates
+/// `cost(start, start)`, so an open edge `from` must be accepted), else `Some(c)` with `c` the
 /// entry cost of `b`. `hexx`'s `a_star` adds the cost as given (`pathfinding.rs:134`): this is
 /// not the mapping of `field_of_movement`, whose `hexx` side adds `1 +` to the cost of the
 /// closure.

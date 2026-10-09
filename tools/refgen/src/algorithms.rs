@@ -9,7 +9,7 @@
 //!   `k`, `Some(0)` elsewhere, so that `hexx`'s entry cost `1 + cost(h)` is the board's `k + 2`,
 //!   or 1.
 //! - `a_star`: `cost(_, b) = None` off the board, on a wall or on an edge tile other than the
-//!   target, else the board's entry cost, `hexx` adding it as given.
+//!   start and the target (`hexx` evaluates `cost(start, start)`), else the board's entry cost, `hexx` adding it as given.
 //!
 //! Every result of `hexx` is first checked against the board's own Dijkstra (`oracle`) and a
 //! divergence stops the generator. A test then holds, per board, the digest of the nine fields
@@ -130,10 +130,10 @@ impl Board {
 
     /// The total entry cost of `hexx`'s `a_star`, `None` if it finds no path.
     fn path_cost(&self, from: usize, to: usize, count: usize) -> Option<u32> {
-        let end = self.hex(to);
-        let path = a_star(self.hex(from), end, |_, b| {
+        let (start, end) = (self.hex(from), self.hex(to));
+        let path = a_star(start, end, |_, b| {
             let tile = self.tile(b)?;
-            if !self.open[tile] || (self.is_edge(tile) && b != end) {
+            if !self.open[tile] || (self.is_edge(tile) && b != end && b != start) {
                 return None;
             }
             Some(self.entry_cost(tile, count))
