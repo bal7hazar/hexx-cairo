@@ -358,7 +358,7 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
     let mut rng = Rng::new(&spec.text("seed")?);
     let mut e = Emitter::new(
         spec,
-        "`range_fov` (src/algorithms/fov.rs:29) and `directional_fov` (:61), with the game's\n// tie rule on the lines (tools/refgen/src/fov.rs)",
+        "`range_fov` (src/algorithms/fov.rs:29) and `directional_fov` (:61), with the\n// game's tie rule on the lines (tools/refgen/src/fov.rs)",
         USES,
     );
     let mut differences = Vec::new();
