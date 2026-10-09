@@ -126,8 +126,8 @@ alone (`snforge test -p golden_<x>`) for the one a change touches. The `hexx` ga
 CI's artefact (`gas-pins-<head sha>`, `bench.py apply-pins`, "Gas pins from CI"), never from a local
 run; pins and `gas/bytecode.size` are Linux-only (D-182). Builds run single-threaded
 (`RAYON_NUM_THREADS=1`, D-176). The pre-push hook stays minimal (2026-10-02 rule): it checks only
-the changed set, skips its Cairo compile after 90 s of build lock, and is not a substitute for the
-scoped tests above.
+the changed set, skips its Cairo compile after 90 s of build lock, skips its class-size step off
+Linux (D-182), and is not a substitute for the scoped tests above.
 
 ## Before you push
 

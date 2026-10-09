@@ -124,6 +124,24 @@ class PrepushLockTest(unittest.TestCase):
                 "busy|prepush: build lock busy after 1 s: Cairo compile skipped, CI will compile")
 
 
+class PrepushClassSizeOsTest(unittest.TestCase):
+    def os_line(self, uname: str | None) -> str:
+        env = dict(os.environ)
+        env.pop("PREPUSH_UNAME", None)
+        if uname is not None:
+            env["PREPUSH_UNAME"] = uname
+        return subprocess.run(["/bin/bash", str(SCRIPT), "--os"], env=env, text=True,
+                              capture_output=True, check=True).stdout.strip()
+
+    def test_linux_runs_the_class_size_check(self):
+        self.assertEqual(self.os_line("Linux"), "ok")
+
+    def test_other_systems_skip_it(self):
+        self.assertEqual(
+            self.os_line("Darwin"),
+            "prepush: class-size is Linux-only (D-182): skipped on Darwin, CI checks it")
+
+
 class PrepushGitEnvironmentTest(unittest.TestCase):
     """A hook's git variables (GIT_DIR, GIT_WORK_TREE) never reach the script's children."""
 
