@@ -841,6 +841,8 @@ def write_pins_reports(packages: dict[str, dict[str, dict]], scope: str,
                      for n, r in sorted(rows.items()) if r["measured"] is not None},
             "unmeasured": sorted(n for n, r in rows.items()
                                  if r["measured"] is None and r.get("is_declared", True)),
+            "undiscovered": sorted(n for n, r in rows.items()
+                                   if r["measured"] is None and not r.get("is_declared", True)),
         }, indent=1) + "\n")
 
 
@@ -895,7 +897,7 @@ def assemble_pins(reports: list[dict], expected: Iterable[str] = ()) -> dict:
     is not assembled; a package of `expected` with no report at all is one: "no report"),
     `empty` (the packages measured completely with no test at all, no `unmeasured` one either:
     their snapshot is removed, as `write_snapshots` does; a package whose tests all ran with no
-    measurement keeps its snapshot), `unmeasured` (the tests that ran with no measurement: no row) and
+    measurement, or with rows of tests that discovery did not find, keeps its snapshot), `unmeasured` (the tests that ran with no measurement: no row) and
     `failed` (the tests measured but failed: their row is the figure of a failing run)."""
     by_package: dict[str, list[dict]] = {package: [] for package in expected}
     for report in reports:
@@ -911,7 +913,7 @@ def assemble_pins(reports: list[dict], expected: Iterable[str] = ()) -> dict:
         skipped = False
         for report in found:
             result["unmeasured"].extend(report.get("unmeasured", []))
-            skipped = skipped or bool(report.get("unmeasured"))
+            skipped = skipped or bool(report.get("unmeasured")) or bool(report.get("undiscovered"))
             for name, row in report["rows"].items():
                 if name in merged and merged[name] != row:
                     problems.append(f"{name}: measured twice, differently")
@@ -1039,11 +1041,12 @@ def apply_pins(directory: Path) -> int:
     if manifest.get("base") and manifest["base"] != main_rev:
         print(f"apply-pins: WARNING: the run measured the merge into base {manifest['base']}, "
               f"origin/main is now {main_rev}"
-              + ("" if git_is_ancestor(manifest["base"], main_rev or "") else
-                 " (and the base is not one of its ancestors; git fetch first: your origin/main may be "
-                 "older than the run)")
-              + ": main moved since the run; re-run CI on this head before applying, or let the "
-              "confirming run decide.", file=sys.stderr)
+              + (": main moved since the run; re-run CI on this head before applying, or let the "
+                 "confirming run decide."
+                 if git_is_ancestor(manifest["base"], main_rev or "") else
+                 " (the base is not one of its ancestors; git fetch first: your origin/main may be "
+                 "older than the run); re-run CI on this head before applying, or let the "
+                 "confirming run decide."), file=sys.stderr)
     for path in sorted((directory / "gas").glob("*")):
         shutil.copyfile(path, GAS / path.name)
         print(f"wrote gas/{path.name}", file=sys.stderr)

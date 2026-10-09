@@ -23,10 +23,11 @@ import bench  # noqa: E402
 TMP_ROOT = Path(__file__).resolve().parent / "tmp"
 
 
-def report(package, scope, index, total, rows, unmeasured=()):
+def report(package, scope, index, total, rows, unmeasured=(), undiscovered=()):
     return {"package": package, "scope": scope, "partition": [index, total],
             "rows": {n: {"measured": m, "declared": d, "passed": True} for n, (m, d) in rows.items()},
-            "unmeasured": list(unmeasured), "path": f"{package}-{scope}-{index}"}
+            "unmeasured": list(unmeasured), "undiscovered": list(undiscovered),
+            "path": f"{package}-{scope}-{index}"}
 
 
 class Scratch(unittest.TestCase):
@@ -78,6 +79,7 @@ class PinsReport(Scratch):
             "p::a": {"measured": 10, "declared": None, "passed": True},
             "p::b": {"measured": 20, "declared": 21, "passed": False}})
         self.assertEqual(found[0]["unmeasured"], ["p::c"])
+        self.assertEqual(found[0]["undiscovered"], [])
 
 
 class Assembly(unittest.TestCase):
@@ -119,6 +121,11 @@ class Assembly(unittest.TestCase):
             [report("p", "all", 1, 1, {}, unmeasured=["p::slow"])], ["p"])
         self.assertEqual((result["rows"], result["incomplete"], result["empty"]), ({}, {}, []))
         self.assertEqual(result["unmeasured"], ["p::slow"])
+
+    def test_a_package_with_only_undiscovered_rows_is_not_empty(self) -> None:
+        result = bench.assemble_pins(
+            [report("p", "all", 1, 1, {}, undiscovered=["p::ghost"])], ["p"])
+        self.assertEqual((result["rows"], result["incomplete"], result["empty"]), ({}, {}, []))
 
     def test_a_repeated_partition_is_incomplete(self) -> None:
         reports = [report("p", "all", 1, 1, {"p::a": (1, 1)}),
@@ -297,10 +304,12 @@ class ApplyPins(Scratch):
         self.assertEqual(status, 0)
         self.assertIn("WARNING: the run measured the merge into base b, origin/main is now newer",
                       err)
+        self.assertIn("main moved since the run", err)
         self.assertNotIn("not one of its ancestors", err)
         _, err = self.run_apply(self.artefact({}), main="elsewhere", ancestor=False)
-        self.assertIn("(and the base is not one of its ancestors; git fetch first: your "
+        self.assertIn("(the base is not one of its ancestors; git fetch first: your "
                       "origin/main may be older than the run)", err)
+        self.assertNotIn("main moved since the run", err)
 
     def test_left_to_do_exits_1_and_an_empty_package_loses_its_snapshot(self) -> None:
         self.write("crates/pkg/src/lib.cairo", SOURCE)

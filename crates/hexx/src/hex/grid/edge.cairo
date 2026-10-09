@@ -380,7 +380,9 @@ mod tests {
         let max: i32 = 2147483647;
         let a = GridEdge { origin: HexTrait::new(max, 0), direction: EdgeDirectionTrait::X };
         assert!(a.equivalent(a));
-        let b = GridEdge { origin: HexTrait::new(-max, 0), direction: EdgeDirectionTrait::NEG_X };
+        let b = GridEdge {
+            origin: HexTrait::new(-max - 1, 0), direction: EdgeDirectionTrait::NEG_X,
+        };
         assert!(b.equivalent(b));
     }
 
