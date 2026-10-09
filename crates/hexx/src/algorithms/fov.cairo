@@ -754,7 +754,7 @@ mod tests {
 
     /// A wall at the start sees nothing, whatever the range.
     #[test]
-    #[available_gas(l2_gas: 31447)]
+    #[available_gas(l2_gas: 31342)]
     fn test_fov_from_wall() {
         let map = Oracle::map(WIDTH, HEIGHT, OPEN_15X16 - Bits::pow(112));
         assert!(range_fov(map, 112, 0) == 0);
@@ -764,7 +764,7 @@ mod tests {
 
     /// Range 0 is the start alone.
     #[test]
-    #[available_gas(l2_gas: 24209)]
+    #[available_gas(l2_gas: 24104)]
     fn test_fov_range_zero() {
         let map = Oracle::map(WIDTH, HEIGHT, OPEN_15X16);
         assert!(range_fov(map, 112, 0) == Bits::pow(112));
@@ -775,7 +775,7 @@ mod tests {
     /// `(1, 7)` lies only on lines to ring hexes off the board (column ≤ −4): it is seen, as in
     /// `hexx` with `blocking = off the board or a wall`.
     #[test]
-    #[available_gas(l2_gas: 1894423)]
+    #[available_gas(l2_gas: 1894318)]
     fn test_fov_whole_ring() {
         let map = Oracle::map(WIDTH, HEIGHT, OPEN_15X16);
         let from = LayoutTrait::index(WIDTH, 2, 7);
@@ -787,7 +787,7 @@ mod tests {
     /// from `(7, 7)`, the wall `(6, 7)` (one step East) hides `(5, 7)`, `(4, 7)` (the only lines
     /// to them pass through it).
     #[test]
-    #[available_gas(l2_gas: 1318235)]
+    #[available_gas(l2_gas: 1318130)]
     fn test_fov_wall_hides() {
         let wall = LayoutTrait::index(WIDTH, 6, 7);
         let map = Oracle::map(WIDTH, HEIGHT, OPEN_15X16 - Bits::pow(wall));
@@ -800,7 +800,7 @@ mod tests {
 
     /// On the empty window the sight from `(7, 7)` is the whole hexagon of radius 6.
     #[test]
-    #[available_gas(l2_gas: 1179135)]
+    #[available_gas(l2_gas: 1179030)]
     fn test_fov_open_sight() {
         let map = Oracle::map(WIDTH, HEIGHT, OPEN_15X16);
         let from = LayoutTrait::index(WIDTH, 7, 7);
@@ -808,7 +808,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 7256)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_fov_revert_outside() {
         range_fov(Oracle::map(WIDTH, HEIGHT, OPEN_15X16), 240, 1);
@@ -1020,7 +1020,7 @@ mod tests {
     /// 23,076 = 830,736`, derived after the first measurement of the design (see the report of
     /// M3-T2). The walk alone (sketch (A)) measured 4,339,009.
     #[test]
-    #[available_gas(l2_gas: 1182505)]
+    #[available_gas(l2_gas: 1182400)]
     #[inline(never)]
     fn bench_range_fov_sight_once() {
         let [from, _] = Inputs::get().sight;
@@ -1028,7 +1028,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 2360075)]
+    #[available_gas(l2_gas: 2359970)]
     #[inline(never)]
     fn bench_range_fov_sight_twice() {
         let [from, other] = Inputs::get().sight;
@@ -1042,7 +1042,7 @@ mod tests {
     /// most 19,059 each) and the 13 lines of the cone as in `range_fov`: `L = 6 × 19,059 + 13 ×
     /// 23,076 = 414,342`, derived after the first measurement of the design.
     #[test]
-    #[available_gas(l2_gas: 586277)]
+    #[available_gas(l2_gas: 586172)]
     #[inline(never)]
     fn bench_directional_fov_sight_once() {
         let [from, _] = Inputs::get().sight;
@@ -1052,7 +1052,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1164270)]
+    #[available_gas(l2_gas: 1164165)]
     #[inline(never)]
     fn bench_directional_fov_sight_twice() {
         let [from, other] = Inputs::get().sight;
@@ -1121,7 +1121,7 @@ mod tests {
 
     /// The number of ring hexes of the cone of `EdgeDirection` 0 at range 6.
     #[test]
-    #[available_gas(l2_gas: 818948)]
+    #[available_gas(l2_gas: 818843)]
     fn test_directional_fov_cone_size() {
         let [a, b] = Oracle::first().vertex_directions();
         let mut count: u32 = 0;
@@ -1136,7 +1136,7 @@ mod tests {
 
     /// `range_fov` next to the ring at range 15, no target.
     #[test]
-    #[available_gas(l2_gas: 12561026)]
+    #[available_gas(l2_gas: 12560921)]
     #[inline(never)]
     fn bench_range_fov_edge_once() {
         let [from, _] = Inputs::get().edge;
@@ -1144,7 +1144,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 25045747)]
+    #[available_gas(l2_gas: 25045642)]
     #[inline(never)]
     fn bench_range_fov_edge_twice() {
         let [from, other] = Inputs::get().edge;
@@ -1155,7 +1155,7 @@ mod tests {
 
     /// `range_fov` at the end of the domain, range 255 from `(7, 7)`, once, no target.
     #[test]
-    #[available_gas(l2_gas: 245118066)]
+    #[available_gas(l2_gas: 245117961)]
     #[inline(never)]
     fn bench_range_fov_far_once() {
         let [from, _] = Inputs::get().sight;
