@@ -1418,6 +1418,11 @@ CAIRO_MODULE_OWNER: dict[tuple[str, ...], str] = {
     ("hex", "grid", "vertex"): "GridVertex",
     ("bounds",): "HexBounds",
     ("shapes",): "shapes",
+    # L-M3 (LIB-06b M3-T1): the free functions of `src/algorithms/*.rs` live in one Cairo file per
+    # source file of `hexx`, under the owner `algorithms`.
+    ("algorithms", "fov"): "algorithms",
+    ("algorithms", "field_of_movement"): "algorithms",
+    ("algorithms", "pathfinding"): "algorithms",
 }
 
 

@@ -1,0 +1,24 @@
+# `hexx::algorithms::{field_of_movement, a_star}` against the board (tools/refgen/src/algorithms.rs):
+# 7 x 7 and 15 x 16 boards with a closed ring (empty, and two seeded caves), 0 to 3 classes,
+# budgets 0..=8 from `starts` starts, `pairs` seeded pairs of `a_star` per class count.
+module = "algorithms"
+package = "golden_lm2"
+
+seed = "algorithms"
+starts = 8
+pairs = 32
+budget_max = 8
+
+# budgets: ceil(1.05 * measured); first push from the Mac figure, replaced by CI's pins
+gas.golden_algorithms_a_star_cave_a_15x16 = 38286620
+gas.golden_algorithms_a_star_cave_a_7x7 = 9978309
+gas.golden_algorithms_a_star_cave_b_15x16 = 35734308
+gas.golden_algorithms_a_star_cave_b_7x7 = 4801162
+gas.golden_algorithms_a_star_empty_15x16 = 67324065
+gas.golden_algorithms_a_star_empty_7x7 = 12105690
+gas.golden_algorithms_field_cave_a_15x16 = 63823303
+gas.golden_algorithms_field_cave_a_7x7 = 45149845
+gas.golden_algorithms_field_cave_b_15x16 = 66531016
+gas.golden_algorithms_field_cave_b_7x7 = 46058216
+gas.golden_algorithms_field_empty_15x16 = 67850331
+gas.golden_algorithms_field_empty_7x7 = 48753107
