@@ -148,25 +148,25 @@ mod tests {
     // Oracle: EMPTY_7X7, every start, the ring wall
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 414927373)]
     fn test_field_of_movement_empty_7x7_classes_0() {
         check_7x7(EMPTY_7X7, 0);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 454776204)]
     fn test_field_of_movement_empty_7x7_classes_1() {
         check_7x7(EMPTY_7X7, 1);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 483264831)]
     fn test_field_of_movement_empty_7x7_classes_2() {
         check_7x7(EMPTY_7X7, 2);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 510877676)]
     fn test_field_of_movement_empty_7x7_classes_3() {
         check_7x7(EMPTY_7X7, 3);
     }
@@ -174,13 +174,13 @@ mod tests {
     // Oracle: EMPTY_7X7, every start, open edge tiles (reached, never crossed)
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 442365234)]
     fn test_field_of_movement_empty_7x7_edges_classes_0() {
         check_7x7(open_edges(EMPTY_7X7, EDGES_7X7.span()), 0);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 546655834)]
     fn test_field_of_movement_empty_7x7_edges_classes_3() {
         check_7x7(open_edges(EMPTY_7X7, EDGES_7X7.span()), 3);
     }
@@ -189,49 +189,49 @@ mod tests {
     // (the corner 0, the ring tile 17)
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 106131353)]
     fn test_field_of_movement_cave_17x14_classes_0() {
         check_17x14(CAVE_17X14, CAVE_17X14_FAR_FROM, CAVE_17X14_NEAR_FROM, 0, 17, 0);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 114617569)]
     fn test_field_of_movement_cave_17x14_classes_1() {
         check_17x14(CAVE_17X14, CAVE_17X14_FAR_FROM, CAVE_17X14_NEAR_FROM, 0, 17, 1);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 123576301)]
     fn test_field_of_movement_cave_17x14_classes_2() {
         check_17x14(CAVE_17X14, CAVE_17X14_FAR_FROM, CAVE_17X14_NEAR_FROM, 0, 17, 2);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 134229503)]
     fn test_field_of_movement_cave_17x14_classes_3() {
         check_17x14(CAVE_17X14, CAVE_17X14_FAR_FROM, CAVE_17X14_NEAR_FROM, 0, 17, 3);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 95351501)]
     fn test_field_of_movement_maze_17x14_classes_0() {
         check_17x14(MAZE_17X14, MAZE_17X14_FAR_FROM, MAZE_17X14_NEAR_FROM, 0, 17, 0);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 101349535)]
     fn test_field_of_movement_maze_17x14_classes_1() {
         check_17x14(MAZE_17X14, MAZE_17X14_FAR_FROM, MAZE_17X14_NEAR_FROM, 0, 17, 1);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 104981049)]
     fn test_field_of_movement_maze_17x14_classes_2() {
         check_17x14(MAZE_17X14, MAZE_17X14_FAR_FROM, MAZE_17X14_NEAR_FROM, 0, 17, 2);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 107239209)]
     fn test_field_of_movement_maze_17x14_classes_3() {
         check_17x14(MAZE_17X14, MAZE_17X14_FAR_FROM, MAZE_17X14_NEAR_FROM, 0, 17, 3);
     }
@@ -240,28 +240,28 @@ mod tests {
     // open corner (16), and on a wall (0, 17)
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 108585250)]
     fn test_field_of_movement_cave_17x14_edges_classes_0() {
         let grid = open_edges(CAVE_17X14, EDGES_17X14.span());
         check_17x14(grid, CAVE_17X14_FAR_FROM, 5, 16, 17, 0);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 125065831)]
     fn test_field_of_movement_cave_17x14_edges_classes_2() {
         let grid = open_edges(CAVE_17X14, EDGES_17X14.span());
         check_17x14(grid, CAVE_17X14_FAR_FROM, 5, 16, 17, 2);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 103814696)]
     fn test_field_of_movement_maze_17x14_edges_classes_1() {
         let grid = open_edges(MAZE_17X14, EDGES_17X14.span());
         check_17x14(grid, MAZE_17X14_FAR_FROM, 5, 16, 0, 1);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 110448151)]
     fn test_field_of_movement_maze_17x14_edges_classes_3() {
         let grid = open_edges(MAZE_17X14, EDGES_17X14.span());
         check_17x14(grid, MAZE_17X14_FAR_FROM, 5, 16, 0, 3);
@@ -270,7 +270,7 @@ mod tests {
     // The contract
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 142772)]
     fn test_field_of_movement_from_a_wall() {
         // 7 is a wall of the ring, next to the open 8 (east) and 15 (south-east): `hexx` never
         // pays the cost of the start, so the field expands from it
@@ -285,7 +285,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 164586)]
     fn test_field_of_movement_costs_map_to_entry_costs() {
         // Class 0 is `cost(h) = 1`, which `hexx` charges as `1 + 1`: the tile 25 (class 0) costs
         // 2, so a budget of 1 reaches the other neighbours of 24 and not it, a budget of 2 does
@@ -299,7 +299,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_field_of_movement_revert_outside() {
         let map = HexMap { width: 7, height: 7, grid: EMPTY_7X7, seed: 0 };
@@ -308,7 +308,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 14326)]
     #[should_panic(expected: 'Dial: too many costs')]
     fn test_field_of_movement_revert_too_many_costs() {
         let map = HexMap { width: 7, height: 7, grid: EMPTY_7X7, seed: 0 };
@@ -320,7 +320,7 @@ mod tests {
     // the empty board
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 340597)]
     fn bench_field_of_movement_cave_17x14_budget_8() {
         let map = HexMap { width: 17, height: 14, grid: CAVE_17X14, seed: 0 };
         let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();
@@ -328,7 +328,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 249176)]
     fn bench_field_of_movement_empty_17x14_budget_8() {
         let map = HexMap { width: 17, height: 14, grid: EMPTY_17X14, seed: 0 };
         field_of_movement(map, 110, 8, array![].span());

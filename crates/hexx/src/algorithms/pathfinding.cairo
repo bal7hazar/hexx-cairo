@@ -183,70 +183,70 @@ mod tests {
     // Oracle: every ordered pair of 7 x 7 boards, the ring wall
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 368741089)]
     fn test_a_star_empty_7x7_classes_0() {
         check_all_pairs(EMPTY_7X7, 7, 7, random_costs(EMPTY_7X7, 7, 7, 'AST', 0));
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 417905925)]
     fn test_a_star_empty_7x7_classes_1() {
         check_all_pairs(EMPTY_7X7, 7, 7, random_costs(EMPTY_7X7, 7, 7, 'AST', 1));
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 450313664)]
     fn test_a_star_empty_7x7_classes_2() {
         check_all_pairs(EMPTY_7X7, 7, 7, random_costs(EMPTY_7X7, 7, 7, 'AST', 2));
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 494455127)]
     fn test_a_star_empty_7x7_classes_3() {
         check_all_pairs(EMPTY_7X7, 7, 7, random_costs(EMPTY_7X7, 7, 7, 'AST', 3));
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 317447073)]
     fn test_a_star_cave_7x7_classes_0() {
         check_all_pairs(CAVE_7X7, 7, 7, random_costs(CAVE_7X7, 7, 7, 'AST', 0));
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 358325136)]
     fn test_a_star_cave_7x7_classes_1() {
         check_all_pairs(CAVE_7X7, 7, 7, random_costs(CAVE_7X7, 7, 7, 'AST', 1));
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 385188078)]
     fn test_a_star_cave_7x7_classes_2() {
         check_all_pairs(CAVE_7X7, 7, 7, random_costs(CAVE_7X7, 7, 7, 'AST', 2));
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 422099447)]
     fn test_a_star_cave_7x7_classes_3() {
         check_all_pairs(CAVE_7X7, 7, 7, random_costs(CAVE_7X7, 7, 7, 'AST', 3));
     }
 
     /// A board with unreachable tiles: `None` exactly for them.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 191444178)]
     fn test_a_star_unreachable_7x7() {
         check_all_pairs(UNREACHABLE_7X7, 7, 7, random_costs(UNREACHABLE_7X7, 7, 7, 'AST', 1));
     }
 
     /// Open edge tiles are endpoints, never crossed.
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 653298404)]
     fn test_a_star_empty_7x7_edges_classes_2() {
         let grid = open_edges(EMPTY_7X7, EDGES_7X7.span());
         check_all_pairs(grid, 7, 7, random_costs(grid, 7, 7, 'AST', 2));
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 441554477)]
     fn test_a_star_cave_7x7_edges_classes_0() {
         let grid = open_edges(CAVE_7X7, EDGES_7X7.span());
         check_all_pairs(grid, 7, 7, random_costs(grid, 7, 7, 'AST', 0));
@@ -256,7 +256,7 @@ mod tests {
     // start as the target
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 248838958)]
     fn test_a_star_empty_17x14_classes_2() {
         let pairs = array![
             (EMPTY_17X14_FAR_FROM, EMPTY_17X14_FAR_TO), (EMPTY_17X14_FAR_TO, EMPTY_17X14_FAR_FROM),
@@ -266,49 +266,49 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 188338687)]
     fn test_a_star_cave_17x14_classes_0() {
         check_pairs(CAVE_17X14, cave_pairs(), 0);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 206979284)]
     fn test_a_star_cave_17x14_classes_1() {
         check_pairs(CAVE_17X14, cave_pairs(), 1);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 230122193)]
     fn test_a_star_cave_17x14_classes_2() {
         check_pairs(CAVE_17X14, cave_pairs(), 2);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 254908164)]
     fn test_a_star_cave_17x14_classes_3() {
         check_pairs(CAVE_17X14, cave_pairs(), 3);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 109434408)]
     fn test_a_star_maze_17x14_classes_0() {
         check_pairs(MAZE_17X14, maze_pairs(), 0);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 117012528)]
     fn test_a_star_maze_17x14_classes_1() {
         check_pairs(MAZE_17X14, maze_pairs(), 1);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 124237221)]
     fn test_a_star_maze_17x14_classes_2() {
         check_pairs(MAZE_17X14, maze_pairs(), 2);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 131477836)]
     fn test_a_star_maze_17x14_classes_3() {
         check_pairs(MAZE_17X14, maze_pairs(), 3);
     }
@@ -317,21 +317,21 @@ mod tests {
     // 225), edge to edge, edge to interior and back
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 240705913)]
     fn test_a_star_cave_17x14_edges_classes_2() {
         let grid = open_edges(CAVE_17X14, EDGES_17X14.span());
         check_pairs(grid, edge_pairs(CAVE_17X14_FAR_FROM, CAVE_17X14_FAR_TO), 2);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 166670047)]
     fn test_a_star_maze_17x14_edges_classes_1() {
         let grid = open_edges(MAZE_17X14, EDGES_17X14.span());
         check_pairs(grid, edge_pairs(MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO), 1);
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 189321358)]
     fn test_a_star_maze_17x14_edges_classes_3() {
         let grid = open_edges(MAZE_17X14, EDGES_17X14.span());
         check_pairs(grid, edge_pairs(MAZE_17X14_FAR_FROM, MAZE_17X14_FAR_TO), 3);
@@ -366,7 +366,7 @@ mod tests {
     // The contract
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 215801)]
     fn test_a_star_path_both_ends() {
         //  0 0 0 0 0 0 0
         // 0 S 1 1 1 1 0
@@ -381,7 +381,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 353033)]
     fn test_a_star_detour() {
         // Cost 4 on x = 2..5 of row 3: 7 tiles of cost 1 instead of 6 tiles of cost 9
         let map = HexMap { width: 7, height: 7, grid: EMPTY_7X7, seed: 0 };
@@ -391,7 +391,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 108290)]
     fn test_a_star_start_is_target() {
         let map = HexMap { width: 7, height: 7, grid: EMPTY_7X7, seed: 0 };
         let path = a_star(map, 24, 24, array![SWAMP_7X7].span()).expect('path');
@@ -402,7 +402,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 34449)]
     fn test_a_star_endpoint_not_walkable_or_outside_is_none() {
         let map = HexMap { width: 7, height: 7, grid: EMPTY_7X7, seed: 0 };
         let costs = array![SWAMP_7X7].span();
@@ -417,7 +417,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 103324)]
     fn test_a_star_unreachable_is_none() {
         let map = HexMap { width: 7, height: 7, grid: UNREACHABLE_7X7, seed: 0 };
         let costs = array![].span();
@@ -425,7 +425,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Dial: too many costs')]
     fn test_a_star_revert_too_many_costs() {
         let map = HexMap { width: 7, height: 7, grid: EMPTY_7X7, seed: 0 };
@@ -434,7 +434,7 @@ mod tests {
 
     /// More than 3 classes panic even when the answer would be `None` (a wall).
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 8201)]
     #[should_panic(expected: 'Dial: too many costs')]
     fn test_a_star_revert_too_many_costs_wall() {
         let map = HexMap { width: 7, height: 7, grid: EMPTY_7X7, seed: 0 };
@@ -446,7 +446,7 @@ mod tests {
     // measured: L = 1,592,542, U = ceil(1.25 L) = 1,990,678)
 
     #[test]
-    #[available_gas(l2_gas: 1000000000)]
+    #[available_gas(l2_gas: 1543595)]
     fn bench_a_star_cave_17x14_far_classes_2() {
         let map = HexMap { width: 17, height: 14, grid: CAVE_17X14, seed: 0 };
         let costs = array![CAVE_17X14_COST_2, CAVE_17X14_COST_3].span();

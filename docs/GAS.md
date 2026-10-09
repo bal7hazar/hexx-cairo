@@ -660,6 +660,18 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `golden_lm1_integrationtest::golden_line::golden_line_window_7` | 487,987,310 | 512,386,676 | 5.0 % |
 | `golden_lm1_integrationtest::golden_line::golden_line_window_8` | 512,853,180 | 538,495,839 | 5.0 % |
 | `golden_lm1_integrationtest::golden_line::golden_line_window_9` | 532,910,370 | 559,555,889 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_a_star_cave_a_15x16` | 36,463,447 | 38,286,620 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_a_star_cave_a_7x7` | 9,503,151 | 9,978,309 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_a_star_cave_b_15x16` | 34,032,674 | 35,734,308 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_a_star_cave_b_7x7` | 4,572,535 | 4,801,162 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_a_star_empty_15x16` | 64,118,157 | 67,324,065 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_a_star_empty_7x7` | 11,529,228 | 12,105,690 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_field_cave_a_15x16` | 60,784,098 | 63,823,303 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_field_cave_a_7x7` | 42,999,852 | 45,149,845 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_field_cave_b_15x16` | 63,362,872 | 66,531,016 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_field_cave_b_7x7` | 43,864,967 | 46,058,216 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_field_empty_15x16` | 64,619,362 | 67,850,331 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_field_empty_7x7` | 46,431,530 | 48,753,107 | 5.0 % |
 | `golden_lm2_integrationtest::golden_convert::golden_convert_bounds_as_u64` | 11,102,600 | 11,657,730 | 5.0 % |
 | `golden_lm2_integrationtest::golden_convert::golden_convert_bounds_from_array` | 12,081,920 | 12,686,016 | 5.0 % |
 | `golden_lm2_integrationtest::golden_convert::golden_convert_bounds_from_tuple` | 12,081,920 | 12,686,016 | 5.0 % |
@@ -775,6 +787,61 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `golden_shapes_integrationtest::golden_shapes::golden_shapes_rombus_2` | 10,095,110 | 10,599,866 | 5.0 % |
 | `golden_shapes_integrationtest::golden_shapes::golden_shapes_rombus_3` | 5,298,830 | 5,563,772 | 5.0 % |
 | `golden_shapes_integrationtest::golden_shapes::golden_shapes_triangle_0` | 3,783,860 | 3,973,053 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::bench_field_of_movement_cave_17x14_budget_8` | 324,378 | 340,597 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::bench_field_of_movement_empty_17x14_budget_8` | 237,310 | 249,176 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_cave_17x14_classes_0` | 101,077,479 | 106,131,353 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_cave_17x14_classes_1` | 109,159,589 | 114,617,569 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_cave_17x14_classes_2` | 117,691,715 | 123,576,301 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_cave_17x14_classes_3` | 127,837,621 | 134,229,503 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_cave_17x14_edges_classes_0` | 103,414,523 | 108,585,250 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_cave_17x14_edges_classes_2` | 119,110,315 | 125,065,831 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_costs_map_to_entry_costs` | 156,748 | 164,586 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_empty_7x7_classes_0` | 395,168,926 | 414,927,373 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_empty_7x7_classes_1` | 433,120,194 | 454,776,204 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_empty_7x7_classes_2` | 460,252,220 | 483,264,831 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_empty_7x7_classes_3` | 486,550,167 | 510,877,676 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_empty_7x7_edges_classes_0` | 421,300,222 | 442,365,234 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_empty_7x7_edges_classes_3` | 520,624,603 | 546,655,834 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_from_a_wall` | 135,973 | 142,772 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_maze_17x14_classes_0` | 90,810,953 | 95,351,501 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_maze_17x14_classes_1` | 96,523,366 | 101,349,535 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_maze_17x14_classes_2` | 99,981,951 | 104,981,049 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_maze_17x14_classes_3` | 102,132,580 | 107,239,209 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_maze_17x14_edges_classes_1` | 98,871,139 | 103,814,696 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_maze_17x14_edges_classes_3` | 105,188,715 | 110,448,151 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_revert_outside` | 7,810 | 8,201 | 5.0 % |
+| `hexx::algorithms::field_of_movement::tests::test_field_of_movement_revert_too_many_costs` | 13,643 | 14,326 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::bench_a_star_cave_17x14_far_classes_2` | 1,470,090 | 1,543,595 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_cave_17x14_classes_0` | 179,370,178 | 188,338,687 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_cave_17x14_classes_1` | 197,123,127 | 206,979,284 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_cave_17x14_classes_2` | 219,163,993 | 230,122,193 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_cave_17x14_classes_3` | 242,769,680 | 254,908,164 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_cave_17x14_edges_classes_2` | 229,243,726 | 240,705,913 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_cave_7x7_classes_0` | 302,330,545 | 317,447,073 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_cave_7x7_classes_1` | 341,262,034 | 358,325,136 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_cave_7x7_classes_2` | 366,845,788 | 385,188,078 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_cave_7x7_classes_3` | 401,999,473 | 422,099,447 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_cave_7x7_edges_classes_0` | 420,528,073 | 441,554,477 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_detour` | 336,221 | 353,033 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_empty_17x14_classes_2` | 236,989,483 | 248,838,958 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_empty_7x7_classes_0` | 351,181,989 | 368,741,089 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_empty_7x7_classes_1` | 398,005,642 | 417,905,925 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_empty_7x7_classes_2` | 428,870,156 | 450,313,664 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_empty_7x7_classes_3` | 470,909,644 | 494,455,127 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_empty_7x7_edges_classes_2` | 622,188,956 | 653,298,404 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_endpoint_not_walkable_or_outside_is_none` | 32,808 | 34,449 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_maze_17x14_classes_0` | 104,223,245 | 109,434,408 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_maze_17x14_classes_1` | 111,440,502 | 117,012,528 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_maze_17x14_classes_2` | 118,321,162 | 124,237,221 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_maze_17x14_classes_3` | 125,216,986 | 131,477,836 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_maze_17x14_edges_classes_1` | 158,733,378 | 166,670,047 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_maze_17x14_edges_classes_3` | 180,306,055 | 189,321,358 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_path_both_ends` | 205,524 | 215,801 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_revert_too_many_costs` | 7,810 | 8,201 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_revert_too_many_costs_wall` | 7,810 | 8,201 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_start_is_target` | 103,133 | 108,290 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_unreachable_7x7` | 182,327,788 | 191,444,178 | 5.0 % |
+| `hexx::algorithms::pathfinding::tests::test_a_star_unreachable_is_none` | 98,403 | 103,324 | 5.0 % |
 | `hexx::board::asserter::tests::test_asserter_edges_and_corners` | 7,510 | 7,886 | 5.0 % |
 | `hexx::board::asserter::tests::test_asserter_revert_corner` | 7,810 | 8,201 | 5.0 % |
 | `hexx::board::asserter::tests::test_asserter_revert_not_edge` | 7,810 | 8,201 | 5.0 % |
@@ -2951,7 +3018,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 7,810 | 8,201 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 7,810 | 8,201 | 5.0 % |
 
-2944 measured test(s).
+3011 measured test(s).
 
 ## Figures accepted above their range
 
