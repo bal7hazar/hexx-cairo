@@ -20,6 +20,7 @@ pub mod mirror_algorithms;
 pub mod mirror_bounds;
 pub mod mirror_directions;
 pub mod mirror_fov;
+pub mod mirror_glam;
 pub mod mirror_grid;
 pub mod mirror_hex;
 pub mod mirror_ops;

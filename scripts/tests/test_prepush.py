@@ -26,7 +26,7 @@ class PrepushSelectionTest(unittest.TestCase):
 
     def test_hexx_source_builds_hexx_and_its_dependents_and_the_table_checks(self):
         steps = select("crates/hexx/src/hex.cairo")
-        self.assertEqual(steps[:3], ["build consumer", "build hexx", "build takeover_tests"])
+        self.assertEqual(steps[:3], ["build consumer", "build hexx", "build hexx_glam"])
         for name in ("class-size", "api-parity", "extensions", "deviations", "takeover"):
             self.assertIn(f"check {name}", steps)
         self.assertNotIn("check gas-tables", steps)

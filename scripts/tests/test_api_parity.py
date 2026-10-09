@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import shutil
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -1474,6 +1475,60 @@ class AlgorithmsModuleOwner(unittest.TestCase):
                   if status == "ported" and i.owner == "algorithms"}
         self.assertIn("a_star", ported)
         self.assertIn("field_of_movement", ported)
+
+
+class GlamInteropScan(unittest.TestCase):
+    """M3-T3 (Decision 3): `crates/hexx_glam/src` is scanned for the five interop keys only."""
+
+    FULL = """
+        /// as_ivec2 in a doc comment: ignored
+        pub trait HexGlamTrait {
+            fn as_ivec2(self: Hex) -> IVec2;
+            fn as_ivec3(self: Hex) -> IVec3;
+            fn extra(self: Hex) -> u8;
+        }
+        pub impl HexIntoIVec2 of Into<Hex, IVec2> { fn into(self: Hex) -> IVec2 { x } }
+        pub impl HexIntoIVec3 of Into<Hex, IVec3> { fn into(self: Hex) -> IVec3 { x } }
+        pub impl IVec2IntoHex of Into<IVec2, Hex> { fn into(self: IVec2) -> Hex { x } }
+        pub impl Stray of Into<IVec3, Hex> { fn into(self: IVec3) -> Hex { x } }
+    """
+
+    def scan(self, text: str) -> set[tuple[str, str, str]]:
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp) / "lib.cairo").write_text(text)
+            return {item.key for item in ap.parse_glam(Path(tmp))}
+
+    def test_the_five_items_are_found_and_nothing_else(self) -> None:
+        self.assertEqual({("Hex", "method", "as_ivec2"), ("Hex", "method", "as_ivec3"),
+                          ("Hex", "impl", "Into<Hex, IVec2>"), ("Hex", "impl", "Into<Hex, IVec3>"),
+                          ("Hex", "impl", "Into<IVec2, Hex>")}, self.scan(self.FULL))
+
+    def test_absent_items_are_not_found(self) -> None:
+        self.assertEqual(set(), self.scan("pub trait HexGlamTrait {\n}\n"))
+        self.assertEqual({("Hex", "impl", "Into<IVec2, Hex>")},
+                         self.scan("impl A of Into<IVec2, Hex> { }"))
+
+    def test_a_missing_directory_gives_no_item(self) -> None:
+        self.assertEqual([], ap.parse_glam(Path("/nonexistent/hexx_glam/src")))
+
+    def test_classification_reads_renamed_when_present_and_missing_when_absent(self) -> None:
+        inventory = [ap.Item("Hex", kind, name) for owner, kind, name in sorted(ap._INTEROP_ITEMS)]
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp) / "lib.cairo").write_text(self.FULL)
+            statuses, extras = ap.classify(inventory, ap.parse_glam(Path(tmp)))
+        self.assertEqual({"ported", "renamed"}, {status for status, _ in statuses.values()})
+        for item, (status, _) in statuses.items():
+            self.assertEqual("renamed" if item.kind == "impl" else "ported", status, item.key)
+        self.assertEqual([], extras)
+        statuses, _ = ap.classify(inventory, [])
+        self.assertEqual({"missing"}, {status for status, _ in statuses.values()})
+
+    def test_real_tree_ports_the_five_items(self) -> None:
+        hexx = ap.load_inventory(ap.OUTPUT)
+        statuses, _ = ap.classify(hexx, ap.parse_cairo())
+        for item, (status, _) in statuses.items():
+            if item.key in ap._INTEROP_ITEMS:
+                self.assertEqual("renamed" if item.kind == "impl" else "ported", status, item.key)
 
 
 if __name__ == "__main__":

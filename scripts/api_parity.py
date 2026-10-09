@@ -41,6 +41,7 @@ OUTPUT = ROOT / "docs" / "API_PARITY.md"
 EXTENSIONS_OUTPUT = ROOT / "docs" / "EXTENSIONS.md"
 CAIRO_SRC = ROOT / "crates" / "hexx" / "src"
 CAIRO_ROOT_FILE = CAIRO_SRC / "lib.cairo"
+GLAM_SRC = ROOT / "crates" / "hexx_glam" / "src"
 INVENTORY_START = "<!-- api-parity-hexx-inventory\n"
 INVENTORY_END = "\napi-parity-hexx-inventory -->"
 
@@ -178,13 +179,11 @@ RULES = (
     rule("Hex", r"impl:PartialEq<Hex>$", "dropped",
          "reference glue (`impl PartialEq<Hex> for &Hex`): Cairo values are Copy and passed by "
          "value."),
-    # Interop with the companion package hexx_glam (L-M3, plan §9): the Cairo replacement lives
-    # in a *different* package this parser never scans (`CAIRO_SRC` is `crates/hexx/src` only),
-    # so `replacement` below can never resolve true from inside this crate's own inventory — by
-    # design (fix loop 2 finding 3): a mapping to code this package cannot ever contain must read
-    # `missing` forever, not `renamed`, since "renamed" would otherwise claim work this crate's
-    # own parity table has no way to verify. Scheduled at L-M3 (`_INTEROP_ITEMS` below), not the
-    # L-M2 every other Hex operator counterpart defaults to.
+    # Interop with the companion package hexx_glam (L-M3, plan §9): the Cairo replacement lives in
+    # a *different* package, `crates/hexx_glam`, which `parse_glam` scans for exactly these five
+    # items (`_INTEROP_ITEMS`) and nothing else (Decision 3 of LIB-06b): each row reads `renamed`
+    # once its item exists there, `missing` until then. Scheduled at L-M3, not the L-M2 every other
+    # Hex operator counterpart defaults to.
     rule("Hex", r"method:as_ivec2$", "renamed", "Into<Hex, IVec2> (hexx_glam).",
          replacement=("method", "as_ivec2")),
     rule("Hex", r"method:as_ivec3$", "renamed", "Into<Hex, IVec3> (hexx_glam).",
@@ -193,11 +192,11 @@ RULES = (
                 r"impl:From<Vec2> for Hex",
          "dropped", "f32 input."),
     rule("Hex", r"impl:From<Hex> for IVec2$", "renamed", "Into<Hex, IVec2> (hexx_glam).",
-         replacement=("impl", "From<Hex> for IVec2")),
+         replacement=("impl", "Into<Hex, IVec2>")),
     rule("Hex", r"impl:From<Hex> for IVec3$", "renamed", "Into<Hex, IVec3> (hexx_glam).",
-         replacement=("impl", "From<Hex> for IVec3")),
+         replacement=("impl", "Into<Hex, IVec3>")),
     rule("Hex", r"impl:From<IVec2> for Hex$", "renamed", "Into<IVec2, Hex> (hexx_glam).",
-         replacement=("impl", "From<IVec2> for Hex")),
+         replacement=("impl", "Into<IVec2, Hex>")),
     rule("Hex", r"impl:Add<i32>$", "renamed", "add_scalar — Cairo's Add<T> is homogeneous.",
          replacement=("method", "add_scalar")),
     rule("Hex", r"impl:Sub<i32>$", "renamed", "sub_scalar — same reason.",
@@ -1645,14 +1644,36 @@ def cairo_owner_of(path: tuple[str, ...], name: str) -> str | None:
     return name if name in OWNERS else None
 
 
+def parse_glam(src: Path | None = None) -> list[Item]:
+    """The five interop items of `hexx_glam` (`_INTEROP_ITEMS`), and nothing else of it: the
+    methods of `HexGlamTrait` count for the owner `Hex`, and the three `Into` impls are matched by
+    their forms (`Into<Hex, IVec2>`, `Into<Hex, IVec3>`, `Into<IVec2, Hex>`: the Cairo names of the
+    three `From` items of `_INTEROP_ITEMS`, which read `renamed`)."""
+    src = GLAM_SRC if src is None else src
+    if not src.is_dir():
+        return []
+    text = "\n".join(re.sub(r"//.*", "", path.read_text()) for path in sorted(src.rglob("*.cairo")))
+    found: list[Item] = []
+    trait = re.search(r"\btrait\s+HexGlamTrait\s*\{(.*?)\n\s*\}", text, re.S)
+    if trait:
+        for name in re.findall(r"\bfn\s+(\w+)\s*\(", trait.group(1)):
+            if ("Hex", "method", name) in _INTEROP_ITEMS:
+                found.append(Item("Hex", "method", name, "crates/hexx_glam/src"))
+    for left, right in (("Hex", "IVec2"), ("Hex", "IVec3"), ("IVec2", "Hex")):
+        if re.search(rf"\bimpl\s+\w+\s+of\s+Into\s*<\s*{left}\s*,\s*{right}\s*>", text):
+            found.append(Item("Hex", "impl", f"Into<{left}, {right}>", "crates/hexx_glam/src"))
+    return found
+
+
 def parse_cairo() -> list[Item]:
     tree = build_cairo_tree()
     if tree is None:
         return []
     nodes, reachable, bridged, glob_targets = tree
 
-    return scan_cairo_tree(nodes, reachable, bridged, glob_targets, cairo_owner_of,
-                           bare_owners=frozenset(CAIRO_MODULE_OWNER.values()) - MULTI_TYPE_OWNERS)
+    items = scan_cairo_tree(nodes, reachable, bridged, glob_targets, cairo_owner_of,
+                            bare_owners=frozenset(CAIRO_MODULE_OWNER.values()) - MULTI_TYPE_OWNERS)
+    return items + parse_glam()
 
 
 def unique_items(items: set[Item] | list[Item]) -> list[Item]:
