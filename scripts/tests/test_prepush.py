@@ -2,6 +2,7 @@
 check a set of changed paths triggers."""
 import fcntl
 import os
+import platform
 import subprocess
 import shutil
 import tempfile
@@ -125,21 +126,21 @@ class PrepushLockTest(unittest.TestCase):
 
 
 class PrepushClassSizeOsTest(unittest.TestCase):
-    def os_line(self, uname: str | None) -> str:
-        env = dict(os.environ)
-        env.pop("PREPUSH_UNAME", None)
-        if uname is not None:
-            env["PREPUSH_UNAME"] = uname
-        return subprocess.run(["/bin/bash", str(SCRIPT), "--os"], env=env, text=True,
+    def os_line(self, *name: str) -> str:
+        return subprocess.run(["/bin/bash", str(SCRIPT), "--os", *name], text=True,
                               capture_output=True, check=True).stdout.strip()
 
-    def test_linux_runs_the_class_size_check(self):
+    def test_linux_query_prints_ok(self):
         self.assertEqual(self.os_line("Linux"), "ok")
 
     def test_other_systems_skip_it(self):
         self.assertEqual(
             self.os_line("Darwin"),
             "prepush: class-size is Linux-only (D-182): skipped on Darwin, CI checks it")
+
+    @unittest.skipUnless(platform.system() == "Linux", "the default is the OS of the machine")
+    def test_no_name_queries_this_os(self):
+        self.assertEqual(self.os_line(), "ok")
 
 
 class PrepushGitEnvironmentTest(unittest.TestCase):

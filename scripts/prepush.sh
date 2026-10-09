@@ -28,7 +28,7 @@
 #
 #   scripts/prepush.sh               run the gate
 #   scripts/prepush.sh --lock        take the compile lock as a run would, print ok, busy or none
-#   scripts/prepush.sh --os          print ok, or the line that skips the class-size check, on this OS
+#   scripts/prepush.sh --os [name]   print ok, or the line that skips the class-size check, on OS name (default: this OS)
 #   scripts/prepush.sh --select      read changed paths on stdin, print the checks selected (tests)
 set -euo pipefail
 # A git hook runs with git's local environment (GIT_DIR, GIT_WORK_TREE, GIT_INDEX_FILE, ...): left
@@ -118,10 +118,10 @@ take_compile_lock() {
   fi
 }
 
-# D-182: class sizes are measured on Linux only. PREPUSH_UNAME overrides `uname -s` (tests).
+# D-182: class sizes are measured on Linux only. $1: the OS name (`uname -s`).
 # Prints ok, or the skip line, and returns 1 when the class-size check is skipped.
 class_size_os() {
-  local os=${PREPUSH_UNAME:-$(uname -s)}
+  local os=$1
   if [ "$os" = Linux ]; then
     echo ok
   else
@@ -131,7 +131,7 @@ class_size_os() {
 }
 
 if [ "${1:-}" = "--os" ]; then
-  class_size_os || true
+  class_size_os "${2:-$(uname -s)}" || true
   exit 0
 fi
 if [ "${1:-}" = "--select" ]; then
@@ -181,7 +181,7 @@ while read -r kind target <&3; do
   for entry in "${CHECKS[@]}"; do
     [ "${entry%%::*}" = "$target" ] || continue
     if [ "$target" = class-size ]; then
-      os_line=$(class_size_os) || { echo "$os_line" >&2; continue; }
+      os_line=$(class_size_os "$(uname -s)") || { echo "$os_line" >&2; continue; }
       take_compile_lock
       case $COMPILE_LOCK in busy | error) continue ;; esac
     fi
