@@ -65,7 +65,7 @@ lines of M2-T4 to M2-T7), else into a new package `crates/golden_<module>`. Its 
 `package` names the package (`tools/refgen`). A new package is added to the root `Scarb.toml`,
 the `test` and `gas` matrices of `.github/workflows/ci.yml`, `gas/<package>.snap` and the
 package-list test of `scripts/tests/test_bench_gate_split.py`, in the same change. A new build is
-measured under `prlimit --as=8589934592` only, never uncapped.
+measured under `prlimit --as=8589934592` only (8 GiB, a runaway stopper: if that run aborts, measure on the Mac), never uncapped.
 
 ### Gas pins from CI
 
@@ -98,16 +98,25 @@ read it, and on a stale base re-run CI on the head before applying.
 A thread runs locally only the tests of the parts it touched, never the whole suite at every step.
 The whole suite is CI's on the pull request, gated by changed paths (`scripts/ci_changes.py`).
 Peaks are the ones recorded in this file ("Golden tests", "Gas pins from CI"); any other part is
-**measure first**: capped (`prlimit --as=8589934592 -- /usr/bin/time -v …`) or on the Mac, never
-uncapped on the VPS.
+**measure first**. `prlimit --as` is a runaway stopper, not a measure: address space exceeds resident
+memory (a real peak of 7.3 GB aborted under `--as=8 GiB`). So:
+
+1. Every build or test run's peak RSS is measured first: on the Mac, or on the VPS under
+   `prlimit --as=8589934592 -- /usr/bin/time -v …` (8 GiB) while the peak is unknown. If that capped
+   run aborts, the peak is measured on the Mac. Never measure an unknown peak on the VPS under a
+   16 GiB cap, nor uncapped.
+2. A run whose measured peak RSS is under about 8 GB may run on the VPS under `prlimit --as` set to
+   1.5 × its measured peak, rounded up to whole GiB, and at most 16 GiB (17179869184).
+3. A run whose peak RSS is above about 8 GB runs on the Mac, never on the VPS.
+4. A part with a known peak below has its cap next to it (1.5 × peak, rounded up to whole GiB).
 
 | Part | Local test command | Known memory peak |
 |---|---|---|
-| `crates/hexx` | `scarb build -p hexx` (library alone, ~0.7 GB) is the only hexx build on the VPS. `snforge test -p hexx <filter>` still compiles the whole test target (unit + integration), so a filter scopes nothing: CI or the Mac only (D-212) | 9,471,639,552 B (8.82 GiB), Mac, 2026-10-05, `a045239`: over 8 GB |
+| `crates/hexx` | `scarb build -p hexx` (library alone, ~0.7 GB; cap `--as=2147483648`, 2 GiB) is the only hexx build on the VPS. `snforge test -p hexx <filter>` still compiles the whole test target (unit + integration), so a filter scopes nothing: CI or the Mac only (D-212) | 9,471,639,552 B (8.82 GiB), Mac, 2026-10-05, `a045239`: over 8 GB, Mac only, no VPS cap |
 | `crates/takeover_tests`, `crates/consumer` | `snforge test -p <package>` | not recorded: measure first |
-| `crates/golden_lm2` / `golden_impls` / `golden_hex` | `snforge test -p <package>` | 1.6 GB (3,241 lines) / 5.0 GB (11,156) / 6.0 GB (13,765) |
-| `crates/golden_lm1` | `snforge test -p golden_lm1` | 2.0 GB (5,119 lines; now 5,188) |
-| `crates/golden_bounds`, `golden_grid`, `golden_hex_t2`, `golden_rings`, `golden_shapes` | `snforge test -p <package>` | not recorded; the 8,000-line budget gives under ~4 GB: measure first |
+| `crates/golden_lm2` / `golden_impls` / `golden_hex` | `snforge test -p <package>` | 1.6 GB (3,241 lines) / 5.0 GB (11,156) / 6.0 GB (13,765); caps `--as=3221225472` (3 GiB) / `8589934592` (8 GiB) / `9663676416` (9 GiB) |
+| `crates/golden_lm1` | `snforge test -p golden_lm1` | 2.0 GB (5,119 lines; now 5,188); cap `--as=3221225472` (3 GiB) |
+| `crates/golden_bounds`, `golden_grid`, `golden_hex_t2`, `golden_rings`, `golden_shapes` | `snforge test -p <package>` | not recorded; the 8,000-line budget gives under ~4 GB: measure first (rule 1) |
 | `tools/refgen` (golden vectors) | `cargo run --manifest-path tools/refgen/Cargo.toml -- check` | not recorded: measure first |
 | `tools/consumer_check` | `tools/consumer_check/run.sh [version]` (builds and tests against the registry) | not recorded: measure first |
 | `scripts/`, generated docs | `python3 -m unittest discover -s scripts/tests`; `python3 scripts/{api_parity,deviations,gas_tables}.py --check` | not recorded: measure first |
