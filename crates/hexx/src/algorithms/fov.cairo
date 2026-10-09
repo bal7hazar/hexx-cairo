@@ -754,6 +754,7 @@ mod tests {
 
     /// A wall at the start sees nothing, whatever the range.
     #[test]
+    #[available_gas(l2_gas: 31447)]
     fn test_fov_from_wall() {
         let map = Oracle::map(WIDTH, HEIGHT, OPEN_15X16 - Bits::pow(112));
         assert!(range_fov(map, 112, 0) == 0);
@@ -763,6 +764,7 @@ mod tests {
 
     /// Range 0 is the start alone.
     #[test]
+    #[available_gas(l2_gas: 24209)]
     fn test_fov_range_zero() {
         let map = Oracle::map(WIDTH, HEIGHT, OPEN_15X16);
         assert!(range_fov(map, 112, 0) == Bits::pow(112));
@@ -773,6 +775,7 @@ mod tests {
     /// `(1, 7)` lies only on lines to ring hexes off the board (column ≤ −4): it is seen, as in
     /// `hexx` with `blocking = off the board or a wall`.
     #[test]
+    #[available_gas(l2_gas: 1894423)]
     fn test_fov_whole_ring() {
         let map = Oracle::map(WIDTH, HEIGHT, OPEN_15X16);
         let from = LayoutTrait::index(WIDTH, 2, 7);
@@ -784,6 +787,7 @@ mod tests {
     /// from `(7, 7)`, the wall `(6, 7)` (one step East) hides `(5, 7)`, `(4, 7)` (the only lines
     /// to them pass through it).
     #[test]
+    #[available_gas(l2_gas: 1318235)]
     fn test_fov_wall_hides() {
         let wall = LayoutTrait::index(WIDTH, 6, 7);
         let map = Oracle::map(WIDTH, HEIGHT, OPEN_15X16 - Bits::pow(wall));
@@ -796,6 +800,7 @@ mod tests {
 
     /// On the empty window the sight from `(7, 7)` is the whole hexagon of radius 6.
     #[test]
+    #[available_gas(l2_gas: 1179135)]
     fn test_fov_open_sight() {
         let map = Oracle::map(WIDTH, HEIGHT, OPEN_15X16);
         let from = LayoutTrait::index(WIDTH, 7, 7);
@@ -803,12 +808,14 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 7256)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_fov_revert_outside() {
         range_fov(Oracle::map(WIDTH, HEIGHT, OPEN_15X16), 240, 1);
     }
 
     #[test]
+    #[available_gas(l2_gas: 8096)]
     #[should_panic(expected: 'Asserter: position not inside')]
     fn test_directional_fov_revert_outside() {
         directional_fov(Oracle::map(WIDTH, HEIGHT, OPEN_15X16), 240, 1, Oracle::first());
@@ -818,26 +825,31 @@ mod tests {
     // (each board in two halves of its starts, under the step limit of a test)
 
     #[test]
+    #[available_gas(l2_gas: 474692424)]
     fn test_fov_oracle_open_15x16_0() {
         Check::oracle(Oracle::map(WIDTH, HEIGHT, OPEN_15X16), 0, 120, 16);
     }
 
     #[test]
+    #[available_gas(l2_gas: 478962679)]
     fn test_fov_oracle_open_15x16_1() {
         Check::oracle(Oracle::map(WIDTH, HEIGHT, OPEN_15X16), 120, 240, 16);
     }
 
     #[test]
+    #[available_gas(l2_gas: 257221586)]
     fn test_fov_oracle_serpentine_15x16_0() {
         Check::oracle(Oracle::map(WIDTH, HEIGHT, SERPENTINE_15X16), 0, 120, 16);
     }
 
     #[test]
+    #[available_gas(l2_gas: 299902447)]
     fn test_fov_oracle_serpentine_15x16_1() {
         Check::oracle(Oracle::map(WIDTH, HEIGHT, SERPENTINE_15X16), 120, 240, 16);
     }
 
     #[test]
+    #[available_gas(l2_gas: 336943900)]
     fn test_fov_oracle_cave_a_15x16_0() {
         Check::oracle(
             Oracle::map(WIDTH, HEIGHT, Oracle::cave(WIDTH, HEIGHT, 'cave a')), 0, 120, 16,
@@ -845,12 +857,14 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 390337453)]
     fn test_fov_oracle_cave_a_15x16_1() {
         let map = Oracle::map(WIDTH, HEIGHT, Oracle::cave(WIDTH, HEIGHT, 'cave a'));
         Check::oracle(map, 120, 240, 16);
     }
 
     #[test]
+    #[available_gas(l2_gas: 356790617)]
     fn test_fov_oracle_cave_b_15x16_0() {
         Check::oracle(
             Oracle::map(WIDTH, HEIGHT, Oracle::cave(WIDTH, HEIGHT, 'cave b')), 0, 120, 16,
@@ -858,12 +872,14 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 384264097)]
     fn test_fov_oracle_cave_b_15x16_1() {
         let map = Oracle::map(WIDTH, HEIGHT, Oracle::cave(WIDTH, HEIGHT, 'cave b'));
         Check::oracle(map, 120, 240, 16);
     }
 
     #[test]
+    #[available_gas(l2_gas: 102907096)]
     fn test_fov_oracle_7x7() {
         Check::oracle(Oracle::map(7, 7, OPEN_7X7), 0, 49, 3);
         Check::oracle(Oracle::map(7, 7, Oracle::cave(7, 7, 'cave 7')), 0, 49, 3);
@@ -873,89 +889,104 @@ mod tests {
     // domain, every start at every range of `0..=16`, is beyond the step limit of a test)
 
     #[test]
+    #[available_gas(l2_gas: 678998311)]
     fn test_fov_properties_open_15x16_near_0() {
         let map = Oracle::map(WIDTH, HEIGHT, OPEN_15X16);
         Check::near(map, 0, 120, [0, 1, 2].span(), 'open');
     }
 
     #[test]
+    #[available_gas(l2_gas: 695814611)]
     fn test_fov_properties_open_15x16_near_1() {
         let map = Oracle::map(WIDTH, HEIGHT, OPEN_15X16);
         Check::near(map, 120, 240, [0, 1, 2].span(), 'open');
     }
 
     #[test]
+    #[available_gas(l2_gas: 575664382)]
     fn test_fov_properties_open_15x16_seeded() {
         let map = Oracle::map(WIDTH, HEIGHT, OPEN_15X16);
         Check::seeded(map, 16, 'open');
     }
 
     #[test]
+    #[available_gas(l2_gas: 319967111)]
     fn test_fov_properties_serpentine_15x16_near_0() {
         let map = Oracle::map(WIDTH, HEIGHT, SERPENTINE_15X16);
         Check::near(map, 0, 120, [0, 1, 2].span(), 'serpent');
     }
 
     #[test]
+    #[available_gas(l2_gas: 322663914)]
     fn test_fov_properties_serpentine_15x16_near_1() {
         let map = Oracle::map(WIDTH, HEIGHT, SERPENTINE_15X16);
         Check::near(map, 120, 240, [0, 1, 2].span(), 'serpent');
     }
 
     #[test]
+    #[available_gas(l2_gas: 78711397)]
     fn test_fov_properties_serpentine_15x16_seeded() {
         let map = Oracle::map(WIDTH, HEIGHT, SERPENTINE_15X16);
         Check::seeded(map, 24, 'serpent');
     }
 
     #[test]
+    #[available_gas(l2_gas: 523494735)]
     fn test_fov_properties_cave_a_15x16_near_0() {
         let map = Oracle::map(WIDTH, HEIGHT, Oracle::cave(WIDTH, HEIGHT, 'cave a'));
         Check::near(map, 0, 120, [0, 1, 2].span(), 'cave a');
     }
 
     #[test]
+    #[available_gas(l2_gas: 534566700)]
     fn test_fov_properties_cave_a_15x16_near_1() {
         let map = Oracle::map(WIDTH, HEIGHT, Oracle::cave(WIDTH, HEIGHT, 'cave a'));
         Check::near(map, 120, 240, [0, 1, 2].span(), 'cave a');
     }
 
     #[test]
+    #[available_gas(l2_gas: 264893911)]
     fn test_fov_properties_cave_a_15x16_seeded() {
         let map = Oracle::map(WIDTH, HEIGHT, Oracle::cave(WIDTH, HEIGHT, 'cave a'));
         Check::seeded(map, 24, 'cave a');
     }
 
     #[test]
+    #[available_gas(l2_gas: 514036988)]
     fn test_fov_properties_cave_b_15x16_near_0() {
         let map = Oracle::map(WIDTH, HEIGHT, Oracle::cave(WIDTH, HEIGHT, 'cave b'));
         Check::near(map, 0, 120, [0, 1, 2].span(), 'cave b');
     }
 
     #[test]
+    #[available_gas(l2_gas: 500246931)]
     fn test_fov_properties_cave_b_15x16_near_1() {
         let map = Oracle::map(WIDTH, HEIGHT, Oracle::cave(WIDTH, HEIGHT, 'cave b'));
         Check::near(map, 120, 240, [0, 1, 2].span(), 'cave b');
     }
 
     #[test]
+    #[available_gas(l2_gas: 179703641)]
     fn test_fov_properties_cave_b_15x16_seeded() {
         let map = Oracle::map(WIDTH, HEIGHT, Oracle::cave(WIDTH, HEIGHT, 'cave b'));
         Check::seeded(map, 24, 'cave b');
     }
 
     #[test]
+    #[available_gas(l2_gas: 613083428)]
     fn test_fov_properties_open_7x7_near() {
         Check::near(Oracle::map(7, 7, OPEN_7X7), 0, 49, [0, 1, 2, 3].span(), 'open 7');
     }
 
     #[test]
+    #[available_gas(l2_gas: 405801219)]
     fn test_fov_properties_cave_7x7_near() {
         let map = Oracle::map(7, 7, Oracle::cave(7, 7, 'cave 7'));
         Check::near(map, 0, 49, [0, 1, 2, 3].span(), 'cave 7');
     }
 
     #[test]
+    #[available_gas(l2_gas: 577603437)]
     fn test_fov_properties_7x7_seeded() {
         Check::seeded(Oracle::map(7, 7, OPEN_7X7), 24, 'open 7');
         Check::seeded(Oracle::map(7, 7, Oracle::cave(7, 7, 'cave 7')), 24, 'cave 7');
@@ -989,6 +1020,7 @@ mod tests {
     /// 23,076 = 830,736`, derived after the first measurement of the design (see the report of
     /// M3-T2). The walk alone (sketch (A)) measured 4,339,009.
     #[test]
+    #[available_gas(l2_gas: 1182505)]
     #[inline(never)]
     fn bench_range_fov_sight_once() {
         let [from, _] = Inputs::get().sight;
@@ -996,6 +1028,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 2360075)]
     #[inline(never)]
     fn bench_range_fov_sight_twice() {
         let [from, other] = Inputs::get().sight;
@@ -1009,6 +1042,7 @@ mod tests {
     /// most 19,059 each) and the 13 lines of the cone as in `range_fov`: `L = 6 × 19,059 + 13 ×
     /// 23,076 = 414,342`, derived after the first measurement of the design.
     #[test]
+    #[available_gas(l2_gas: 586277)]
     #[inline(never)]
     fn bench_directional_fov_sight_once() {
         let [from, _] = Inputs::get().sight;
@@ -1018,6 +1052,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 1164270)]
     #[inline(never)]
     fn bench_directional_fov_sight_twice() {
         let [from, other] = Inputs::get().sight;
@@ -1030,6 +1065,7 @@ mod tests {
     /// `SIDES` gives every hex of the ring, signs and magnitudes, at ranges `1..=16`, and they
     /// are the hexes of the mirror's `HexRingsTrait::ring`.
     #[test]
+    #[available_gas(l2_gas: 153939524)]
     fn test_fov_sides() {
         let mut range: i32 = 1;
         while range != 17 {
@@ -1067,6 +1103,7 @@ mod tests {
     /// that of the side before as well) equals the plain filter of `hexx`, `diagonal_way_to` of
     /// every ring hex, for the six `EdgeDirection`s at ranges `1..=16`.
     #[test]
+    #[available_gas(l2_gas: 130548821)]
     fn test_directional_fov_cone() {
         for direction in EdgeDirectionTrait::ALL_DIRECTIONS.span() {
             let vertices = Option::Some((*direction).vertex_directions());
@@ -1084,6 +1121,7 @@ mod tests {
 
     /// The number of ring hexes of the cone of `EdgeDirection` 0 at range 6.
     #[test]
+    #[available_gas(l2_gas: 818948)]
     fn test_directional_fov_cone_size() {
         let [a, b] = Oracle::first().vertex_directions();
         let mut count: u32 = 0;
@@ -1098,6 +1136,7 @@ mod tests {
 
     /// `range_fov` next to the ring at range 15, no target.
     #[test]
+    #[available_gas(l2_gas: 12561026)]
     #[inline(never)]
     fn bench_range_fov_edge_once() {
         let [from, _] = Inputs::get().edge;
@@ -1105,6 +1144,7 @@ mod tests {
     }
 
     #[test]
+    #[available_gas(l2_gas: 25045747)]
     #[inline(never)]
     fn bench_range_fov_edge_twice() {
         let [from, other] = Inputs::get().edge;
@@ -1115,6 +1155,7 @@ mod tests {
 
     /// `range_fov` at the end of the domain, range 255 from `(7, 7)`, once, no target.
     #[test]
+    #[available_gas(l2_gas: 245118066)]
     #[inline(never)]
     fn bench_range_fov_far_once() {
         let [from, _] = Inputs::get().sight;

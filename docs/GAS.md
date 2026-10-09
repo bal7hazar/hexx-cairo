@@ -707,6 +707,16 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `golden_lm2_integrationtest::golden_euclidean::golden_euclidean_pairs_9_squared_euclidean_distance_to` | 67,530,170 | 70,906,679 | 5.0 % |
 | `golden_lm2_integrationtest::golden_euclidean::golden_euclidean_partial_sum_panics` | 7,610 | 7,991 | 5.0 % |
 | `golden_lm2_integrationtest::golden_euclidean::golden_euclidean_unary_squared_euclidean_length` | 2,875,850 | 3,019,643 | 5.0 % |
+| `golden_lm2_integrationtest::golden_fov::golden_fov_directional_cave_7x7` | 62,701,543 | 65,836,621 | 5.0 % |
+| `golden_lm2_integrationtest::golden_fov::golden_fov_directional_cave_a_15x16` | 71,745,101 | 75,332,357 | 5.0 % |
+| `golden_lm2_integrationtest::golden_fov::golden_fov_directional_cave_b_15x16` | 71,329,894 | 74,896,389 | 5.0 % |
+| `golden_lm2_integrationtest::golden_fov::golden_fov_directional_empty_15x16` | 51,165,752 | 53,724,040 | 5.0 % |
+| `golden_lm2_integrationtest::golden_fov::golden_fov_directional_empty_7x7` | 81,181,518 | 85,240,594 | 5.0 % |
+| `golden_lm2_integrationtest::golden_fov::golden_fov_range_cave_7x7` | 122,509,657 | 128,635,140 | 5.0 % |
+| `golden_lm2_integrationtest::golden_fov::golden_fov_range_cave_a_15x16` | 140,972,686 | 148,021,321 | 5.0 % |
+| `golden_lm2_integrationtest::golden_fov::golden_fov_range_cave_b_15x16` | 135,136,743 | 141,893,581 | 5.0 % |
+| `golden_lm2_integrationtest::golden_fov::golden_fov_range_empty_15x16` | 207,433,488 | 217,805,163 | 5.0 % |
+| `golden_lm2_integrationtest::golden_fov::golden_fov_range_empty_7x7` | 173,842,244 | 182,534,357 | 5.0 % |
 | `golden_lm2_integrationtest::golden_swizzle::golden_swizzle_bounds_xx` | 12,093,920 | 12,698,616 | 5.0 % |
 | `golden_lm2_integrationtest::golden_swizzle::golden_swizzle_bounds_xz` | 5,731,370 | 6,017,939 | 5.0 % |
 | `golden_lm2_integrationtest::golden_swizzle::golden_swizzle_bounds_xz_panics_0` | 7,610 | 7,991 | 5.0 % |
@@ -811,6 +821,47 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::algorithms::field_of_movement::tests::test_field_of_movement_maze_17x14_edges_classes_3` | 105,188,715 | 110,448,151 | 5.0 % |
 | `hexx::algorithms::field_of_movement::tests::test_field_of_movement_revert_outside` | 7,810 | 8,201 | 5.0 % |
 | `hexx::algorithms::field_of_movement::tests::test_field_of_movement_revert_too_many_costs` | 13,643 | 14,326 | 5.0 % |
+| `hexx::algorithms::fov::tests::bench_directional_fov_sight_once` | 558,359 | 586,277 | 5.0 % |
+| `hexx::algorithms::fov::tests::bench_directional_fov_sight_twice` | 1,108,828 | 1,164,270 | 5.0 % |
+| `hexx::algorithms::fov::tests::bench_range_fov_edge_once` | 11,962,881 | 12,561,026 | 5.0 % |
+| `hexx::algorithms::fov::tests::bench_range_fov_edge_twice` | 23,853,092 | 25,045,747 | 5.0 % |
+| `hexx::algorithms::fov::tests::bench_range_fov_far_once` | 233,445,777 | 245,118,066 | 5.0 % |
+| `hexx::algorithms::fov::tests::bench_range_fov_sight_once` | 1,126,195 | 1,182,505 | 5.0 % |
+| `hexx::algorithms::fov::tests::bench_range_fov_sight_twice` | 2,247,690 | 2,360,075 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_directional_fov_cone` | 124,332,210 | 130,548,821 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_directional_fov_cone_size` | 779,950 | 818,948 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_directional_fov_revert_outside` | 7,710 | 8,096 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_from_wall` | 29,949 | 31,447 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_open_sight` | 1,122,985 | 1,179,135 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_oracle_7x7` | 98,006,758 | 102,907,096 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_oracle_cave_a_15x16_0` | 320,898,952 | 336,943,900 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_oracle_cave_a_15x16_1` | 371,749,955 | 390,337,453 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_oracle_cave_b_15x16_0` | 339,800,587 | 356,790,617 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_oracle_cave_b_15x16_1` | 365,965,806 | 384,264,097 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_oracle_open_15x16_0` | 452,088,022 | 474,692,424 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_oracle_open_15x16_1` | 456,154,932 | 478,962,679 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_oracle_serpentine_15x16_0` | 244,972,939 | 257,221,586 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_oracle_serpentine_15x16_1` | 285,621,378 | 299,902,447 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_properties_7x7_seeded` | 550,098,511 | 577,603,437 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_properties_cave_7x7_near` | 386,477,351 | 405,801,219 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_properties_cave_a_15x16_near_0` | 498,566,414 | 523,494,735 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_properties_cave_a_15x16_near_1` | 509,111,142 | 534,566,700 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_properties_cave_a_15x16_seeded` | 252,279,915 | 264,893,911 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_properties_cave_b_15x16_near_0` | 489,559,036 | 514,036,988 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_properties_cave_b_15x16_near_1` | 476,425,648 | 500,246,931 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_properties_cave_b_15x16_seeded` | 171,146,324 | 179,703,641 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_properties_open_15x16_near_0` | 646,665,058 | 678,998,311 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_properties_open_15x16_near_1` | 662,680,581 | 695,814,611 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_properties_open_15x16_seeded` | 548,251,792 | 575,664,382 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_properties_open_7x7_near` | 583,888,979 | 613,083,428 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_properties_serpentine_15x16_near_0` | 304,730,581 | 319,967,111 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_properties_serpentine_15x16_near_1` | 307,298,965 | 322,663,914 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_properties_serpentine_15x16_seeded` | 74,963,235 | 78,711,397 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_range_zero` | 23,056 | 24,209 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_revert_outside` | 6,910 | 7,256 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_sides` | 146,609,070 | 153,939,524 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_wall_hides` | 1,255,461 | 1,318,235 | 5.0 % |
+| `hexx::algorithms::fov::tests::test_fov_whole_ring` | 1,804,212 | 1,894,423 | 5.0 % |
 | `hexx::algorithms::pathfinding::tests::bench_a_star_cave_17x14_far_classes_2` | 1,470,090 | 1,543,595 | 5.0 % |
 | `hexx::algorithms::pathfinding::tests::test_a_star_cave_17x14_classes_0` | 179,370,178 | 188,338,687 | 5.0 % |
 | `hexx::algorithms::pathfinding::tests::test_a_star_cave_17x14_classes_1` | 197,123,127 | 206,979,284 | 5.0 % |
@@ -3018,7 +3069,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 7,810 | 8,201 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 7,810 | 8,201 | 5.0 % |
 
-3011 measured test(s).
+3062 measured test(s).
 
 ## Figures accepted above their range
 

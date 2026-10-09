@@ -14,7 +14,7 @@ use hexx::direction::edge_direction::EdgeDirectionTrait;
 
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 217805163)]
 fn golden_fov_range_empty_15x16() {
     let map = HexMap {
         width: 15,
@@ -104,7 +104,7 @@ fn golden_fov_range_empty_15x16() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 53724040)]
 fn golden_fov_directional_empty_15x16() {
     let map = HexMap {
         width: 15,
@@ -207,7 +207,7 @@ fn golden_fov_directional_empty_15x16() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 148021321)]
 fn golden_fov_range_cave_a_15x16() {
     let map = HexMap {
         width: 15,
@@ -294,7 +294,7 @@ fn golden_fov_range_cave_a_15x16() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 75332357)]
 fn golden_fov_directional_cave_a_15x16() {
     let map = HexMap {
         width: 15,
@@ -395,7 +395,7 @@ fn golden_fov_directional_cave_a_15x16() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 141893581)]
 fn golden_fov_range_cave_b_15x16() {
     let map = HexMap {
         width: 15,
@@ -483,7 +483,7 @@ fn golden_fov_range_cave_b_15x16() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 74896389)]
 fn golden_fov_directional_cave_b_15x16() {
     let map = HexMap {
         width: 15,
@@ -586,7 +586,7 @@ fn golden_fov_directional_cave_b_15x16() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 182534357)]
 fn golden_fov_range_empty_7x7() {
     let map = HexMap { width: 7, height: 7, grid: 0x1ffffffffffff, seed: 0 };
     let cases: Array<(u8, u8, felt252)> = array![
@@ -622,7 +622,7 @@ fn golden_fov_range_empty_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 85240594)]
 fn golden_fov_directional_empty_7x7() {
     let map = HexMap { width: 7, height: 7, grid: 0x1ffffffffffff, seed: 0 };
     let directions = EdgeDirectionTrait::ALL_DIRECTIONS.span();
@@ -667,7 +667,7 @@ fn golden_fov_directional_empty_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 128635140)]
 fn golden_fov_range_cave_7x7() {
     let map = HexMap { width: 7, height: 7, grid: 0x171ffd9ed36d7, seed: 0 };
     let cases: Array<(u8, u8, felt252)> = array![
@@ -703,7 +703,7 @@ fn golden_fov_range_cave_7x7() {
 }
 
 #[test]
-#[available_gas(l2_gas: 1000000000)]
+#[available_gas(l2_gas: 65836621)]
 fn golden_fov_directional_cave_7x7() {
     let map = HexMap { width: 7, height: 7, grid: 0x171ffd9ed36d7, seed: 0 };
     let directions = EdgeDirectionTrait::ALL_DIRECTIONS.span();
