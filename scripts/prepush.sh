@@ -22,11 +22,13 @@
 # `scarb build`. The shim has no wait limit, so the lock is taken here with `flock -w` on the same
 # file and kept open for the compile steps: the shim then sees an ancestor holding it and runs at
 # once (never bypassed, never edited). Lock busy after the wait: the compile steps are skipped with
-# one line and CI compiles. No lock file (the Mac): nothing changes. Format and the unit tests of
+# one line and CI compiles. The class-size check is also skipped off Linux (`uname -s`, one line,
+# CI checks it): gas/bytecode.size is Linux-only (D-182). No lock file (the Mac): nothing else changes. Format and the unit tests of
 # the scripts always run (`scarb fmt` does not take the lock).
 #
 #   scripts/prepush.sh               run the gate
 #   scripts/prepush.sh --lock        take the compile lock as a run would, print ok, busy or none
+#   scripts/prepush.sh --os [name]   print ok, or the line that skips the class-size check, on OS name (default: this OS)
 #   scripts/prepush.sh --select      read changed paths on stdin, print the checks selected (tests)
 set -euo pipefail
 # A git hook runs with git's local environment (GIT_DIR, GIT_WORK_TREE, GIT_INDEX_FILE, ...): left
@@ -116,6 +118,22 @@ take_compile_lock() {
   fi
 }
 
+# D-182: class sizes are measured on Linux only. $1: the OS name (`uname -s`).
+# Prints ok, or the skip line, and returns 1 when the class-size check is skipped.
+class_size_os() {
+  local os=$1
+  if [ "$os" = Linux ]; then
+    echo ok
+  else
+    echo "prepush: class-size is Linux-only (D-182): skipped on $os, CI checks it"
+    return 1
+  fi
+}
+
+if [ "${1:-}" = "--os" ]; then
+  class_size_os "${2:-$(uname -s)}" || true
+  exit 0
+fi
 if [ "${1:-}" = "--select" ]; then
   select_steps
   exit 0
@@ -163,6 +181,7 @@ while read -r kind target <&3; do
   for entry in "${CHECKS[@]}"; do
     [ "${entry%%::*}" = "$target" ] || continue
     if [ "$target" = class-size ]; then
+      os_line=$(class_size_os "$(uname -s)") || { echo "$os_line" >&2; continue; }
       take_compile_lock
       case $COMPILE_LOCK in busy | error) continue ;; esac
     fi

@@ -2,6 +2,7 @@
 check a set of changed paths triggers."""
 import fcntl
 import os
+import platform
 import subprocess
 import shutil
 import tempfile
@@ -122,6 +123,24 @@ class PrepushLockTest(unittest.TestCase):
             self.assertEqual(
                 self.lock(f.name),
                 "busy|prepush: build lock busy after 1 s: Cairo compile skipped, CI will compile")
+
+
+class PrepushClassSizeOsTest(unittest.TestCase):
+    def os_line(self, *name: str) -> str:
+        return subprocess.run(["/bin/bash", str(SCRIPT), "--os", *name], text=True,
+                              capture_output=True, check=True).stdout.strip()
+
+    def test_linux_query_prints_ok(self):
+        self.assertEqual(self.os_line("Linux"), "ok")
+
+    def test_other_systems_skip_it(self):
+        self.assertEqual(
+            self.os_line("Darwin"),
+            "prepush: class-size is Linux-only (D-182): skipped on Darwin, CI checks it")
+
+    @unittest.skipUnless(platform.system() == "Linux", "the default is the OS of the machine")
+    def test_no_name_queries_this_os(self):
+        self.assertEqual(self.os_line(), "ok")
 
 
 class PrepushGitEnvironmentTest(unittest.TestCase):
