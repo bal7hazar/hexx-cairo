@@ -1,0 +1,12 @@
+# `hexx::algorithms::{range_fov, directional_fov}` against the board (tools/refgen/src/fov.rs):
+# the 15 x 16 window (empty, two seeded caves) and a 7 x 7 (empty, a seeded cave), 8 starts each,
+# `range_fov` at ranges 0..=range_max and range_far, `directional_fov` for the six
+# `EdgeDirection`s at ranges directional_a and directional_b.
+module = "fov"
+package = "golden_lm2"
+
+seed = "fov"
+range_max = 8
+range_far = 15
+directional_a = 3
+directional_b = 6
