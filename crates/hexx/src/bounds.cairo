@@ -799,7 +799,7 @@ mod tests {
     // | function | case | `L` | `U` |
     // |---|---|---|---|
     // | `is_in_bounds` | any | 12,073 | 15,092 |
-    // | `hex_count`, `hex_count32` | radius 64 | 4,120 | 5,150 |
+    // | `hex_count`, `hex_count32` | radii 55-64 | 4,120 | 5,150 |
     // | `wrap`, `wrap_local` | radius 6 | 39,688 | 49,610 |
     // | `from_min_max` | any | 42,930 | 53,663 |
     // | `corners` | radius 6 | 43,626 | 54,533 |

@@ -822,8 +822,9 @@ mod tests {
     // Oracles (D-167): each `coords` as a set against its per-hex definition. A span whose every
     // element satisfies the definition, whose elements are strictly increasing in the order of
     // `hexx` (so all distinct) and whose length is the closed form of the definition's size is
-    // exactly the set of the definition. The domain is `0..7` on every side of every shape; the
-    // golden vectors hold radii and boxes up to 6 against `hexx`.
+    // exactly the set of the definition. The domain is `0..7` on every side of the hexagon,
+    // parallelogram, rombus and rectangles (the triangle runs `0..11`); the golden vectors hold
+    // radii and boxes up to 6 against `hexx`.
 
     #[test]
     #[available_gas(l2_gas: 112239561)]
