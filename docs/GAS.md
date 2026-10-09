@@ -2387,6 +2387,11 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx_integrationtest::readme::test_readme_open` | 2,022,736 | 2,123,873 | 5.0 % |
 | `hexx_integrationtest::readme::test_readme_place_objects` | 660,639 | 693,671 | 5.0 % |
 | `hexx_integrationtest::readme::test_readme_query_areas` | 1,314,727 | 1,380,464 | 5.0 % |
+| `hexx_glam::tests::test_as_ivec3_extremes_in_range` | 6,010 | 6,311 | 5.0 % |
+| `hexx_glam::tests::test_as_ivec3_panics_at_min_x` | 7,610 | 7,991 | 5.0 % |
+| `hexx_glam::tests::test_conversions_oracle` | 63,403,830 | 66,573,022 | 5.0 % |
+| `hexx_glam::tests::test_into_ivec3_panics_at_min_y` | 7,610 | 7,991 | 5.0 % |
+| `hexx_glam::tests::test_ivec2_extremes` | 29,400 | 30,870 | 5.0 % |
 | `takeover_tests::asserter::test_asserter_assert_inside` | 20,923,708 | 21,969,894 | 5.0 % |
 | `takeover_tests::asserter::test_asserter_assert_not_corner` | 25,854,368 | 27,147,087 | 5.0 % |
 | `takeover_tests::asserter::test_asserter_assert_on_edge` | 12,355,820 | 12,973,611 | 5.0 % |
@@ -3018,7 +3023,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 7,810 | 8,201 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 7,810 | 8,201 | 5.0 % |
 
-3011 measured test(s).
+3016 measured test(s).
 
 ## Figures accepted above their range
 
