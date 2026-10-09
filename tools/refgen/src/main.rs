@@ -9,12 +9,14 @@
 //! `specs/*.toml` here is a deliberately small, flat format (`key = value` lines, no nesting),
 //! parsed by `spec::load` without an external crate.
 
+mod algorithms;
 mod bounds;
 mod cairo;
 mod conversions;
 mod convert;
 mod direction;
 mod euclidean;
+mod fov;
 mod grid;
 mod hex;
 mod hexagon;
@@ -121,6 +123,9 @@ fn run() -> Result<bool, String> {
                     "iter" => iter::emit(spec, &root)?,
                     "shapes" => shapes::emit(spec, &root)?,
                     "grid" => grid::emit(spec, &root)?,
+                    // The algorithms of L-M3 (LIB-06b): M3-T1 `algorithms`, M3-T2 `fov`
+                    "algorithms" => algorithms::emit(spec, &root)?,
+                    "fov" => fov::emit(spec, &root)?,
                     other => return Err(format!("no generator registered for module {other:?}")),
                 };
                 for (path, text) in outputs {

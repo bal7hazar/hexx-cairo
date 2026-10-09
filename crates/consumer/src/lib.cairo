@@ -16,8 +16,10 @@
 //! (the shared `Hex` items) are in `HexxMirror`.
 
 // The call sites of the tasks of L-M2 (LIB-06), one file per task: each task fills its own file.
+pub mod mirror_algorithms;
 pub mod mirror_bounds;
 pub mod mirror_directions;
+pub mod mirror_fov;
 pub mod mirror_grid;
 pub mod mirror_hex;
 pub mod mirror_ops;

@@ -1460,5 +1460,21 @@ class RealTreeMirrorOfL_M1(unittest.TestCase):
         self.assertEqual(set(), missing)
 
 
+class AlgorithmsModuleOwner(unittest.TestCase):
+    """M3-T1: the three files of `algorithms/` count for the owner `algorithms`."""
+
+    def test_algorithms_files_have_the_owner_algorithms(self) -> None:
+        for name in ("fov", "field_of_movement", "pathfinding"):
+            self.assertEqual("algorithms", ap.CAIRO_MODULE_OWNER[("algorithms", name)])
+
+    def test_real_tree_ports_the_two_counterparts(self) -> None:
+        hexx = ap.load_inventory(ap.OUTPUT)
+        statuses, _ = ap.classify(hexx, ap.parse_cairo())
+        ported = {i.name for i, (status, _) in statuses.items()
+                  if status == "ported" and i.owner == "algorithms"}
+        self.assertIn("a_star", ported)
+        self.assertIn("field_of_movement", ported)
+
+
 if __name__ == "__main__":
     unittest.main()

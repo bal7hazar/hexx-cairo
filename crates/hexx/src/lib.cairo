@@ -10,6 +10,8 @@
 //! `HexBounds`, `HexOrientation` and the shapes are here. The rest of `hexx` 0.25.0 (L-M3:
 //! the `hexx_glam` interop and the algorithms) is not ported yet.
 
+pub mod algorithms;
+
 pub mod board;
 pub use board::direction::{Arc, Direction};
 pub use board::map::{HexMap, HexMapTrait};
