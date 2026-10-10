@@ -27,7 +27,7 @@ release prep. See the [CHANGELOG](../../CHANGELOG.md) section `[0.3.0]`.
 - Module `algorithms` (new in the public interface): `field_of_movement`, `a_star`, `range_fov`,
   `directional_fov`.
 - The `glam` interop is not in this package: it is the companion `hexx_glam` 0.3.0.
-- Results changed: none. Extensions: 240 (unchanged). Deviations: 324 documented (320 in 0.2.0);
+- Results changed: none. Extensions: 240 (unchanged). Deviations: 329 documented (320 in 0.2.0; 4 algorithms and 5 of `hexx_glam`);
   `range_fov` and `directional_fov` differ from `hexx` on `f32` ties, listed in
   [`docs/deviations/fov_ties.md`](../deviations/fov_ties.md).
 

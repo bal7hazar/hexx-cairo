@@ -23,7 +23,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "docs" / "DEVIATIONS.md"
-SOURCE_GLOBS = ("crates/hexx/src/**/*.cairo",)
+SOURCE_GLOBS = ("crates/hexx/src/**/*.cairo", "crates/hexx_glam/src/**/*.cairo")
 
 DOC_RE = re.compile(r"^\s*///(?: ?(.*))?$")
 DECL_RE = re.compile(
@@ -52,7 +52,10 @@ def source_paths() -> list[Path]:
     paths: set[Path] = set()
     for pattern in SOURCE_GLOBS:
         paths.update(ROOT.glob(pattern))
-    return sorted(path for path in paths if path.name != "lib.cairo")
+    # The crate root of `hexx` only re-exports; `hexx_glam` has no other file, its items are in
+    # its `lib.cairo`.
+    root = ROOT / "crates" / "hexx" / "src" / "lib.cairo"
+    return sorted(path for path in paths if path != root)
 
 
 def module_owner(path: Path) -> str:
@@ -65,7 +68,7 @@ def module_owner(path: Path) -> str:
         "hex": "Hex", "impls": "Hex", "rings": "Hex", "swizzle": "Hex", "convert": "Hex",
         "euclidean": "Hex", "iter": "HexSpanExt", "edge": "GridEdge", "vertex": "GridVertex",
         "conversions": "conversions", "bounds": "HexBounds", "shapes": "shapes",
-        "orientation": "HexOrientation", "edge_direction": "EdgeDirection",
+        "orientation": "HexOrientation", "lib": "HexGlam", "edge_direction": "EdgeDirection",
         "vertex_direction": "VertexDirection", "way": "DirectionWay",
         "field_of_movement": "algorithms", "pathfinding": "algorithms", "fov": "algorithms",
     }

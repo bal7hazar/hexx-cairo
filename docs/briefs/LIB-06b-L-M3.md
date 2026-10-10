@@ -126,6 +126,8 @@ Each has a recommendation, which the task briefs follow until the orchestrator r
 
 Contracts the plan's rows leave silent, chosen to follow `hexx` where it costs one check:
 
+- `a_star` accepts an open edge `from`: its closure excludes edge tiles other than both endpoints
+  (review of #129).
 - `a_star` returns `None` (not a panic) when an endpoint is a wall or outside the board, as `hexx`'s
   `cost(end, end)?` and `cost(start, start)?` (`pathfinding.rs:114, 117`); `Some([from])` when
   `from == to`. Its cost model is not `field_of_movement`'s: `hexx`'s `a_star` adds the cost as

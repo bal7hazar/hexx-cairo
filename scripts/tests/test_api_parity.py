@@ -647,6 +647,23 @@ class ScheduledReleaseCheck(unittest.TestCase):
         self.assertEqual("L-M3", ap.milestone_of(item, "missing"))
 
 
+class InteropMethodRows(unittest.TestCase):
+    def test_ported_interop_methods_name_hexx_glam(self) -> None:
+        for name in ("as_ivec2", "as_ivec3"):
+            item = ap.Item("Hex", "method", name, "hex/convert.rs")
+            cairo = ap.Item("Hex", "method", name, "crates/hexx_glam/src")
+            statuses, _ = ap.classify([item], [cairo])
+            status, detail = statuses[item]
+            self.assertEqual("ported", status)
+            self.assertIn("hexx_glam", detail)
+            self.assertIn("import the trait", detail)
+
+    def test_missing_interop_method_reason_is_the_method_not_the_from_impl(self) -> None:
+        item = ap.Item("Hex", "method", "as_ivec2", "hex/convert.rs")
+        statuses, _ = ap.classify([item], [])
+        self.assertIn("HexGlamTrait::as_ivec2", statuses[item][1])
+
+
 class CanonicalMilestoneList(unittest.TestCase):
     def test_l_m1_has_exactly_the_items_plan_section_8_names(self) -> None:
         hex_items = {k for k in ap._L_M1 if k[0] == "Hex"}

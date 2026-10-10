@@ -14,7 +14,7 @@ first, published and visible on the registry; only then this package**: it depen
 | Package | `hexx_glam` (a **new** package name on the registry) |
 | Version | `0.3.0` (a stable version: the owner's go; versioned with `hexx`, first publication) |
 | Commit | the merge commit of this PR on `main` (the orchestrator records it) |
-| Archive sha256 | to be taken from `scarb package -p hexx_glam` at that commit, after `hexx` 0.3.0 is visible, and recorded in the go |
+| Archive sha256 | produced after `hexx` 0.3.0 is published (its verification resolves `hexx` from the registry): no CI path packages `hexx_glam`, the orchestrator packages it by hand on the VPS. Its go therefore comes second, with that sha256 |
 | For | The game: the `glam` interop of `hexx` 0.25.0 (`Hex` ↔ `IVec2`/`IVec3`) |
 
 ## What changed
