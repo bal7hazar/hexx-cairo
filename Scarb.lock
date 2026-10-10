@@ -5,7 +5,67 @@ version = 1
 name = "consumer"
 version = "0.2.0"
 dependencies = [
+ "glam",
  "hexx",
+ "hexx_glam",
+]
+
+[[package]]
+name = "fixed"
+version = "0.5.0"
+source = "registry+https://scarbs.xyz/"
+checksum = "sha256:697d3e82f4eb156e56dfcc025d96fd77edca6d05878a0fc16d3ac8c664230fb9"
+
+[[package]]
+name = "glam"
+version = "0.5.0"
+source = "registry+https://scarbs.xyz/"
+checksum = "sha256:e7ff692eb6c33d81926abffe72df7fbda83d9daa232fe313ac3ae5b2d345521e"
+dependencies = [
+ "fixed",
+ "glam_core",
+ "glam_int",
+ "glam_int_swizzles",
+ "glam_swizzles",
+]
+
+[[package]]
+name = "glam_core"
+version = "0.5.0"
+source = "registry+https://scarbs.xyz/"
+checksum = "sha256:a5e6e4863acfc4be492e06f8f965a16982b8a8975a5179a903d64092a9f05975"
+dependencies = [
+ "fixed",
+]
+
+[[package]]
+name = "glam_int"
+version = "0.5.0"
+source = "registry+https://scarbs.xyz/"
+checksum = "sha256:b8067667ba5985bbf53d43b7bbf80a09c5b205c1abae5722af5d97082495a0bc"
+dependencies = [
+ "fixed",
+ "glam_core",
+]
+
+[[package]]
+name = "glam_int_swizzles"
+version = "0.5.0"
+source = "registry+https://scarbs.xyz/"
+checksum = "sha256:f9886ae154bb9e267888353e84dfedc097c48c02bbe863e59bd1fffa9d0d65bf"
+dependencies = [
+ "fixed",
+ "glam_core",
+]
+
+[[package]]
+name = "glam_swizzles"
+version = "0.5.0"
+source = "registry+https://scarbs.xyz/"
+checksum = "sha256:54389e759f14c0fd59ececd829387f703488cdf72c383592f3671b63d0eabd79"
+dependencies = [
+ "fixed",
+ "glam_core",
 ]
 
 [[package]]
@@ -84,6 +144,15 @@ dependencies = [
 name = "hexx"
 version = "0.2.0"
 dependencies = [
+ "snforge_std",
+]
+
+[[package]]
+name = "hexx_glam"
+version = "0.2.0"
+dependencies = [
+ "glam",
+ "hexx",
  "snforge_std",
 ]
 

@@ -98,7 +98,7 @@ class PackageSelection(Scratch):
         self.assertEqual(set(bench.workspace_packages()),
                          {"hexx", "takeover_tests", "consumer", "golden_grid", "golden_hex",
                           "golden_hex_t2", "golden_impls", "golden_lm1", "golden_lm2",
-                          "golden_bounds", "golden_rings", "golden_shapes"})
+                          "golden_bounds", "golden_rings", "golden_shapes", "hexx_glam"})
 
     def test_snapshot_rewrites_only_the_packages_measured(self) -> None:
         (self.dir / "hexx.snap").write_text("# gas: measured budget\nhexx::old: 1 2\n")
@@ -220,6 +220,20 @@ class Repeat(Scratch):
                 mock.patch.object(bench, "run_snforge", lambda *a, **k: "Collected 0 test(s)\n"), \
                 contextlib.redirect_stderr(io.StringIO()):
             self.assertEqual(bench.repeat("hexx", "nothing"), 1)
+
+    def test_no_test_matched_in_a_package_without_digger_tests_succeeds(self) -> None:
+        art = self.dir / "art"
+        (art / "hexx_glam").mkdir(parents=True)
+        self.assertNotIn("hexx_glam", bench.DIGGER_PACKAGES)
+        err = io.StringIO()
+        with mock.patch.object(bench, "ARTIFACTS", art), mock.patch.object(bench, "ROOT", self.dir), \
+                mock.patch.object(bench, "run_snforge", lambda *a, **k: "Collected 0 test(s)\n"), \
+                contextlib.redirect_stderr(err):
+            self.assertEqual(bench.repeat("hexx_glam", "digger"), 0)
+        self.assertIn("repeat: hexx_glam has no Digger test: nothing to repeat", err.getvalue())
+
+    def test_the_digger_packages_are_those_that_have_digger_tests(self) -> None:
+        self.assertEqual(bench.DIGGER_PACKAGES, {"hexx", "takeover_tests"})
 
 
 class Scopes(Scratch):

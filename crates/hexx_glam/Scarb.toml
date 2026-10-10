@@ -1,0 +1,25 @@
+[package]
+name = "hexx_glam"
+version.workspace = true
+edition.workspace = true
+cairo-version.workspace = true
+license.workspace = true
+license-file = "LICENSE"
+repository.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+description = "Conversions between hexx::Hex and the glam IVec2/IVec3 of Cairo: the interop of hexx 0.25.0"
+keywords = ["starknet", "cairo", "hexagon", "hexx", "glam"]
+
+# `hexx` by path plus version: `scarb package` rewrites it to a registry dependency, and the
+# release bumps both packages together. `glam` is the facade whose `ivec2::IVec2` is `glam_core`'s
+# type. `snforge_std` is a dev-dependency only (need N-9).
+[dependencies]
+glam = "0.5.0"
+hexx = { path = "../hexx", version = "0.2.0" }
+
+[dev-dependencies]
+snforge_std.workspace = true
+
+[tool.fmt]
+sort-module-level-items = true

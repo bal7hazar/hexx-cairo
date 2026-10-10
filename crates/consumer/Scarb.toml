@@ -9,6 +9,8 @@ description = "Unpublished Starknet contract fixture: class size of a consumer o
 
 [dependencies]
 hexx = { path = "../hexx" }
+glam = "0.5.0"
+hexx_glam = { path = "../hexx_glam" }
 starknet = "2.20.0"
 
 [[target.starknet-contract]]

@@ -14,6 +14,8 @@ members = [
     "crates/golden_lm2",
     "crates/golden_rings",
     "crates/golden_shapes",
+    # The glam interop of hexx (L-M3), published beside `hexx` (M3-R).
+    "crates/hexx_glam",
 ]
 
 [workspace.package]

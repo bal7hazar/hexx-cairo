@@ -157,6 +157,7 @@ jobs:
           - { package: golden_lm2, partition: "1/1" }
           - { package: golden_rings, partition: "1/1" }
           - { package: golden_shapes, partition: "1/1" }
+          - { package: hexx_glam, partition: "1/1" }
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
@@ -247,6 +248,7 @@ jobs:
           - {package: golden_lm2, scope: all, label: golden_lm2}
           - {package: golden_rings, scope: all, label: golden_rings}
           - {package: golden_shapes, scope: all, label: golden_shapes}
+          - {package: hexx_glam, scope: all, label: hexx_glam}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: software-mansion/setup-scarb@2a96b748888e3329ee44ac9ac073d930e692b3cd # v1.6.2
