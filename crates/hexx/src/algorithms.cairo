@@ -13,4 +13,5 @@ pub mod field_of_movement;
 pub mod fov;
 pub mod pathfinding;
 
+pub use fov::{directional_fov, range_fov};
 pub use pathfinding::a_star;

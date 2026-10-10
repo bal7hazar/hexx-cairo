@@ -1,0 +1,24 @@
+# `hexx::algorithms::{range_fov, directional_fov}` against the board (tools/refgen/src/fov.rs):
+# the 15 x 16 window (empty, two seeded caves) and a 7 x 7 (empty, a seeded cave), 8 starts each,
+# `range_fov` at ranges 0..=range_max and range_far, `directional_fov` for the six
+# `EdgeDirection`s at ranges directional_a and directional_b.
+module = "fov"
+package = "golden_lm2"
+
+seed = "fov"
+range_max = 8
+range_far = 15
+directional_a = 3
+directional_b = 6
+
+# budgets: ceil(1.05 * measured), from CI's pins (gas-pins of c071118)
+gas.golden_fov_directional_cave_7x7 = 65836621
+gas.golden_fov_directional_cave_a_15x16 = 75332357
+gas.golden_fov_directional_cave_b_15x16 = 74896389
+gas.golden_fov_directional_empty_15x16 = 53724040
+gas.golden_fov_directional_empty_7x7 = 85240594
+gas.golden_fov_range_cave_7x7 = 128635140
+gas.golden_fov_range_cave_a_15x16 = 148021321
+gas.golden_fov_range_cave_b_15x16 = 141893581
+gas.golden_fov_range_empty_15x16 = 217805163
+gas.golden_fov_range_empty_7x7 = 182534357
