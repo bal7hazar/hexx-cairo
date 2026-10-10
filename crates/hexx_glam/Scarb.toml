@@ -16,7 +16,7 @@ keywords = ["starknet", "cairo", "hexagon", "hexx", "glam"]
 # type. `snforge_std` is a dev-dependency only (need N-9).
 [dependencies]
 glam = "0.5.0"
-hexx = { path = "../hexx", version = "0.2.0" }
+hexx = { path = "../hexx", version = "0.3.0" }
 
 [dev-dependencies]
 snforge_std.workspace = true

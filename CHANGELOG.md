@@ -10,6 +10,46 @@ move. Versions before `0.1.0` are pre-releases (`0.1.0-rc.N`); nothing is publis
 
 ## [Unreleased]
 
+## [0.3.0] — unreleased (dated at publication)
+
+The third line of `hexx`: milestone L-M3, the algorithms of `hexx` 0.25.0 (`hexx::algorithms`) and
+the companion package `hexx_glam` (the `glam` interop), which is new and versioned with `hexx`
+(`0.3.0`, depending on `hexx = "0.3.0"`; it has no changelog of its own). Additive: nothing of
+`0.2.0` changes. A stable version: published only after the owner's go (D-132 as narrowed,
+`docs/RELEASING.md`), `hexx` first, then `hexx_glam`.
+
+### Parity
+
+350 items of `hexx` 0.25.0 ported and 22 renamed counterparts, 53.6 % of its 694 items
+(`python3 scripts/api_parity.py --check`, `docs/API_PARITY.md`), against 344 and 19, 52.3 %, in
+`0.2.0`; 322 items are `dropped`, each with its reason in the table, and none is `missing`
+(`python3 scripts/api_parity.py --check-release L-M3` passes). Added, by module:
+
+- `algorithms` (M3-T1, M3-T2): `field_of_movement`, `a_star` (`algorithms/pathfinding`),
+  `range_fov` and `directional_fov` (`algorithms/fov`), over a `HexMap` and its cost classes.
+- `hexx_glam` (M3-T3, new package): `HexGlamTrait::as_ivec2` and `as_ivec3` (ported), and the
+  three conversions `From<Hex> for IVec2`, `From<Hex> for IVec3`, `From<IVec2> for Hex` as
+  `Into` impls (`HexIntoIVec2`, `HexIntoIVec3`, `IVec2IntoHex`; renamed, 3 more than in `0.2.0`).
+
+### Extensions
+
+240 extension items listed in `docs/EXTENSIONS.md` (`python3 scripts/api_parity.py --extensions`),
+the same as `0.2.0`. L-M3 adds no extension of `docs/EXTENSIONS.md`; its Cairo-only items are the
+45 extra items of `docs/API_PARITY.md`.
+
+### Deviations
+
+324 documented deviations (`python3 scripts/deviations.py --check`, `docs/DEVIATIONS.md`), 4 more
+than the 320 of `0.2.0`: one per algorithm, see that file for the new rows. `range_fov` and
+`directional_fov` differ from `hexx` on lines where `hexx`'s `f32` rounding meets a tie: the
+inputs are listed in `docs/deviations/fov_ties.md` (the line rule of the game is
+`docs/deviations/line_ties.md`). The impls of `hexx_glam` must be imported by the consumer for
+`.into()` to find them (`crates/hexx_glam/README.md`).
+
+### Results changed
+
+None. L-M3 adds items and changes no result of `0.2.0`.
+
 ## [0.2.0] — 2026-10-05
 
 The second published line of `hexx`: milestone L-M2, the mirror of `hexx` 0.25.0 beyond what

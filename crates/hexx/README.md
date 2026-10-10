@@ -8,7 +8,7 @@ workspace: see the repository root for the plan, the decisions and the status.
 
 ## Status
 
-Version `0.2.0` (L-M2), a stable version; earlier versions were release candidates `0.1.0-rc.N`. The package holds
+Version `0.3.0` (L-M3), a stable version; earlier versions were release candidates `0.1.0-rc.N`. The package holds
 the mirror of `hexx` 0.25.0 (the items listed in
 [`docs/API_PARITY.md`](https://github.com/bal7hazar/hexx-cairo/blob/main/docs/API_PARITY.md)), the
 extensions of milestone L-M1 ([`docs/EXTENSIONS.md`](https://github.com/bal7hazar/hexx-cairo/blob/main/docs/EXTENSIONS.md)) and the board engine of `origami_hexmap` 1.8.0
@@ -16,7 +16,7 @@ extensions of milestone L-M1 ([`docs/EXTENSIONS.md`](https://github.com/bal7haza
 
 ```toml
 [dependencies]
-hexx = "0.2.0"
+hexx = "0.3.0"
 ```
 
 Requires Cairo >= 2.20.0 (Scarb 2.20.1).
