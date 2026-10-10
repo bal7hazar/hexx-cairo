@@ -101,17 +101,24 @@ Peaks are the ones recorded in this file ("Golden tests", "Gas pins from CI"); a
 **measure first**. `prlimit --as` is a runaway stopper, not a measure: address space exceeds resident
 memory (a real peak of 7.3 GB aborted under `--as=8 GiB`). So:
 
-1. Every build or test run's peak RSS is measured first: on the Mac, or on the VPS under
+1. Every build or test run's peak is measured first: on the Mac, or on the VPS under
    `prlimit --as=8589934592 -- /usr/bin/time -v …` (8 GiB) while the peak is unknown. If that capped
    run aborts, the peak is measured on the Mac. Never measure an unknown peak on the VPS under a
    16 GiB cap, nor uncapped.
-2. A run whose measured peak RSS is under about 8 GB may run on the VPS under `prlimit --as` set to
-   1.5 × its measured peak, rounded up to whole GiB, never below 8 GiB (8589934592) and at most 16 GiB
+2. The peak that sizes a `prlimit --as` cap is the run's VmPeak (address space): `grep VmPeak
+   /proc/<pid>/status` during the run. It is not "Maximum resident set size", which is RSS. RSS decides
+   where the run goes (rule 3). A run whose RSS is under about 8 GB may run on the VPS under `prlimit --as`
+   set to 1.5 × its VmPeak, rounded up to whole GiB, never below 8 GiB (8589934592) and at most 16 GiB
    (17179869184); below 8 GiB zstd fails to allocate (`scarb package -p hexx` aborted at 2 GiB, passed at 8 GiB).
-3. A run whose peak RSS is above about 8 GB runs on the Mac, never on the VPS.
-4. A part with a known peak below has its cap next to it (1.5 × peak, rounded up to whole GiB, never below 8 GiB).
+3. A run whose RSS is above about 8 GB runs on the Mac, never on the VPS.
+4. A capped run that makes no progress for 15 minutes is stopped by its own pid and moved: to the Mac, or
+   under a cap from its VmPeak. It is never left holding the heavy lock.
+5. A part with a known peak below has its cap next to it (1.5 × VmPeak, rounded up to whole GiB, never below 8 GiB).
 
-| Part | Local test command | Known memory peak |
+Rules 2 to 4: D-251 (2026-10-10), the organisation's rule. The peak figures of this file are RSS
+(`/usr/bin/time -v`) unless labelled VmPeak.
+
+| Part | Local test command | Known memory peak (RSS) |
 |---|---|---|
 | `crates/hexx` | `scarb build -p hexx` (library alone, ~0.7 GB; cap `--as=8589934592`, 8 GiB) is the only hexx build on the VPS. `snforge test -p hexx <filter>` still compiles the whole test target (unit + integration), so a filter scopes nothing: CI or the Mac only (D-212) | 9,471,639,552 B (8.82 GiB), Mac, 2026-10-05, `a045239`: over 8 GB, Mac only, no VPS cap |
 | `crates/takeover_tests`, `crates/consumer` | `snforge test -p <package>` | not recorded: measure first |
