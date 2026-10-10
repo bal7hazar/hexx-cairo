@@ -66,6 +66,7 @@ Diagnosis: the game's task SPK-13 on the owner's Mac ([reproduction](docs/report
 
 | Date | What |
 |---|---|
+| 2026-10-10 | L-M3 merged (#127, #129, #131, #130); release prep for `hexx` 0.3.0 and the new `hexx_glam` 0.3.0: versions bumped, [CHANGELOG](CHANGELOG.md) `[0.3.0]`, requests [hexx](docs/decisions/PENDING-publish-hexx-0.3.0.md) and [hexx_glam](docs/decisions/PENDING-publish-hexx_glam-0.3.0.md) (audit of L-M3 pending; nothing published) |
 | 2026-10-05 | **`hexx` 0.2.0 published** on scarbs.xyz by the orchestrator, by hand, from `a045239`, after the owner's go (D-211 on the game's main, #355); registry checksum `sha256:853a6f70…9b08` equal to the go, `0.1.0-rc.1` and `0.1.0-rc.2` unchanged; tag and stable release `v0.2.0`. [Record](docs/decisions/D-211-publish-hexx-0.2.0.md) |
 | 2026-10-04 | L-M2 and its release prep merged (#117 release request, #118 parity fixes after the audit); `hexx` 0.2.0 requested ([request](docs/decisions/D-211-publish-hexx-0.2.0.md)) |
 | 2026-10-03 | L-M2 merged (#92, #105, #107, #108, #110, #111, #112, #114, #115, #116); `hexx` 0.2.0 requested ([request](docs/decisions/D-211-publish-hexx-0.2.0.md)); `Sum`/`Product` of `Hex` recorded `dropped` in the parity table (deferred, M2-T3) |

@@ -34,7 +34,8 @@ pub trait HexGlamTrait {
     ///
     /// #### Deviations
     ///
-    /// None.
+    /// A method of `hexx_glam::HexGlamTrait`, in the companion package `hexx_glam`: import the
+    /// trait.
     fn as_ivec2(self: Hex) -> IVec2;
 
     /// Converts to an `IVec3`: `IVec3 { x, y, z }`, `z` being `HexTrait::z`.
@@ -47,8 +48,9 @@ pub trait HexGlamTrait {
     ///
     /// #### Deviations
     ///
-    /// `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port panics
-    /// exactly where the debug build does.
+    /// A method of `hexx_glam::HexGlamTrait`, in the companion package `hexx_glam`: import the
+    /// trait. `hexx` wraps in a release build and panics in a debug build (plan §3.1); this port
+    /// panics exactly where the debug build does.
     fn as_ivec3(self: Hex) -> IVec3;
 }
 

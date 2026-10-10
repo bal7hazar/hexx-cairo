@@ -6,9 +6,10 @@
 //! 1.8.0 (`dojoengine/origami`, commit `04ab30c`, MIT), see `LICENSE-origami`; the notice of
 //! `hexx` 0.25.0 (Apache-2.0) is `LICENSE-hexx`. Both are shipped in this package, next to
 //! `Scarb.toml`. The mirror of `hexx`
-//! itself is published up to milestone L-M2 (0.2.0): `Hex`, the directions, the conversions,
-//! `HexBounds`, `HexOrientation` and the shapes are here. The rest of `hexx` 0.25.0 (L-M3:
-//! the `hexx_glam` interop and the algorithms) is not ported yet.
+//! itself is published up to milestone L-M3 (0.3.0): `Hex`, the directions, the conversions,
+//! `HexBounds`, `HexOrientation`, the shapes and the algorithms (`hexx::algorithms`:
+//! `field_of_movement`, `a_star`, `range_fov`, `directional_fov`) are here. The interop with
+//! `glam` lives in the companion package `hexx_glam`, which depends on this one.
 
 pub mod algorithms;
 

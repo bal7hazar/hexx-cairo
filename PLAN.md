@@ -36,7 +36,7 @@ on 2026-09-28 and **owned here from now on**. The game's needs stay in the game'
 | LIB-04f | Migration to Scarb 2.20.1 and starknet-foundry 0.64.0 (the owner's rule D-180): pins, CI, release and consumer checks, every figure re-measured; rc.2 the first on the new compiler. Brief: [LIB-04f](docs/briefs/LIB-04f-scarb-2.20.md) | LIB-04e, M1-T8, SPK-13's result on 2.20.1, the Overseer's confirmation that the toolchain is installed on the VPS | Sonnet 5.5, implement | review only (D-177) | done: #86, `1527ac2` |
 | LIB-05 | **Milestone L-M1**: the 11 tasks of §8 of the plan, test-driven, at minimal cost. After the take-over, **N-3 (assembly) and N-8 (flood and selection) first**, measured on their worst cases. **Released on scarbs.xyz only on the owner's go** | LIB-04 | Opus 5.5, Fable 5.1 for the hardest algorithms | GPT-6-Astra (determinism, cost) | in progress: tasks below |
 | LIB-06 | Milestone L-M2 (0.2.0): the 8 tasks below; L-M3 and L-M4 briefed later | LIB-05 | As above | As above | in progress |
-| LIB-06b | Milestone L-M3 (0.3.0): M3-T1 `field_of_movement`, `a_star` and the scaffold of `algorithms`; M3-T2 `range_fov`, `directional_fov`; M3-T3 the companion package `hexx_glam`; M3-R the release. Briefs: [index](docs/briefs/LIB-06b-L-M3.md), seven decisions needed listed there | LIB-06 | Sonnet 5.5 (`impl-sonnet`), M3-T2 Opus 5.5 (`impl-opus`) | none per task (D-177); one parity audit before 0.3.0 | todo |
+| LIB-06b | Milestone L-M3 (0.3.0): M3-T1 `field_of_movement`, `a_star` and the scaffold of `algorithms`; M3-T2 `range_fov`, `directional_fov`; M3-T3 the companion package `hexx_glam`; M3-R the release. Briefs: [index](docs/briefs/LIB-06b-L-M3.md), seven decisions needed listed there | LIB-06 | Sonnet 5.5 (`impl-sonnet`), M3-T2 Opus 5.5 (`impl-opus`) | none per task (D-177); one parity audit before 0.3.0 | M3-T1 to M3-T3 merged; M3-R prep requests open, audit and the owner's go pending |
 | LIB-07 | **Final release**: parity reached or exclusions closed and documented; **`origami_hexmap` decommissioned** | LIB-06 | — | GPT-6-Astra | todo |
 
 ## LIB-05 — the tasks of milestone L-M1
@@ -98,6 +98,7 @@ Decisions of the milestone:
 - 2026-10-02 — CI: `software-mansion/setup-scarb` restores `target/` (`cache-targets` default true) into the gas jobs, so a gas job builds on another job's compiled files; #89 removed the leaked reports, the shared build stays. To decide: `cache-targets: false` on the gas jobs (cost: build time).
 - 2026-10-02 — `scripts/profiles/implement.txt` mentions `scarb` calls with a global option before the subcommand (line ~132): to check against the VPS lock rule (options before the subcommand bypass the shim's lock).
 - 2026-10-03 — `Sum`/`Product` of `Hex` (M2-T3, #107): corelib's `core::iter::Sum` and `Product` declare `+Iterator<I>[Item: A]`, which needs the experimental feature `associated_item_constraints` in `crates/hexx/Scarb.toml` (the published manifest). Deferred; what would bring it back: the feature stabilised, or a decision to enable it in the manifest.
+- 2026-10-10 — fov property tests run every start at ranges 0..=2 plus seeded starts at 3..=16 (step limit), not every start at 0..=16 (M3-T2, audit t-0123 note 6).
 
 ## Milestone L-M1 — what the game needs first
 

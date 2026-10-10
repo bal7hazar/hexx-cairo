@@ -7,8 +7,8 @@ between `hexx::Hex` and the `IVec2` / `IVec3` of the Cairo
 
 ```toml
 [dependencies]
-hexx = "0.2.0"
-hexx_glam = "0.2.0"
+hexx = "0.3.0"
+hexx_glam = "0.3.0"
 ```
 
 Requires Cairo >= 2.20.0 (Scarb 2.20.1).

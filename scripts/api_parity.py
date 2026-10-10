@@ -181,12 +181,13 @@ RULES = (
          "value."),
     # Interop with the companion package hexx_glam (L-M3, plan §9): the Cairo replacement lives in
     # a *different* package, `crates/hexx_glam`, which `parse_glam` scans for exactly these five
-    # items (`_INTEROP_ITEMS`) and nothing else (Decision 3 of LIB-06b): each row reads `renamed`
-    # once its item exists there, `missing` until then. Scheduled at L-M3, not the L-M2 every other
+    # items (`_INTEROP_ITEMS`) and nothing else (Decision 3 of LIB-06b): the two methods read
+    # `ported` (found by name, with a note in PORTED_NOTES), the three `From` impls `renamed` once
+    # their item exists there; every row reads `missing` until then. Scheduled at L-M3, not the L-M2 every other
     # Hex operator counterpart defaults to.
-    rule("Hex", r"method:as_ivec2$", "renamed", "Into<Hex, IVec2> (hexx_glam).",
+    rule("Hex", r"method:as_ivec2$", "renamed", "HexGlamTrait::as_ivec2 (hexx_glam).",
          replacement=("method", "as_ivec2")),
-    rule("Hex", r"method:as_ivec3$", "renamed", "Into<Hex, IVec3> (hexx_glam).",
+    rule("Hex", r"method:as_ivec3$", "renamed", "HexGlamTrait::as_ivec3 (hexx_glam).",
          replacement=("method", "as_ivec3")),
     rule("Hex", r"impl:From<\(f32,f32\)> for Hex|impl:From<\[f32;2\]> for Hex|"
                 r"impl:From<Vec2> for Hex",
@@ -1693,6 +1694,12 @@ def unique_items(items: set[Item] | list[Item]) -> list[Item]:
 # reads `ported`, and its row says "Same public name." unless a note here says what the name alone
 # does not (a path that differs, a derive). Keyed by (owner, kind, name), as COUNTERPARTS.
 PORTED_NOTES: dict[tuple[str, str, str], str] = {
+    ("Hex", "method", "as_ivec2"): (
+        "A method of `hexx_glam::HexGlamTrait`, in the companion package `hexx_glam`: import the "
+        "trait."),
+    ("Hex", "method", "as_ivec3"): (
+        "A method of `hexx_glam::HexGlamTrait`, in the companion package `hexx_glam`: import the "
+        "trait."),
     ("Hex", "method", "hex"): (
         "The free function, at hexx::hex::hex, its path in hexx too (src/hex/mod.rs:89); hexx's "
         "root re-export hexx::hex (src/lib.rs:306) has no counterpart: Cairo refuses "

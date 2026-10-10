@@ -75,6 +75,9 @@ class PrepushSelectionTest(unittest.TestCase):
         self.assertIn("check takeover", steps)
         self.assertIn("check golden-vectors", select("docs/deviations/line_ties.md"))
 
+    def test_companion_source_selects_the_deviations_check(self):
+        self.assertIn("check deviations", select("crates/hexx_glam/src/lib.cairo"))
+
     def test_takeover_covers_the_files_beside_the_sources(self):
         for path in ("crates/hexx/GAS-origami-1.8.0.md", "crates/hexx/.scarbignore"):
             steps = select(path)
