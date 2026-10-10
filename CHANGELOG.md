@@ -34,13 +34,15 @@ the companion package `hexx_glam` (the `glam` interop), which is new and version
 ### Extensions
 
 240 extension items listed in `docs/EXTENSIONS.md` (`python3 scripts/api_parity.py --extensions`),
-the same as `0.2.0`. L-M3 adds no extension of `docs/EXTENSIONS.md`; its Cairo-only items are the
-45 extra items of `docs/API_PARITY.md`.
+the same as `0.2.0`. L-M3 adds no extension of `docs/EXTENSIONS.md` and no Cairo-only item; there are 45 extra
+items in `docs/API_PARITY.md`, one fewer than the 46 of `0.2.0`, because #122 reclassified
+`shapes`' `Default.default`.
 
 ### Deviations
 
 329 documented deviations (`python3 scripts/deviations.py --check`, `docs/DEVIATIONS.md`), 9 more
-than the 320 of `0.2.0`: one per algorithm, see that file for the new rows. `range_fov` and
+than the 320 of `0.2.0`: 4 for the algorithms and 5 for `hexx_glam`, see that file for the new
+rows. `range_fov` and
 `directional_fov` differ from `hexx` on lines where `hexx`'s `f32` rounding meets a tie: the
 inputs are listed in `docs/deviations/fov_ties.md` (the line rule of the game is
 `docs/deviations/line_ties.md`). The impls of `hexx_glam` must be imported by the consumer for

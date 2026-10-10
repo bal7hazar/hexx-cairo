@@ -181,8 +181,9 @@ RULES = (
          "value."),
     # Interop with the companion package hexx_glam (L-M3, plan §9): the Cairo replacement lives in
     # a *different* package, `crates/hexx_glam`, which `parse_glam` scans for exactly these five
-    # items (`_INTEROP_ITEMS`) and nothing else (Decision 3 of LIB-06b): each row reads `renamed`
-    # once its item exists there, `missing` until then. Scheduled at L-M3, not the L-M2 every other
+    # items (`_INTEROP_ITEMS`) and nothing else (Decision 3 of LIB-06b): the two methods read
+    # `ported` (found by name, with a note in PORTED_NOTES), the three `From` impls `renamed` once
+    # their item exists there; every row reads `missing` until then. Scheduled at L-M3, not the L-M2 every other
     # Hex operator counterpart defaults to.
     rule("Hex", r"method:as_ivec2$", "renamed", "HexGlamTrait::as_ivec2 (hexx_glam).",
          replacement=("method", "as_ivec2")),

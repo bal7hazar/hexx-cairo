@@ -55,7 +55,8 @@ Unticked: the orchestrator verifies them at the merge commit.
       `hexx-0.3.0.tar.zst` at the head of the PR, not the merge commit:
       `aad2a9b9f7bf4731617d7982beff148b8c53056ee9203fc215a803b6cd975178`.
 - [x] Name and version free on the registry: `https://scarbs.xyz/api/v1/index/he/xx/hexx.json`
-      (read-only, 2026-10-10) lists `0.1.0-rc.1`, `0.1.0-rc.2`, `0.2.0` only.
+      (read-only, 2026-10-10) printed, for the `"v"` keys of its entries: `"v": "0.1.0-rc.1"`,
+      `"v": "0.1.0-rc.2"`, `"v": "0.2.0"`; no `0.3.0`.
 - [x] No test dependency as a regular one: the packaged `Scarb.toml` has an empty
       `[dependencies]` and `snforge_std` under `[dev-dependencies.snforge_std]` (`^0.64.0`).
 - [x] Numeric results: none changed (CHANGELOG, *Results changed*: empty).

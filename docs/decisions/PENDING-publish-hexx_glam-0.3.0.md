@@ -48,8 +48,9 @@ E2311 (`crates/hexx_glam/README.md`).
       orchestrator re-runs `scarb package -p hexx_glam` without `--no-verify` once `hexx` 0.3.0 is
       visible, and ticks this.**
 - [x] Name and version free on the registry: `hexx_glam` is absent —
-      `https://scarbs.xyz/api/v1/index/he/xx/hexx_glam.json` answers HTTP 404 (read-only,
-      2026-10-10); `hexx` lists `0.1.0-rc.1`, `0.1.0-rc.2`, `0.2.0` only (0.3.0 not yet).
+      `https://scarbs.xyz/api/v1/index/he/xx/hexx_glam.json` (read-only, 2026-10-10,
+      `curl -D -`) printed `HTTP/2 404`; the index of `hexx` prints `"v": "0.1.0-rc.1"`,
+      `"v": "0.1.0-rc.2"`, `"v": "0.2.0"` (no `0.3.0` yet).
 - [x] No test dependency as a regular one: the packaged `[dependencies]` are
       `[dependencies.glam] version = "^0.5.0"` and `[dependencies.hexx] version = "^0.3.0"`;
       `snforge_std` is under `[dev-dependencies.snforge_std]` (`^0.64.0`). The `path` of `hexx` is
