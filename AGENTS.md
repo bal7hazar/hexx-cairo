@@ -66,6 +66,7 @@ lines of M2-T4 to M2-T7), else into a new package `crates/golden_<module>`. Its 
 the `test` and `gas` matrices of `.github/workflows/ci.yml`, `gas/<package>.snap` and the
 package-list test of `scripts/tests/test_bench_gate_split.py`, in the same change. A new build is
 measured under `prlimit --as=8589934592` only (8 GiB, a runaway stopper: if that run aborts, measure on the Mac), never uncapped.
+The packages already measured have their caps in the table of *How tests are scoped* (`golden_lm2` 9 GiB, `golden_lm1` and `golden_impls` 12 GiB, `golden_hex` 14 GiB).
 
 ### Gas pins from CI
 
@@ -118,16 +119,19 @@ memory (a real peak of 7.3 GB aborted under `--as=8 GiB`). So:
 Rules 2 to 4: D-251 (2026-10-10), the organisation's rule. The peak figures of this file are RSS
 (`/usr/bin/time -v`) unless labelled VmPeak.
 
-| Part | Local test command | Known memory peak (RSS) |
+| Part | Local test command | Known memory peak (VmPeak and RSS, labelled) |
 |---|---|---|
-| `crates/hexx` | `scarb build -p hexx` (library alone, ~0.7 GB; cap `--as=8589934592`, 8 GiB) is the only hexx build on the VPS. `snforge test -p hexx <filter>` still compiles the whole test target (unit + integration), so a filter scopes nothing: CI or the Mac only (D-212) | 9,471,639,552 B (8.82 GiB), Mac, 2026-10-05, `a045239`: over 8 GB, Mac only, no VPS cap |
+| `crates/hexx` | `scarb build -p hexx` (library alone, ~0.7 GB; cap `--as=8589934592`, 8 GiB) is the only hexx build on the VPS (VPS: VmPeak 2,857,064 kB, RSS 829,288 kB; cap `--as=8589934592`, 8 GiB). `scarb package -p hexx`: VmPeak 2,988,036 kB, RSS 822,400 kB; cap `--as=8589934592`, 8 GiB. `snforge test -p hexx <filter>` still compiles the whole test target (unit + integration), so a filter scopes nothing: CI or the Mac only (D-212) | 9,471,639,552 B (8.82 GiB) RSS, Mac, 2026-10-05, `a045239`: over 8 GB, Mac only, no VPS cap |
+| `crates/hexx_glam` | `scarb build -p hexx_glam` | VmPeak 5,161,128 kB (4.92 GiB), RSS 1,318,564 kB; cap `--as=8589934592` (8 GiB) |
 | `crates/takeover_tests`, `crates/consumer` | `snforge test -p <package>` | not recorded: measure first |
-| `crates/golden_lm2` / `golden_impls` / `golden_hex` | `snforge test -p <package>` | 1.6 GB (3,241 lines) / 5.0 GB (11,156) / 6.0 GB (13,765); caps `--as=8589934592` (8 GiB) / `8589934592` (8 GiB) / `9663676416` (9 GiB) |
-| `crates/golden_lm1` | `snforge test -p golden_lm1` | 2.0 GB (5,119 lines; now 5,188); cap `--as=8589934592` (8 GiB) |
+| `crates/golden_lm2` / `golden_impls` / `golden_hex` | `snforge test -p <package>` | `golden_lm2` (3,241 lines): VmPeak 5,686,056 kB, RSS 2,166,684 kB, cap `--as=9663676416` (9 GiB) / `golden_impls` (11,156): VmPeak 7,783,528 kB, RSS 5,070,740 kB, cap `--as=12884901888` (12 GiB) / `golden_hex` (13,765): VmPeak 9,225,512 kB, RSS 6,040,644 kB, cap `--as=15032385536` (14 GiB) |
+| `crates/golden_lm1` | `snforge test -p golden_lm1` | VmPeak 8,290,220 kB, RSS 3,453,972 kB (5,119 lines; now 5,188); cap `--as=12884901888` (12 GiB) |
 | `crates/golden_bounds`, `golden_grid`, `golden_hex_t2`, `golden_rings`, `golden_shapes` | `snforge test -p <package>` | not recorded; the 8,000-line budget gives under ~4 GB: measure first (rule 1) |
 | `tools/refgen` (golden vectors) | `cargo run --manifest-path tools/refgen/Cargo.toml -- check` | not recorded: measure first |
 | `tools/consumer_check` | `tools/consumer_check/run.sh [version]` (builds and tests against the registry) | not recorded: measure first |
 | `scripts/`, generated docs | `python3 -m unittest discover -s scripts/tests`; `python3 scripts/{api_parity,deviations,gas_tables}.py --check` | not recorded: measure first |
+
+VmPeak and RSS figures above, except the Mac row: thread t-0127, VPS, 2026-10-10, `origin/main` 9618d35, cold `target/`, `RAYON_NUM_THREADS=1`, under `--as=16 GiB`, VmPeak and VmHWM sampled every 0.5 s from `/proc` over every descendant (kB are KiB, as `/proc` reports). A 0.5 s sample can miss a short spike: the true VmPeak may be slightly higher. Cap = ceil(1.5 × VmPeak) in whole GiB, floor 8 GiB, at most 16 GiB (rule 2).
 
 There is no Node package in this repository. Each golden package stays under 8,000 lines and is run
 alone (`snforge test -p golden_<x>`) for the one a change touches. The `hexx` gas pins come from
