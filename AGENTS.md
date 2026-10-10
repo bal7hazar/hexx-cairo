@@ -106,16 +106,17 @@ memory (a real peak of 7.3 GB aborted under `--as=8 GiB`). So:
    run aborts, the peak is measured on the Mac. Never measure an unknown peak on the VPS under a
    16 GiB cap, nor uncapped.
 2. A run whose measured peak RSS is under about 8 GB may run on the VPS under `prlimit --as` set to
-   1.5 × its measured peak, rounded up to whole GiB, and at most 16 GiB (17179869184).
+   1.5 × its measured peak, rounded up to whole GiB, never below 8 GiB (8589934592) and at most 16 GiB
+   (17179869184); below 8 GiB zstd fails to allocate (`scarb package -p hexx` aborted at 2 GiB, passed at 8 GiB).
 3. A run whose peak RSS is above about 8 GB runs on the Mac, never on the VPS.
-4. A part with a known peak below has its cap next to it (1.5 × peak, rounded up to whole GiB).
+4. A part with a known peak below has its cap next to it (1.5 × peak, rounded up to whole GiB, never below 8 GiB).
 
 | Part | Local test command | Known memory peak |
 |---|---|---|
-| `crates/hexx` | `scarb build -p hexx` (library alone, ~0.7 GB; cap `--as=2147483648`, 2 GiB) is the only hexx build on the VPS. `snforge test -p hexx <filter>` still compiles the whole test target (unit + integration), so a filter scopes nothing: CI or the Mac only (D-212) | 9,471,639,552 B (8.82 GiB), Mac, 2026-10-05, `a045239`: over 8 GB, Mac only, no VPS cap |
+| `crates/hexx` | `scarb build -p hexx` (library alone, ~0.7 GB; cap `--as=8589934592`, 8 GiB) is the only hexx build on the VPS. `snforge test -p hexx <filter>` still compiles the whole test target (unit + integration), so a filter scopes nothing: CI or the Mac only (D-212) | 9,471,639,552 B (8.82 GiB), Mac, 2026-10-05, `a045239`: over 8 GB, Mac only, no VPS cap |
 | `crates/takeover_tests`, `crates/consumer` | `snforge test -p <package>` | not recorded: measure first |
-| `crates/golden_lm2` / `golden_impls` / `golden_hex` | `snforge test -p <package>` | 1.6 GB (3,241 lines) / 5.0 GB (11,156) / 6.0 GB (13,765); caps `--as=3221225472` (3 GiB) / `8589934592` (8 GiB) / `9663676416` (9 GiB) |
-| `crates/golden_lm1` | `snforge test -p golden_lm1` | 2.0 GB (5,119 lines; now 5,188); cap `--as=3221225472` (3 GiB) |
+| `crates/golden_lm2` / `golden_impls` / `golden_hex` | `snforge test -p <package>` | 1.6 GB (3,241 lines) / 5.0 GB (11,156) / 6.0 GB (13,765); caps `--as=8589934592` (8 GiB) / `8589934592` (8 GiB) / `9663676416` (9 GiB) |
+| `crates/golden_lm1` | `snforge test -p golden_lm1` | 2.0 GB (5,119 lines; now 5,188); cap `--as=8589934592` (8 GiB) |
 | `crates/golden_bounds`, `golden_grid`, `golden_hex_t2`, `golden_rings`, `golden_shapes` | `snforge test -p <package>` | not recorded; the 8,000-line budget gives under ~4 GB: measure first (rule 1) |
 | `tools/refgen` (golden vectors) | `cargo run --manifest-path tools/refgen/Cargo.toml -- check` | not recorded: measure first |
 | `tools/consumer_check` | `tools/consumer_check/run.sh [version]` (builds and tests against the registry) | not recorded: measure first |
