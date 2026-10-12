@@ -10,7 +10,7 @@ move. Versions before `0.1.0` are pre-releases (`0.1.0-rc.N`); nothing is publis
 
 ## [Unreleased]
 
-## [0.3.0] — unreleased (dated at publication)
+## [0.3.0] — 2026-10-12
 
 The third line of `hexx`: milestone L-M3, the algorithms of `hexx` 0.25.0 (`hexx::algorithms`) and
 the companion package `hexx_glam` (the `glam` interop), which is new and versioned with `hexx`

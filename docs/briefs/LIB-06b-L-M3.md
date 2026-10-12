@@ -149,7 +149,7 @@ items and changes no result of 0.2.0), then the publication procedure of COMMON.
 
 - No sub-agent publishes, ever (not a registry, not a tag, not a release); the orchestrator's
   session publishes, after a go that names the package, the version and the commit.
-- The request is `docs/decisions/PENDING-publish-hexx-0.3.0.md` (and `…-hexx_glam-0.3.0.md`):
+- The request is `docs/decisions/D-281-publish-hexx-0.3.0.md` (and `…-hexx_glam-0.3.0.md`):
   package, version, commit, what changed, what the consumer must do; one message to the project
   manager with its path.
 - Checked before the go: the commit on `main` with every CI check green; audits closed without
