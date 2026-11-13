@@ -664,12 +664,20 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_a_star_cave_a_7x7` | 9,503,151 | 9,978,309 | 5.0 % |
 | `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_a_star_cave_b_15x16` | 34,032,674 | 35,734,308 | 5.0 % |
 | `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_a_star_cave_b_7x7` | 4,572,535 | 4,801,162 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_a_star_edges_cave_15x16` | 60,031,537 | 63,033,114 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_a_star_edges_cave_7x7` | 15,845,158 | 16,637,416 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_a_star_edges_empty_15x16` | 89,759,385 | 94,247,355 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_a_star_edges_empty_7x7` | 29,104,759 | 30,559,997 | 5.0 % |
 | `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_a_star_empty_15x16` | 64,118,157 | 67,324,065 | 5.0 % |
 | `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_a_star_empty_7x7` | 11,529,228 | 12,105,690 | 5.0 % |
 | `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_field_cave_a_15x16` | 60,784,098 | 63,823,303 | 5.0 % |
 | `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_field_cave_a_7x7` | 42,999,852 | 45,149,845 | 5.0 % |
 | `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_field_cave_b_15x16` | 63,362,872 | 66,531,016 | 5.0 % |
 | `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_field_cave_b_7x7` | 43,864,967 | 46,058,216 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_field_edges_cave_15x16` | 85,088,158 | 89,342,566 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_field_edges_cave_7x7` | 65,383,500 | 68,652,675 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_field_edges_empty_15x16` | 89,504,010 | 93,979,211 | 5.0 % |
+| `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_field_edges_empty_7x7` | 66,275,268 | 69,589,032 | 5.0 % |
 | `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_field_empty_15x16` | 64,619,362 | 67,850,331 | 5.0 % |
 | `golden_lm2_integrationtest::golden_algorithms::golden_algorithms_field_empty_7x7` | 46,431,530 | 48,753,107 | 5.0 % |
 | `golden_lm2_integrationtest::golden_convert::golden_convert_bounds_as_u64` | 11,102,600 | 11,657,730 | 5.0 % |
@@ -712,6 +720,11 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `golden_lm2_integrationtest::golden_fov::golden_fov_directional_cave_b_15x16` | 71,329,894 | 74,896,389 | 5.0 % |
 | `golden_lm2_integrationtest::golden_fov::golden_fov_directional_empty_15x16` | 51,165,752 | 53,724,040 | 5.0 % |
 | `golden_lm2_integrationtest::golden_fov::golden_fov_directional_empty_7x7` | 81,181,518 | 85,240,594 | 5.0 % |
+| `golden_lm2_integrationtest::golden_fov::golden_fov_directional_extra_cave_7x7` | 129,646,068 | 136,128,372 | 5.0 % |
+| `golden_lm2_integrationtest::golden_fov::golden_fov_directional_extra_cave_a_15x16` | 147,527,310 | 154,903,676 | 5.0 % |
+| `golden_lm2_integrationtest::golden_fov::golden_fov_directional_extra_cave_b_15x16` | 137,880,264 | 144,774,278 | 5.0 % |
+| `golden_lm2_integrationtest::golden_fov::golden_fov_directional_extra_empty_15x16` | 296,681,054 | 311,515,107 | 5.0 % |
+| `golden_lm2_integrationtest::golden_fov::golden_fov_directional_extra_empty_7x7` | 183,380,558 | 192,549,586 | 5.0 % |
 | `golden_lm2_integrationtest::golden_fov::golden_fov_range_cave_7x7` | 122,509,657 | 128,635,140 | 5.0 % |
 | `golden_lm2_integrationtest::golden_fov::golden_fov_range_cave_a_15x16` | 140,972,686 | 148,021,321 | 5.0 % |
 | `golden_lm2_integrationtest::golden_fov::golden_fov_range_cave_b_15x16` | 135,136,743 | 141,893,581 | 5.0 % |
@@ -1432,7 +1445,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::hex::grid::edge::tests::test_grid_edge_equivalent_oracle_at_the_origin` | 37,430,730 | 39,302,267 | 5.0 % |
 | `hexx::hex::grid::edge::tests::test_grid_edge_equivalent_oracle_elsewhere` | 74,854,650 | 78,597,383 | 5.0 % |
 | `hexx::hex::grid::edge::tests::test_grid_edge_equivalent_overflow_panics` | 9,280 | 9,744 | 5.0 % |
-| `hexx::hex::grid::edge::tests::test_grid_edge_equivalent_short_circuit_at_max` | 6,010 | 6,311 | 5.0 % |
+| `hexx::hex::grid::edge::tests::test_grid_edge_equivalent_short_circuit_at_max` | 35,490 | 37,265 | 5.0 % |
 | `hexx::hex::grid::edge::tests::test_grid_edge_flipped` | 1,912,860 | 2,008,503 | 5.0 % |
 | `hexx::hex::grid::edge::tests::test_grid_edge_from_edge_direction` | 17,600 | 18,480 | 5.0 % |
 | `hexx::hex::grid::edge::tests::test_grid_edge_neg` | 112,970 | 118,619 | 5.0 % |
@@ -3074,7 +3087,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `takeover_tests::walker::test_walker_generate_revert_dimension_hexx` | 7,810 | 8,201 | 5.0 % |
 | `takeover_tests::walker::test_walker_generate_revert_dimension_origami` | 7,810 | 8,201 | 5.0 % |
 
-3067 measured test(s).
+3080 measured test(s).
 
 ## Figures accepted above their range
 

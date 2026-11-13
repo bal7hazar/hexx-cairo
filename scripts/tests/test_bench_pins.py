@@ -81,6 +81,26 @@ class PinsReport(Scratch):
         self.assertEqual(found[0]["unmeasured"], ["p::c"])
         self.assertEqual(found[0]["undiscovered"], [])
 
+    def test_a_row_that_discovery_did_not_find_is_undiscovered_not_unmeasured(self) -> None:
+        rows = {"p": {
+            "p::a": {"measured": 10, "declared": 11, "passed": True, "ran": True,
+                     "ignored": False, "is_declared": True},
+            "p::ghost": {"measured": None, "declared": None, "passed": None, "ran": True,
+                         "ignored": False, "is_declared": False},
+            "p::found": {"measured": 30, "declared": None, "passed": True, "ran": True,
+                         "ignored": False, "is_declared": False},
+        }}
+        with mock.patch.object(bench, "ARTIFACTS", self.dir):
+            bench.write_pins_reports(rows, "all", None)
+        [found] = bench.read_pins_reports(self.dir)
+        self.assertEqual(found["undiscovered"], ["p::ghost"])
+        self.assertEqual(found["unmeasured"], [])
+        # A row that discovery did not find but that was measured keeps its measurement
+        self.assertEqual(sorted(found["rows"]), ["p::a", "p::found"])
+        # ... and the package it alone fills is not `empty`
+        result = bench.assemble_pins([{**found, "rows": {}}], ["p"])
+        self.assertEqual((result["rows"], result["incomplete"], result["empty"]), ({}, {}, []))
+
 
 class Assembly(unittest.TestCase):
     def test_a_package_in_partitions_of_two_scopes_is_one_snapshot(self) -> None:
