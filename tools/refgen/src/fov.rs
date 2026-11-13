@@ -4,7 +4,9 @@
 //!
 //! - `crates/<package>/tests/golden_fov.cairo` (the spec's `package`): golden vectors, the bitmap
 //!   of the field of view from each start of each board, at each range of the spec, and of the
-//!   directional field of view for the six `EdgeDirection`s at the directional ranges.
+//!   directional field of view for the six `EdgeDirection`s at the directional ranges: those of
+//!   the game's sight (`directional_a`, `directional_b`) in one test per board, then range 0 and
+//!   ranges above the sight (`directional_extra`) in another.
 //! - `docs/deviations/fov_ties.md`: every input of those vectors where `hexx`'s own `range_fov` or
 //!   `directional_fov` differs from the reference, with the line and the tie that explain it.
 //!
@@ -234,9 +236,16 @@ fn ranges(spec: &Spec) -> Result<Vec<u32>, String> {
     Ok(all)
 }
 
-/// The ranges of `directional_fov`.
-fn directional_ranges(spec: &Spec) -> Result<Vec<u32>, String> {
-    Ok(vec![spec.int("directional_a")? as u32, spec.int("directional_b")? as u32])
+/// The ranges of `directional_fov`: the sight's (`directional_a`, `directional_b`), then the
+/// others (`directional_extra`, a list of integers separated by spaces).
+fn directional_ranges(spec: &Spec) -> Result<[Vec<u32>; 2], String> {
+    let sight = vec![spec.int("directional_a")? as u32, spec.int("directional_b")? as u32];
+    let extra = spec
+        .text("directional_extra")?
+        .split_whitespace()
+        .map(|r| r.parse().map_err(|_| format!("fov: bad range in `directional_extra`: {r:?}")))
+        .collect::<Result<Vec<u32>, String>>()?;
+    Ok([sight, extra])
 }
 
 /// Compares `hexx` and the reference on one input: `Ok(None)` when they agree.
@@ -385,29 +394,31 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
 ",
         );
         e.test(&format!("golden_fov_range_{}", board.name), false, &body)?;
-        // directional_fov
-        let mut rows = Vec::new();
-        for &from in &board.starts {
-            for range in directional_ranges(spec)? {
-                for direction in 0..6 {
-                    let (set, difference) = compare(&board, from, range, Some(direction))?;
-                    inputs += 1;
-                    differences.extend(difference);
-                    rows.push(format!("{from}, {range}, {direction}, {}", felt(board.bitmap(&set))));
+        // directional_fov: the sight's ranges, then range 0 and the ranges above the sight
+        for (suffix, ranges) in ["", "extra_"].iter().zip(directional_ranges(spec)?) {
+            let mut rows = Vec::new();
+            for &from in &board.starts {
+                for &range in &ranges {
+                    for direction in 0..6 {
+                        let (set, difference) = compare(&board, from, range, Some(direction))?;
+                        inputs += 1;
+                        differences.extend(difference);
+                        rows.push(format!("{from}, {range}, {direction}, {}", felt(board.bitmap(&set))));
+                    }
                 }
             }
-        }
-        let mut body = header(&board);
-        body.push_str("    let directions = EdgeDirectionTrait::ALL_DIRECTIONS.span();\n");
-        body.push_str(&cases_array("u8, u8, u32, felt252", &rows));
-        body.push_str(
-            "    for (from, range, direction, expected) in cases {
+            let mut body = header(&board);
+            body.push_str("    let directions = EdgeDirectionTrait::ALL_DIRECTIONS.span();\n");
+            body.push_str(&cases_array("u8, u8, u32, felt252", &rows));
+            body.push_str(
+                "    for (from, range, direction, expected) in cases {
         let direction = *directions[direction];
         assert(directional_fov(map, from, range, direction) == expected, 'directional_fov');
     }
 ",
-        );
-        e.test(&format!("golden_fov_directional_{}", board.name), false, &body)?;
+            );
+            e.test(&format!("golden_fov_directional_{suffix}{}", board.name), false, &body)?;
+        }
         counts.push((board.title.clone(), inputs, differences.len() - before));
     }
     Ok(vec![
