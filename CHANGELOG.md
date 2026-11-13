@@ -18,6 +18,8 @@ the companion package `hexx_glam` (the `glam` interop), which is new and version
 `0.2.0` changes. A stable version: published only after the owner's go (D-132 as narrowed,
 `docs/RELEASING.md`), `hexx` first, then `hexx_glam`.
 
+`hexx` 0.3.0 was published on 2026-10-12 (D-281); `hexx_glam` 0.3.0 was published on 2026-10-18 (D-298, grimworld).
+
 ### Parity
 
 350 items of `hexx` 0.25.0 ported and 22 renamed counterparts, 53.6 % of its 694 items

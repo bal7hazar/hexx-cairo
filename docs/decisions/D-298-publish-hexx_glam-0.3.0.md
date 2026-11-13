@@ -1,10 +1,10 @@
-# PENDING — publish `hexx_glam` 0.3.0 (a new package)
+# D-298 — `hexx_glam` 0.3.0: published (a new package)
 
-Opened by the M3-R prep thread (t-0124) for the orchestrator of track LIB, on 2026-10-10, under D-132
+Opened by the M3-R prep thread (t-0124) for the orchestrator of track LIB, on 2026-10-10 (decided and recorded 2026-10-18), under D-132
 as the owner narrowed it and [`docs/RELEASING.md`](../RELEASING.md), on the model of
-[D-211](D-211-publish-hexx-0.2.0.md). Nothing is published until the owner's go is recorded. No
+[D-211](D-211-publish-hexx-0.2.0.md). Nothing was published until the owner's go was recorded (below). No
 agent publishes, tags or releases (COMMON.md §6). **Order: [`hexx` 0.3.0](D-281-publish-hexx-0.3.0.md)
-first, published and visible on the registry (done: `hexx` 0.3.0 published 2026-10-12, D-281); only then this package**: it depends on
+first, published and visible on the registry (done: `hexx` 0.3.0 published 2026-10-12, D-281); only then this package** (both done): it depends on
 `hexx = "^0.3.0"`, so its verification cannot pass before that (see *Checks*).
 
 ## What is asked
@@ -66,9 +66,20 @@ named in it only.
 
 ## Answer
 
-Pending: the owner's go, then publication, read-back and the tag `hexx_glam-v0.3.0` remain.
+**The go** (the owner), recorded as D-298, grimworld; confirmed 2026-10-14 and reconfirmed 2026-10-18. It names
+package `hexx_glam`, version `0.3.0`, commit `268136f4ebb80455fe43e5b3bd2d78d7d89bcee2`, sha256
+`30e73f916ec7c4cd241e0a13dffd1a6a17fab6a4b2e97f08c6967cec66ba6621`.
 
-- [ ] The owner's go
-- [ ] Publication
-- [ ] Read-back
-- [ ] Tag
+**It holds for `hexx_glam` `0.3.0` from commit `268136f4ebb80455fe43e5b3bd2d78d7d89bcee2` only.**
+
+## Publication
+
+By the owner, 2026-10-18, as `docs/RELEASING.md` says:
+
+- `scarb publish -p hexx_glam` from a clean clone at `268136f4ebb80455fe43e5b3bd2d78d7d89bcee2`.
+- Read-back: the registry's index (`https://scarbs.xyz/api/v1/index/he/xx/hexx_glam.json`) lists `v0.3.0`
+  with `cksum` `sha256:30e73f916ec7c4cd241e0a13dffd1a6a17fab6a4b2e97f08c6967cec66ba6621`, equal to
+  the go. Dependencies: `glam` `^0.5.0`, `hexx` `^0.3.0`.
+- Tag `hexx_glam-v0.3.0` on `268136f4ebb80455fe43e5b3bd2d78d7d89bcee2`; the GitHub release
+  [hexx_glam-v0.3.0](https://github.com/bal7hazar/hexx-cairo/releases/tag/hexx_glam-v0.3.0), not marked
+  latest (`hexx` v0.3.0 stays Latest).
