@@ -47,8 +47,8 @@ export RAYON_NUM_THREADS=1
 CHECKS=(
   "gas-tables::python3 scripts/gas_tables.py --check::^(gas/[^/]*\.(snap|md)|docs/GAS\.md|scripts/gas_tables\.py|\.tool-versions)$"
   "class-size::python3 scripts/bytecode_size.py check::^(crates/(consumer|hexx)/src/.*\.cairo|Scarb\.(toml|lock)|crates/[^/]+/Scarb\.toml|\.tool-versions)$"
-  "api-parity::python3 scripts/api_parity.py --check::^(docs/API_PARITY\.md|scripts/api_parity\.py|crates/hexx/src/.*\.cairo)$"
-  "extensions::python3 scripts/api_parity.py --extensions --check::^(docs/EXTENSIONS\.md|scripts/api_parity\.py|crates/hexx/src/.*\.cairo)$"
+  "api-parity::python3 scripts/api_parity.py --check::^(docs/API_PARITY\.md|scripts/api_parity\.py|crates/hexx(_glam)?/src/.*\.cairo)$"
+  "extensions::python3 scripts/api_parity.py --extensions --check::^(docs/EXTENSIONS\.md|scripts/api_parity\.py|crates/hexx(_glam)?/src/.*\.cairo)$"
   "deviations::python3 scripts/deviations.py --check::^(docs/DEVIATIONS\.md|scripts/deviations\.py|crates/hexx(_glam)?/src/.*\.cairo)$"
   "takeover::python3 scripts/takeover_check.py --skip-if-missing::^(scripts/takeover_check\.py|\.tool-versions|crates/hexx/(src/|tests/|GAS-origami-1\.8\.0\.md$|\.scarbignore$).*)$"
   "golden-vectors::golden::^(tools/refgen/.*|crates/golden_[^/]+/tests/golden_[^/]*\.cairo|crates/hexx/src/board/(line|tables|hexagon)\.cairo|docs/deviations/line_ties\.md)$"

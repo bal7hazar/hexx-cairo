@@ -132,6 +132,16 @@ class ShareOfAPackage(Scratch):
                          ("p", "regular", [1, 2]))
         self.assertEqual(found[0]["measured"], ["p::t1", "p::t3"])
 
+    def test_a_rerun_partition_is_read_from_its_latest_attempt_only(self) -> None:
+        packages, _ = self.collect()
+        for attempt in (1, 2):
+            with mock.patch.object(bench, "ARTIFACTS",
+                                   self.dir / "art" / f"gas-p-regular-p1of2-m-attempt-{attempt}"):
+                bench.write_partition_reports(packages, "regular", (1, 2))
+        found = bench.read_partition_reports(self.dir / "art")
+        self.assertEqual(len(found), 1)
+        self.assertIn("attempt-2", found[0]["path"])
+
 
 class Completeness(unittest.TestCase):
     DECLARED = {"p::a", "p::b", "p::c"}

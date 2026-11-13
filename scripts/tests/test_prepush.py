@@ -78,6 +78,14 @@ class PrepushSelectionTest(unittest.TestCase):
     def test_companion_source_selects_the_deviations_check(self):
         self.assertIn("check deviations", select("crates/hexx_glam/src/lib.cairo"))
 
+    def test_companion_source_selects_the_api_parity_and_extensions_checks(self):
+        # parse_glam reads crates/hexx_glam for the interop rows of docs/API_PARITY.md.
+        steps = select("crates/hexx_glam/src/lib.cairo")
+        for name in ("api-parity", "extensions"):
+            self.assertIn(f"check {name}", steps)
+        self.assertNotIn("check takeover", steps)
+        self.assertNotIn("check api-parity", select("crates/hexx_glamour/src/lib.cairo"))
+
     def test_takeover_covers_the_files_beside_the_sources(self):
         for path in ("crates/hexx/GAS-origami-1.8.0.md", "crates/hexx/.scarbignore"):
             steps = select(path)

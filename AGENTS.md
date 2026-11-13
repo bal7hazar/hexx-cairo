@@ -80,13 +80,14 @@ single-threaded, 2026-10-05): 9,471,639,552 B peak RSS (8.82 GiB) at `a045239` (
 8,301,543,424 B at `v0.1.0-rc.2`. What would reverse it: the measured need falling well under 8 GB,
 or a task that cannot proceed without a local `hexx` test build (then a cfg split of the tests goes
 to the project manager). Every CI run that
-measures gas publishes the artefact `gas-pins-<head sha>` (job `Gas completeness hexx regular`),
+measures gas publishes the artefact `gas-pins-<head sha>-attempt-<N>` (job `Gas completeness hexx regular`;
+`<N>` is the run attempt, so a re-run never collides with an earlier attempt's artefact),
 even when the gas check failed: the regenerated `gas/*.snap` of every package measured completely,
 `gas/bytecode.size`, `budgets.json` (each test whose `#[available_gas(l2_gas: N)]` is missing or
 outside the rule, with `ceil(1.05 × measured)`) and `manifest.json` (head, merge commit and base
 measured; packages not assembled; tests that failed or ran with no measurement). Push the change with no
 budget on a new test (or a generous one: a budget too low fails the test before it is measured),
-then `gh run download <run-id> -n gas-pins-<head sha> -D <scratch dir>`, `python3 scripts/bench.py
+then `gh run download <run-id> -n gas-pins-<head sha>-attempt-<N> -D <scratch dir>` (the latest attempt), `python3 scripts/bench.py
 apply-pins <scratch dir>` (writes `gas/` and the budgets; prints those of the generated
 `crates/golden_*` files for the spec of `tools/refgen`, and exits 1 on anything left to do),
 `python3 scripts/gas_tables.py`, `scarb fmt --workspace`, commit and push: CI then confirms. The
@@ -135,7 +136,7 @@ VmPeak and RSS figures above, except the Mac row: thread t-0127, VPS, 2026-10-10
 
 There is no Node package in this repository. Each golden package stays under 8,000 lines and is run
 alone (`snforge test -p golden_<x>`) for the one a change touches. The `hexx` gas pins come from
-CI's artefact (`gas-pins-<head sha>`, `bench.py apply-pins`, "Gas pins from CI"), never from a local
+CI's artefact (`gas-pins-<head sha>-attempt-<N>`, `bench.py apply-pins`, "Gas pins from CI"), never from a local
 run; pins and `gas/bytecode.size` are Linux-only (D-182). Builds run single-threaded
 (`RAYON_NUM_THREADS=1`, D-176). The pre-push hook stays minimal (2026-10-02 rule): it checks only
 the changed set, skips its Cairo compile after 90 s of build lock, skips its class-size step off

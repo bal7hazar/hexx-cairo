@@ -65,7 +65,8 @@ usage:
                                             gas/<package>.snap of each package measured
                                             completely, gas/bytecode.size, budgets.json (the
                                             budgets to change) and manifest.json
-  scripts/bench.py apply-pins DIR          writes the artefact `gas-pins-<head sha>` (downloaded
+  scripts/bench.py apply-pins DIR          writes the artefact
+                                            `gas-pins-<head sha>-attempt-<N>` (downloaded
                                             into DIR) into the tree: gas/ and the budgets of the
                                             sources (not of the generated golden files: printed);
                                             refuses pins of another head than HEAD, warns when
@@ -752,11 +753,40 @@ def write_partition_reports(packages: dict[str, dict[str, dict]], scope: str,
         }, indent=1) + "\n")
 
 
+# The name of a CI artefact ends in `-attempt-<N>` (`github.run_attempt`): an artefact name is
+# unique in a run, so a re-run uploads under a new name instead of colliding with the first
+# attempt's. A re-run of the failed jobs only keeps the artefacts of the jobs that passed before.
+ATTEMPT_RE = re.compile(r"^(.+)-attempt-(\d+)$")
+
+
+def report_files(directory: Path, pattern: str) -> list[Path]:
+    """The files matching `pattern` under `directory`, where each artefact downloaded by `gh run
+    download` is a subdirectory named after it. Of the artefacts that differ only by their attempt
+    (`<name>-attempt-<N>`), only the latest attempt's files are kept; the gas pins of a run
+    (`gas-pins-*`, its own output) are never read as reports."""
+    latest: dict[str, int] = {}
+    for child in directory.iterdir() if directory.is_dir() else ():
+        m = ATTEMPT_RE.match(child.name)
+        if child.is_dir() and m:
+            latest[m[1]] = max(latest.get(m[1], 0), int(m[2]))
+    found = []
+    for path in sorted(directory.rglob(pattern)):
+        top = path.relative_to(directory).parts[0]
+        if top.startswith("gas-pins-"):
+            continue
+        m = ATTEMPT_RE.match(top)
+        if m and int(m[2]) != latest[m[1]]:
+            continue
+        found.append(path)
+    return found
+
+
 def read_partition_reports(directory: Path) -> list[dict]:
     """Every `partition-<scope>-<I>of<T>.json` under `directory` (the artefacts of the partition
-    jobs, each in its own subdirectory), with its `path`."""
+    jobs, each in its own subdirectory, the latest attempt of each: `report_files`), with its
+    `path`."""
     reports = []
-    for path in sorted(directory.rglob("partition-*.json")):
+    for path in report_files(directory, "partition-*.json"):
         if PARTITION_REPORT_RE.match(path.name):
             reports.append({**json.loads(path.read_text()), "path": str(path)})
     return reports
@@ -858,7 +888,7 @@ def write_pins_reports(packages: dict[str, dict[str, dict]], scope: str,
 
 def read_pins_reports(directory: Path) -> list[dict]:
     reports = []
-    for path in sorted(directory.rglob("pins-*.json")):
+    for path in report_files(directory, "pins-*.json"):
         if PINS_REPORT_RE.match(path.name):
             reports.append({**json.loads(path.read_text()), "path": str(path)})
     return reports
@@ -966,7 +996,7 @@ def pins(directory: Path, out: Path, commits: dict[str, str],
     (out / "gas").mkdir(parents=True, exist_ok=True)
     for package, package_rows in rows.items():
         (out / "gas" / f"{package}.snap").write_text(snapshot_text(package_rows))
-    sizes = sorted(directory.rglob("bytecode.size"))
+    sizes = report_files(directory, "bytecode.size")
     if sizes:
         shutil.copyfile(sizes[0], out / "gas" / "bytecode.size")
     (out / BUDGETS).write_text(json.dumps(result["budgets"], indent=1, sort_keys=True) + "\n")
@@ -1034,6 +1064,19 @@ def git_is_ancestor(ancestor: str, descendant: str) -> bool:
                           cwd=ROOT, capture_output=True).returncode == 0
 
 
+def stale_base(base: str, main_rev: str | None) -> str:
+    """What happened between the base a run measured and origin/main, which differ."""
+    if main_rev is None:
+        return "there is no origin/main in this checkout (git fetch first)"
+    if git_is_ancestor(base, main_rev):
+        return "main moved since the run"
+    if git_is_ancestor(main_rev, base):
+        return ("your origin/main is older than the run (the base is one of its descendants); "
+                "git fetch first")
+    return ("the base is not on the history of origin/main (neither is an ancestor of the other): "
+            "the pull request targets another branch, or main was rewritten")
+
+
 def apply_pins(directory: Path) -> int:
     """`apply-pins` of the command line: the downloaded artefact into the tree. Copies its
     snapshots and bytecode.size into gas/ and writes its budgets into the sources, except into the
@@ -1050,13 +1093,10 @@ def apply_pins(directory: Path) -> int:
     main_rev = git_rev("origin/main")
     if manifest.get("base") and manifest["base"] != main_rev:
         print(f"apply-pins: WARNING: the run measured the merge into base {manifest['base']}, "
-              f"origin/main is now {main_rev}"
-              + (": main moved since the run; re-run CI on this head before applying, or let the "
-                 "confirming run decide."
-                 if git_is_ancestor(manifest["base"], main_rev or "") else
-                 " (the base is not one of its ancestors; git fetch first: your origin/main may be "
-                 "older than the run); re-run CI on this head before applying, or let the "
-                 "confirming run decide."), file=sys.stderr)
+              f"origin/main is now {main_rev or 'not found'}: "
+              f"{stale_base(manifest['base'], main_rev)}; "
+              "re-run CI on this head before applying, or let the confirming run decide.",
+              file=sys.stderr)
     for path in sorted((directory / "gas").glob("*")):
         shutil.copyfile(path, GAS / path.name)
         print(f"wrote gas/{path.name}", file=sys.stderr)
@@ -1111,7 +1151,7 @@ def main() -> int:
     ap.add_argument("cmd", choices=["run", "snapshot", "check", "repeat", "complete", "pins",
                                     "apply-pins"])
     ap.add_argument("directory", nargs="?", type=Path, default=None,
-                    help="apply-pins only: the downloaded artefact gas-pins-<head sha>")
+                    help="apply-pins only: the downloaded artefact gas-pins-<head sha>-attempt-<N>")
     ap.add_argument("--package", default=None,
                     help="measure this package only (default: every package of the workspace); "
                          "required by `repeat`")

@@ -172,6 +172,38 @@ class PinsCommand(Scratch):
         self.assertEqual(manifest["incomplete"]["absent"], ["no report"])
         self.assertTrue(manifest["bytecode_size"])
 
+    def test_only_the_latest_attempt_of_each_artefact_is_read(self) -> None:
+        """Artefact names end in `-attempt-<N>` (CI, github.run_attempt): a re-run of the failed
+        jobs downloads the first attempt's artefacts of the jobs that passed beside the new
+        ones; the earlier attempt of a re-run job, and the gas pins of the run, are not reports."""
+        old = report("p", "all", 1, 1, {"p::a": (999, None)})
+        new = report("p", "all", 1, 1, {"p::a": (100, None)})
+        kept = report("q", "all", 1, 1, {"q::a": (1, 1)})
+        pinned = report("p", "regular", 1, 1, {"p::z": (5, 5)})
+        self.write("reports/gas-p-all-m-attempt-1/pins-all-1of1.json", json.dumps(old))
+        self.write("reports/gas-p-all-m-attempt-2/pins-all-1of1.json", json.dumps(new))
+        self.write("reports/gas-q-all-m-attempt-1/pins-all-1of1.json", json.dumps(kept))
+        self.write("reports/gas-pins-m-attempt-1/pins-regular-1of1.json", json.dumps(pinned))
+        self.write("reports/gas-consumer-all-m-attempt-1/bytecode.size", "# contract: old\n")
+        self.write("reports/gas-consumer-all-m-attempt-3/bytecode.size", "# contract: new\n")
+        self.write("reports/gas-pins-m-attempt-1/gas/bytecode.size", "# contract: pins\n")
+        found = bench.read_pins_reports(self.dir / "reports")
+        self.assertEqual([(r["package"], r["rows"]) for r in found], [
+            ("p", {"p::a": {"measured": 100, "declared": None, "passed": True}}),
+            ("q", {"q::a": {"measured": 1, "declared": 1, "passed": True}})])
+        out = self.dir / "out"
+        with contextlib.redirect_stderr(io.StringIO()):
+            bench.pins(self.dir / "reports", out, {}, ["p", "q"])
+        self.assertEqual((out / "gas" / "p.snap").read_text(),
+                         "# gas: measured budget\np::a: 100 105\n")
+        self.assertEqual((out / "gas" / "bytecode.size").read_text(), "# contract: new\n")
+
+    def test_attempts_are_compared_as_numbers(self) -> None:
+        self.write("r/gas-p-attempt-9/pins-all-1of1.json", "{}")
+        self.write("r/gas-p-attempt-10/pins-all-1of1.json", "{}")
+        self.assertEqual([p.parent.name for p in bench.report_files(self.dir / "r", "pins-*.json")],
+                         ["gas-p-attempt-10"])
+
     def test_the_snapshot_text_is_that_of_write_snapshots(self) -> None:
         rows = {"p": {"p::b": {"measured": 2, "declared": 3}, "p::a": {"measured": 1,
                                                                         "declared": None}}}
@@ -252,7 +284,10 @@ class AttributeForms(Scratch):
 
 
 class ApplyPins(Scratch):
-    def run_apply(self, art: Path, head="h", main="b", ancestor=True) -> tuple[int, str]:
+    def run_apply(self, art: Path, head="h", main="b", ancestor=True,
+                  descendant=False) -> tuple[int, str]:
+        """`ancestor`: the run's base is an ancestor of origin/main; `descendant`: origin/main is
+        an ancestor of the base."""
         gas = self.dir / "gas"
         gas.mkdir(exist_ok=True)
         err = io.StringIO()
@@ -261,7 +296,8 @@ class ApplyPins(Scratch):
                 mock.patch.object(bench, "workspace_packages",
                                   lambda: {"pkg": self.dir / "crates/pkg"}), \
                 mock.patch.object(bench, "git_rev", revs.get), \
-                mock.patch.object(bench, "git_is_ancestor", lambda a, d: ancestor), \
+                mock.patch.object(bench, "git_is_ancestor",
+                                  lambda a, d: ancestor if a == "b" else descendant), \
                 contextlib.redirect_stderr(err):
             status = bench.apply_pins(art)
         return status, err.getvalue()
@@ -306,10 +342,27 @@ class ApplyPins(Scratch):
                       err)
         self.assertIn("main moved since the run", err)
         self.assertNotIn("not one of its ancestors", err)
-        _, err = self.run_apply(self.artefact({}), main="elsewhere", ancestor=False)
-        self.assertIn("(the base is not one of its ancestors; git fetch first: your "
-                      "origin/main may be older than the run)", err)
+        _, err = self.run_apply(self.artefact({}), main="older", ancestor=False, descendant=True)
+        self.assertIn("your origin/main is older than the run (the base is one of its "
+                      "descendants); git fetch first", err)
         self.assertNotIn("main moved since the run", err)
+
+    def test_a_base_off_the_history_of_main_says_so_not_main_moved(self) -> None:
+        self.write("crates/pkg/src/lib.cairo", SOURCE)
+        status, err = self.run_apply(self.artefact({}), main="elsewhere", ancestor=False)
+        self.assertEqual(status, 0)
+        self.assertIn("origin/main is now elsewhere: the base is not on the history of "
+                      "origin/main (neither is an ancestor of the other): the pull request "
+                      "targets another branch, or main was rewritten", err)
+        self.assertNotIn("main moved", err)
+        self.assertNotIn("older than the run", err)
+
+    def test_no_origin_main_says_so(self) -> None:
+        self.write("crates/pkg/src/lib.cairo", SOURCE)
+        _, err = self.run_apply(self.artefact({}), main=None, ancestor=False)
+        self.assertIn("origin/main is now not found: there is no origin/main in this checkout",
+                      err)
+        self.assertNotIn("main moved", err)
 
     def test_left_to_do_exits_1_and_an_empty_package_loses_its_snapshot(self) -> None:
         self.write("crates/pkg/src/lib.cairo", SOURCE)
