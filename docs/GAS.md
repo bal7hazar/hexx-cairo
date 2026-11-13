@@ -1445,7 +1445,7 @@ The rule (COMMON.md §4, `grimworld:docs/CAIRO.md` §2): every `#[test]` carries
 | `hexx::hex::grid::edge::tests::test_grid_edge_equivalent_oracle_at_the_origin` | 37,430,730 | 39,302,267 | 5.0 % |
 | `hexx::hex::grid::edge::tests::test_grid_edge_equivalent_oracle_elsewhere` | 74,854,650 | 78,597,383 | 5.0 % |
 | `hexx::hex::grid::edge::tests::test_grid_edge_equivalent_overflow_panics` | 9,280 | 9,744 | 5.0 % |
-| `hexx::hex::grid::edge::tests::test_grid_edge_equivalent_short_circuit_at_max` | 35,490 | 37,265 | 5.0 % |
+| `hexx::hex::grid::edge::tests::test_grid_edge_equivalent_short_circuit_at_max` | 35,390 | 37,160 | 5.0 % |
 | `hexx::hex::grid::edge::tests::test_grid_edge_flipped` | 1,912,860 | 2,008,503 | 5.0 % |
 | `hexx::hex::grid::edge::tests::test_grid_edge_from_edge_direction` | 17,600 | 18,480 | 5.0 % |
 | `hexx::hex::grid::edge::tests::test_grid_edge_neg` | 112,970 | 118,619 | 5.0 % |

@@ -390,7 +390,7 @@ mod tests {
     /// `test_grid_edge_equivalent_overflow_panics`). The edges come from `Opaque::edge`, so that
     /// `equivalent` runs when the test does and is not folded at compile time.
     #[test]
-    #[available_gas(l2_gas: 37265)]
+    #[available_gas(l2_gas: 37160)]
     fn test_grid_edge_equivalent_short_circuit_at_max() {
         let max: i32 = 2147483647;
         let a = Opaque::edge(max, 0, EdgeDirectionTrait::X);

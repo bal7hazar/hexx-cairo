@@ -634,7 +634,7 @@ hexx::hex::grid::edge::tests::test_grid_edge_destination_overflow_panics: 9280 9
 hexx::hex::grid::edge::tests::test_grid_edge_equivalent_oracle_at_the_origin: 37430730 39302267
 hexx::hex::grid::edge::tests::test_grid_edge_equivalent_oracle_elsewhere: 74854650 78597383
 hexx::hex::grid::edge::tests::test_grid_edge_equivalent_overflow_panics: 9280 9744
-hexx::hex::grid::edge::tests::test_grid_edge_equivalent_short_circuit_at_max: 35490 37265
+hexx::hex::grid::edge::tests::test_grid_edge_equivalent_short_circuit_at_max: 35390 37160
 hexx::hex::grid::edge::tests::test_grid_edge_flipped: 1912860 2008503
 hexx::hex::grid::edge::tests::test_grid_edge_from_edge_direction: 17600 18480
 hexx::hex::grid::edge::tests::test_grid_edge_neg: 112970 118619
