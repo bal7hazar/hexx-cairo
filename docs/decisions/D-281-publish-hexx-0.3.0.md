@@ -5,7 +5,7 @@ as the owner narrowed it (release candidates are the project manager's, stable v
 owner's) and [`docs/RELEASING.md`](../RELEASING.md), on the model of
 [D-211](D-211-publish-hexx-0.2.0.md). Nothing was published until the owner's go was recorded (below). No
 agent publishes, tags or releases (COMMON.md §6). **Order: `hexx` 0.3.0 first, visible on the
-registry; then [`hexx_glam` 0.3.0](PENDING-publish-hexx_glam-0.3.0.md), which depends on it.**
+registry; then [`hexx_glam` 0.3.0](D-298-publish-hexx_glam-0.3.0.md), which depends on it.**
 
 ## What is asked
 
