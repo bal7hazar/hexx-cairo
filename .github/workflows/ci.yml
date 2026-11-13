@@ -202,7 +202,7 @@ jobs:
       - run: scarb package -p hexx
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: hexx-package-${{ github.sha }}
+          name: hexx-package-${{ github.sha }}-attempt-${{ github.run_attempt }}
           path: |
             target/package/hexx-*/Scarb.toml
             target/package/hexx-*.tar.zst
@@ -306,7 +306,7 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: always()
         with:
-          name: gas-${{ matrix.package }}-${{ matrix.scope }}${{ matrix.tag }}-${{ github.sha }}
+          name: gas-${{ matrix.package }}-${{ matrix.scope }}${{ matrix.tag }}-${{ github.sha }}-attempt-${{ github.run_attempt }}
           path: target/gas-artifacts/${{ matrix.package }}
           if-no-files-found: warn
           retention-days: 30
@@ -337,7 +337,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           SCOPE: ${{ matrix.scope }}
           TOTAL: ${{ matrix.total }}
-        run: gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --pattern "gas-hexx-$SCOPE-p*of$TOTAL-${{ github.sha }}" --dir partition-reports
+        run: gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --pattern "gas-hexx-$SCOPE-p*of$TOTAL-${{ github.sha }}-attempt-*" --dir partition-reports
       - env:
           SCOPE: ${{ matrix.scope }}
           TOTAL: ${{ matrix.total }}
@@ -354,12 +354,12 @@ jobs:
           HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
-          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --pattern "gas-*-$GITHUB_SHA" --dir gas-reports
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --pattern "gas-*-$GITHUB_SHA-attempt-*" --dir gas-reports
           python3 scripts/bench.py pins --reports gas-reports --out gas-pins --head "$HEAD_SHA" --merge "$GITHUB_SHA" --base "$BASE_SHA"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: ${{ always() && matrix.scope == 'regular' }}
         with:
-          name: gas-pins-${{ github.event.pull_request.head.sha || github.sha }}
+          name: gas-pins-${{ github.event.pull_request.head.sha || github.sha }}-attempt-${{ github.run_attempt }}
           path: gas-pins
           if-no-files-found: warn
           retention-days: 30
