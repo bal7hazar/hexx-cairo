@@ -280,7 +280,7 @@ pub impl HexEdgesImpl of HexEdgesTrait {
 mod tests {
     // Local imports
 
-    use crate::direction::edge_direction::EdgeDirectionTrait;
+    use crate::direction::edge_direction::{EdgeDirection, EdgeDirectionTrait};
     use crate::direction::vertex_direction::VertexDirectionTrait;
     use crate::hex::grid::vertex::GridVertexTrait;
     use crate::hex::{Hex, HexTrait};
@@ -337,6 +337,16 @@ mod tests {
         }
     }
 
+    /// An edge behind a call the compiler does not inline, so that a test of it runs when the test
+    /// does and is not folded at compile time.
+    #[generate_trait]
+    impl OpaqueImpl of Opaque {
+        #[inline(never)]
+        fn edge(x: i32, y: i32, direction: EdgeDirection) -> GridEdge {
+            GridEdge { origin: HexTrait::new(x, y), direction }
+        }
+    }
+
     /// `equivalent` against its geometric definition on every pair of the 6 x 7 edges around the
     /// origin: 42 edges are equivalent to themselves, and 24 of them (the 6 spokes and the 6 edges
     /// between neighbouring ring hexes, each in both forms) have their flipped form among the 42
@@ -372,18 +382,24 @@ mod tests {
         }
     }
 
-    /// The short-circuit of `equivalent`: an edge is equivalent to itself without computing its
-    /// destination, which would leave `i32` (`add_dir`) at `i32::MAX`.
+    /// The short-circuits of `equivalent`, which computes `other.destination()` only when the two
+    /// edges differ, and never `self.destination()`. An edge is equivalent to itself where its
+    /// destination would leave `i32` (`add_dir`): at `i32::MAX` towards `X`, at `i32::MIN` towards
+    /// `NEG_X`. An edge whose own destination would leave `i32` is compared, without a panic, with
+    /// an edge whose destination is its origin (the other order panics:
+    /// `test_grid_edge_equivalent_overflow_panics`). The edges come from `Opaque::edge`, so that
+    /// `equivalent` runs when the test does and is not folded at compile time.
     #[test]
-    #[available_gas(l2_gas: 6311)]
+    #[available_gas(l2_gas: 37160)]
     fn test_grid_edge_equivalent_short_circuit_at_max() {
         let max: i32 = 2147483647;
-        let a = GridEdge { origin: HexTrait::new(max, 0), direction: EdgeDirectionTrait::X };
+        let a = Opaque::edge(max, 0, EdgeDirectionTrait::X);
         assert!(a.equivalent(a));
-        let b = GridEdge {
-            origin: HexTrait::new(-max - 1, 0), direction: EdgeDirectionTrait::NEG_X,
-        };
+        let b = Opaque::edge(-max - 1, 0, EdgeDirectionTrait::NEG_X);
         assert!(b.equivalent(b));
+        // The destination of `c` is the origin of `a`, the directions are not opposite
+        let c = Opaque::edge(max - 1, 0, EdgeDirectionTrait::X);
+        assert!(!a.equivalent(c));
     }
 
     /// `-edge` is `const_neg`, and negating twice gives the edge back, the origin is unchanged.

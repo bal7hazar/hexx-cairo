@@ -794,12 +794,13 @@ mod tests {
 
     // Benchmarks of M2-T5 (LIB-06): per call = (test - baseline) / reps. Targets (`L`, `U =
     // ceil(1.25 L)`, the brief's table, written before the first measurement; the budgets of these
-    // tests are placeholders until CI's artefact pins them, LIB-04i):
+    // tests are CI's pins, LIB-04i). The `hex_count` benches take the radius from the loop,
+    // `64 - n` for `n` in `0..10`, against `bench_bounds_baseline_radius`:
     //
     // | function | case | `L` | `U` |
     // |---|---|---|---|
     // | `is_in_bounds` | any | 12,073 | 15,092 |
-    // | `hex_count`, `hex_count32` | radii 55-64 | 4,120 | 5,150 |
+    // | `hex_count`, `hex_count32` | radii 55 to 64 | 4,120 | 5,150 |
     // | `wrap`, `wrap_local` | radius 6 | 39,688 | 49,610 |
     // | `from_min_max` | any | 42,930 | 53,663 |
     // | `corners` | radius 6 | 43,626 | 54,533 |

@@ -1,10 +1,12 @@
 # `hexx::algorithms::{field_of_movement, a_star}` against the board (tools/refgen/src/algorithms.rs):
-# 7 x 7 and 15 x 16 boards with a closed ring (empty, and two seeded caves), 0 to 3 classes,
-# budgets 0..=8 from `starts` starts, `pairs` seeded pairs of `a_star` per class count.
+# 7 x 7 and 15 x 16 boards with a closed ring (empty, and two seeded caves), then with open edge
+# tiles (empty interior and a seeded cave, from seed_edges), 0 to 3 classes, budgets 0..=8 from
+# `starts` starts, `pairs` seeded pairs of `a_star` per class count (plus the edge pairs).
 module = "algorithms"
 package = "golden_lm2"
 
 seed = "algorithms"
+seed_edges = "algorithms_edges"
 starts = 8
 pairs = 32
 budget_max = 8
@@ -14,11 +16,19 @@ gas.golden_algorithms_a_star_cave_a_15x16 = 38286620
 gas.golden_algorithms_a_star_cave_a_7x7 = 9978309
 gas.golden_algorithms_a_star_cave_b_15x16 = 35734308
 gas.golden_algorithms_a_star_cave_b_7x7 = 4801162
+gas.golden_algorithms_a_star_edges_cave_15x16 = 63033114
+gas.golden_algorithms_a_star_edges_cave_7x7 = 16637416
+gas.golden_algorithms_a_star_edges_empty_15x16 = 94247355
+gas.golden_algorithms_a_star_edges_empty_7x7 = 30559997
 gas.golden_algorithms_a_star_empty_15x16 = 67324065
 gas.golden_algorithms_a_star_empty_7x7 = 12105690
 gas.golden_algorithms_field_cave_a_15x16 = 63823303
 gas.golden_algorithms_field_cave_a_7x7 = 45149845
 gas.golden_algorithms_field_cave_b_15x16 = 66531016
 gas.golden_algorithms_field_cave_b_7x7 = 46058216
+gas.golden_algorithms_field_edges_cave_15x16 = 89342566
+gas.golden_algorithms_field_edges_cave_7x7 = 68652675
+gas.golden_algorithms_field_edges_empty_15x16 = 93979211
+gas.golden_algorithms_field_edges_empty_7x7 = 69589032
 gas.golden_algorithms_field_empty_15x16 = 67850331
 gas.golden_algorithms_field_empty_7x7 = 48753107

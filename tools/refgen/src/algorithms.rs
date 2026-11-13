@@ -1,13 +1,20 @@
 //! `algorithms`: `field_of_movement` (`src/algorithms/field_of_movement.rs:63`) and `a_star`
 //! (`src/algorithms/pathfinding.rs:110`) of `hexx` 0.25.0, run with the closures of the board.
 //!
-//! The boards are in the board frame (plan §3.5, `line::to_hex` / `from_hex`) with a closed ring
-//! (every edge tile a wall): empty, and two seeded caves, at 7 × 7 and 15 × 16. A class count `c`
-//! uses the first `c` of three seeded class bitmaps; the highest class of a tile wins.
+//! The boards are in the board frame (plan §3.5, `line::to_hex` / `from_hex`), at 7 × 7 and
+//! 15 × 16: with a closed ring (every edge tile a wall), empty and two seeded caves; then, from
+//! their own seed (`seed_edges`, so that the boards above keep their vectors), with open edge
+//! tiles (`EDGES_*`: two opposite corners, a chain of adjacent edge tiles, one tile on each side
+//! and an isolated one), on an empty interior and on a seeded cave. A class count `c` uses the
+//! first `c` of three seeded class bitmaps; the highest class of a tile wins.
 //!
 //! - `field_of_movement`: `cost(h) = None` off the board or on a wall, `Some(k + 1)` in the class
 //!   `k`, `Some(0)` elsewhere, so that `hexx`'s entry cost `1 + cost(h)` is the board's `k + 2`,
-//!   or 1.
+//!   or 1. On a board with open edge tiles, the board's field reaches an edge tile and never
+//!   crosses it, which no closure of one tile can say: the field is then composed of `hexx`
+//!   calls (`Board::field_edges`), the interior field of `hexx` (the closure also `None` on an
+//!   edge tile, the start excepted) at the budget, plus each open edge tile `e` with a neighbour
+//!   in the interior field of `hexx` at the budget less the entry cost of `e`.
 //! - `a_star`: `cost(_, b) = None` off the board, on a wall or on an edge tile other than the
 //!   start and the target (`hexx` evaluates `cost(start, start)`), else the board's entry cost, `hexx` adding it as given.
 //!
@@ -35,6 +42,8 @@ struct Board {
     height: i64,
     open: Vec<bool>,
     classes: Vec<Vec<bool>>,
+    /// The open edge tiles (empty: a closed ring).
+    edges: Vec<usize>,
 }
 
 impl Board {
@@ -114,11 +123,22 @@ impl Board {
         dist
     }
 
-    /// `hexx`'s `field_of_movement`, the start opened in the board's sense (`hexx` never pays it).
+    /// `hexx`'s `field_of_movement`, the start opened in the board's sense (`hexx` never pays it);
+    /// on a board with open edge tiles, `field_edges`.
     fn field(&self, from: usize, budget: u32, count: usize) -> HashSet<usize> {
+        if self.edges.is_empty() {
+            self.hexx_field(from, budget, count, false)
+        } else {
+            self.field_edges(from, budget, count)
+        }
+    }
+
+    /// `hexx`'s `field_of_movement` with the closure of the board; `interior`: `None` on an edge
+    /// tile too (`hexx` never evaluates the start).
+    fn hexx_field(&self, from: usize, budget: u32, count: usize, interior: bool) -> HashSet<usize> {
         let set = field_of_movement(self.hex(from), budget, |h| {
             let tile = self.tile(h)?;
-            if !self.open[tile] {
+            if !self.open[tile] || (interior && self.is_edge(tile)) {
                 return None;
             }
             Some(self.class(tile, count).map_or(0, |k| k as u32 + 1))
@@ -126,6 +146,25 @@ impl Board {
         set.into_iter()
             .map(|h| self.tile(h).expect("a field tile is on the board"))
             .collect()
+    }
+
+    /// The field of a board with open edge tiles, from `hexx` calls: an edge tile is reached and
+    /// never crossed (the start excepted). The interior field at `budget`, plus each open edge
+    /// tile `e` (not the start) with a neighbour in the interior field at `budget - entry(e)`:
+    /// such a neighbour is the start or an interior tile, both crossed.
+    fn field_edges(&self, from: usize, budget: u32, count: usize) -> HashSet<usize> {
+        let mut field = self.hexx_field(from, budget, count, true);
+        for &edge in &self.edges {
+            let cost = self.entry_cost(edge, count);
+            if edge == from || cost > budget {
+                continue;
+            }
+            let inner = self.hexx_field(from, budget - cost, count, true);
+            if self.hex(edge).all_neighbors().iter().any(|&n| self.tile(n).is_some_and(|t| inner.contains(&t))) {
+                field.insert(edge);
+            }
+        }
+        field
     }
 
     /// The total entry cost of `hexx`'s `a_star`, `None` if it finds no path.
@@ -145,6 +184,13 @@ impl Board {
         Some(tiles.iter().map(|&t| self.entry_cost(t, count)).sum())
     }
 }
+
+/// Open edge tiles of a 7 × 7 board: the corner 0 and the chain 3, 4 (bottom row), 21 (x = 0),
+/// 27 (x = 6), 45 (top row), the corner 48.
+const EDGES_7X7: [usize; 7] = [0, 3, 4, 21, 27, 45, 48];
+/// Open edge tiles of a 15 × 16 board: the corner 0 and the chain 6, 7, 8 (bottom row), 105
+/// (x = 0), 134 (x = 14), 232 (top row), the corner 239.
+const EDGES_15X16: [usize; 8] = [0, 6, 7, 8, 105, 134, 232, 239];
 
 /// FNV-1a over `u64` words folded with their high half, as `DigestTrait` of the generated file.
 struct Digest(u64);
@@ -184,10 +230,47 @@ fn boards(rng: &mut Rng) -> Vec<Board> {
                 height,
                 open: vec![false; size],
                 classes: Vec::new(),
+                edges: Vec::new(),
             };
             for tile in 0..size {
                 let interior = !board.is_edge(tile);
                 board.open[tile] = interior && (kind == 0 || rng.next_i32(0, 2) != 0);
+            }
+            for _ in 0..CLASSES {
+                let class = (0..size)
+                    .map(|t| board.open[t] && rng.next_i32(0, 3) == 0)
+                    .collect();
+                board.classes.push(class);
+            }
+            all.push(board);
+        }
+    }
+    all
+}
+
+/// The boards with open edge tiles, from their own seed: the interior empty or a seeded cave,
+/// the open edge tiles of `EDGES_*`, the classes seeded on every walkable tile (edge tiles
+/// included).
+fn edge_boards(rng: &mut Rng) -> Vec<Board> {
+    let mut all = Vec::new();
+    for (width, height) in [(7i64, 7i64), (15, 16)] {
+        let edges: Vec<usize> = if width == 7 { EDGES_7X7.to_vec() } else { EDGES_15X16.to_vec() };
+        for (kind, name) in [(0, "edges_empty"), (1, "edges_cave")] {
+            let size = (width * height) as usize;
+            let mut board = Board {
+                name: format!("{name}_{width}x{height}"),
+                width,
+                height,
+                open: vec![false; size],
+                classes: Vec::new(),
+                edges: edges.clone(),
+            };
+            for tile in 0..size {
+                board.open[tile] = if board.is_edge(tile) {
+                    edges.contains(&tile)
+                } else {
+                    kind == 0 || rng.next_i32(0, 2) != 0
+                };
             }
             for _ in 0..CLASSES {
                 let class = (0..size)
@@ -209,7 +292,30 @@ fn starts(board: &Board, rng: &mut Rng, count: usize) -> Vec<usize> {
         .collect();
     all.push(board.width as usize);
     all.push((board.width * (board.height - 2) + board.width - 1) as usize);
+    // On a board with open edge tiles: a corner, a tile of the chain and a side tile
+    if !board.edges.is_empty() {
+        all.extend([board.edges[0], board.edges[2], board.edges[board.edges.len() - 3]]);
+    }
     all
+}
+
+/// The pairs of `a_star` that hold the open edge tiles: edge to edge (along the chain, from a
+/// corner, across the board), edge to interior and back, an edge tile to itself, to a wall.
+fn edge_pairs(board: &Board) -> Vec<(usize, usize)> {
+    let e = &board.edges;
+    let n = e.len();
+    let centre = (board.width * (board.height / 2) + board.width / 2) as usize;
+    vec![
+        (e[1], e[2]),
+        (e[0], e[1]),
+        (e[1], e[n - 1]),
+        (e[n - 3], e[n - 2]),
+        (e[n - 1], e[0]),
+        (e[1], centre),
+        (centre, e[n - 2]),
+        (e[2], e[2]),
+        (e[1], board.width as usize - 1),
+    ]
 }
 
 fn field_rows(board: &Board, rng: &mut Rng, spec: &Spec) -> Result<Vec<String>, String> {
@@ -243,11 +349,18 @@ fn star_rows(board: &Board, rng: &mut Rng, spec: &Spec) -> Result<Vec<String>, S
     let mut rows = Vec::new();
     let size = board.size() as i32;
     for count in 0..=CLASSES {
-        for _ in 0..spec.int("pairs")? {
-            let (from, to) = (
-                rng.next_i32(0, size - 1) as usize,
-                rng.next_i32(0, size - 1) as usize,
-            );
+        let mut pairs: Vec<(usize, usize)> = (0..spec.int("pairs")?)
+            .map(|_| {
+                (
+                    rng.next_i32(0, size - 1) as usize,
+                    rng.next_i32(0, size - 1) as usize,
+                )
+            })
+            .collect();
+        if !board.edges.is_empty() {
+            pairs.extend(edge_pairs(board));
+        }
+        for (from, to) in pairs {
             let got = board.path_cost(from, to, count);
             let expected = if board.open[from] && board.open[to] {
                 board.oracle(from, count)[to]
@@ -368,8 +481,13 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
         "`field_of_movement` (src/algorithms/field_of_movement.rs:63) and `a_star`\n// (src/algorithms/pathfinding.rs:110)",
         USES,
     );
-    for board in boards(&mut rng) {
-        let rows = field_rows(&board, &mut rng, spec)?;
+    let mut boards = boards(&mut rng);
+    let mut edge_rng = Rng::new(&spec.text("seed_edges")?);
+    boards.extend(edge_boards(&mut edge_rng));
+    for board in boards {
+        // The boards with open edge tiles draw from their own seed
+        let rng = if board.edges.is_empty() { &mut rng } else { &mut edge_rng };
+        let rows = field_rows(&board, rng, spec)?;
         let mut body = header(&board);
         body.push_str(&cases_array("u32, u8, u64", &rows));
         body.push_str(
@@ -390,7 +508,7 @@ pub fn emit(spec: &Spec, root: &Path) -> Result<Vec<(PathBuf, String)>, String> 
             false,
             &body,
         )?;
-        let rows = star_rows(&board, &mut rng, spec)?;
+        let rows = star_rows(&board, rng, spec)?;
         let mut body = header(&board);
         body.push_str(&cases_array("u32, u8, u8, u32", &rows));
         body.push_str(
